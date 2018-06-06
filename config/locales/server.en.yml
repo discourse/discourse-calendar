@@ -1,0 +1,3 @@
+en:
+  site_settings:
+    discourse_simple_calendar_enabled: "Enable the discourse-simple-calendar feature. This will add support for a [calendar][/calendar] tag in the first post of a topic."
