@@ -1,4 +1,20 @@
 .calendar {
-  padding: 1em;
-  background: $primary-very-low;
+
+  &.fc-unthemed {
+    td.fc-today {
+      background: $highlight-medium;
+    }
+
+    .fc-day-number {
+      font-weight: 700;
+    }
+
+    .fc-content-skeleton td.fc-day-top {
+      border-top-color: white;
+    }
+
+    .fc-bg tbody {
+      border-width: 0;
+    }
+  }
 }
