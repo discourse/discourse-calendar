@@ -125,6 +125,8 @@ after_initialize do
       details = post_custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
 
       Array(details).map do |post_number, detail|
+        detail = Array(detail)
+
         event = {
           post_number: post_number,
           message: detail[DiscourseSimpleCalendar::MESSAGE_INDEX],
