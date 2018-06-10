@@ -22,7 +22,7 @@ module DiscourseSimpleCalendar
 
       post_number = post.post_number.to_s
 
-      current_details = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] ||= {}
+      current_details = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
 
       detail = []
       detail[DiscourseSimpleCalendar::MESSAGE_INDEX] = post.excerpt(15, strip_links: true, text_entities: true).tr("\n", " ")
@@ -30,6 +30,10 @@ module DiscourseSimpleCalendar
       detail[DiscourseSimpleCalendar::FROM_INDEX] = from.iso8601.to_s
       detail[DiscourseSimpleCalendar::TO_INDEX] = to.iso8601.to_s if to
 
+      # investigate why sometimes it has been saved as an array
+      if current_details.kind_of?(Array)
+        current_details = current_details[0]
+      end
       current_details[post_number] = detail
 
       op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = current_details

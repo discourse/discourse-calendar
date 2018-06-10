@@ -122,6 +122,7 @@ after_initialize do
     attributes :calendar_details
 
     def calendar_details
+      return nil unless object.is_first_post?
       details = post_custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
 
       Array(details).map do |post_number, detail|
