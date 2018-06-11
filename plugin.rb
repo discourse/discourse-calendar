@@ -13,8 +13,6 @@ PLUGIN_NAME ||= "discourse_simple_calendar".freeze
 DATA_PREFIX ||= "data-calendar-".freeze
 
 after_initialize do
-  require File.expand_path("../jobs/regular/destroy_expired_event", __FILE__)
-
   module ::DiscourseSimpleCalendar
     CALENDAR_CUSTOM_FIELD ||= "dsc-calendar"
     CALENDAR_DETAILS_CUSTOM_FIELD ||= "dsc-calendar-details"
@@ -31,6 +29,9 @@ after_initialize do
     autoload :EventUpdater, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_updater"
     autoload :EventDestroyer, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_destroyer"
   end
+
+  require File.expand_path("../jobs/regular/destroy_expired_event", __FILE__)
+  require File.expand_path("../jobs/scheduled/ensure_expired_event_destruction", __FILE__)
 
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD, :string)
