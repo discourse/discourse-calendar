@@ -66,7 +66,9 @@ after_initialize do
           date = {}
           cooked_date.attributes.values.each do |attribute|
             if attribute.name && ['data-date', 'data-time'].include?(attribute.name)
-              date[attribute.name.gsub('data-', '')] = CGI.escapeHTML(attribute.value || "")
+              unless attribute.value == 'undefined'
+                date[attribute.name.gsub('data-', '')] = CGI.escapeHTML(attribute.value || "")
+              end
             end
           end
           date

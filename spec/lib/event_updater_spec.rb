@@ -60,4 +60,26 @@ describe DiscourseSimpleCalendar::EventUpdater do
 
     expect(op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]).not_to be_present
   end
+
+  it "will work with no time date" do
+    raw = <<~MD
+      [calendar]
+      [/calendar]
+    MD
+    topic = Fabricate(:topic, first_post: create_post(raw: raw))
+
+    op = topic.first_post
+
+    raw = <<~MD
+      Rome [date="2018-06-05"] [date="2018-06-11"]
+    MD
+    post = create_post(raw: raw, topic: topic)
+
+    DiscourseSimpleCalendar::EventUpdater.update(post)
+    op.reload
+
+    detail = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s   ]
+    expect(detail[DiscourseSimpleCalendar::FROM_INDEX]).to eq("2018-06-05T00:00:00Z")
+    expect(detail[DiscourseSimpleCalendar::TO_INDEX]).to eq("2018-06-11T23:59:59Z")
+  end
 end

@@ -13,11 +13,20 @@ module DiscourseSimpleCalendar
       end
 
       first_date = dates[0]
-      from = Time.strptime("#{first_date["date"]} #{first_date["time"]} UTC", "%Y-%m-%d %H:%M %Z")
+      if first_date['time']
+        from = Time.strptime("#{first_date['date']} #{first_date['time']} UTC", "%Y-%m-%d %H:%M %Z")
+      else
+        from = Time.strptime("#{first_date['date']} UTC", "%Y-%m-%d %Z").beginning_of_day
+      end
 
       if dates.count == 2
         second_date = dates[1]
-        to = Time.strptime("#{second_date["date"]} #{second_date["time"]} UTC", "%Y-%m-%d %H:%M %Z")
+
+        if second_date['time']
+          to = Time.strptime("#{second_date['date']} #{second_date['time']} UTC", "%Y-%m-%d %H:%M %Z")
+        else
+          to = Time.strptime("#{second_date['date']} UTC", "%Y-%m-%d %Z").end_of_day
+        end
       end
 
       post_number = post.post_number.to_s
@@ -39,17 +48,6 @@ module DiscourseSimpleCalendar
       op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = current_details
       op.save_custom_fields(true)
       op.publish_change_to_clients!(:calendar_change)
-
-      Jobs.cancel_scheduled_job(:destroy_expired_event, post_id: post.id)
-
-      if to
-        enqueue_in = (to + 1.day - Time.now.utc).seconds
-      else
-        enqueue_in = (from.end_of_day + 1.day - Time.now.utc).seconds
-      end
-      enqueue_in = 30.seconds if enqueue_in < 0
-
-      Jobs.enqueue_in(enqueue_in.to_i, :destroy_expired_event, post_id: post.id)
     end
   end
 end
