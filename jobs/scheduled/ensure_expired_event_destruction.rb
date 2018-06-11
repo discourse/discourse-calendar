@@ -15,8 +15,6 @@ module Jobs
               post = pcf.post
               op = post.topic.first_post
 
-              Jobs.cancel_scheduled_job(:destroy_expired_event, post_id: post.id)
-
               DiscourseSimpleCalendar::EventDestroyer.destroy(op, post_number.to_s)
             end
           end

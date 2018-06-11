@@ -30,7 +30,6 @@ after_initialize do
     autoload :EventDestroyer, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_destroyer"
   end
 
-  require File.expand_path("../jobs/regular/destroy_expired_event", __FILE__)
   require File.expand_path("../jobs/scheduled/ensure_expired_event_destruction", __FILE__)
 
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
