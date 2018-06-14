@@ -92,6 +92,10 @@ after_initialize do
     validator = DiscourseSimpleCalendar::CalendarValidator.new(self)
     calendar = validator.validate_calendar
 
+    if calendar && calendar["type"] == "static"
+      return
+    end
+
     if calendar
       self.calendar_details = calendar
     else

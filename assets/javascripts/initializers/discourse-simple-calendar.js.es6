@@ -35,36 +35,88 @@ function initializeDiscourseSimpleCalendar(api) {
 
   function render($calendar, post) {
     loadScript("/plugins/discourse-simple-calendar/javascripts/fullcalendar.min.js").then(() => {
-      const events = post.calendar_details.map(detail => {
-        let event =  {
-          title: `${detail.username}: ${detail.message}`,
-          color: stringToHexColor(detail.username),
-          postNumber: parseInt(detail.post_number, 10),
-          allDay: true
+      let events = [];
+
+      const isStatic = $calendar.attr("data-calendar-type") === "static";
+
+      if (isStatic) {
+        if ($calendar.hasClass("fc")) {
+          return;
         }
 
-        if (detail.to) {
-          event.start = moment(detail.from);
-          event.end = moment(detail.to);
-        } else {
-          event.start = moment(detail.from).format("YYYY-MM-DD");
-        }
+        $calendar.find("p").html().trim().split("<br>").forEach(line => {
+          let event = { allDay: true };
+          const html = $.parseHTML(line);
+          const htmlDates = html.filter(h => h.className === "discourse-local-date cooked");
+          event.title = html[0].textContent.trim();
 
-        return event;
-      });
+          const fromHtml = $(htmlDates[0]);
+          if (fromHtml) {
+            const date = fromHtml.attr("data-date");
+            const time = fromHtml.attr("data-time") === "undefined" ? null : fromHtml.attr("data-time");
 
-      if ($calendar.hasClass("fc")) {
-        $calendar.fullCalendar("destroy");
+            if (date && time) {
+              event.start = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm");
+            } else if (date) {
+              event.start = moment(date, "YYYY-MM-DD");
+            }
+          }
+
+          const toHtml = $(htmlDates[1]);
+          if (toHtml) {
+            const date = toHtml.attr("data-date");
+            const time = toHtml.attr("data-time") === "undefined" ? null : toHtml.attr("data-time");
+
+            if (date && time) {
+              event.end = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm");
+            } else if (date) {
+              event.end = moment(date, "YYYY-MM-DD");
+            }
+          } else {
+            event.start = event.start.startOf('day');
+            event.end = event.start.endOf('day');
+          }
+
+          events.push(event);
+        });
+
+        $calendar.empty();
+
+        $calendar.fullCalendar({ events });
       }
 
-      $calendar
-        .fullCalendar({
-          eventClick: (calEvent, jsEvent, view) => {
-            const $post = $(`.topic-post article#post_${calEvent.postNumber}`);
-            $(window).scrollTop($post.offset().top - minimumOffset());
-          },
-          events
+      if (!isStatic) {
+        events = post.calendar_details.map(detail => {
+          let event =  {
+            title: `${detail.username}: ${detail.message}`,
+            color: stringToHexColor(detail.username),
+            postNumber: parseInt(detail.post_number, 10),
+            allDay: true
+          }
+
+          if (detail.to) {
+            event.start = moment(detail.from);
+            event.end = moment(detail.to);
+          } else {
+            event.start = moment(detail.from).format("YYYY-MM-DD");
+          }
+
+          return event;
         });
+
+        if ($calendar.hasClass("fc")) {
+          $calendar.fullCalendar("destroy");
+        }
+
+        $calendar
+          .fullCalendar({
+            eventClick: (calEvent, jsEvent, view) => {
+              const $post = $(`.topic-post article#post_${calEvent.postNumber}`);
+              $(window).scrollTop($post.offset().top - minimumOffset());
+            },
+            events
+          });
+      }
     });
   }
 
