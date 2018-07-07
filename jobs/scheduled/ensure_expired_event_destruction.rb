@@ -18,7 +18,10 @@ module Jobs
               topic = op.topic
               post = topic.posts.find_by(post_number: post_number)
               DiscourseSimpleCalendar::EventDestroyer.destroy(op, post_number.to_s)
-              PostDestroyer.new(Discourse.system_user, post).destroy
+
+              if post
+                PostDestroyer.new(Discourse.system_user, post).destroy
+              end
             end
           end
         end
