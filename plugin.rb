@@ -6,8 +6,8 @@ hide_plugin if respond_to?(:hide_plugin)
 
 enabled_site_setting :discourse_simple_calendar_enabled
 
-register_asset "stylesheets/common/discourse-simple-calendar.scss"
 register_asset "stylesheets/vendor/fullcalendar.min.css"
+register_asset "stylesheets/common/discourse-simple-calendar.scss"
 
 PLUGIN_NAME ||= "discourse_simple_calendar".freeze
 DATA_PREFIX ||= "data-calendar-".freeze
