@@ -1,6 +1,6 @@
 module Jobs
   class ::DiscourseSimpleCalendar::EnsuredExpiredEventDestruction < Jobs::Scheduled
-    every 1.day
+    every 6.hours
 
     def execute
       PostCustomField
@@ -13,7 +13,7 @@ module Jobs
             to = detail[::DiscourseSimpleCalendar::TO_INDEX] ||
                  detail[::DiscourseSimpleCalendar::FROM_INDEX]
 
-            if (Time.parse(to) + 1.day) < Time.now.utc
+            if (Time.parse(to) + 1.hour) < Time.now.utc
               op = pcf.post
               topic = op.topic
               post = topic.posts.find_by(post_number: post_number)
