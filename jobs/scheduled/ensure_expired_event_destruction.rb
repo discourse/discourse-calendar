@@ -2,7 +2,7 @@ module Jobs
   class ::DiscourseSimpleCalendar::EnsuredExpiredEventDestruction < Jobs::Scheduled
     every 6.hours
 
-    def execute
+    def execute(args)
       PostCustomField
         .joins(:post)
         .where("post_custom_fields.name = '#{::DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD}'")
