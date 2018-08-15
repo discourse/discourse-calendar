@@ -108,14 +108,27 @@ function initializeDiscourseSimpleCalendar(api) {
           $calendar.fullCalendar("destroy");
         }
 
-        $calendar
-          .fullCalendar({
-            eventClick: (calEvent, jsEvent, view) => {
-              const $post = $(`.topic-post article#post_${calEvent.postNumber}`);
-              $(window).scrollTop($post.offset().top - minimumOffset());
-            },
-            events
-          });
+        $calendar.fullCalendar({
+          firstDay: 1,
+          views: {
+            listNextYear: {
+              type: "list",
+              duration: { days: 365 },
+              buttonText: "list"
+            }
+          },
+          header: {
+            left: "title",
+            center: "",
+            right: "today prev,next month,basicWeek,listNextYear"
+          },
+          height: "parent",
+          eventClick: (calEvent, jsEvent, view) => {
+            const $post = $(`.topic-post article#post_${calEvent.postNumber}`);
+            $(window).scrollTop($post.offset().top - minimumOffset());
+          },
+          events
+        });
       }
     });
   }
