@@ -1,20 +1,64 @@
 .calendar {
   height: 700px;
   &.fc-unthemed {
-    td.fc-today {
-      background: $highlight-medium;
+    tbody,
+    thead,
+    tr {
+      border: none;
     }
 
-    .fc-day-number {
-      font-weight: 700;
+    .fc-basic-view .fc-day-top .fc-day-number {
+      float: left;
     }
 
-    .fc-content-skeleton td.fc-day-top {
-      border-top-color: white;
+    .fc-bg td.fc-today {
+      background-color: $highlight-medium;
+      border-style: solid;
+    }
+
+    .fc-month-view .fc-widget-content,
+    .fc-basicWeek-view .fc-widget-content,
+    .fc-head-container {
+      padding: 0;
     }
 
     .fc-bg tbody {
       border-width: 0;
+    }
+
+    .fc-header-toolbar {
+      margin: 1em 0 0.5em 0;
+    }
+
+    .fc-button {
+      border-radius: 0;
+      box-shadow: none;
+      background: $primary-low;
+      text-transform: capitalize;
+      color: $primary;
+      text-shadow: none;
+      border: none;
+
+      padding: 6px 12px;
+
+      &:hover {
+        background: $primary-medium;
+        color: $secondary;
+      }
+
+      &.fc-state-active {
+        background: $tertiary;
+        color: $secondary;
+      }
+      margin: 0.3em 0 0.3em 0.5em;
+    }
+
+    .fc-button-group {
+      margin: 0.3em 0 0.3em 0.5em;
+      // margin-right: 0;
+      .fc-button {
+        margin: 0;
+      }
     }
   }
 }
