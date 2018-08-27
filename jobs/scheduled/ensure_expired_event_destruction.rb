@@ -13,7 +13,10 @@ module Jobs
             to = detail[::DiscourseSimpleCalendar::TO_INDEX] ||
                  detail[::DiscourseSimpleCalendar::FROM_INDEX]
 
-            if (Time.parse(to) + 1.hour) < Time.now.utc
+            to_time = Time.parse(to)
+            to_time += 24.hours unless detail[::DiscourseSimpleCalendar::TO_INDEX] # Add 24 hours if no explicit 'to' time
+
+            if (to_time + 1.hour) < Time.now.utc
               op = pcf.post
               topic = op.topic
               post = topic.posts.find_by(post_number: post_number)
