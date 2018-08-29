@@ -31,6 +31,7 @@ after_initialize do
   end
 
   require File.expand_path("../jobs/scheduled/ensure_expired_event_destruction", __FILE__)
+  require File.expand_path("../jobs/scheduled/update_mattermost_usernames", __FILE__)
 
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD, :string)
