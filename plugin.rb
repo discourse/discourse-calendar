@@ -17,6 +17,9 @@ after_initialize do
     CALENDAR_CUSTOM_FIELD ||= "dsc-calendar"
     CALENDAR_DETAILS_CUSTOM_FIELD ||= "dsc-calendar-details"
 
+    HOLIDAY_CUSTOM_FIELD ||= "on_holiday"
+    USERS_ON_HOLIDAY_KEY ||= "users_on_holiday"
+
     MESSAGE_INDEX = 0
     FROM_INDEX = 1
     TO_INDEX = 2
@@ -31,10 +34,12 @@ after_initialize do
   end
 
   require File.expand_path("../jobs/scheduled/ensure_expired_event_destruction", __FILE__)
-  require File.expand_path("../jobs/scheduled/update_mattermost_usernames", __FILE__)
+  require File.expand_path("../jobs/scheduled/update_holiday_usernames", __FILE__)
 
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD, :string)
+
+  whitelist_staff_user_custom_field(::DiscourseSimpleCalendar::HOLIDAY_CUSTOM_FIELD)
 
   class DiscourseSimpleCalendar::Calendar
     class << self
@@ -149,5 +154,9 @@ after_initialize do
         event
       end
     end
+  end
+
+  add_to_serializer(:site, :users_on_holiday) do
+    PluginStore.get(PLUGIN_NAME, DiscourseSimpleCalendar::USERS_ON_HOLIDAY_KEY)
   end
 end

@@ -8,4 +8,3 @@ plugins:
     default: ""
   discourse_simple_calendar_holiday_post_id:
     default: ""
-  

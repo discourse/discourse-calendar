@@ -1,24 +1,17 @@
 module Jobs
-  class ::DiscourseSimpleCalendar::UpdateMattermostUsernames < Jobs::Scheduled
+  class ::DiscourseSimpleCalendar::UpdateHolidayUsernames < Jobs::Scheduled
     every 1.hour
 
+    PLUGIN_NAME ||= "discourse_simple_calendar".freeze
+
     def execute(args)
-      api_key = SiteSetting.discourse_simple_calendar_mattermost_api_key
       post_id = SiteSetting.discourse_simple_calendar_holiday_post_id
-      server = SiteSetting.discourse_simple_calendar_mattermost_server
 
-      if api_key.blank? || post_id.blank? || server.blank?
-        return
-      end
-
-      # Fetch all mattermost users
-      response = Excon.get("#{server}/api/v4/users", headers: {
-        "Authorization": "Bearer #{api_key}"
-      })
-      mattermost_users = JSON.parse(response.body, symbolize_names: true)
+      return if post_id.blank?
 
       # Build a list of discourse users currently on holiday
       users_on_holiday = []
+      user_ids = []
 
       pcf = PostCustomField.find_by(name: ::DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, post_id: post_id)
       details = JSON.parse(pcf.value)
@@ -30,11 +23,31 @@ module Jobs
         to_time += 24.hours unless detail[::DiscourseSimpleCalendar::TO_INDEX] # Add 24 hours if no explicit 'to' time
 
         if Time.zone.now > from_time && Time.zone.now < to_time
-          users_on_holiday << detail[::DiscourseSimpleCalendar::USERNAME_INDEX]
+          username = detail[::DiscourseSimpleCalendar::USERNAME_INDEX]
+          users_on_holiday << username
+
+          user = User.find_by(username: username)
+          user.custom_fields[::DiscourseSimpleCalendar::HOLIDAY_CUSTOM_FIELD] = "t"
+          user.save_custom_fields(true)
+          user_ids << user.id
         end
       end
 
+      PluginStore.set(PLUGIN_NAME, DiscourseSimpleCalendar::USERS_ON_HOLIDAY_KEY, users_on_holiday)
+      UserCustomField.where(name: ::DiscourseSimpleCalendar::HOLIDAY_CUSTOM_FIELD).where.not(user_id: user_ids).destroy_all
+
       # puts "Users on holiday are #{users_on_holiday}"
+
+      api_key = SiteSetting.discourse_simple_calendar_mattermost_api_key
+      server = SiteSetting.discourse_simple_calendar_mattermost_server
+
+      return if api_key.blank? || server.blank?
+
+      # Fetch all mattermost users
+      response = Excon.get("#{server}/api/v4/users", headers: {
+        "Authorization": "Bearer #{api_key}"
+      })
+      mattermost_users = JSON.parse(response.body, symbolize_names: true)
 
       # Loop over mattermost users
       mattermost_users.each do |user|
