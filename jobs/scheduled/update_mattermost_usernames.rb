@@ -7,7 +7,9 @@ module Jobs
       post_id = SiteSetting.discourse_simple_calendar_holiday_post_id
       server = SiteSetting.discourse_simple_calendar_mattermost_server
 
-      return unless api_key && post_id && server
+      if api_key.blank? || post_id.blank? || server.blank?
+        return
+      end
 
       # Fetch all mattermost users
       response = Excon.get("#{server}/api/v4/users", headers: {
