@@ -31,6 +31,10 @@ after_initialize do
     autoload :EventValidator, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_validator"
     autoload :EventUpdater, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_updater"
     autoload :EventDestroyer, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_destroyer"
+
+    def self.users_on_holiday
+      PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
+    end
   end
 
   require File.expand_path("../jobs/scheduled/ensure_expired_event_destruction", __FILE__)
