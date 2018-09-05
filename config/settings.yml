@@ -2,9 +2,5 @@ plugins:
   discourse_simple_calendar_enabled:
     default: true
     client: true
-  discourse_simple_calendar_mattermost_server:
-    default: ""
-  discourse_simple_calendar_mattermost_api_key:
-    default: ""
   discourse_simple_calendar_holiday_post_id:
     default: ""
