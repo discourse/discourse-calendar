@@ -66,27 +66,6 @@ after_initialize do
     end
   end
 
-  # should be moved into discourse-local-dates plugin code
-  class DiscourseSimpleCalendar::Dates
-    class << self
-      def extract(raw, topic_id, user_id = nil)
-        cooked = PrettyText.cook(raw, topic_id: topic_id, user_id: user_id)
-
-        Nokogiri::HTML(cooked).css('span.discourse-local-date').map do |cooked_date|
-          date = {}
-          cooked_date.attributes.values.each do |attribute|
-            if attribute.name && ['data-date', 'data-time'].include?(attribute.name)
-              unless attribute.value == 'undefined'
-                date[attribute.name.gsub('data-', '')] = CGI.escapeHTML(attribute.value || "")
-              end
-            end
-          end
-          date
-        end
-      end
-    end
-  end
-
   on(:post_process_cooked) do |doc, post|
     validator = DiscourseSimpleCalendar::EventValidator.new(post)
 
