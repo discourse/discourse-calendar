@@ -14,7 +14,7 @@ module DiscourseSimpleCalendar
 
       first_date = dates[0]
       if first_date['time']
-        from = Time.strptime("#{first_date['date']} #{first_date['time']} UTC", "%Y-%m-%d %H:%M %Z")
+        from = Time.strptime("#{first_date['date']} #{first_date['time']} UTC", "%Y-%m-%d %H:%M:%S %Z")
       else
         from = Time.strptime("#{first_date['date']} UTC", "%Y-%m-%d %Z").beginning_of_day
       end
@@ -23,7 +23,7 @@ module DiscourseSimpleCalendar
         second_date = dates[1]
 
         if second_date['time']
-          to = Time.strptime("#{second_date['date']} #{second_date['time']} UTC", "%Y-%m-%d %H:%M %Z")
+          to = Time.strptime("#{second_date['date']} #{second_date['time']} UTC", "%Y-%m-%d %H:%M:%S %Z")
         else
           to = Time.strptime("#{second_date['date']} UTC", "%Y-%m-%d %Z").end_of_day
         end
