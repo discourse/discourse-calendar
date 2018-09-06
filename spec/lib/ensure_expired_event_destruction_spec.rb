@@ -17,7 +17,7 @@ describe DiscourseSimpleCalendar::EventUpdater do
     op = topic.first_post
 
     raw = <<~MD
-      Rome [date="2018-06-05" time="10:20"]
+      Rome [date="2018-06-05" time="10:20:00"]
     MD
     post = create_post(raw: raw, topic: topic)
 
