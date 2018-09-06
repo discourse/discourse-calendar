@@ -11,18 +11,18 @@ describe DiscourseSimpleCalendar::EventUpdater do
       [/calendar]
     MD
     topic = Fabricate(:topic, first_post: create_post(raw: raw))
-
     op = topic.first_post
-
-    raw = <<~MD
-      Rome [date="2018-06-05" time="10:20:00"]
-    MD
-    post = create_post(raw: raw, topic: topic)
 
     details = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
     expect(details).to eq({})
 
-    DiscourseSimpleCalendar::EventUpdater.update(post)
+    raw = <<~MD
+      Rome [date="2018-06-05" time="10:20:00"]
+    MD
+
+    post = create_post(raw: raw, topic: topic)
+    CookedPostProcessor.new(post).post_process
+
     op.reload
 
     details = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
@@ -47,15 +47,16 @@ describe DiscourseSimpleCalendar::EventUpdater do
       Rome [date="2018-06-05" time="10:20:00"]
     MD
     post = create_post(raw: raw, topic: topic)
+    CookedPostProcessor.new(post).post_process
 
-    DiscourseSimpleCalendar::EventUpdater.update(post)
     op.reload
 
     expect(op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]).to be_present
 
     post.raw = "Not sure about the dates anymore"
+    post.save
+    CookedPostProcessor.new(post).post_process
 
-    DiscourseSimpleCalendar::EventUpdater.update(post)
     op.reload
 
     expect(op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]).not_to be_present
@@ -74,8 +75,8 @@ describe DiscourseSimpleCalendar::EventUpdater do
       Rome [date="2018-06-05"] [date="2018-06-11"]
     MD
     post = create_post(raw: raw, topic: topic)
+    CookedPostProcessor.new(post).post_process
 
-    DiscourseSimpleCalendar::EventUpdater.update(post)
     op.reload
 
     detail = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s   ]
