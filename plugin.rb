@@ -25,20 +25,21 @@ after_initialize do
     TO_INDEX = 2
     USERNAME_INDEX = 3
 
-    autoload :CalendarValidator, "#{Rails.root}/plugins/discourse-simple-calendar/lib/calendar_validator"
-    autoload :CalendarUpdater, "#{Rails.root}/plugins/discourse-simple-calendar/lib/calendar_updater"
-    autoload :CalendarDestroyer, "#{Rails.root}/plugins/discourse-simple-calendar/lib/calendar_destroyer"
-    autoload :EventValidator, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_validator"
-    autoload :EventUpdater, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_updater"
-    autoload :EventDestroyer, "#{Rails.root}/plugins/discourse-simple-calendar/lib/event_destroyer"
-
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
   end
 
-  require File.expand_path("../jobs/scheduled/ensure_expired_event_destruction", __FILE__)
-  require File.expand_path("../jobs/scheduled/update_holiday_usernames", __FILE__)
+  [
+    "../lib/calendar_validator.rb",
+    "../lib/calendar_updater.rb",
+    "../lib/calendar_destroyer.rb",
+    "../lib/event_validator.rb",
+    "../lib/event_updater.rb",
+    "../lib/event_destroyer.rb",
+    "../jobs/scheduled/ensure_expired_event_destruction.rb",
+    "../jobs/scheduled/update_holiday_usernames.rb",
+  ].each { |path| load File.expand_path(path, __FILE__) }
 
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD, :string)
@@ -60,27 +61,6 @@ after_initialize do
           end
 
           calendar
-        end
-      end
-    end
-  end
-
-  # should be moved into discourse-local-dates plugin code
-  class DiscourseSimpleCalendar::Dates
-    class << self
-      def extract(raw, topic_id, user_id = nil)
-        cooked = PrettyText.cook(raw, topic_id: topic_id, user_id: user_id)
-
-        Nokogiri::HTML(cooked).css('span.discourse-local-date').map do |cooked_date|
-          date = {}
-          cooked_date.attributes.values.each do |attribute|
-            if attribute.name && ['data-date', 'data-time'].include?(attribute.name)
-              unless attribute.value == 'undefined'
-                date[attribute.name.gsub('data-', '')] = CGI.escapeHTML(attribute.value || "")
-              end
-            end
-          end
-          date
         end
       end
     end
@@ -161,6 +141,6 @@ after_initialize do
   end
 
   add_to_serializer(:site, :users_on_holiday) do
-    PluginStore.get(PLUGIN_NAME, DiscourseSimpleCalendar::USERS_ON_HOLIDAY_KEY)
+    DiscourseSimpleCalendar.users_on_holiday
   end
 end

@@ -15,6 +15,8 @@ export default {
     withPluginApi('0.1', api => {
       const usersOnHoliday = Discourse.Site.current().users_on_holiday;
 
+      if (!usersOnHoliday) { return; }
+
       api.addPosterIcon(cfs => {
         const onHoliday = customBool(cfs.on_holiday);
         if (!onHoliday) { return; }

@@ -2,8 +2,7 @@ module DiscourseSimpleCalendar
   class EventUpdater
     def self.update(post)
       op = post.topic.first_post
-
-      dates = DiscourseSimpleCalendar::Dates.extract(post.raw, post.topic_id, post.user.id)
+      dates = post.local_dates
 
       # if we don’t have any date it's not an event anymore
       if dates.empty?
