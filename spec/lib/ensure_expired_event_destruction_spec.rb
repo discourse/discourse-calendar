@@ -27,7 +27,7 @@ describe DiscourseSimpleCalendar::EventUpdater do
     expect(post.deleted_at).to be_nil
     expect(op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_present
 
-    DiscourseSimpleCalendar::EnsuredExpiredEventDestruction.new.execute
+    DiscourseSimpleCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     post.reload
     op.reload
 
