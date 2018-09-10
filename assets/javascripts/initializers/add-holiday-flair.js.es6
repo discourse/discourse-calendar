@@ -32,7 +32,7 @@ export default {
         }
 
         mentions.each((i, el) => {
-          const username = $(el).text().replace("@", "");
+          const username = $(el).text().replace("@", "").toLowerCase();
 
           if (usersOnHoliday.includes(username)) {
             $(el).append('<i class="fa fa-calendar d-icon d-icon-calendar" title="on holiday"></i>');
