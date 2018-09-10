@@ -26,7 +26,7 @@ module Jobs
           username = detail[::DiscourseSimpleCalendar::USERNAME_INDEX]
           users_on_holiday << username
 
-          user = User.find_by(username: username)
+          user = User.find_by(username_lower: username)
           user.custom_fields[::DiscourseSimpleCalendar::HOLIDAY_CUSTOM_FIELD] = "t"
           user.save_custom_fields(true)
           user_ids << user.id
