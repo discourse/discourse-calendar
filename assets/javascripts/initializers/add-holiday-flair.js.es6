@@ -12,9 +12,28 @@ function customBool(field) {
 export default {
   name: 'add-holiday-flair',
   initialize() {
-    withPluginApi('0.1', api => {
-      const usersOnHoliday = Discourse.Site.current().users_on_holiday;
+    const usersOnHoliday = Discourse.Site.current().users_on_holiday;
 
+    let classNames = [];
+    usersOnHoliday.forEach(username => {
+      classNames.push(`a.mention[href="/u/${username}"]:after`);
+    });
+
+    $("<style>")
+      .prop("id", "users_on_holiday")
+      .prop("type", "text/css")
+      .html(`
+      ${classNames.join(", ")} {
+          content: "";
+          display: inline-block;
+          font: normal normal normal 14px/1 FontAwesome;
+          text-rendering: auto;
+          margin-left: 4px;
+          -webkit-font-smoothing: antialiased;
+      }`)
+      .appendTo("head");
+
+    withPluginApi('0.1', api => {
       if (!usersOnHoliday) { return; }
 
       api.addPosterIcon(cfs => {
@@ -22,22 +41,6 @@ export default {
         if (!onHoliday) { return; }
 
         return { emoji: 'desert_island', className: 'holiday', title: 'on holiday' };
-      });
-
-      api.decorateCooked($elem => {
-        const mentions = $(".mention", $elem);
-
-        if (usersOnHoliday.length === 0 || mentions.length === 0) {
-          return;
-        }
-
-        mentions.each((i, el) => {
-          const username = $(el).text().replace("@", "").toLowerCase();
-
-          if (usersOnHoliday.includes(username)) {
-            $(el).append('<i class="fa fa-calendar d-icon d-icon-calendar" title="on holiday"></i>');
-          }
-        });
       });
     });
   }

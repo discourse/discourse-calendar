@@ -143,4 +143,8 @@ after_initialize do
   add_to_serializer(:site, :users_on_holiday) do
     DiscourseSimpleCalendar.users_on_holiday
   end
+
+  add_to_serializer(:site, 'include_users_on_holiday?') do
+    scope.is_staff?
+  end
 end
