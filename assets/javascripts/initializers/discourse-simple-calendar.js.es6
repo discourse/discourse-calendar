@@ -97,7 +97,10 @@ function initializeDiscourseSimpleCalendar(api) {
 
         $calendar.empty();
 
-        $calendar.fullCalendar({ events });
+        $calendar.fullCalendar({
+          height: 700,
+          events
+        });
       }
 
       if (!isStatic) {
@@ -124,6 +127,7 @@ function initializeDiscourseSimpleCalendar(api) {
         }
 
         $calendar.fullCalendar({
+          height: 700,
           firstDay: 1,
           views: {
             listNextYear: {
@@ -134,9 +138,9 @@ function initializeDiscourseSimpleCalendar(api) {
             }
           },
           header: {
-            left: "title",
-            center: "",
-            right: "today prev,next month,basicWeek,listNextYear"
+            left: "prev,next today",
+            center: "title",
+            right: "month,basicWeek,listNextYear"
           },
           height: "parent",
           eventClick: (calEvent, jsEvent, view) => {
