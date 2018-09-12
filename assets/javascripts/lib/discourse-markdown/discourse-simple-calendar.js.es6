@@ -4,15 +4,28 @@ const calendarRule = {
   wrap: function(token, info) {
     token.attrs = [
       ["class", "calendar"],
-      ["data-calendar-type", info.attrs.type || "dynamic"],
+      ["data-calendar-type", info.attrs.type || "dynamic"]
     ];
+
+    if (info.attrs.weekends) {
+      token.attrs.push(["data-weekends", info.attrs.weekends]);
+    }
+
+    if (info.attrs.hiddenDays) {
+      token.attrs.push(["data-hidden-days", info.attrs.hiddenDays]);
+    }
 
     return true;
   },
 };
 
 export function setup(helper) {
-  helper.whiteList(["div.calendar"]);
+  helper.whiteList([
+    "div.calendar",
+    "div[data-calendar-type]",
+    "div[data-weekends]",
+    "div[data-hidden-days]"
+  ]);
 
   helper.registerOptions((opts, siteSettings) => {
     opts.features.discourse_simple_calendar = !!siteSettings.discourse_simple_calendar_enabled;

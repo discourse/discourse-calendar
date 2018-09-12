@@ -40,6 +40,8 @@ function initializeDiscourseSimpleCalendar(api) {
       let events = [];
 
       const isStatic = $calendar.attr("data-calendar-type") === "static";
+      const skipWeekends = $calendar.attr("data-weekends") === "false";
+      const hiddenDays = $calendar.attr("data-hidden-days");
 
       if (isStatic) {
         if ($calendar.hasClass("fc")) {
@@ -148,6 +150,14 @@ function initializeDiscourseSimpleCalendar(api) {
           },
           events
         });
+      }
+
+      if (skipWeekends) {
+        $calendar.fullCalendar('option', 'weekends', false);
+      }
+
+      if (hiddenDays) {
+        $calendar.fullCalendar('option', 'hiddenDays', hiddenDays.split(",").map(d => parseInt(d)));
       }
     });
   }
