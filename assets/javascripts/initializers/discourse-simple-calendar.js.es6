@@ -142,7 +142,6 @@ function initializeDiscourseSimpleCalendar(api) {
             center: "title",
             right: "month,basicWeek,listNextYear"
           },
-          height: "parent",
           eventClick: (calEvent, jsEvent, view) => {
             const $post = $(`.topic-post article#post_${calEvent.postNumber}`);
             $(window).scrollTop($post.offset().top - minimumOffset());
