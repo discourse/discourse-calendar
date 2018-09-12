@@ -13,6 +13,7 @@ export default {
   name: 'add-holiday-flair',
   initialize() {
     const usersOnHoliday = Discourse.Site.current().users_on_holiday;
+    if (!usersOnHoliday) { return; }
 
     let classNames = [];
     usersOnHoliday.forEach(username => {
@@ -34,8 +35,6 @@ export default {
       .appendTo("head");
 
     withPluginApi('0.1', api => {
-      if (!usersOnHoliday) { return; }
-
       api.addPosterIcon(cfs => {
         const onHoliday = customBool(cfs.on_holiday);
         if (!onHoliday) { return; }
