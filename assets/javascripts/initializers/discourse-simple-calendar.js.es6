@@ -1,5 +1,4 @@
 import loadScript from "discourse/lib/load-script";
-import { default as computed } from "ember-addons/ember-computed-decorators";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { minimumOffset } from "discourse/lib/offset-calculator";
 import { ajax } from "discourse/lib/ajax";

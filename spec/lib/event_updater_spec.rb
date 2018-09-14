@@ -79,7 +79,7 @@ describe DiscourseSimpleCalendar::EventUpdater do
 
     op.reload
 
-    detail = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s   ]
+    detail = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]
     expect(detail[DiscourseSimpleCalendar::FROM_INDEX]).to eq("2018-06-05T00:00:00Z")
     expect(detail[DiscourseSimpleCalendar::TO_INDEX]).to eq("2018-06-11T23:59:59Z")
   end
