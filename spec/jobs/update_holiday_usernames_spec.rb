@@ -9,7 +9,7 @@ describe DiscourseSimpleCalendar::UpdateHolidayUsernames do
       [/calendar]
     MD
     @topic = Fabricate(:topic, first_post: create_post(raw: raw))
-    SiteSetting.discourse_simple_calendar_holiday_post_id = @topic.first_post.id
+    SiteSetting.holiday_calendar_topic_id = @topic.id
   end
 
   it "should update users on holiday list" do

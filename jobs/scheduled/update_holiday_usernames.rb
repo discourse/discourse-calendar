@@ -5,9 +5,10 @@ module Jobs
     PLUGIN_NAME ||= "discourse_simple_calendar".freeze
 
     def execute(args)
-      post_id = SiteSetting.discourse_simple_calendar_holiday_post_id
+      topic_id = SiteSetting.holiday_calendar_topic_id
+      return if topic_id.blank?
 
-      return if post_id.blank?
+      post_id = Post.find_by(topic_id: topic_id, post_number: 1)
 
       # Build a list of discourse users currently on holiday
       users_on_holiday = []
