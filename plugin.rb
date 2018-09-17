@@ -6,7 +6,7 @@
 enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
-register_asset "stylesheets/common/calendar.scss"
+register_asset "stylesheets/common/discourse-calendar.scss"
 
 PLUGIN_NAME ||= "calendar".freeze
 DATA_PREFIX ||= "data-calendar-".freeze
