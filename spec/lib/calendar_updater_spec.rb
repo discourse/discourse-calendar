@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DiscourseSimpleCalendar::CalendarUpdater do
+describe DiscourseCalendar::CalendarUpdater do
   before do
     SiteSetting.queue_jobs = false
   end
@@ -10,15 +10,15 @@ describe DiscourseSimpleCalendar::CalendarUpdater do
 
     expect(post.custom_fields).to eq({})
 
-    DiscourseSimpleCalendar::CalendarUpdater.update(post)
+    DiscourseCalendar::CalendarUpdater.update(post)
 
-    expect(post.custom_fields[DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
-    expect(post.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]).to eq({})
+    expect(post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
+    expect(post.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]).to eq({})
 
     post.calendar_details = { "type" => "static" }
 
-    DiscourseSimpleCalendar::CalendarUpdater.update(post)
+    DiscourseCalendar::CalendarUpdater.update(post)
 
-    expect(post.custom_fields[DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD]).to eq("static")
+    expect(post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("static")
   end
 end

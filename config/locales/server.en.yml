@@ -1,4 +1,4 @@
 en:
   site_settings:
-    discourse_simple_calendar_enabled: "Enable the discourse-simple-calendar feature. This will add support for a [calendar][/calendar] tag in the first post of a topic."
+    calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
     holiday_calendar_topic_id: "Topic ID of staffs holiday / absence calendar."

@@ -17,7 +17,7 @@ function stringToHexColor(str) {
   return hex;
 }
 
-function initializeDiscourseSimpleCalendar(api) {
+function initializeDiscourseCalendar(api) {
   function calendarChanged(topicsController, message) {
     const stream = topicsController.get("model.postStream");
     const post = stream.findLoadedPost(stream.get("firstPostId"));
@@ -174,12 +174,12 @@ function initializeDiscourseSimpleCalendar(api) {
 }
 
 export default {
-  name: "discourse-simple-calendar",
+  name: "discourse-calendar",
 
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
     if (siteSettings.discourse_simple_calendar_enabled) {
-      withPluginApi("0.8.22", initializeDiscourseSimpleCalendar);
+      withPluginApi("0.8.22", initializeDiscourseCalendar);
     }
   }
 };

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DiscourseSimpleCalendar::EnsuredExpiredEventDestruction do
+describe DiscourseCalendar::EnsuredExpiredEventDestruction do
   before do
     SiteSetting.queue_jobs = false
 
@@ -11,7 +11,7 @@ describe DiscourseSimpleCalendar::EnsuredExpiredEventDestruction do
     topic = Fabricate(:topic, first_post: create_post(raw: raw))
     @op = topic.first_post
 
-    details = @op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
+    details = @op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
     expect(details).to eq({})
 
     raw = <<~MD
@@ -24,17 +24,17 @@ describe DiscourseSimpleCalendar::EnsuredExpiredEventDestruction do
 
   it "will correctly remove the post number from calendar details" do
     freeze_time Time.strptime("2018-06-03 09:21:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
-    DiscourseSimpleCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
+    DiscourseCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     @op.reload
 
-    expect(@op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][@post.post_number.to_s]).to eq([
+    expect(@op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][@post.post_number.to_s]).to eq([
       "Rome  to", "2018-06-05T10:20:00Z", "2018-06-06T11:20:00Z", @post.user.username_lower
     ])
 
     freeze_time Time.strptime("2018-06-06 13:21:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
-    DiscourseSimpleCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
+    DiscourseCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     @op.reload
 
-    expect(@op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][@post.post_number.to_s]).to be_nil
+    expect(@op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][@post.post_number.to_s]).to be_nil
   end
 end

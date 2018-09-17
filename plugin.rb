@@ -1,21 +1,20 @@
-# name: discourse-simple-calendar
+# name: discourse-calendar
 # about: Display a calendar in the first post of a topic
 # version: 0.1
 # author: Joffrey Jaffeux
-hide_plugin if respond_to?(:hide_plugin)
 
-enabled_site_setting :discourse_simple_calendar_enabled
+enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
-register_asset "stylesheets/common/discourse-simple-calendar.scss"
+register_asset "stylesheets/common/calendar.scss"
 
-PLUGIN_NAME ||= "discourse_simple_calendar".freeze
+PLUGIN_NAME ||= "calendar".freeze
 DATA_PREFIX ||= "data-calendar-".freeze
 
 after_initialize do
-  module ::DiscourseSimpleCalendar
-    CALENDAR_CUSTOM_FIELD ||= "dsc-calendar"
-    CALENDAR_DETAILS_CUSTOM_FIELD ||= "dsc-calendar-details"
+  module ::DiscourseCalendar
+    CALENDAR_CUSTOM_FIELD ||= "calendar"
+    CALENDAR_DETAILS_CUSTOM_FIELD ||= "calendar-details"
 
     HOLIDAY_CUSTOM_FIELD ||= "on_holiday"
     USERS_ON_HOLIDAY_KEY ||= "users_on_holiday"
@@ -41,12 +40,12 @@ after_initialize do
     "../jobs/scheduled/update_holiday_usernames.rb",
   ].each { |path| load File.expand_path(path, __FILE__) }
 
-  register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
-  register_post_custom_field_type(DiscourseSimpleCalendar::CALENDAR_CUSTOM_FIELD, :string)
+  register_post_custom_field_type(DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
+  register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
 
-  whitelist_staff_user_custom_field(::DiscourseSimpleCalendar::HOLIDAY_CUSTOM_FIELD)
+  whitelist_staff_user_custom_field(::DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
 
-  class DiscourseSimpleCalendar::Calendar
+  class DiscourseCalendar::Calendar
     class << self
       def extract(raw, topic_id, user_id = nil)
         cooked = PrettyText.cook(raw, topic_id: topic_id, user_id: user_id)
@@ -67,11 +66,11 @@ after_initialize do
   end
 
   on(:post_process_cooked) do |doc, post|
-    validator = DiscourseSimpleCalendar::EventValidator.new(post)
+    validator = DiscourseCalendar::EventValidator.new(post)
 
     if validator.validate_event
       DistributedMutex.synchronize("#{PLUGIN_NAME}-#{post.id}") do
-        DiscourseSimpleCalendar::EventUpdater.update(post)
+        DiscourseCalendar::EventUpdater.update(post)
       end
     end
   end
@@ -79,7 +78,7 @@ after_initialize do
   validate(:post, :validate_calendar) do |force = nil|
     return unless self.raw_changed? || force
 
-    validator = DiscourseSimpleCalendar::CalendarValidator.new(self)
+    validator = DiscourseCalendar::CalendarValidator.new(self)
     calendar = validator.validate_calendar
 
     if calendar && calendar["type"] == "static"
@@ -90,7 +89,7 @@ after_initialize do
       self.calendar_details = calendar
     else
       DistributedMutex.synchronize("#{PLUGIN_NAME}-#{self.id}") do
-        DiscourseSimpleCalendar::CalendarDestroyer.destroy(self)
+        DiscourseCalendar::CalendarDestroyer.destroy(self)
         self.publish_change_to_clients!(:calendar_change)
       end
     end
@@ -104,14 +103,14 @@ after_initialize do
     after_save do
       if self.calendar_details
         DistributedMutex.synchronize("#{PLUGIN_NAME}-#{self.id}") do
-          DiscourseSimpleCalendar::CalendarUpdater.update(self)
+          DiscourseCalendar::CalendarUpdater.update(self)
           self.publish_change_to_clients!(:calendar_change)
         end
       end
     end
   end
 
-  TopicView.default_post_custom_fields << DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD
+  TopicView.default_post_custom_fields << DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD
 
   require_dependency "post_serializer"
   class ::PostSerializer
@@ -119,19 +118,19 @@ after_initialize do
 
     def calendar_details
       return nil unless object.is_first_post?
-      details = post_custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
+      details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
 
       Array(details).map do |post_number, detail|
         detail = Array(detail)
 
         event = {
           post_number: post_number,
-          message: detail[DiscourseSimpleCalendar::MESSAGE_INDEX],
-          username: detail[DiscourseSimpleCalendar::USERNAME_INDEX],
-          from: detail[DiscourseSimpleCalendar::FROM_INDEX]
+          message: detail[DiscourseCalendar::MESSAGE_INDEX],
+          username: detail[DiscourseCalendar::USERNAME_INDEX],
+          from: detail[DiscourseCalendar::FROM_INDEX]
         }
 
-        if to = detail[DiscourseSimpleCalendar::TO_INDEX]
+        if to = detail[DiscourseCalendar::TO_INDEX]
           event[:to] = to
         end
 
@@ -141,7 +140,7 @@ after_initialize do
   end
 
   add_to_serializer(:site, :users_on_holiday) do
-    DiscourseSimpleCalendar.users_on_holiday
+    DiscourseCalendar.users_on_holiday
   end
 
   add_to_serializer(:site, 'include_users_on_holiday?') do

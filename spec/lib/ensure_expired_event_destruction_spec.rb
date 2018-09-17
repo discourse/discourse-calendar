@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DiscourseSimpleCalendar::EventUpdater do
+describe DiscourseCalendar::EventUpdater do
   before do
     SiteSetting.queue_jobs = false
   end
@@ -25,13 +25,13 @@ describe DiscourseSimpleCalendar::EventUpdater do
     post_number = post.post_number.to_s
 
     expect(post.deleted_at).to be_nil
-    expect(op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_present
+    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_present
 
-    DiscourseSimpleCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
+    DiscourseCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     post.reload
     op.reload
 
     expect(post.deleted_at).to be_present
-    expect(op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_nil
+    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_nil
   end
 end

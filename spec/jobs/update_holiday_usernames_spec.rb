@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DiscourseSimpleCalendar::UpdateHolidayUsernames do
+describe DiscourseCalendar::UpdateHolidayUsernames do
   before do
     SiteSetting.queue_jobs = false
 
@@ -20,9 +20,9 @@ describe DiscourseSimpleCalendar::UpdateHolidayUsernames do
     CookedPostProcessor.new(post).post_process
 
     freeze_time Time.strptime("2018-06-05 18:40:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
-    DiscourseSimpleCalendar::UpdateHolidayUsernames.new.execute(nil)
+    DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
-    expect(DiscourseSimpleCalendar.users_on_holiday).to eq([post.user.username])
+    expect(DiscourseCalendar.users_on_holiday).to eq([post.user.username])
   end
 
   it "should have empty users on holiday list" do
@@ -33,8 +33,8 @@ describe DiscourseSimpleCalendar::UpdateHolidayUsernames do
     CookedPostProcessor.new(post).post_process
 
     freeze_time Time.strptime("2018-06-07 18:40:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
-    DiscourseSimpleCalendar::UpdateHolidayUsernames.new.execute(nil)
+    DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
-    expect(DiscourseSimpleCalendar.users_on_holiday).to eq([])
+    expect(DiscourseCalendar.users_on_holiday).to eq([])
   end
 end

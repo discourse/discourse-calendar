@@ -1,4 +1,4 @@
-module DiscourseSimpleCalendar
+module DiscourseCalendar
   class EventUpdater
     def self.update(post)
       op = post.topic.first_post
@@ -6,7 +6,7 @@ module DiscourseSimpleCalendar
 
       # if we don’t have any date it's not an event anymore
       if dates.empty?
-        DiscourseSimpleCalendar::EventDestroyer.destroy(op, post.post_number.to_s)
+        DiscourseCalendar::EventDestroyer.destroy(op, post.post_number.to_s)
         op.publish_change_to_clients!(:calendar_change)
         return
       end
@@ -30,13 +30,13 @@ module DiscourseSimpleCalendar
 
       post_number = post.post_number.to_s
 
-      current_details = op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
+      current_details = op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
 
       detail = []
-      detail[DiscourseSimpleCalendar::MESSAGE_INDEX] = post.excerpt(15, strip_links: true, text_entities: true).tr("\n", " ")
-      detail[DiscourseSimpleCalendar::USERNAME_INDEX] = post.user.username_lower
-      detail[DiscourseSimpleCalendar::FROM_INDEX] = from.iso8601.to_s
-      detail[DiscourseSimpleCalendar::TO_INDEX] = to.iso8601.to_s if to
+      detail[DiscourseCalendar::MESSAGE_INDEX] = post.excerpt(15, strip_links: true, text_entities: true).tr("\n", " ")
+      detail[DiscourseCalendar::USERNAME_INDEX] = post.user.username_lower
+      detail[DiscourseCalendar::FROM_INDEX] = from.iso8601.to_s
+      detail[DiscourseCalendar::TO_INDEX] = to.iso8601.to_s if to
 
       # investigate why sometimes it has been saved as an array
       if current_details.kind_of?(Array)
@@ -44,7 +44,7 @@ module DiscourseSimpleCalendar
       end
       current_details[post_number] = detail
 
-      op.custom_fields[DiscourseSimpleCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = current_details
+      op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = current_details
       op.save_custom_fields(true)
       op.publish_change_to_clients!(:calendar_change)
     end

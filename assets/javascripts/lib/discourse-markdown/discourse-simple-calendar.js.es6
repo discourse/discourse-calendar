@@ -28,10 +28,10 @@ export function setup(helper) {
   ]);
 
   helper.registerOptions((opts, siteSettings) => {
-    opts.features.discourse_simple_calendar = !!siteSettings.discourse_simple_calendar_enabled;
+    opts.features.calendar_enabled = !!siteSettings.calendar_enabled;
   });
 
   helper.registerPlugin(md => {
-    md.block.bbcode.ruler.push("discourse-simple-calendar", calendarRule);
+    md.block.bbcode.ruler.push("discourse-calendar", calendarRule);
   });
 }

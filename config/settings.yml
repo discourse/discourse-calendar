@@ -1,5 +1,5 @@
 plugins:
-  discourse_simple_calendar_enabled:
+  calendar_enabled:
     default: true
     client: true
   holiday_calendar_topic_id:

@@ -1,6 +1,6 @@
-module ::DiscourseSimpleCalendar
+module ::DiscourseCalendar
   class Engine < ::Rails::Engine
-    engine_name DiscourseSimpleCalendar::PLUGIN_NAME
-    isolate_namespace DiscourseSimpleCalendar
+    engine_name DiscourseCalendar::PLUGIN_NAME
+    isolate_namespace DiscourseCalendar
   end
 end
