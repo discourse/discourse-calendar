@@ -34,7 +34,7 @@ function initializeDiscourseCalendar(api) {
 
   function render($calendar, post) {
     loadScript(
-      "/plugins/discourse-simple-calendar/javascripts/fullcalendar.min.js"
+      "/plugins/discourse-calendar/javascripts/fullcalendar.min.js"
     ).then(() => {
       let events = [];
 
@@ -178,7 +178,7 @@ export default {
 
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
-    if (siteSettings.discourse_simple_calendar_enabled) {
+    if (siteSettings.calendar_enabled) {
       withPluginApi("0.8.22", initializeDiscourseCalendar);
     }
   }
