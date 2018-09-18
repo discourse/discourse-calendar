@@ -109,8 +109,7 @@ function initializeDiscourseCalendar(api) {
           let event = {
             title: `${detail.username}: ${detail.message}`,
             color: stringToHexColor(detail.username),
-            postNumber: parseInt(detail.post_number, 10),
-            allDay: true
+            postNumber: parseInt(detail.post_number, 10)
           };
 
           if (detail.to) {
@@ -129,6 +128,9 @@ function initializeDiscourseCalendar(api) {
 
         $calendar.fullCalendar({
           height: 700,
+          timezone: 'local',
+          nextDayThreshold: "00:00:00",
+          displayEventEnd : true,
           firstDay: 1,
           views: {
             listNextYear: {
