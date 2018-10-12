@@ -2,6 +2,7 @@
 # about: Display a calendar in the first post of a topic
 # version: 0.1
 # author: Joffrey Jaffeux
+# url: https://github.com/discourse/discourse-calendar
 
 enabled_site_setting :calendar_enabled
 
