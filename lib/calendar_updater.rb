@@ -1,12 +1,12 @@
 module DiscourseCalendar
   class CalendarUpdater
     def self.update(post)
-      details = post.calendar_details || {}
+      calendar = post.calendar || {}
 
-      post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] = details.delete("type") || "dynamic"
+      post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] = calendar.delete("type") || "dynamic"
 
       unless post.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD].present?
-        post.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = {}
+        post.calendar_details = {}
       end
 
       post.save_custom_fields

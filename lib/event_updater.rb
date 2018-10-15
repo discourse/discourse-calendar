@@ -28,23 +28,18 @@ module DiscourseCalendar
         end
       end
 
-      post_number = post.post_number.to_s
-
-      current_details = op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
+      html = post.cooked
+      doc = Nokogiri::HTML::fragment(html)
+      doc.css(".discourse-local-date").each { |span| span.remove }
+      html = doc.try(:to_html) || html
 
       detail = []
-      detail[DiscourseCalendar::MESSAGE_INDEX] = post.excerpt(15, strip_links: true, text_entities: true).tr("\n", " ")
+      detail[DiscourseCalendar::MESSAGE_INDEX] = PrettyText.excerpt(html, 30, strip_links: true, text_entities: true).tr("\n", " ")
       detail[DiscourseCalendar::USERNAME_INDEX] = post.user.username_lower
       detail[DiscourseCalendar::FROM_INDEX] = from.iso8601.to_s
       detail[DiscourseCalendar::TO_INDEX] = to.iso8601.to_s if to
 
-      # investigate why sometimes it has been saved as an array
-      if current_details.kind_of?(Array)
-        current_details = current_details[0]
-      end
-      current_details[post_number] = detail
-
-      op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = current_details
+      op.set_calendar_detail(post.post_number, detail)
       op.save_custom_fields(true)
       op.publish_change_to_clients!(:calendar_change)
     end
