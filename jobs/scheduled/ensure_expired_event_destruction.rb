@@ -17,6 +17,7 @@ module Jobs
             to_time += 24.hours unless detail[::DiscourseCalendar::TO_INDEX] # Add 24 hours if no explicit 'to' time
 
             if (to_time + 1.hour) < Time.now.utc
+              topic = pcf.post.topic
               post = topic.posts.find_by(post_number: post_number)
 
               if post
