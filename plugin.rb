@@ -82,13 +82,11 @@ after_initialize do
     validator = DiscourseCalendar::CalendarValidator.new(self)
     calendar = validator.validate_calendar
 
-    if calendar && calendar["type"] == "static"
-      return
-    end
-
     if calendar
+      return if calendar["type"] == "static"
+
       self.calendar = calendar
-    else
+    elsif custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD].present?
       DistributedMutex.synchronize("#{PLUGIN_NAME}-#{self.id}") do
         DiscourseCalendar::CalendarDestroyer.destroy(self)
         self.publish_change_to_clients!(:calendar_change)
