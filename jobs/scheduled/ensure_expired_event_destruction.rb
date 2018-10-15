@@ -17,10 +17,7 @@ module Jobs
             to_time += 24.hours unless detail[::DiscourseCalendar::TO_INDEX] # Add 24 hours if no explicit 'to' time
 
             if (to_time + 1.hour) < Time.now.utc
-              op = pcf.post
-              topic = op.topic
               post = topic.posts.find_by(post_number: post_number)
-              DiscourseCalendar::EventDestroyer.destroy(op, post_number.to_s)
 
               if post
                 PostDestroyer.new(Discourse.system_user, post).destroy
