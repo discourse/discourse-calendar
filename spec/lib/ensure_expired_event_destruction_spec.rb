@@ -25,13 +25,13 @@ describe DiscourseCalendar::EventUpdater do
     post_number = post.post_number.to_s
 
     expect(post.deleted_at).to be_nil
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_present
+    expect(op.calendar_details[post_number]).to be_present
 
     DiscourseCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     post.reload
     op.reload
 
     expect(post.deleted_at).to be_present
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post_number]).to be_nil
+    expect(op.calendar_details[post_number]).to be_nil
   end
 end

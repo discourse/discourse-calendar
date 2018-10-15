@@ -87,7 +87,7 @@ after_initialize do
     end
 
     if calendar
-      self.calendar_details = calendar
+      self.calendar = calendar
     else
       DistributedMutex.synchronize("#{PLUGIN_NAME}-#{self.id}") do
         DiscourseCalendar::CalendarDestroyer.destroy(self)
@@ -99,10 +99,26 @@ after_initialize do
   end
 
   Post.class_eval do
-    attr_accessor :calendar_details
+    attr_accessor :calendar
+
+    def calendar_details
+      details = custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
+      details = details[0] if details.kind_of?(Array) # investigate why sometimes it has been saved as an array
+      details
+    end
+
+    def calendar_details=(val)
+      custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = val
+    end
+
+    def set_calendar_detail(post_number, detail)
+      details = self.calendar_details
+      details[post_number.to_s] = detail
+      self.calendar_details = details
+    end
 
     after_save do
-      if self.calendar_details
+      if self.calendar
         DistributedMutex.synchronize("#{PLUGIN_NAME}-#{self.id}") do
           DiscourseCalendar::CalendarUpdater.update(self)
           self.publish_change_to_clients!(:calendar_change)

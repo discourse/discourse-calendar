@@ -11,8 +11,7 @@ describe DiscourseCalendar::EnsuredExpiredEventDestruction do
     topic = Fabricate(:topic, first_post: create_post(raw: raw))
     @op = topic.first_post
 
-    details = @op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
-    expect(details).to eq({})
+    expect(@op.calendar_details).to eq({})
 
     raw = <<~MD
       Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="11:20:00"]
@@ -27,7 +26,7 @@ describe DiscourseCalendar::EnsuredExpiredEventDestruction do
     DiscourseCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     @op.reload
 
-    expect(@op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][@post.post_number.to_s]).to eq([
+    expect(@op.calendar_details[@post.post_number.to_s]).to eq([
       "Rome  to", "2018-06-05T10:20:00Z", "2018-06-06T11:20:00Z", @post.user.username_lower
     ])
 
@@ -35,6 +34,6 @@ describe DiscourseCalendar::EnsuredExpiredEventDestruction do
     DiscourseCalendar::EnsuredExpiredEventDestruction.new.execute(nil)
     @op.reload
 
-    expect(@op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][@post.post_number.to_s]).to be_nil
+    expect(@op.calendar_details[@post.post_number.to_s]).to be_nil
   end
 end

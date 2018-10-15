@@ -13,8 +13,7 @@ describe DiscourseCalendar::EventUpdater do
     topic = Fabricate(:topic, first_post: create_post(raw: raw))
     op = topic.first_post
 
-    details = op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
-    expect(details).to eq({})
+    expect(op.calendar_details).to eq({})
 
     raw = <<~MD
       Rome [date="2018-06-05" time="10:20:00"]
@@ -25,9 +24,8 @@ describe DiscourseCalendar::EventUpdater do
 
     op.reload
 
-    details = op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
     expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]).to eq({
+    expect(op.calendar_details).to eq({
       post.post_number.to_s => [
         "Rome", "2018-06-05T10:20:00Z", nil, post.user.username_lower
       ]
@@ -51,7 +49,7 @@ describe DiscourseCalendar::EventUpdater do
 
     op.reload
 
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]).to be_present
+    expect(op.calendar_details[post.post_number.to_s]).to be_present
 
     post.raw = "Not sure about the dates anymore"
     post.save
@@ -59,7 +57,7 @@ describe DiscourseCalendar::EventUpdater do
 
     op.reload
 
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]).not_to be_present
+    expect(op.calendar_details[post.post_number.to_s]).not_to be_present
   end
 
   it "will work with no time date" do
@@ -79,7 +77,7 @@ describe DiscourseCalendar::EventUpdater do
 
     op.reload
 
-    detail = op.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD][post.post_number.to_s]
+    detail = op.calendar_details[post.post_number.to_s]
     expect(detail[DiscourseCalendar::FROM_INDEX]).to eq("2018-06-05T00:00:00Z")
     expect(detail[DiscourseCalendar::TO_INDEX]).to eq("2018-06-11T23:59:59Z")
   end

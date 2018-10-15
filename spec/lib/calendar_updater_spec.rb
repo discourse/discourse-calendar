@@ -13,9 +13,9 @@ describe DiscourseCalendar::CalendarUpdater do
     DiscourseCalendar::CalendarUpdater.update(post)
 
     expect(post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
-    expect(post.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]).to eq({})
+    expect(post.calendar_details).to eq({})
 
-    post.calendar_details = { "type" => "static" }
+    post.calendar = { "type" => "static" }
 
     DiscourseCalendar::CalendarUpdater.update(post)
 
