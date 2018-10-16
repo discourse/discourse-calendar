@@ -81,4 +81,26 @@ describe DiscourseCalendar::EventUpdater do
     expect(detail[DiscourseCalendar::FROM_INDEX]).to eq("2018-06-05T00:00:00Z")
     expect(detail[DiscourseCalendar::TO_INDEX]).to eq("2018-06-11T23:59:59Z")
   end
+
+  it "will work with timezone" do
+    raw = <<~MD
+      [calendar]
+      [/calendar]
+    MD
+    topic = Fabricate(:topic, first_post: create_post(raw: raw))
+
+    op = topic.first_post
+
+    raw = <<~MD
+      Rome [date="2018-06-05" timezone="Europe/Paris"] [date="2018-06-11" time="13:45:33" timezone="America/Los_Angeles"]
+    MD
+    post = create_post(raw: raw, topic: topic)
+    CookedPostProcessor.new(post).post_process
+
+    op.reload
+
+    detail = op.calendar_details[post.post_number.to_s]
+    expect(detail[DiscourseCalendar::FROM_INDEX]).to eq("2018-06-05T00:00:00+02:00")
+    expect(detail[DiscourseCalendar::TO_INDEX]).to eq("2018-06-11T13:45:33-07:00")
+  end
 end

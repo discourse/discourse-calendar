@@ -11,21 +11,12 @@ module DiscourseCalendar
         return
       end
 
-      first_date = dates[0]
-      if first_date['time']
-        from = Time.strptime("#{first_date['date']} #{first_date['time']} UTC", "%Y-%m-%d %H:%M:%S %Z")
-      else
-        from = Time.strptime("#{first_date['date']} UTC", "%Y-%m-%d %Z").beginning_of_day
-      end
+      from = toDateTime(dates[0])
+      from = from.beginning_of_day unless dates[0]['time']
 
       if dates.count == 2
-        second_date = dates[1]
-
-        if second_date['time']
-          to = Time.strptime("#{second_date['date']} #{second_date['time']} UTC", "%Y-%m-%d %H:%M:%S %Z")
-        else
-          to = Time.strptime("#{second_date['date']} UTC", "%Y-%m-%d %Z").end_of_day
-        end
+        to = toDateTime(dates[1])
+        to = to.end_of_day unless dates[1]['time']
       end
 
       html = post.cooked
@@ -42,6 +33,16 @@ module DiscourseCalendar
       op.set_calendar_detail(post.post_number, detail)
       op.save_custom_fields(true)
       op.publish_change_to_clients!(:calendar_change)
+    end
+
+    def self.toDateTime(value)
+      timezone = value["timezone"] || "UTC"
+
+      if value['time']
+        ActiveSupport::TimeZone[timezone].parse("#{value['date']} #{value['time']}")
+      else
+        ActiveSupport::TimeZone[timezone].parse(value['date'].to_s)
+      end
     end
   end
 end
