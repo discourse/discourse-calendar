@@ -128,9 +128,9 @@ function initializeDiscourseCalendar(api) {
 
         $calendar.fullCalendar({
           height: 700,
-          timezone: 'local',
+          timezone: "local",
           nextDayThreshold: "00:00:00",
-          displayEventEnd : true,
+          displayEventEnd: true,
           firstDay: 1,
           views: {
             listNextYear: {
@@ -154,11 +154,15 @@ function initializeDiscourseCalendar(api) {
       }
 
       if (skipWeekends) {
-        $calendar.fullCalendar('option', 'weekends', false);
+        $calendar.fullCalendar("option", "weekends", false);
       }
 
       if (hiddenDays) {
-        $calendar.fullCalendar('option', 'hiddenDays', hiddenDays.split(",").map(d => parseInt(d)));
+        $calendar.fullCalendar(
+          "option",
+          "hiddenDays",
+          hiddenDays.split(",").map(d => parseInt(d))
+        );
       }
     });
   }

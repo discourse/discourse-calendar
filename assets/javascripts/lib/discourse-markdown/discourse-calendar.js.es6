@@ -16,7 +16,7 @@ const calendarRule = {
     }
 
     return true;
-  },
+  }
 };
 
 export function setup(helper) {
