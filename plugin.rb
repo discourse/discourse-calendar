@@ -77,8 +77,8 @@ after_initialize do
   end
 
   on(:post_destroyed) do |post, _, _|
-    op = post.topic.first_post
-    DiscourseCalendar::EventDestroyer.destroy(op, post.post_number.to_s) if op.calendar_details.present?
+    op = post.topic&.first_post
+    DiscourseCalendar::EventDestroyer.destroy(op, post.post_number.to_s) if op&.calendar_details.present?
   end
 
   validate(:post, :validate_calendar) do |force = nil|
