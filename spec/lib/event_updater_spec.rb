@@ -25,11 +25,11 @@ describe DiscourseCalendar::EventUpdater do
     op.reload
 
     expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
-    expect(op.calendar_details).to eq({
+    expect(op.calendar_details).to eq(
       post.post_number.to_s => [
         "Rome", "2018-06-05T10:20:00Z", nil, post.user.username_lower
       ]
-    })
+    )
   end
 
   it "will correctly remove the event if post doesn’t contain dates anymore" do

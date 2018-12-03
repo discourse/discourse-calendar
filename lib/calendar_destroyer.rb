@@ -7,7 +7,7 @@ module DiscourseCalendar
       ]
 
       PostCustomField.where(post_id: post.id, name: fields)
-                     .delete_all
+        .delete_all
     end
   end
 end
