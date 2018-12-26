@@ -61,6 +61,18 @@
       }
     }
   }
+
+  .fc-event,
+  .fc-event-dot {
+    background-color: $tertiary;
+    border: 1px solid transparent;
+  }
+
+  .fc-left {
+    .fc-button-group:first-child {
+      margin-left: 0;
+    }
+  }
 }
 
 .mention .d-icon {

@@ -4,6 +4,8 @@ import { minimumOffset } from "discourse/lib/offset-calculator";
 import { ajax } from "discourse/lib/ajax";
 
 // https://stackoverflow.com/a/16348977
+/* eslint-disable */
+// prettier-ignore
 function stringToHexColor(str) {
   var hash = 0;
   for (var i = 0; i < str.length; i++) {
@@ -18,7 +20,9 @@ function stringToHexColor(str) {
 }
 
 function initializeDiscourseCalendar(api) {
-  function calendarChanged(topicsController, message) {
+  api.decorateCooked(attachCalendar, { onlyStream: true });
+
+  function calendarChanged(topicsController) {
     const stream = topicsController.get("model.postStream");
     const post = stream.findLoadedPost(stream.get("firstPostId"));
     const $op = $(".topic-post article#post_1");
@@ -26,145 +30,37 @@ function initializeDiscourseCalendar(api) {
 
     if (post && $calendar.length > 0) {
       ajax(`/posts/${post.id}.json`).then(data => {
-        render($calendar, data);
+        render($calendar, data, true);
       });
     }
   }
   api.registerCustomPostMessageCallback("calendar_change", calendarChanged);
 
-  function render($calendar, post) {
-    loadScript(
-      "/plugins/discourse-calendar/javascripts/fullcalendar.min.js"
-    ).then(() => {
-      let events = [];
+  function render($calendar, post, force = false) {
+    if (!force && $calendar.hasClass("fc")) {
+      return;
+    }
 
-      const isStatic = $calendar.attr("data-calendar-type") === "static";
-      const skipWeekends = $calendar.attr("data-weekends") === "false";
-      const hiddenDays = $calendar.attr("data-hidden-days");
+    $calendar = $calendar
+      .empty()
+      .html(
+        '<div class="calendar" data-calendar-type="' +
+          $calendar.attr("data-calendar-type") +
+          '"></div>'
+      );
 
-      if (isStatic) {
-        if ($calendar.hasClass("fc")) {
-          return;
-        }
+    const calendar = _buildCalendar($calendar);
 
-        $calendar
-          .find("p")
-          .html()
-          .trim()
-          .split("<br>")
-          .forEach(line => {
-            let event = { allDay: true };
-            const html = $.parseHTML(line);
-            const htmlDates = html.filter(
-              h => h.className === "discourse-local-date cooked"
-            );
-            event.title = html[0].textContent.trim();
+    const isStatic = $calendar.attr("data-calendar-type") === "static";
 
-            const fromHtml = $(htmlDates[0]);
-            if (fromHtml) {
-              const date = fromHtml.attr("data-date");
-              const time =
-                fromHtml.attr("data-time") === "undefined"
-                  ? null
-                  : fromHtml.attr("data-time");
-
-              if (date && time) {
-                event.start = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm");
-              } else if (date) {
-                event.start = moment(date, "YYYY-MM-DD");
-              }
-            }
-
-            const toHtml = $(htmlDates[1]);
-            if (toHtml) {
-              const date = toHtml.attr("data-date");
-              const time =
-                toHtml.attr("data-time") === "undefined"
-                  ? null
-                  : toHtml.attr("data-time");
-
-              if (date && time) {
-                event.end = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm");
-              } else if (date) {
-                event.end = moment(date, "YYYY-MM-DD");
-              }
-            } else {
-              event.start = event.start.startOf("day");
-              event.end = event.start.endOf("day");
-            }
-
-            events.push(event);
-          });
-
-        $calendar.empty();
-
-        $calendar.fullCalendar({
-          height: 700,
-          events
-        });
-      }
-
-      if (!isStatic) {
-        events = post.calendar_details.map(detail => {
-          let event = {
-            title: `${detail.username}: ${detail.message}`,
-            color: stringToHexColor(detail.username),
-            postNumber: parseInt(detail.post_number, 10)
-          };
-
-          if (detail.to) {
-            event.start = moment(detail.from);
-            event.end = moment(detail.to);
-          } else {
-            event.start = moment(detail.from).format("YYYY-MM-DD");
-          }
-
-          return event;
-        });
-
-        if ($calendar.hasClass("fc")) {
-          $calendar.fullCalendar("destroy");
-        }
-
-        $calendar.fullCalendar({
-          height: 700,
-          timezone: "local",
-          nextDayThreshold: "00:00:00",
-          displayEventEnd: true,
-          firstDay: 1,
-          views: {
-            listNextYear: {
-              type: "list",
-              duration: { days: 365 },
-              buttonText: "list",
-              listDayFormat: "dddd, MMMM Do YYYY"
-            }
-          },
-          header: {
-            left: "prev,next today",
-            center: "title",
-            right: "month,basicWeek,listNextYear"
-          },
-          eventClick: (calEvent, jsEvent, view) => {
-            const $post = $(`.topic-post article#post_${calEvent.postNumber}`);
-            $(window).scrollTop($post.offset().top - minimumOffset());
-          },
-          events
-        });
-      }
-
-      if (skipWeekends) {
-        $calendar.fullCalendar("option", "weekends", false);
-      }
-
-      if (hiddenDays) {
-        $calendar.fullCalendar(
-          "option",
-          "hiddenDays",
-          hiddenDays.split(",").map(d => parseInt(d))
-        );
-      }
-    });
+    if (isStatic) {
+      calendar.render();
+      _setStaticCalendarEvents(calendar, $calendar, post);
+    } else {
+      _setDynamicCalendarEvents(calendar, post);
+      calendar.render();
+      _setDynamicCalendarOptions(calendar, $calendar);
+    }
   }
 
   function attachCalendar($elem, helper) {
@@ -174,9 +70,174 @@ function initializeDiscourseCalendar(api) {
       return;
     }
 
-    render($calendar, helper.getModel());
+    loadScript(
+      "/plugins/discourse-calendar/javascripts/fullcalendar.min.js"
+    ).then(() => render($calendar, helper.getModel()));
   }
-  api.decorateCooked(attachCalendar, { onlyStream: true });
+
+  function _buildCalendar($calendar) {
+    return new window.FullCalendar.Calendar($calendar[0], {
+      timeZone: moment.tz.guess(),
+      timeZoneImpl: "moment-timezone",
+      nextDayThreshold: "23:59:59",
+      displayEventEnd: true,
+      height: 700,
+      firstDay: 1,
+      views: {
+        listNextYear: {
+          type: "list",
+          duration: { days: 365 },
+          buttonText: "list",
+          listDayFormat: {
+            month: "long",
+            year: "numeric",
+            day: "numeric",
+            weekday: "long"
+          }
+        }
+      },
+      header: {
+        left: "prev,next today",
+        center: "title",
+        right: "month,basicWeek,listNextYear"
+      }
+    });
+  }
+
+  function _convertHtmlToDate(html) {
+    const date = html.attr("data-date");
+
+    if (!date) {
+      return null;
+    }
+
+    const time = html.attr("data-time");
+    const timezone = html.attr("data-timezone");
+    let dateTime = date;
+    if (time) {
+      dateTime = `${dateTime} ${time}`;
+    }
+
+    return {
+      weeklyRecurring: html.attr("data-recurring") === "1.weeks",
+      dateTime: moment.tz(dateTime, timezone || "Etc/UTC")
+    };
+  }
+
+  function _buildEventObject(from, to) {
+    const hasTimeSpecified = d => {
+      return d.hours() !== 0 || d.minutes() !== 0 || d.seconds() !== 0;
+    };
+
+    let event = {
+      start: from.dateTime.toDate(),
+      allDay: true
+    };
+
+    if (from && !to) {
+      if (hasTimeSpecified(from.dateTime)) {
+        event.allDay = false;
+      }
+
+      if (from.weeklyRecurring) {
+        event.startTime = {
+          hours: from.dateTime.hours(),
+          minutes: from.dateTime.minutes(),
+          seconds: from.dateTime.seconds()
+        };
+
+        event.daysOfWeek = [from.dateTime.isoWeekday()];
+      }
+    }
+
+    if (from && to) {
+      if (hasTimeSpecified(from.dateTime) && hasTimeSpecified(to.dateTime)) {
+        event.end = to.dateTime.toDate();
+        event.allDay = false;
+      } else {
+        event.end = to.dateTime.add(1, "days").toDate();
+      }
+    }
+
+    return event;
+  }
+
+  function _setStaticCalendarEvents(calendar, $calendar, post) {
+    $(`<div>${post.cooked}</div>`)
+      .find('.calendar[data-calendar-type="static"] p')
+      .html()
+      .trim()
+      .split("<br>")
+      .forEach(line => {
+        const html = $.parseHTML(line);
+        const htmlDates = html.filter(h =>
+          $(h).hasClass("discourse-local-date")
+        );
+
+        const from = _convertHtmlToDate($(htmlDates[0]));
+        const to = _convertHtmlToDate($(htmlDates[1]));
+
+        let event = _buildEventObject(from, to);
+        event.title = html[0].textContent.trim();
+        calendar.addEvent(event);
+      });
+  }
+
+  function _setDynamicCalendarOptions(calendar, $calendar) {
+    const skipWeekends = $calendar.attr("data-weekends") === "false";
+    const hiddenDays = $calendar.attr("data-hidden-days");
+
+    if (skipWeekends) {
+      calendar.setOption("weekends", false);
+    }
+
+    if (hiddenDays) {
+      calendar.setOption(
+        "hiddenDays",
+        hiddenDays.split(",").map(d => parseInt(d))
+      );
+    }
+
+    calendar.setOption("eventClick", calEvent => {
+      const postNumber = calEvent.event.extendedProps.postNumber;
+      const $post = $(`.topic-post article#post_${postNumber}`);
+      $(window).scrollTop($post.offset().top - minimumOffset());
+    });
+  }
+
+  function _setDynamicCalendarEvents(calendar, post) {
+    post.calendar_details.forEach(detail => {
+      let event = _buildEventObject(
+        detail.from
+          ? {
+              dateTime: moment(detail.from),
+              weeklyRecurring: detail.recurring === "1.weeks"
+            }
+          : null,
+        detail.to
+          ? {
+              dateTime: moment(detail.to),
+              weeklyRecurring: detail.recurring === "1.weeks"
+            }
+          : null
+      );
+
+      const excerpt = detail.message.split("\n").filter(e => e);
+
+      if (excerpt.length) {
+        event.title = excerpt[0];
+      } else {
+        event.title = detail.username;
+      }
+
+      event.backgroundColor = stringToHexColor(detail.username);
+      event.extendedProps = {
+        postNumber: parseInt(detail.post_number, 10)
+      };
+
+      calendar.addEvent(event);
+    });
+  }
 }
 
 export default {
