@@ -50,7 +50,6 @@ function initializeDiscourseCalendar(api) {
       );
 
     const calendar = _buildCalendar($calendar);
-
     const isStatic = $calendar.attr("data-calendar-type") === "static";
 
     if (isStatic) {
@@ -228,9 +227,9 @@ function initializeDiscourseCalendar(api) {
         event.title = excerpt[0];
       } else {
         event.title = detail.username;
+        event.backgroundColor = stringToHexColor(detail.username);
       }
 
-      event.backgroundColor = stringToHexColor(detail.username);
       event.extendedProps = {
         postNumber: parseInt(detail.post_number, 10)
       };
