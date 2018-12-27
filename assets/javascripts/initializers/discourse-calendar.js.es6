@@ -31,7 +31,7 @@ function initializeDiscourseCalendar(api) {
     if (post && $calendar.length > 0) {
       ajax(`/posts/${post.id}.json`).then(data => {
         loadScript(
-          "/plugins/discourse-calendar/javascripts/fullcalendar.min.js"
+          "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
         ).then(() => render($calendar, data));
       });
     }
@@ -68,7 +68,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     loadScript(
-      "/plugins/discourse-calendar/javascripts/fullcalendar.min.js"
+      "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
     ).then(() => render($calendar, helper.getModel()));
   }
 
