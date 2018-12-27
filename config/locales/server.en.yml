@@ -2,3 +2,7 @@ en:
   site_settings:
     calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
     holiday_calendar_topic_id: "Topic ID of staffs holiday / absence calendar."
+  discourse_calendar:
+    calendar_must_be_in_first_post: "Calendar tag can only be used in first post of a topic."
+    more_than_one_calendar: "You can’t have more than one calendar in a post."
+    more_than_two_dates: "A post of a calendar topic can’t contain more than two dates."

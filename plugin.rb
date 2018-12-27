@@ -24,6 +24,7 @@ after_initialize do
     FROM_INDEX = 1
     TO_INDEX = 2
     USERNAME_INDEX = 3
+    RECURRING_INDEX = 4
 
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
@@ -48,8 +49,8 @@ after_initialize do
 
   class DiscourseCalendar::Calendar
     class << self
-      def extract(raw, topic_id, user_id = nil)
-        cooked = PrettyText.cook(raw, topic_id: topic_id, user_id: user_id)
+      def extract(post)
+        cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
 
         Nokogiri::HTML(cooked).css('div.calendar').map do |cooked_calendar|
           calendar = {}
@@ -66,39 +67,46 @@ after_initialize do
     end
   end
 
-  on(:post_process_cooked) do |doc, post|
-    validator = DiscourseCalendar::EventValidator.new(post)
-
-    if validator.validate_event
-      DistributedMutex.synchronize("#{PLUGIN_NAME}-#{post.id}") do
-        DiscourseCalendar::EventUpdater.update(post)
+  class DiscourseCalendar::Event
+    class << self
+      def count(post)
+        cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
+        Nokogiri::HTML(cooked).css('span.discourse-local-date').count
       end
     end
   end
 
+  on(:post_process_cooked) do |doc, post|
+    DistributedMutex.synchronize("#{PLUGIN_NAME}-#{post.id}") do
+      DiscourseCalendar::EventUpdater.update(post)
+    end
+  end
+
+  on(:post_recovered) do |post, _, _|
+    DistributedMutex.synchronize("#{PLUGIN_NAME}-#{post.id}") do
+      DiscourseCalendar::EventUpdater.update(post)
+    end
+  end
+
   on(:post_destroyed) do |post, _, _|
-    op = post.topic&.first_post
-    DiscourseCalendar::EventDestroyer.destroy(op, post.post_number.to_s) if op&.calendar_details.present?
+    DistributedMutex.synchronize("#{PLUGIN_NAME}-#{post.id}") do
+      DiscourseCalendar::EventDestroyer.destroy(post)
+    end
+  end
+
+  validate(:post, :validate_post) do |force = nil|
+    return unless self.raw_changed? || force
+    return if self.is_first_post?
+
+    validator = DiscourseCalendar::EventValidator.new(self)
+    validator.validate_event
   end
 
   validate(:post, :validate_calendar) do |force = nil|
     return unless self.raw_changed? || force
 
     validator = DiscourseCalendar::CalendarValidator.new(self)
-    calendar = validator.validate_calendar
-
-    if calendar
-      return if calendar["type"] == "static"
-
-      self.calendar = calendar
-    elsif custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD].present?
-      DistributedMutex.synchronize("#{PLUGIN_NAME}-#{self.id}") do
-        DiscourseCalendar::CalendarDestroyer.destroy(self)
-        self.publish_change_to_clients!(:calendar_change)
-      end
-    end
-
-    true
+    self.calendar = validator.validate_calendar
   end
 
   Post.class_eval do
@@ -114,7 +122,7 @@ after_initialize do
       custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = val
     end
 
-    def set_calendar_detail(post_number, detail)
+    def set_calendar_event(post_number, detail)
       details = self.calendar_details
       details[post_number.to_s] = detail
       self.calendar_details = details
@@ -147,7 +155,8 @@ after_initialize do
           post_number: post_number,
           message: detail[DiscourseCalendar::MESSAGE_INDEX],
           username: detail[DiscourseCalendar::USERNAME_INDEX],
-          from: detail[DiscourseCalendar::FROM_INDEX]
+          from: detail[DiscourseCalendar::FROM_INDEX],
+          recurring: detail[DiscourseCalendar::RECURRING_INDEX]
         }
 
         if to = detail[DiscourseCalendar::TO_INDEX]
