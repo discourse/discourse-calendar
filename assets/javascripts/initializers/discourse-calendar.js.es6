@@ -30,17 +30,15 @@ function initializeDiscourseCalendar(api) {
 
     if (post && $calendar.length > 0) {
       ajax(`/posts/${post.id}.json`).then(data => {
-        render($calendar, data, true);
+        loadScript(
+          "/plugins/discourse-calendar/javascripts/fullcalendar.min.js"
+        ).then(() => render($calendar, data));
       });
     }
   }
   api.registerCustomPostMessageCallback("calendar_change", calendarChanged);
 
-  function render($calendar, post, force = false) {
-    if (!force && $calendar.hasClass("fc")) {
-      return;
-    }
-
+  function render($calendar, post) {
     $calendar = $calendar
       .empty()
       .html(
