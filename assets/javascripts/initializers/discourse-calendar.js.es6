@@ -39,13 +39,7 @@ function initializeDiscourseCalendar(api) {
   api.registerCustomPostMessageCallback("calendar_change", calendarChanged);
 
   function render($calendar, post) {
-    $calendar = $calendar
-      .empty()
-      .html(
-        '<div class="calendar" data-calendar-type="' +
-          $calendar.attr("data-calendar-type") +
-          '"></div>'
-      );
+    $calendar = $calendar.empty();
 
     const calendar = _buildCalendar($calendar);
     const isStatic = $calendar.attr("data-calendar-type") === "static";
@@ -78,7 +72,7 @@ function initializeDiscourseCalendar(api) {
       timeZoneImpl: "moment-timezone",
       nextDayThreshold: "23:59:59",
       displayEventEnd: true,
-      height: 700,
+      height: 650,
       firstDay: 1,
       views: {
         listNextYear: {
