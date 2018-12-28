@@ -4,3 +4,4 @@ plugins:
     client: true
   holiday_calendar_topic_id:
     default: ""
+    client: true

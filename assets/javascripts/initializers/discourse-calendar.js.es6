@@ -213,9 +213,12 @@ function initializeDiscourseCalendar(api) {
           : null
       );
 
+      const holidayCalendarTopicId = parseInt(
+        Discourse.SiteSettings.holiday_calendar_topic_id,
+        10
+      );
       const excerpt = detail.message.split("\n").filter(e => e);
-
-      if (excerpt.length) {
+      if (excerpt.length && (post.topic_id && holidayCalendarTopicId !== post.topic_id)) {
         event.title = excerpt[0];
       } else {
         event.title = detail.username;
