@@ -10,6 +10,8 @@ module Jobs
           details = JSON.parse(pcf.value)
 
           details.each do |post_number, detail|
+            return if detail[::DiscourseCalendar::RECURRING_INDEX]
+
             to = detail[::DiscourseCalendar::TO_INDEX] ||
                  detail[::DiscourseCalendar::FROM_INDEX]
 
