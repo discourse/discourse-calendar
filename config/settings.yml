@@ -1,6 +1,6 @@
 plugins:
   calendar_enabled:
-    default: true
+    default: false
     client: true
   holiday_calendar_topic_id:
     default: ""
