@@ -22,7 +22,7 @@ module Jobs
 
         details = JSON.parse(pcf.value)
         details.each do |post_number, (_, from, to, _, recurring)|
-          return if recurring
+          next if recurring
 
           to_time = to ? Time.parse(to) : Time.parse(from) + 24.hours
 
