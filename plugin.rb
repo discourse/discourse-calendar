@@ -20,12 +20,6 @@ after_initialize do
     HOLIDAY_CUSTOM_FIELD ||= "on_holiday"
     USERS_ON_HOLIDAY_KEY ||= "users_on_holiday"
 
-    MESSAGE_INDEX = 0
-    FROM_INDEX = 1
-    TO_INDEX = 2
-    USERNAME_INDEX = 3
-    RECURRING_INDEX = 4
-
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
@@ -50,9 +44,7 @@ after_initialize do
   class DiscourseCalendar::Calendar
     class << self
       def extract(post)
-        cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
-
-        Nokogiri::HTML(cooked).css('div.calendar').map do |cooked_calendar|
+        Nokogiri::HTML(post.cooked).css('div.calendar').map do |cooked_calendar|
           calendar = {}
 
           cooked_calendar.attributes.values.each do |attribute|
@@ -70,8 +62,7 @@ after_initialize do
   class DiscourseCalendar::Event
     class << self
       def count(post)
-        cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
-        Nokogiri::HTML(cooked).css('span.discourse-local-date').count
+        Nokogiri::HTML(post.cooked).css('span.discourse-local-date').count
       end
     end
   end
@@ -140,39 +131,25 @@ after_initialize do
 
   TopicView.default_post_custom_fields << DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD
 
-  require_dependency "post_serializer"
-  class ::PostSerializer
-    attributes :calendar_details
+  add_to_serializer(:post, :calendar_details) do
+    details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
 
-    def calendar_details
-      return nil unless object.is_first_post?
-      details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
-
-      Array(details).map do |post_number, detail|
-        detail = Array(detail)
-
-        event = {
-          post_number: post_number,
-          message: detail[DiscourseCalendar::MESSAGE_INDEX],
-          username: detail[DiscourseCalendar::USERNAME_INDEX],
-          from: detail[DiscourseCalendar::FROM_INDEX],
-          recurring: detail[DiscourseCalendar::RECURRING_INDEX]
-        }
-
-        if to = detail[DiscourseCalendar::TO_INDEX]
-          event[:to] = to
-        end
-
-        event
-      end
+    Array(details).map do |post_number, (message, from, to, username, recurring)|
+      {
+        post_number: post_number,
+        message: message,
+        from: from,
+        to: to,
+        username: username,
+        recurring: recurring,
+      }
     end
   end
 
-  add_to_serializer(:site, :users_on_holiday) do
-    DiscourseCalendar.users_on_holiday
+  add_to_serializer(:post, :include_calendar_details?) do
+    object.is_first_post? && object.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
   end
 
-  add_to_serializer(:site, 'include_users_on_holiday?') do
-    scope.is_staff?
-  end
+  add_to_serializer(:site, :users_on_holiday) { DiscourseCalendar.users_on_holiday }
+  add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
 end

@@ -20,15 +20,16 @@ module DiscourseCalendar
 
       html = post.cooked
       doc = Nokogiri::HTML::fragment(html)
-      doc.css(".discourse-local-date").each { |span| span.remove }
+      doc.css(".discourse-local-date").each(&:remove)
       html = (doc.try(:to_html) || html).sub(' → ', '')
 
-      detail = []
-      detail[DiscourseCalendar::MESSAGE_INDEX] = PrettyText.excerpt(html, 30, strip_links: true, text_entities: true)
-      detail[DiscourseCalendar::USERNAME_INDEX] = post.user.username_lower
-      detail[DiscourseCalendar::FROM_INDEX] = from.iso8601.to_s
-      detail[DiscourseCalendar::TO_INDEX] = to.iso8601.to_s if to
-      detail[DiscourseCalendar::RECURRING_INDEX] = dates[0]['recurring'] if dates[0]['recurring']
+      detail = [
+        PrettyText.excerpt(html, 30, strip_links: true, text_entities: true),
+        post.user.username_lower,
+        from.iso8601.to_s,
+        to ? to.iso8601.to_s : nil,
+        dates[0]["recurring"].presence
+      ]
 
       op.set_calendar_event(post.post_number, detail)
       op.save_custom_fields(true)

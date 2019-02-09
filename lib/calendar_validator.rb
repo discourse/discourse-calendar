@@ -7,9 +7,7 @@ module DiscourseCalendar
     def validate_calendar
       extracted_calendars = DiscourseCalendar::Calendar::extract(@post)
 
-      # if no calendar we do nothing
       return false if extracted_calendars.count == 0
-
       return false if more_than_one_calendar(extracted_calendars.count)
       return false if !calendar_in_first_post(@post.is_first_post?)
 
