@@ -25,9 +25,9 @@ module DiscourseCalendar
 
       detail = [
         PrettyText.excerpt(html, 30, strip_links: true, text_entities: true),
-        post.user.username_lower,
         from.iso8601.to_s,
         to ? to.iso8601.to_s : nil,
+        post.user.username_lower,
         dates[0]["recurring"].presence
       ]
 

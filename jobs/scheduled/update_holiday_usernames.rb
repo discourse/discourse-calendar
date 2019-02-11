@@ -12,7 +12,7 @@ module Jobs
       user_ids = []
       users_on_holiday = []
 
-      details.values.each do |(_, from, to, username)|
+      details.values.each do |_, from, to, username|
         from_time = Time.parse(from)
         to_time   = to ? Time.parse(to) : from_time + 24.hours
 
