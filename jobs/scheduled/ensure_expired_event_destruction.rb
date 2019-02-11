@@ -1,6 +1,6 @@
 module Jobs
   class ::DiscourseCalendar::EnsuredExpiredEventDestruction < Jobs::Scheduled
-    every 1.hour
+    every 10.minutes
 
     def execute(args)
       calendar_post_ids = PostCustomField

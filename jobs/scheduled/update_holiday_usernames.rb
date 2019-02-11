@@ -1,6 +1,6 @@
 module Jobs
   class ::DiscourseCalendar::UpdateHolidayUsernames < Jobs::Scheduled
-    every 1.hour
+    every 10.minutes
 
     PLUGIN_NAME ||= "calendar".freeze
 
