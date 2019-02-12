@@ -20,23 +20,24 @@ function stringToHexColor(str) {
 }
 
 function initializeDiscourseCalendar(api) {
+  let _topicController;
+
   api.decorateCooked(attachCalendar, { onlyStream: true });
 
-  function calendarChanged(topicsController) {
-    const stream = topicsController.get("model.postStream");
+  api.registerCustomPostMessageCallback("calendar_change", (topicController) => {
+    const stream = topicController.get("model.postStream");
     const post = stream.findLoadedPost(stream.get("firstPostId"));
     const $op = $(".topic-post article#post_1");
     const $calendar = $op.find(".calendar").first();
 
     if (post && $calendar.length > 0) {
-      ajax(`/posts/${post.id}.json`).then(data => {
+      ajax(`/posts/${post.id}.json`).then(post => {
         loadScript(
           "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-        ).then(() => render($calendar, data));
+        ).then(() => render($calendar, post));
       });
     }
-  }
-  api.registerCustomPostMessageCallback("calendar_change", calendarChanged);
+  });
 
   function render($calendar, post) {
     $calendar = $calendar.empty();
@@ -191,8 +192,8 @@ function initializeDiscourseCalendar(api) {
 
     calendar.setOption("eventClick", calEvent => {
       const postNumber = calEvent.event.extendedProps.postNumber;
-      const $post = $(`.topic-post article#post_${postNumber}`);
-      $(window).scrollTop($post.offset().top - minimumOffset());
+      _topicController = _topicController || api.container.lookup("controller:topic");
+      _topicController.send("jumpToPost", postNumber)
     });
   }
 
