@@ -22,7 +22,7 @@ export default {
           $(el)
             .find(`a.mention[href="/u/${username}"]`)
             .not(".on-holiday")
-            .append(iconHTML("calendar"))
+            .append(iconHTML("calendar-alt"))
             .addClass("on-holiday");
         });
       });
