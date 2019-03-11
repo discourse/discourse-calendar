@@ -5,3 +5,5 @@ plugins:
   holiday_calendar_topic_id:
     default: ""
     client: true
+  delete_expired_event_posts_after:
+    default: 1
