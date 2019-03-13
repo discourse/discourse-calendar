@@ -6,4 +6,5 @@ plugins:
     default: ""
     client: true
   delete_expired_event_posts_after:
+    min: -1
     default: 1
