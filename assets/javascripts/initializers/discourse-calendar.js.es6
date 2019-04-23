@@ -198,7 +198,7 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _setDynamicCalendarEvents(calendar, post) {
-    post.calendar_details.forEach(detail => {
+    (post.calendar_details || []).forEach(detail => {
       let event = _buildEventObject(
         detail.from
           ? {
