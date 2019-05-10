@@ -1,4 +1,5 @@
 .calendar {
+  height: 690px; // Must be fixed to prevent height change on load
 
   &.fc-unthemed {
     tbody,
