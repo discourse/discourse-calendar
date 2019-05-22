@@ -3,9 +3,11 @@ module DiscourseCalendar
     def self.update(post)
       calendar = post.calendar || {}
 
-      post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] = calendar.delete("type") || "dynamic"
+      previous_type = post.custom_fields[CALENDAR_CUSTOM_FIELD].dup
 
-      unless post.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD].present?
+      post.custom_fields[CALENDAR_CUSTOM_FIELD] = calendar.delete("type") || "dynamic"
+
+      if previous_type != post.custom_fields[CALENDAR_CUSTOM_FIELD] || post.calendar_details.blank?
         post.calendar_details = {}
       end
 

@@ -1,106 +1,75 @@
-require 'rails_helper'
+require "rails_helper"
 
-describe 'Dynamic calendar' do
-  raw = <<~MD
-    [calendar]
-    [/calendar]
-  MD
-  let(:op) { create_post(raw: raw) }
-  let(:topic) { op.topic }
+describe "Dynamic calendar" do
 
   before do
-    SiteSetting.queue_jobs = false
+    Jobs.run_immediately!
+    SiteSetting.calendar_enabled = true
   end
 
-  def create_calendar_post(topic, raw)
-    post = create_post(raw: raw, topic: topic)
-    topic.reload
-    post.reload
-    post
+  let(:raw) { "[calendar]\n[/calendar]" }
+  let(:op) { create_post(raw: raw) }
+
+  it "defaults to dynamic" do
+    expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
   end
 
-  describe 'single date events' do
-    it 'creates an entry in the calendar' do
-      raw = <<~MD
-        Rome [date="2018-06-05" timezone="Europe/Paris"]
-      MD
+  it "adds an entry with a single date event" do
+    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"]')
 
-      post = create_calendar_post(topic, raw)
-
-      expect(topic.first_post.custom_fields["calendar-details"][post.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T00:00:00+02:00", nil, post.user.username
-      ])
-    end
-
-    describe 'with time' do
-      it 'creates an entry in the calendar' do
-        raw = <<~MD
-          Rome [date="2018-06-05" time="10:00:00" timezone="Europe/Paris"]
-        MD
-
-        post = create_calendar_post(topic, raw)
-
-        expect(topic.first_post.custom_fields["calendar-details"][post.post_number.to_s]).to eq([
-          "Rome", "2018-06-05T10:00:00+02:00", nil, post.user.username
-        ])
-      end
-    end
+    op.reload
+    expect(op.calendar_details[p.post_number.to_s]).to eq([
+      "Rome", "2018-06-05T00:00:00+02:00", nil, p.user.username, nil
+    ])
   end
 
-  describe 'range date events' do
-    it 'creates an entry in the calendar' do
-      raw = <<~MD
-        Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]
-      MD
+  it "adds an entry with a single date/time event" do
+    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" time="12:34:56"]')
 
-      post = create_calendar_post(topic, raw)
-
-      expect(topic.first_post.custom_fields["calendar-details"][post.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T23:59:59+02:00", post.user.username
-      ])
-    end
+    op.reload
+    expect(op.calendar_details[p.post_number.to_s]).to eq([
+      "Rome", "2018-06-05T12:34:56Z", nil, p.user.username, nil
+    ])
   end
 
-  describe 'more than two dates' do
-    it 'raises an error' do
-      raw = <<~MD
-        Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"] [date="2018-06-09" timezone="Europe/Paris"]
-      MD
+  it "adds an entry with a range event" do
+    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
 
-      expect { create_calendar_post(topic, raw) }.to raise_error(StandardError, I18n.t("discourse_calendar.more_than_two_dates"))
-    end
+    op.reload
+    expect(op.calendar_details[p.post_number.to_s]).to eq([
+      "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T23:59:59+02:00", p.user.username, nil
+    ])
   end
 
-  describe 'a calendar not in first post' do
-    it 'raises an error' do
-      raw = <<~MD
-        Another calendar
-        [calendar]
-        [/calendar]
-      MD
-
-      expect { create_calendar_post(topic, raw) }.to raise_error(StandardError, I18n.t("discourse_calendar.calendar_must_be_in_first_post"))
-    end
+  it "raises an error when there are more than 2 dates" do
+    expect {
+      create_post(topic: op.topic, raw: 'Rome [date="2018-06-05"] → [date="2018-06-08"] [date="2018-06-09"]')
+    }.to raise_error(StandardError, I18n.t("discourse_calendar.more_than_two_dates"))
   end
 
-  describe 'going from dynamic to static' do
-    it 'cleans up everything' do
-      raw = <<~MD
-        Rome [date="2018-06-05" timezone="Europe/Paris"]
-      MD
-
-      post = create_calendar_post(topic, raw)
-      expect(topic.first_post.custom_fields["calendar-details"][post.post_number.to_s]).to be_present
-
-      raw = <<~MD
-        [calendar type="static"]
-        [/calendar]
-      MD
-      op.revise(op.user, raw: raw)
-      op.reload
-
-      expect(op.custom_fields['calendar']).to eq('static')
-      expect(op.custom_fields['calendar-details']).to be_empty
-    end
+  it "raises an error when the calendar is not in first post" do
+    expect {
+      create_post(topic: op.topic, raw: raw)
+    }.to raise_error(StandardError, I18n.t("discourse_calendar.calendar_must_be_in_first_post"))
   end
+
+  it "raises an error when there are more than 1 calendar" do
+    expect {
+      create_post(raw: "#{raw}\n#{raw}")
+    }.to raise_error(StandardError, I18n.t("discourse_calendar.more_than_one_calendar"))
+  end
+
+  it "empties details when going from dynamic to static" do
+    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05"]')
+
+    op.reload
+    expect(op.calendar_details[p.post_number.to_s]).to be_present
+
+    op.revise(op.user, raw: '[calendar type="static"]\n[/calendar]')
+
+    op.reload
+    expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("static")
+    expect(op.calendar_details).to be_empty
+  end
+
 end

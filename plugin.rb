@@ -39,12 +39,14 @@ after_initialize do
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
 
-  whitelist_staff_user_custom_field(::DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+  whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
 
   class DiscourseCalendar::Calendar
     class << self
       def extract(post)
-        Nokogiri::HTML(post.cooked).css('div.calendar').map do |cooked_calendar|
+        cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
+
+        Nokogiri::HTML(cooked).css('div.calendar').map do |cooked_calendar|
           calendar = {}
 
           cooked_calendar.attributes.values.each do |attribute|
@@ -62,7 +64,9 @@ after_initialize do
   class DiscourseCalendar::Event
     class << self
       def count(post)
-        Nokogiri::HTML(post.cooked).css('span.discourse-local-date').count
+        cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
+
+        Nokogiri::HTML(cooked).css('span.discourse-local-date').count
       end
     end
   end

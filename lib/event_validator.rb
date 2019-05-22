@@ -2,18 +2,16 @@ module DiscourseCalendar
   class EventValidator
     def initialize(post)
       @post = post
-      @calendar = post&.topic&.first_post&.custom_fields
+      @op = post.topic.first_post
     end
 
     def validate_event
       dates_count = DiscourseCalendar::Event::count(@post)
-      calendar_type = @calendar[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] || "dynamic"
+      calendar_type = @op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] || "dynamic"
 
       if calendar_type == "dynamic"
         return false if has_too_many_dates?(dates_count)
-      end
-
-      if calendar_type == "static"
+      elsif calendar_type == "static"
         return false if dates_count > 0
       end
 

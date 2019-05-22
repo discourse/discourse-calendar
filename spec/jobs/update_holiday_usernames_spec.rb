@@ -2,21 +2,16 @@ require 'rails_helper'
 
 describe DiscourseCalendar::UpdateHolidayUsernames do
   before do
-    SiteSetting.queue_jobs = false
+    Jobs.run_immediately!
+    SiteSetting.calendar_enabled = true
 
-    raw = <<~MD
-      [calendar]
-      [/calendar]
-    MD
-    @topic = Fabricate(:topic, first_post: create_post(raw: raw))
-    SiteSetting.holiday_calendar_topic_id = @topic.id
+    @op = create_post(raw: "[calendar]\n[/calendar]")
+    SiteSetting.holiday_calendar_topic_id = @op.topic_id
   end
 
   it "should update users on holiday list" do
-    raw = <<~MD
-    Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]
-    MD
-    post = create_post(raw: raw, topic: @topic)
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: @op.topic)
     CookedPostProcessor.new(post).post_process
 
     freeze_time Time.strptime("2018-06-05 18:40:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
@@ -26,10 +21,8 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
   end
 
   it "should have empty users on holiday list" do
-    raw = <<~MD
-    Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]
-    MD
-    post = create_post(raw: raw, topic: @topic)
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: @op.topic)
     CookedPostProcessor.new(post).post_process
 
     freeze_time Time.strptime("2018-06-07 18:40:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
