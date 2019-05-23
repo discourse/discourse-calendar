@@ -2,6 +2,7 @@ import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { minimumOffset } from "discourse/lib/offset-calculator";
 import { ajax } from "discourse/lib/ajax";
+import { showPopover, hidePopover } from "discourse/lib/d-popover";
 
 // https://stackoverflow.com/a/16348977
 /* eslint-disable */
@@ -190,10 +191,21 @@ function initializeDiscourseCalendar(api) {
       );
     }
 
-    calendar.setOption("eventClick", calEvent => {
-      const postNumber = calEvent.event.extendedProps.postNumber;
+    calendar.setOption("eventClick", ({ event }) => {
+      const { postNumber } = event.extendedProps;
+      if (!postNumber) return;
       _topicController = _topicController || api.container.lookup("controller:topic");
-      _topicController.send("jumpToPost", postNumber)
+      _topicController.send("jumpToPost", postNumber);
+    });
+
+    calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
+      const { htmlContent } = event.extendedProps;
+      if (!htmlContent) return;
+      showPopover(jsEvent, { htmlContent })
+    });
+
+    calendar.setOption("eventMouseLeave", ({ jsEvent }) => {
+      hidePopover(jsEvent);
     });
   }
 
@@ -218,6 +230,7 @@ function initializeDiscourseCalendar(api) {
         Discourse.SiteSettings.holiday_calendar_topic_id,
         10
       );
+
       const excerpt = detail.message.split("\n").filter(e => e);
       if (excerpt.length && (post.topic_id && holidayCalendarTopicId !== post.topic_id)) {
         event.title = excerpt[0];
@@ -226,9 +239,13 @@ function initializeDiscourseCalendar(api) {
         event.backgroundColor = stringToHexColor(detail.username);
       }
 
-      event.extendedProps = {
-        postNumber: parseInt(detail.post_number, 10)
-      };
+      event.extendedProps = { htmlContent: detail.message };
+
+      if (detail.post_number) {
+        event.extendedProps.postNumber = parseInt(detail.post_number, 10);
+      } else {
+        event.classNames = ["holiday"];
+      }
 
       calendar.addEvent(event);
     });

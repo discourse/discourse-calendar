@@ -1,8 +1,10 @@
 # name: discourse-calendar
 # about: Display a calendar in the first post of a topic
-# version: 0.1
+# version: 0.2
 # author: Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
+
+gem "holidays", "7.1.0", { require: false }
 
 enabled_site_setting :calendar_enabled
 
@@ -12,13 +14,35 @@ register_asset "stylesheets/common/discourse-calendar.scss"
 PLUGIN_NAME ||= "calendar".freeze
 DATA_PREFIX ||= "data-calendar-".freeze
 
+REGION_TO_EMOJI_FLAG ||= {
+  "ar" => "argentina",
+  "at" => "austria",
+  "au" => "australia",
+  "br" => "brazil",
+  "ca" => "canada",
+  "de" => "de",
+  "fr" => "fr",
+  "gb" => "uk",
+  "it" => "it",
+  "no" => "norway",
+  "nz" => "new_zealand",
+  "ro" => "romania",
+  "sg" => "singapore",
+  "us" => "us",
+}
+
+DEFAULT_EMOJI ||= "desert_island"
+
 after_initialize do
   module ::DiscourseCalendar
     CALENDAR_CUSTOM_FIELD ||= "calendar"
     CALENDAR_DETAILS_CUSTOM_FIELD ||= "calendar-details"
+    CALENDAR_HOLIDAYS_CUSTOM_FIELD ||= "calendar-holidays"
 
     HOLIDAY_CUSTOM_FIELD ||= "on_holiday"
     USERS_ON_HOLIDAY_KEY ||= "users_on_holiday"
+
+    REGION_CUSTOM_FIELD ||= "holidays-region"
 
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
@@ -34,9 +58,11 @@ after_initialize do
     "../lib/event_destroyer.rb",
     "../jobs/scheduled/ensure_expired_event_destruction.rb",
     "../jobs/scheduled/update_holiday_usernames.rb",
+    "../jobs/scheduled/check_next_regional_holidays.rb",
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
+  register_post_custom_field_type(DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
 
   whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
@@ -134,12 +160,14 @@ after_initialize do
   end
 
   TopicView.default_post_custom_fields << DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD
+  TopicView.default_post_custom_fields << DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD
 
   add_to_serializer(:post, :calendar_details) do
-    details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
+    result = []
 
-    Array(details).map do |post_number, (message, from, to, username, recurring)|
-      {
+    details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
+    Array(details).each do |post_number, (message, from, to, username, recurring)|
+      result << {
         post_number: post_number,
         message: message,
         from: from,
@@ -148,10 +176,22 @@ after_initialize do
         recurring: recurring,
       }
     end
+
+    holidays = post_custom_fields[DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD]
+    Array(holidays).each do |region, name, date, username|
+      emoji = REGION_TO_EMOJI_FLAG[region.split("_").first] || DEFAULT_EMOJI
+      message = PrettyText.cook(":#{emoji}: #{name}").sub(/\A<p>/, "").sub(/<\/p>/, "")
+      result << { message: message, from: date, username: username }
+    end
+
+    result
   end
 
   add_to_serializer(:post, :include_calendar_details?) do
-    object.is_first_post? && object.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
+    object.is_first_post? && (
+      object.custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] ||
+      object.custom_fields[DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD]
+    )
   end
 
   add_to_serializer(:site, :users_on_holiday) { DiscourseCalendar.users_on_holiday }
