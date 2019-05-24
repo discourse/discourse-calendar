@@ -24,7 +24,7 @@ module DiscourseCalendar
       html = (doc.try(:to_html) || html).sub(' → ', '')
 
       detail = [
-        PrettyText.excerpt(html, 30, strip_links: true, text_entities: true),
+        PrettyText.excerpt(html, 50, strip_links: true, text_entities: true),
         from.iso8601.to_s,
         to ? to.iso8601.to_s : nil,
         post.user.username_lower,
