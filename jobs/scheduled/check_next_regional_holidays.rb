@@ -1,6 +1,6 @@
 module Jobs
   class ::DiscourseCalendar::CheckNextRegionalHolidays < Jobs::Scheduled
-    every 12.hours
+    every 1.hour
 
     def execute(args)
       return unless SiteSetting.calendar_enabled
@@ -20,23 +20,26 @@ module Jobs
 
       usernames = User.where(id: user_ids).pluck(:id, :username_lower).to_h
 
-      regional_holidays = op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] || []
+      old_regional_holidays = op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] || []
+      new_regional_holidays = []
 
-      users_in_region.keys.each do |region|
+      users_in_region.keys.sort.each do |region|
         next if !(next_holiday = Holidays.next_holidays(1, [region]).first)
         next if next_holiday[:date] > 1.month.from_now
 
         date = next_holiday[:date].to_s
 
         users_in_region[region].each do |user_id|
-          if !regional_holidays.find { |r, _, d, u| r == region && d == date && u == usernames[user_id] }
-            regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
+          if !new_regional_holidays.find { |r, _, d, u| r == region && d == date && u == usernames[user_id] }
+            new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
           end
         end
       end
 
-      op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] = regional_holidays
-      op.save_custom_fields(true)
+      if old_regional_holidays != new_regional_holidays
+        op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] = new_regional_holidays
+        op.save_custom_fields(true)
+      end
     end
   end
 end
