@@ -10,11 +10,10 @@ module Jobs
       require "holidays" unless defined?(Holidays)
 
       user_ids = []
-      users_in_region = {}
+      users_in_region = Hash.new { |h, k| h[k] = [] }
 
       UserCustomField.where(name: ::DiscourseCalendar::REGION_CUSTOM_FIELD).pluck(:user_id, :value).each do |user_id, region|
         user_ids << user_id
-        users_in_region[region] ||= []
         users_in_region[region] << user_id
       end
 
@@ -23,16 +22,21 @@ module Jobs
       old_regional_holidays = op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] || []
       new_regional_holidays = []
 
-      users_in_region.keys.sort.each do |region|
-        next if !(next_holiday = Holidays.next_holidays(1, [region]).first)
-        next if next_holiday[:date] > 1.month.from_now
+      business_days = 1..5
+      one_month_from_now = 1.month.from_now
 
-        date = next_holiday[:date].to_s
+      users_in_region.keys.sort.each do |region|
+        next unless next_holiday = Holidays.year_holidays([region]).find do |h|
+          business_days === h[:date].wday && h[:date] < one_month_from_now
+        end
 
         users_in_region[region].each do |user_id|
-          if !new_regional_holidays.find { |r, _, d, u| r == region && d == date && u == usernames[user_id] }
-            new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
-          end
+          new_regional_holidays << [
+            region,
+            next_holiday[:name],
+            next_holiday[:date].to_s,
+            usernames[user_id]
+          ]
         end
       end
 
