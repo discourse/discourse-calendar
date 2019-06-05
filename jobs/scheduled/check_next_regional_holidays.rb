@@ -1,6 +1,6 @@
 module Jobs
   class ::DiscourseCalendar::CheckNextRegionalHolidays < Jobs::Scheduled
-    every 1.hour
+    every 10.minutes
 
     def execute(args)
       return unless SiteSetting.calendar_enabled
@@ -17,6 +17,13 @@ module Jobs
         users_in_region[region] << user_id
       end
 
+      user_timezones = {}
+
+      UserCustomField.where(name: ::DiscourseCalendar::TIMEZONE_CUSTOM_FIELD).pluck(:user_id, :value).each do |user_id, timezone|
+        next unless tz = (TZInfo::Timezone.get(timezone) rescue nil)
+        user_timezones[user_id] = tz
+      end
+
       usernames = User.where(id: user_ids).pluck(:id, :username_lower).to_h
 
       old_regional_holidays = op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] || []
@@ -31,12 +38,13 @@ module Jobs
         end
 
         users_in_region[region].each do |user_id|
-          new_regional_holidays << [
-            region,
-            next_holiday[:name],
-            next_holiday[:date].to_s,
-            usernames[user_id]
-          ]
+          date = if tz = user_timezones[user_id]
+            next_holiday[:date].in_time_zone(tz).iso8601
+          else
+            next_holiday[:date].to_s
+          end
+
+          new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
         end
       end
 

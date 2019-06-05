@@ -44,6 +44,8 @@ after_initialize do
 
     REGION_CUSTOM_FIELD ||= "holidays-region"
 
+    TIMEZONE_CUSTOM_FIELD ||= "timezone"
+
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
@@ -66,6 +68,9 @@ after_initialize do
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
 
   whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+  whitelist_staff_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
+
+  register_editable_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
 
   class DiscourseCalendar::Calendar
     class << self
@@ -91,7 +96,6 @@ after_initialize do
     class << self
       def count(post)
         cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
-
         Nokogiri::HTML(cooked).css('span.discourse-local-date').count
       end
     end

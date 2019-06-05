@@ -1,0 +1,6 @@
+en:
+  js:
+    discourse_calendar:
+      timezone:
+        title: "Timezone"
+        instructions: "Your current timezone is %{timezone}."
