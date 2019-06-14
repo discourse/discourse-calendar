@@ -24,4 +24,4 @@ export default {
   shouldRender(args, component) {
     return component.siteSettings.calendar_enabled;
   }
-}
+};

@@ -1,6 +1,5 @@
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { minimumOffset } from "discourse/lib/offset-calculator";
 import { ajax } from "discourse/lib/ajax";
 import { showPopover, hidePopover } from "discourse/lib/d-popover";
 
