@@ -24,7 +24,7 @@ function initializeDiscourseCalendar(api) {
 
   api.decorateCooked(attachCalendar, { onlyStream: true });
 
-  api.registerCustomPostMessageCallback("calendar_change", (topicController) => {
+  api.registerCustomPostMessageCallback("calendar_change", topicController => {
     const stream = topicController.get("model.postStream");
     const post = stream.findLoadedPost(stream.get("firstPostId"));
     const $op = $(".topic-post article#post_1");
@@ -193,14 +193,15 @@ function initializeDiscourseCalendar(api) {
     calendar.setOption("eventClick", ({ event }) => {
       const { postNumber } = event.extendedProps;
       if (!postNumber) return;
-      _topicController = _topicController || api.container.lookup("controller:topic");
+      _topicController =
+        _topicController || api.container.lookup("controller:topic");
       _topicController.send("jumpToPost", postNumber);
     });
 
     calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
       const { htmlContent } = event.extendedProps;
       if (!htmlContent) return;
-      showPopover(jsEvent, { htmlContent })
+      showPopover(jsEvent, { htmlContent });
     });
 
     calendar.setOption("eventMouseLeave", ({ jsEvent }) => {
@@ -231,7 +232,10 @@ function initializeDiscourseCalendar(api) {
       );
 
       const excerpt = detail.message.split("\n").filter(e => e);
-      if (excerpt.length && (post.topic_id && holidayCalendarTopicId !== post.topic_id)) {
+      if (
+        excerpt.length &&
+        (post.topic_id && holidayCalendarTopicId !== post.topic_id)
+      ) {
         event.title = excerpt[0];
       } else {
         event.title = detail.username;

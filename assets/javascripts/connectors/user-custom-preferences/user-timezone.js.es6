@@ -7,13 +7,15 @@ export default {
 
     // only show the instructions when browsing your own profile
     if (currentUser && currentUser.id === user.id) {
-      instructions = I18n.t("discourse_calendar.timezone.instructions", { timezone: moment.tz.guess() });
+      instructions = I18n.t("discourse_calendar.timezone.instructions", {
+        timezone: moment.tz.guess()
+      });
     }
 
     component.setProperties({
       instructions,
       allTimezones: moment.tz.names(),
-      userTimezone: user.custom_fields.timezone,
+      userTimezone: user.custom_fields.timezone
     });
 
     component.addObserver("userTimezone", () => {
