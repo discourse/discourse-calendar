@@ -25,7 +25,7 @@ export default {
             .append(iconHTML("calendar-alt"))
             .addClass("on-holiday");
         });
-      });
+      }, { id: 'discourse-calendar' });
 
       api.addPosterIcon(cfs => {
         const onHoliday = customBool(cfs.on_holiday);
