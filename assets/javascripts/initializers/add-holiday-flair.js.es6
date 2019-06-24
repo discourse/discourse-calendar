@@ -13,19 +13,22 @@ export default {
   initialize() {
     withPluginApi("0.1", api => {
       const usersOnHoliday = Discourse.Site.current().users_on_holiday;
-      api.decorateCooked(el => {
-        if (!usersOnHoliday) {
-          return;
-        }
+      api.decorateCooked(
+        el => {
+          if (!usersOnHoliday) {
+            return;
+          }
 
-        usersOnHoliday.forEach(username => {
-          $(el)
-            .find(`a.mention[href="/u/${username}"]`)
-            .not(".on-holiday")
-            .append(iconHTML("calendar-alt"))
-            .addClass("on-holiday");
-        });
-      }, { id: 'discourse-calendar-holiday-flair' });
+          usersOnHoliday.forEach(username => {
+            $(el)
+              .find(`a.mention[href="/u/${username}"]`)
+              .not(".on-holiday")
+              .append(iconHTML("calendar-alt"))
+              .addClass("on-holiday");
+          });
+        },
+        { id: "discourse-calendar-holiday-flair" }
+      );
 
       api.addPosterIcon(cfs => {
         const onHoliday = customBool(cfs.on_holiday);

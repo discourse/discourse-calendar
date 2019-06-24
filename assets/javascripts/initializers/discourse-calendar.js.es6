@@ -22,7 +22,10 @@ function stringToHexColor(str) {
 function initializeDiscourseCalendar(api) {
   let _topicController;
 
-  api.decorateCooked(attachCalendar, { onlyStream: true, id: 'discourse-calendar' });
+  api.decorateCooked(attachCalendar, {
+    onlyStream: true,
+    id: "discourse-calendar"
+  });
 
   api.registerCustomPostMessageCallback("calendar_change", topicController => {
     const stream = topicController.get("model.postStream");
