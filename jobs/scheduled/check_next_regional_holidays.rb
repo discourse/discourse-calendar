@@ -20,11 +20,17 @@ module Jobs
       user_timezones = {}
 
       UserCustomField.where(name: ::DiscourseCalendar::TIMEZONE_CUSTOM_FIELD).pluck(:user_id, :value).each do |user_id, timezone|
-        next unless tz = (TZInfo::Timezone.get(timezone) rescue nil)
-        user_timezones[user_id] = tz
+        user_timezones[user_id] = (TZInfo::Timezone.get(timezone) rescue nil)
       end
 
-      usernames = User.where(id: user_ids).pluck(:id, :username_lower).to_h
+      usernames = User
+        .real
+        .activated
+        .not_suspended
+        .not_silenced
+        .where(id: user_ids)
+        .pluck(:id, :username_lower)
+        .to_h
 
       old_regional_holidays = op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] || []
       new_regional_holidays = []
