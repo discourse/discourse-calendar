@@ -1,6 +1,7 @@
 en:
   js:
     discourse_calendar:
+      on_holiday: "On Holiday"
       timezone:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."

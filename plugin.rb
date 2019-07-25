@@ -67,6 +67,8 @@ after_initialize do
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
 
+  register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
+
   whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
   whitelist_staff_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
 

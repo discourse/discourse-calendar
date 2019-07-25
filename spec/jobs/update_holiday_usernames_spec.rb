@@ -9,23 +9,18 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     SiteSetting.holiday_calendar_topic_id = @op.topic_id
   end
 
-  it "should update users on holiday list" do
+  it "works" do
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+
     post = create_post(raw: raw, topic: @op.topic)
     CookedPostProcessor.new(post).post_process
 
-    freeze_time Time.strptime("2018-06-05 18:40:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
+    freeze_time Time.new(2018, 6, 5, 18, 40)
     DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
     expect(DiscourseCalendar.users_on_holiday).to eq([post.user.username])
-  end
 
-  it "should have empty users on holiday list" do
-    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
-    post = create_post(raw: raw, topic: @op.topic)
-    CookedPostProcessor.new(post).post_process
-
-    freeze_time Time.strptime("2018-06-07 18:40:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
+    freeze_time Time.new(2018, 6, 7, 18, 40)
     DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
     expect(DiscourseCalendar.users_on_holiday).to eq([])

@@ -1,47 +1,38 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { iconHTML } from "discourse-common/lib/icon-library";
 
-function customBool(field) {
-  if (field) {
-    return Array.isArray(field) ? field.some(x => x === "t") : field === "t";
-  }
-  return false;
-}
-
 export default {
   name: "add-holiday-flair",
-  initialize() {
-    withPluginApi("0.1", api => {
-      const usersOnHoliday = Discourse.Site.current().users_on_holiday;
-      api.decorateCooked(
-        el => {
-          if (!usersOnHoliday) {
-            return;
-          }
 
-          usersOnHoliday.forEach(username => {
-            $(el)
-              .find(`a.mention[href="/u/${username}"]`)
-              .not(".on-holiday")
+  initialize() {
+    withPluginApi("0.8", api => {
+      const usernames = api.container.lookup("site:main").users_on_holiday;
+
+      if (usernames && usernames.length > 0) {
+        api.decorateCooked(el => {
+          const $el = $(el);
+
+          usernames.forEach(username => {
+            const href = `${Discourse.BaseUri}/u/${username}`;
+
+            $el
+              .find(`a.mention[href="${href}"]:not(.on-holiday)`)
               .append(iconHTML("calendar-alt"))
               .addClass("on-holiday");
           });
-        },
-        { id: "discourse-calendar-holiday-flair" }
-      );
 
-      api.addPosterIcon(cfs => {
-        const onHoliday = customBool(cfs.on_holiday);
-        if (!onHoliday) {
-          return;
-        }
+        }, { id: "discourse-calendar-holiday-flair" });
 
-        return {
-          emoji: "desert_island",
-          className: "holiday",
-          title: "on holiday"
-        };
-      });
+        api.addPosterIcon(cfs => {
+          if (cfs.on_holiday) {
+            return {
+              emoji: "desert_island",
+              className: "holiday",
+              title: I18n.t("discourse_calendar.on_holiday")
+            };
+          }
+        });
+      }
     });
   }
 };

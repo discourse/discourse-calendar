@@ -40,18 +40,22 @@ module Jobs
       user_ids = User.where(username_lower: usernames).pluck(:id).compact
 
       if user_ids.present?
-        DB.exec <<~SQL
-          INSERT INTO user_custom_fields (user_id, name, value, created_at, updated_at)
-          VALUES #{user_ids.map { |id| "(#{id}, '#{cf_name}', 't', now(), now())" }.join(",")}
-          ON CONFLICT DO NOTHING
-        SQL
-      end
+        values = user_ids.map { |id| "(#{id}, '#{cf_name}', 't', now(), now())" }
 
-      DB.exec <<~SQL, cf_name, user_ids
-        DELETE FROM user_custom_fields
-         WHERE name = ?
-           AND user_id NOT IN (?)
-      SQL
+        DB.exec <<~SQL, cf_name
+          INSERT INTO user_custom_fields (user_id, name, value, created_at, updated_at)
+          VALUES #{values.join(",")}
+          ON CONFLICT (user_id, name) WHERE (name = ?) DO NOTHING
+        SQL
+
+        DB.exec <<~SQL, cf_name, user_ids
+          DELETE FROM user_custom_fields
+           WHERE name = ?
+             AND user_id NOT IN (?)
+        SQL
+      else
+        DB.exec("DELETE FROM user_custom_fields WHERE name = ?", cf_name)
+      end
     end
   end
 end
