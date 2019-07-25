@@ -9,19 +9,21 @@ export default {
       const usernames = api.container.lookup("site:main").users_on_holiday;
 
       if (usernames && usernames.length > 0) {
-        api.decorateCooked(el => {
-          const $el = $(el);
+        api.decorateCooked(
+          el => {
+            const $el = $(el);
 
-          usernames.forEach(username => {
-            const href = `${Discourse.BaseUri}/u/${username}`;
+            usernames.forEach(username => {
+              const href = `${Discourse.BaseUri}/u/${username}`;
 
-            $el
-              .find(`a.mention[href="${href}"]:not(.on-holiday)`)
-              .append(iconHTML("calendar-alt"))
-              .addClass("on-holiday");
-          });
-
-        }, { id: "discourse-calendar-holiday-flair" });
+              $el
+                .find(`a.mention[href="${href}"]:not(.on-holiday)`)
+                .append(iconHTML("calendar-alt"))
+                .addClass("on-holiday");
+            });
+          },
+          { id: "discourse-calendar-holiday-flair" }
+        );
 
         api.addPosterIcon(cfs => {
           if (cfs.on_holiday) {
