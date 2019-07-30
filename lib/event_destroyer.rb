@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseCalendar
   class EventDestroyer
     def self.destroy(post)

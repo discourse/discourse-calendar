@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseCalendar
   class EventValidator
     def initialize(post)

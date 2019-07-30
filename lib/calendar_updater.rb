@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseCalendar
   class CalendarUpdater
     def self.update(post)
