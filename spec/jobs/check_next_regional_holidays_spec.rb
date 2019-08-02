@@ -72,6 +72,8 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
   end
 
   it "only takes into account active users" do
+    freeze_time Time.new(2019, 8, 1)
+
     robot = Fabricate(:user, id: -100)
     robot.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
     robot.save!
@@ -87,8 +89,6 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     silenced = Fabricate(:user, silenced_till: 1.year.from_now)
     silenced.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
     silenced.save!
-
-    freeze_time Time.new(2019, 8, 1)
 
     subject.execute(nil)
     @op.reload
