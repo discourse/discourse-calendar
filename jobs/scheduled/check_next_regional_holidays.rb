@@ -46,6 +46,8 @@ module Jobs
         end
 
         users_in_region[region].each do |user_id|
+          next unless usernames[user_id]
+
           date = if tz = user_timezones[user_id]
             next_holiday[:date].in_time_zone(tz).iso8601
           else

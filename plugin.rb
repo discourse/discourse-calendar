@@ -141,10 +141,12 @@ after_initialize do
   Post.class_eval do
     attr_accessor :calendar
 
+    def calendar_holidays
+      custom_fields[DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] || []
+    end
+
     def calendar_details
-      details = custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
-      details = details[0] if details.kind_of?(Array) # investigate why sometimes it has been saved as an array
-      details
+      custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] || {}
     end
 
     def calendar_details=(val)
