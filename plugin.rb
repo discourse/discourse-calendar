@@ -124,9 +124,13 @@ after_initialize do
   end
 
   validate(:post, :validate_post) do |force = nil|
-    return if !self.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
     return unless self.raw_changed? || force
     return if self.is_first_post?
+
+    op = self&.topic&.first_post
+    if op && op&.custom_fields
+      return if !op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
+    end
 
     validator = DiscourseCalendar::EventValidator.new(self)
     validator.validate_event
