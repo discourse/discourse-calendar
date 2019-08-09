@@ -124,6 +124,7 @@ after_initialize do
   end
 
   validate(:post, :validate_post) do |force = nil|
+    return if !self.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
     return unless self.raw_changed? || force
     return if self.is_first_post?
 

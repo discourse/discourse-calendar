@@ -72,4 +72,16 @@ describe DiscourseCalendar::EventUpdater do
     expect(from).to eq("2018-06-05T00:00:00+02:00")
     expect(to).to eq("2018-06-11T13:45:33-07:00")
   end
+
+  it "will validate a post with more than two dates if not a calendar" do
+    op = create_post(raw: "This is a tets of a topic")
+
+    raw = %{Rome [date="2018-06-05" timezone="Europe/Paris"] [date="2018-06-11" time="13:45:33" timezone="America/Los_Angeles"] [date="2018-06-05" timezone="Europe/Paris"]}
+    post = create_post(raw: raw, topic: op.topic)
+    CookedPostProcessor.new(post).post_process
+
+    op.reload
+
+    expect(post).to be_valid
+  end
 end
