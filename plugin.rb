@@ -128,7 +128,7 @@ after_initialize do
     return if self.is_first_post?
 
     op = self&.topic&.first_post
-    if op && op&.custom_fields
+    if op&.custom_fields
       return if !op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
     end
 
