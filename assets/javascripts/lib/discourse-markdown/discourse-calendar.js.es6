@@ -1,7 +1,7 @@
 const calendarRule = {
   tag: "calendar",
 
-  wrap: function(token, info) {
+  wrap(token, info) {
     token.attrs = [
       ["class", "calendar"],
       ["data-calendar-type", info.attrs.type || "dynamic"]
@@ -28,10 +28,13 @@ export function setup(helper) {
   ]);
 
   helper.registerOptions((opts, siteSettings) => {
-    opts.features.calendar_enabled = !!siteSettings.calendar_enabled;
+    opts.features["discourse-calendar-enabled"] = !!siteSettings.calendar_enabled;
   });
 
   helper.registerPlugin(md => {
-    md.block.bbcode.ruler.push("discourse-calendar", calendarRule);
+    const features = md.options.discourse.features;
+    if (features["discourse-calendar-enabled"]) {
+      md.block.bbcode.ruler.push("discourse-calendar", calendarRule);
+    }
   });
 }
