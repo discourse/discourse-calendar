@@ -13,8 +13,8 @@ enabled_site_setting :calendar_enabled
 register_asset "stylesheets/vendor/fullcalendar.min.css"
 register_asset "stylesheets/common/discourse-calendar.scss"
 
-PLUGIN_NAME ||= "calendar".freeze
-DATA_PREFIX ||= "data-calendar-".freeze
+PLUGIN_NAME ||= "calendar"
+DATA_PREFIX ||= "data-calendar-"
 
 REGION_TO_EMOJI_FLAG ||= {
   "ar" => "argentina",
@@ -63,6 +63,7 @@ after_initialize do
     "../jobs/scheduled/ensure_expired_event_destruction.rb",
     "../jobs/scheduled/update_holiday_usernames.rb",
     "../jobs/scheduled/check_next_regional_holidays.rb",
+    "../jobs/scheduled/ensure_consistency.rb",
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)

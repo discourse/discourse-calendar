@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe DiscourseCalendar::EventUpdater do
-  before do
-    SiteSetting.calendar_enabled = true
-  end
+  before { SiteSetting.calendar_enabled = true }
 
   it "will correctly update the associated first post calendar details" do
     op = create_post(raw: "[calendar]\n[/calendar]")
