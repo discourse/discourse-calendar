@@ -17,12 +17,12 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     post = create_post(raw: raw, topic: @op.topic)
     CookedPostProcessor.new(post).post_process
 
-    freeze_time Time.new(2018, 6, 5, 18, 40)
+    freeze_time Time.utc(2018, 6, 5, 18, 40)
     DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
     expect(DiscourseCalendar.users_on_holiday).to eq([post.user.username])
 
-    freeze_time Time.new(2018, 6, 7, 18, 40)
+    freeze_time Time.utc(2018, 6, 7, 18, 40)
     DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
     expect(DiscourseCalendar.users_on_holiday).to eq([])
