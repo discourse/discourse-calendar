@@ -183,14 +183,15 @@ after_initialize do
 
     details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
     Array(details).each do |post_number, (message, from, to, username, recurring)|
-      result << {
-        post_number: post_number,
+      detail = {
+        post_number: post_number.to_i,
         message: message,
         from: from,
         to: to,
         username: username,
-        recurring: recurring,
       }
+      detail[:recurring] = recurring if recurring
+      result << detail
     end
 
     holidays = post_custom_fields[DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD]

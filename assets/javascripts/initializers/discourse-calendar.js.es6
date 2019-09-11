@@ -248,7 +248,7 @@ function initializeDiscourseCalendar(api) {
       event.extendedProps = { htmlContent: detail.message };
 
       if (detail.post_number) {
-        event.extendedProps.postNumber = parseInt(detail.post_number, 10);
+        event.extendedProps.postNumber = detail.post_number;
       } else {
         event.classNames = ["holiday"];
       }
