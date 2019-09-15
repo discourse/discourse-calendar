@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jobs
-  class ::DiscourseCalendar::EnsureConsistency < Jobs::Scheduled
+  class ::DiscourseCalendar::EnsureConsistency < ::Jobs::Scheduled
     every 12.hours
 
     PLUGIN_NAME ||= "calendar"
