@@ -5,3 +5,4 @@ en:
       timezone:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."
+        none: "Select a timezone..."
