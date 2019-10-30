@@ -6,7 +6,7 @@
 # author: Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
-gem "holidays", "7.1.0", require: false
+gem "holidays", "8.0.0", require: false
 
 enabled_site_setting :calendar_enabled
 
