@@ -212,4 +212,8 @@ after_initialize do
 
   add_to_serializer(:site, :users_on_holiday) { DiscourseCalendar.users_on_holiday }
   add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
+
+  add_to_serializer(:group_user, :timezone) {
+    object.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD]
+  }
 end
