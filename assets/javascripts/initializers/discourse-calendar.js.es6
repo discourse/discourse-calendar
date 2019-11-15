@@ -237,7 +237,7 @@ function initializeDiscourseCalendar(api) {
       const excerpt = detail.message.split("\n").filter(e => e);
       if (
         excerpt.length &&
-        (post.topic_id && holidayCalendarTopicId !== post.topic_id)
+        post.topic_id && holidayCalendarTopicId !== post.topic_id
       ) {
         event.title = excerpt[0];
       } else {
