@@ -21,7 +21,7 @@ module Jobs
 
       user_timezones = {}
 
-      UserCustomField.where(name: ::DiscourseCalendar::TIMEZONE_CUSTOM_FIELD).pluck(:user_id, :value).each do |user_id, timezone|
+      UserOption.pluck(:user_id, :timezone).each do |user_id, timezone|
         user_timezones[user_id] = (TZInfo::Timezone.get(timezone) rescue nil)
       end
 

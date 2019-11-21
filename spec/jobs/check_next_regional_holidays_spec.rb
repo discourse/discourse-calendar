@@ -58,7 +58,8 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
   it "uses the user TZ when available" do
     frenchy = Fabricate(:user)
     frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    frenchy.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD] = "Europe/Paris"
+    frenchy.user_option.timezone = "Europe/Paris"
+    frenchy.user_option.save!
     frenchy.save!
 
     freeze_time Time.new(2019, 8, 1)
