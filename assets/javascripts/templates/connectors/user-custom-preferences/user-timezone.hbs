@@ -1,0 +1,14 @@
+<div class="control-group">
+  <label class="control-label">{{i18n 'discourse_calendar.timezone.title'}}</label>
+  <div class="controls">
+    {{combo-box content=allTimezones value=userTimezone class="user-timezone" none="discourse_calendar.timezone.none"}}
+  </div>
+  {{#if userOptionsTimezoneEnabled}}
+    <p class="warning">{{i18n 'discourse_calendar.timezone.deprecation_warning'}}</p>
+  {{/if}}
+  {{#if instructions}}
+    <div class="instructions">
+      {{instructions}}
+    </div>
+  {{/if}}
+</div>
