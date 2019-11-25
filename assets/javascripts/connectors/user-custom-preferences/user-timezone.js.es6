@@ -2,7 +2,9 @@ export default {
   setupComponent(args, component) {
     const { currentUser } = component;
     const user = args.model;
-    const userOptionsTimezoneEnabled = currentUser.user_option.hasOwnProperty('timezone');
+    const userOptionsTimezoneEnabled = currentUser.user_option.hasOwnProperty(
+      "timezone"
+    );
 
     let instructions;
 
