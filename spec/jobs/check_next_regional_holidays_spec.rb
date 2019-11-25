@@ -55,20 +55,53 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     expect(@op.calendar_holidays).to eq([])
   end
 
-  it "uses the user TZ when available" do
-    frenchy = Fabricate(:user)
-    frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    frenchy.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD] = "Europe/Paris"
-    frenchy.save!
+  context "when user_options.timezone column exists" do
+    before do
+      silence_warnings do
+        DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED = true
+      end
+    end
 
-    freeze_time Time.new(2019, 8, 1)
+    it "uses the user TZ when available" do
+      frenchy = Fabricate(:user)
+      frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
+      frenchy.user_option.timezone = "Europe/Paris"
+      frenchy.user_option.save!
+      frenchy.save!
 
-    subject.execute(nil)
-    @op.reload
+      freeze_time Time.new(2019, 8, 1)
 
-    expect(@op.calendar_holidays).to eq([
-      ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
-    ])
+      subject.execute(nil)
+      @op.reload
+
+      expect(@op.calendar_holidays).to eq([
+        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
+      ])
+    end
+  end
+
+  context "when user_options.timezone column does NOT exist" do
+    before do
+      silence_warnings do
+        DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED = false
+      end
+    end
+
+    it "uses the users custom fields" do
+      frenchy = Fabricate(:user)
+      frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
+      frenchy.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD] = "Europe/Paris"
+      frenchy.save!
+
+      freeze_time Time.new(2019, 8, 1)
+
+      subject.execute(nil)
+      @op.reload
+
+      expect(@op.calendar_holidays).to eq([
+        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
+      ])
+    end
   end
 
   it "only takes into account active users" do

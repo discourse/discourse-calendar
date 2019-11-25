@@ -48,6 +48,8 @@ after_initialize do
 
     TIMEZONE_CUSTOM_FIELD ||= "timezone"
 
+    USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone')
+
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
@@ -73,9 +75,11 @@ after_initialize do
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
   whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
-  whitelist_staff_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
 
-  register_editable_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
+  if !DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED
+    whitelist_staff_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
+    register_editable_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
+  end
 
   class DiscourseCalendar::Calendar
     class << self
@@ -213,7 +217,9 @@ after_initialize do
   add_to_serializer(:site, :users_on_holiday) { DiscourseCalendar.users_on_holiday }
   add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
 
-  add_to_serializer(:group_user, :timezone) {
-    object.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD]
-  }
+  if !DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED
+    add_to_serializer(:group_user, :timezone) {
+      object.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD]
+    }
+  end
 end

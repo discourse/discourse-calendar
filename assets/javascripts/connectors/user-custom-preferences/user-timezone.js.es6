@@ -2,6 +2,7 @@ export default {
   setupComponent(args, component) {
     const { currentUser } = component;
     const user = args.model;
+    const userOptionsTimezoneEnabled = currentUser.user_option.hasOwnProperty('timezone');
 
     let instructions;
 
@@ -15,7 +16,8 @@ export default {
     component.setProperties({
       instructions,
       allTimezones: moment.tz.names(),
-      userTimezone: user.custom_fields.timezone
+      userTimezone: user.custom_fields.timezone,
+      userOptionsTimezoneEnabled: userOptionsTimezoneEnabled
     });
 
     component.addObserver("userTimezone", () => {
