@@ -80,30 +80,6 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     end
   end
 
-  context "when user_options.timezone column does NOT exist" do
-    before do
-      silence_warnings do
-        DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED = false
-      end
-    end
-
-    it "uses the users custom fields" do
-      frenchy = Fabricate(:user)
-      frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-      frenchy.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD] = "Europe/Paris"
-      frenchy.save!
-
-      freeze_time Time.new(2019, 8, 1)
-
-      subject.execute(nil)
-      @op.reload
-
-      expect(@op.calendar_holidays).to eq([
-        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
-      ])
-    end
-  end
-
   it "only takes into account active users" do
     freeze_time Time.new(2019, 8, 1)
 
