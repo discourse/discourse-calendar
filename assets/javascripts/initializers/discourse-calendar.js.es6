@@ -1,3 +1,4 @@
+import { escapeExpression } from "discourse/lib/utilities";
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
@@ -71,6 +72,10 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _buildCalendar($calendar) {
+    const defaultView = escapeExpression(
+      $calendar.attr("data-calendar-default-view") || "month"
+    );
+
     return new window.FullCalendar.Calendar($calendar[0], {
       timeZone: moment.tz.guess(),
       timeZoneImpl: "moment-timezone",
@@ -78,6 +83,7 @@ function initializeDiscourseCalendar(api) {
       displayEventEnd: true,
       height: 650,
       firstDay: 1,
+      defaultView,
       views: {
         listNextYear: {
           type: "list",
