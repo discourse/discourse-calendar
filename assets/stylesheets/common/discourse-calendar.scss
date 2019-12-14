@@ -71,6 +71,21 @@
   .fc-event-dot {
     background-color: $tertiary;
     border: 1px solid transparent;
+
+    .fc-time {
+      display: none;
+    }
+
+    &.grouped-event {
+      background-color: none;
+      background: $secondary;
+      border: 1px solid $primary-low;
+      color: $primary;
+
+      .emoji {
+        margin-right: 0.25em;
+      }
+    }
   }
 
   .fc-left {

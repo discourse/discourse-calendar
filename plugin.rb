@@ -188,8 +188,9 @@ after_initialize do
     details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
     Array(details).each do |post_number, (message, from, to, username, recurring)|
       result << {
+        type: :standalone,
         post_number: post_number.to_i,
-        message: message,
+        message: PrettyText.cook(message).sub(/\A<p>/, "").sub(/<\/p>/, ""),
         from: from,
         to: to,
         username: username,
@@ -197,14 +198,24 @@ after_initialize do
       }
     end
 
+    grouped_events = {}
     holidays = post_custom_fields[DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD]
     Array(holidays).each do |region, name, date, username|
-      emoji = REGION_TO_EMOJI_FLAG[region.split("_").first] || DEFAULT_EMOJI
-      message = PrettyText.cook(":#{emoji}: #{name}").sub(/\A<p>/, "").sub(/<\/p>/, "")
-      result << { message: message, from: date, username: username }
+      country_code = region.split("_").first
+      emoji = REGION_TO_EMOJI_FLAG[country_code] || DEFAULT_EMOJI
+      emoji_image = PrettyText.cook(":#{emoji}:").sub(/\A<p>/, "").sub(/<\/p>/, "")
+      identifier = "#{country_code}-#{name}"
+      grouped_events[identifier] ||= {
+        type: :grouped,
+        emoji: emoji ? emoji_image : nil,
+        name: name,
+        from: date,
+        usernames: []
+      }
+      grouped_events[identifier][:usernames] << username
     end
 
-    result
+    result.concat(grouped_events.values)
   end
 
   add_to_serializer(:post, :include_calendar_details?) do
