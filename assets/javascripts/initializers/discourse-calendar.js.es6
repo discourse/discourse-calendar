@@ -218,10 +218,10 @@ function initializeDiscourseCalendar(api) {
     });
 
     calendar.setOption("eventRender", data => {
-      const emoji = data.event.extendedProps._emoji;
-      if (emoji) {
-        const $element = $(data.el);
-        $element.find('.fc-title').prepend(emoji);
+      const emojiImage = data.event.extendedProps.emojiImage;
+      if (emojiImage) {
+        const element = data.el.querySelector(".fc-title");
+        $(element).prepend(emojiImage);
       }
     });
   }
@@ -282,7 +282,7 @@ function initializeDiscourseCalendar(api) {
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
     event.title = detail.name;
-    event.extendedProps._emoji = detail.emoji;
+    event.extendedProps.emojiImage = detail.emoji;
     event.extendedProps.htmlContent = detail.usernames.join(", ");
     calendar.addEvent(event);
   }
