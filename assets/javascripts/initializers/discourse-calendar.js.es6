@@ -216,51 +216,87 @@ function initializeDiscourseCalendar(api) {
     calendar.setOption("eventMouseLeave", ({ jsEvent }) => {
       hidePopover(jsEvent);
     });
+
+    calendar.setOption("eventRender", data => {
+      const emoji = data.event.extendedProps._emoji;
+      if (emoji) {
+        const $element = $(data.el);
+        $element.find('.fc-title').prepend(emoji);
+      }
+    });
+  }
+
+
+  function _buildEvent(detail) {
+    const event = _buildEventObject(
+      detail.from
+        ? {
+            dateTime: moment(detail.from),
+            weeklyRecurring: detail.recurring === "1.weeks"
+          }
+        : null,
+      detail.to
+        ? {
+            dateTime: moment(detail.to),
+            weeklyRecurring: detail.recurring === "1.weeks"
+          }
+        : null
+    );
+
+    event.extendedProps = {};
+
+    if (detail.post_number) {
+      event.extendedProps.postNumber = detail.post_number;
+    } else {
+      event.classNames = ["holiday"];
+    }
+
+    return event;
+  }
+
+  function _addStandaloneEvent(calendar, post, detail) {
+    const event = _buildEvent(detail);
+
+    const holidayCalendarTopicId = parseInt(
+      Discourse.SiteSettings.holiday_calendar_topic_id,
+      10
+    );
+
+    const excerpt = detail.message.split("\n").filter(e => e);
+    if (
+      excerpt.length &&
+      post.topic_id &&
+      holidayCalendarTopicId !== post.topic_id
+    ) {
+      event.title = excerpt[0];
+    } else {
+      event.title = detail.username;
+      event.backgroundColor = stringToHexColor(detail.username);
+    }
+
+    event.extendedProps.htmlContent = detail.message;
+    calendar.addEvent(event);
+  }
+
+  function _addGroupedEvent(calendar, post, detail) {
+    const event = _buildEvent(detail);
+    event.classNames = ["grouped-event"];
+    event.title = detail.name;
+    event.extendedProps._emoji = detail.emoji;
+    event.extendedProps.htmlContent = detail.usernames.join(", ");
+    calendar.addEvent(event);
   }
 
   function _setDynamicCalendarEvents(calendar, post) {
     (post.calendar_details || []).forEach(detail => {
-      let event = _buildEventObject(
-        detail.from
-          ? {
-              dateTime: moment(detail.from),
-              weeklyRecurring: detail.recurring === "1.weeks"
-            }
-          : null,
-        detail.to
-          ? {
-              dateTime: moment(detail.to),
-              weeklyRecurring: detail.recurring === "1.weeks"
-            }
-          : null
-      );
-
-      const holidayCalendarTopicId = parseInt(
-        Discourse.SiteSettings.holiday_calendar_topic_id,
-        10
-      );
-
-      const excerpt = detail.message.split("\n").filter(e => e);
-      if (
-        excerpt.length &&
-        post.topic_id &&
-        holidayCalendarTopicId !== post.topic_id
-      ) {
-        event.title = excerpt[0];
-      } else {
-        event.title = detail.username;
-        event.backgroundColor = stringToHexColor(detail.username);
+      switch (detail.type) {
+        case "grouped":
+          _addGroupedEvent(calendar, post, detail);
+          break;
+        case "standalone":
+          _addStandaloneEvent(calendar, post, detail);
+          break;
       }
-
-      event.extendedProps = { htmlContent: detail.message };
-
-      if (detail.post_number) {
-        event.extendedProps.postNumber = detail.post_number;
-      } else {
-        event.classNames = ["holiday"];
-      }
-
-      calendar.addEvent(event);
     });
   }
 }
