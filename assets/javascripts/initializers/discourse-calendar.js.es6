@@ -226,7 +226,6 @@ function initializeDiscourseCalendar(api) {
     });
   }
 
-
   function _buildEvent(detail) {
     const event = _buildEventObject(
       detail.from
