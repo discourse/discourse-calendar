@@ -17,7 +17,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
     frenchy.save!
 
-    freeze_time Time.new(2019, 8, 1)
+    freeze_time Time.zone.local(2019, 8, 1)
 
     subject.execute(nil)
     @op.reload
@@ -31,12 +31,12 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     ])
   end
 
-  xit "only checks for holidays during business days" do
+  it "only checks for holidays during business days" do
     frenchy = Fabricate(:user)
     frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
     frenchy.save!
 
-    freeze_time Time.new(2019, 7, 1)
+    freeze_time Time.zone.local(2019, 7, 1)
 
     subject.execute(nil)
     @op.reload
@@ -46,7 +46,8 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       ["fr", "Assomption", "2019-08-15", frenchy.username],
       ["fr", "Toussaint", "2019-11-01", frenchy.username],
       ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
-      ["fr", "Noël", "2019-12-25", frenchy.username]
+      ["fr", "Noël", "2019-12-25", frenchy.username],
+      ["fr", "Jour de l'an", "2020-01-01", frenchy.username]
     ])
   end
 
@@ -64,7 +65,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       frenchy.user_option.save!
       frenchy.save!
 
-      freeze_time Time.new(2019, 8, 1)
+      freeze_time Time.zone.local(2019, 8, 1)
 
       subject.execute(nil)
       @op.reload
@@ -88,7 +89,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       frenchy.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD] = "Europe/Paris"
       frenchy.save!
 
-      freeze_time Time.new(2019, 8, 1)
+      freeze_time Time.zone.local(2019, 8, 1)
 
       subject.execute(nil)
       @op.reload
@@ -100,7 +101,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
   end
 
   it "only takes into account active users" do
-    freeze_time Time.new(2019, 8, 1)
+    freeze_time Time.zone.local(2019, 8, 1)
 
     robot = Fabricate(:user, id: -100)
     robot.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
