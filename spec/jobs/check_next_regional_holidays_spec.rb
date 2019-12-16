@@ -70,7 +70,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       @op.reload
 
       expect(@op.calendar_holidays[0]).to eq(
-        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
+        ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
       )
     end
   end
@@ -94,7 +94,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       @op.reload
 
       expect(@op.calendar_holidays[0]).to eq(
-        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
+        ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
       )
     end
   end

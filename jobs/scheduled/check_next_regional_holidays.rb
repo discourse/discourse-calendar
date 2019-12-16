@@ -46,6 +46,7 @@ module Jobs
       business_days = 1..5
       load_until = 6.months.from_now
       today = Date.today
+      holiday_hour = ::DiscourseCalendar::BEGINNING_OF_DAY_HOUR
 
       users_in_region.keys.sort.each do |region|
         holidays = Holidays.between(today, load_until, [region]).filter do |h|
@@ -55,7 +56,8 @@ module Jobs
         holidays.each do |next_holiday|
           users_in_region[region].each do |user_id|
             date = if tz = user_timezones[user_id]
-              next_holiday[:date].in_time_zone(tz).iso8601
+              datetime = next_holiday[:date].in_time_zone(tz).change(hour: holiday_hour)
+              datetime.iso8601
             else
               next_holiday[:date].to_s
             end

@@ -79,7 +79,7 @@ function initializeDiscourseCalendar(api) {
     return new window.FullCalendar.Calendar($calendar[0], {
       timeZone: moment.tz.guess(),
       timeZoneImpl: "moment-timezone",
-      nextDayThreshold: "23:59:59",
+      nextDayThreshold: "06:00:00",
       displayEventEnd: true,
       height: 650,
       firstDay: 1,

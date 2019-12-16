@@ -50,6 +50,9 @@ after_initialize do
 
     USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone')
 
+    BEGINNING_OF_DAY_HOUR = 6
+    END_OF_DAY_HOUR = 18
+
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end

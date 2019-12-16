@@ -53,8 +53,8 @@ describe DiscourseCalendar::EventUpdater do
     op.reload
 
     _, from, to = op.calendar_details[post.post_number.to_s]
-    expect(from).to eq("2018-06-05T00:00:00Z")
-    expect(to).to eq("2018-06-11T23:59:59Z")
+    expect(from).to eq("2018-06-05T06:00:00Z")
+    expect(to).to eq("2018-06-11T18:00:00Z")
   end
 
   it "will work with timezone" do
@@ -67,7 +67,7 @@ describe DiscourseCalendar::EventUpdater do
     op.reload
 
     _, from, to = op.calendar_details[post.post_number.to_s]
-    expect(from).to eq("2018-06-05T00:00:00+02:00")
+    expect(from).to eq("2018-06-05T06:00:00+02:00")
     expect(to).to eq("2018-06-11T13:45:33-07:00")
   end
 
