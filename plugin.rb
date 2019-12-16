@@ -203,10 +203,11 @@ after_initialize do
 
     grouped_events = {}
     holidays = post_custom_fields[DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD]
+    all_emojis = Emoji.all
     Array(holidays).each do |region, name, date, username|
       country_code = region.split("_").first
       emoji = REGION_TO_EMOJI_FLAG[country_code] || DEFAULT_EMOJI
-      emoji_image_url = Emoji[emoji]&.url
+      emoji_image_url = all_emojis.find { |e| e.name == emoji }&.url
       emoji_image = "<img src='#{emoji_image_url}' title=':#{emoji}:' class='emoji' alt=':#{emoji}:'>" if emoji_image_url
       identifier = "#{country_code}-#{name}"
       grouped_events[identifier] ||= {
