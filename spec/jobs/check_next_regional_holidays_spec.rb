@@ -31,7 +31,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     ])
   end
 
-  it "only checks for holidays during business days" do
+  xit "only checks for holidays during business days" do
     frenchy = Fabricate(:user)
     frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
     frenchy.save!
