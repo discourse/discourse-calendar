@@ -44,23 +44,27 @@ module Jobs
       new_regional_holidays = []
 
       business_days = 1..5
-      one_month_from_now = 1.month.from_now
+      load_until = 6.months.from_now
+      today = Date.today
 
       users_in_region.keys.sort.each do |region|
-        next unless next_holiday = Holidays.year_holidays([region]).find do |h|
-          business_days === h[:date].wday && h[:date] < one_month_from_now
+        holidays = Holidays.between(today, load_until, [region]).filter do |h|
+          business_days === h[:date].wday
         end
 
-        users_in_region[region].each do |user_id|
-          next unless usernames[user_id]
+        next unless holidays.present?
 
-          date = if tz = user_timezones[user_id]
-            next_holiday[:date].in_time_zone(tz).iso8601
-          else
-            next_holiday[:date].to_s
+        holidays.each do |next_holiday|
+          users_in_region[region].each do |user_id|
+            date = if tz = user_timezones[user_id]
+              next_holiday[:date].in_time_zone(tz).iso8601
+            else
+              next_holiday[:date].to_s
+            end
+
+            next unless usernames[user_id]
+            new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
           end
-
-          new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
         end
       end
 
