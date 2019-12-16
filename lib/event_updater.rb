@@ -13,11 +13,11 @@ module DiscourseCalendar
       end
 
       from = self.convert_to_date_time(dates[0])
-      from = from.beginning_of_day unless dates[0]['time']
+      from = from.change(hour: DiscourseCalendar::BEGINNING_OF_DAY_HOUR) unless dates[0]['time']
 
       if dates.count == 2
         to = self.convert_to_date_time(dates[1])
-        to = to.end_of_day unless dates[1]['time']
+        to = to.change(hour: DiscourseCalendar::END_OF_DAY_HOUR) unless dates[1]['time']
       end
 
       html = post.cooked

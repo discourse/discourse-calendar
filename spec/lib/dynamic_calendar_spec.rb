@@ -21,7 +21,7 @@ describe "Dynamic calendar" do
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T00:00:00+02:00", nil, p.user.username, nil
+      "Rome", "2018-06-05T06:00:00+02:00", nil, p.user.username, nil
     ])
   end
 
@@ -39,7 +39,7 @@ describe "Dynamic calendar" do
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T23:59:59+02:00", p.user.username, nil
+      "Rome", "2018-06-05T06:00:00+02:00", "2018-06-08T18:00:00+02:00", p.user.username, nil
     ])
   end
 
