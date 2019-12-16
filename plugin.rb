@@ -193,7 +193,7 @@ after_initialize do
       result << {
         type: :standalone,
         post_number: post_number.to_i,
-        message: PrettyText.cook(message).sub(/\A<p>/, "").sub(/<\/p>/, ""),
+        message: message,
         from: from,
         to: to,
         username: username,
@@ -206,7 +206,8 @@ after_initialize do
     Array(holidays).each do |region, name, date, username|
       country_code = region.split("_").first
       emoji = REGION_TO_EMOJI_FLAG[country_code] || DEFAULT_EMOJI
-      emoji_image = PrettyText.cook(":#{emoji}:").sub(/\A<p>/, "").sub(/<\/p>/, "")
+      emoji_image_url = Emoji[emoji]&.url
+      emoji_image = "<img src='#{emoji_image_url}' title=':#{emoji}:' class='emoji' alt=':#{emoji}:'>" if emoji_image_url
       identifier = "#{country_code}-#{name}"
       grouped_events[identifier] ||= {
         type: :grouped,
