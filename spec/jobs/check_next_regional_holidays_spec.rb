@@ -12,7 +12,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     SiteSetting.holiday_calendar_topic_id = @op.topic_id
   end
 
-  it "works" do
+  it "adds all holidays in the next 6 months" do
     frenchy = Fabricate(:user)
     frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
     frenchy.save!
@@ -23,7 +23,11 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     @op.reload
 
     expect(@op.calendar_holidays).to eq([
-      ["fr", "Assomption", "2019-08-15", frenchy.username]
+      ["fr", "Assomption", "2019-08-15", frenchy.username],
+      ["fr", "Toussaint", "2019-11-01", frenchy.username],
+      ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
+      ["fr", "Noël", "2019-12-25", frenchy.username],
+      ["fr", "Jour de l'an", "2020-01-01", frenchy.username]
     ])
   end
 
@@ -38,21 +42,12 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     @op.reload
 
     # The "Fête Nationale" is on July 14th but it's on a Sunday in 2019
-    expect(@op.calendar_holidays).to eq([])
-  end
-
-  it "only checks for holidays within the current year" do
-    frenchy = Fabricate(:user)
-    frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    frenchy.save!
-
-    freeze_time Time.new(2019, 12, 29)
-
-    subject.execute(nil)
-    @op.reload
-
-    # We don't want 2020/1/1
-    expect(@op.calendar_holidays).to eq([])
+    expect(@op.calendar_holidays).to eq([
+      ["fr", "Assomption", "2019-08-15", frenchy.username],
+      ["fr", "Toussaint", "2019-11-01", frenchy.username],
+      ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
+      ["fr", "Noël", "2019-12-25", frenchy.username]
+    ])
   end
 
   context "when user_options.timezone column exists" do
@@ -74,9 +69,9 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       subject.execute(nil)
       @op.reload
 
-      expect(@op.calendar_holidays).to eq([
+      expect(@op.calendar_holidays[0]).to eq(
         ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
-      ])
+      )
     end
   end
 
@@ -98,9 +93,9 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       subject.execute(nil)
       @op.reload
 
-      expect(@op.calendar_holidays).to eq([
+      expect(@op.calendar_holidays[0]).to eq(
         ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
-      ])
+      )
     end
   end
 
