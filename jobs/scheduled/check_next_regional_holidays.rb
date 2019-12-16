@@ -52,8 +52,6 @@ module Jobs
           business_days === h[:date].wday
         end
 
-        next unless holidays.present?
-
         holidays.each do |next_holiday|
           users_in_region[region].each do |user_id|
             date = if tz = user_timezones[user_id]
