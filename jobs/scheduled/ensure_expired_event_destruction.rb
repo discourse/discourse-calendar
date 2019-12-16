@@ -37,8 +37,6 @@ module Jobs
           next if (to_time + delay.hour) > Time.zone.now
 
           if post = pcf.post.topic.posts.find_by(post_number: post_number)
-            destroy_post(post)
-
             post.post_replies.each do |post_reply|
               # we do not want to destroy any direct replies with dates
               # (they will get destroyed automatically when their time comes)
@@ -46,6 +44,8 @@ module Jobs
               next if post_numbers_with_dates.include?(reply_post.post_number)
               destroy_post(reply_post)
             end
+
+            destroy_post(post)
           end
         end
       end
