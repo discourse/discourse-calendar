@@ -28,19 +28,31 @@ module Jobs
         .where("topics.id IN (?)", calendar_topic_ids)
         .find_each do |pcf|
 
-        details = JSON.parse(pcf.value)
-        details.each do |post_number, (_, from, to, _, recurring)|
+        posts_with_dates = JSON.parse(pcf.value)
+        post_numbers_with_dates = posts_with_dates.keys.map(&:to_i)
+        posts_with_dates.each do |post_number, (_, from, to, _, recurring)|
           next if recurring
 
           to_time = to ? Time.parse(to) : Time.parse(from) + 24.hours
+          next if (to_time + delay.hour) > Time.zone.now
 
-          if (to_time + delay.hour) < Time.zone.now
-            if post = pcf.post.topic.posts.find_by(post_number: post_number)
-              PostDestroyer.new(Discourse.system_user, post).destroy
+          if post = pcf.post.topic.posts.find_by(post_number: post_number)
+            post.post_replies.each do |post_reply|
+              # we do not want to destroy any direct replies with dates
+              # (they will get destroyed automatically when their time comes)
+              reply_post = post_reply.reply
+              next if post_numbers_with_dates.include?(reply_post.post_number)
+              destroy_post(reply_post)
             end
+
+            destroy_post(post)
           end
         end
       end
+    end
+
+    def destroy_post(post)
+      PostDestroyer.new(Discourse.system_user, post).destroy
     end
   end
 end
