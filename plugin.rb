@@ -48,7 +48,7 @@ after_initialize do
 
     TIMEZONE_CUSTOM_FIELD ||= "timezone"
 
-    USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone')
+    USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone') rescue nil
 
     BEGINNING_OF_DAY_HOUR = 6
     END_OF_DAY_HOUR = 18
