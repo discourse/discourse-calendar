@@ -210,14 +210,23 @@ after_initialize do
       emoji_image_url = all_emojis.find { |e| e.name == emoji }&.url
       emoji_image = "<img src='#{emoji_image_url}' title=':#{emoji}:' class='emoji' alt=':#{emoji}:'>" if emoji_image_url
       identifier = "#{country_code}-#{name}"
-      grouped_events[identifier] ||= {
-        type: :grouped,
-        emoji: emoji ? emoji_image : nil,
-        name: name,
-        from: date,
-        usernames: []
-      }
-      grouped_events[identifier][:usernames] << username
+
+      if grouped_events[identifier] &&
+         grouped_events[identifier][:from] != date
+        grouped_events[identifier][:to] = date
+      else
+        grouped_events[identifier] ||= {
+          type: :grouped,
+          emoji: emoji ? emoji_image : nil,
+          name: name,
+          from: date,
+          usernames: []
+        }
+      end
+
+      if !grouped_events[identifier][:to]
+        grouped_events[identifier][:usernames] << username
+      end
     end
 
     result.concat(grouped_events.values)
