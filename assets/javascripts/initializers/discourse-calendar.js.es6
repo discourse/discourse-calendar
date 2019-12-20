@@ -313,6 +313,10 @@ function initializeDiscourseCalendar(api) {
     let defaultTimezone = null;
     if ($timezonePicker.length) {
       defaultTimezone = $timezonePicker.attr("data-default-timezone");
+      const isValidDefaultTimezone = !!moment.tz.zone(defaultTimezone);
+      if (!isValidDefaultTimezone) {
+        defaultTimezone = null;
+      }
     }
     const currentUserTimezone = currentUser ? currentUser.timezone : null;
     return defaultTimezone || currentUserTimezone || moment.tz.guess();
