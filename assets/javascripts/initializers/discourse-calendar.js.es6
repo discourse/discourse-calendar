@@ -46,7 +46,7 @@ function initializeDiscourseCalendar(api) {
   function render($calendar, post) {
     $calendar = $calendar.empty();
 
-    const timeZone = _getTimeZone(api.getCurrentUser());
+    const timeZone = _getTimeZone($calendar, api.getCurrentUser());
     const calendar = _buildCalendar($calendar, timeZone);
     const isStatic = $calendar.attr("data-calendar-type") === "static";
 
@@ -308,16 +308,13 @@ function initializeDiscourseCalendar(api) {
     });
   }
 
-  function _getTimeZone(currentUser) {
-    let $timezonePicker = $(".discourse-calendar-timezone-picker");
-    let defaultTimezone = null;
-    if ($timezonePicker.length) {
-      defaultTimezone = $timezonePicker.attr("data-default-timezone");
-      const isValidDefaultTimezone = !!moment.tz.zone(defaultTimezone);
-      if (!isValidDefaultTimezone) {
-        defaultTimezone = null;
-      }
+  function _getTimeZone($calendar, currentUser) {
+    let defaultTimezone = $calendar.attr("data-calendar-default-timezone");
+    const isValidDefaultTimezone = !!moment.tz.zone(defaultTimezone);
+    if (!isValidDefaultTimezone) {
+      defaultTimezone = null;
     }
+
     const currentUserTimezone = currentUser ? currentUser.timezone : null;
     return defaultTimezone || currentUserTimezone || moment.tz.guess();
   }
@@ -335,6 +332,8 @@ function initializeDiscourseCalendar(api) {
       });
 
       $timezonePicker.val(timeZone);
+    } else {
+      $(".discourse-calendar-timezone-wrap").text(`${timeZone}`);
     }
   }
 }
