@@ -216,14 +216,6 @@ function initializeDiscourseCalendar(api) {
     calendar.setOption("eventMouseLeave", ({ jsEvent }) => {
       hidePopover(jsEvent);
     });
-
-    calendar.setOption("eventRender", data => {
-      const emojiImage = data.event.extendedProps.emojiImage;
-      if (emojiImage) {
-        const element = data.el.querySelector(".fc-title");
-        $(element).prepend(emojiImage);
-      }
-    });
   }
 
   function _buildEvent(detail) {
@@ -274,6 +266,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     event.extendedProps.htmlContent = detail.message;
+    event.title = event.title.replace(/<img[^>]*>/g, "");
     calendar.addEvent(event);
   }
 
