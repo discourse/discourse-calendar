@@ -1,3 +1,4 @@
 .rubocop-https---raw-githubusercontent-com-discourse-discourse-master--rubocop-yml
 .DS_Store
 gems/
+/node_modules
