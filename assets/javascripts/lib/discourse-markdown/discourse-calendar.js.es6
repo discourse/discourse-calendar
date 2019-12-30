@@ -2,11 +2,10 @@ const calendarRule = {
   tag: "calendar",
 
   before: function(state, info) {
-    let wrapperDivToken = state.push("div_open", "div", 1);
+    let wrapperDivToken = state.push("div_calendar_wrap", "div", 1);
     wrapperDivToken.attrs = [["class", "discourse-calendar-wrap"]];
 
-    // div.discourse-calendar-header
-    let headerDivToken = state.push("div_open", "div", 1);
+    let headerDivToken = state.push("div_calendar_header", "div", 1);
     headerDivToken.attrs = [["class", "discourse-calendar-header"]];
 
     let titleH2Token = state.push("h2_open", "h2", 1);
@@ -17,21 +16,19 @@ const calendarRule = {
     timezoneWrapToken.attrs = [
       ["class", "discourse-calendar-timezone-wrap"]
     ]
-    if (info.attrs.tzpicker === "true") {
+    if (info.attrs.tzPicker === "true") {
       _renderTimezonePicker(state, info);
     }
     state.push("span_close", "span", -1);
 
-    state.push("div_close", "div", -1);
-    // end div.discourse-calendar-header
+    state.push("div_calendar_header", "div", -1);
 
-    // div.calendar
-    let mainCalendarDivToken = state.push("div_open", "div", 1);
+    let mainCalendarDivToken = state.push("div_calendar", "div", 1);
     mainCalendarDivToken.attrs = [
       ["class", "calendar"],
       ["data-calendar-type", info.attrs.type || "dynamic"],
       ["data-calendar-default-view", info.attrs.defaultView || "month"],
-      ["data-calendar-default-timezone", info.attrs.tzdefault]
+      ["data-calendar-default-timezone", info.attrs.defaultTimezone]
     ];
 
     if (info.attrs.weekends) {
@@ -47,11 +44,8 @@ const calendarRule = {
   },
 
   after: function(state) {
-    state.push("div_close", "div", -1);
-    // end div.calendar
-
-    state.push("div_close", "div", -1);
-    // end div.discourse-calendar-wrap
+    state.push("div_calendar", "div", -1);
+    state.push("div_calendar_wrap", "div", -1);
   }
 };
 
@@ -72,7 +66,6 @@ export function setup(helper) {
     "select.discourse-calendar-timezone-picker",
     "span.discourse-calendar-timezone-wrap",
     "h2.discourse-calendar-title",
-    "option",
     "div[data-calendar-type]",
     "div[data-calendar-default-view]",
     "div[data-calendar-default-timezone]",

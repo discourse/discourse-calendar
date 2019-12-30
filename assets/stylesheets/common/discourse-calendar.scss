@@ -1,6 +1,6 @@
 .calendar {
-  height: 690px; // Must be fixed to prevent height change on load
-  padding: 0 10px;
+  height: 645px; // Must be fixed to prevent height change on load
+  padding: 0 0.5em;
 
   &.fc-unthemed {
     tbody,
@@ -37,7 +37,7 @@
     }
 
     .fc-center {
-      visibility: hidden;
+      display: none;
     }
 
     .fc-button {
@@ -127,7 +127,7 @@ a.holiday {
   }
 
   .discourse-calendar-title {
-    margin-top: 10px;
+    margin-top: 0.5em;
   }
   
   .title {
