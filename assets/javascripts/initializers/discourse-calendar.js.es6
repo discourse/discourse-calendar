@@ -282,25 +282,35 @@ function initializeDiscourseCalendar(api) {
     let peopleCount = 0;
     let htmlContent = "";
     let usernames = [];
+    let localEventNames = [];
 
     Object.keys(detail.localEvents).forEach(key => {
       const localEvent = detail.localEvents[key];
-      peopleCount += localEvent.usernames.length;
       htmlContent += `<b>${key}</b>: ${localEvent.usernames.join(", ")}<br>`;
       usernames = usernames.concat(localEvent.usernames);
+      localEventNames.push(key);
     });
 
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
-    if (peopleCount > 1) {
+
+    if (usernames.length > 1) {
       event.title =
-        I18n.t("discourse_calendar.on_holiday") + ` (${peopleCount})`;
+        `(${usernames.length}) ` + I18n.t("discourse_calendar.bank_holiday");
     } else {
       event.title = usernames[0];
     }
-    const emojiUrl = emojiUrlFor("desert_island");
-    event.extendedProps.emojiImage = `<img src="${emojiUrl}" title=':desert_island:' class='emoji' alt=':desert_island:'>`;
-    event.extendedProps.htmlContent = htmlContent;
+
+    if (localEventNames.length > 1) {
+      event.extendedProps.htmlContent = htmlContent;
+    } else {
+      if (usernames.length > 1) {
+        event.extendedProps.htmlContent = htmlContent;
+      } else {
+        event.extendedProps.htmlContent = localEventNames[0];
+      }
+    }
+
     calendar.addEvent(event);
   }
 
@@ -320,6 +330,7 @@ function initializeDiscourseCalendar(api) {
 
     const formatedGroupedEvents = {};
     const format = "YYYY-MM-DDT00:00:00+0000";
+    const formatEnd = "YYYY-MM-DDT23:59:59+0000";
     groupedEvents.forEach(groupedEvent => {
       const fromDate = moment(groupedEvent.from).format(format);
       let identifier = fromDate;
