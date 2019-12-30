@@ -332,8 +332,12 @@ function initializeDiscourseCalendar(api) {
 
       formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
         localEvents: {},
-        from: groupedEvent.from,
-        to: groupedEvent.to
+        from: moment(groupedEvent.from)
+          .startOf("day")
+          .format(format),
+        to: moment(groupedEvent.to)
+          .endOf("day")
+          .format(formatEnd)
       };
 
       const namedEvent = (formatedGroupedEvents[identifier].localEvents[
