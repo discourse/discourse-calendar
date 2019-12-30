@@ -16,23 +16,6 @@ register_asset "stylesheets/common/discourse-calendar.scss"
 PLUGIN_NAME ||= "calendar"
 DATA_PREFIX ||= "data-calendar-"
 
-REGION_TO_EMOJI_FLAG ||= {
-  "ar" => "argentina",
-  "at" => "austria",
-  "au" => "australia",
-  "br" => "brazil",
-  "ca" => "canada",
-  "de" => "de",
-  "fr" => "fr",
-  "gb" => "uk",
-  "it" => "it",
-  "no" => "norway",
-  "nz" => "new_zealand",
-  "ro" => "romania",
-  "sg" => "singapore",
-  "us" => "us",
-}
-
 after_initialize do
   module ::DiscourseCalendar
     CALENDAR_CUSTOM_FIELD ||= "calendar"
@@ -205,8 +188,7 @@ after_initialize do
       country_code = region.split("_").first
       identifier = "#{country_code}-#{name}"
 
-      if grouped_events[identifier] &&
-         grouped_events[identifier][:from] != date
+      if grouped_events[identifier]
         grouped_events[identifier][:to] = date
       else
         grouped_events[identifier] ||= {
@@ -217,9 +199,8 @@ after_initialize do
         }
       end
 
-      if !grouped_events[identifier][:to]
-        grouped_events[identifier][:usernames] << username
-      end
+      grouped_events[identifier][:usernames] << username
+      grouped_events[identifier][:usernames].uniq!
     end
 
     result.concat(grouped_events.values)

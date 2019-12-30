@@ -334,33 +334,30 @@ function initializeDiscourseCalendar(api) {
     });
 
     const formatedGroupedEvents = {};
-    const format = "YYYY-MM-DDT00:00:00+0000";
-    const formatEnd = "YYYY-MM-DDT23:59:59+0000";
     groupedEvents.forEach(groupedEvent => {
-      const fromDate = moment(groupedEvent.from).format(format);
-      let identifier = fromDate;
-      if (groupedEvent.to) {
-        const toDate = moment(groupedEvent.to).format(format);
-        if (fromDate !== toDate) {
-          identifier = `${identifier}-${toDate}`;
-        }
-      }
+      const minDate = moment(groupedEvent.from)
+        .utc()
+        .startOf("day")
+        .subtract(12, "hours")
+        .toISOString();
+      const maxdate = moment(groupedEvent.to || groupedEvent.from)
+        .utc()
+        .endOf("day")
+        .add(12, "hours")
+        .toISOString();
 
+      const identifier = `${minDate}-${maxdate}`;
       formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
-        localEvents: {},
-        from: moment(groupedEvent.from)
-          .startOf("day")
-          .format(format),
-        to: moment(groupedEvent.to)
-          .endOf("day")
-          .format(formatEnd)
+        from: groupedEvent.from,
+        to: groupedEvent.to,
+        localEvents: {}
       };
 
-      const namedEvent = (formatedGroupedEvents[identifier].localEvents[
+      formatedGroupedEvents[identifier].localEvents[
         groupedEvent.name
       ] = formatedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
         usernames: []
-      });
+      };
 
       formatedGroupedEvents[identifier].localEvents[
         groupedEvent.name
