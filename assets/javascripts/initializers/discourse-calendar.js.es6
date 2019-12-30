@@ -3,6 +3,7 @@ import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
 import { showPopover, hidePopover } from "discourse/lib/d-popover";
+import { emojiUrlFor } from "discourse/lib/text";
 
 // https://stackoverflow.com/a/16348977
 /* eslint-disable */
@@ -278,24 +279,81 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _addGroupedEvent(calendar, post, detail) {
+    let peopleCount = 0;
+    let htmlContent = "";
+    let usernames = [];
+
+    Object.keys(detail.localEvents).forEach(key => {
+      const localEvent = detail.localEvents[key];
+      peopleCount += localEvent.usernames.length;
+      htmlContent += `<b>${key}</b>: ${localEvent.usernames.join(", ")}<br>`;
+      usernames = usernames.concat(localEvent.usernames);
+    });
+
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
-    event.title = detail.name;
-    event.extendedProps.emojiImage = detail.emoji;
-    event.extendedProps.htmlContent = detail.usernames.join(", ");
+    if (peopleCount > 1) {
+      event.title =
+        I18n.t("discourse_calendar.on_holiday") + ` (${peopleCount})`;
+    } else {
+      event.title = usernames[0];
+    }
+    const emojiUrl = emojiUrlFor("desert_island");
+    event.extendedProps.emojiImage = `<img src="${emojiUrl}" title=':desert_island:' class='emoji' alt=':desert_island:'>`;
+    event.extendedProps.htmlContent = htmlContent;
     calendar.addEvent(event);
   }
 
   function _setDynamicCalendarEvents(calendar, post) {
+    const groupedEvents = [];
+
     (post.calendar_details || []).forEach(detail => {
       switch (detail.type) {
         case "grouped":
-          _addGroupedEvent(calendar, post, detail);
+          groupedEvents.push(detail);
           break;
         case "standalone":
           _addStandaloneEvent(calendar, post, detail);
           break;
       }
+    });
+
+    const formatedGroupedEvents = {};
+    const format = "YYYY-MM-DDT00:00:00+0000";
+    groupedEvents.forEach(groupedEvent => {
+      const fromDate = moment(groupedEvent.from).format(format);
+      let identifier = fromDate;
+      if (groupedEvent.to) {
+        const toDate = moment(groupedEvent.to).format(format);
+        if (fromDate !== toDate) {
+          identifier = `${identifier}-${toDate}`;
+        }
+      }
+
+      formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
+        localEvents: {},
+        from: groupedEvent.from,
+        to: groupedEvent.to
+      };
+
+      const namedEvent = (formatedGroupedEvents[identifier].localEvents[
+        groupedEvent.name
+      ] = formatedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
+        usernames: []
+      });
+
+      formatedGroupedEvents[identifier].localEvents[
+        groupedEvent.name
+      ].usernames.push.apply(
+        formatedGroupedEvents[identifier].localEvents[groupedEvent.name]
+          .usernames,
+        groupedEvent.usernames
+      );
+    });
+
+    Object.keys(formatedGroupedEvents).forEach(key => {
+      const formatedGroupedEvent = formatedGroupedEvents[key];
+      _addGroupedEvent(calendar, post, formatedGroupedEvent);
     });
   }
 }
