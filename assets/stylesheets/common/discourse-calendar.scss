@@ -1,5 +1,6 @@
 .calendar {
-  height: 690px; // Must be fixed to prevent height change on load
+  height: 645px; // Must be fixed to prevent height change on load
+  padding: 0 0.5em;
 
   &.fc-unthemed {
     tbody,
@@ -38,6 +39,10 @@
 
     .fc-widget-header span {
       padding: 3px 3px 3px 0.5em;
+    }
+
+    .fc-center {
+      display: none;
     }
 
     .fc-button {
@@ -110,4 +115,32 @@ a.holiday {
 
 .combo-box.user-timezone {
   min-width: 15em;
+}
+
+.discourse-calendar-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0.5em;
+  border-bottom: 1px solid $primary-low;
+  background: $primary-very-low;
+
+  .discourse-calendar-timezone-picker {
+    margin-bottom: 0;
+  }
+
+  .discourse-calendar-title {
+    margin-top: 0.5em;
+  }
+  
+  .title {
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+}
+
+.discourse-calendar-wrap {
+  border: 1px solid $primary-low;
 }

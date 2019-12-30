@@ -46,7 +46,8 @@ function initializeDiscourseCalendar(api) {
   function render($calendar, post) {
     $calendar = $calendar.empty();
 
-    const calendar = _buildCalendar($calendar);
+    const timezone = _getTimeZone($calendar, api.getCurrentUser());
+    const calendar = _buildCalendar($calendar, timezone);
     const isStatic = $calendar.attr("data-calendar-type") === "static";
 
     if (isStatic) {
@@ -57,6 +58,8 @@ function initializeDiscourseCalendar(api) {
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
     }
+
+    _setupTimezonePicker(calendar, timezone);
   }
 
   function attachCalendar($elem, helper) {
@@ -71,13 +74,16 @@ function initializeDiscourseCalendar(api) {
     ).then(() => render($calendar, helper.getModel()));
   }
 
-  function _buildCalendar($calendar) {
+  function _buildCalendar($calendar, timeZone) {
+    let $calendarTitle = document.querySelector(
+      ".discourse-calendar-header > .discourse-calendar-title"
+    );
     const defaultView = escapeExpression(
       $calendar.attr("data-calendar-default-view") || "month"
     );
 
     return new window.FullCalendar.Calendar($calendar[0], {
-      timeZone: moment.tz.guess(),
+      timeZone,
       timeZoneImpl: "moment-timezone",
       nextDayThreshold: "06:00:00",
       displayEventEnd: true,
@@ -101,7 +107,8 @@ function initializeDiscourseCalendar(api) {
         left: "prev,next today",
         center: "title",
         right: "month,basicWeek,listNextYear"
-      }
+      },
+      datesRender: info => ($calendarTitle.innerText = info.view.title)
     });
   }
 
@@ -365,6 +372,38 @@ function initializeDiscourseCalendar(api) {
       const formatedGroupedEvent = formatedGroupedEvents[key];
       _addGroupedEvent(calendar, post, formatedGroupedEvent);
     });
+  }
+
+  function _getTimeZone($calendar, currentUser) {
+    let defaultTimezone = $calendar.attr("data-calendar-default-timezone");
+    const isValidDefaultTimezone = !!moment.tz.zone(defaultTimezone);
+    if (!isValidDefaultTimezone) {
+      defaultTimezone = null;
+    }
+
+    return (
+      defaultTimezone ||
+      (currentUser && currentUser.timezone) ||
+      moment.tz.guess()
+    );
+  }
+
+  function _setupTimezonePicker(calendar, timezone) {
+    let $timezonePicker = $(".discourse-calendar-timezone-picker");
+
+    if ($timezonePicker.length) {
+      $timezonePicker.on("change", function(event) {
+        calendar.setOption("timeZone", event.target.value);
+      });
+
+      moment.tz.names().forEach(timezone => {
+        $timezonePicker.append(new Option(timezone, timezone));
+      });
+
+      $timezonePicker.val(timezone);
+    } else {
+      $(".discourse-calendar-timezone-wrap").text(timezone);
+    }
   }
 }
 

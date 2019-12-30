@@ -1,30 +1,74 @@
 const calendarRule = {
   tag: "calendar",
 
-  wrap(token, info) {
-    token.attrs = [
+  before: function(state, info) {
+    let wrapperDivToken = state.push("div_calendar_wrap", "div", 1);
+    wrapperDivToken.attrs = [["class", "discourse-calendar-wrap"]];
+
+    let headerDivToken = state.push("div_calendar_header", "div", 1);
+    headerDivToken.attrs = [["class", "discourse-calendar-header"]];
+
+    let titleH2Token = state.push("h2_open", "h2", 1);
+    titleH2Token.attrs = [["class", "discourse-calendar-title"]];
+    state.push("h2_close", "h2", -1);
+
+    let timezoneWrapToken = state.push("span_open", "span", 1);
+    timezoneWrapToken.attrs = [
+      ["class", "discourse-calendar-timezone-wrap"]
+    ]
+    if (info.attrs.tzPicker === "true") {
+      _renderTimezonePicker(state, info);
+    }
+    state.push("span_close", "span", -1);
+
+    state.push("div_calendar_header", "div", -1);
+
+    let mainCalendarDivToken = state.push("div_calendar", "div", 1);
+    mainCalendarDivToken.attrs = [
       ["class", "calendar"],
       ["data-calendar-type", info.attrs.type || "dynamic"],
-      ["data-calendar-default-view", info.attrs.defaultView || "month"]
+      ["data-calendar-default-view", info.attrs.defaultView || "month"],
+      ["data-calendar-default-timezone", info.attrs.defaultTimezone]
     ];
 
     if (info.attrs.weekends) {
-      token.attrs.push(["data-weekends", info.attrs.weekends]);
+      mainCalendarDivToken.attrs.push(["data-weekends", info.attrs.weekends]);
     }
 
     if (info.attrs.hiddenDays) {
-      token.attrs.push(["data-hidden-days", info.attrs.hiddenDays]);
+      mainCalendarDivToken.attrs.push([
+        "data-hidden-days",
+        info.attrs.hiddenDays
+      ]);
     }
+  },
 
-    return true;
+  after: function(state) {
+    state.push("div_calendar", "div", -1);
+    state.push("div_calendar_wrap", "div", -1);
   }
 };
+
+function _renderTimezonePicker(state, info) {
+  let timezoneSelectToken = state.push("select_open", "select", 1);
+  timezoneSelectToken.attrs = [
+    ["class", "discourse-calendar-timezone-picker"]
+  ];
+
+  state.push("select_close", "select", -1);
+}
 
 export function setup(helper) {
   helper.whiteList([
     "div.calendar",
+    "div.discourse-calendar-header",
+    "div.discourse-calendar-wrap",
+    "select.discourse-calendar-timezone-picker",
+    "span.discourse-calendar-timezone-wrap",
+    "h2.discourse-calendar-title",
     "div[data-calendar-type]",
     "div[data-calendar-default-view]",
+    "div[data-calendar-default-timezone]",
     "div[data-weekends]",
     "div[data-hidden-days]"
   ]);
