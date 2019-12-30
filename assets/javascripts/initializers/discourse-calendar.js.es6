@@ -298,11 +298,13 @@ function initializeDiscourseCalendar(api) {
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
 
-    if (usernames.length > 1) {
+    if (usernames.length > 3) {
       event.title =
-        `(${usernames.length}) ` + I18n.t("discourse_calendar.bank_holiday");
-    } else {
+        `(${usernames.length}) ` + I18n.t("discourse_calendar.holiday");
+    } else if (usernames.length === 1) {
       event.title = usernames[0];
+    } else {
+      event.title = `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
     }
 
     if (localEventNames.length > 1) {
