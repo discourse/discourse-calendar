@@ -2,7 +2,7 @@ en:
   js:
     discourse_calendar:
       on_holiday: "On Holiday"
-      bank_holiday: "Bank Holiday"
+      holiday: "Holiday"
       timezone:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."
