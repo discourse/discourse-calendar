@@ -284,12 +284,16 @@ function initializeDiscourseCalendar(api) {
     let usernames = [];
     let localEventNames = [];
 
-    Object.keys(detail.localEvents).forEach(key => {
-      const localEvent = detail.localEvents[key];
-      htmlContent += `<b>${key}</b>: ${localEvent.usernames.join(", ")}<br>`;
-      usernames = usernames.concat(localEvent.usernames);
-      localEventNames.push(key);
-    });
+    Object.keys(detail.localEvents)
+      .sort()
+      .forEach(key => {
+        const localEvent = detail.localEvents[key];
+        htmlContent += `<b>${key}</b>: ${localEvent.usernames
+          .sort()
+          .join(", ")}<br>`;
+        usernames = usernames.concat(localEvent.usernames);
+        localEventNames.push(key);
+      });
 
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
