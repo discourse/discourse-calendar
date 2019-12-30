@@ -31,6 +31,11 @@
       margin: 1em 0 0.5em 0;
     }
 
+    .fc-title {
+      @include ellipsis;
+      display: block;
+    }
+
     .fc-widget-header span {
       padding: 3px 3px 3px 0.5em;
     }
