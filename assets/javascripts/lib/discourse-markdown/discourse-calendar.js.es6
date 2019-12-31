@@ -13,9 +13,7 @@ const calendarRule = {
     state.push("h2_close", "h2", -1);
 
     let timezoneWrapToken = state.push("span_open", "span", 1);
-    timezoneWrapToken.attrs = [
-      ["class", "discourse-calendar-timezone-wrap"]
-    ]
+    timezoneWrapToken.attrs = [["class", "discourse-calendar-timezone-wrap"]];
     if (info.attrs.tzPicker === "true") {
       _renderTimezonePicker(state, info);
     }
@@ -49,11 +47,9 @@ const calendarRule = {
   }
 };
 
-function _renderTimezonePicker(state, info) {
+function _renderTimezonePicker(state) {
   let timezoneSelectToken = state.push("select_open", "select", 1);
-  timezoneSelectToken.attrs = [
-    ["class", "discourse-calendar-timezone-picker"]
-  ];
+  timezoneSelectToken.attrs = [["class", "discourse-calendar-timezone-picker"]];
 
   state.push("select_close", "select", -1);
 }
