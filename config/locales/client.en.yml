@@ -3,6 +3,7 @@ en:
     discourse_calendar:
       on_holiday: "On Holiday"
       holiday: "Holiday"
+      add_to_calendar: "Add to calendar"
       timezone:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."

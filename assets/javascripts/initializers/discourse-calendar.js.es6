@@ -108,7 +108,10 @@ function initializeDiscourseCalendar(api) {
         center: "title",
         right: "month,basicWeek,listNextYear"
       },
-      datesRender: info => ($calendarTitle.innerText = info.view.title)
+      datesRender: info => {
+        _insertAddToCalendarLinks(info);
+        $calendarTitle.innerText = info.view.title;
+      }
     });
   }
 
@@ -404,6 +407,35 @@ function initializeDiscourseCalendar(api) {
     } else {
       $(".discourse-calendar-timezone-wrap").text(timezone);
     }
+  }
+
+  function _insertAddToCalendarLinks(info) {
+    if (info.view.type !== "listNextYear") return;
+
+    let eventSegments = info.view.eventRenderer.segs;
+    for (const event of eventSegments) {
+      _insertAddToCalendarLinkForEvent(event);
+    }
+  }
+
+  function _insertAddToCalendarLinkForEvent(event) {
+    const container = event.el.querySelector(".fc-list-item-title");
+    const startDate = _formatDateForGoogleApi(event.start);
+    const endDate = _formatDateForGoogleApi(event.end);
+    const link = document.createElement("a");
+    const title = I18n.t("discourse_calendar.add_to_calendar");
+    link.title = title;
+    link.appendChild(document.createTextNode(title));
+    link.href = `http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
+      container.childNodes[0].innerHTML
+    )}&dates=${startDate}/${endDate}`;
+    link.target = "_blank";
+    link.classList.add("fc-list-item-add-to-calendar");
+    container.appendChild(link);
+  }
+
+  function _formatDateForGoogleApi(date) {
+    return date.toISOString().replace(/-|:|\.\d\d\d/g, "");
   }
 }
 

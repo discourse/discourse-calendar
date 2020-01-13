@@ -12,6 +12,8 @@ enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
 register_asset "stylesheets/common/discourse-calendar.scss"
+register_asset "stylesheets/mobile/discourse-calendar.scss", :mobile
+register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
 
 PLUGIN_NAME ||= "calendar"
 DATA_PREFIX ||= "data-calendar-"
