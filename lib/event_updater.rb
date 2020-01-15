@@ -13,12 +13,7 @@ module DiscourseCalendar
       end
 
       from = self.convert_to_date_time(dates[0])
-      from = from.change(hour: DiscourseCalendar::BEGINNING_OF_DAY_HOUR) unless dates[0]['time']
-
-      if dates.count == 2
-        to = self.convert_to_date_time(dates[1])
-        to = to.change(hour: DiscourseCalendar::END_OF_DAY_HOUR) unless dates[1]['time']
-      end
+      to = self.convert_to_date_time(dates[1]) if dates.count == 2
 
       html = post.cooked
       doc = Nokogiri::HTML::fragment(html)

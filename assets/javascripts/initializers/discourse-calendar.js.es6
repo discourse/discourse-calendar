@@ -397,6 +397,7 @@ function initializeDiscourseCalendar(api) {
     if ($timezonePicker.length) {
       $timezonePicker.on("change", function(event) {
         calendar.setOption("timeZone", event.target.value);
+        _insertAddToCalendarLinks(calendar);
       });
 
       moment.tz.names().forEach(timezone => {
@@ -411,31 +412,60 @@ function initializeDiscourseCalendar(api) {
 
   function _insertAddToCalendarLinks(info) {
     if (info.view.type !== "listNextYear") return;
+    const eventSegments = info.view.eventRenderer.segs;
+    const titleToTimeMap = _createTitleToTimeMap(info);
 
-    let eventSegments = info.view.eventRenderer.segs;
     for (const event of eventSegments) {
-      _insertAddToCalendarLinkForEvent(event);
+      _insertAddToCalendarLinkForEvent(event, titleToTimeMap);
     }
   }
 
-  function _insertAddToCalendarLinkForEvent(event) {
-    const container = event.el.querySelector(".fc-list-item-title");
-    const startDate = _formatDateForGoogleApi(event.start);
-    const endDate = _formatDateForGoogleApi(event.end);
+  function _insertAddToCalendarLinkForEvent(event, titleToTimeMap) {
+    const eventTitle = event.eventRange.def.title;
+    let startDate = titleToTimeMap[eventTitle].start;
+    let endDate = titleToTimeMap[eventTitle].end;
+
+    if (event.eventRange.def.allDay) {
+      startDate = _formatDateForGoogleApi(startDate, true);
+      if (endDate) {
+        endDate = _formatDateForGoogleApi(endDate, true);
+      }
+    } else {
+      startDate = _formatDateForGoogleApi(startDate);
+      endDate = _formatDateForGoogleApi(endDate);
+    }
+    let dateParam = endDate
+      ? `&dates=${startDate}/${endDate}`
+      : `&date=${startDate}`;
+
     const link = document.createElement("a");
     const title = I18n.t("discourse_calendar.add_to_calendar");
     link.title = title;
     link.appendChild(document.createTextNode(title));
-    link.href = `http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
-      container.childNodes[0].innerHTML
-    )}&dates=${startDate}/${endDate}`;
+    link.href = `
+      http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
+        eventTitle
+      )}${dateParam}`;
     link.target = "_blank";
     link.classList.add("fc-list-item-add-to-calendar");
-    container.appendChild(link);
+    event.el.querySelector(".fc-list-item-title").appendChild(link);
   }
 
-  function _formatDateForGoogleApi(date) {
-    return date.toISOString().replace(/-|:|\.\d\d\d/g, "");
+  function _formatDateForGoogleApi(date, allDay = false) {
+    if (!allDay) return date.toISOString().replace(/-|:|\.\d\d\d/g, "");
+
+    return moment(date)
+      .utc()
+      .format("YYYYMMDD");
+  }
+
+  function _createTitleToTimeMap(info) {
+    let map = {};
+
+    for (let event of info.view.calendar.getEvents()) {
+      map[event.title] = { start: event.start, end: event.end };
+    }
+    return map;
   }
 }
 
