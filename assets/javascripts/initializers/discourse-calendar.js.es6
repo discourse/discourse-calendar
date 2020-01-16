@@ -432,10 +432,6 @@ function initializeDiscourseCalendar(api) {
       : _endDateForAllDayEvent(startDate, event.eventRange.def.allDay);
     startDate = _formatDateForGoogleApi(startDate, event.eventRange.def.allDay);
 
-    let dateParam = endDate
-      ? `&dates=${startDate}/${endDate}`
-      : `&date=${startDate}`;
-
     const link = document.createElement("a");
     const title = I18n.t("discourse_calendar.add_to_calendar");
     link.title = title;
@@ -443,7 +439,7 @@ function initializeDiscourseCalendar(api) {
     link.href = `
       http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
         eventTitle
-      )}${dateParam}`;
+      )}&dates=${startDate}/${endDate}`;
     link.target = "_blank";
     link.classList.add("fc-list-item-add-to-calendar");
     event.el.querySelector(".fc-list-item-title").appendChild(link);
