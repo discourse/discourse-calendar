@@ -412,28 +412,26 @@ function initializeDiscourseCalendar(api) {
 
   function _insertAddToCalendarLinks(info) {
     if (info.view.type !== "listNextYear") return;
+
     const eventSegments = info.view.eventRenderer.segs;
-    const titleToTimeMap = _createTitleToTimeMap(info);
+    const eventSegmentDefMap = _eventSegmentDefMap(info);
 
     for (const event of eventSegments) {
-      _insertAddToCalendarLinkForEvent(event, titleToTimeMap);
+      _insertAddToCalendarLinkForEvent(event, eventSegmentDefMap);
     }
   }
 
-  function _insertAddToCalendarLinkForEvent(event, titleToTimeMap) {
+  function _insertAddToCalendarLinkForEvent(event, eventSegmentDefMap) {
     const eventTitle = event.eventRange.def.title;
-    let startDate = titleToTimeMap[eventTitle].start;
-    let endDate = titleToTimeMap[eventTitle].end;
+    let map = eventSegmentDefMap[event.eventRange.def.defId];
+    let startDate = map.start;
+    let endDate = map.end;
 
-    if (event.eventRange.def.allDay) {
-      startDate = _formatDateForGoogleApi(startDate, true);
-      if (endDate) {
-        endDate = _formatDateForGoogleApi(endDate, true);
-      }
-    } else {
-      startDate = _formatDateForGoogleApi(startDate);
-      endDate = _formatDateForGoogleApi(endDate);
-    }
+    endDate = endDate
+      ? _formatDateForGoogleApi(endDate, event.eventRange.def.allDay)
+      : _endDateForAllDayEvent(startDate, event.eventRange.def.allDay);
+    startDate = _formatDateForGoogleApi(startDate, event.eventRange.def.allDay);
+
     let dateParam = endDate
       ? `&dates=${startDate}/${endDate}`
       : `&date=${startDate}`;
@@ -459,11 +457,21 @@ function initializeDiscourseCalendar(api) {
       .format("YYYYMMDD");
   }
 
-  function _createTitleToTimeMap(info) {
+  function _endDateForAllDayEvent(startDate, allDay) {
+    const unit = allDay ? "days" : "hours";
+    return _formatDateForGoogleApi(
+      moment(startDate)
+        .add(1, unit)
+        .toDate(),
+      allDay
+    );
+  }
+
+  function _eventSegmentDefMap(info) {
     let map = {};
 
     for (let event of info.view.calendar.getEvents()) {
-      map[event.title] = { start: event.start, end: event.end };
+      map[event._instance.defId] = { start: event.start, end: event.end };
     }
     return map;
   }

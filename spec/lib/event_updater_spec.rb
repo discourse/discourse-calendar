@@ -3,7 +3,11 @@
 require 'rails_helper'
 
 describe DiscourseCalendar::EventUpdater do
-  before { SiteSetting.calendar_enabled = true }
+  before do
+    SiteSetting.calendar_enabled = true
+    SiteSetting.all_day_event_start_time = ""
+    SiteSetting.all_day_event_end_time = ""
+  end
 
   it "will correctly update the associated first post calendar details" do
     op = create_post(raw: "[calendar]\n[/calendar]")
@@ -81,5 +85,9 @@ describe DiscourseCalendar::EventUpdater do
     op.reload
 
     expect(post).to be_valid
+  end
+
+  describe "all day event site settings" do
+
   end
 end
