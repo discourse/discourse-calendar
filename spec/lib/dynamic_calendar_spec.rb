@@ -34,7 +34,6 @@ describe "Dynamic calendar" do
     ])
   end
 
-
   it "adds an entry with a range event" do
     p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
 
@@ -98,7 +97,6 @@ describe "Dynamic calendar" do
         "Rome", "2018-06-05T12:34:56Z", nil, p.user.username, nil
       ])
     end
-
 
     it "adds an entry with a range event" do
       p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')

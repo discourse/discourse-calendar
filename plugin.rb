@@ -79,7 +79,6 @@ after_initialize do
     end
   end
 
-
   class DiscourseCalendar::Calendar
     class << self
       def extract(post)
