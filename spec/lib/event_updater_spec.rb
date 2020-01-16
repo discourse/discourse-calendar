@@ -88,6 +88,36 @@ describe DiscourseCalendar::EventUpdater do
   end
 
   describe "all day event site settings" do
+    before do
+      SiteSetting.all_day_event_start_time = "06:30"
+      SiteSetting.all_day_event_end_time = "18:00"
+    end
 
+    it "will work with no time date" do
+      op = create_post(raw: "[calendar]\n[/calendar]")
+
+      raw = %{Rome [date="2018-06-05"] [date="2018-06-11"]}
+      post = create_post(raw: raw, topic: op.topic)
+      CookedPostProcessor.new(post).post_process
+
+      op.reload
+
+      _, from, to = op.calendar_details[post.post_number.to_s]
+      expect(from).to eq("2018-06-05T06:30:00Z")
+      expect(to).to eq("2018-06-11T18:00:00Z")
+    end
+    it "will work with timezone" do
+      op = create_post(raw: "[calendar]\n[/calendar]")
+
+      raw = %{Rome [date="2018-06-05" timezone="Europe/Paris"] [date="2018-06-11" time="13:45:33" timezone="America/Los_Angeles"]}
+      post = create_post(raw: raw, topic: op.topic)
+      CookedPostProcessor.new(post).post_process
+
+      op.reload
+
+      _, from, to = op.calendar_details[post.post_number.to_s]
+      expect(from).to eq("2018-06-05T06:30:00+02:00")
+      expect(to).to eq("2018-06-11T13:45:33-07:00")
+    end
   end
 end
