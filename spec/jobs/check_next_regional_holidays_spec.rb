@@ -71,8 +71,32 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       @op.reload
 
       expect(@op.calendar_holidays[0]).to eq(
-        ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
+        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
       )
+    end
+
+    describe "with all day event start and end time" do
+      before do
+        SiteSetting.all_day_event_start_time = "06:00"
+        SiteSetting.all_day_event_end_time = "18:00"
+      end
+
+      it "uses the user TZ when available" do
+        frenchy = Fabricate(:user)
+        frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
+        frenchy.user_option.timezone = "Europe/Paris"
+        frenchy.user_option.save!
+        frenchy.save!
+
+        freeze_time Time.zone.local(2019, 8, 1)
+
+        subject.execute(nil)
+        @op.reload
+
+        expect(@op.calendar_holidays[0]).to eq(
+          ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
+        )
+      end
     end
   end
 
@@ -95,8 +119,31 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       @op.reload
 
       expect(@op.calendar_holidays[0]).to eq(
-        ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
+        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
       )
+    end
+
+    describe "with all day event start and end time" do
+      before do
+        SiteSetting.all_day_event_start_time = "06:00"
+        SiteSetting.all_day_event_end_time = "18:00"
+      end
+
+      it "uses the users custom fields" do
+        frenchy = Fabricate(:user)
+        frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
+        frenchy.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD] = "Europe/Paris"
+        frenchy.save!
+
+        freeze_time Time.zone.local(2019, 8, 1)
+
+        subject.execute(nil)
+
+        @op.reload
+        expect(@op.calendar_holidays[0]).to eq(
+          ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
+        )
+      end
     end
   end
 

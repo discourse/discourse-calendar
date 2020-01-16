@@ -8,6 +8,10 @@
 
 gem "holidays", "8.0.0", require: false
 
+[
+  "../lib/calendar_settings_validator.rb",
+].each { |path| load File.expand_path(path, __FILE__) }
+
 enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
@@ -32,9 +36,6 @@ after_initialize do
     TIMEZONE_CUSTOM_FIELD ||= "timezone"
 
     USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone') rescue nil
-
-    BEGINNING_OF_DAY_HOUR = 6
-    END_OF_DAY_HOUR = 18
 
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
@@ -66,6 +67,18 @@ after_initialize do
     whitelist_staff_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
     register_editable_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
   end
+
+  DiscourseEvent.on(:site_setting_changed) do |name, old_value, new_value|
+    next unless [:all_day_event_start_time, :all_day_event_end_time].include? name
+
+    post_ids = PostCustomField.where(name: DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD).pluck(:post_id)
+    Post.where(id: post_ids).each do |topic_post|
+      Post.where(topic_id: topic_post.topic_id).each do |post|
+        DiscourseCalendar::EventUpdater.update(post)
+      end
+    end
+  end
+
 
   class DiscourseCalendar::Calendar
     class << self

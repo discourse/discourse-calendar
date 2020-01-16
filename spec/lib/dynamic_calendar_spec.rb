@@ -21,7 +21,7 @@ describe "Dynamic calendar" do
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T06:00:00+02:00", nil, p.user.username, nil
+      "Rome", "2018-06-05T00:00:00+02:00", nil, p.user.username, nil
     ])
   end
 
@@ -34,12 +34,13 @@ describe "Dynamic calendar" do
     ])
   end
 
+
   it "adds an entry with a range event" do
     p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T06:00:00+02:00", "2018-06-08T18:00:00+02:00", p.user.username, nil
+      "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T00:00:00+02:00", p.user.username, nil
     ])
   end
 
@@ -74,4 +75,38 @@ describe "Dynamic calendar" do
     expect(op.calendar_details).to be_empty
   end
 
+  describe "with all day event start and end time" do
+    before do
+      SiteSetting.all_day_event_start_time = "07:00"
+      SiteSetting.all_day_event_end_time = "18:00"
+    end
+
+    it "adds an entry with a single date event" do
+      p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"]')
+
+      op.reload
+      expect(op.calendar_details[p.post_number.to_s]).to eq([
+        "Rome", "2018-06-05T07:00:00+02:00", nil, p.user.username, nil
+      ])
+    end
+
+    it "adds an entry with a single date/time event" do
+      p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" time="12:34:56"]')
+
+      op.reload
+      expect(op.calendar_details[p.post_number.to_s]).to eq([
+        "Rome", "2018-06-05T12:34:56Z", nil, p.user.username, nil
+      ])
+    end
+
+
+    it "adds an entry with a range event" do
+      p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
+
+      op.reload
+      expect(op.calendar_details[p.post_number.to_s]).to eq([
+        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-08T18:00:00+02:00", p.user.username, nil
+      ])
+    end
+  end
 end

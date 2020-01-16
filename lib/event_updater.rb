@@ -13,11 +13,15 @@ module DiscourseCalendar
       end
 
       from = self.convert_to_date_time(dates[0])
-      from = from.change(hour: DiscourseCalendar::BEGINNING_OF_DAY_HOUR) unless dates[0]['time']
+      to = self.convert_to_date_time(dates[1]) if dates.count == 2
 
-      if dates.count == 2
-        to = self.convert_to_date_time(dates[1])
-        to = to.change(hour: DiscourseCalendar::END_OF_DAY_HOUR) unless dates[1]['time']
+      unless SiteSetting.all_day_event_start_time.blank? || SiteSetting.all_day_event_end_time.blank?
+        if !dates[0]['time']
+          from = from.change(change_for_setting(SiteSetting.all_day_event_start_time))
+        end
+        if to && !dates[1]['time']
+          to = to.change(change_for_setting(SiteSetting.all_day_event_end_time))
+        end
       end
 
       html = post.cooked
@@ -40,12 +44,16 @@ module DiscourseCalendar
 
     def self.convert_to_date_time(value)
       timezone = value["timezone"] || "UTC"
+      datetime = value['date'].to_s
+      datetime << " #{value['time']}" if value['time']
+      ActiveSupport::TimeZone[timezone].parse(datetime)
+    end
 
-      if value['time']
-        ActiveSupport::TimeZone[timezone].parse("#{value['date']} #{value['time']}")
-      else
-        ActiveSupport::TimeZone[timezone].parse(value['date'].to_s)
-      end
+    def self.change_for_setting(setting)
+      {
+        hour: setting.split(':').first,
+        min: setting.split(':').second
+      }
     end
   end
 end

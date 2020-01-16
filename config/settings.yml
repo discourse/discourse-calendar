@@ -8,3 +8,12 @@ plugins:
   delete_expired_event_posts_after:
     min: -1
     default: 1
+  all_day_event_start_time:
+    default: ""
+    client: true
+    validator: "CalendarSettingsValidator"
+  all_day_event_end_time:
+    default: ""
+    client: true
+    validator: "CalendarSettingsValidator"
+
