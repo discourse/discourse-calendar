@@ -263,13 +263,14 @@ function initializeDiscourseCalendar(api) {
       10
     );
 
-    const excerpt = detail.message.split("\n").filter(e => e);
+    const text = detail.message.split("\n").filter(e => e);
     if (
-      excerpt.length &&
+      text.length &&
       post.topic_id &&
       holidayCalendarTopicId !== post.topic_id
     ) {
-      event.title = excerpt[0];
+      event.title = text[0];
+      event.extendedProps.description = text.splice(1).join(" ");
     } else {
       event.title = detail.username;
       event.backgroundColor = stringToHexColor(detail.username);
@@ -439,7 +440,9 @@ function initializeDiscourseCalendar(api) {
     link.href = `
       http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
         eventTitle
-      )}&dates=${startDate}/${endDate}`;
+      )}&dates=${startDate}/${endDate}&details=${encodeURIComponent(
+      event.eventRange.def.extendedProps.description
+    )}`;
     link.target = "_blank";
     link.classList.add("fc-list-item-add-to-calendar");
     event.el.querySelector(".fc-list-item-title").appendChild(link);
