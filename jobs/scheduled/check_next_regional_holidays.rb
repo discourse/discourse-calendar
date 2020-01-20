@@ -48,7 +48,7 @@ module Jobs
       today = Date.today
 
       users_in_region.keys.sort.each do |region|
-        holidays = Holidays.between(today, load_until, [region]).filter do |h|
+        holidays = Holidays.between(today, load_until, [region], :observed).filter do |h|
           business_days === h[:date].wday
         end
 

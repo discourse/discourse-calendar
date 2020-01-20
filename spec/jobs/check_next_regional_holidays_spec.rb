@@ -31,6 +31,24 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     ])
   end
 
+  it "checks for observed dates" do
+    aussie = Fabricate(:user)
+    aussie.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "au"
+    aussie.save!
+
+    freeze_time Time.zone.local(2020, 1, 20)
+
+    subject.execute(nil)
+    @op.reload
+
+    # The "Australia Day" is always observed on a Monday
+    expect(@op.calendar_holidays).to eq([
+      ["au", "Australia Day", "2020-01-27", aussie.username],
+      ["au", "Good Friday", "2020-04-10", aussie.username],
+      ["au", "Easter Monday", "2020-04-13", aussie.username]
+    ])
+  end
+
   it "only checks for holidays during business days" do
     frenchy = Fabricate(:user)
     frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
