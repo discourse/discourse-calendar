@@ -209,7 +209,7 @@ function initializeDiscourseCalendar(api) {
       );
     }
 
-    calendar.setOption("eventClick", ({event, jsEvent}) => {
+    calendar.setOption("eventClick", ({ event, jsEvent }) => {
       hidePopover(jsEvent);
       const { postNumber } = event.extendedProps;
       if (!postNumber) return;
