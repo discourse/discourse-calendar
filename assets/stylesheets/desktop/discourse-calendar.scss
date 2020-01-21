@@ -3,4 +3,7 @@
     float: right;
     margin-right: 5px;
   }
+  .fc-list-item:hover td {
+    background: $highlight-medium;
+  }
 }
