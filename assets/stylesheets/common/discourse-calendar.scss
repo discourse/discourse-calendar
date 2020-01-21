@@ -99,10 +99,6 @@
     thead {
       border-color: $primary-low;
     }
-
-    .fc-list-item:hover td {
-      background: $highlight-medium;
-    }
   }
 
   .fc-event,
@@ -175,4 +171,9 @@ a.holiday {
 
 .discourse-calendar-wrap {
   border: 1px solid $primary-low;
+}
+
+.discourse-calendar-header .discourse-calendar-timezone-picker {
+  max-width: 50vw;
+  font-size: 16px;
 }
