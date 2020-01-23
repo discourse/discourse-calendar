@@ -271,13 +271,17 @@ function initializeDiscourseCalendar(api) {
       holidayCalendarTopicId !== post.topic_id
     ) {
       event.title = text[0];
-      event.extendedProps.description = text.splice(1).join(" ");
+      event.extendedProps.description = text.slice(1).join(" ");
     } else {
       event.title = detail.username;
       event.backgroundColor = stringToHexColor(detail.username);
     }
 
-    event.extendedProps.htmlContent = detail.message;
+    let popupText = detail.message.substr(0, 50);
+    if (detail.message.length > 50) {
+      popupText = popupText + "...";
+    }
+    event.extendedProps.htmlContent = popupText;
     event.title = event.title.replace(/<img[^>]*>/g, "");
     calendar.addEvent(event);
   }
