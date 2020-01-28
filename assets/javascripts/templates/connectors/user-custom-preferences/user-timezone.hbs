@@ -1,7 +1,15 @@
 <div class="control-group">
   <label class="control-label">{{i18n 'discourse_calendar.timezone.title'}}</label>
   <div class="controls">
-    {{combo-box content=allTimezones value=userTimezone class="user-timezone" none="discourse_calendar.timezone.none"}}
+    {{combo-box
+      content=allTimezones
+      value=userTimezone
+      valueProperty=null
+      nameProperty=null
+      class="user-timezone"
+      none="discourse_calendar.timezone.none"
+      onChange=(action (mut userTimezone))
+    }}
   </div>
   {{#if userOptionsTimezoneEnabled}}
     <p class="warning">{{i18n 'discourse_calendar.timezone.deprecation_warning'}}</p>
