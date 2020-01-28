@@ -142,31 +142,25 @@ function initializeDiscourseCalendar(api) {
 
     let event = {
       start: from.dateTime.toDate(),
-      allDay: true
+      allDay: false
     };
 
-    if (from && !to) {
-      if (hasTimeSpecified(from.dateTime)) {
-        event.allDay = false;
+    if (to) {
+      if (hasTimeSpecified(to.dateTime)) {
+        event.end = to.dateTime.toDate();
+      } else {
+        event.end = to.dateTime.add(1, "days").toDate();
+        event.allDay = true;
       }
-
+    } else {
+      event.allDay = true;
       if (from.weeklyRecurring) {
         event.startTime = {
           hours: from.dateTime.hours(),
           minutes: from.dateTime.minutes(),
           seconds: from.dateTime.seconds()
         };
-
         event.daysOfWeek = [from.dateTime.isoWeekday()];
-      }
-    }
-
-    if (from && to) {
-      if (hasTimeSpecified(from.dateTime) && hasTimeSpecified(to.dateTime)) {
-        event.end = to.dateTime.toDate();
-        event.allDay = false;
-      } else {
-        event.end = to.dateTime.add(1, "days").toDate();
       }
     }
 

@@ -22,7 +22,7 @@ describe DiscourseCalendar::EventUpdater do
     expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
     expect(op.calendar_details).to eq(
       post.post_number.to_s => [
-        "Rome", "2018-06-05T10:20:00Z", nil, post.user.username_lower, nil
+        "Rome", "2018-06-05T10:20:00Z", "2018-06-05T11:20:00Z", post.user.username_lower, nil
       ]
     )
   end
