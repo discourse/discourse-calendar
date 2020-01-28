@@ -14,14 +14,18 @@ module DiscourseCalendar
 
       from = self.convert_to_date_time(dates[0])
       to = self.convert_to_date_time(dates[1]) if dates.count == 2
+      adjust_to = !to || (to && !dates[1]['time'])
 
-      unless SiteSetting.all_day_event_start_time.blank? || SiteSetting.all_day_event_end_time.blank?
-        if !dates[0]['time']
-          from = from.change(change_for_setting(SiteSetting.all_day_event_start_time))
+      if !to
+        if dates[0]['time']
+          to = from + 1.hour
+          artificial_to = true
         end
-        if to && !dates[1]['time']
-          to = to.change(change_for_setting(SiteSetting.all_day_event_end_time))
-        end
+      end
+
+      if !SiteSetting.all_day_event_start_time.blank? && !SiteSetting.all_day_event_end_time.blank?
+        from = from.change(change_for_setting(SiteSetting.all_day_event_start_time)) if !dates[0]['time']
+        to = (to || from).change(change_for_setting(SiteSetting.all_day_event_end_time)) if adjust_to && !artificial_to
       end
 
       html = post.cooked
