@@ -85,7 +85,8 @@ export function setup(helper) {
     "div[data-weekends]",
     "div[data-hidden-days]",
     "div.group-timezones",
-    "div[data-group]"
+    "div[data-group]",
+    "div[data-size]"
   ]);
 
   helper.registerOptions((opts, siteSettings) => {
