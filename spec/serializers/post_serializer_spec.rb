@@ -26,7 +26,6 @@ describe "post serializer" do
     Group.refresh_automatic_groups!(:admins)
 
     op = create_post(raw: "[timezones group=\"admins\"]\n[/timezones]\n\n[timezones group=\"trust_level_0\"]\n[/timezones]")
-    puts op.cooked
     op.reload
 
     json = PostSerializer.new(op, scope: Guardian.new).as_json
