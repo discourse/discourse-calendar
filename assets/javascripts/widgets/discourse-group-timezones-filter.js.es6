@@ -18,7 +18,7 @@ export default createWidget("discourse-group-timezones-filter", {
     );
   },
 
-  buildAttributes(attrs) {
+  buildAttributes() {
     return {
       type: "text",
       placeholder: I18n.t("group_timezones.search")

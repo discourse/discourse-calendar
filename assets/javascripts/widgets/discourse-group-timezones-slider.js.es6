@@ -22,7 +22,7 @@ export default createWidget("discourse-group-timezones-slider", {
     );
   },
 
-  buildAttributes(attrs) {
+  buildAttributes() {
     return {
       step: 1,
       value: 0,

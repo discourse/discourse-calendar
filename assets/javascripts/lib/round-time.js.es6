@@ -79,6 +79,6 @@ if (typeof moment.fn.floor !== "function") {
 
 const STEP = 15;
 
-export default function roundTime(date, negativeOffset = true) {
+export default function roundTime(date) {
   return date.round(STEP, "minutes");
 }

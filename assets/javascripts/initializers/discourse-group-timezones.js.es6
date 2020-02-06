@@ -14,7 +14,7 @@ export default {
         _glued = [];
       }
 
-      function _attachWidget(api, container, options) {
+      function _attachWidget(container, options) {
         const glue = new WidgetGlue(
           "discourse-group-timezones",
           getRegister(api),
@@ -39,7 +39,7 @@ export default {
 
           const members = post.group_timezones[group] || [];
 
-          _attachWidget(api, groupTimezone, {
+          _attachWidget(groupTimezone, {
             id: `${post.id}-${idx}`,
             members,
             group,

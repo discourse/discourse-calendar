@@ -17,7 +17,7 @@ export default createWidget("discourse-group-timezones", {
     };
   },
 
-  defaultState(attrs) {
+  defaultState() {
     return {
       localTimeOffset: 0
     };
