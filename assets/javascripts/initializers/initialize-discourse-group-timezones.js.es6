@@ -26,20 +26,7 @@ export default {
         _glued.push(glue);
       }
 
-      function _loadGroupMembers(group) {
-        return ajax(`/groups/${group}/members.json?limit=50`, {
-          type: "GET",
-          cache: false
-        })
-          .then(groupResult => {
-            if (groupResult && groupResult.members) {
-              return groupResult.members;
-            }
-          })
-          .catch(popupAjaxError);
-      }
-
-      function _attachGroupTimezones($elem, id = 1) {
+      function _attachGroupTimezones($elem, post) {
         const $groupTimezones = $(".group-timezones", $elem);
 
         if (!$groupTimezones.length) {
@@ -49,20 +36,18 @@ export default {
         $groupTimezones.each((idx, groupTimezone) => {
           const group = groupTimezone.getAttribute("data-group");
           if (!group) {
-            // throw "[group] attribute is necessary when using group-timezones.";
+            throw "[group] attribute is necessary when using timezones.";
           }
 
-          groupTimezone.innerHTML = "<div class='spinner'></div>";
+          const members = post.group_timezones[group] || [];
 
-          _loadGroupMembers(group).then(members => {
-            _attachWidget(api, groupTimezone, {
-              id: `${id}-${idx}`,
-              members,
-              group,
-              usersOnHoliday:
-                api.container.lookup("site:main").users_on_holiday || [],
-              size: groupTimezone.getAttribute("data-size") || "medium"
-            });
+          _attachWidget(api, groupTimezone, {
+            id: `${post.id}-${idx}`,
+            members,
+            group,
+            usersOnHoliday:
+              api.container.lookup("site:main").users_on_holiday || [],
+            size: groupTimezone.getAttribute("data-size") || "medium"
           });
         });
       }
@@ -71,22 +56,12 @@ export default {
         if (helper) {
           const post = helper.getModel();
           api.preventCloak(post.id);
-          _attachGroupTimezones($elem, post.id);
+          _attachGroupTimezones($elem, post);
         }
       }
 
       api.decorateCooked(_attachPostWithGroupTimezones, {
         id: "discourse-group-timezones"
-      });
-
-      api.onPageChange(url => {
-        const match = url.match(/\/g\/(\w+)/);
-        if (match && match.length && match[1]) {
-          const $elem = $(".group-bio");
-          if ($elem.length) {
-            _attachGroupTimezones($elem);
-          }
-        }
       });
 
       api.cleanupStream(cleanUp);

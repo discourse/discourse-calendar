@@ -21,4 +21,19 @@ describe "post serializer" do
     expect(json[:post][:calendar_details].size).to eq(1)
   end
 
+  it "includes group timezones detail" do
+    Fabricate(:admin)
+    Group.refresh_automatic_groups!(:admins)
+
+    op = create_post(raw: "[timezones group=\"admins\"]\n[/timezones]\n\n[timezones group=\"trust_level_0\"]\n[/timezones]")
+    puts op.cooked
+    op.reload
+
+    json = PostSerializer.new(op, scope: Guardian.new).as_json
+    group_timezones = json[:post][:group_timezones]
+
+    expect(group_timezones["admins"].count).to eq(1)
+    expect(group_timezones["trust_level_0"].count).to eq(2)
+  end
+
 end

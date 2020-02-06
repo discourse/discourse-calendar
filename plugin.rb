@@ -37,18 +37,24 @@ after_initialize do
 
     USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone') rescue nil
 
+    HAS_GROUP_TIMEZONES_CUSTOM_FIELD ||= "has-group-timezones"
+    GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
+    GROUP_DATA_ATTRIBUTE ||= "data-group"
+
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
   end
 
   [
+    "../app/serializers/user_timezone_serializer.rb",
     "../lib/calendar_validator.rb",
     "../lib/calendar_updater.rb",
     "../lib/calendar_destroyer.rb",
     "../lib/event_validator.rb",
     "../lib/event_updater.rb",
     "../lib/event_destroyer.rb",
+    "../lib/group_timezones_updater.rb",
     "../jobs/scheduled/ensure_expired_event_destruction.rb",
     "../jobs/scheduled/update_holiday_usernames.rb",
     "../jobs/scheduled/check_next_regional_holidays.rb",
@@ -58,6 +64,8 @@ after_initialize do
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD, :json)
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
+  register_post_custom_field_type(DiscourseCalendar::HAS_GROUP_TIMEZONES_CUSTOM_FIELD, :boolean)
+  register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
 
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
@@ -111,6 +119,7 @@ after_initialize do
   on(:post_process_cooked) do |doc, post|
     DistributedMutex.synchronize("#{PLUGIN_NAME}-#{post.id}") do
       DiscourseCalendar::EventUpdater.update(post)
+      DiscourseCalendar::GroupTimezonesUpdater.update(post)
     end
   end
 
@@ -161,6 +170,22 @@ after_initialize do
       custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD] = val
     end
 
+    def has_group_timezones?
+      custom_fields[DiscourseCalendar::HAS_GROUP_TIMEZONES_CUSTOM_FIELD] || false
+    end
+
+    def has_group_timezones=(val)
+      custom_fields[DiscourseCalendar::HAS_GROUP_TIMEZONES_CUSTOM_FIELD] = val
+    end
+
+    def group_timezones
+      custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] || {}
+    end
+
+    def group_timezones=(val)
+      custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] = val
+    end
+
     def set_calendar_event(post_number, detail)
       details = self.calendar_details
       details[post_number.to_s] = detail
@@ -179,6 +204,8 @@ after_initialize do
 
   TopicView.default_post_custom_fields << DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD
   TopicView.default_post_custom_fields << DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD
+  TopicView.default_post_custom_fields << DiscourseCalendar::HAS_GROUP_TIMEZONES_CUSTOM_FIELD
+  TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
 
   add_to_serializer(:post, :calendar_details) do
     result = []
@@ -227,12 +254,26 @@ after_initialize do
     )
   end
 
+  add_to_serializer(:post, :group_timezones) do
+    result = {}
+    group_names = object.group_timezones["groups"] || []
+
+    if group_names.present?
+      users = User.joins(:groups, :user_option).where("groups.name": group_names).select("users.*", "groups.name AS group_name", "user_options.timezone")
+
+      users.each do |u|
+        result[u.group_name] ||= []
+        result[u.group_name] << UserTimezoneSerializer.new(u, root: false).as_json
+      end
+    end
+
+    result
+  end
+
+  add_to_serializer(:post, :include_group_timezones?) do
+    object.has_group_timezones?
+  end
+
   add_to_serializer(:site, :users_on_holiday) { DiscourseCalendar.users_on_holiday }
   add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
-
-  if !DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED
-    add_to_serializer(:group_user, :timezone) {
-      object.custom_fields[DiscourseCalendar::TIMEZONE_CUSTOM_FIELD]
-    }
-  end
 end
