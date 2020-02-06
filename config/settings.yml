@@ -16,4 +16,16 @@ plugins:
     default: ""
     client: true
     validator: "CalendarSettingsValidator"
-
+  working_days:
+    type: list
+    default: Monday|Tuesday|Wednesday|Thursday|Friday
+    client: true
+  working_day_start_hour:
+    default: 8
+    client: true
+  working_day_end_hour:
+    default: 17
+    client: true
+  close_to_working_day_hours_extension:
+    default: 2
+    client: true
