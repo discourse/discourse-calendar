@@ -16,4 +16,7 @@ plugins:
     default: ""
     client: true
     validator: "CalendarSettingsValidator"
-
+  calendar_categories:
+    type: list
+    client: true
+    default: ""
