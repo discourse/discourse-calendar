@@ -47,8 +47,25 @@ const calendarRule = {
   }
 };
 
+const groupTimezoneRule = {
+  tag: "timezones",
+
+  before: function(state, info) {
+    const wrapperDivToken = state.push("div_group_timezones", "div", 1);
+    wrapperDivToken.attrs = [
+      ["class", "group-timezones"],
+      ["data-group", info.attrs.group],
+      ["data-size", info.attrs.size || "medium"]
+    ];
+  },
+
+  after: function(state) {
+    state.push("div_group_timezones", "div", -1);
+  }
+};
+
 function _renderTimezonePicker(state) {
-  let timezoneSelectToken = state.push("select_open", "select", 1);
+  const timezoneSelectToken = state.push("select_open", "select", 1);
   timezoneSelectToken.attrs = [["class", "discourse-calendar-timezone-picker"]];
 
   state.push("select_close", "select", -1);
@@ -66,7 +83,10 @@ export function setup(helper) {
     "div[data-calendar-default-view]",
     "div[data-calendar-default-timezone]",
     "div[data-weekends]",
-    "div[data-hidden-days]"
+    "div[data-hidden-days]",
+    "div.group-timezones",
+    "div[data-group]",
+    "div[data-size]"
   ]);
 
   helper.registerOptions((opts, siteSettings) => {
@@ -79,6 +99,10 @@ export function setup(helper) {
     const features = md.options.discourse.features;
     if (features["discourse-calendar-enabled"]) {
       md.block.bbcode.ruler.push("discourse-calendar", calendarRule);
+      md.block.bbcode.ruler.push(
+        "discourse-group-timezones",
+        groupTimezoneRule
+      );
     }
   });
 }
