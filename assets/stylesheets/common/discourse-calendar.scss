@@ -1,3 +1,9 @@
+.discovery-list-container-top-outlet.category-calendar,
+.category-calendar .calendar {
+  height: 400px;
+  overflow: scroll;
+}
+
 .calendar {
   height: 645px; // Must be fixed to prevent height change on load
   padding: 0 0.5em;
@@ -154,13 +160,14 @@ a.holiday {
   padding: 0.5em;
   border-bottom: 1px solid $primary-low;
   background: $primary-very-low;
+  min-height: 60px;
 
   .discourse-calendar-timezone-picker {
     margin-bottom: 0;
   }
 
-  .discourse-calendar-title {
-    margin-top: 0.5em;
+  h2.discourse-calendar-title {
+    margin: 0 !important;
   }
 
   .title {

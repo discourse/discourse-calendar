@@ -16,6 +16,10 @@ plugins:
     default: ""
     client: true
     validator: "CalendarSettingsValidator"
+  calendar_categories:
+    type: list
+    client: true
+    default: ""
   working_days:
     type: list
     default: Monday|Tuesday|Wednesday|Thursday|Friday

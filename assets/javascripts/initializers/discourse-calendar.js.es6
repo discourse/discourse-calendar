@@ -1,3 +1,5 @@
+import { Promise } from "rsvp";
+import { cookAsync } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
@@ -22,6 +24,73 @@ function stringToHexColor(str) {
 
 function initializeDiscourseCalendar(api) {
   let _topicController;
+
+  api.onPageChange((url, title) => {
+    $(".discovery-list-container-top-outlet.category-calendar").hide();
+    const matches = url.match(/^\/c\/\w+\/(\d+)$/);
+    if (matches && matches.length === 2) {
+      const categoryId = matches[1];
+      const settings = Discourse.SiteSettings.calendar_categories
+        .split("|")
+        .filter(Boolean)
+        .map(stringSetting => {
+          const data = {};
+          stringSetting
+            .split(";")
+            .filter(Boolean)
+            .forEach(s => {
+              const parts = s.split("=");
+              data[parts[0]] = parts[1];
+            });
+          return data;
+        });
+
+      const categorySetting = settings.findBy(
+        "categoryId",
+        categoryId.toString()
+      );
+
+      const $calendarContainer = $(
+        ".discovery-list-container-top-outlet.category-calendar"
+      );
+
+      if (
+        categorySetting &&
+        $calendarContainer.length &&
+        categorySetting.postId
+      ) {
+        $(".discovery-list-container-top-outlet.category-calendar").show();
+        const postId = categorySetting.postId;
+        const $spinner = $('<div class="spinner medium"></div>');
+        $calendarContainer.html($spinner);
+        loadScript(
+          "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
+        ).then(() => {
+          const options = [`postId=${postId}`];
+
+          const optionals = ["weekends", "tzPicker", "defaultView"];
+          optionals.forEach(optional => {
+            if (Ember.isPresent(categorySetting[optional])) {
+              options.push(
+                `${optional}=${escapeExpression(categorySetting[optional])}`
+              );
+            }
+          });
+
+          const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
+          const cookRaw = cookAsync(rawCalendar);
+          const loadPost = ajax(`/posts/${postId}.json`);
+          Promise.all([cookRaw, loadPost]).then(results => {
+            const cooked = results[0];
+            const post = results[1];
+            const $cooked = $(cooked.string);
+            $calendarContainer.html($cooked);
+            render($(".calendar", $cooked), post);
+          });
+        });
+      }
+    }
+  });
 
   api.decorateCooked(attachCalendar, {
     onlyStream: true,
