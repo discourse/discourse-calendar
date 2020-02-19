@@ -61,7 +61,9 @@ function initializeDiscourseCalendar(api) {
       ) {
         $(".discovery-list-container-top-outlet.category-calendar").show();
         const postId = categorySetting.postId;
-        const $spinner = $('<div class="spinner medium"></div>');
+        const $spinner = $(
+          '<div class="calendar"><div class="spinner medium"></div></div>'
+        );
         $calendarContainer.html($spinner);
         loadScript(
           "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
