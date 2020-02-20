@@ -3,7 +3,9 @@
 module DiscourseCalendar
   class EventUpdater
     def self.update(post)
-      op = post.topic.first_post
+      op = post.topic&.first_post
+      return if op.blank?
+
       dates = post.local_dates
 
       # if we don’t have any date it's not an event anymore
