@@ -87,6 +87,18 @@ describe DiscourseCalendar::EventUpdater do
     expect(post).to be_valid
   end
 
+  it "will not work if topic was deleted" do
+    op = create_post(raw: "[calendar]\n[/calendar]")
+    raw = %{Rome [date="2018-06-05" time="10:20:00"]}
+    post = create_post(raw: raw, topic: op.topic)
+
+    PostDestroyer.new(Discourse.system_user, post).destroy
+    PostDestroyer.new(Discourse.system_user, op).destroy
+
+    PostDestroyer.new(Discourse.system_user, post.reload).recover
+    expect(post.deleted_at).to eq(nil)
+  end
+
   describe "all day event site settings" do
     before do
       SiteSetting.all_day_event_start_time = "06:30"
