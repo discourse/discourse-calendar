@@ -222,7 +222,7 @@ function initializeDiscourseCalendar(api) {
     };
 
     if (to) {
-      if (hasTimeSpecified(to.dateTime)) {
+      if (hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime)) {
         event.end = to.dateTime.toDate();
       } else {
         event.end = to.dateTime.add(1, "days").toDate();
