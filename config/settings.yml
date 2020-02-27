@@ -20,6 +20,13 @@ plugins:
     type: list
     client: true
     default: ""
+  calendar_categories_outlet:
+    client: true
+    default: "discovery-list-container-top"
+    type: enum
+    choices:
+      - discovery-list-container-top
+      - before-topic-list-body
   working_days:
     type: list
     default: Monday|Tuesday|Wednesday|Thursday|Friday

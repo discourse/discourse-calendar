@@ -24,9 +24,22 @@ function stringToHexColor(str) {
 
 function initializeDiscourseCalendar(api) {
   let _topicController;
+  let selector;
+  const outletName = Discourse.SiteSettings.calendar_categories_outlet;
+
+  switch (outletName) {
+    case "before-topic-list-body":
+      selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
+      break;
+    default:
+      selector = `.${outletName}-outlet`;
+  }
 
   api.onPageChange((url, title) => {
-    $(".discovery-list-container-top-outlet.category-calendar").hide();
+    const $calendarContainer = $(`${selector}.category-calendar`);
+    if (!$calendarContainer.length) return;
+    $calendarContainer.hide();
+
     const matches = url.match(/^\/c\/\w+\/(\d+)$/);
     if (matches && matches.length === 2) {
       const categoryId = matches[1];
@@ -50,16 +63,8 @@ function initializeDiscourseCalendar(api) {
         categoryId.toString()
       );
 
-      const $calendarContainer = $(
-        ".discovery-list-container-top-outlet.category-calendar"
-      );
-
-      if (
-        categorySetting &&
-        $calendarContainer.length &&
-        categorySetting.postId
-      ) {
-        $(".discovery-list-container-top-outlet.category-calendar").show();
+      if (categorySetting && categorySetting.postId) {
+        $calendarContainer.show();
         const postId = categorySetting.postId;
         const $spinner = $(
           '<div class="calendar"><div class="spinner medium"></div></div>'

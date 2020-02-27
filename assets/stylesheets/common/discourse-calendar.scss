@@ -3,6 +3,10 @@
   overflow-y: scroll;
 }
 
+.before-topic-list-body-outlet.category-calendar {
+  display: table-caption;
+}
+
 .calendar {
   height: 645px; // Must be fixed to prevent height change on load
   padding: 0 0.5em;
