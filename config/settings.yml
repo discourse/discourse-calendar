@@ -8,3 +8,35 @@ plugins:
   delete_expired_event_posts_after:
     min: -1
     default: 1
+  all_day_event_start_time:
+    default: ""
+    client: true
+    validator: "CalendarSettingsValidator"
+  all_day_event_end_time:
+    default: ""
+    client: true
+    validator: "CalendarSettingsValidator"
+  calendar_categories:
+    type: list
+    client: true
+    default: ""
+  calendar_categories_outlet:
+    client: true
+    default: "discovery-list-container-top"
+    type: enum
+    choices:
+      - discovery-list-container-top
+      - before-topic-list-body
+  working_days:
+    type: list
+    default: Monday|Tuesday|Wednesday|Thursday|Friday
+    client: true
+  working_day_start_hour:
+    default: 8
+    client: true
+  working_day_end_hour:
+    default: 17
+    client: true
+  close_to_working_day_hours_extension:
+    default: 2
+    client: true

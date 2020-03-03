@@ -40,29 +40,43 @@ module Jobs
       new_regional_holidays = []
 
       business_days = 1..5
-      one_month_from_now = 1.month.from_now
+      load_until = 6.months.from_now
+      today = Date.today
 
       users_in_region.keys.sort.each do |region|
-        next unless next_holiday = Holidays.year_holidays([region]).find do |h|
-          business_days === h[:date].wday && h[:date] < one_month_from_now
+        holidays = Holidays.between(today, load_until, [region], :observed).filter do |h|
+          business_days === h[:date].wday
         end
 
-        users_in_region[region].each do |user_id|
-          next unless usernames[user_id]
+        holidays.each do |next_holiday|
+          users_in_region[region].each do |user_id|
+            date = if tz = user_timezones[user_id]
+              datetime = next_holiday[:date].in_time_zone(tz)
+              datetime = datetime.change(holiday_hour_adjustment) if holiday_hour_adjustment
+              datetime.iso8601
+            else
+              next_holiday[:date].to_s
+            end
 
-          date = if tz = user_timezones[user_id]
-            next_holiday[:date].in_time_zone(tz).iso8601
-          else
-            next_holiday[:date].to_s
+            next unless usernames[user_id]
+            new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
           end
-
-          new_regional_holidays << [region, next_holiday[:name], date, usernames[user_id]]
         end
       end
 
       if old_regional_holidays != new_regional_holidays
         op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD] = new_regional_holidays
         op.save_custom_fields(true)
+      end
+    end
+
+    def holiday_hour_adjustment
+      @holiday_hour ||= begin
+        return false if SiteSetting.all_day_event_start_time.empty? || SiteSetting.all_day_event_end_time.empty?
+        {
+          hour: SiteSetting.all_day_event_start_time.split(':').first,
+          min: SiteSetting.all_day_event_start_time.split(':').second
+        }
       end
     end
   end

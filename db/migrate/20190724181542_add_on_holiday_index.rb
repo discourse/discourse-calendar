@@ -8,6 +8,7 @@ class AddOnHolidayIndex < ActiveRecord::Migration[5.2]
        USING user_custom_fields b
        WHERE a.name = 'on_holiday'
          AND a.name = b.name
+         AND a.user_id = b.user_id
          AND a.id > b.id
     SQL
 
