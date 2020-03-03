@@ -33,10 +33,6 @@ after_initialize do
 
     REGION_CUSTOM_FIELD ||= "holidays-region"
 
-    TIMEZONE_CUSTOM_FIELD ||= "timezone"
-
-    USER_OPTIONS_TIMEZONE_ENABLED = UserOption.column_names.include?('timezone') rescue nil
-
     HAS_GROUP_TIMEZONES_CUSTOM_FIELD ||= "has-group-timezones"
     GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
     GROUP_DATA_ATTRIBUTE ||= "data-group"
@@ -70,11 +66,6 @@ after_initialize do
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
   whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
-
-  if !DiscourseCalendar::USER_OPTIONS_TIMEZONE_ENABLED
-    whitelist_staff_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
-    register_editable_user_custom_field(DiscourseCalendar::TIMEZONE_CUSTOM_FIELD)
-  end
 
   DiscourseEvent.on(:site_setting_changed) do |name, old_value, new_value|
     next unless [:all_day_event_start_time, :all_day_event_end_time].include? name
