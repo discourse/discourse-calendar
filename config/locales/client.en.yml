@@ -8,7 +8,6 @@ en:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."
         none: "Select a timezone..."
-        deprecation_warning: 'Setting timezone in this way will soon be deprecated, please set the timezone in the user profile under "About me".'
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"
