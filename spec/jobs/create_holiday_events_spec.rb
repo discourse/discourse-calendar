@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe DiscourseCalendar::CheckNextRegionalHolidays do
+describe DiscourseCalendar::CreateHolidayEvents do
 
   before do
     Jobs.run_immediately!
@@ -22,7 +22,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     subject.execute(nil)
     @op.reload
 
-    expect(@op.calendar_holidays).to eq([
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
       ["fr", "Assomption", "2019-08-15", frenchy.username],
       ["fr", "Toussaint", "2019-11-01", frenchy.username],
       ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
@@ -42,7 +42,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     @op.reload
 
     # The "Australia Day" is always observed on a Monday
-    expect(@op.calendar_holidays).to eq([
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
       ["au", "Australia Day", "2020-01-27", aussie.username],
       ["au", "Good Friday", "2020-04-10", aussie.username],
       ["au", "Easter Monday", "2020-04-13", aussie.username]
@@ -60,7 +60,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     @op.reload
 
     # The "Fête Nationale" is on July 14th but it's on a Sunday in 2019
-    expect(@op.calendar_holidays).to eq([
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
       ["fr", "Assomption", "2019-08-15", frenchy.username],
       ["fr", "Toussaint", "2019-11-01", frenchy.username],
       ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
@@ -82,9 +82,11 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
       subject.execute(nil)
       @op.reload
 
-      expect(@op.calendar_holidays[0]).to eq(
-        ["fr", "Assomption", "2019-08-15T00:00:00+02:00", frenchy.username]
-      )
+      calendar_event = CalendarEvent.first
+      expect(calendar_event.region).to eq("fr")
+      expect(calendar_event.description).to eq("Assomption")
+      expect(calendar_event.start_date).to eq("2019-08-15T00:00:00+02:00")
+      expect(calendar_event.username).to eq(frenchy.username)
     end
 
     describe "with all day event start and end time" do
@@ -105,9 +107,11 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
         subject.execute(nil)
         @op.reload
 
-        expect(@op.calendar_holidays[0]).to eq(
-          ["fr", "Assomption", "2019-08-15T06:00:00+02:00", frenchy.username]
-        )
+        calendar_event = CalendarEvent.first
+        expect(calendar_event.region).to eq("fr")
+        expect(calendar_event.description).to eq("Assomption")
+        expect(calendar_event.start_date).to eq("2019-08-15T06:00:00+02:00")
+        expect(calendar_event.username).to eq(frenchy.username)
       end
     end
   end
@@ -134,7 +138,7 @@ describe DiscourseCalendar::CheckNextRegionalHolidays do
     subject.execute(nil)
     @op.reload
 
-    expect(@op.calendar_holidays).to eq([])
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([])
   end
 
 end

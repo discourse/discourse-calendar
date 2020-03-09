@@ -13,34 +13,37 @@ describe "Dynamic calendar" do
   let(:op) { create_post(raw: raw) }
 
   it "defaults to dynamic" do
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
+    expect(op.reload.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
   end
 
   it "adds an entry with a single date event" do
-    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"]')
+    post = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"]')
 
-    op.reload
-    expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T00:00:00+02:00", nil, p.user.username, nil
-    ])
+    calendar_event = CalendarEvent.find_by(post_id: post.id)
+    expect(calendar_event.description).to eq("Rome")
+    expect(calendar_event.start_date).to eq("2018-06-05T00:00:00+02:00")
+    expect(calendar_event.end_date).to eq(nil)
+    expect(calendar_event.username).to eq(post.user.username)
   end
 
   it "adds an entry with a single date/time event" do
-    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" time="12:34:56"]')
+    post = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" time="12:34:56"]')
 
-    op.reload
-    expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T12:34:56Z", "2018-06-05T13:34:56Z", p.user.username, nil
-    ])
+    calendar_event = CalendarEvent.find_by(post_id: post.id)
+    expect(calendar_event.description).to eq("Rome")
+    expect(calendar_event.start_date).to eq("2018-06-05T12:34:56Z")
+    expect(calendar_event.end_date).to eq("2018-06-05T13:34:56Z")
+    expect(calendar_event.username).to eq(post.user.username)
   end
 
   it "adds an entry with a range event" do
-    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
+    post = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
 
-    op.reload
-    expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T00:00:00+02:00", p.user.username, nil
-    ])
+    calendar_event = CalendarEvent.find_by(post_id: post.id)
+    expect(calendar_event.description).to eq("Rome")
+    expect(calendar_event.start_date).to eq("2018-06-05T00:00:00+02:00")
+    expect(calendar_event.end_date).to eq("2018-06-08T00:00:00+02:00")
+    expect(calendar_event.username).to eq(post.user.username)
   end
 
   it "raises an error when there are more than 2 dates" do
@@ -61,19 +64,6 @@ describe "Dynamic calendar" do
     }.to raise_error(StandardError, I18n.t("discourse_calendar.more_than_one_calendar"))
   end
 
-  it "empties details when going from dynamic to static" do
-    p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05"]')
-
-    op.reload
-    expect(op.calendar_details[p.post_number.to_s]).to be_present
-
-    op.revise(op.user, raw: '[calendar type="static"]\n[/calendar]')
-
-    op.reload
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("static")
-    expect(op.calendar_details).to be_empty
-  end
-
   describe "with all day event start and end time" do
     before do
       SiteSetting.all_day_event_start_time = "07:00"
@@ -81,30 +71,33 @@ describe "Dynamic calendar" do
     end
 
     it "adds an entry with a single date event" do
-      p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"]')
+      post = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"]')
 
-      op.reload
-      expect(op.calendar_details[p.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-05T18:00:00+02:00", p.user.username, nil
-      ])
+      calendar_event = CalendarEvent.find_by(post_id: post.id)
+      expect(calendar_event.description).to eq("Rome")
+      expect(calendar_event.start_date).to eq("2018-06-05T07:00:00+02:00")
+      expect(calendar_event.end_date).to eq("2018-06-05T18:00:00+02:00")
+      expect(calendar_event.username).to eq(post.user.username)
     end
 
     it "adds an entry with a single date/time event" do
-      p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" time="12:34:56"]')
+      post = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" time="12:34:56"]')
 
-      op.reload
-      expect(op.calendar_details[p.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T12:34:56Z", "2018-06-05T13:34:56Z", p.user.username, nil
-      ])
+      calendar_event = CalendarEvent.find_by(post_id: post.id)
+      expect(calendar_event.description).to eq("Rome")
+      expect(calendar_event.start_date).to eq("2018-06-05T12:34:56Z")
+      expect(calendar_event.end_date).to eq("2018-06-05T13:34:56Z")
+      expect(calendar_event.username).to eq(post.user.username)
     end
 
     it "adds an entry with a range event" do
-      p = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
+      post = create_post(topic: op.topic, raw: 'Rome [date="2018-06-05" timezone="Europe/Paris"] → [date="2018-06-08" timezone="Europe/Paris"]')
 
-      op.reload
-      expect(op.calendar_details[p.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-08T18:00:00+02:00", p.user.username, nil
-      ])
+      calendar_event = CalendarEvent.find_by(post_id: post.id)
+      expect(calendar_event.description).to eq("Rome")
+      expect(calendar_event.start_date).to eq("2018-06-05T07:00:00+02:00")
+      expect(calendar_event.end_date).to eq("2018-06-08T18:00:00+02:00")
+      expect(calendar_event.username).to eq(post.user.username)
     end
   end
 end

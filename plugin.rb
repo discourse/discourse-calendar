@@ -174,7 +174,7 @@ after_initialize do
   end
 
   add_to_serializer(:post, :include_group_timezones?) do
-    post_custom_fields[DiscourseCalendar::HAS_GROUP_TIMEZONES_CUSTOM_FIELD] || false
+    object.group_timezones.present?
   end
 
   add_to_serializer(:site, :users_on_holiday) do

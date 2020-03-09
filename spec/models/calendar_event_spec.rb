@@ -2,77 +2,58 @@
 
 require 'rails_helper'
 
-describe DiscourseCalendar::EventUpdater do
+describe CalendarEvent do
+  let(:op) { op = create_post(raw: "[calendar]\n[/calendar]") }
+
   before do
+    Jobs.run_immediately!
     SiteSetting.calendar_enabled = true
     SiteSetting.all_day_event_start_time = ""
     SiteSetting.all_day_event_end_time = ""
   end
 
   it "will correctly update the associated first post calendar details" do
-    op = create_post(raw: "[calendar]\n[/calendar]")
-    expect(op.calendar_details).to eq({})
+    expect(op.reload.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
+    expect(CalendarEvent.where(topic_id: op.topic_id).count).to eq(0)
 
     raw = %{Rome [date="2018-06-05" time="10:20:00"]}
     post = create_post(raw: raw, topic: op.topic)
-    CookedPostProcessor.new(post).post_process
 
-    op.reload
-
-    expect(op.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]).to eq("dynamic")
-    expect(op.calendar_details).to eq(
-      post.post_number.to_s => [
-        "Rome", "2018-06-05T10:20:00Z", "2018-06-05T11:20:00Z", post.user.username_lower, nil
-      ]
-    )
+    calendar_event = CalendarEvent.find_by(post_id: post.id)
+    expect(calendar_event.description).to eq("Rome")
+    expect(calendar_event.start_date).to eq("2018-06-05T10:20:00Z")
+    expect(calendar_event.end_date).to eq("2018-06-05T11:20:00Z")
+    expect(calendar_event.username).to eq(post.user.username_lower)
   end
 
   it "will correctly remove the event if post doesn’t contain dates anymore" do
-    op = create_post(raw: "[calendar]\n[/calendar]")
-
     raw = %{Rome [date="2018-06-05" time="10:20:00"]}
     post = create_post(raw: raw, topic: op.topic)
+
+    expect(CalendarEvent.find_by(post_id: post.id)).to be_present
+
+    post.update(raw: "Not sure about the dates anymore")
     CookedPostProcessor.new(post).post_process
 
-    op.reload
-
-    expect(op.calendar_details[post.post_number.to_s]).to be_present
-
-    post.raw = "Not sure about the dates anymore"
-    post.save
-    CookedPostProcessor.new(post).post_process
-
-    op.reload
-
-    expect(op.calendar_details[post.post_number.to_s]).not_to be_present
+    expect(CalendarEvent.find_by(post_id: post.id)).not_to be_present
   end
 
   it "will work with no time date" do
-    op = create_post(raw: "[calendar]\n[/calendar]")
-
     raw = %{Rome [date="2018-06-05"] [date="2018-06-11"]}
     post = create_post(raw: raw, topic: op.topic)
-    CookedPostProcessor.new(post).post_process
 
-    op.reload
-
-    _, from, to = op.calendar_details[post.post_number.to_s]
-    expect(from).to eq("2018-06-05T00:00:00Z")
-    expect(to).to eq("2018-06-11T00:00:00Z")
+    calendar_event = CalendarEvent.find_by(post_id: post.id)
+    expect(calendar_event.start_date).to eq("2018-06-05T00:00:00Z")
+    expect(calendar_event.end_date).to eq("2018-06-11T00:00:00Z")
   end
 
   it "will work with timezone" do
-    op = create_post(raw: "[calendar]\n[/calendar]")
-
     raw = %{Rome [date="2018-06-05" timezone="Europe/Paris"] [date="2018-06-11" time="13:45:33" timezone="America/Los_Angeles"]}
     post = create_post(raw: raw, topic: op.topic)
-    CookedPostProcessor.new(post).post_process
 
-    op.reload
-
-    _, from, to = op.calendar_details[post.post_number.to_s]
-    expect(from).to eq("2018-06-05T00:00:00+02:00")
-    expect(to).to eq("2018-06-11T13:45:33-07:00")
+    calendar_event = CalendarEvent.find_by(post_id: post.id)
+    expect(calendar_event.start_date).to eq("2018-06-05T00:00:00+02:00")
+    expect(calendar_event.end_date).to eq("2018-06-11T13:45:33-07:00")
   end
 
   it "will validate a post with more than two dates if not a calendar" do
@@ -80,15 +61,11 @@ describe DiscourseCalendar::EventUpdater do
 
     raw = %{Rome [date="2018-06-05" timezone="Europe/Paris"] [date="2018-06-11" time="13:45:33" timezone="America/Los_Angeles"] [date="2018-06-05" timezone="Europe/Paris"]}
     post = create_post(raw: raw, topic: op.topic)
-    CookedPostProcessor.new(post).post_process
-
-    op.reload
 
     expect(post).to be_valid
   end
 
   it "will not work if topic was deleted" do
-    op = create_post(raw: "[calendar]\n[/calendar]")
     raw = %{Rome [date="2018-06-05" time="10:20:00"]}
     post = create_post(raw: raw, topic: op.topic)
 
@@ -106,46 +83,33 @@ describe DiscourseCalendar::EventUpdater do
     end
 
     it "will work with no time date" do
-      op = create_post(raw: "[calendar]\n[/calendar]")
-
       raw = %{Rome [date="2018-06-05"] [date="2018-06-11"]}
       post = create_post(raw: raw, topic: op.topic)
-      CookedPostProcessor.new(post).post_process
 
-      op.reload
-
-      _, from, to = op.calendar_details[post.post_number.to_s]
-      expect(from).to eq("2018-06-05T06:30:00Z")
-      expect(to).to eq("2018-06-11T18:00:00Z")
+      calendar_event = CalendarEvent.find_by(post_id: post.id)
+      expect(calendar_event.start_date).to eq("2018-06-05T06:30:00Z")
+      expect(calendar_event.end_date).to eq("2018-06-11T18:00:00Z")
     end
-    it "will work with timezone" do
-      op = create_post(raw: "[calendar]\n[/calendar]")
 
+    it "will work with timezone" do
       raw = %{Rome [date="2018-06-05" timezone="Europe/Paris"] [date="2018-06-11" time="13:45:33" timezone="America/Los_Angeles"]}
       post = create_post(raw: raw, topic: op.topic)
-      CookedPostProcessor.new(post).post_process
 
-      op.reload
-
-      _, from, to = op.calendar_details[post.post_number.to_s]
-      expect(from).to eq("2018-06-05T06:30:00+02:00")
-      expect(to).to eq("2018-06-11T13:45:33-07:00")
+      event = CalendarEvent.find_by(post_id: post.id)
+      expect(event.start_date).to eq("2018-06-05T06:30:00+02:00")
+      expect(event.end_date).to eq("2018-06-11T13:45:33-07:00")
     end
   end
 
   context "#destroy" do
     it "removes event when a post is deleted" do
-      op = create_post(raw: "[calendar]\n[/calendar]")
       post = create_post(raw: %{Some Event [date="2019-09-10"]}, topic: op.topic)
-      CookedPostProcessor.new(post).post_process
-  
-      op.reload
-      expect(op.calendar_details[post.post_number.to_s]).to be_present
-  
+
+      expect(CalendarEvent.find_by(post_id: post.id)).to be_present
+
       PostDestroyer.new(Discourse.system_user, post).destroy
-  
-      op.reload
-      expect(op.calendar_details[post.post_number.to_s]).to_not be_present
+
+      expect(CalendarEvent.find_by(post_id: post.id)).to_not be_present
     end
   end
 end
