@@ -24,15 +24,11 @@ function stringToHexColor(str) {
 
 function initializeDiscourseCalendar(api) {
   let _topicController;
-  let selector;
   const outletName = Discourse.SiteSettings.calendar_categories_outlet;
 
-  switch (outletName) {
-    case "before-topic-list-body":
-      selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
-      break;
-    default:
-      selector = `.${outletName}-outlet`;
+  let selector = `.${outletName}-outlet`;
+  if (outletName === "before-topic-list-body") {
+    selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
   }
 
   api.onPageChange((url, title) => {
