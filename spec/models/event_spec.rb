@@ -132,4 +132,20 @@ describe DiscourseCalendar::EventUpdater do
       expect(to).to eq("2018-06-11T13:45:33-07:00")
     end
   end
+
+  context "#destroy" do
+    it "removes event when a post is deleted" do
+      op = create_post(raw: "[calendar]\n[/calendar]")
+      post = create_post(raw: %{Some Event [date="2019-09-10"]}, topic: op.topic)
+      CookedPostProcessor.new(post).post_process
+  
+      op.reload
+      expect(op.calendar_details[post.post_number.to_s]).to be_present
+  
+      PostDestroyer.new(Discourse.system_user, post).destroy
+  
+      op.reload
+      expect(op.calendar_details[post.post_number.to_s]).to_not be_present
+    end
+  end
 end
