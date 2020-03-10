@@ -20,6 +20,12 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.2]
       t.index :user_id
     end
 
-    # TODO: Rebake posts
+    # Rebuild calendar events
+    calendar_topic_ids = Post
+      .select(:topic_id)
+      .joins('JOIN post_custom_fields ON posts.id = post_custom_fields.post_id')
+      .where({ post_custom_fields: { name: 'calendar-details' }})
+    Post.where(topic_id: topic_ids).each { |post| CalendarEvent.update(post) }
+    PostCustomField.where(name: 'calendar-details').delete_all
   end
 end
