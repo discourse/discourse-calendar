@@ -20,6 +20,7 @@ module Jobs
 
       events.each do |event|
         next if event.recurrence
+
         end_date = event.end_date ? event.end_date : event.start_date + 24.hours
         next if end_date + delay.hour > Time.zone.now
         next if event.post.blank?

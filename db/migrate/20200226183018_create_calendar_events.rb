@@ -19,5 +19,7 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.2]
       t.index :post_id
       t.index :user_id
     end
+
+    # TODO: Rebake posts
   end
 end

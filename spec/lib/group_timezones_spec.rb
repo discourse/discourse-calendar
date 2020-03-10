@@ -2,18 +2,16 @@
 
 require "rails_helper"
 
-describe "Group timezones" do
-
+describe DiscourseCalendar::GroupTimezones do
   before do
     Jobs.run_immediately!
     SiteSetting.calendar_enabled = true
   end
 
-  let(:raw) { '[timezones group="admins"]\n[/timezones]' }
-  let(:op) { create_post(raw: raw) }
+  let(:calendar_post) { create_post(raw: '[timezones group="admins"]\n[/timezones]') }
 
-  it "converts the markdown to correct HTML" do
-    expect(op.cooked).to match_html(<<~HTML)
+  it "converts the Markdown to HTML" do
+    expect(calendar_post.cooked).to match_html(<<~HTML)
       <div class="group-timezones" data-group="admins" data-size="medium">
       <p>\\n</p>
       </div>
@@ -21,9 +19,8 @@ describe "Group timezones" do
   end
 
   it "creates correct custom fields" do
-    op.reload
-    expect(op.has_group_timezones?).to eq(true)
-    expect(op.group_timezones).to eq("groups" => ["admins"])
+    calendar_post.reload
+    expect(calendar_post.has_group_timezones?).to eq(true)
+    expect(calendar_post.group_timezones).to eq("groups" => ["admins"])
   end
-
 end

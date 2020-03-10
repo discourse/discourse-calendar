@@ -3,24 +3,21 @@
 require 'rails_helper'
 
 describe DiscourseCalendar::CreateHolidayEvents do
+  let(:calendar_post) { create_post(raw: "[calendar]\n[/calendar]") }
+
+  let(:frenchy) { Fabricate(:user, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" }) }
+  let(:aussie) { Fabricate(:user, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "au" }) }
 
   before do
     Jobs.run_immediately!
     SiteSetting.calendar_enabled = true
-
-    @op = create_post(raw: "[calendar]\n[/calendar]")
-    SiteSetting.holiday_calendar_topic_id = @op.topic_id
+    SiteSetting.holiday_calendar_topic_id = calendar_post.topic_id
   end
 
   it "adds all holidays in the next 6 months" do
-    frenchy = Fabricate(:user)
-    frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    frenchy.save!
-
+    frenchy
     freeze_time Time.zone.local(2019, 8, 1)
-
     subject.execute(nil)
-    @op.reload
 
     expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
       ["fr", "Assomption", "2019-08-15", frenchy.username],
@@ -32,14 +29,9 @@ describe DiscourseCalendar::CreateHolidayEvents do
   end
 
   it "checks for observed dates" do
-    aussie = Fabricate(:user)
-    aussie.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "au"
-    aussie.save!
-
+    aussie
     freeze_time Time.zone.local(2020, 1, 20)
-
     subject.execute(nil)
-    @op.reload
 
     # The "Australia Day" is always observed on a Monday
     expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
@@ -50,14 +42,9 @@ describe DiscourseCalendar::CreateHolidayEvents do
   end
 
   it "only checks for holidays during business days" do
-    frenchy = Fabricate(:user)
-    frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    frenchy.save!
-
+    frenchy
     freeze_time Time.zone.local(2019, 7, 1)
-
     subject.execute(nil)
-    @op.reload
 
     # The "Fête Nationale" is on July 14th but it's on a Sunday in 2019
     expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
@@ -69,18 +56,24 @@ describe DiscourseCalendar::CreateHolidayEvents do
     ])
   end
 
+  it "only takes into account active users" do
+    freeze_time Time.zone.local(2019, 8, 1)
+
+    robot = Fabricate(:user, id: -100, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" })
+    inactive = Fabricate(:user, active: false, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" })
+    suspended = Fabricate(:user, suspended_till: 1.year.from_now, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" })
+    silenced = Fabricate(:user, silenced_till: 1.year.from_now, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" })
+
+    subject.execute(nil)
+
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([])
+  end
+
   context "when user_options.timezone column exists" do
     it "uses the user TZ when available" do
-      frenchy = Fabricate(:user)
-      frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-      frenchy.user_option.timezone = "Europe/Paris"
-      frenchy.user_option.save!
-      frenchy.save!
-
+      frenchy.user_option.update!(timezone: "Europe/Paris")
       freeze_time Time.zone.local(2019, 8, 1)
-
       subject.execute(nil)
-      @op.reload
 
       calendar_event = CalendarEvent.first
       expect(calendar_event.region).to eq("fr")
@@ -96,16 +89,9 @@ describe DiscourseCalendar::CreateHolidayEvents do
       end
 
       it "uses the user TZ when available" do
-        frenchy = Fabricate(:user)
-        frenchy.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-        frenchy.user_option.timezone = "Europe/Paris"
-        frenchy.user_option.save!
-        frenchy.save!
-
+        frenchy.user_option.update!(timezone: "Europe/Paris")
         freeze_time Time.zone.local(2019, 8, 1)
-
         subject.execute(nil)
-        @op.reload
 
         calendar_event = CalendarEvent.first
         expect(calendar_event.region).to eq("fr")
@@ -115,30 +101,4 @@ describe DiscourseCalendar::CreateHolidayEvents do
       end
     end
   end
-
-  it "only takes into account active users" do
-    freeze_time Time.zone.local(2019, 8, 1)
-
-    robot = Fabricate(:user, id: -100)
-    robot.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    robot.save!
-
-    inactive = Fabricate(:user, active: false)
-    inactive.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    inactive.save!
-
-    suspended = Fabricate(:user, suspended_till: 1.year.from_now)
-    suspended.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    suspended.save!
-
-    silenced = Fabricate(:user, silenced_till: 1.year.from_now)
-    silenced.custom_fields[DiscourseCalendar::REGION_CUSTOM_FIELD] = "fr"
-    silenced.save!
-
-    subject.execute(nil)
-    @op.reload
-
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([])
-  end
-
 end

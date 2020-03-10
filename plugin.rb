@@ -42,7 +42,6 @@ after_initialize do
     "../app/serializers/user_timezone_serializer.rb",
     "../jobs/scheduled/create_holiday_events.rb",
     "../jobs/scheduled/destroy_past_events.rb",
-    "../jobs/scheduled/ensure_consistency.rb",
     "../jobs/scheduled/update_holiday_usernames.rb",
     "../lib/calendar_validator.rb",
     "../lib/calendar.rb",
@@ -92,6 +91,8 @@ after_initialize do
   validate(:post, :validate_event) do |force = nil|
     return unless self.raw_changed? || force
     return if self.is_first_post?
+
+    # Skip if not a calendar topic
     return if !self&.topic&.first_post&.custom_fields&.[](DiscourseCalendar::CALENDAR_CUSTOM_FIELD)
 
     validator = DiscourseCalendar::EventValidator.new(self)
@@ -121,6 +122,7 @@ after_initialize do
     grouped_events = {}
 
     CalendarEvent.where(topic_id: object.topic_id).each do |event|
+      # Events with no `post_id` are holidays
       if event.post_id
         result << {
           type: :standalone,
@@ -162,7 +164,10 @@ after_initialize do
     group_names = object.group_timezones["groups"] || []
 
     if group_names.present?
-      users = User.joins(:groups, :user_option).where("groups.name": group_names).select("users.*", "groups.name AS group_name", "user_options.timezone")
+      users = User
+        .joins(:groups, :user_option)
+        .where("groups.name": group_names)
+        .select("users.*", "groups.name AS group_name", "user_options.timezone")
 
       users.each do |u|
         result[u.group_name] ||= []
