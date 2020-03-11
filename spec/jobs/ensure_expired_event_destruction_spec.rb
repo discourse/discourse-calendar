@@ -21,7 +21,7 @@ describe DiscourseCalendar::EnsuredExpiredEventDestruction do
     @op.reload
 
     expect(@op.calendar_details[@post.post_number.to_s]).to eq([
-      "Rome  to", "2018-06-05T10:20:00Z", "2018-06-06T11:20:00Z", @post.user.username_lower, nil
+      "Rome  to", "2018-06-05T10:20:00Z", "2018-06-06T11:20:00Z", @post.user.username_lower, nil, "/t/-/#{@post.topic.id}/#{@post.post_number}"
     ])
 
     freeze_time Time.strptime("2018-06-06 13:21:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
@@ -74,7 +74,7 @@ describe DiscourseCalendar::EnsuredExpiredEventDestruction do
     @op.reload
 
     expect(@op.calendar_details[@post.post_number.to_s]).to eq([
-      "Rome  to", "2018-06-05T10:20:00Z", "2018-06-06T11:20:00Z", @post.user.username_lower, "1.weeks"
+      "Rome  to", "2018-06-05T10:20:00Z", "2018-06-06T11:20:00Z", @post.user.username_lower, "1.weeks", "/t/-/#{@post.topic.id}/#{@post.post_number}"
     ])
 
     freeze_time Time.strptime("2018-06-06 13:21:00 UTC", "%Y-%m-%d %H:%M:%S %Z")

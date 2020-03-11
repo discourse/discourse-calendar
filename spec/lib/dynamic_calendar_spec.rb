@@ -21,7 +21,7 @@ describe "Dynamic calendar" do
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T00:00:00+02:00", nil, p.user.username, nil
+      "Rome", "2018-06-05T00:00:00+02:00", nil, p.user.username, nil, "/t/-/#{p.topic.id}/#{p.post_number}"
     ])
   end
 
@@ -30,7 +30,7 @@ describe "Dynamic calendar" do
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T12:34:56Z", "2018-06-05T13:34:56Z", p.user.username, nil
+      "Rome", "2018-06-05T12:34:56Z", "2018-06-05T13:34:56Z", p.user.username, nil, "/t/-/#{p.topic.id}/#{p.post_number}"
     ])
   end
 
@@ -39,7 +39,7 @@ describe "Dynamic calendar" do
 
     op.reload
     expect(op.calendar_details[p.post_number.to_s]).to eq([
-      "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T00:00:00+02:00", p.user.username, nil
+      "Rome", "2018-06-05T00:00:00+02:00", "2018-06-08T00:00:00+02:00", p.user.username, nil, "/t/-/#{p.topic.id}/#{p.post_number}"
     ])
   end
 
@@ -85,7 +85,7 @@ describe "Dynamic calendar" do
 
       op.reload
       expect(op.calendar_details[p.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-05T18:00:00+02:00", p.user.username, nil
+        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-05T18:00:00+02:00", p.user.username, nil, "/t/-/#{p.topic.id}/#{p.post_number}"
       ])
     end
 
@@ -94,7 +94,7 @@ describe "Dynamic calendar" do
 
       op.reload
       expect(op.calendar_details[p.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T12:34:56Z", "2018-06-05T13:34:56Z", p.user.username, nil
+        "Rome", "2018-06-05T12:34:56Z", "2018-06-05T13:34:56Z", p.user.username, nil, "/t/-/#{p.topic.id}/#{p.post_number}"
       ])
     end
 
@@ -103,7 +103,7 @@ describe "Dynamic calendar" do
 
       op.reload
       expect(op.calendar_details[p.post_number.to_s]).to eq([
-        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-08T18:00:00+02:00", p.user.username, nil
+        "Rome", "2018-06-05T07:00:00+02:00", "2018-06-08T18:00:00+02:00", p.user.username, nil, "/t/-/#{p.topic.id}/#{p.post_number}"
       ])
     end
   end
