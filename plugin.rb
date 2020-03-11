@@ -131,7 +131,8 @@ after_initialize do
           from: event.start_date,
           to: event.end_date,
           username: event.username,
-          recurring: event.recurrence
+          recurring: event.recurrence,
+          post_url: Post.url('-', event.topic_id, event.post_number)
         }
       else
         identifier = "#{event.region.split("_").first}-#{event.description}"
