@@ -202,7 +202,7 @@ after_initialize do
     result = []
 
     details = post_custom_fields[DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
-    Array(details).each do |post_number, (message, from, to, username, recurring)|
+    Array(details).each do |post_number, (message, from, to, username, recurring, post_url)|
       result << {
         type: :standalone,
         post_number: post_number.to_i,
@@ -211,6 +211,7 @@ after_initialize do
         to: to,
         username: username,
         recurring: recurring,
+        post_url: post_url
       }
     end
 

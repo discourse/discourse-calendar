@@ -277,11 +277,15 @@ function initializeDiscourseCalendar(api) {
 
     calendar.setOption("eventClick", ({ event, jsEvent }) => {
       hidePopover(jsEvent);
-      const { postNumber } = event.extendedProps;
-      if (!postNumber) return;
-      _topicController =
-        _topicController || api.container.lookup("controller:topic");
-      _topicController.send("jumpToPost", postNumber);
+      const { postNumber, postUrl } = event.extendedProps;
+
+      if (postUrl) {
+        DiscourseURL.routeTo(postUrl);
+      } else if (postNumber) {
+        _topicController =
+          _topicController || api.container.lookup("controller:topic");
+        _topicController.send("jumpToPost", postNumber);
+      }
     });
 
     calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
@@ -312,8 +316,9 @@ function initializeDiscourseCalendar(api) {
     );
 
     event.extendedProps = {};
-
-    if (detail.post_number) {
+    if (detail.post_url) {
+      event.extendedProps.postUrl = detail.post_url;
+    } else if (detail.post_number) {
       event.extendedProps.postNumber = detail.post_number;
     } else {
       event.classNames = ["holiday"];

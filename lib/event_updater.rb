@@ -40,7 +40,8 @@ module DiscourseCalendar
         from.iso8601.to_s,
         to ? to.iso8601.to_s : nil,
         post.user.username_lower,
-        dates[0]["recurring"].presence
+        dates[0]["recurring"].presence,
+        "/t/-/#{post.topic.id}/#{post.post_number}"
       ]
 
       op.set_calendar_event(post.post_number, detail)
