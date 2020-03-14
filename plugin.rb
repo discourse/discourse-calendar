@@ -135,7 +135,7 @@ after_initialize do
           post_url: Post.url('-', event.topic_id, event.post_number)
         }
       else
-        identifier = "#{event.region.split("_").first}-#{event.description}"
+        identifier = "#{event.region.split("_").first}-#{event.description}-#{event.start_date.strftime("%W")}"
 
         if grouped_events[identifier]
           grouped_events[identifier][:to] = date
