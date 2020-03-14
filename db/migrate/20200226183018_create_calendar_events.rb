@@ -25,7 +25,7 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.2]
       .select(:topic_id)
       .joins('JOIN post_custom_fields ON posts.id = post_custom_fields.post_id')
       .where({ post_custom_fields: { name: 'calendar-details' }})
-    Post.where(topic_id: topic_ids).each { |post| CalendarEvent.update(post) }
+    Post.where(topic_id: calendar_topic_ids).each { |post| CalendarEvent.update(post) }
     PostCustomField.where(name: 'calendar-details').delete_all
   end
 end
