@@ -1,3 +1,4 @@
+import DiscourseURL from "discourse/lib/url";
 import { Promise } from "rsvp";
 import { cookAsync } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
