@@ -21,11 +21,18 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.2]
     end
 
     # Rebuild calendar events
-    calendar_topic_ids = Post
-      .select(:topic_id)
-      .joins('JOIN post_custom_fields ON posts.id = post_custom_fields.post_id')
-      .where({ post_custom_fields: { name: 'calendar-details' }})
-    Post.where(topic_id: calendar_topic_ids).each { |post| CalendarEvent.update(post) }
-    PostCustomField.where(name: 'calendar-details').delete_all
+    calendar_topic_ids = DB.query_single(<<~SQL)
+      SELECT topic_id
+      FROM posts
+      JOIN post_custom_fields ON posts.id = post_custom_fields.post_id
+      WHERE post_custom_fields.name = 'calendar-details'
+    SQL
+
+    # Data structure stored in 'calendar-details' custom field is complex and
+    # difficult to transform using SQL only. It is safer to extract all calendar
+    # events again.
+    Post.where(topic_id: calendar_topic_ids).each { |post| CalendarEvent.update(post) } rescue nil
+
+    execute "DELETE FROM post_custom_fields WHERE name = 'calendar-details'"
   end
 end
