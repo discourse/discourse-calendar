@@ -9,7 +9,7 @@ module DiscourseCalendar
 
     def validate_event
       dates_count = count_dates(@post)
-      calendar_type = @first_post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] || "dynamic"
+      calendar_type = @first_post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
 
       if calendar_type == "dynamic" && dates_count > 2
         @post.errors.add(:base, I18n.t("discourse_calendar.more_than_two_dates"))

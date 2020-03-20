@@ -11,6 +11,9 @@ class CalendarEvent < ActiveRecord::Base
     dates = post.local_dates
     return if dates.size < 1 || dates.size > 2
 
+    first_post = post.topic&.first_post
+    return if !first_post || !first_post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
+
     from = self.convert_to_date_time(dates[0])
     to = self.convert_to_date_time(dates[1]) if dates.size == 2
 

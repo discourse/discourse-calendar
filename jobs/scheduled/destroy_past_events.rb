@@ -10,7 +10,13 @@ module Jobs
       delay = SiteSetting.delete_expired_event_posts_after
       return if delay < 0
 
+      calendar_topic_ids = Post
+        .joins(:_custom_fields)
+        .where(post_custom_fields: { name: DiscourseCalendar::CALENDAR_CUSTOM_FIELD })
+        .pluck(:topic_id)
+
       events = CalendarEvent
+        .where(topic_id: calendar_topic_ids)
         .includes(:post)
         .joins(:topic)
         .where("NOT topics.closed AND NOT topics.archived")
