@@ -74,6 +74,17 @@ describe CalendarEvent do
     expect(post.deleted_at).to eq(nil)
   end
 
+  it "recreates calendar event for all posts" do
+    post = create_post(raw: 'Rome [date="2018-06-05" time="10:20:00"]', topic: calendar_post.topic)
+    expect(CalendarEvent.count).to eq(1)
+
+    PostDestroyer.new(Discourse.system_user, calendar_post.reload).destroy
+    expect(CalendarEvent.count).to eq(0)
+
+    PostDestroyer.new(Discourse.system_user, calendar_post.reload).recover
+    expect(CalendarEvent.count).to eq(1)
+  end
+
   describe "all day event site settings" do
     before do
       SiteSetting.all_day_event_start_time = "06:30"
