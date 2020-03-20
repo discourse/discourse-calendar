@@ -39,7 +39,7 @@ module Jobs
     end
 
     def destroy_post(post)
-      PostDestroyer.new(Discourse.system_user, post).destroy
+      PostDestroyer.new(Discourse.system_user, post, context: I18n.t('discourse_calendar.event_expired')).destroy
     end
   end
 end

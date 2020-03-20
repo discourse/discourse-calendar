@@ -18,6 +18,7 @@ describe DiscourseCalendar::DestroyPastEvents do
     subject.execute(nil)
 
     expect(Post.find_by(id: post.id)).to eq(nil)
+    expect(UserHistory.find_by(post_id: post.id).context).to eq(I18n.t("discourse_calendar.event_expired"))
   end
 
   it "will correctly destroy the calendar event" do
