@@ -35,6 +35,14 @@ after_initialize do
 
     # List of groups
     GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
+
+    def self.users_on_holiday
+      PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
+    end
+
+    def self.users_on_holiday=(usernames)
+      PluginStore.set(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY, usernames)
+    end
   end
 
   [
@@ -184,7 +192,7 @@ after_initialize do
   end
 
   add_to_serializer(:site, :users_on_holiday) do
-    PluginStore.get(DiscourseCalendar::PLUGIN_NAME, DiscourseCalendar::USERS_ON_HOLIDAY_KEY)
+    DiscourseCalendar.users_on_holiday
   end
 
   add_to_serializer(:site, :include_users_on_holiday?) do

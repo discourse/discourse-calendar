@@ -18,13 +18,11 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     freeze_time Time.utc(2018, 6, 5, 18, 40)
     subject.execute(nil)
 
-    users_on_holiday = PluginStore.get(DiscourseCalendar::PLUGIN_NAME, DiscourseCalendar::USERS_ON_HOLIDAY_KEY)
-    expect(users_on_holiday).to eq([post.user.username])
+    expect(DiscourseCalendar.users_on_holiday).to eq([post.user.username])
 
     freeze_time Time.utc(2018, 6, 7, 18, 40)
     subject.execute(nil)
 
-    users_on_holiday = PluginStore.get(DiscourseCalendar::PLUGIN_NAME, DiscourseCalendar::USERS_ON_HOLIDAY_KEY)
-    expect(users_on_holiday).to eq([])
+    expect(DiscourseCalendar.users_on_holiday).to eq([])
   end
 end

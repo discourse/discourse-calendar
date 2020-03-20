@@ -23,7 +23,7 @@ module Jobs
       user_ids.uniq!
       usernames.uniq!
 
-      PluginStore.set(DiscourseCalendar::PLUGIN_NAME, DiscourseCalendar::USERS_ON_HOLIDAY_KEY, usernames)
+      DiscourseCalendar.users_on_holiday = usernames
 
       custom_field_name = DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
 
