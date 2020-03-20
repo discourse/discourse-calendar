@@ -4,59 +4,45 @@ module Jobs
   class ::DiscourseCalendar::UpdateHolidayUsernames < ::Jobs::Scheduled
     every 10.minutes
 
-    PLUGIN_NAME ||= "calendar".freeze
-
     def execute(args)
       return unless SiteSetting.calendar_enabled
-      return unless topic_id = SiteSetting.holiday_calendar_topic_id
-      return unless op = Post.find_by(topic_id: topic_id, post_number: 1)
+      return unless topic_id = SiteSetting.holiday_calendar_topic_id.presence
 
-      events = []
-
-      if details = op.custom_fields[::DiscourseCalendar::CALENDAR_DETAILS_CUSTOM_FIELD]
-        details.values.each do |_, from, to, username|
-          events << [from, to, username]
-        end
-      end
-
-      if holidays = op.custom_fields[::DiscourseCalendar::CALENDAR_HOLIDAYS_CUSTOM_FIELD]
-        holidays.each do |_, _, date, username|
-          events << [date, nil, username]
-        end
-      end
-
+      user_ids = []
       usernames = []
 
-      events.each do |from, to, username|
-        from_time = Time.parse(from)
-        to_time   = to ? Time.parse(to) : from_time + 24.hours
-        usernames << username if from_time < Time.zone.now && Time.zone.now < to_time
+      CalendarEvent.where(topic_id: topic_id).each do |event|
+        next if event.user_id.blank? || event.username.blank?
+        end_date = event.end_date ? event.end_date : event.start_date + 24.hours
+        if event.start_date < Time.zone.now && Time.zone.now < end_date
+          user_ids << event.user_id
+          usernames << event.username
+        end
       end
 
+      user_ids.uniq!
       usernames.uniq!
-      usernames.compact!
 
-      PluginStore.set(PLUGIN_NAME, DiscourseCalendar::USERS_ON_HOLIDAY_KEY, usernames)
+      DiscourseCalendar.users_on_holiday = usernames
 
-      cf_name  = ::DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
-      user_ids = User.where(username_lower: usernames).pluck(:id).compact
+      custom_field_name = DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
 
       if user_ids.present?
-        values = user_ids.map { |id| "(#{id}, '#{cf_name}', 't', now(), now())" }
+        values = user_ids.map { |id| "(#{id}, '#{custom_field_name}', 't', now(), now())" }
 
-        DB.exec <<~SQL, cf_name
+        DB.exec <<~SQL, custom_field_name
           INSERT INTO user_custom_fields (user_id, name, value, created_at, updated_at)
           VALUES #{values.join(",")}
           ON CONFLICT (user_id, name) WHERE (name = ?) DO NOTHING
         SQL
 
-        DB.exec <<~SQL, cf_name, user_ids
+        DB.exec <<~SQL, custom_field_name, user_ids
           DELETE FROM user_custom_fields
            WHERE name = ?
              AND user_id NOT IN (?)
         SQL
       else
-        DB.exec("DELETE FROM user_custom_fields WHERE name = ?", cf_name)
+        DB.exec("DELETE FROM user_custom_fields WHERE name = ?", custom_field_name)
       end
     end
   end
