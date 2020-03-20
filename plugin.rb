@@ -138,7 +138,7 @@ after_initialize do
         identifier = "#{event.region.split("_").first}-#{event.description}-#{event.start_date.strftime("%W")}"
 
         if grouped_events[identifier]
-          grouped_events[identifier][:to] = date
+          grouped_events[identifier][:to] = event.start_date
         else
           grouped_events[identifier] = {
             type: :grouped,
