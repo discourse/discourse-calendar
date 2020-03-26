@@ -14,6 +14,7 @@ describe Post do
   before do
     freeze_time
     SiteSetting.queue_jobs = false
+    SiteSetting.post_event_enabled = true
   end
 
   context 'when a post with an event is destroyed' do

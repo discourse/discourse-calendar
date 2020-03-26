@@ -11,6 +11,7 @@ module DiscourseCalendar
 
     before do
       SiteSetting.queue_jobs = false
+      SiteSetting.post_event_enabled = true
       sign_in(user)
     end
 

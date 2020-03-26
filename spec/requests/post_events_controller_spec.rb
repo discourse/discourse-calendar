@@ -14,6 +14,7 @@ module DiscourseCalendar
     before do
       SiteSetting.queue_jobs = false
       SiteSetting.displayed_invitees_limit = 3
+      SiteSetting.post_event_enabled = true
     end
 
     context 'when a post exists' do

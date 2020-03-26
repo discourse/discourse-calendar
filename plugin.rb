@@ -251,19 +251,19 @@ after_initialize do
     get '/upcoming-events' => 'upcoming_events#index'
   end
 
-  on(:post_destroyed) do |post|
+  DiscourseEvent.on(:post_destroyed) do |post|
     if SiteSetting.post_event_enabled && post.post_event
       post.post_event.update!(deleted_at: Time.now)
     end
   end
 
-  on(:post_recovered) do |post|
+  DiscourseEvent.on(:post_recovered) do |post|
     if SiteSetting.post_event_enabled && post.post_event
       post.post_event.update!(deleted_at: nil)
     end
   end
 
-  on(:post_edited) do |post, topic_changed|
+  DiscourseEvent.on(:post_edited) do |post, topic_changed|
     if SiteSetting.post_event_enabled && post.post_event && post.is_first_post? && post.topic && topic_changed && post.topic != Archetype.private_message
       time_range = extract_time_range(post.topic, post.user)
 
@@ -293,7 +293,7 @@ after_initialize do
     ).sniff
   end
 
-  on(:topic_created) do |topic, args, user|
+  DiscourseEvent.on(:topic_created) do |topic, args, user|
     if SiteSetting.post_event_enabled && topic.archetype != Archetype.private_message
       time_range = extract_time_range(topic, user)
 

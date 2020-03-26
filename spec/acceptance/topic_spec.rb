@@ -8,6 +8,7 @@ describe Topic do
   before do
     freeze_time
     SiteSetting.queue_jobs = false
+    SiteSetting.post_event_enabled = true
   end
 
   fab!(:user) { Fabricate(:user) }
