@@ -12,6 +12,10 @@ export default Controller.extend(ModalFunctionality, {
     this.set("invitedNames", invitedNames);
   },
 
+  onClose() {
+    this.set("invitedNames", null);
+  },
+
   @action
   invite() {
     return ajax(
