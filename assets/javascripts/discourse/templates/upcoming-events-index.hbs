@@ -1,0 +1,31 @@
+<table class="table upcoming-events-table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>creator</th>
+      <th>status</th>
+      <th>starts at</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each postEvents as |postEvent|}}
+      <tr>
+        <td>
+          <a href={{postEvent.post.url}}>
+            {{format-post-event-name postEvent}}
+          </a>
+        </td>
+        <td>
+          {{avatar postEvent.creator imageSize="tiny"}}
+          {{format-username postEvent.creator.username}}
+        </td>
+        <td>
+          {{postEvent.status}}
+        </td>
+        <td>
+          {{format-future-date postEvent.starts_at}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

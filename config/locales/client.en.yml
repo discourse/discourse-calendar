@@ -1,6 +1,7 @@
 en:
   js:
     discourse_calendar:
+      invite_user_notification: "%{username} invited you to: %{description}"
       on_holiday: "On Holiday"
       holiday: "Holiday"
       add_to_calendar: "Add to calendar"
@@ -8,6 +9,51 @@ en:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."
         none: "Select a timezone..."
+    event:
+      display_invitees:
+        everyone: "To everyone"
+        invitees_only: "To invited users only"
+        none: "Do not display invited users"
+      invitee_status:
+        unknown: "Undecided?"
+        going: "✓ Going"
+        not_going: "× Not Going"
+        interested: "? Interested"
+      post_event_status:
+        standalone:
+          title: Standalone
+          description: "A standalone event can't be joined."
+        public:
+          title: Public
+          description: "A public event can be joined by anyone."
+        private:
+          title: Private
+          description: "A private event can only be joined by invited users."
+      post_ui:
+        show_all: show all
+        add_to_calendar: add to calendar
+        send_pm_to_creator: contact
+      post-event-invitees-modal:
+        title: "List of invitees"
+        filter_placeholder: "Filter invitees"
+      ui_builder:
+        create_event_title: Create Event
+        update_event_title: Update Event
+        confirm_delete: Are you sure you want to delete this event?
+        create: Create
+        update: Save
+        attach: Create event
+        name:
+          label: Event name
+          placeholder: Optional, defaults to topic title
+        invitees:
+          label: Invited users/groups
+        status:
+          label: Status
+        display_invitees:
+          label: Display invited users
+    upcoming_events:
+      title: Upcoming events
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"

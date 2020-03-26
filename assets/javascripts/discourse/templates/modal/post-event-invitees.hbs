@@ -1,0 +1,28 @@
+{{#d-modal-body
+  title="event.post-event-invitees-modal.title"
+}}
+  {{input
+    value=(readonly filter)
+    input=(action "onFilterChanged" value="target.value")
+    class="filter"
+    placeholderKey="event.post-event-invitees-modal.filter_placeholder"
+  }}
+
+  {{#conditional-loading-spinner condition=isLoading}}
+  <ul class="invitees">
+    {{#each invitees as |invitee|}}
+      <li class="invitee">
+        <span class="user">
+          {{avatar invitee.user imageSize="medium"}}
+          {{format-username invitee.user.username}}
+        </span>
+        {{#if invitee.status}}
+          <span class="status {{invitee.status}}">
+            {{i18n (concat "event.invitee_status." invitee.status)}}
+          </span>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+  {{/conditional-loading-spinner}}
+{{/d-modal-body}}
