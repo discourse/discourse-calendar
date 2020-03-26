@@ -6,6 +6,7 @@ export default createWidget("post-event-invitees", {
 
   transform(attrs) {
     return {
+      isPrivateEvent: attrs.postEvent.status === "private",
       showAll: attrs.postEvent.stats && attrs.postEvent.stats.invited > 10
     };
   },
@@ -15,8 +16,10 @@ export default createWidget("post-event-invitees", {
       <div class="post-event-invitees-status">
         <span>{{attrs.postEvent.stats.going}} Going -</span>
         <span>{{attrs.postEvent.stats.interested}} Interested -</span>
-        <span>{{attrs.postEvent.stats.not_going}} Not going -</span>
-        <span class="invited">on {{attrs.postEvent.stats.invited}} users invited</span>
+        <span>{{attrs.postEvent.stats.not_going}} Not going</span>
+        {{#if transformed.isPrivateEvent}}
+          <span class="invited">- on {{attrs.postEvent.stats.invited}} users invited</span>
+        {{/if}}
       </div>
 
       {{#if transformed.showAll}}
