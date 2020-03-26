@@ -23,7 +23,7 @@ describe Topic do
 
         post_event = PostEvent.find(post_with_date.id)
         expect(post_event).to be_present
-        expect(post_event.starts_at).to eq(post_with_date.topic.created_at.tomorrow.beginning_of_day)
+        expect(post_event.starts_at).to eq_time(post_with_date.topic.created_at.tomorrow.beginning_of_day)
         expect(post_event.status).to eq(PostEvent.statuses[:standalone])
       end
     end
