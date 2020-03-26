@@ -15,7 +15,9 @@ module DiscourseCalendar
       post_event_invitees = PostEvent.find(params['post-event-id']).invitees
 
       if params[:filter]
-        post_event_invitees = post_event_invitees.joins(:user).where("users.username LIKE '%#{params[:filter]}%'")
+        post_event_invitees = post_event_invitees
+          .joins(:user)
+          .where("LOWER(users.username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
       end
 
       render json: ActiveModel::ArraySerializer.new(post_event_invitees.limit(10), each_serializer: InviteeSerializer).as_json
