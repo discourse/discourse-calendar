@@ -19,7 +19,6 @@ function _attachWidget(api, cooked, postEvent) {
   const existing = cooked.querySelector(".post-event");
 
   if (postEvent) {
-    console.log(postEvent);
     let widgetHeight = 175;
     if (postEvent.should_display_invitees) {
       widgetHeight += 125;
