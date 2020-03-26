@@ -135,11 +135,34 @@ module DiscourseCalendar
     end
 
     def can_user_update_attendance(user)
+      !self.is_expired? &&
       self.post.user != user &&
-      self.status == PostEvent.statuses[:public] ||
       (
-        self.status == PostEvent.statuses[:private] &&
-        self.invitees.exists?(user_id: user.id)
+        self.status == PostEvent.statuses[:public] ||
+        (
+          self.status == PostEvent.statuses[:private] &&
+          self.invitees.exists?(user_id: user.id)
+        )
+      )
+    end
+
+    def is_expired?
+      Time.now > (self.ends_at || self.starts_at)
+    end
+
+    def display_invitees?(current_user)
+      !self.is_expired? &&
+      self.status != PostEvent.statuses[:standalone] &&
+      (
+        self.display_invitees == PostEvent.display_invitees_options[:everyone] ||
+        (
+          self.display_invitees == PostEvent.display_invitees_options[:invitees_only] &&
+          self.invitees.exists?(user_id: current_user.id)
+        ) ||
+        (
+          self.display_invitees == PostEvent.display_invitees_options[:none] &&
+          self.post.user == current_user
+        )
       )
     end
   end

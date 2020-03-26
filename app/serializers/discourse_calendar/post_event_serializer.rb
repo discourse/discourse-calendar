@@ -17,9 +17,14 @@ module DiscourseCalendar
     attributes :name
     attributes :can_act_on_post_event
     attributes :can_update_attendance
+    attributes :is_expired
 
     def can_act_on_post_event
       scope.can_act_on_post_event?(object)
+    end
+
+    def is_expired
+      object.is_expired?
     end
 
     def status
@@ -41,7 +46,7 @@ module DiscourseCalendar
     end
 
     def should_display_invitees
-      display_invitees?
+      object.display_invitees?(scope.current_user)
     end
 
     def can_update_attendance
@@ -54,10 +59,6 @@ module DiscourseCalendar
 
     def creator
       BasicUserSerializer.new(object.post.user, embed: :objects, root: false)
-    end
-
-    def include_stats?
-      display_invitees?
     end
 
     def stats
@@ -97,29 +98,12 @@ module DiscourseCalendar
     end
 
     def include_sample_invitees?
-      display_invitees?
+      object.display_invitees?(scope.current_user)
     end
 
     def sample_invitees
       invitees = object.most_likely_going(scope.current_user)
       ActiveModel::ArraySerializer.new(invitees, each_serializer: InviteeSerializer)
-    end
-
-    private
-
-    def display_invitees?
-      object.status != PostEvent.statuses[:standalone] &&
-      (
-        object.display_invitees == PostEvent.display_invitees_options[:everyone] ||
-        (
-          object.display_invitees == PostEvent.display_invitees_options[:invitees_only] &&
-          object.invitees.exists?(user_id: scope.current_user.id)
-        ) ||
-        (
-          object.display_invitees == PostEvent.display_invitees_options[:none] &&
-          object.post.user == scope.current_user
-        )
-      )
     end
   end
 end

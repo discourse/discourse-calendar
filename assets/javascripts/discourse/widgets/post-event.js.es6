@@ -120,10 +120,14 @@ export default createWidget("post-event", {
         </div>
         <div class="post-event-info">
           <div class="status-and-name">
-            <span class={{transformed.statusClass}} title={{transformed.postEventStatusDescription}}>
-              {{transformed.statusIcon}}
-              <span>{{transformed.postEventStatusLabel}}</span>
-            </span>
+            {{#if state.postEvent.is_expired}}
+              <span class="status expired">expired</span>
+            {{else}}
+              <span class={{transformed.statusClass}} title={{transformed.postEventStatusDescription}}>
+                {{transformed.statusIcon}}
+                <span>{{transformed.postEventStatusLabel}}</span>
+              </span>
+            {{/if}}
             <span class="name">
               {{transformed.postEventName}}
             </span>
@@ -163,12 +167,15 @@ export default createWidget("post-event", {
 
       {{attach widget="post-event-dates" attrs=(hash localDates=attrs.localDates postEvent=state.postEvent)}}
 
+      {{#unless state.postEvent.is_expired}}
       {{#if state.postEvent.should_display_invitees}}
         <hr />
         {{attach widget="post-event-invitees" attrs=(hash postEvent=state.postEvent)}}
       {{/if}}
+      {{/unless}}
 
       <footer class="post-event-footer">
+        {{#unless state.postEvent.is_expired}}
         {{attach
           widget="button"
           attrs=(hash
@@ -178,6 +185,8 @@ export default createWidget("post-event", {
             action="addToGoogleCalendar"
           )
         }}
+        {{/unless}}
+
         {{attach
           widget="button"
           attrs=(hash
@@ -187,6 +196,8 @@ export default createWidget("post-event", {
             action="sendPMToCreator"
           )
         }}
+
+        {{#unless state.postEvent.is_expired}}
         {{#if state.postEvent.can_act_on_post_event}}
         {{#if transformed.isPublicEvent}}
           {{attach
@@ -201,6 +212,7 @@ export default createWidget("post-event", {
           }}
         {{/if}}
         {{/if}}
+        {{/unless}}
       </footer>
     {{/if}}
   `

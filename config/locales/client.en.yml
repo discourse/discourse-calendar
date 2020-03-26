@@ -31,6 +31,9 @@ en:
           description: "A private event can only be joined by invited users."
       post_ui:
         show_all: show all
+        participants:
+          one: "- %{count} user participated."
+          many: "- %{count} users participated."
         invite: invite
         add_to_calendar: add to calendar
         send_pm_to_creator: contact

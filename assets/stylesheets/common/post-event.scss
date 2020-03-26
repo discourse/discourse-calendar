@@ -164,6 +164,11 @@
         display: flex;
         align-items: center;
 
+        &.expired {
+          color: $danger-low;
+          background-color: $danger;
+        }
+
         .d-icon {
           margin-right: 0.5em;
         }
@@ -282,6 +287,11 @@
     display: flex;
     align-items: center;
     padding: 1em;
+
+    .participants {
+      margin-left: 0.5em;
+      color: $primary-medium;
+    }
 
     .d-icon {
       color: $primary-medium;

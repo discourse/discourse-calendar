@@ -7,7 +7,9 @@ export default createWidget("post-event-invitees", {
   transform(attrs) {
     return {
       isPrivateEvent: attrs.postEvent.status === "private",
-      showAll: attrs.postEvent.stats && attrs.postEvent.stats.invited > 10
+      showAll:
+        attrs.postEvent.should_display_invitees &&
+        attrs.postEvent.stats.invited > 10
     };
   },
 
