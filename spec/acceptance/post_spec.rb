@@ -23,7 +23,7 @@ describe Post do
       PostDestroyer.new(user, post_event.post).destroy
       post_event.reload
 
-      expect(post_event.deleted_at).to eq(Time.now)
+      expect(post_event.deleted_at).to eq_time(Time.now)
     end
   end
 
@@ -32,7 +32,7 @@ describe Post do
       PostDestroyer.new(user, post_event.post).destroy
       post_event.reload
 
-      expect(post_event.deleted_at).to eq(Time.now)
+      expect(post_event.deleted_at).to eq_time(Time.now)
 
       PostDestroyer.new(user, post_event.post).recover
       post_event.reload
