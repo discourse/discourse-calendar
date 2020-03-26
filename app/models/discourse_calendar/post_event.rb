@@ -147,7 +147,7 @@ module DiscourseCalendar
     end
 
     def is_expired?
-      Time.now > (self.ends_at || self.starts_at)
+      Time.now > (self.ends_at || self.starts_at || Time.now)
     end
 
     def display_invitees?(current_user)
