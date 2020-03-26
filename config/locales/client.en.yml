@@ -34,8 +34,8 @@ en:
         add_to_calendar: add to calendar
         send_pm_to_creator: contact
       post-event-invitees-modal:
-        title: "List of invitees"
-        filter_placeholder: "Filter invitees"
+        title: "List of invited users"
+        filter_placeholder: "Filter invited users"
       ui_builder:
         create_event_title: Create Event
         update_event_title: Update Event

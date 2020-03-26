@@ -31,6 +31,7 @@ module DiscourseCalendar
       DistributedMutex.synchronize("discourse-calendar[post-event-invitee-update]") do
         post_event = DiscourseCalendar::PostEvent.find(params[:id])
         guardian.ensure_can_edit!(post_event.post)
+        guardian.ensure_can_act_on_post_event!(post_event)
         post_event.enforce_utc!(post_event_params)
 
         case post_event_params[:status].to_i
@@ -54,6 +55,7 @@ module DiscourseCalendar
     def create
       post_event = DiscourseCalendar::PostEvent.new(post_event_params)
       guardian.ensure_can_edit!(post_event.post)
+      guardian.ensure_can_create_post_event!(post_event)
       post_event.enforce_utc!(post_event_params)
 
       case post_event_params[:status].to_i

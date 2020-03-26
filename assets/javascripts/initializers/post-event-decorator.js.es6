@@ -1,4 +1,3 @@
-import { isPresent } from "@ember/utils";
 import { cookAsync } from "discourse/lib/text";
 import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";
@@ -25,12 +24,7 @@ function _attachWidget(api, cooked, postEvent) {
       widgetHeight += 125;
     }
 
-    const currentUser = api.getCurrentUser();
-    if (
-      currentUser &&
-      postEvent.creator.id !== currentUser.id &&
-      postEvent.status !== "standalone"
-    ) {
+    if (postEvent.can_update_attendance) {
       widgetHeight += 65;
     }
 

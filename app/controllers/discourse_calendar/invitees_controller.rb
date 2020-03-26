@@ -16,6 +16,7 @@ module DiscourseCalendar
 
     def update
       invitee = Invitee.find(params[:id])
+      guardian.ensure_can_act_on_invitee!(invitee)
       status = Invitee.statuses[invitee_params[:status].to_sym]
       invitee.update_attendance(status: status)
       invitee.post_event.publish_update!
@@ -24,6 +25,8 @@ module DiscourseCalendar
 
     def create
       status = Invitee.statuses[invitee_params[:status].to_sym]
+      post_event = PostEvent.find(invitee_params[:post_id])
+      guardian.ensure_can_act_on_post_event!(post_event)
       invitee = Invitee.create!(
         status: status,
         post_id: invitee_params[:post_id],

@@ -5,7 +5,7 @@ require_relative '../fabricators/post_event_fabricator'
 
 module DiscourseCalendar
   describe PostEventsController do
-    fab!(:user) { Fabricate(:user) }
+    fab!(:user) { Fabricate(:user, admin: true) }
     fab!(:topic) { Fabricate(:topic, user: user) }
     fab!(:post1) { Fabricate(:post, user: user, topic: topic) }
     fab!(:invitee1) { Fabricate(:user) }

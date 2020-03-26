@@ -16,6 +16,7 @@ module DiscourseCalendar
     attributes :should_display_invitees
     attributes :name
     attributes :can_act_on_post_event
+    attributes :can_update_attendance
 
     def can_act_on_post_event
       scope.can_act_on_post_event?(object)
@@ -41,6 +42,10 @@ module DiscourseCalendar
 
     def should_display_invitees
       display_invitees?
+    end
+
+    def can_update_attendance
+      object.can_user_update_attendance(scope.current_user)
     end
 
     def display_invitees
@@ -73,7 +78,7 @@ module DiscourseCalendar
     end
 
     def watching_invitee
-      if scope&.current_user === object.post.user
+      if scope.current_user === object.post.user
         watching_invitee = Invitee.new(
           user_id: object.post.user.id,
           status: Invitee.statuses[:going],
@@ -81,7 +86,7 @@ module DiscourseCalendar
         )
       else
         watching_invitee = Invitee.find_by(
-          user_id: scope&.current_user.id,
+          user_id: scope.current_user.id,
           post_id: object.id
         )
       end
@@ -96,7 +101,7 @@ module DiscourseCalendar
     end
 
     def sample_invitees
-      invitees = object.most_likely_going(scope&.current_user)
+      invitees = object.most_likely_going(scope.current_user)
       ActiveModel::ArraySerializer.new(invitees, each_serializer: InviteeSerializer)
     end
 

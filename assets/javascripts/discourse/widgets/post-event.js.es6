@@ -88,9 +88,6 @@ export default createWidget("post-event", {
     }
 
     return {
-      displayPostEventStatus:
-        postEvent.creator.id !== this.get("currentUser.id") &&
-        postEvent.status !== "standalone",
       postEventStatusLabel: I18n.t(
         `event.post_event_status.${postEvent.status}.title`
       ),
@@ -142,7 +139,7 @@ export default createWidget("post-event", {
         {{/if}}
       </header>
 
-      {{#if transformed.displayPostEventStatus}}
+      {{#if state.postEvent.can_update_attendance}}
         <section class="post-event-actions">
         {{attach
           widget="post-event-status"

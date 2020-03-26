@@ -6,7 +6,7 @@ export default createWidget("post-event-invitees", {
 
   transform(attrs) {
     return {
-      showAll: attrs.postEvent.sample_invitees.length > 10
+      showAll: attrs.postEvent.stats && attrs.postEvent.stats.invited > 10
     };
   },
 

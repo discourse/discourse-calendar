@@ -71,7 +71,7 @@ module DiscourseCalendar
     def most_likely_going(current_user, limit = SiteSetting.displayed_invitees_limit)
       most_likely = []
 
-      if current_user.id != self.post.user_id
+      if self.can_user_update_attendance(current_user)
         most_likely << Invitee.find_or_initialize_by(
           user_id: current_user.id,
           post_id: self.id
@@ -128,6 +128,15 @@ module DiscourseCalendar
       if params['ends_at'].present?
         params['ends_at'] = Time.parse(params['ends_at']).utc
       end
+    end
+
+    def can_user_update_attendance(user)
+      self.post.user != user &&
+      self.status == PostEvent.statuses[:public] ||
+      (
+        self.status == PostEvent.statuses[:private] &&
+        self.invitees.exists?(user_id: user.id)
+      )
     end
   end
 end
