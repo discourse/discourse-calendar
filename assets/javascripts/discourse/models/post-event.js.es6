@@ -1,7 +1,4 @@
 import RestModel from "discourse/models/rest";
-// import { ajax } from "discourse/lib/ajax";
-
-// const BASE_URL = "/discourse-calendar/post-events";
 
 const ATTRIBUTES = {
   id: {},

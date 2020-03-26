@@ -46,18 +46,22 @@ module DiscourseCalendar
 
     def notify_invitees!
       self.invitees.where(notified: false).each do |invitee|
-        invitee.user.notifications.create!(
-          notification_type: Notification.types[:custom],
-          topic_id: self.post.topic_id,
-          post_number: self.post.post_number,
-          data: {
-            topic_title: self.post.topic.title,
-            display_username: self.post.user.username,
-            message: 'discourse_calendar.invite_user_notification'
-          }.to_json
-        )
+        create_notification!(invitee.user, self.post)
         invitee.update!(notified: true)
       end
+    end
+
+    def create_notification!(user, post)
+      user.notifications.create!(
+        notification_type: Notification.types[:custom],
+        topic_id: post.topic_id,
+        post_number: post.post_number,
+        data: {
+          topic_title: post.topic.title,
+          display_username: post.user.username,
+          message: 'discourse_calendar.invite_user_notification'
+        }.to_json
+      )
     end
 
     def self.statuses

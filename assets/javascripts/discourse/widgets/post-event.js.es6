@@ -21,6 +21,14 @@ export default createWidget("post-event", {
     }
   },
 
+  inviteUserOrGroup(postId) {
+    this.store.find("post-event", postId).then(postEvent => {
+      showModal("invite-user-or-group", {
+        model: postEvent
+      });
+    });
+  },
+
   showAllInvitees(postId) {
     this.store.find("post-event", postId).then(postEvent => {
       showModal("post-event-invitees", {
@@ -98,7 +106,8 @@ export default createWidget("post-event", {
       startsAtDay: moment(postEvent.starts_at).format("D"),
       postEventName: postEvent.name || postEvent.post.topic.title,
       statusClass: `status ${postEvent.status}`,
-      statusIcon: iconNode(statusIcon)
+      statusIcon: iconNode(statusIcon),
+      isPublicEvent: postEvent.status === "public"
     };
   },
 
@@ -178,6 +187,20 @@ export default createWidget("post-event", {
             action="sendPMToCreator"
           )
         }}
+        {{#if state.postEvent.can_act_on_post_event}}
+        {{#if transformed.isPublicEvent}}
+          {{attach
+            widget="button"
+            attrs=(hash
+              className="btn-small"
+              icon="user-plus"
+              label="event.post_ui.invite"
+              action="inviteUserOrGroup"
+              actionParam=state.postEvent.id
+            )
+          }}
+        {{/if}}
+        {{/if}}
       </footer>
     {{/if}}
   `

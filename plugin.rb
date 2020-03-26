@@ -246,6 +246,7 @@ after_initialize do
     get '/discourse-calendar/post-events' => 'post_events#index'
     post '/discourse-calendar/post-events' => 'post_events#create'
     put '/discourse-calendar/post-events/:id' => 'post_events#update'
+    post '/discourse-calendar/post-events/:id/invite' => 'post_events#invite'
     put '/discourse-calendar/invitees/:id' => 'invitees#update'
     post '/discourse-calendar/invitees' => 'invitees#create'
     get '/discourse-calendar/invitees' => 'invitees#index'

@@ -31,6 +31,7 @@ en:
           description: "A private event can only be joined by invited users."
       post_ui:
         show_all: show all
+        invite: invite
         add_to_calendar: add to calendar
         send_pm_to_creator: contact
       post-event-invitees-modal:
@@ -52,6 +53,9 @@ en:
           label: Status
         display_invitees:
           label: Display invited users
+      invite_user_or_group:
+        title: Invite user(s) or group(s)
+        invite: Invite
     upcoming_events:
       title: Upcoming events
     group_timezones:
