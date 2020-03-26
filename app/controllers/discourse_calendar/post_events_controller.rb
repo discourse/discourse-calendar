@@ -43,7 +43,7 @@ module DiscourseCalendar
     def invite
       post_event = PostEvent.find(params[:id])
       guardian.ensure_can_act_on_post_event!(post_event)
-      invites = Array(params.permit(invites: [])['invites'])
+      invites = Array(params.permit(invites: [])[:invites])
       users = User.where(
         id: GroupUser.where(
           group_id: Group.where(name: invites).select(:id)
