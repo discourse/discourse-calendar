@@ -5,7 +5,28 @@ module DiscourseCalendar
     before_action :ensure_logged_in
 
     def index
-      post_events = PostEvent.visible.where("starts_at > ?", Time.now).limit(10)
+      # TODO: optimize this
+      post_events_topics_ids = PostEvent
+        .visible
+        .where('starts_at > ?', Time.now)
+        .joins(:post)
+        .limit(100)
+        .select('posts.topic_id')
+
+      secured_topic_ids = Topic
+        .visible
+        .listable_topics
+        .where(id: post_events_topics_ids)
+        .secured(guardian)
+        .select(:id)
+
+      post_events = PostEvent
+        .visible
+        .joins(:post)
+        .where('posts.topic_id' => secured_topic_ids)
+        .where('starts_at > ?', Time.now)
+        .limit(10)
+
       render json: ActiveModel::ArraySerializer.new(
         post_events,
         each_serializer: PostEventSerializer,
