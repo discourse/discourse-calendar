@@ -230,10 +230,8 @@ after_initialize do
     DiscourseCalendar::PostEventSerializer.new(object.post_event, scope: scope, root: false)
   end
 
-  reloadable_patch do |plugin|
-    add_to_serializer(:post, :include_post_event?) do
-      plugin.enabled?
-    end
+  add_to_serializer(:post, :include_post_event?) do
+    SiteSetting.post_event_enabled
   end
 
   Discourse::Application.routes.append do
@@ -253,20 +251,20 @@ after_initialize do
     get '/upcoming-events' => 'upcoming_events#index'
   end
 
-  DiscourseEvent.on(:post_destroyed) do |post|
-    if post.post_event
+  on(:post_destroyed) do |post|
+    if SiteSetting.post_event_enabled && post.post_event
       post.post_event.update!(deleted_at: Time.now)
     end
   end
 
-  DiscourseEvent.on(:post_recovered) do |post|
-    if post.post_event
+  on(:post_recovered) do |post|
+    if SiteSetting.post_event_enabled && post.post_event
       post.post_event.update!(deleted_at: nil)
     end
   end
 
-  DiscourseEvent.on(:post_edited) do |post, topic_changed|
-    if post.post_event && post.is_first_post? && post.topic && topic_changed && post.topic != Archetype.private_message
+  on(:post_edited) do |post, topic_changed|
+    if SiteSetting.post_event_enabled && post.post_event && post.is_first_post? && post.topic && topic_changed && post.topic != Archetype.private_message
       time_range = extract_time_range(post.topic, post.user)
 
       case time_range
@@ -295,8 +293,8 @@ after_initialize do
     ).sniff
   end
 
-  DiscourseEvent.on(:topic_created) do |topic, args, user|
-    if topic.archetype != Archetype.private_message
+  on(:topic_created) do |topic, args, user|
+    if SiteSetting.post_event_enabled && topic.archetype != Archetype.private_message
       time_range = extract_time_range(topic, user)
 
       case time_range

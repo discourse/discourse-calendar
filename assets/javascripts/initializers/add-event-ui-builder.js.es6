@@ -3,14 +3,6 @@ import showModal from "discourse/lib/show-modal";
 import { Promise } from "rsvp";
 
 function initializeEventUIBuilder(api) {
-  api.decorateWidget("hamburger-menu:generalLinks", () => {
-    return {
-      icon: "calendar-day",
-      route: "upcoming-events",
-      label: "upcoming_events.title"
-    };
-  });
-
   api.attachWidgetAction("post", "showEventUIBuilder", function(postId) {
     return new Promise(resolve => {
       if (postId) {
@@ -50,7 +42,10 @@ function initializeEventUIBuilder(api) {
 export default {
   name: "add-event-ui-builder",
 
-  initialize() {
-    withPluginApi("0.8.7", initializeEventUIBuilder);
+  initialize(container) {
+    const siteSettings = container.lookup("site-settings:main");
+    if (siteSettings.post_event_enabled) {
+      withPluginApi("0.8.7", initializeEventUIBuilder);
+    }
   }
 };

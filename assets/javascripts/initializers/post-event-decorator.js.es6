@@ -133,7 +133,10 @@ function initializePostEventDecorator(api) {
 export default {
   name: "post-event-decorator",
 
-  initialize() {
-    withPluginApi("0.8.7", initializePostEventDecorator);
+  initialize(container) {
+    const siteSettings = container.lookup("site-settings:main");
+    if (siteSettings.post_event_enabled) {
+      withPluginApi("0.8.7", initializePostEventDecorator);
+    }
   }
 };
