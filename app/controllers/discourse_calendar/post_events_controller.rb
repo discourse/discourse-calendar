@@ -20,12 +20,20 @@ module DiscourseCalendar
         .limit(100)
         .select('posts.topic_id')
 
-      secured_topic_ids = Topic
-        .visible
-        .listable_topics
-        .where(id: post_events_topics_ids)
-        .secured(guardian)
-        .select(:id)
+      secured_topic_ids = Topic.where(
+        id: Topic
+          .visible
+          .listable_topics
+          .secured(guardian)
+          .where(id: post_events_topics_ids)
+          .select(:id)
+      ).or(
+        Topic
+          .visible
+          .private_messages_for_user(current_user)
+          .secured(guardian)
+          .where(id: post_events_topics_ids)
+      ).select(:id)
 
       post_events = PostEvent
         .visible
