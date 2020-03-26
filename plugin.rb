@@ -3,7 +3,7 @@
 # name: discourse-calendar
 # about: Display a calendar in the first post of a topic
 # version: 0.2
-# author: Joffrey Jaffeux
+# author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
 gem "holidays", "8.0.0", require: false
@@ -14,10 +14,15 @@ enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
 register_asset "stylesheets/common/discourse-calendar.scss"
+register_asset "stylesheets/common/post-event.scss"
 register_asset "stylesheets/mobile/discourse-calendar.scss", :mobile
 register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
+register_svg_icon "fas fa-calendar-day"
+register_svg_icon "fas fa-question"
+register_svg_icon "fas fa-clock"
 
 after_initialize do
+
   module ::DiscourseCalendar
     PLUGIN_NAME ||= "discourse-calendar"
 
@@ -43,18 +48,32 @@ after_initialize do
     def self.users_on_holiday=(usernames)
       PluginStore.set(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY, usernames)
     end
+
+    class Engine < ::Rails::Engine
+      engine_name PLUGIN_NAME
+      isolate_namespace DiscourseCalendar
+    end
   end
 
   [
     "../app/models/calendar_event.rb",
+    "../app/models/guardian.rb",
     "../app/serializers/user_timezone_serializer.rb",
+    "../app/controllers/discourse_calendar/invitees_controller.rb",
+    "../app/controllers/discourse_calendar/post_events_controller.rb",
+    "../app/controllers/discourse_calendar/upcoming_events_controller.rb",
+    "../app/models/discourse_calendar/post_event.rb",
+    "../app/models/discourse_calendar/invitee.rb",
+    "../app/serializers/discourse_calendar/invitee_serializer.rb",
+    "../app/serializers/discourse_calendar/post_event_serializer.rb",
     "../jobs/scheduled/create_holiday_events.rb",
     "../jobs/scheduled/destroy_past_events.rb",
     "../jobs/scheduled/update_holiday_usernames.rb",
     "../lib/calendar_validator.rb",
     "../lib/calendar.rb",
     "../lib/event_validator.rb",
-    "../lib/group_timezones.rb"
+    "../lib/group_timezones.rb",
+    "../lib/time_sniffer.rb",
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
@@ -197,5 +216,103 @@ after_initialize do
 
   add_to_serializer(:site, :include_users_on_holiday?) do
     scope.is_staff?
+  end
+
+  require 'post'
+  class ::Post
+    has_one :post_event,
+      dependent: :destroy,
+      class_name: 'DiscourseCalendar::PostEvent',
+      foreign_key: :id
+  end
+
+  add_to_serializer(:post, :post_event) do
+    DiscourseCalendar::PostEventSerializer.new(object.post_event, scope: scope, root: false)
+  end
+
+  reloadable_patch do |plugin|
+    add_to_serializer(:post, :include_post_event?) do
+      plugin.enabled?
+    end
+  end
+
+  Discourse::Application.routes.append do
+    mount ::DiscourseCalendar::Engine, at: '/'
+  end
+
+  DiscourseCalendar::Engine.routes.draw do
+    get '/discourse-calendar/post-events/:id' => 'post_events#show'
+    delete '/discourse-calendar/post-events/:id' => 'post_events#destroy'
+    get '/discourse-calendar/post-events' => 'post_events#index'
+    post '/discourse-calendar/post-events' => 'post_events#create'
+    put '/discourse-calendar/post-events/:id' => 'post_events#update'
+    put '/discourse-calendar/invitees/:id' => 'invitees#update'
+    post '/discourse-calendar/invitees' => 'invitees#create'
+    get '/discourse-calendar/invitees' => 'invitees#index'
+    get '/upcoming-events' => 'upcoming_events#index'
+  end
+
+  DiscourseEvent.on(:post_destroyed) do |post|
+    if post.post_event
+      post.post_event.update!(deleted_at: Time.now)
+    end
+  end
+
+  DiscourseEvent.on(:post_recovered) do |post|
+    if post.post_event
+      post.post_event.update!(deleted_at: nil)
+    end
+  end
+
+  DiscourseEvent.on(:post_edited) do |post, topic_changed|
+    if post.post_event && post.is_first_post? && post.topic && topic_changed && post.topic != Archetype.private_message
+      time_range = extract_time_range(post.topic, post.user)
+
+      case time_range
+      when TimeSniffer::Interval
+        post.post_event.update!(
+          starts_at: time_range.from.to_time.utc,
+          ends_at: time_range.to.to_time.utc,
+        )
+      when TimeSniffer::Event
+        post.post_event.update!(
+          starts_at: time_range.at.to_time.utc
+        )
+      end
+
+      post.post_event.publish_update!
+    end
+  end
+
+  def extract_time_range(topic, user)
+    TimeSniffer.new(
+      topic.title,
+      at: topic.created_at,
+      timezone: user.user_option.timezone || 'UTC',
+      date_order: :sane,
+      matchers: [:tomorrow, :date, :time],
+    ).sniff
+  end
+
+  DiscourseEvent.on(:topic_created) do |topic, args, user|
+    if topic.archetype != Archetype.private_message
+      time_range = extract_time_range(topic, user)
+
+      case time_range
+      when TimeSniffer::Interval
+        DiscourseCalendar::PostEvent.create!(
+          id: topic.first_post.id,
+          starts_at: time_range.from.to_time.utc,
+          ends_at: time_range.to.to_time.utc,
+          status: DiscourseCalendar::PostEvent.statuses[:standalone]
+        )
+      when TimeSniffer::Event
+        DiscourseCalendar::PostEvent.create!(
+          id: topic.first_post.id,
+          starts_at: time_range.at.to_time.utc,
+          status: DiscourseCalendar::PostEvent.statuses[:standalone]
+        )
+      end
+    end
   end
 end

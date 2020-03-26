@@ -1,0 +1,10 @@
+{{#if enabled}}
+  <div class="event-field {{class}}">
+    <div class="event-field-label">
+      <span class="label">{{i18n label}}</span>
+    </div>
+    <div class="event-field-control">
+      {{yield}}
+    </div>
+  </div>
+{{/if}}
