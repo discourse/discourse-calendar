@@ -10,12 +10,8 @@ export default EmberObject.extend({
   generateLink() {
     const title = encodeURIComponent(this.title);
     let dates = [this._formatDate(this.startsAt)];
-    if (this.endsAt) {
-      dates.push(this._formatDate(this.endsAt));
-      dates = `dates=${dates.join("/")}`;
-    } else {
-      dates = `date=${dates.join("")}`;
-    }
+    dates.push(this._formatDate(this.endsAt || this.startsAt));
+    dates = `dates=${dates.join("/")}`;
 
     return `https://www.google.com/calendar/event?action=TEMPLATE&text=${title}&${dates}`;
   },
