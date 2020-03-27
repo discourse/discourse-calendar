@@ -208,4 +208,9 @@ describe TimeSniffer do
   it "should not find a time in random numbers and an emoji" do
     expect_parsed_as_nil("15😊00")
   end
+
+  it "shouldnt match a date starting with the year" do
+    expect_parsed_as_nil("2020-03-27")
+    expect_parsed_as_nil("foo 2020-03-27")
+  end
 end

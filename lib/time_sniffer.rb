@@ -312,7 +312,7 @@ class TimeSniffer
   end
 
   DATE_SEPARATOR = /[-\/]/
-  DATE_REGEX = /(\d{1,2})#{DATE_SEPARATOR}(\d{1,2})#{DATE_SEPARATOR}(\d{2,4})/
+  DATE_REGEX = /((?:^|\s)\d{1,2})#{DATE_SEPARATOR}(\d{1,2})#{DATE_SEPARATOR}(\d{2,4})/
 
   matcher(:date, DATE_REGEX) do |m|
     Parser.new(input, @context).parse_range
