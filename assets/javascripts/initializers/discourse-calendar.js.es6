@@ -1,3 +1,4 @@
+import { isPresent } from "@ember/utils";
 import DiscourseURL from "discourse/lib/url";
 import { Promise } from "rsvp";
 import { cookAsync } from "discourse/lib/text";
@@ -74,7 +75,7 @@ function initializeDiscourseCalendar(api) {
 
           const optionals = ["weekends", "tzPicker", "defaultView"];
           optionals.forEach(optional => {
-            if (Ember.isPresent(categorySetting[optional])) {
+            if (isPresent(categorySetting[optional])) {
               options.push(
                 `${optional}=${escapeExpression(categorySetting[optional])}`
               );

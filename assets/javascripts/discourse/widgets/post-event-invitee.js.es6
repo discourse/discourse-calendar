@@ -1,3 +1,4 @@
+import { isPresent } from "@ember/utils";
 import { h } from "virtual-dom";
 import { avatarImg } from "discourse/widgets/post";
 import { createWidget } from "discourse/widgets/widget";
@@ -7,11 +8,9 @@ export default createWidget("post-event-invitee", {
   tagName: "li.post-event-invitee",
 
   buildClasses(attrs) {
-    return [
-      Ember.isPresent(attrs.invitee.status)
-        ? `status-${attrs.invitee.status}`
-        : `unanswered`
-    ];
+    if (isPresent(attrs.invitee.status)) {
+      return `status-${attrs.invitee.status}`;
+    }
   },
 
   html(attrs) {

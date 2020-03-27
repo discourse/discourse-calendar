@@ -239,9 +239,12 @@
         list-style: none;
         margin-right: 0.5em;
         margin-bottom: 0.5em;
+        opacity: 0.25;
 
-        &.unanswered {
-          opacity: 0.25;
+        &.status-going,
+        &.status-not_going,
+        &.status-interested {
+          opacity: 1;
         }
       }
 
