@@ -40,7 +40,7 @@ en:
         send_pm_to_creator: contact
       post_event_invitees_modal:
         title_invited: "List of invited users"
-        title_participated: "List of users"
+        title_participated: "List of users who participated"
         filter_placeholder: "Filter users"
       ui_builder:
         create_event_title: Create Event
