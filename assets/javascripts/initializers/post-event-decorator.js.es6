@@ -1,3 +1,4 @@
+import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 import { cookAsync } from "discourse/lib/text";
 import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";
@@ -36,20 +37,11 @@ function _attachWidget(api, cooked, postEvent) {
     cooked.prepend(postEventContainer);
 
     const dates = [];
-    let format;
-
     const startsAt = moment(postEvent.starts_at);
-    if (
-      startsAt.hours() > 0 ||
-      startsAt.minutes() > 0 ||
-      (postEvent.ends_at &&
-        (moment(postEvent.ends_at).hours() > 0 ||
-          moment(postEvent.ends_at).minutes() > 0))
-    ) {
-      format = "LLL";
-    } else {
-      format = "LL";
-    }
+    const format = guessDateFormat(
+      startsAt,
+      postEvent.ends_at && moment(postEvent.ends_at)
+    );
 
     dates.push(
       `[date=${moment

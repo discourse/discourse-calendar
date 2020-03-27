@@ -1,3 +1,4 @@
+import cleanTitle from "discourse/plugins/discourse-calendar/lib/clean-title";
 import { dasherize } from "@ember/string";
 import EmberObject from "@ember/object";
 import showModal from "discourse/lib/show-modal";
@@ -86,7 +87,12 @@ export default createWidget("post-event", {
 
   addToGoogleCalendar() {
     const link = GoogleCalendar.create({
-      title: this.state.postEvent.name || this.state.postEvent.post.topic.title,
+      title:
+        this.state.postEvent.name ||
+        this._cleanTopicTitle(
+          this.state.postEvent.post.topic.title,
+          this.state.postEvent.starts_at
+        ),
       startsAt: this.state.postEvent.starts_at,
       endsAt: this.state.postEvent.ends_at
     }).generateLink();
@@ -114,10 +120,13 @@ export default createWidget("post-event", {
       ),
       startsAtMonth: moment(postEvent.starts_at).format("MMM"),
       startsAtDay: moment(postEvent.starts_at).format("D"),
-      postEventName: postEvent.name || postEvent.post.topic.title,
+      postEventName:
+        postEvent.name ||
+        this._cleanTopicTitle(postEvent.post.topic.title, postEvent.starts_at),
       statusClass: `status ${postEvent.status}`,
       statusIcon: iconNode(statusIcon),
-      isPublicEvent: postEvent.status === "public"
+      isPublicEvent: postEvent.status === "public",
+      isStandaloneEvent: postEvent.status === "standalone"
     };
   },
 
@@ -131,7 +140,16 @@ export default createWidget("post-event", {
         <div class="post-event-info">
           <div class="status-and-name">
             {{#if state.postEvent.is_expired}}
-              <span class="status expired">expired</span>
+              {{#unless transformed.isStandaloneEvent}}
+                <span class="status expired">
+                  {{i18n "event.expired"}}
+                </span>
+              {{else}}
+                <span class={{transformed.statusClass}} title={{transformed.postEventStatusDescription}}>
+                  {{transformed.statusIcon}}
+                  <span>{{transformed.postEventStatusLabel}}</span>
+                </span>
+              {{/unless}}
             {{else}}
               <span class={{transformed.statusClass}} title={{transformed.postEventStatusDescription}}>
                 {{transformed.statusIcon}}
@@ -225,5 +243,14 @@ export default createWidget("post-event", {
         {{/unless}}
       </footer>
     {{/if}}
-  `
+  `,
+
+  _cleanTopicTitle(topicTitle, startsAt) {
+    const cleaned = cleanTitle(topicTitle, startsAt);
+    if (cleaned) {
+      return topicTitle.replace(cleaned, "");
+    }
+
+    return topicTitle;
+  }
 });

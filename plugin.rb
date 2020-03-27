@@ -40,6 +40,9 @@ after_initialize do
     # List of groups
     GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
 
+    # Topic where op has a post event custom field
+    TOPIC_POST_EVENT_STARTS_AT ||= "PostEventStartsAt"
+
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
@@ -316,5 +319,32 @@ after_initialize do
         )
       end
     end
+  end
+
+  TopicList.preloaded_custom_fields << DiscourseCalendar::TOPIC_POST_EVENT_STARTS_AT
+
+  add_to_serializer(:topic_view, :post_event_starts_at, false) do
+    object.topic.custom_fields[DiscourseCalendar::TOPIC_POST_EVENT_STARTS_AT]
+  end
+
+  add_to_serializer(:topic_view, 'include_post_event_starts_at?') do
+    SiteSetting.post_event_enabled &&
+    object
+      .topic
+      .custom_fields
+      .keys
+      .include?(DiscourseCalendar::TOPIC_POST_EVENT_STARTS_AT)
+  end
+
+  add_to_class(:topic, :post_event_starts_at) do
+    @post_event_starts_at ||= custom_fields[DiscourseCalendar::TOPIC_POST_EVENT_STARTS_AT]
+  end
+
+  add_to_serializer(:topic_list_item, :post_event_starts_at, false) do
+    object.post_event_starts_at
+  end
+
+  add_to_serializer(:topic_list_item, 'include_post_event_starts_at?') do
+    SiteSetting.post_event_enabled && object.post_event_starts_at
   end
 end

@@ -36,7 +36,8 @@ module DiscourseCalendar
       it 'creates a post event' do
         post '/discourse-calendar/post-events.json', params: {
           post_event: {
-            id: post1.id
+            id: post1.id,
+            starts_at: 2.days.from_now,
           }
         }
 
@@ -53,6 +54,7 @@ module DiscourseCalendar
           post_event: {
             id: post1.id,
             raw_invitees: invitees,
+            starts_at: 2.days.from_now,
             status: PostEvent.statuses[:private],
             display_invitees: PostEvent.display_invitees_options[:everyone]
           }
@@ -72,6 +74,7 @@ module DiscourseCalendar
             id: post1.id,
             status: PostEvent.statuses[:private],
             raw_invitees: [invitee1.username],
+            starts_at: 2.days.from_now,
           }
         }
 
@@ -88,6 +91,7 @@ module DiscourseCalendar
             id: post1.id,
             status: PostEvent.statuses[:private],
             raw_invitees: [group.name],
+            starts_at: 2.days.from_now,
           }
         }
 
@@ -103,7 +107,8 @@ module DiscourseCalendar
             id: post1.id,
             raw_invitees: [],
             status: PostEvent.statuses[:private],
-            display_invitees: PostEvent.display_invitees_options[:everyone]
+            display_invitees: PostEvent.display_invitees_options[:everyone],
+            starts_at: 2.days.from_now,
           }
         }
 
@@ -126,6 +131,7 @@ module DiscourseCalendar
               invitee4.username,
               invitee5.username,
             ],
+            starts_at: 2.days.from_now,
           }
         }
 

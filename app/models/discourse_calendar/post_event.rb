@@ -8,11 +8,39 @@ module DiscourseCalendar
       super - ['id']
     end
 
+    after_commit :destroy_topic_custom_field, on: [:destroy]
+    def destroy_topic_custom_field
+      if self.post.is_first_post?
+        TopicCustomField
+          .where(
+            topic_id: self.post.topic_id,
+            name: TOPIC_POST_EVENT_STARTS_AT,
+          )
+          .delete_all
+      end
+    end
+
+    after_commit :upsert_topic_custom_field, on: [:create, :update]
+    def upsert_topic_custom_field
+      if self.post.is_first_post?
+        TopicCustomField
+          .upsert({
+            topic_id: self.post.topic_id,
+            name: TOPIC_POST_EVENT_STARTS_AT,
+            value: self.starts_at,
+            created_at: Time.now,
+            updated_at: Time.now,
+          }, unique_by: [:name, :topic_id])
+      end
+    end
+
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
     belongs_to :post, foreign_key: :id
 
     scope :visible, -> { where(deleted_at: nil) }
     scope :not_expired, -> { where("starts_at > :now", now: Time.now) }
+
+    validates :starts_at, presence: true
 
     validates :name,
       length: { in: 5..30 },

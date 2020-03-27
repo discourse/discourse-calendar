@@ -10,6 +10,7 @@ en:
         instructions: "Your current timezone is %{timezone}."
         none: "Select a timezone..."
     event:
+      expired: expired
       display_invitees:
         everyone: "To everyone"
         invitees_only: "To invited users only"
