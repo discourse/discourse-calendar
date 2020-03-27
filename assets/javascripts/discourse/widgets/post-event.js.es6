@@ -91,7 +91,7 @@ export default createWidget("post-event", {
       endsAt: this.state.postEvent.ends_at
     }).generateLink();
 
-    window.open(link, "_blank");
+    window.open(link, "_blank", "noopener");
   },
 
   transform() {
