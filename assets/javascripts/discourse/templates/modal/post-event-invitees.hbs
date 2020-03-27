@@ -14,7 +14,9 @@
       <li class="invitee">
         <span class="user">
           {{avatar invitee.user imageSize="medium"}}
-          {{format-username invitee.user.username}}
+          <span class="username">
+            {{format-username invitee.user.username}}
+          </span>
         </span>
         {{#if invitee.status}}
           <span class="status {{invitee.status}}">
