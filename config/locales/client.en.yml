@@ -32,6 +32,7 @@ en:
       post_ui:
         show_all: show all
         participants:
+          zero: "- no one participated."
           one: "- %{count} user participated."
           other: "- %{count} users participated."
         invite: invite

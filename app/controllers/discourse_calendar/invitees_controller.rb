@@ -12,12 +12,18 @@ module DiscourseCalendar
     end
 
     def index
-      post_event_invitees = PostEvent.find(params['post-event-id']).invitees
+      post_event = PostEvent.find(params['post-event-id'])
+
+      post_event_invitees = post_event.invitees
 
       if params[:filter]
         post_event_invitees = post_event_invitees
           .joins(:user)
           .where("LOWER(users.username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
+      end
+
+      if post_event.is_expired?
+        post_event_invitees = post_event_invitees.where(status: Invitee.statuses[:going])
       end
 
       render json: ActiveModel::ArraySerializer.new(post_event_invitees.limit(10), each_serializer: InviteeSerializer).as_json

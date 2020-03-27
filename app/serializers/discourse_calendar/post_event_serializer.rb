@@ -65,7 +65,7 @@ module DiscourseCalendar
       counts = object.invitees.group(:status).count
 
       # event creator is always going so we add one
-      going = (counts[Invitee.statuses[:going]] || 0) + 1
+      going = (counts[Invitee.statuses[:going]] || 0) + (object.is_expired? ? 0 : 1)
       interested = counts[Invitee.statuses[:interested]] || 0
       not_going = counts[Invitee.statuses[:not_going]] || 0
       unanswered = counts[nil] || 0
