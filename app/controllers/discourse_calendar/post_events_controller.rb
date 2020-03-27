@@ -52,11 +52,7 @@ module DiscourseCalendar
       post_event = PostEvent.find(params[:id])
       guardian.ensure_can_act_on_post_event!(post_event)
       invites = Array(params.permit(invites: [])[:invites])
-      users = User.where(
-        id: GroupUser.where(
-          group_id: Group.where(name: invites).select(:id)
-        ).select(:user_id)
-      ).or(User.where(username: invites))
+      users = Invitee.extract_uniq_usernames(invites)
 
       users.each do |user|
         post_event.create_notification!(user, post_event.post)

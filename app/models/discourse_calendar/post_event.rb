@@ -112,11 +112,7 @@ module DiscourseCalendar
     end
 
     def fetch_users
-      @fetched_users ||= User.where(
-        id: GroupUser.where(
-          group_id: Group.where(name: self.raw_invitees).select(:id)
-        ).select(:user_id)
-      ).or(User.where(username: self.raw_invitees))
+      @fetched_users ||= Invitee.extract_uniq_usernames(self.raw_invitees)
     end
 
     def enforce_raw_invitees!

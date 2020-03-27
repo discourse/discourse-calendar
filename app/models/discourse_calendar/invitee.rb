@@ -18,5 +18,13 @@ module DiscourseCalendar
     def update_attendance(params)
       self.update!(params)
     end
+
+    def self.extract_uniq_usernames(user_and_groups_list)
+      User.where(
+        id: GroupUser.where(
+          group_id: Group.where(name: user_and_groups_list).select(:id)
+        ).select(:user_id)
+      ).or(User.where(username: user_and_groups_list))
+    end
   end
 end
