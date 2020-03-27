@@ -195,12 +195,10 @@ export default createWidget("post-event", {
 
       {{attach widget="post-event-dates" attrs=(hash localDates=attrs.localDates postEvent=state.postEvent)}}
 
-      {{#unless state.postEvent.is_expired}}
       {{#if state.postEvent.should_display_invitees}}
         <hr />
         {{attach widget="post-event-invitees" attrs=(hash postEvent=state.postEvent)}}
       {{/if}}
-      {{/unless}}
 
       <footer class="post-event-footer">
         {{#unless state.postEvent.is_expired}}
