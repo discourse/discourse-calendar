@@ -22,7 +22,6 @@ register_svg_icon "fas fa-question"
 register_svg_icon "fas fa-clock"
 
 after_initialize do
-
   module ::DiscourseCalendar
     PLUGIN_NAME ||= "discourse-calendar"
 
@@ -219,12 +218,15 @@ after_initialize do
     scope.is_staff?
   end
 
-  require 'post'
-  class ::Post
-    has_one :post_event,
-      dependent: :destroy,
-      class_name: 'DiscourseCalendar::PostEvent',
-      foreign_key: :id
+  reloadable_patch do
+    require 'post'
+
+    class ::Post
+      has_one :post_event,
+        dependent: :destroy,
+        class_name: 'DiscourseCalendar::PostEvent',
+        foreign_key: :id
+    end
   end
 
   add_to_serializer(:post, :post_event) do
