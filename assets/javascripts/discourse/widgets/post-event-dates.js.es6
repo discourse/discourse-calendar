@@ -28,8 +28,8 @@ export default createWidget("post-event-dates", {
       }
 
       content.push(h("span.participants", participants));
-
-      return content;
     }
+
+    return content;
   }
 });
