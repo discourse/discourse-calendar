@@ -32,9 +32,9 @@ en:
       post_ui:
         show_all: show all
         participants:
-          zero: "- no one participated."
-          one: "- %{count} user participated."
-          other: "- %{count} users participated."
+          zero: "no one participated."
+          one: "%{count} user participated."
+          other: "%{count} users participated."
         invite: invite
         add_to_calendar: add to calendar
         send_pm_to_creator: contact

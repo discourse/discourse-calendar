@@ -35,7 +35,7 @@ export default createWidget("post-event-dates", {
         participants = label;
       }
 
-      content.push(h("span.participants", participants));
+      content.push(h("span.participants", [h("span", " - "), participants]));
     }
 
     return content;
