@@ -3,35 +3,14 @@
 module DiscourseCalendar
   class PostEventsController < DiscourseCalendarController
     def index
-      # TODO: optimize this
-      post_events_topics_ids = PostEvent
-        .visible
-        .where('starts_at > ?', Time.now)
-        .joins(:post)
-        .limit(100)
-        .select('posts.topic_id')
-
-      secured_topic_ids = Topic.where(
-        id: Topic
-          .visible
-          .listable_topics
-          .secured(guardian)
-          .where(id: post_events_topics_ids)
-          .select(:id)
-      ).or(
-        Topic
-          .visible
-          .private_messages_for_user(current_user)
-          .secured(guardian)
-          .where(id: post_events_topics_ids)
-      ).select(:id)
-
+      topics = Topic.listable_topics.secured(guardian)
+      pms = Topic.private_messages_for_user(current_user)
       post_events = PostEvent
         .visible
-        .joins(:post)
-        .where('posts.topic_id' => secured_topic_ids)
-        .where('starts_at > ?', Time.now)
-        .limit(10)
+        .not_expired
+        .joins(post: :topic)
+        .merge(Post.secured(guardian))
+        .merge(topics.or(pms).distinct)
 
       render json: ActiveModel::ArraySerializer.new(
         post_events,

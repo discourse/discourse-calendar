@@ -12,6 +12,7 @@ module DiscourseCalendar
     belongs_to :post, foreign_key: :id
 
     scope :visible, -> { where(deleted_at: nil) }
+    scope :not_expired, -> { where("starts_at > :now", now: Time.now) }
 
     validates :name,
       length: { in: 5..30 },
