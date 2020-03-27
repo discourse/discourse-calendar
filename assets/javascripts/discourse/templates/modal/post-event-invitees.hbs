@@ -10,12 +10,7 @@
   <ul class="invitees">
     {{#each invitees as |invitee|}}
       <li class="invitee">
-        <span class="user">
-          {{avatar invitee.user imageSize="medium"}}
-          <span class="username">
-            {{format-username invitee.user.username}}
-          </span>
-        </span>
+        {{render-invitee invitee}}
         {{#if invitee.status}}
           <span class="status {{invitee.status}}">
             {{i18n (concat "event.invitee_status." invitee.status)}}
