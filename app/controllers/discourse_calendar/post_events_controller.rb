@@ -11,6 +11,7 @@ module DiscourseCalendar
         .joins(post: :topic)
         .merge(Post.secured(guardian))
         .merge(topics.or(pms).distinct)
+        .order(starts_at: :asc)
 
       render json: ActiveModel::ArraySerializer.new(
         post_events,

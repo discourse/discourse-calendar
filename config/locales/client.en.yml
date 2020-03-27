@@ -64,6 +64,9 @@ en:
         invite: Invite
     upcoming_events:
       title: Upcoming events
+      creator: Creator
+      status: Status
+      starts_at: Starts at
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"
