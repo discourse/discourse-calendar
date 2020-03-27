@@ -20,7 +20,7 @@ export default createWidget("post-event-dates", {
       h("span.date", new RawHtml({ html: attrs.localDates }))
     ];
 
-    if (attrs.postEvent.is_expired) {
+    if (attrs.postEvent.is_expired && attrs.postEvent.status !== "standalone") {
       let participants;
       const label = I18n.t("event.post_ui.participants", {
         count: attrs.postEvent.stats.going
