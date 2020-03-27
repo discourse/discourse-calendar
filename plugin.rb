@@ -59,6 +59,7 @@ after_initialize do
     "../app/models/calendar_event.rb",
     "../app/models/guardian.rb",
     "../app/serializers/user_timezone_serializer.rb",
+    "../app/controllers/discourse_calendar_controller.rb",
     "../app/controllers/discourse_calendar/invitees_controller.rb",
     "../app/controllers/discourse_calendar/post_events_controller.rb",
     "../app/controllers/discourse_calendar/upcoming_events_controller.rb",
