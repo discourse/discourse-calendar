@@ -1,3 +1,4 @@
+import { dasherize } from "@ember/string";
 import EmberObject from "@ember/object";
 import showModal from "discourse/lib/show-modal";
 import hbs from "discourse/widgets/hbs-compiler";
@@ -29,10 +30,19 @@ export default createWidget("post-event", {
     });
   },
 
-  showAllInvitees(postId) {
+  showAllInvitees(params) {
+    const postId = params.postId;
+    const title = params.title || "title_invited";
+    const extraClass = params.extraClass || "invited";
+    const name = "post-event-invitees";
+
     this.store.find("post-event", postId).then(postEvent => {
-      showModal("post-event-invitees", {
-        model: postEvent
+      showModal(name, {
+        model: postEvent,
+        title: `event.post_event_invitees_modal.${title}`,
+        modalClass: [`${dasherize(name).toLowerCase()}-modal`, extraClass].join(
+          " "
+        )
       });
     });
   },

@@ -1,11 +1,9 @@
-{{#d-modal-body
-  title="event.post-event-invitees-modal.title"
-}}
+{{#d-modal-body}}
   {{input
     value=(readonly filter)
     input=(action "onFilterChanged" value="target.value")
     class="filter"
-    placeholderKey="event.post-event-invitees-modal.filter_placeholder"
+    placeholderKey="event.post_event_invitees_modal.filter_placeholder"
   }}
 
   {{#conditional-loading-spinner condition=isLoading}}
@@ -21,6 +19,10 @@
         {{#if invitee.status}}
           <span class="status {{invitee.status}}">
             {{i18n (concat "event.invitee_status." invitee.status)}}
+          </span>
+        {{else}}
+          <span class="status">
+            -
           </span>
         {{/if}}
       </li>

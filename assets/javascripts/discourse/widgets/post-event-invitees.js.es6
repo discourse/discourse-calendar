@@ -31,7 +31,7 @@ export default createWidget("post-event-invitees", {
             className="show-all btn-small"
             label="event.post_ui.show_all"
             action="showAllInvitees"
-            actionParam=attrs.postEvent.id
+            actionParam=(hash postId=attrs.postEvent.id)
           )
         }}
       {{/if}}

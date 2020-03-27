@@ -6,6 +6,14 @@ import { createWidget } from "discourse/widgets/widget";
 export default createWidget("post-event-dates", {
   tagName: "section.post-event-dates",
 
+  showAllParticipatingInvitees(postId) {
+    this.sendWidgetAction("showAllInvitees", {
+      postId,
+      title: "title_participated",
+      extraClass: "participated"
+    });
+  },
+
   html(attrs) {
     const content = [
       iconNode("clock"),
@@ -19,7 +27,7 @@ export default createWidget("post-event-dates", {
       });
       if (attrs.postEvent.stats.going > 0) {
         participants = this.attach("link", {
-          action: "showAllInvitees",
+          action: "showAllParticipatingInvitees",
           actionParam: attrs.postEvent.id,
           contents: () => label
         });
