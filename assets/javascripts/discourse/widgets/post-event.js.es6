@@ -51,7 +51,7 @@ export default createWidget("post-event", {
   editPostEvent(postId) {
     this.store.find("post-event", postId).then(postEvent => {
       showModal("event-ui-builder", {
-        model: postEvent,
+        model: { postEvent, topicId: postEvent.post.topic.id },
         modalClass: "event-ui-builder-modal"
       });
     });

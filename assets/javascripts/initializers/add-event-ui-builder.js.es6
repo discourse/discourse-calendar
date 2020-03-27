@@ -3,7 +3,10 @@ import showModal from "discourse/lib/show-modal";
 import { Promise } from "rsvp";
 
 function initializeEventUIBuilder(api) {
-  api.attachWidgetAction("post", "showEventUIBuilder", function(postId) {
+  api.attachWidgetAction("post", "showEventUIBuilder", function({
+    postId,
+    topicId
+  } = params) {
     return new Promise(resolve => {
       if (postId) {
         this.store
@@ -21,9 +24,9 @@ function initializeEventUIBuilder(api) {
       } else if (this.model) {
         resolve(this.model);
       }
-    }).then(model => {
+    }).then(postEvent => {
       showModal("event-ui-builder", {
-        model,
+        model: { postEvent, topicId },
         modalClass: "event-ui-builder-modal"
       });
     });
@@ -34,7 +37,7 @@ function initializeEventUIBuilder(api) {
       icon: "calendar-day",
       label: "event.ui_builder.attach",
       action: "showEventUIBuilder",
-      actionParam: dec.attrs.id
+      actionParam: { postId: dec.attrs.id, topicId: dec.attrs.topicId }
     });
   });
 }

@@ -5,36 +5,38 @@ import { equal } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
 
 export default Controller.extend(ModalFunctionality, {
-  modalTitle: computed("model.isNew", {
+  modalTitle: computed("model.postEvent.isNew", {
     get() {
-      return this.model.isNew ? "create_event_title" : "update_event_title";
+      return this.model.postEvent.isNew
+        ? "create_event_title"
+        : "update_event_title";
     }
   }),
 
-  allowsInvitees: equal("model.status", "private"),
+  allowsInvitees: equal("model.postEvent.status", "private"),
 
   @action
   setRawInvitees(_, newInvitees) {
-    this.set("model.raw_invitees", newInvitees);
+    this.set("model.postEvent.raw_invitees", newInvitees);
   },
 
-  startsAt: computed("model.starts_at", {
+  startsAt: computed("model.postEvent.starts_at", {
     get() {
-      return this.model.starts_at;
+      return this.model.postEvent.starts_at;
     }
   }),
 
-  endsAt: computed("model.ends_at", {
+  endsAt: computed("model.postEvent.ends_at", {
     get() {
-      return this.model.ends_at;
+      return this.model.postEvent.ends_at;
     }
   }),
 
-  standaloneEvent: equal("model.status", "standalone"),
-  publicEvent: equal("model.status", "public"),
-  privateEvent: equal("model.status", "private"),
+  standaloneEvent: equal("model.postEvent.status", "standalone"),
+  publicEvent: equal("model.postEvent.status", "public"),
+  privateEvent: equal("model.postEvent.status", "private"),
 
-  inviteesOptions: computed("model.status", function() {
+  inviteesOptions: computed("model.postEvent.status", function() {
     const options = [];
 
     if (!this.standaloneEvent) {
@@ -61,7 +63,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   onChangeDates(changes) {
-    this.model.setProperties({
+    this.model.postEvent.setProperties({
       starts_at: moment(changes.from)
         .utc()
         .toISOString(),
@@ -81,7 +83,9 @@ export default Controller.extend(ModalFunctionality, {
       I18n.t("yes_value"),
       confirmed => {
         if (confirmed) {
-          this.model.destroyRecord().then(() => this.send("closeModal"));
+          this.model.postEvent
+            .destroyRecord()
+            .then(() => this.send("closeModal"));
         }
       }
     );
@@ -89,7 +93,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   createEvent() {
-    this.model
+    this.model.postEvent
       .save()
       .then(() => this.send("closeModal"))
       .catch(e => this.flash(extractError(e), "error"));
@@ -97,7 +101,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   updateEvent() {
-    this.model
+    this.model.postEvent
       .save()
       .then(() => this.send("closeModal"))
       .catch(e => this.flash(extractError(e), "error"));

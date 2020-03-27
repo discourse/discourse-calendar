@@ -2,13 +2,13 @@
   title=(concat "event.ui_builder." modalTitle)
   class="event-ui-builder"
 }}
-  {{#conditional-loading-section isLoading=model.isSaving}}
+  {{#conditional-loading-section isLoading=model.postEvent.isSaving}}
   <form>
     {{#event-field class="name" label="event.ui_builder.name.label"}}
       {{input
-        value=(readonly model.name)
+        value=(readonly model.postEvent.name)
         placeholderKey="event.ui_builder.name.placeholder"
-        input=(action (mut model.name) value="target.value")
+        input=(action (mut model.postEvent.name) value="target.value")
       }}
     {{/event-field}}
 
@@ -23,8 +23,8 @@
         {{radio-button
           name="status"
           value="standalone"
-          selection=model.status
-          onChange=(action (mut model.status))
+          selection=model.postEvent.status
+          onChange=(action (mut model.postEvent.status))
         }}
         <span class="message">
           <span class="title">{{i18n "event.post_event_status.standalone.title"}}</span>
@@ -36,8 +36,8 @@
         {{radio-button
           name="status"
           value="public"
-          selection=model.status
-          onChange=(action (mut model.status))
+          selection=model.postEvent.status
+          onChange=(action (mut model.postEvent.status))
         }}
         <span class="message">
           <span class="title">{{i18n "event.post_event_status.public.title"}}</span>
@@ -48,8 +48,8 @@
         {{radio-button
           name="status"
           value="private"
-          selection=model.status
-          onChange=(action (mut model.status))
+          selection=model.postEvent.status
+          onChange=(action (mut model.postEvent.status))
         }}
         <span class="message">
           <span class="title">{{i18n "event.post_event_status.private.title"}}</span>
@@ -60,6 +60,7 @@
 
     {{#event-field enabled=allowsInvitees label="event.ui_builder.invitees.label"}}
       {{user-selector
+        topicId=model.topicId
         single=false
         onChangeCallback=(action "setRawInvitees")
         fullWidthWrap=true
@@ -67,7 +68,7 @@
         includeMessageableGroups=true
         placeholderKey="composer.users_placeholder"
         tabindex="1"
-        usernames=model.raw_invitees
+        usernames=model.postEvent.raw_invitees
         hasGroups=true
         autocomplete="discourse"
         excludeCurrentUser=true
@@ -81,8 +82,8 @@
             {{radio-button
               name="display_invitees"
               value=option.value
-              selection=model.display_invitees
-              onChange=(action (mut model.display_invitees))
+              selection=model.postEvent.display_invitees
+              onChange=(action (mut model.postEvent.display_invitees))
             }}
             <span class="message">
               {{option.label}}
@@ -97,7 +98,7 @@
 
 
 <div class="modal-footer">
-  {{#if model.isNew}}
+  {{#if model.postEvent.isNew}}
     {{d-button
       type="button"
       class="btn-primary"
