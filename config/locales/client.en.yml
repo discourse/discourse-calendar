@@ -38,7 +38,7 @@ en:
           other: "%{count} users participated."
         invite: Invite
         add_to_calendar: Add to calendar
-        send_pm_to_creator: Contact %{username}
+        send_pm_to_creator: Send PM to %{username}
       post_event_invitees_modal:
         title_invited: "List of invited users"
         title_participated: "List of users who participated"
