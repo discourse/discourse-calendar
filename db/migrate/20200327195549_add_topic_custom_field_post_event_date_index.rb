@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTopicCustomFieldPostEventDateIndex < ActiveRecord::Migration[6.0]
   def change
     add_index :topic_custom_fields,
