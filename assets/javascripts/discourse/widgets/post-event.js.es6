@@ -1,3 +1,4 @@
+import { emojiUnescape } from "discourse/lib/text";
 import cleanTitle from "discourse/plugins/discourse-calendar/lib/clean-title";
 import { dasherize } from "@ember/string";
 import EmberObject from "@ember/object";
@@ -111,9 +112,10 @@ export default createWidget("post-event", {
       ),
       startsAtMonth: moment(postEvent.starts_at).format("MMM"),
       startsAtDay: moment(postEvent.starts_at).format("D"),
-      postEventName:
+      postEventName: emojiUnescape(
         postEvent.name ||
-        this._cleanTopicTitle(postEvent.post.topic.title, postEvent.starts_at),
+          this._cleanTopicTitle(postEvent.post.topic.title, postEvent.starts_at)
+      ),
       statusClass: `status ${postEvent.status}`,
       isPublicEvent: postEvent.status === "public",
       isStandaloneEvent: postEvent.status === "standalone"
@@ -129,7 +131,7 @@ export default createWidget("post-event", {
         </div>
         <div class="post-event-info">
           <span class="name">
-            {{transformed.postEventName}}
+            {{{transformed.postEventName}}}
           </span>
           <div class="status-and-creators">
             {{#unless transformed.isStandaloneEvent}}
