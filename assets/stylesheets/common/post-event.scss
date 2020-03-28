@@ -152,43 +152,33 @@
     display: flex;
     flex-direction: column;
 
-    .status-and-name {
+    .name {
+      font-weight: 700;
+      @include ellipsis;
+      max-width: 45vw;
+    }
+    .status-and-creators {
       display: inline-flex;
       align-items: center;
       margin-bottom: 0.25em;
+    }
+    .status-and-creators {
+      color: $primary-medium;
+      font-size: $font-down-1;
 
-      .name {
-        font-weight: 700;
-        @include ellipsis;
-        max-width: 45vw;
+      .separator {
+        margin: 0 0.25em;
       }
 
       .status {
-        margin-right: 0.25em;
-        text-transform: lowercase;
-        padding: 0.25em 0.5em;
-        font-size: $font-down-1;
-        border-radius: 3px;
-        background-color: $primary-very-low;
-        color: $primary-medium;
-        flex-wrap: no-wrap;
-        display: flex;
-        align-items: center;
-
         &.expired {
-          color: $danger-low;
-          background-color: $danger;
+          color: $danger-medium;
         }
 
         .d-icon {
           margin-right: 0.5em;
         }
       }
-    }
-
-    .creators {
-      color: $primary-medium;
-      font-size: $font-down-1;
     }
   }
 

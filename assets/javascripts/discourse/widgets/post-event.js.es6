@@ -6,7 +6,6 @@ import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import GoogleCalendar from "discourse/plugins/discourse-calendar/discourse/lib/google-calendar";
 import { routeAction } from "discourse/helpers/route-action";
-import { iconNode } from "discourse-common/lib/icon-library";
 
 export default createWidget("post-event", {
   tagName: "div.post-event",
@@ -103,14 +102,6 @@ export default createWidget("post-event", {
   transform() {
     const postEvent = this.state.postEvent;
 
-    let statusIcon = "times";
-    if (postEvent.status === "private") {
-      statusIcon = "lock";
-    }
-    if (postEvent.status === "public") {
-      statusIcon = "unlock";
-    }
-
     return {
       postEventStatusLabel: I18n.t(
         `event.post_event_status.${postEvent.status}.title`
@@ -124,7 +115,6 @@ export default createWidget("post-event", {
         postEvent.name ||
         this._cleanTopicTitle(postEvent.post.topic.title, postEvent.starts_at),
       statusClass: `status ${postEvent.status}`,
-      statusIcon: iconNode(statusIcon),
       isPublicEvent: postEvent.status === "public",
       isStandaloneEvent: postEvent.status === "standalone"
     };
@@ -138,31 +128,26 @@ export default createWidget("post-event", {
           <div class="day">{{transformed.startsAtDay}}</div>
         </div>
         <div class="post-event-info">
-          <div class="status-and-name">
-            {{#if state.postEvent.is_expired}}
-              {{#unless transformed.isStandaloneEvent}}
+          <span class="name">
+            {{transformed.postEventName}}
+          </span>
+          <div class="status-and-creators">
+            {{#unless transformed.isStandaloneEvent}}
+              {{#if state.postEvent.is_expired}}
                 <span class="status expired">
                   {{i18n "event.expired"}}
                 </span>
               {{else}}
                 <span class={{transformed.statusClass}} title={{transformed.postEventStatusDescription}}>
-                  {{transformed.statusIcon}}
-                  <span>{{transformed.postEventStatusLabel}}</span>
+                  {{transformed.postEventStatusLabel}}
                 </span>
-              {{/unless}}
-            {{else}}
-              <span class={{transformed.statusClass}} title={{transformed.postEventStatusDescription}}>
-                {{transformed.statusIcon}}
-                <span>{{transformed.postEventStatusLabel}}</span>
-              </span>
-            {{/if}}
-            <span class="name">
-              {{transformed.postEventName}}
+              {{/if}}
+              <span class="separator">·</span>
+            {{/unless}}
+            <span class="creators">
+              Created by {{attach widget="post-event-creator" attrs=(hash user=state.postEvent.creator)}}
             </span>
           </div>
-          <span class="creators">
-            Created by {{attach widget="post-event-creator" attrs=(hash user=state.postEvent.creator)}}
-          </span>
         </div>
 
         {{#if state.postEvent.can_act_on_post_event}}
