@@ -4,7 +4,7 @@ en:
       invite_user_notification: "%{username} invited you to: %{description}"
       on_holiday: "On Holiday"
       holiday: "Holiday"
-      add_to_calendar: "Add to calendar"
+      add_to_calendar: "Add to Google Calendar"
       timezone:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."
@@ -31,14 +31,14 @@ en:
           title: Private
           description: "A private event can only be joined by invited users."
       post_ui:
-        show_all: show all
+        show_all: Show all
         participants:
           zero: "no one participated."
           one: "%{count} user participated."
           other: "%{count} users participated."
-        invite: invite
-        add_to_calendar: add to calendar
-        send_pm_to_creator: contact
+        invite: Invite
+        add_to_calendar: Add to calendar
+        send_pm_to_creator: Contact %{username}
       post_event_invitees_modal:
         title_invited: "List of invited users"
         title_participated: "List of users who participated"

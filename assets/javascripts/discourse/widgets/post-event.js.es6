@@ -187,25 +187,12 @@ export default createWidget("post-event", {
 
       <footer class="post-event-footer">
         {{#unless state.postEvent.is_expired}}
-        {{attach
-          widget="button"
-          attrs=(hash
-            className="btn-small"
-            icon="calendar-day"
-            label="event.post_ui.add_to_calendar"
-            action="addToGoogleCalendar"
-          )
-        }}
+          {{attach widget="add-to-calendar-button"}}
         {{/unless}}
 
         {{attach
-          widget="button"
-          attrs=(hash
-            className="btn-small"
-            icon="envelope"
-            label="event.post_ui.send_pm_to_creator"
-            action="sendPMToCreator"
-          )
+          widget="contact-creator-button"
+          attrs=(hash username=state.postEvent.creator.username)
         }}
 
         {{#unless state.postEvent.is_expired}}

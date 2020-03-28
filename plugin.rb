@@ -20,6 +20,8 @@ register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
 register_svg_icon "fas fa-calendar-day"
 register_svg_icon "fas fa-question"
 register_svg_icon "fas fa-clock"
+register_svg_icon "fas fa-clock"
+register_svg_icon "fab fa-google"
 
 after_initialize do
   module ::DiscourseCalendar
