@@ -6,7 +6,7 @@ function initializeEventUIBuilder(api) {
   api.attachWidgetAction("post", "showEventUIBuilder", function({
     postId,
     topicId
-  } = params) {
+  }) {
     return new Promise(resolve => {
       if (postId) {
         this.store
