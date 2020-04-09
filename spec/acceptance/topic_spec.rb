@@ -3,12 +3,12 @@
 require "rails_helper"
 
 describe Topic do
-  PostEvent ||= DiscourseCalendar::PostEvent
+  Event ||= DiscoursePostEvent::Event
 
   before do
     freeze_time
     SiteSetting.queue_jobs = false
-    SiteSetting.post_event_enabled = true
+    SiteSetting.discourse_post_event_enabled = true
   end
 
   fab!(:user) { Fabricate(:user) }
@@ -22,10 +22,10 @@ describe Topic do
           raw: 'The boat market is quite active lately.'
         )
 
-        post_event = PostEvent.find(post_with_date.id)
+        post_event = Event.find(post_with_date.id)
         expect(post_event).to be_present
         expect(post_event.starts_at).to eq_time(post_with_date.topic.created_at.tomorrow.beginning_of_day)
-        expect(post_event.status).to eq(PostEvent.statuses[:standalone])
+        expect(post_event.status).to eq(Event.statuses[:standalone])
       end
     end
   end

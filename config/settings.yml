@@ -2,9 +2,6 @@ plugins:
   calendar_enabled:
     default: false
     client: true
-  events_enabled:
-    default: true
-    client: true
   holiday_calendar_topic_id:
     default: ""
     client: true
@@ -43,7 +40,7 @@ plugins:
   close_to_working_day_hours_extension:
     default: 2
     client: true
-  post_event_enabled:
+  discourse_post_event_enabled:
     default: false
     client: true
   displayed_invitees_limit:

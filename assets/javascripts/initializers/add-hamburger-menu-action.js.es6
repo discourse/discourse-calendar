@@ -4,8 +4,8 @@ function initializeHamburgerMenu(api) {
   api.decorateWidget("hamburger-menu:generalLinks", () => {
     return {
       icon: "calendar-day",
-      route: "upcoming-events",
-      label: "upcoming_events.title"
+      route: "discourse-post-event-upcoming-events",
+      label: "discourse_post_event.upcoming_events.title"
     };
   });
 }
@@ -15,7 +15,7 @@ export default {
 
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
-    if (siteSettings.post_event_enabled) {
+    if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.7", initializeHamburgerMenu);
     }
   }
