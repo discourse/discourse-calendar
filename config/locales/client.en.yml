@@ -61,7 +61,7 @@ en:
           label: Event name
           placeholder: Optional, defaults to topic title
         invitees:
-          label: Invited users/groups
+          label: Invited groups
         status:
           label: Status
       invite_user_or_group:

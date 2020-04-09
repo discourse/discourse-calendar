@@ -59,19 +59,12 @@
     {{/event-field}}
 
     {{#event-field enabled=allowsInvitees label="discourse_post_event.builder_modal.invitees.label"}}
-      {{user-selector
-        topicId=model.topicId
-        single=false
-        onChangeCallback=(action "setRawInvitees")
+      {{group-selector
         fullWidthWrap=true
-        allowAny=false
-        includeMessageableGroups=true
-        placeholderKey="composer.users_placeholder"
-        tabindex="1"
-        usernames=model.eventModel.raw_invitees
-        hasGroups=true
-        autocomplete="discourse"
-        excludeCurrentUser=true
+        groupFinder=groupFinder
+        groupNames=model.eventModel.raw_invitees
+        onChangeCallback=(action "setRawInvitees")
+        placeholderKey="topic.invite_private.group_name"
       }}
     {{/event-field}}
   </form>

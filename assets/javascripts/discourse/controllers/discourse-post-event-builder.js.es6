@@ -1,3 +1,4 @@
+import Group from "discourse/models/group";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
 import { action, computed } from "@ember/object";
@@ -12,6 +13,10 @@ export default Controller.extend(ModalFunctionality, {
         : "update_event_title";
     }
   }),
+
+  groupFinder(term) {
+    return Group.findAll({ term, ignore_automatic: true });
+  },
 
   allowsInvitees: equal("model.eventModel.status", "private"),
 
