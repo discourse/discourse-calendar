@@ -1,4 +1,4 @@
-plugins:
+discourse_calendar:
   calendar_enabled:
     default: false
     client: true
@@ -40,6 +40,8 @@ plugins:
   close_to_working_day_hours_extension:
     default: 2
     client: true
+
+discourse_post_event:
   discourse_post_event_enabled:
     default: false
     client: true
