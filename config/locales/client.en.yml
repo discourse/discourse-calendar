@@ -1,4 +1,10 @@
 en:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_post_event: "Discourse Event"
+          discourse_calendar: "Discourse Calendar"
   js:
     discourse_calendar:
       invite_user_notification: "%{username} invited you to: %{description}"
