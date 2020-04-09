@@ -18,8 +18,7 @@ function initializeEventBuilder(api) {
             );
             eventModel.setProperties({
               id: postId,
-              status: "public",
-              display_invitees: "everyone"
+              status: "public"
             });
             resolve(eventModel);
           });

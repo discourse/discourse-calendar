@@ -7,9 +7,7 @@ export default createWidget("discourse-post-event-invitees", {
   transform(attrs) {
     return {
       isPrivateEvent: attrs.eventModel.status === "private",
-      showAll:
-        attrs.eventModel.should_display_invitees &&
-        attrs.eventModel.stats.invited > 10
+      showAll: attrs.eventModel.stats.invited > 10
     };
   },
 

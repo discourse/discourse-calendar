@@ -36,37 +36,6 @@ export default Controller.extend(ModalFunctionality, {
   publicEvent: equal("model.eventModel.status", "public"),
   privateEvent: equal("model.eventModel.status", "private"),
 
-  inviteesOptions: computed("model.eventModel.status", function() {
-    const options = [];
-
-    if (!this.standaloneEvent) {
-      options.push({
-        label: I18n.t(
-          "discourse_post_event.models.event.display_invitees.everyone"
-        ),
-        value: "everyone"
-      });
-
-      if (this.privateEvent) {
-        options.push({
-          label: I18n.t(
-            "discourse_post_event.models.event.display_invitees.invitees_only"
-          ),
-          value: "invitees_only"
-        });
-      }
-
-      options.push({
-        label: I18n.t(
-          "discourse_post_event.models.event.display_invitees.none"
-        ),
-        value: "none"
-      });
-    }
-
-    return options;
-  }),
-
   @action
   onChangeDates(changes) {
     this.model.eventModel.setProperties({

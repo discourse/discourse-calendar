@@ -20,10 +20,7 @@ function _attachWidget(api, cooked, eventModel) {
   const existing = cooked.querySelector(".discourse-post-event");
 
   if (eventModel) {
-    let widgetHeight = 175;
-    if (eventModel.should_display_invitees) {
-      widgetHeight += 125;
-    }
+    let widgetHeight = 300;
 
     if (eventModel.can_update_attendance) {
       widgetHeight += 65;

@@ -104,7 +104,6 @@ module DiscoursePostEvent
           :starts_at,
           :ends_at,
           :status,
-          :display_invitees,
           raw_invitees: []
         )
     end
