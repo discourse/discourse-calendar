@@ -11,9 +11,7 @@ module DiscoursePostEvent
     attributes :stats
     attributes :status
     attributes :raw_invitees
-    attributes :display_invitees
     attributes :post
-    attributes :should_display_invitees
     attributes :name
     attributes :can_act_on_event
     attributes :can_update_attendance
@@ -45,16 +43,8 @@ module DiscoursePostEvent
       }
     end
 
-    def should_display_invitees
-      object.display_invitees?(scope.current_user)
-    end
-
     def can_update_attendance
       object.can_user_update_attendance(scope.current_user)
-    end
-
-    def display_invitees
-      Event.display_invitees_options[object.display_invitees]
     end
 
     def creator
@@ -95,10 +85,6 @@ module DiscoursePostEvent
       if watching_invitee
         InviteeSerializer.new(watching_invitee, root: false)
       end
-    end
-
-    def include_sample_invitees?
-      object.display_invitees?(scope.current_user)
     end
 
     def sample_invitees

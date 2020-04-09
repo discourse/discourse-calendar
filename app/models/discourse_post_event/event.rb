@@ -98,10 +98,6 @@ module DiscoursePostEvent
       @statuses ||= Enum.new(standalone: 0, public: 1, private: 2)
     end
 
-    def self.display_invitees_options
-      @display_invitees_options ||= Enum.new(everyone: 0, invitees_only: 1, none: 2)
-    end
-
     def most_likely_going(current_user, limit = SiteSetting.displayed_invitees_limit)
       most_likely = []
 
@@ -174,22 +170,6 @@ module DiscoursePostEvent
 
     def is_expired?
       Time.now > (self.ends_at || self.starts_at || Time.now)
-    end
-
-    def display_invitees?(current_user)
-      !self.is_expired? &&
-      self.status != Event.statuses[:standalone] &&
-      (
-        self.display_invitees == Event.display_invitees_options[:everyone] ||
-        (
-          self.display_invitees == Event.display_invitees_options[:invitees_only] &&
-          self.invitees.exists?(user_id: current_user.id)
-        ) ||
-        (
-          self.display_invitees == Event.display_invitees_options[:none] &&
-          self.post.user == current_user
-        )
-      )
     end
   end
 end

@@ -22,10 +22,6 @@ en:
             interested: "Interested"
         event:
           expired: Expired
-          display_invitees:
-            everyone: "To everyone"
-            invitees_only: "To invited users only"
-            none: "Do not display invited users"
           status:
             standalone:
               title: Standalone
@@ -62,8 +58,6 @@ en:
           label: Invited users/groups
         status:
           label: Status
-        display_invitees:
-          label: Display invited users
       invite_user_or_group:
         title: Invite user(s) or group(s)
         invite: Invite

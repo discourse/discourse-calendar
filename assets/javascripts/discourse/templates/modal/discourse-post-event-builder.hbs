@@ -74,24 +74,6 @@
         excludeCurrentUser=true
       }}
     {{/event-field}}
-
-    {{#if inviteesOptions.length}}
-      {{#event-field label="discourse_post_event.builder_modal.display_invitees.label"}}
-        {{#each inviteesOptions as |option|}}
-          <label class="radio-label">
-            {{radio-button
-              name="display_invitees"
-              value=option.value
-              selection=model.eventModel.display_invitees
-              onChange=(action (mut model.eventModel.display_invitees))
-            }}
-            <span class="message">
-              {{option.label}}
-             </span>
-          </label>
-        {{/each}}
-      {{/event-field}}
-    {{/if}}
   </form>
   {{/conditional-loading-section}}
 {{/d-modal-body}}

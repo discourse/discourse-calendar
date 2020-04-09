@@ -6,22 +6,11 @@ const ATTRIBUTES = {
   starts_at: {},
   ends_at: {},
   raw_invitees: {},
-  display_invitees: {
-    transform(value) {
-      return DISPLAY_INVITEES_OPTIONS[value];
-    }
-  },
   status: {
     transform(value) {
       return STATUSES[value];
     }
   }
-};
-
-const DISPLAY_INVITEES_OPTIONS = {
-  everyone: 0,
-  invitees_only: 1,
-  none: 2
 };
 
 const STATUSES = {

@@ -54,8 +54,7 @@ module DiscoursePostEvent
             id: post1.id,
             raw_invitees: invitees,
             starts_at: 2.days.from_now,
-            status: Event.statuses[:private],
-            display_invitees: Event.display_invitees_options[:everyone]
+            status: Event.statuses[:private]
           }
         }
 
@@ -103,7 +102,6 @@ module DiscoursePostEvent
             id: post1.id,
             raw_invitees: [],
             status: Event.statuses[:private],
-            display_invitees: Event.display_invitees_options[:everyone],
             starts_at: 2.days.from_now,
           }
         }
