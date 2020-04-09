@@ -1,0 +1,124 @@
+{{#d-modal-body
+  title=(concat "discourse_post_event.builder_modal." modalTitle)
+  class="discourse-post-event-builder"
+}}
+  {{#conditional-loading-section isLoading=model.eventModel.isSaving}}
+  <form>
+    {{#event-field class="name" label="discourse_post_event.builder_modal.name.label"}}
+      {{input
+        value=(readonly model.eventModel.name)
+        placeholderKey="discourse_post_event.builder_modal.name.placeholder"
+        input=(action (mut model.eventModel.name) value="target.value")
+      }}
+    {{/event-field}}
+
+    {{date-time-input-range
+      from=startsAt
+      to=endsAt
+      onChange=(action "onChangeDates")
+    }}
+
+    {{#event-field label="discourse_post_event.builder_modal.status.label"}}
+      <label class="radio-label">
+        {{radio-button
+          name="status"
+          value="standalone"
+          selection=model.eventModel.status
+          onChange=(action (mut model.eventModel.status))
+        }}
+        <span class="message">
+          <span class="title">{{i18n "discourse_post_event.models.event.status.standalone.title"}}</span>
+          <span class="description">{{i18n "discourse_post_event.models.event.status.standalone.description"}}</span>
+        </span>
+      </label>
+
+      <label class="radio-label">
+        {{radio-button
+          name="status"
+          value="public"
+          selection=model.eventModel.status
+          onChange=(action (mut model.eventModel.status))
+        }}
+        <span class="message">
+          <span class="title">{{i18n "discourse_post_event.models.event.status.public.title"}}</span>
+          <span class="description">{{i18n "discourse_post_event.models.event.status.public.description"}}</span>
+        </span>
+      </label>
+      <label class="radio-label">
+        {{radio-button
+          name="status"
+          value="private"
+          selection=model.eventModel.status
+          onChange=(action (mut model.eventModel.status))
+        }}
+        <span class="message">
+          <span class="title">{{i18n "discourse_post_event.models.event.status.private.title"}}</span>
+          <span class="description">{{i18n "discourse_post_event.models.event.status.private.description"}}</span>
+        </span>
+      </label>
+    {{/event-field}}
+
+    {{#event-field enabled=allowsInvitees label="discourse_post_event.builder_modal.invitees.label"}}
+      {{user-selector
+        topicId=model.topicId
+        single=false
+        onChangeCallback=(action "setRawInvitees")
+        fullWidthWrap=true
+        allowAny=false
+        includeMessageableGroups=true
+        placeholderKey="composer.users_placeholder"
+        tabindex="1"
+        usernames=model.eventModel.raw_invitees
+        hasGroups=true
+        autocomplete="discourse"
+        excludeCurrentUser=true
+      }}
+    {{/event-field}}
+
+    {{#if inviteesOptions.length}}
+      {{#event-field label="discourse_post_event.builder_modal.display_invitees.label"}}
+        {{#each inviteesOptions as |option|}}
+          <label class="radio-label">
+            {{radio-button
+              name="display_invitees"
+              value=option.value
+              selection=model.eventModel.display_invitees
+              onChange=(action (mut model.eventModel.display_invitees))
+            }}
+            <span class="message">
+              {{option.label}}
+             </span>
+          </label>
+        {{/each}}
+      {{/event-field}}
+    {{/if}}
+  </form>
+  {{/conditional-loading-section}}
+{{/d-modal-body}}
+
+
+<div class="modal-footer">
+  {{#if model.eventModel.isNew}}
+    {{d-button
+      type="button"
+      class="btn-primary"
+      label="discourse_post_event.builder_modal.create"
+      icon="calendar-day"
+      action=(action "createEvent")
+    }}
+  {{else}}
+    {{d-button
+      type="button"
+      class="btn-primary"
+      label="discourse_post_event.builder_modal.update"
+      icon="calendar-day"
+      action=(action "updateEvent")
+    }}
+  {{/if}}
+
+  {{d-button
+    icon="trash-alt"
+    class="btn-danger"
+    action="destroyPostEvent"
+  }}
+</div>

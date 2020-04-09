@@ -9,28 +9,34 @@ en:
         title: "Timezone"
         instructions: "Your current timezone is %{timezone}."
         none: "Select a timezone..."
-    event:
-      expired: Expired
-      display_invitees:
-        everyone: "To everyone"
-        invitees_only: "To invited users only"
-        none: "Do not display invited users"
-      invitee_status:
-        unknown: "Undecided?"
-        going: "✓ Going"
-        not_going: "× Not Going"
-        interested: "? Interested"
-      post_event_status:
-        standalone:
-          title: Standalone
-          description: "A standalone event can't be joined."
-        public:
-          title: Public
-          description: "A public event can be joined by anyone."
-        private:
-          title: Private
-          description: "A private event can only be joined by invited users."
-      post_ui:
+    group_timezones:
+      search: "Search..."
+      group_availability: "%{group} availability"
+    discourse_post_event:
+      models:
+        invitee:
+          status:
+            unknown: "Undecided?"
+            going: "Going"
+            not_going: "Not Going"
+            interested: "Interested"
+        event:
+          expired: Expired
+          display_invitees:
+            everyone: "To everyone"
+            invitees_only: "To invited users only"
+            none: "Do not display invited users"
+          status:
+            standalone:
+              title: Standalone
+              description: "A standalone event can't be joined."
+            public:
+              title: Public
+              description: "A public event can be joined by anyone."
+            private:
+              title: Private
+              description: "A private event can only be joined by invited users."
+      event_ui:
         show_all: Show all
         participants:
           one: "%{count} user participated."
@@ -38,11 +44,11 @@ en:
         invite: Invite
         add_to_calendar: Add to calendar
         send_pm_to_creator: Send PM to %{username}
-      post_event_invitees_modal:
+      invitees_modal:
         title_invited: "List of invited users"
         title_participated: "List of users who participated"
         filter_placeholder: "Filter users"
-      ui_builder:
+      builder_modal:
         create_event_title: Create Event
         update_event_title: Update Event
         confirm_delete: Are you sure you want to delete this event?
@@ -61,11 +67,8 @@ en:
       invite_user_or_group:
         title: Invite user(s) or group(s)
         invite: Invite
-    upcoming_events:
-      title: Upcoming events
-      creator: Creator
-      status: Status
-      starts_at: Starts at
-    group_timezones:
-      search: "Search..."
-      group_availability: "%{group} availability"
+      upcoming_events:
+        title: Upcoming events
+        creator: Creator
+        status: Status
+        starts_at: Starts at

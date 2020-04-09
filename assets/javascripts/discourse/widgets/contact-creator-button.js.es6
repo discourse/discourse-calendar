@@ -12,7 +12,7 @@ export default createWidget("contact-creator-button", {
   template: hbs`
     {{d-icon "envelope"}}
     <span class="label">
-      {{i18n "event.post_ui.send_pm_to_creator" username=this.attrs.username}}
+      {{i18n "discourse_post_event.event_ui.send_pm_to_creator" username=this.attrs.username}}
     </span>
   `
 });

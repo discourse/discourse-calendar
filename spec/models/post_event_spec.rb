@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative '../fabricators/post_event_fabricator'
+require_relative '../fabricators/event_fabricator'
 
-describe DiscourseCalendar::PostEvent do
-  PostEvent ||= DiscourseCalendar::PostEvent
-  Field ||= DiscourseCalendar::TOPIC_POST_EVENT_STARTS_AT
+describe DiscoursePostEvent::Event do
+  Event ||= DiscoursePostEvent::Event
+  Field ||= DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
 
   before do
     freeze_time DateTime.parse('2020-04-24 14:10')
     Jobs.run_immediately!
-    SiteSetting.post_event_enabled = true
+    SiteSetting.discourse_post_event_enabled = true
   end
 
   describe 'topic custom fields callback' do
@@ -28,7 +28,7 @@ describe DiscourseCalendar::PostEvent do
             expect(first_post.is_first_post?).to be(true)
             expect(first_post.topic.custom_fields).to be_blank
 
-            PostEvent.create!(id: first_post.id, starts_at: starts_at)
+            Event.create!(id: first_post.id, starts_at: starts_at)
             first_post.topic.reload
 
             expect(first_post.topic.custom_fields[Field]).to eq(starts_at)
@@ -40,7 +40,7 @@ describe DiscourseCalendar::PostEvent do
             expect(second_post.is_first_post?).to be(false)
             expect(second_post.topic.custom_fields).to be_blank
 
-            PostEvent.create!(id: second_post.id, starts_at: starts_at)
+            Event.create!(id: second_post.id, starts_at: starts_at)
             second_post.topic.reload
 
             expect(second_post.topic.custom_fields).to be_blank
@@ -50,7 +50,7 @@ describe DiscourseCalendar::PostEvent do
 
       context 'a post event has been updated' do
         context 'the associated post is the OP' do
-          fab!(:post_event) { Fabricate(:post_event, post: first_post, starts_at: starts_at) }
+          fab!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at) }
 
           it 'sets the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
@@ -64,7 +64,7 @@ describe DiscourseCalendar::PostEvent do
         end
 
         context 'the associated post is not the OP' do
-          fab!(:post_event) { Fabricate(:post_event, post: second_post, starts_at: starts_at) }
+          fab!(:post_event) { Fabricate(:event, post: second_post, starts_at: starts_at) }
 
           it 'doesn’t set the topic custom field' do
             expect(second_post.is_first_post?).to be(false)
@@ -82,7 +82,7 @@ describe DiscourseCalendar::PostEvent do
     describe '#after_commit[:destroy]' do
       context 'a post event has been destroyed' do
         context 'the associated post is the OP' do
-          fab!(:post_event) { Fabricate(:post_event, post: first_post, starts_at: starts_at) }
+          fab!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at) }
 
           it 'sets the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
@@ -96,8 +96,8 @@ describe DiscourseCalendar::PostEvent do
         end
 
         context 'the associated post is not the OP' do
-          fab!(:first_post_event) { Fabricate(:post_event, post: first_post, starts_at: starts_at) }
-          fab!(:second_post_event) { Fabricate(:post_event, post: second_post, starts_at: starts_at) }
+          fab!(:first_post_event) { Fabricate(:event, post: first_post, starts_at: starts_at) }
+          fab!(:second_post_event) { Fabricate(:event, post: second_post, starts_at: starts_at) }
 
           it 'doesn’t change the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
@@ -119,7 +119,7 @@ describe DiscourseCalendar::PostEvent do
       context '&& starts_at < current date' do
         context '&& ends_at < current date' do
           it 'is expired' do
-            post_event = PostEvent.new(
+            post_event = Event.new(
               starts_at: DateTime.parse('2020-04-22 14:05'),
               ends_at: DateTime.parse('2020-04-23 14:05'),
             )
@@ -130,7 +130,7 @@ describe DiscourseCalendar::PostEvent do
 
         context '&& ends_at > current date' do
           it 'is not expired' do
-            post_event = PostEvent.new(
+            post_event = Event.new(
               starts_at: DateTime.parse('2020-04-24 14:15'),
               ends_at: DateTime.parse('2020-04-25 11:05'),
             )
@@ -141,7 +141,7 @@ describe DiscourseCalendar::PostEvent do
 
         context '&& ends_at < current date' do
           it 'is expired' do
-            post_event = PostEvent.new(
+            post_event = Event.new(
               starts_at: DateTime.parse('2020-04-22 14:15'),
               ends_at: DateTime.parse('2020-04-23 11:05'),
             )
@@ -153,7 +153,7 @@ describe DiscourseCalendar::PostEvent do
 
       context '&& starts_at > current date' do
         it 'is not expired' do
-          post_event = PostEvent.new(
+          post_event = Event.new(
             starts_at: DateTime.parse('2020-04-25 14:05'),
             ends_at: DateTime.parse('2020-04-26 14:05'),
           )
@@ -166,7 +166,7 @@ describe DiscourseCalendar::PostEvent do
     context 'has not ends_at date' do
       context '&& starts_at < current date' do
         it 'is expired' do
-          post_event = PostEvent.new(
+          post_event = Event.new(
             starts_at: DateTime.parse('2020-04-24 14:05')
           )
 
@@ -176,7 +176,7 @@ describe DiscourseCalendar::PostEvent do
 
       context '&& starts_at == current date' do
         it 'is expired' do
-          post_event = PostEvent.new(
+          post_event = Event.new(
             starts_at: DateTime.parse('2020-04-24 14:10')
           )
 
@@ -186,7 +186,7 @@ describe DiscourseCalendar::PostEvent do
 
       context '&& starts_at > current date' do
         it 'is not expired' do
-          post_event = PostEvent.new(
+          post_event = Event.new(
             starts_at: DateTime.parse('2020-04-24 14:15')
           )
 

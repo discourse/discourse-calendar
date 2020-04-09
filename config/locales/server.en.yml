@@ -1,8 +1,7 @@
 en:
   site_settings:
     calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
-    events_enabled: "Enables users to create events on a topic."
-    post_event_enabled: "[experimental] Enables to attach an event to a post."
+    discourse_post_event_enabled: "[experimental] Enables to attach an event to a post."
     holiday_calendar_topic_id: "Topic ID of staffs holiday / absence calendar."
     delete_expired_event_posts_after: "Posts with expired events will be automatically deleted after (n) hours. Set to -1 to disable deletion."
     all_day_event_start_time: "Events that do not have a start time specified will start at this time. Format is HH:mm. For 6:00 am, enter 06:00"
@@ -20,7 +19,9 @@ en:
     more_than_one_calendar: "You can’t have more than one calendar in a post."
     more_than_two_dates: "A post of a calendar topic can’t contain more than two dates."
     event_expired: "Event expired"
-    post_event:
-      errors:
-        raw_invitees_length: "An event is limited to %{count} users/groups"
-        ends_at_before_starts_at: "An event can't end before it starts"
+  discourse_post_event:
+    errors:
+      models:
+        event:
+          raw_invitees_length: "An event is limited to %{count} users/groups"
+          ends_at_before_starts_at: "An event can't end before it starts"

@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require_relative '../fabricators/post_event_fabricator'
+require_relative '../fabricators/event_fabricator'
 
 describe Post do
-  PostEvent ||= DiscourseCalendar::PostEvent
+  Event ||= DiscoursePostEvent::Event
 
   fab!(:user) { Fabricate(:user) }
   fab!(:topic) { Fabricate(:topic, user: user) }
   fab!(:post1) { Fabricate(:post, topic: topic) }
-  fab!(:post_event) { Fabricate(:post_event, post: post1) }
+  fab!(:post_event) { Fabricate(:event, post: post1) }
 
   before do
     freeze_time
     SiteSetting.queue_jobs = false
-    SiteSetting.post_event_enabled = true
+    SiteSetting.discourse_post_event_enabled = true
   end
 
   context 'when a post with an event is destroyed' do

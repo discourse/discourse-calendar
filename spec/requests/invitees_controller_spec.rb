@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative '../fabricators/post_event_fabricator'
+require_relative '../fabricators/event_fabricator'
 
-module DiscourseCalendar
+module DiscoursePostEvent
   describe InviteesController do
     fab!(:user) { Fabricate(:user, admin: true) }
     fab!(:topic) { Fabricate(:topic, user: user) }
@@ -11,7 +11,7 @@ module DiscourseCalendar
 
     before do
       SiteSetting.queue_jobs = false
-      SiteSetting.post_event_enabled = true
+      SiteSetting.discourse_post_event_enabled = true
       sign_in(user)
     end
 
@@ -19,7 +19,7 @@ module DiscourseCalendar
       context 'when an invitee exists' do
         fab!(:invitee1) { Fabricate(:user) }
         fab!(:post_event) {
-          pe = Fabricate(:post_event, post: post1)
+          pe = Fabricate(:event, post: post1)
           pe.create_invitees([{
             user_id: invitee1.id,
             status: Invitee.statuses[:going]
@@ -32,7 +32,7 @@ module DiscourseCalendar
 
           expect(invitee.status).to eq(0)
 
-          put "/discourse-calendar/invitees/#{invitee.id}.json", params: {
+          put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
             invitee: {
               status: "interested"
             }
@@ -45,10 +45,10 @@ module DiscourseCalendar
       end
 
       context 'when an invitee doesn’t exist' do
-        fab!(:post_event) { Fabricate(:post_event, post: post1) }
+        fab!(:post_event) { Fabricate(:event, post: post1) }
 
         it 'creates an invitee' do
-          post "/discourse-calendar/invitees.json", params: {
+          post "/discourse-post-event/invitees.json", params: {
             invitee: {
               user_id: user.id,
               post_id: post_event.id,

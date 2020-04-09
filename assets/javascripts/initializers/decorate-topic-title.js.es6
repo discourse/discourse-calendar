@@ -14,7 +14,7 @@ function initializeDecorateTopicTitle(api) {
           node.innerHTML = `${node.innerText.replace(
             cleanedTitle,
             ""
-          )}<span class="post-event-date">${date
+          )}<span class="event-date">${date
             .tz(moment.tz.guess())
             .format(guessDateFormat(date))}</span>`;
         } else if (topicTitleType === "topic-title") {
@@ -30,7 +30,7 @@ export default {
 
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
-    if (siteSettings.post_event_enabled) {
+    if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.40", initializeDecorateTopicTitle);
     }
   }

@@ -1,0 +1,43 @@
+.discourse-post-event-invitees-modal {
+  .filter {
+    width: 100%;
+  }
+  .invitees {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+
+    .invitee {
+      list-style: none;
+      display: flex;
+      flex: 1;
+      padding: 0.5em;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $primary-low;
+
+      &:last-child {
+        border: none;
+      }
+
+      .user {
+        .username {
+          margin-left: 0.5em;
+        }
+      }
+
+      .status {
+        margin-left: 1em;
+
+        &.going {
+          color: $success;
+        }
+
+        &.not_going {
+          color: $danger;
+        }
+      }
+    }
+  }
+}

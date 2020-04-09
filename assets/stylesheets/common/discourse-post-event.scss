@@ -1,0 +1,233 @@
+.discourse-post-event {
+  border: 1px solid $primary-low;
+  display: flex;
+  flex-direction: column;
+
+  &.is-loading {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.has-event {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .event-footer {
+    padding: 0.5em;
+    background: $primary-very-low;
+    margin-top: auto;
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  .add-to-calendar-button {
+    .d-icon-external-link-alt {
+      margin-left: 0.25em;
+    }
+  }
+
+  .event-header {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+
+    .actions {
+      margin-bottom: auto;
+      margin-left: auto;
+    }
+  }
+
+  .event-date {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin-right: 1em;
+
+    .month {
+      text-align: center;
+      color: red;
+      font-size: $font-down-1;
+      text-transform: uppercase;
+    }
+
+    .day {
+      text-align: center;
+      font-weight: 500;
+      font-size: $font-up-2;
+    }
+  }
+
+  .event-info {
+    display: flex;
+    flex-direction: column;
+
+    .name {
+      font-weight: 700;
+      @include ellipsis;
+      max-width: 45vw;
+    }
+    .status-and-creators {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 0.25em;
+    }
+    .status-and-creators {
+      color: $primary-medium;
+      font-size: $font-down-1;
+
+      .separator {
+        margin: 0 0.25em;
+      }
+
+      .status {
+        &.expired {
+          color: $danger-medium;
+        }
+
+        .d-icon {
+          margin-right: 0.5em;
+        }
+      }
+    }
+  }
+
+  .event-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+
+    .event-status {
+      &.status-going {
+        color: $success;
+      }
+
+      &.status-not_going {
+        color: $danger;
+      }
+    }
+  }
+
+  .event-creator {
+    .username {
+      margin-left: 0.25em;
+    }
+  }
+
+  .event-invitees {
+    padding: 1em;
+    overflow-y: auto;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1em;
+
+      .show-all {
+        margin-left: 0.5em;
+      }
+
+      .event-invitees-status {
+        font-weight: 700;
+
+        .invited {
+          font-weight: 500;
+          color: $primary-medium;
+        }
+      }
+    }
+
+    .event-invitees-avatars {
+      padding: 0;
+      margin: 0;
+      display: inline-flex;
+      flex-wrap: wrap;
+
+      .event-invitee {
+        list-style: none;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        opacity: 0.25;
+
+        &.status-going,
+        &.status-not_going,
+        &.status-interested {
+          opacity: 1;
+        }
+      }
+
+      .topic-invitee-avatar {
+        position: relative;
+        display: flex;
+
+        .avatar-flair {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          background: $secondary;
+          border-radius: 50%;
+          height: 16px;
+          width: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: $primary-medium;
+          border: 1px solid $primary-low;
+
+          &.avatar-flair-status-going {
+            color: $success;
+          }
+
+          &.avatar-flair-status-not_going {
+            color: $danger;
+          }
+
+          .d-icon {
+            font-size: $font-down-3;
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    margin: 0;
+  }
+
+  .event-dates {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+
+    .participants {
+      margin-left: 0.5em;
+      color: $primary-medium;
+    }
+
+    .d-icon {
+      color: $primary-medium;
+    }
+
+    .date {
+      color: $primary-high;
+      margin-left: 1em;
+
+      .discourse-local-date {
+        .d-icon {
+          display: none;
+        }
+      }
+    }
+
+    .separator {
+      color: $primary-high;
+      margin: 0 0.5em;
+      text-align: center;
+    }
+  }
+}
