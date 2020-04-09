@@ -29,6 +29,16 @@ module DiscoursePostEvent
         end
       }
 
+      fab!(:large_group) {
+        Fabricate(:group).tap do |g|
+          g.add(invitee2)
+          g.add(invitee3)
+          g.add(invitee4)
+          g.add(invitee5)
+          g.save!
+        end
+      }
+
       before do
         sign_in(user)
       end
@@ -46,8 +56,8 @@ module DiscoursePostEvent
         expect(Event).to exist(id: post1.id)
       end
 
-      it 'accepts user and group invitees' do
-        invitees = [invitee1.username, group.name]
+      it 'accepts group as invitees' do
+        invitees = [group.name]
 
         post '/discourse-post-event/events.json', params: {
           event: {
@@ -60,12 +70,12 @@ module DiscoursePostEvent
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees.map { |i| i['user']['id'] }).to match_array([user.id, invitee1.id, group.group_users.first.user.id])
+        expect(sample_invitees.map { |i| i['user']['id'] }).to match_array([user.id] + group.group_users.map { |gu| gu.user.id })
         raw_invitees = response.parsed_body['event']['raw_invitees']
         expect(raw_invitees).to match_array(invitees)
       end
 
-      it 'accepts one user invitee' do
+      it 'doesn’t accept one user invitee' do
         post '/discourse-post-event/events.json', params: {
           event: {
             id: post1.id,
@@ -77,8 +87,7 @@ module DiscoursePostEvent
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees[0]['user']['username']).to eq(user.username)
-        expect(sample_invitees[1]['user']['username']).to eq(invitee1.username)
+        expect(sample_invitees.map { |i| i['user']['id'] }).to match_array([user.id])
       end
 
       it 'accepts one group invitee' do
@@ -117,20 +126,15 @@ module DiscoursePostEvent
           event: {
             id: post1.id,
             status: Event.statuses[:private],
-            raw_invitees: [
-              invitee1.username,
-              invitee2.username,
-              invitee3.username,
-              invitee4.username,
-              invitee5.username,
-            ],
+            raw_invitees: [large_group.name],
             starts_at: 2.days.from_now,
           }
         }
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees.map { |i| i['user']['username'] }).to match_array([user.username, invitee1.username, invitee2.username])
+        expect(large_group.group_users.length).to eq(4)
+        expect(sample_invitees.length).to eq(3)
       end
 
       context 'when a event exists' do
@@ -144,15 +148,15 @@ module DiscoursePostEvent
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
                   status: Event.statuses[:private].to_s,
-                  raw_invitees: [invitee1.username]
+                  raw_invitees: [group.name]
                 }
               }
 
               event.reload
 
               expect(event.status).to eq(Event.statuses[:private])
-              expect(event.raw_invitees).to eq([invitee1.username])
-              expect(event.invitees.pluck(:user_id)).to match_array([invitee1.id])
+              expect(event.raw_invitees).to eq([group.name])
+              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
             end
           end
 
@@ -178,14 +182,14 @@ module DiscoursePostEvent
             it 'changes the status' do
               event.update!(
                 status: Event.statuses[:private],
-                raw_invitees: [invitee1.username]
+                raw_invitees: [group.name]
               )
               event.fill_invitees!
 
               event.reload
 
-              expect(event.invitees.pluck(:user_id)).to eq([invitee1.id])
-              expect(event.raw_invitees).to eq([invitee1.username])
+              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.raw_invitees).to eq([group.name])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
@@ -205,14 +209,14 @@ module DiscoursePostEvent
             it 'changes the status, removes raw_invitees and keeps invitees' do
               event.update!(
                 status: Event.statuses[:private],
-                raw_invitees: [invitee1.username]
+                raw_invitees: [group.name]
               )
               event.fill_invitees!
 
               event.reload
 
-              expect(event.invitees.pluck(:user_id)).to eq([invitee1.id])
-              expect(event.raw_invitees).to eq([invitee1.username])
+              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.raw_invitees).to eq([group.name])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
@@ -224,7 +228,7 @@ module DiscoursePostEvent
 
               expect(event.status).to eq(Event.statuses[:public])
               expect(event.raw_invitees).to eq([])
-              expect(event.invitees.pluck(:user_id)).to eq([invitee1.id])
+              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
             end
           end
 
@@ -243,15 +247,15 @@ module DiscoursePostEvent
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
                   status: Event.statuses[:private].to_s,
-                  raw_invitees: [invitee1.username]
+                  raw_invitees: [group.name]
                 }
               }
 
               event.reload
 
               expect(event.status).to eq(Event.statuses[:private])
-              expect(event.raw_invitees).to eq([invitee1.username])
-              expect(event.invitees.pluck(:user_id)).to eq([invitee1.id])
+              expect(event.raw_invitees).to eq([group.name])
+              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
             end
           end
 
