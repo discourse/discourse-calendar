@@ -25,7 +25,6 @@ register_svg_icon "fas fa-calendar-day"
 register_svg_icon "fas fa-question"
 register_svg_icon "fas fa-clock"
 register_svg_icon "fas fa-clock"
-register_svg_icon "fab fa-google"
 
 after_initialize do
   module ::DiscourseCalendar
@@ -81,9 +80,12 @@ after_initialize do
     "../app/controllers/discourse_post_event/upcoming_events_controller.rb",
     "../app/models/discourse_post_event/event.rb",
     "../app/models/discourse_post_event/invitee.rb",
+    "../lib/discourse_post_event/event_finder.rb",
     "../app/serializers/discourse_post_event/invitee_serializer.rb",
     "../app/serializers/discourse_post_event/event_serializer.rb"
   ].each { |path| load File.expand_path(path, __FILE__) }
+
+  ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 
   reloadable_patch do
     require 'post'
@@ -109,9 +111,9 @@ after_initialize do
   end
 
   DiscoursePostEvent::Engine.routes.draw do
+    get '/discourse-post-event/events' => 'events#index', constraints: { format: /(json|ics)/ }
     get '/discourse-post-event/events/:id' => 'events#show'
     delete '/discourse-post-event/events/:id' => 'events#destroy'
-    get '/discourse-post-event/events' => 'events#index'
     post '/discourse-post-event/events' => 'events#create'
     put '/discourse-post-event/events/:id' => 'events#update'
     post '/discourse-post-event/events/:id/invite' => 'events#invite'

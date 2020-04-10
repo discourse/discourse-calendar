@@ -5,7 +5,6 @@ import EmberObject from "@ember/object";
 import showModal from "discourse/lib/show-modal";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
-import GoogleCalendar from "discourse/plugins/discourse-calendar/discourse/lib/google-calendar";
 import { routeAction } from "discourse/helpers/route-action";
 
 export default createWidget("discourse-post-event", {
@@ -89,17 +88,10 @@ export default createWidget("discourse-post-event", {
     ).call();
   },
 
-  addToGoogleCalendar() {
-    const link = GoogleCalendar.create({
-      title:
-        this.state.eventModel.name ||
-        this._cleanTopicTitle(
-          this.state.eventModel.post.topic.title,
-          this.state.eventModel.starts_at
-        ),
-      startsAt: this.state.eventModel.starts_at,
-      endsAt: this.state.eventModel.ends_at
-    }).generateLink();
+  addToCalendar() {
+    const link = Discourse.getURL(
+      `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
+    );
 
     window.open(link, "_blank", "noopener");
   },
@@ -195,7 +187,7 @@ export default createWidget("discourse-post-event", {
       }}
 
       <hr />
-      
+
       {{attach widget="discourse-post-event-invitees"
         attrs=(hash eventModel=state.eventModel)
       }}
