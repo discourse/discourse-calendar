@@ -17,7 +17,7 @@ export default createWidget("discourse-post-event-dates", {
   html(attrs) {
     const content = [
       iconNode("clock"),
-      h("span.date", new RawHtml({ html: attrs.localDates }))
+      h("span.date", new RawHtml({ html: `<span>${attrs.localDates}</span>` }))
     ];
 
     if (
