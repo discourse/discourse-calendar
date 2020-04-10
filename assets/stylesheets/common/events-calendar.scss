@@ -1,0 +1,132 @@
+#events-calendar {
+  &.fc-unthemed {
+    tbody,
+    thead,
+    tr {
+      border: none;
+    }
+
+    .fc-basic-view .fc-day-top .fc-day-number {
+      float: left;
+    }
+
+    .fc-bg td.fc-today {
+      background-color: $highlight-medium;
+      border-style: solid;
+    }
+
+    .fc-month-view .fc-widget-content,
+    .fc-basicWeek-view .fc-widget-content,
+    .fc-head-container {
+      padding: 0;
+    }
+
+    .fc-bg tbody {
+      border-width: 0;
+    }
+
+    .fc-header-toolbar {
+      margin: 1em 0 0.5em 0;
+    }
+
+    .fc-title {
+      // TODO: use @include ellipsis after stable is 2.4+
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      display: block;
+    }
+
+    .fc-widget-header span {
+      padding: 3px 3px 3px 0.5em;
+    }
+
+    .fc-center {
+      display: none;
+    }
+
+    .fc-button {
+      border-radius: 0;
+      box-shadow: none;
+      background: $primary-low;
+      text-transform: capitalize;
+      color: $primary;
+      text-shadow: none;
+      border: none;
+
+      padding: 6px 12px;
+
+      &:hover {
+        background: $primary-medium;
+        color: $secondary;
+      }
+
+      &.fc-state-active {
+        background: $tertiary;
+        color: $secondary;
+      }
+      margin: 0.3em 0 0.3em 0.5em;
+    }
+
+    .fc-button-group {
+      margin: 0.3em 0 0.3em 0.5em;
+      // margin-right: 0;
+      .fc-button {
+        margin: 0;
+      }
+    }
+
+    .fc-divider,
+    .fc-list-empty,
+    .fc-list-heading td,
+    .fc-popover .fc-header {
+      background: $primary-low;
+    }
+
+    .fc-content,
+    .fc-divider,
+    .fc-list-heading td,
+    .fc-list-view,
+    .fc-popover,
+    .fc-row,
+    tbody,
+    td,
+    th,
+    thead {
+      border-color: $primary-low;
+    }
+  }
+
+  .fc-event,
+  .fc-event-dot {
+    color: $secondary;
+    background-color: $tertiary;
+    border: 1px solid transparent;
+
+    .fc-time {
+      display: none;
+    }
+
+    &.grouped-event {
+      background-color: none;
+      background: $secondary;
+      border: 1px solid $primary-low-mid;
+      color: $primary;
+
+      .emoji {
+        margin-right: 0.25em;
+      }
+    }
+  }
+
+  .fc-left {
+    .fc-button-group:first-child {
+      margin-left: 0;
+    }
+  }
+  .fc-list-item-add-to-calendar {
+    color: $tertiary;
+    font-size: $font-down-1;
+  }
+}
