@@ -1,35 +1,3 @@
 <div class="discourse-post-event-upcoming-events">
-  <h1>{{i18n "discourse_post_event.upcoming_events.title"}}</h1>
-
-  <table class="table upcoming-events-table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>{{i18n "discourse_post_event.upcoming_events.creator"}}</th>
-        <th>{{i18n "discourse_post_event.upcoming_events.status"}}</th>
-        <th>{{i18n "discourse_post_event.upcoming_events.starts_at"}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each events as |event|}}
-        <tr>
-          <td>
-            <a href={{event.post.url}}>
-              {{format-event-name event}}
-            </a>
-          </td>
-          <td>
-            {{avatar event.creator imageSize="tiny"}}
-            {{format-username event.creator.username}}
-          </td>
-          <td>
-            {{event.status}}
-          </td>
-          <td>
-            {{format-future-date event.starts_at}}
-          </td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  {{events-calendar events=events}}
 </div>
