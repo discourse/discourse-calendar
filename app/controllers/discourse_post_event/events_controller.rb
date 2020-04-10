@@ -2,21 +2,24 @@
 
 module DiscoursePostEvent
   class EventsController < DiscoursePostEventController
-    def index
-      topics = Topic.listable_topics.secured(guardian)
-      pms = Topic.private_messages_for_user(current_user)
-      events = Event
-        .visible
-        .not_expired
-        .joins(post: :topic)
-        .merge(Post.secured(guardian))
-        .merge(topics.or(pms).distinct)
-        .order(starts_at: :asc)
+    skip_before_action :check_xhr, only: [ :index ], if: :ics_request?
 
-      render json: ActiveModel::ArraySerializer.new(
-        events,
-        each_serializer: EventSerializer,
-        scope: guardian).as_json
+    def index
+      @events = DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params)
+
+      respond_to do |format|
+        format.ics {
+          filename = "events-#{@events.map(&:id).join('-')}"
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{filename}.#{request.format.symbol}\""
+        }
+
+        format.json do
+          render json: ActiveModel::ArraySerializer.new(
+            @events,
+            each_serializer: EventSerializer,
+            scope: guardian).as_json
+        end
+      end
     end
 
     def invite
@@ -106,6 +109,14 @@ module DiscoursePostEvent
           :status,
           raw_invitees: []
         )
+    end
+
+    def ics_request?
+      request.format.symbol == :ics
+    end
+
+    def filtered_events_params
+      params.permit(:post_id)
     end
   end
 end

@@ -6,11 +6,10 @@ export default createWidget("add-to-calendar-button", {
 
   click(event) {
     event.preventDefault();
-    this.sendWidgetAction("addToGoogleCalendar");
+    this.sendWidgetAction("addToCalendar");
   },
 
   template: hbs`
-    {{d-icon "google"}}
     <span class="label">
       {{i18n "discourse_post_event.event_ui.add_to_calendar"}}
     </span>
