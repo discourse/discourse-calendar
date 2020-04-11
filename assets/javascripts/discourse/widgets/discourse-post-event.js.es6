@@ -136,7 +136,7 @@ export default createWidget("discourse-post-event", {
             {{#unless transformed.isStandaloneEvent}}
               {{#if state.eventModel.is_expired}}
                 <span class="status expired">
-                  {{i18n "event.expired"}}
+                  {{i18n "discourse_post_event.models.event.expired"}}
                 </span>
               {{else}}
                 <span class={{transformed.statusClass}} title={{transformed.eventStatusDescription}}>

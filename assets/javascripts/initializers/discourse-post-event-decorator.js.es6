@@ -18,8 +18,9 @@ function cleanUp() {
 
 function _attachWidget(api, cooked, eventModel) {
   const existing = cooked.querySelector(".discourse-post-event");
+  const wrap = cooked.querySelector("[data-wrap=event]");
 
-  if (eventModel) {
+  if (eventModel && wrap) {
     let widgetHeight = 300;
 
     if (eventModel.can_update_attendance) {
@@ -31,7 +32,7 @@ function _attachWidget(api, cooked, eventModel) {
     eventContainer.classList.add("is-loading");
     eventContainer.style.height = `${widgetHeight}px`;
     eventContainer.innerHTML = '<div class="spinner medium"></div>';
-    cooked.prepend(eventContainer);
+    wrap.prepend(eventContainer);
 
     const dates = [];
     const startsAt = moment(eventModel.starts_at);
@@ -79,7 +80,7 @@ function _attachWidget(api, cooked, eventModel) {
   }
 }
 
-function initializeEventDecorator(api) {
+function initializeDiscoursePostEventDecorator(api) {
   api.cleanupStream(cleanUp);
 
   api.decorateCooked(($cooked, helper) => {
@@ -128,7 +129,7 @@ export default {
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
     if (siteSettings.discourse_post_event_enabled) {
-      withPluginApi("0.8.7", initializeEventDecorator);
+      withPluginApi("0.8.7", initializeDiscoursePostEventDecorator);
     }
   }
 };

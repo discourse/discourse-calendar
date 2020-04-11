@@ -1,45 +1,43 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import showModal from "discourse/lib/show-modal";
-import { Promise } from "rsvp";
 
 function initializeEventBuilder(api) {
-  api.attachWidgetAction("post", "showEventBuilder", function({
-    postId,
-    topicId
-  }) {
-    return new Promise(resolve => {
-      if (postId) {
-        this.store
-          .find("discourse-post-event-event", postId)
-          .then(resolve)
-          .catch(() => {
-            const eventModel = this.store.createRecord(
-              "discourse-post-event-event"
-            );
-            eventModel.setProperties({
-              id: postId,
-              status: "public"
-            });
-            resolve(eventModel);
-          });
-      } else if (this.model) {
-        resolve(this.model);
-      }
-    }).then(eventModel => {
-      showModal("discourse-post-event-builder", {
-        model: { eventModel, topicId },
-        modalClass: "discourse-post-event-builder"
-      });
-    });
-  });
+  const currentUser = api.getCurrentUser();
+  const siteSettings = api.container.lookup("site-settings:main");
 
-  api.decorateWidget("post-admin-menu:after", dec => {
-    return dec.attach("post-admin-menu-button", {
-      icon: "calendar-day",
-      label: "discourse_event.builder.attach",
-      action: "showEventBuilder",
-      actionParam: { postId: dec.attrs.id, topicId: dec.attrs.topicId }
-    });
+  api.onToolbarCreate(toolbar => {
+    if (!currentUser.staff) {
+      return;
+    }
+
+    const composer = toolbar.context.outletArgs.composer;
+    if (
+      !composer.replyingToTopic &&
+      (composer.topicFirstPost ||
+        (composer.editingPost &&
+          composer.post &&
+          composer.post.post_number === 1))
+    ) {
+      toolbar.addButton({
+        title: "discourse_post_event.builder_modal.attach",
+        id: "insertEvent",
+        group: "insertions",
+        icon: "calendar-day",
+        perform: toolbarEvent => {
+          const eventModel = toolbar.context.store.createRecord(
+            "discourse-post-event-event"
+          );
+          eventModel.setProperties({
+            status: "public"
+          });
+
+          showModal("discourse-post-event-builder").setProperties({
+            toolbarEvent,
+            model: { eventModel }
+          });
+        }
+      });
+    }
   });
 }
 

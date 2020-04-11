@@ -55,21 +55,7 @@ module DiscoursePostEvent
         event = Event.find(params[:id])
         guardian.ensure_can_edit!(event.post)
         guardian.ensure_can_act_on_event!(event)
-        event.enforce_utc!(event_params)
-
-        case event_params[:status].to_i
-        when Event.statuses[:private]
-          raw_invitees = Array(event_params[:raw_invitees])
-          event.update!(event_params.merge(raw_invitees: raw_invitees))
-          event.enforce_raw_invitees!
-        when Event.statuses[:public]
-          event.update!(event_params.merge(raw_invitees: []))
-        when Event.statuses[:standalone]
-          event.update!(event_params.merge(raw_invitees: []))
-          event.invitees.destroy_all
-        end
-
-        event.publish_update!
+        event.update_with_params!(event_params)
         serializer = EventSerializer.new(event, scope: guardian)
         render_json_dump(serializer)
       end

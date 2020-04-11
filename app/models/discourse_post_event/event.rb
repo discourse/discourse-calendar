@@ -42,8 +42,10 @@ module DiscoursePostEvent
 
     validates :starts_at, presence: true
 
+    MIN_NAME_LENGTH = 5
+    MAX_NAME_LENGTH = 30
     validates :name,
-      length: { in: 5..30 },
+      length: { in: MIN_NAME_LENGTH..MAX_NAME_LENGTH },
       unless: -> (event) { event.name.blank? }
 
     validate :raw_invitees_length
@@ -148,11 +150,11 @@ module DiscoursePostEvent
     end
 
     def enforce_utc!(params)
-      if params['starts_at'].present?
-        params['starts_at'] = Time.parse(params['starts_at']).utc
+      if params[:starts_at].present?
+        params[:starts_at] = Time.parse(params[:starts_at]).utc
       end
-      if params['ends_at'].present?
-        params['ends_at'] = Time.parse(params['ends_at']).utc
+      if params[:ends_at].present?
+        params[:ends_at] = Time.parse(params[:ends_at]).utc
       end
     end
 
@@ -170,6 +172,41 @@ module DiscoursePostEvent
 
     def is_expired?
       Time.now > (self.ends_at || self.starts_at || Time.now)
+    end
+
+    def self.update_from_raw(post)
+      events = DiscoursePostEvent::EventParser.extract_events(post.raw)
+      if events.present?
+        event_params = events.first
+        event = post.event || Event.new(id: post.id)
+        params = {
+          name: event_params[:name] || event.name,
+          starts_at: event_params[:start] || event.starts_at,
+          ends_at: event_params[:end] || event.ends_at,
+          status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
+          raw_invitees: event_params[:allowedGroups] ? event_params[:allowedGroups].split(',') : nil
+        }
+        event.enforce_utc!(params)
+        event.update_with_params!(params)
+      elsif post.event
+        post.event.destroy
+      end
+    end
+
+    def update_with_params!(params)
+      case params[:status].to_i
+      when Event.statuses[:private]
+        raw_invitees = Array(params[:raw_invitees])
+        self.update!(params.merge(raw_invitees: raw_invitees))
+        self.enforce_raw_invitees!
+      when Event.statuses[:public]
+        self.update!(params.merge(raw_invitees: []))
+      when Event.statuses[:standalone]
+        self.update!(params.merge(raw_invitees: []))
+        self.invitees.destroy_all
+      end
+
+      self.publish_update!
     end
   end
 end

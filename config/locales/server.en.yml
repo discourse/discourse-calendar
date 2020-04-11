@@ -24,5 +24,11 @@ en:
     errors:
       models:
         event:
-          raw_invitees_length: "An event is limited to %{count} users/groups"
-          ends_at_before_starts_at: "An event can't end before it starts"
+          only_one_event: A post can only have one event.
+          must_be_in_first_post: An event can only be in the first post of a topic.
+          raw_invitees_length: "An event is limited to %{count} users/groups."
+          ends_at_before_starts_at: "An event can't end before it starts."
+          start_must_be_present_and_a_valid_date: "An event requires a valid start date."
+          end_must_be_a_valid_date: "End date must be a valid date."
+          name:
+            length: "Event name length must be between %{minimum} and %{maximum} characters."

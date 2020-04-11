@@ -81,31 +81,14 @@ after_initialize do
     "../app/controllers/discourse_post_event/upcoming_events_controller.rb",
     "../app/models/discourse_post_event/event.rb",
     "../app/models/discourse_post_event/invitee.rb",
+    "../lib/discourse_post_event/event_parser.rb",
+    "../lib/discourse_post_event/event_validator.rb",
     "../lib/discourse_post_event/event_finder.rb",
     "../app/serializers/discourse_post_event/invitee_serializer.rb",
     "../app/serializers/discourse_post_event/event_serializer.rb"
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
-
-  reloadable_patch do
-    require 'post'
-
-    class ::Post
-      has_one :event,
-        dependent: :destroy,
-        class_name: 'DiscoursePostEvent::Event',
-        foreign_key: :id
-    end
-  end
-
-  add_to_serializer(:post, :event) do
-    DiscoursePostEvent::EventSerializer.new(object.event, scope: scope, root: false)
-  end
-
-  add_to_serializer(:post, :include_event?) do
-    SiteSetting.discourse_post_event_enabled
-  end
 
   Discourse::Application.routes.append do
     mount ::DiscoursePostEvent::Engine, at: '/'
@@ -122,6 +105,36 @@ after_initialize do
     post '/discourse-post-event/invitees' => 'invitees#create'
     get '/discourse-post-event/invitees' => 'invitees#index'
     get '/upcoming-events' => 'upcoming_events#index'
+  end
+
+  reloadable_patch do
+    require 'post'
+
+    class ::Post
+      has_one :event,
+        dependent: :destroy,
+        class_name: 'DiscoursePostEvent::Event',
+        foreign_key: :id
+
+      validate :valid_event
+      def valid_event
+        return unless self.raw_changed?
+        validator = DiscoursePostEvent::EventValidator.new(self)
+        validator.validate_event
+      end
+    end
+  end
+
+  add_to_serializer(:post, :event) do
+    DiscoursePostEvent::EventSerializer.new(object.event, scope: scope, root: false)
+  end
+
+  add_to_serializer(:post, :include_event?) do
+    SiteSetting.discourse_post_event_enabled
+  end
+
+  DiscourseEvent.on(:post_process_cooked) do |doc, post|
+    DiscoursePostEvent::Event.update_from_raw(post)
   end
 
   DiscourseEvent.on(:post_destroyed) do |post|

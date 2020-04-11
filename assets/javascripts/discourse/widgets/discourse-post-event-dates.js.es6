@@ -25,7 +25,7 @@ export default createWidget("discourse-post-event-dates", {
       attrs.eventModel.status !== "standalone"
     ) {
       let participants;
-      const label = I18n.t("event.post_ui.participants", {
+      const label = I18n.t("discourse_post_event.event_ui.participants", {
         count: attrs.eventModel.stats.going
       });
       if (attrs.eventModel.stats.going > 0) {
