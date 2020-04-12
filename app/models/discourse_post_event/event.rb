@@ -10,7 +10,7 @@ module DiscoursePostEvent
 
     after_commit :destroy_topic_custom_field, on: [:destroy]
     def destroy_topic_custom_field
-      if self.post.is_first_post?
+      if self.post && self.post.is_first_post?
         TopicCustomField
           .where(
             topic_id: self.post.topic_id,
@@ -22,7 +22,7 @@ module DiscoursePostEvent
 
     after_commit :upsert_topic_custom_field, on: [:create, :update]
     def upsert_topic_custom_field
-      if self.post.is_first_post?
+      if self.post && self.post.is_first_post?
         TopicCustomField
           .upsert({
             topic_id: self.post.topic_id,

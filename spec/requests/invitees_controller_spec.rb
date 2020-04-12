@@ -5,20 +5,21 @@ require_relative '../fabricators/event_fabricator'
 
 module DiscoursePostEvent
   describe InviteesController do
-    fab!(:user) { Fabricate(:user, admin: true) }
-    fab!(:topic) { Fabricate(:topic, user: user) }
-    fab!(:post1) { Fabricate(:post, user: user, topic: topic) }
-
     before do
       SiteSetting.queue_jobs = false
+      SiteSetting.calendar_enabled = true
       SiteSetting.discourse_post_event_enabled = true
       sign_in(user)
     end
 
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:topic) { Fabricate(:topic, user: user) }
+    let(:post1) { Fabricate(:post, user: user, topic: topic) }
+
     context 'when a post event exists' do
       context 'when an invitee exists' do
-        fab!(:invitee1) { Fabricate(:user) }
-        fab!(:post_event) {
+        let(:invitee1) { Fabricate(:user) }
+        let(:post_event) {
           pe = Fabricate(:event, post: post1)
           pe.create_invitees([{
             user_id: invitee1.id,
@@ -45,7 +46,7 @@ module DiscoursePostEvent
       end
 
       context 'when an invitee doesn’t exist' do
-        fab!(:post_event) { Fabricate(:event, post: post1) }
+        let(:post_event) { Fabricate(:event, post: post1) }
 
         it 'creates an invitee' do
           post "/discourse-post-event/invitees.json", params: {

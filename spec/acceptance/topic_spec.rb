@@ -8,10 +8,11 @@ describe Topic do
   before do
     freeze_time
     SiteSetting.queue_jobs = false
+    SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  fab!(:user) { Fabricate(:user) }
+  let(:user) { Fabricate(:user) }
 
   context 'when a topic is created' do
     context 'with a date' do

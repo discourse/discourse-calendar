@@ -3,10 +3,9 @@ import showModal from "discourse/lib/show-modal";
 
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
-  const siteSettings = api.container.lookup("site-settings:main");
 
   api.onToolbarCreate(toolbar => {
-    if (!currentUser.staff) {
+    if (!currentUser || !currentUser.can_create_event) {
       return;
     }
 

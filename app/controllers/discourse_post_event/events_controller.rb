@@ -64,7 +64,7 @@ module DiscoursePostEvent
     def create
       event = Event.new(event_params)
       guardian.ensure_can_edit!(event.post)
-      guardian.ensure_can_create_event!(event)
+      guardian.ensure_can_create_event!
       event.enforce_utc!(event_params)
 
       case event_params[:status].to_i

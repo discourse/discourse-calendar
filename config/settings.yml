@@ -1,7 +1,8 @@
-discourse_calendar:
+plugins:
   calendar_enabled:
     default: false
     client: true
+discourse_calendar:
   holiday_calendar_topic_id:
     default: ""
     client: true
@@ -45,6 +46,13 @@ discourse_post_event:
   discourse_post_event_enabled:
     default: false
     client: true
+  discourse_post_event_allowed_on_groups:
+    client: true
+    type: group_list
+    list_type: compact
+    default: ""
+    allow_any: false
+    refresh: true
   displayed_invitees_limit:
     default: 10
     client: false

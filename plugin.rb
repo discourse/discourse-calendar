@@ -125,6 +125,42 @@ after_initialize do
     end
   end
 
+  add_to_class(:user, :can_create_event?) do
+    @can_create_event ||=
+      begin
+        return true if admin? || staff?
+        allowed_groups = SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
+        allowed_groups.present? && groups.where(id: allowed_groups).exists? ?
+          :true : :false
+      end
+    @can_create_event == :true
+  end
+
+  add_to_class(:guardian, :can_act_on_invitee?) do |invitee|
+    user && (user.staff? || user.admin? || user.id == invitee.user_id)
+  end
+
+  add_to_class(:guardian, :can_create_event?) { user && user.can_create_event? }
+
+  add_to_serializer(:current_user, :can_create_event) do
+    object.can_create_event?
+  end
+
+  add_to_class(:user, :can_act_on_event?) do |event|
+    @can_act_on_event ||=
+      begin
+        return true if admin? || staff?
+        can_create_event? && event.post.user_id == id ? :true : :false
+      end
+    @can_act_on_event == :true
+  end
+
+  add_to_class(:guardian, :can_act_on_event?) { |event| user && user.can_act_on_event?(event) }
+
+  add_class_method(:group, :discourse_post_event_allowed_groups) do
+    where(id: SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact)
+  end
+
   add_to_serializer(:post, :event) do
     DiscoursePostEvent::EventSerializer.new(object.event, scope: scope, root: false)
   end
@@ -232,7 +268,6 @@ after_initialize do
 
   [
     "../app/models/calendar_event.rb",
-    "../app/models/guardian.rb",
     "../app/serializers/user_timezone_serializer.rb",
     "../jobs/scheduled/create_holiday_events.rb",
     "../jobs/scheduled/destroy_past_events.rb",

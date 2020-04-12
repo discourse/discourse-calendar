@@ -6,16 +6,17 @@ require_relative '../fabricators/event_fabricator'
 describe Post do
   Event ||= DiscoursePostEvent::Event
 
-  fab!(:user) { Fabricate(:user) }
-  fab!(:topic) { Fabricate(:topic, user: user) }
-  fab!(:post1) { Fabricate(:post, topic: topic) }
-  fab!(:post_event) { Fabricate(:event, post: post1) }
-
   before do
     freeze_time
     SiteSetting.queue_jobs = false
+    SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
   end
+
+  let(:user) { Fabricate(:user, admin: true) }
+  let(:topic) { Fabricate(:topic, user: user) }
+  let(:post1) { Fabricate(:post, topic: topic) }
+  let(:post_event) { Fabricate(:event, post: post1) }
 
   context 'when a post is updated' do
     context 'when the post has a valid event' do
@@ -26,10 +27,10 @@ describe Post do
           post = PostCreator.create!(
             user,
             title: 'Sell a boat party',
-            raw: "[wrap=event start=#{start}]\n[/wrap]",
+            raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
           )
 
-          expect(post.event.persisted?).to eq(true)
+          expect(post.reload.event.persisted?).to eq(true)
 
           revisor = PostRevisor.new(post, post.topic)
           revisor.revise!(user, raw: 'The event is over. Come back another day.')
@@ -42,18 +43,66 @@ describe Post do
 
   context 'when a post is created' do
     context 'when the post contains one valid event' do
-      it 'creates the post event' do
-        start = Time.now.utc.iso8601(3)
+      context 'when the acting user is admin' do
+        it 'creates the post event' do
+          start = Time.now.utc.iso8601(3)
 
-        post = PostCreator.create!(
-          user,
-          title: 'Sell a boat party',
-          raw: "[wrap=event start=#{start}]\n[/wrap]",
-        )
+          post = PostCreator.create!(
+            user,
+            title: 'Sell a boat party',
+            raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+          )
 
-        expect(post.persisted?).to eq(true)
-        expect(post.event.persisted?).to eq(true)
-        expect(post.event.starts_at).to eq_time(Time.parse(start))
+          expect(post.reload.persisted?).to eq(true)
+          expect(post.event.persisted?).to eq(true)
+          expect(post.event.starts_at).to eq_time(Time.parse(start))
+        end
+      end
+      context 'when the acting user has rights to create events' do
+        let(:user_with_rights) { Fabricate(:user) }
+        let(:group) { Fabricate(:group, users: [user_with_rights]) }
+
+        before do
+          SiteSetting.discourse_post_event_allowed_on_groups = group.id.to_s
+        end
+
+        it 'creates the post event' do
+          start = Time.now.utc.iso8601(3)
+
+          post = PostCreator.create!(
+            user_with_rights,
+            title: 'Sell a boat party',
+            raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+          )
+
+          expect(post.reload.persisted?).to eq(true)
+          expect(post.event.persisted?).to eq(true)
+          expect(post.event.starts_at).to eq_time(Time.parse(start))
+        end
+      end
+
+      context 'when the acting user doesn’t have rights to create events' do
+        let(:user_without_rights) { Fabricate(:user) }
+        let(:group) { Fabricate(:group, users: [user]) }
+
+        before do
+          SiteSetting.discourse_post_event_allowed_on_groups = group.id.to_s
+        end
+
+        it 'raises an error' do
+          start = Time.now.utc.iso8601(3)
+
+          expect {
+            PostCreator.create!(
+              user_without_rights,
+              title: 'Sell a boat party',
+              raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+            )
+          }.to(
+            raise_error(ActiveRecord::RecordNotSaved)
+              .with_message(I18n.t("discourse_post_event.errors.models.event.acting_user_not_allowed_to_create_event"))
+          )
+        end
       end
     end
 
@@ -129,15 +178,14 @@ describe Post do
 
   context 'when a post with an event is recovered' do
     it 'nullifies deleted_at on the post_event' do
+      post_id = post_event.post.id
       PostDestroyer.new(user, post_event.post).destroy
-      post_event.reload
 
-      expect(post_event.deleted_at).to eq_time(Time.now)
+      expect(post_event.reload.deleted_at).to eq_time(Time.now)
 
-      PostDestroyer.new(user, post_event.post).recover
-      post_event.reload
+      PostDestroyer.new(user, Post.with_deleted.find(post_id)).recover
 
-      expect(post_event.deleted_at).to be_nil
+      expect(post_event.reload.deleted_at).to be_nil
     end
   end
 end

@@ -5,23 +5,24 @@ require_relative '../fabricators/event_fabricator'
 
 module DiscoursePostEvent
   describe EventsController do
-    fab!(:user) { Fabricate(:user, admin: true) }
-    fab!(:topic) { Fabricate(:topic, user: user) }
-    fab!(:post1) { Fabricate(:post, user: user, topic: topic) }
-    fab!(:invitee1) { Fabricate(:user) }
-    fab!(:invitee2) { Fabricate(:user) }
-
     before do
-      SiteSetting.queue_jobs = false
-      SiteSetting.displayed_invitees_limit = 3
+      Jobs.run_immediately!
+      SiteSetting.calendar_enabled = true
       SiteSetting.discourse_post_event_enabled = true
+      SiteSetting.displayed_invitees_limit = 3
     end
 
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:topic) { Fabricate(:topic, user: user) }
+    let(:post1) { Fabricate(:post, user: user, topic: topic) }
+    let(:invitee1) { Fabricate(:user) }
+    let(:invitee2) { Fabricate(:user) }
+
     context 'when a post exists' do
-      fab!(:invitee3) { Fabricate(:user) }
-      fab!(:invitee4) { Fabricate(:user) }
-      fab!(:invitee5) { Fabricate(:user) }
-      fab!(:group) {
+      let(:invitee3) { Fabricate(:user) }
+      let(:invitee4) { Fabricate(:user) }
+      let(:invitee5) { Fabricate(:user) }
+      let(:group) {
         Fabricate(:group).tap do |g|
           g.add(invitee2)
           g.add(invitee3)
@@ -29,7 +30,7 @@ module DiscoursePostEvent
         end
       }
 
-      fab!(:large_group) {
+      let(:large_group) {
         Fabricate(:group).tap do |g|
           g.add(invitee2)
           g.add(invitee3)
@@ -138,7 +139,7 @@ module DiscoursePostEvent
       end
 
       context 'when a event exists' do
-        fab!(:event) { Fabricate(:event, post: post1) }
+        let(:event) { Fabricate(:event, post: post1) }
 
         context 'when we update the event' do
           context 'when status changes from standalone to private' do
@@ -302,7 +303,7 @@ module DiscoursePostEvent
         end
 
         context 'acting user has not created the event' do
-          fab!(:lurker) { Fabricate(:user) }
+          let(:lurker) { Fabricate(:user) }
 
           before do
             sign_in(lurker)
