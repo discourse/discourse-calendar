@@ -2,7 +2,8 @@ en:
   site_settings:
     calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
     discourse_post_event_enabled: "[experimental] Enables to attach an event to a post. Note: also needs `calendar enabled` to be enabled."
-    displayed_invitees_limit: "Limit the numbers of invitees displayed on an event."
+    displayed_invitees_limit: "Limits the numbers of invitees displayed on an event."
+    display_post_event_date_on_topic_title: "Displays the date of the event after the topic title."
     discourse_post_event_allowed_on_groups: "Groups that are allowed to create events."
     holiday_calendar_topic_id: "Topic ID of staffs holiday / absence calendar."
     delete_expired_event_posts_after: "Posts with expired events will be automatically deleted after (n) hours. Set to -1 to disable deletion."

@@ -176,6 +176,7 @@ module DiscoursePostEvent
 
     def self.update_from_raw(post)
       events = DiscoursePostEvent::EventParser.extract_events(post)
+
       if events.present?
         event_params = events.first
         event = post.event || Event.new(id: post.id)
@@ -189,7 +190,7 @@ module DiscoursePostEvent
         event.enforce_utc!(params)
         event.update_with_params!(params)
       elsif post.event
-        post.event.destroy
+        post.event.destroy!
       end
     end
 

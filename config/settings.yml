@@ -57,3 +57,6 @@ discourse_post_event:
     default: 10
     client: false
     max: 25
+  display_post_event_date_on_topic_title:
+    default: true
+    client: trye

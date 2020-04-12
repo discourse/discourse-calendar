@@ -8,7 +8,7 @@ export function isNotFullDayEvent(startsAt, endsAt) {
 
 export default function guessDateFormat(startsAt, endsAt) {
   let format;
-  if (isNotFullDayEvent(startsAt, endsAt)) {
+  if (!isNotFullDayEvent(startsAt, endsAt)) {
     format = "LL";
   } else {
     format = "LLL";
