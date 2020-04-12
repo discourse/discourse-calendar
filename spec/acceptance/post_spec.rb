@@ -4,7 +4,6 @@ require 'rails_helper'
 require 'securerandom'
 require_relative '../fabricators/event_fabricator'
 
-
 def create_post_with_event(user, extra_raw)
   start = Time.now.utc.iso8601(3)
 
