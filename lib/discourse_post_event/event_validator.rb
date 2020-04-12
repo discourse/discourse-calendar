@@ -7,7 +7,7 @@ module DiscoursePostEvent
     end
 
     def validate_event
-      extracted_events = DiscoursePostEvent::EventParser::extract_events(@post.raw)
+      extracted_events = DiscoursePostEvent::EventParser::extract_events(@post)
 
       if extracted_events.count == 0
         return false

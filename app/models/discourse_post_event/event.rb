@@ -175,7 +175,7 @@ module DiscoursePostEvent
     end
 
     def self.update_from_raw(post)
-      events = DiscoursePostEvent::EventParser.extract_events(post.raw)
+      events = DiscoursePostEvent::EventParser.extract_events(post)
       if events.present?
         event_params = events.first
         event = post.event || Event.new(id: post.id)
@@ -184,7 +184,7 @@ module DiscoursePostEvent
           starts_at: event_params[:start] || event.starts_at,
           ends_at: event_params[:end] || event.ends_at,
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
-          raw_invitees: event_params[:allowedGroups] ? event_params[:allowedGroups].split(',') : nil
+          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
         event.enforce_utc!(params)
         event.update_with_params!(params)

@@ -1,34 +1,32 @@
 # frozen_string_literal: true
 
-EVENT_REGEX = /\[wrap=event\s(.*?)\]/m
-EVENT_OPTIONS_REGEX = /(\w+\=".*?")/m
-
 VALID_OPTIONS = [
   :start,
   :end,
   :status,
-  :allowedGroups,
+  :"allowed-groups",
   :name
 ]
 
 module DiscoursePostEvent
   class EventParser
-    def self.extract_events(str)
-      str.scan(EVENT_REGEX).map do |scan|
-        extract_options(scan[0].gsub(/\\/, ''))
-      end.compact
-    end
+    def self.extract_events(post)
+      cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
+      valid_options = VALID_OPTIONS.map { |o| "data-#{o}" }
 
-    def self.extract_options(str)
-      options = nil
-      str.scan(EVENT_OPTIONS_REGEX).each do |option|
-        key, value = option[0].split("=")
-        if VALID_OPTIONS.include?(key.to_sym) && value
-          options ||= {}
-          options[key.to_sym] = value.delete('\\"')
+      Nokogiri::HTML(cooked).css('[data-wrap="event"]').map do |doc|
+        event = nil
+        doc.attributes.values.each do |attribute|
+          name = attribute.name
+          value = attribute.value
+
+          if valid_options.include?(name) && value
+            event ||= {}
+            event[name["data-".length..-1].to_sym] = CGI.escapeHTML(value)
+          end
         end
-      end
-      options
+        event
+      end.compact
     end
   end
 end
