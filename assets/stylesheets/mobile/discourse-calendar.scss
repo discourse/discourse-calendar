@@ -7,10 +7,15 @@
 
     h2.discourse-calendar-title {
       font-size: $font-0;
+      flex-wrap: nowrap;
+      max-width: 75%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     .discourse-calendar-timezone-picker {
-      width: 120px;
+      max-width: 40vw;
     }
   }
 
