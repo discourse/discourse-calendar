@@ -2,6 +2,8 @@
   border: 1px solid $primary-low;
   display: flex;
   flex-direction: column;
+  background: $secondary;
+  margin: 0.5em 0;
 
   &.is-loading {
     align-items: center;
