@@ -155,8 +155,12 @@ describe Post do
           PostCreator.create!(
             user,
             title: 'Sell a boat party',
-            raw: "[wrap=event start=\"#{Time.now.utc.iso8601(3)}\"]\n[/wrap] foo [wrap=event start=\"#{Time.now.utc.iso8601(3)}\"]\n[/wrap]",
-          )
+            raw: <<-TXT
+[wrap=event start=\"#{Time.now.utc.iso8601(3)}\"][/wrap]
+
+[wrap=event start=\"#{Time.now.utc.iso8601(3)}\"][/wrap]
+TXT
+)
         }.to(
           raise_error(ActiveRecord::RecordNotSaved)
             .with_message(I18n.t("discourse_post_event.errors.models.event.only_one_event"))
