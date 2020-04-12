@@ -1,7 +1,19 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
+require 'securerandom'
 require_relative '../fabricators/event_fabricator'
+
+
+def create_post_with_event(user, extra_raw)
+  start = Time.now.utc.iso8601(3)
+
+  PostCreator.create!(
+    user,
+    title: "Sell a boat party ##{SecureRandom.alphanumeric}",
+    raw: "[wrap=event start=\"#{start}\" #{extra_raw}]\n[/wrap]",
+  )
+end
 
 describe Post do
   Event ||= DiscoursePostEvent::Event
@@ -20,7 +32,7 @@ describe Post do
 
   context 'when a post is updated' do
     context 'when the post has a valid event' do
-      context 'context the event markup is removed' do
+      context 'when the event markup is removed' do
         it 'destroys the associated event' do
           start = Time.now.utc.iso8601(3)
 
@@ -57,7 +69,53 @@ describe Post do
           expect(post.event.persisted?).to eq(true)
           expect(post.event.starts_at).to eq_time(Time.parse(start))
         end
+
+        it 'works with name attribute' do
+          post = create_post_with_event(user, 'name="foo bar"').reload
+          expect(post.event.name).to eq("foo bar")
+
+          post = create_post_with_event(user, 'name=""').reload
+          expect(post.event.name).to be_blank
+
+          post = create_post_with_event(user, 'name=').reload
+          expect(post.event.name).to be_blank
+        end
+
+        it 'works with status attribute' do
+          post = create_post_with_event(user, 'status="private"').reload
+          expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:private])
+
+          post = create_post_with_event(user, 'status=""').reload
+          expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:standalone])
+
+          post = create_post_with_event(user, 'status=').reload
+          expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:standalone])
+        end
+
+        it 'works with allowedGroups attribute' do
+          post = create_post_with_event(user, 'allowedGroups="euro"').reload
+          expect(post.event.raw_invitees).to eq([])
+
+          post = create_post_with_event(user, 'status="public" allowedGroups="euro"').reload
+          expect(post.event.raw_invitees).to eq([])
+
+          post = create_post_with_event(user, 'status="standalone" allowedGroups="euro"').reload
+          expect(post.event.raw_invitees).to eq([])
+
+          post = create_post_with_event(user, 'status="private" allowedGroups="euro"').reload
+          expect(post.event.raw_invitees).to eq(['euro'])
+
+          post = create_post_with_event(user, 'status="private" allowedGroups="euro,america"').reload
+          expect(post.event.raw_invitees).to match_array(['euro', 'america'])
+
+          post = create_post_with_event(user, 'status="private" allowedGroups=""').reload
+          expect(post.event.raw_invitees).to eq([])
+
+          post = create_post_with_event(user, 'status="private" allowedGroups=').reload
+          expect(post.event.raw_invitees).to eq([])
+        end
       end
+
       context 'when the acting user has rights to create events' do
         let(:user_with_rights) { Fabricate(:user) }
         let(:group) { Fabricate(:group, users: [user_with_rights]) }
