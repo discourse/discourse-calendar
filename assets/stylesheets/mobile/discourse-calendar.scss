@@ -1,5 +1,24 @@
-.calendar {
-  .fc-list-item-add-to-calendar {
-    display: block;
+.discourse-calendar-wrap {
+  border: 0;
+  margin-top: 1em;
+
+  .discourse-calendar-header {
+    padding: 0;
+    background: none;
+
+    h2.discourse-calendar-title {
+      font-size: $font-down-1;
+    }
+
+    .discourse-calendar-timezone-picker {
+      width: 120px;
+    }
+  }
+
+  .calendar {
+    padding: 0;
+    .fc-list-item-add-to-calendar {
+      display: block;
+    }
   }
 }

@@ -279,7 +279,7 @@ function initializeDiscourseCalendar(api) {
 
     calendar.setOption("eventClick", ({ event, jsEvent }) => {
       hidePopover(jsEvent);
-      const { postNumber, postUrl } = event.extendedProps;
+      const { htmlContent, postNumber, postUrl } = event.extendedProps;
 
       if (postUrl) {
         DiscourseURL.routeTo(postUrl);
@@ -287,6 +287,8 @@ function initializeDiscourseCalendar(api) {
         _topicController =
           _topicController || api.container.lookup("controller:topic");
         _topicController.send("jumpToPost", postNumber);
+      } else if (document.querySelector(".mobile-view") && htmlContent) {
+        showPopover(jsEvent, { htmlContent });
       }
     });
 
