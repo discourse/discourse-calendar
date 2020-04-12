@@ -102,6 +102,8 @@ function initializeDiscourseCalendar(api) {
     id: "discourse-calendar"
   });
 
+  api.cleanupStream(cleanUp);
+
   api.registerCustomPostMessageCallback("calendar_change", topicController => {
     const stream = topicController.get("model.postStream");
     const post = stream.findLoadedPost(stream.get("firstPostId"));
@@ -136,7 +138,13 @@ function initializeDiscourseCalendar(api) {
     _setupTimezonePicker(calendar, timezone);
   }
 
+  function cleanUp() {
+    window.removeEventListener("scroll", hidePopover);
+  }
+
   function attachCalendar($elem, helper) {
+    window.addEventListener("scroll", hidePopover);
+
     const $calendar = $(".calendar", $elem);
 
     if ($calendar.length === 0) {
