@@ -7,11 +7,23 @@
     background: none;
 
     h2.discourse-calendar-title {
-      font-size: $font-down-1;
+      font-size: $font-0;
     }
 
     .discourse-calendar-timezone-picker {
       width: 120px;
+    }
+  }
+
+  .fc-view-container {
+    .fc-day-header.fc-widget-header {
+      text-align: center;
+      padding: 0.25em;
+      span {
+        font-size: $font-down-1;
+        text-align: center;
+        padding: 0;
+      }
     }
   }
 
