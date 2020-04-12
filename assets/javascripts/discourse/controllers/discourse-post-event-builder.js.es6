@@ -135,10 +135,16 @@ export default Controller.extend(ModalFunctionality, {
 
   _buildEventParams() {
     const eventParams = {
-      start: this.startsAt,
-      status: this.model.eventModel.status,
-      name: this.model.eventModel.name
+      start: this.startsAt
     };
+
+    if (this.model.eventModel.status) {
+      eventParams.status = this.model.eventModel.status;
+    }
+
+    if (this.model.eventModel.name) {
+      eventParams.name = this.model.eventModel.name;
+    }
 
     if (this.endsAt) {
       eventParams.end = this.endsAt;

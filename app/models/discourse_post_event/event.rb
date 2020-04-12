@@ -179,7 +179,9 @@ module DiscoursePostEvent
 
       if events.present?
         event_params = events.first
-        event = post.event || Event.new(id: post.id)
+
+        event = post.event || DiscoursePostEvent::Event.new(id: post.id)
+
         params = {
           name: event_params[:name] || event.name,
           starts_at: event_params[:start] || event.starts_at,
@@ -187,6 +189,7 @@ module DiscoursePostEvent
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
           raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
+
         event.enforce_utc!(params)
         event.update_with_params!(params)
       elsif post.event
