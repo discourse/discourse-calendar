@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-EVENT_REGEX = /\[wrap=event\s(.*?)\](?:\n|\\n)?\[\/wrap\]/m
+EVENT_REGEX = /\[wrap=event\s(.*?)\]/m
+EVENT_OPTIONS_REGEX = /(\w+\=".*?")/m
 
 VALID_OPTIONS = [
   :start,
@@ -20,8 +21,8 @@ module DiscoursePostEvent
 
     def self.extract_options(str)
       options = nil
-      str.split(" ").each do |option|
-        key, value = option.split("=")
+      str.scan(EVENT_OPTIONS_REGEX).each do |option|
+        key, value = option[0].split("=")
         if VALID_OPTIONS.include?(key.to_sym) && value
           options ||= {}
           options[key.to_sym] = value.delete('\\"')

@@ -32,6 +32,11 @@ describe DiscoursePostEvent::EventParser do
     expect(events[1][:start]).to eq("foo")
   end
 
+  it 'parses options where value has spaces' do
+    events = subject.extract_events('[wrap=event start="foo" name="bar baz"]\n[/wrap]')
+    expect(events[0][:name]).to eq("bar baz")
+  end
+
   it 'doesn’t parse invalid options' do
     events = subject.extract_events("I am going to get that fixed.\n\n[wrap=event start=\"foo\" something=\"bar\"]\n[/wrap]")
     expect(events[0][:something]).to be(nil)
