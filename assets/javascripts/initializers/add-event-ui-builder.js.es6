@@ -5,7 +5,11 @@ function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
 
   api.onToolbarCreate(toolbar => {
-    if (!currentUser || !currentUser.can_create_event) {
+    if (
+      !currentUser ||
+      !currentUser.can_create_event ||
+      !toolbar.context.outletArgs
+    ) {
       return;
     }
 
