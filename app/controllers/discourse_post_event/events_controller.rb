@@ -24,7 +24,7 @@ module DiscoursePostEvent
 
     def invite
       event = Event.find(params[:id])
-      guardian.ensure_can_act_on_event!(event)
+      guardian.ensure_can_act_on_discourse_post_event!(event)
       invites = Array(params.permit(invites: [])[:invites])
       users = Invitee.extract_uniq_usernames(invites)
 
@@ -44,7 +44,7 @@ module DiscoursePostEvent
 
     def destroy
       event = Event.find(params[:id])
-      guardian.ensure_can_act_on_event!(event)
+      guardian.ensure_can_act_on_discourse_post_event!(event)
       event.publish_update!
       event.destroy
       render json: success_json
@@ -54,7 +54,7 @@ module DiscoursePostEvent
       DistributedMutex.synchronize("discourse-post-event[event-update]") do
         event = Event.find(params[:id])
         guardian.ensure_can_edit!(event.post)
-        guardian.ensure_can_act_on_event!(event)
+        guardian.ensure_can_act_on_discourse_post_event!(event)
         event.update_with_params!(event_params)
         serializer = EventSerializer.new(event, scope: guardian)
         render_json_dump(serializer)
@@ -64,7 +64,7 @@ module DiscoursePostEvent
     def create
       event = Event.new(event_params)
       guardian.ensure_can_edit!(event.post)
-      guardian.ensure_can_create_event!
+      guardian.ensure_can_create_discourse_post_event!
       event.enforce_utc!(event_params)
 
       case event_params[:status].to_i

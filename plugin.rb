@@ -126,9 +126,9 @@ after_initialize do
     end
   end
 
-  add_to_class(:user, :can_create_event?) do
-    return @can_create_event if defined?(@can_create_event)
-    @can_create_event = begin
+  add_to_class(:user, :can_create_discourse_post_event?) do
+    return @can_create_discourse_post_event if defined?(@can_create_discourse_post_event)
+    @can_create_discourse_post_event = begin
       return true if staff?
       allowed_groups = SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
       allowed_groups.present? && groups.where(id: allowed_groups).exists?
@@ -141,23 +141,23 @@ after_initialize do
     user && (user.staff? || user.id == invitee.user_id)
   end
 
-  add_to_class(:guardian, :can_create_event?) { user && user.can_create_event? }
+  add_to_class(:guardian, :can_create_discourse_post_event?) { user && user.can_create_discourse_post_event? }
 
-  add_to_serializer(:current_user, :can_create_event) do
-    object.can_create_event?
+  add_to_serializer(:current_user, :can_create_discourse_post_event) do
+    object.can_create_discourse_post_event?
   end
 
-  add_to_class(:user, :can_act_on_event?) do |event|
-    return @can_act_on_event if defined?(@can_act_on_event)
-    @can_act_on_event = begin
+  add_to_class(:user, :can_act_on_discourse_post_event?) do |event|
+    return @can_act_on_discourse_post_event if defined?(@can_act_on_discourse_post_event)
+    @can_act_on_discourse_post_event = begin
       return true if admin?
-      can_create_event? && event.post.user_id == id
+      can_create_discourse_post_event? && event.post.user_id == id
     rescue
       false
     end
   end
 
-  add_to_class(:guardian, :can_act_on_event?) { |event| user && user.can_act_on_event?(event) }
+  add_to_class(:guardian, :can_act_on_discourse_post_event?) { |event| user && user.can_act_on_discourse_post_event?(event) }
 
   add_class_method(:group, :discourse_post_event_allowed_groups) do
     where(id: SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact)

@@ -7,7 +7,7 @@ function initializeEventBuilder(api) {
   api.onToolbarCreate(toolbar => {
     if (
       !currentUser ||
-      !currentUser.can_create_event ||
+      !currentUser.can_create_discourse_post_event ||
       !toolbar.context.outletArgs
     ) {
       return;

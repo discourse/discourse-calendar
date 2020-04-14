@@ -26,12 +26,12 @@ module DiscoursePostEvent
       extracted_event = extracted_events.first
 
       if @post.acting_user && @post.event
-        if !@post.acting_user.can_act_on_event?(@post.event)
+        if !@post.acting_user.can_act_on_discourse_post_event?(@post.event)
           @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.acting_user_not_allowed_to_act_on_this_event"))
           return false
         end
       else
-        if !@post.acting_user || !@post.acting_user.can_create_event?
+        if !@post.acting_user || !@post.acting_user.can_create_discourse_post_event?
           @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.acting_user_not_allowed_to_create_event"))
           return false
         end

@@ -150,7 +150,7 @@ export default createWidget("discourse-post-event", {
           </div>
         </div>
 
-        {{#if state.eventModel.can_act_on_event}}
+        {{#if state.eventModel.can_act_on_discourse_post_event}}
           <div class="actions">
             {{attach
               widget="button"
@@ -204,7 +204,7 @@ export default createWidget("discourse-post-event", {
         }}
 
         {{#unless state.eventModel.is_expired}}
-        {{#if state.eventModel.can_act_on_event}}
+        {{#if state.eventModel.can_act_on_discourse_post_event}}
         {{#if transformed.isPublicEvent}}
           {{attach
             widget="button"

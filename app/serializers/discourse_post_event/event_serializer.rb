@@ -13,13 +13,13 @@ module DiscoursePostEvent
     attributes :raw_invitees
     attributes :post
     attributes :name
-    attributes :can_act_on_event
+    attributes :can_act_on_discourse_post_event
     attributes :can_update_attendance
     attributes :is_expired
     attributes :should_display_invitees
 
-    def can_act_on_event
-      scope.can_act_on_event?(object)
+    def can_act_on_discourse_post_event
+      scope.can_act_on_discourse_post_event?(object)
     end
 
     def is_expired
