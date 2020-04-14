@@ -21,7 +21,11 @@ function _attachWidget(api, cooked, eventModel) {
   const wrap = cooked.querySelector("[data-wrap=event]");
 
   if (eventModel && wrap) {
-    let widgetHeight = 300;
+    let widgetHeight = 175;
+
+    if (eventModel.should_display_invitees) {
+      widgetHeight += 125;
+    }
 
     if (eventModel.can_update_attendance) {
       widgetHeight += 65;

@@ -16,6 +16,7 @@ module DiscoursePostEvent
     attributes :can_act_on_event
     attributes :can_update_attendance
     attributes :is_expired
+    attributes :should_display_invitees
 
     def can_act_on_event
       scope.can_act_on_event?(object)
@@ -90,6 +91,10 @@ module DiscoursePostEvent
     def sample_invitees
       invitees = object.most_likely_going(scope.current_user)
       ActiveModel::ArraySerializer.new(invitees, each_serializer: InviteeSerializer)
+    end
+
+    def should_display_invitees
+      object.status != Event.statuses[:standalone]
     end
   end
 end

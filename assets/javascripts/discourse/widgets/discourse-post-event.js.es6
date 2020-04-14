@@ -185,11 +185,13 @@ export default createWidget("discourse-post-event", {
         )
       }}
 
-      <hr />
+      {{#if state.eventModel.should_display_invitees}}
+        <hr />
 
-      {{attach widget="discourse-post-event-invitees"
-        attrs=(hash eventModel=state.eventModel)
-      }}
+        {{attach widget="discourse-post-event-invitees"
+          attrs=(hash eventModel=state.eventModel)
+        }}
+      {{/if}}
 
       <footer class="event-footer">
         {{#unless state.eventModel.is_expired}}
