@@ -50,8 +50,7 @@ export default createWidget("discourse-post-event", {
   editPostEvent(postId) {
     this.store.find("discourse-post-event-event", postId).then(eventModel => {
       showModal("discourse-post-event-builder", {
-        model: { eventModel, topicId: eventModel.post.topic.id },
-        modalClass: "discourse-post-event-builder"
+        model: { eventModel, topicId: eventModel.post.topic.id }
       });
     });
   },
