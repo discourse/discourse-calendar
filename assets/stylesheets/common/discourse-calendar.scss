@@ -215,17 +215,17 @@ $bg-in-working-hours: dark-light-choose(
 
   &[data-size="small"],
   &.small {
-    height: 175px;
+    max-height: 175px;
   }
 
   &[data-size="medium"],
   &.medium {
-    height: 300px;
+    max-height: 300px;
   }
 
   &[data-size="large"],
   &.large {
-    height: 600px;
+    max-height: 600px;
   }
 }
 
