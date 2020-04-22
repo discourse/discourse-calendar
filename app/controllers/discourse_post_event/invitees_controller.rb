@@ -32,7 +32,7 @@ module DiscoursePostEvent
     def create
       status = Invitee.statuses[invitee_params[:status].to_sym]
       event = Event.find(invitee_params[:post_id])
-      guardian.ensure_can_act_on_discourse_post_event!(event)
+      guardian.ensure_can_see!(event.post)
       invitee = Invitee.create!(
         status: status,
         post_id: invitee_params[:post_id],
