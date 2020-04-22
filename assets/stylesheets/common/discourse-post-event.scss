@@ -101,9 +101,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em;
+    height: 60px;
+    padding: 0 1em;
 
     .event-status {
+      margin: 0;
       &.status-going {
         color: $success;
       }
@@ -121,8 +123,13 @@
   }
 
   .event-invitees {
-    padding: 1em;
+    display: flex;
+    height: 120px;
+    padding: 0 1em;
+    align-items: flex-start;
+    justify-content: center;
     overflow-y: auto;
+    flex-direction: column;
 
     .header {
       display: flex;
@@ -204,7 +211,8 @@
   .event-dates {
     display: flex;
     align-items: center;
-    padding: 1em;
+    padding: 0 1em;
+    height: 50px;
 
     .participants {
       margin-left: 0.5em;

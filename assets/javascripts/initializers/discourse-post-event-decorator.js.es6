@@ -21,14 +21,14 @@ function _attachWidget(api, cooked, eventModel) {
   const wrap = cooked.querySelector("[data-wrap=event]");
 
   if (eventModel && wrap) {
-    let widgetHeight = 175;
+    let widgetHeight = 165;
 
     if (eventModel.should_display_invitees) {
-      widgetHeight += 125;
+      widgetHeight += 120;
     }
 
     if (eventModel.can_update_attendance) {
-      widgetHeight += 65;
+      widgetHeight += 60;
     }
 
     const eventContainer = existing || document.createElement("div");
