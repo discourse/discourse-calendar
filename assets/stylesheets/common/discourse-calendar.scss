@@ -124,8 +124,7 @@
     }
 
     &.grouped-event {
-      background-color: none;
-      background: $secondary;
+      background-color: $primary-low;
       border: 1px solid $primary-low-mid;
       color: $primary;
 
