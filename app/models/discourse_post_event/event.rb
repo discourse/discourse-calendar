@@ -188,9 +188,9 @@ module DiscoursePostEvent
         event = post.event || DiscoursePostEvent::Event.new(id: post.id)
 
         params = {
-          name: event_params[:name] || event.name,
+          name: event_params[:name],
           starts_at: event_params[:start] || event.starts_at,
-          ends_at: event_params[:end] || event.ends_at,
+          ends_at: event_params[:end],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
           raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }

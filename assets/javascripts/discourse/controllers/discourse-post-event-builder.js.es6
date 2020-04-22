@@ -100,7 +100,8 @@ export default Controller.extend(ModalFunctionality, {
     const eventParams = this._buildEventParams();
     const markdownParams = [];
     Object.keys(eventParams).forEach(key => {
-      markdownParams.push(`${key}="${eventParams[key]}"`);
+      let value = eventParams[key];
+      markdownParams.push(`${key}="${value}"`);
     });
 
     this.toolbarEvent.addText(
@@ -144,6 +145,8 @@ export default Controller.extend(ModalFunctionality, {
 
     if (this.model.eventModel.name) {
       eventParams.name = this.model.eventModel.name;
+    } else {
+      eventParams.name = "";
     }
 
     if (this.endsAt) {
