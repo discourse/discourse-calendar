@@ -28,13 +28,17 @@ export default Controller.extend(ModalFunctionality, {
 
   startsAt: computed("model.eventModel.starts_at", {
     get() {
-      return this.model.eventModel.starts_at;
+      return this.model.eventModel.starts_at
+        ? moment(this.model.eventModel.starts_at)
+        : moment();
     }
   }),
 
   endsAt: computed("model.eventModel.ends_at", {
     get() {
-      return this.model.eventModel.ends_at;
+      return (
+        this.model.eventModel.ends_at && moment(this.model.eventModel.ends_at)
+      );
     }
   }),
 
@@ -45,14 +49,8 @@ export default Controller.extend(ModalFunctionality, {
   @action
   onChangeDates(changes) {
     this.model.eventModel.setProperties({
-      starts_at: moment(changes.from)
-        .utc()
-        .toISOString(),
+      starts_at: changes.from,
       ends_at: changes.to
-        ? moment(changes.to)
-            .utc()
-            .toISOString()
-        : null
     });
   },
 
@@ -135,9 +133,13 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   _buildEventParams() {
-    const eventParams = {
-      start: this.startsAt
-    };
+    const eventParams = {};
+
+    if (this.startsAt) {
+      eventParams.start = moment(this.startsAt).format("YYYY-MM-DDTHH:mm");
+    } else {
+      eventParams.start = moment().format("YYYY-MM-DDTHH:mm");
+    }
 
     if (this.model.eventModel.status) {
       eventParams.status = this.model.eventModel.status;
@@ -150,7 +152,7 @@ export default Controller.extend(ModalFunctionality, {
     }
 
     if (this.endsAt) {
-      eventParams.end = this.endsAt;
+      eventParams.end = moment(this.endsAt).format("YYYY-MM-DDTHH:mm");
     }
 
     if (this.model.eventModel.status === "private") {
@@ -178,9 +180,12 @@ export default Controller.extend(ModalFunctionality, {
     if (eventMatches && eventMatches[1]) {
       const markdownParams = [];
       const eventParams = this._buildEventParams();
-      Object.keys(eventParams).forEach(eventParam =>
-        markdownParams.push(`${eventParam}="${eventParams[eventParam]}"`)
-      );
+      Object.keys(eventParams).forEach(eventParam => {
+        const value = eventParams[eventParam];
+        if (value && value.length) {
+          markdownParams.push(`${eventParam}="${eventParams[eventParam]}"`);
+        }
+      });
 
       return raw.replace(
         eventRegex,

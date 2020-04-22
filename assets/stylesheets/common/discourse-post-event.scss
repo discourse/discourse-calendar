@@ -18,11 +18,13 @@
   .event-footer {
     padding: 0.5em;
     background: $primary-very-low;
-    margin-top: auto;
+    align-items: center;
+    display: inline-flex;
 
     .btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      margin-right: 0.5em;
     }
   }
 

@@ -3,70 +3,71 @@
   class="discourse-post-event-builder"
 }}
   {{#conditional-loading-section isLoading=model.eventModel.isSaving}}
-  <form>
-    {{#event-field class="name" label="discourse_post_event.builder_modal.name.label"}}
-      {{input
-        value=(readonly model.eventModel.name)
-        placeholderKey="discourse_post_event.builder_modal.name.placeholder"
-        input=(action (mut model.eventModel.name) value="target.value")
+    <form>
+      {{date-time-input-range
+        from=startsAt
+        to=endsAt
+        toTimeFirst=true
+        clearable=true
+        onChange=(action "onChangeDates")
       }}
-    {{/event-field}}
-
-    {{date-time-input-range
-      from=startsAt
-      to=endsAt
-      onChange=(action "onChangeDates")
-    }}
-
-    {{#event-field label="discourse_post_event.builder_modal.status.label"}}
-      <label class="radio-label">
-        {{radio-button
-          name="status"
-          value="public"
-          selection=model.eventModel.status
-          onChange=(action (mut model.eventModel.status))
+      {{#event-field class="name" label="discourse_post_event.builder_modal.name.label"}}
+        {{input
+          value=(readonly model.eventModel.name)
+          placeholderKey="discourse_post_event.builder_modal.name.placeholder"
+          input=(action (mut model.eventModel.name) value="target.value")
         }}
-        <span class="message">
-          <span class="title">{{i18n "discourse_post_event.models.event.status.public.title"}}</span>
-          <span class="description">{{i18n "discourse_post_event.models.event.status.public.description"}}</span>
-        </span>
-      </label>
-      <label class="radio-label">
-        {{radio-button
-          name="status"
-          value="private"
-          selection=model.eventModel.status
-          onChange=(action (mut model.eventModel.status))
-        }}
-        <span class="message">
-          <span class="title">{{i18n "discourse_post_event.models.event.status.private.title"}}</span>
-          <span class="description">{{i18n "discourse_post_event.models.event.status.private.description"}}</span>
-        </span>
-      </label>
-      <label class="radio-label">
-        {{radio-button
-          name="status"
-          value="standalone"
-          selection=model.eventModel.status
-          onChange=(action (mut model.eventModel.status))
-        }}
-        <span class="message">
-          <span class="title">{{i18n "discourse_post_event.models.event.status.standalone.title"}}</span>
-          <span class="description">{{i18n "discourse_post_event.models.event.status.standalone.description"}}</span>
-        </span>
-      </label>
-    {{/event-field}}
+      {{/event-field}}
 
-    {{#event-field enabled=allowsInvitees label="discourse_post_event.builder_modal.invitees.label"}}
-      {{group-selector
-        fullWidthWrap=true
-        groupFinder=groupFinder
-        groupNames=model.eventModel.raw_invitees
-        onChangeCallback=(action "setRawInvitees")
-        placeholderKey="topic.invite_private.group_name"
-      }}
-    {{/event-field}}
-  </form>
+      {{#event-field label="discourse_post_event.builder_modal.status.label"}}
+        <label class="radio-label">
+          {{radio-button
+            name="status"
+            value="public"
+            selection=model.eventModel.status
+            onChange=(action (mut model.eventModel.status))
+          }}
+          <span class="message">
+            <span class="title">{{i18n "discourse_post_event.models.event.status.public.title"}}</span>
+            <span class="description">{{i18n "discourse_post_event.models.event.status.public.description"}}</span>
+          </span>
+        </label>
+        <label class="radio-label">
+          {{radio-button
+            name="status"
+            value="private"
+            selection=model.eventModel.status
+            onChange=(action (mut model.eventModel.status))
+          }}
+          <span class="message">
+            <span class="title">{{i18n "discourse_post_event.models.event.status.private.title"}}</span>
+            <span class="description">{{i18n "discourse_post_event.models.event.status.private.description"}}</span>
+          </span>
+        </label>
+        <label class="radio-label">
+          {{radio-button
+            name="status"
+            value="standalone"
+            selection=model.eventModel.status
+            onChange=(action (mut model.eventModel.status))
+          }}
+          <span class="message">
+            <span class="title">{{i18n "discourse_post_event.models.event.status.standalone.title"}}</span>
+            <span class="description">{{i18n "discourse_post_event.models.event.status.standalone.description"}}</span>
+          </span>
+        </label>
+      {{/event-field}}
+
+      {{#event-field enabled=allowsInvitees label="discourse_post_event.builder_modal.invitees.label"}}
+        {{group-selector
+          fullWidthWrap=true
+          groupFinder=groupFinder
+          groupNames=model.eventModel.raw_invitees
+          onChangeCallback=(action "setRawInvitees")
+          placeholderKey="topic.invite_private.group_name"
+        }}
+      {{/event-field}}
+    </form>
   {{/conditional-loading-section}}
 {{/d-modal-body}}
 
