@@ -119,7 +119,7 @@ export default Controller.extend(ModalFunctionality, {
       if (newRaw) {
         const props = {
           raw: newRaw,
-          edit_reason: I18n.t("discourse_post_event.update_event")
+          edit_reason: I18n.t("discourse_post_event.edit_reason")
         };
 
         return TextLib.cookAsync(newRaw).then(cooked => {

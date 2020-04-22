@@ -19,6 +19,7 @@ en:
       search: "Search..."
       group_availability: "%{group} availability"
     discourse_post_event:
+      edit_reason: Event updated
       models:
         invitee:
           status:
