@@ -389,13 +389,20 @@ function initializeDiscourseCalendar(api) {
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
 
+    const site = api.container.lookup("site:main");
+
     if (usernames.length > 3) {
       event.title =
-        `(${usernames.length}) ` + I18n.t("discourse_calendar.holiday");
+        site && site.mobileView
+          ? usernames.length
+          : `(${usernames.length}) ` + I18n.t("discourse_calendar.holiday");
     } else if (usernames.length === 1) {
       event.title = usernames[0];
     } else {
-      event.title = `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
+      event.title =
+        site && site.mobileView
+          ? usernames.length
+          : `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
     }
 
     if (localEventNames.length > 1) {
