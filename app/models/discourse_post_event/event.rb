@@ -158,15 +158,6 @@ module DiscoursePostEvent
       self.notify_invitees!
     end
 
-    def enforce_utc!(params)
-      if params[:starts_at].present?
-        params[:starts_at] = Time.parse(params[:starts_at]).utc
-      end
-      if params[:ends_at].present?
-        params[:ends_at] = Time.parse(params[:ends_at]).utc
-      end
-    end
-
     def can_user_update_attendance(user)
       !self.is_expired? &&
       self.post.user != user &&
@@ -195,7 +186,6 @@ module DiscoursePostEvent
           raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
 
-        event.enforce_utc!(params)
         event.update_with_params!(params)
       elsif post.event
         post.event.destroy!

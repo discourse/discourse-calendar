@@ -136,9 +136,13 @@ export default Controller.extend(ModalFunctionality, {
     const eventParams = {};
 
     if (this.startsAt) {
-      eventParams.start = moment(this.startsAt).format("YYYY-MM-DDTHH:mm");
+      eventParams.start = moment(this.startsAt)
+        .utc()
+        .format("YYYY-MM-DD HH:mm");
     } else {
-      eventParams.start = moment().format("YYYY-MM-DDTHH:mm");
+      eventParams.start = moment()
+        .utc()
+        .format("YYYY-MM-DD HH:mm");
     }
 
     if (this.model.eventModel.status) {
@@ -152,7 +156,9 @@ export default Controller.extend(ModalFunctionality, {
     }
 
     if (this.endsAt) {
-      eventParams.end = moment(this.endsAt).format("YYYY-MM-DDTHH:mm");
+      eventParams.end = moment(this.endsAt)
+        .utc()
+        .format("YYYY-MM-DD HH:mm");
     }
 
     if (this.model.eventModel.status === "private") {

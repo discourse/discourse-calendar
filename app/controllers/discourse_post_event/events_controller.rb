@@ -65,7 +65,6 @@ module DiscoursePostEvent
       event = Event.new(event_params)
       guardian.ensure_can_edit!(event.post)
       guardian.ensure_can_create_discourse_post_event!
-      event.enforce_utc!(event_params)
 
       case event_params[:status].to_i
       when Event.statuses[:private]
