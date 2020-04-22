@@ -38,7 +38,16 @@ module DiscoursePostEvent
     belongs_to :post, foreign_key: :id
 
     scope :visible, -> { where(deleted_at: nil) }
-    scope :not_expired, -> { where("starts_at > :now", now: Time.now) }
+    scope :not_expired, -> {
+      where('ends_at IS NOT NULL and ends_at > :now', now: Time.now)
+        .or(
+          Event.where('starts_at > :now and ends_at IS NULL', now: Time.now)
+        )
+    }
+
+    def is_expired?
+      self.ends_at.present? ? Time.now > self.ends_at : Time.now > self.starts_at
+    end
 
     validates :starts_at, presence: true
 
@@ -168,10 +177,6 @@ module DiscoursePostEvent
           self.invitees.exists?(user_id: user.id)
         )
       )
-    end
-
-    def is_expired?
-      Time.now > (self.ends_at || self.starts_at || Time.now)
     end
 
     def self.update_from_raw(post)
