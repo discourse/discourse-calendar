@@ -8,9 +8,20 @@ export default createWidget("discourse-post-event-invitee", {
   tagName: "li.event-invitee",
 
   buildClasses(attrs) {
+    const classes = [];
+
     if (isPresent(attrs.invitee.status)) {
-      return `status-${attrs.invitee.status}`;
+      classes.push(`status-${attrs.invitee.status}`);
     }
+
+    if (
+      this.currentUser &&
+      this.currentUser.username === attrs.invitee.user.username
+    ) {
+      classes.push("is-current-user");
+    }
+
+    return classes;
   },
 
   html(attrs) {
