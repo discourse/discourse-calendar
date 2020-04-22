@@ -187,58 +187,6 @@ after_initialize do
     end
   end
 
-  # DiscourseEvent.on(:post_edited) do |post, topic_changed|
-  #   if SiteSetting.discourse_post_event_enabled && post.event && post.is_first_post? && post.topic && topic_changed && post.topic != Archetype.private_message
-  #     time_range = extract_time_range(post.topic, post.user)
-  #
-  #     case time_range
-  #     when TimeSniffer::Interval
-  #       post.event.update!(
-  #         starts_at: time_range.from.to_time.utc,
-  #         ends_at: time_range.to.to_time.utc,
-  #       )
-  #     when TimeSniffer::Event
-  #       post.event.update!(
-  #         starts_at: time_range.at.to_time.utc
-  #       )
-  #     end
-  #
-  #     post.event.publish_update!
-  #   end
-  # end
-  #
-  # def extract_time_range(topic, user)
-  #   TimeSniffer.new(
-  #     topic.title,
-  #     at: topic.created_at,
-  #     timezone: user.user_option.timezone || 'UTC',
-  #     date_order: :sane,
-  #     matchers: [:tomorrow, :date, :time],
-  #   ).sniff
-  # end
-  #
-  # DiscourseEvent.on(:topic_created) do |topic, args, user|
-  #   if SiteSetting.discourse_post_event_enabled && topic.archetype != Archetype.private_message
-  #     time_range = extract_time_range(topic, user)
-  #
-  #     case time_range
-  #     when TimeSniffer::Interval
-  #       DiscoursePostEvent::Event.create!(
-  #         id: topic.first_post.id,
-  #         starts_at: time_range.from.to_time.utc,
-  #         ends_at: time_range.to.to_time.utc,
-  #         status: DiscoursePostEvent::Event.statuses[:standalone]
-  #       )
-  #     when TimeSniffer::Event
-  #       DiscoursePostEvent::Event.create!(
-  #         id: topic.first_post.id,
-  #         starts_at: time_range.at.to_time.utc,
-  #         status: DiscoursePostEvent::Event.statuses[:standalone]
-  #       )
-  #     end
-  #   end
-  # end
-
   TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
 
   add_to_serializer(:topic_view, :event_starts_at, false) do
