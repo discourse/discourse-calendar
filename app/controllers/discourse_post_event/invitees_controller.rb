@@ -13,10 +13,6 @@ module DiscoursePostEvent
           .where("LOWER(users.username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
       end
 
-      if event.is_expired?
-        event_invitees = event_invitees.where(status: Invitee.statuses[:going])
-      end
-
       render json: ActiveModel::ArraySerializer.new(event_invitees.limit(10), each_serializer: InviteeSerializer).as_json
     end
 
