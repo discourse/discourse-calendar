@@ -169,6 +169,9 @@ function initializeDiscourseCalendar(api) {
         (isMobileView ? "listNextYear" : "month")
     );
 
+    const showAddToCalendar =
+      $calendar.attr("data-calendar-show-add-to-calendar") !== "false";
+
     return new window.FullCalendar.Calendar($calendar[0], {
       timeZone,
       timeZoneImpl: "moment-timezone",
@@ -196,8 +199,10 @@ function initializeDiscourseCalendar(api) {
         right: "month,basicWeek,listNextYear"
       },
       datesRender: info => {
-        _insertAddToCalendarLinks(info);
-        $calendarTitle.innerText = info.view.title;
+        if (showAddToCalendar) {
+          _insertAddToCalendarLinks(info);
+          $calendarTitle.innerText = info.view.title;
+        }
       }
     });
   }

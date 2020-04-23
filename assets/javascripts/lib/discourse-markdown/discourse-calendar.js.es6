@@ -39,6 +39,13 @@ const calendarRule = {
       mainCalendarDivToken.attrs.push(["data-weekends", info.attrs.weekends]);
     }
 
+    if (info.attrs.showAddToCalendar) {
+      mainCalendarDivToken.attrs.push([
+        "data-calendar-show-add-to-calendar",
+        info.attrs.showAddToCalendar === "true"
+      ]);
+    }
+
     if (info.attrs.hiddenDays) {
       mainCalendarDivToken.attrs.push([
         "data-hidden-days",
