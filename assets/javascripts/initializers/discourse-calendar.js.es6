@@ -29,6 +29,9 @@ function initializeDiscourseCalendar(api) {
   let _topicController;
   const outletName = Discourse.SiteSettings.calendar_categories_outlet;
 
+  const site = api.container.lookup("site:main");
+  const isMobileView = site && site.mobileView;
+
   let selector = `.${outletName}-outlet`;
   if (outletName === "before-topic-list-body") {
     selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
@@ -160,8 +163,10 @@ function initializeDiscourseCalendar(api) {
     let $calendarTitle = document.querySelector(
       ".discourse-calendar-header > .discourse-calendar-title"
     );
+
     const defaultView = escapeExpression(
-      $calendar.attr("data-calendar-default-view") || "month"
+      $calendar.attr("data-calendar-default-view") ||
+        (isMobileView ? "listNextYear" : "month")
     );
 
     return new window.FullCalendar.Calendar($calendar[0], {
@@ -295,7 +300,7 @@ function initializeDiscourseCalendar(api) {
         _topicController =
           _topicController || api.container.lookup("controller:topic");
         _topicController.send("jumpToPost", postNumber);
-      } else if (document.querySelector(".mobile-view") && htmlContent) {
+      } else if (isMobileView && htmlContent) {
         showPopover(jsEvent, { htmlContent });
       }
     });
@@ -389,20 +394,16 @@ function initializeDiscourseCalendar(api) {
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
 
-    const site = api.container.lookup("site:main");
-
     if (usernames.length > 3) {
-      event.title =
-        site && site.mobileView
-          ? usernames.length
-          : `(${usernames.length}) ` + I18n.t("discourse_calendar.holiday");
+      event.title = isMobileView
+        ? usernames.length
+        : `(${usernames.length}) ` + I18n.t("discourse_calendar.holiday");
     } else if (usernames.length === 1) {
       event.title = usernames[0];
     } else {
-      event.title =
-        site && site.mobileView
-          ? usernames.length
-          : `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
+      event.title = isMobileView
+        ? usernames.length
+        : `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
     }
 
     if (localEventNames.length > 1) {

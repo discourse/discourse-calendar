@@ -25,9 +25,15 @@ const calendarRule = {
     mainCalendarDivToken.attrs = [
       ["class", "calendar"],
       ["data-calendar-type", info.attrs.type || "dynamic"],
-      ["data-calendar-default-view", info.attrs.defaultView || "month"],
       ["data-calendar-default-timezone", info.attrs.defaultTimezone]
     ];
+
+    if (info.attrs.defaultView) {
+      mainCalendarDivToken.attrs.push([
+        "data-calendar-default-view",
+        info.attrs.defaultView
+      ]);
+    }
 
     if (info.attrs.weekends) {
       mainCalendarDivToken.attrs.push(["data-weekends", info.attrs.weekends]);
