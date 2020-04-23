@@ -42,6 +42,7 @@ en:
       event_ui:
         show_all: Show all
         participants:
+          zero: "No one participated."
           one: "%{count} user participated."
           other: "%{count} users participated."
         invite: Invite

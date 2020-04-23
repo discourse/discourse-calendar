@@ -17,10 +17,11 @@ function cleanUp() {
 }
 
 function _attachWidget(api, cooked, eventModel) {
-  const existing = cooked.querySelector(".discourse-post-event");
-  const wrap = cooked.querySelector("[data-wrap=event]");
+  const eventContainer = cooked.querySelector(".discourse-post-event");
 
-  if (eventModel && wrap) {
+  if (eventModel && eventContainer) {
+    eventContainer.innerHTML = "";
+
     let widgetHeight = 165;
 
     if (eventModel.should_display_invitees) {
@@ -31,12 +32,12 @@ function _attachWidget(api, cooked, eventModel) {
       widgetHeight += 60;
     }
 
-    const eventContainer = existing || document.createElement("div");
-    eventContainer.classList.add("discourse-post-event");
     eventContainer.classList.add("is-loading");
     eventContainer.style.height = `${widgetHeight}px`;
-    eventContainer.innerHTML = '<div class="spinner medium"></div>';
-    wrap.prepend(eventContainer);
+
+    const glueContainer = document.createElement("div");
+    glueContainer.innerHTML = '<div class="spinner medium"></div>';
+    eventContainer.appendChild(glueContainer);
 
     const dates = [];
     const startsAt = moment(eventModel.starts_at);
@@ -63,38 +64,48 @@ function _attachWidget(api, cooked, eventModel) {
     }
 
     cookAsync(dates.join(" → ")).then(result => {
+      eventContainer.classList.remove("is-loading");
+      eventContainer.classList.add("is-loaded");
+
       const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
         eventModel,
         widgetHeight,
         localDates: $(result.string).html()
       });
 
-      glue.appendTo(eventContainer);
+      glue.appendTo(glueContainer);
       _glued.push(glue);
 
-      schedule("afterRender", () => {
+      schedule("afterRender", () =>
         $(
           ".discourse-local-date",
           $(`[data-post-id="${eventModel.id}"]`)
-        ).applyLocalDates();
-      });
+        ).applyLocalDates()
+      );
     });
-  } else {
-    existing && existing.remove();
+  } else if (!eventModel) {
+    const loadedEventContainer = cooked.querySelector(".discourse-post-event");
+    loadedEventContainer && loadedEventContainer.remove();
   }
 }
 
 function initializeDiscoursePostEventDecorator(api) {
   api.cleanupStream(cleanUp);
 
-  api.decorateCooked(($cooked, helper) => {
-    if (helper) {
-      const post = helper.getModel();
-      if (post.event) {
-        _decorateEvent(api, $cooked[0], post.event);
+  api.decorateCooked(
+    ($cooked, helper) => {
+      if (helper) {
+        const post = helper.getModel();
+        if (post.event) {
+          _decorateEvent(api, $cooked[0], post.event);
+        }
       }
+    },
+    {
+      onlyStream: true,
+      id: "discourse-post-event-decorator"
     }
-  });
+  );
 
   api.replaceIcon(
     "notification.discourse_calendar.invite_user_notification",
@@ -104,6 +115,7 @@ function initializeDiscoursePostEventDecorator(api) {
   api.modifyClass("controller:topic", {
     subscribe() {
       this._super(...arguments);
+
       this.messageBus.subscribe(
         "/discourse-post-event/" + this.get("model.id"),
         msg => {

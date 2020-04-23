@@ -1,9 +1,14 @@
 .discourse-post-event {
-  border: 1px solid $primary-low;
   display: flex;
-  flex-direction: column;
-  background: $secondary;
-  margin: 0.5em 0;
+
+  .discourse-post-event-widget {
+    border: 1px solid $primary-low;
+    display: flex;
+    background: $secondary;
+    margin: 0.5em 0;
+    flex-direction: column;
+    flex: 1 0 auto;
+  }
 
   &.is-loading {
     align-items: center;
@@ -138,6 +143,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1em;
+      width: 100%;
 
       .show-all {
         margin-left: 0.5em;
@@ -156,8 +162,9 @@
     .event-invitees-avatars {
       padding: 0;
       margin: 0;
-      display: inline-flex;
+      display: flex;
       flex-wrap: wrap;
+      width: 100%;
 
       .event-invitee {
         list-style: none;

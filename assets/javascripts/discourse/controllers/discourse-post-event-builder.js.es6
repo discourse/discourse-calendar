@@ -102,9 +102,7 @@ export default Controller.extend(ModalFunctionality, {
       markdownParams.push(`${key}="${value}"`);
     });
 
-    this.toolbarEvent.addText(
-      `[wrap=event ${markdownParams.join(" ")}]\n[/wrap]`
-    );
+    this.toolbarEvent.addText(`[event ${markdownParams.join(" ")}]\n[/event]`);
     this.send("closeModal");
   },
 
@@ -171,16 +169,12 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   _removeRawEvent(raw) {
-    const eventRegex = new RegExp(
-      `\\[wrap=event\\s(.*?)\\]\\n\\[\\/wrap\\]`,
-      "m"
-    );
-
+    const eventRegex = new RegExp(`\\[event\\s(.*?)\\]\\n\\[\\/event\\]`, "m");
     return raw.replace(eventRegex, "");
   },
 
   _replaceRawEvent(eventparams, raw) {
-    const eventRegex = new RegExp(`\\[wrap=event\\s(.*?)\\]`, "m");
+    const eventRegex = new RegExp(`\\[event\\s(.*?)\\]`, "m");
     const eventMatches = raw.match(eventRegex);
 
     if (eventMatches && eventMatches[1]) {
@@ -193,10 +187,7 @@ export default Controller.extend(ModalFunctionality, {
         }
       });
 
-      return raw.replace(
-        eventRegex,
-        `[wrap=event ${markdownParams.join(" ")}]`
-      );
+      return raw.replace(eventRegex, `[event ${markdownParams.join(" ")}]`);
     }
 
     return false;

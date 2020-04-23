@@ -8,13 +8,9 @@ import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
 
 export default createWidget("discourse-post-event", {
-  tagName: "div.discourse-post-event",
+  tagName: "div.discourse-post-event-widget",
 
   buildKey: attrs => `discourse-post-event-${attrs.id}`,
-
-  buildAttributes(attrs) {
-    return { style: `height:${attrs.widgetHeight}px` };
-  },
 
   buildClasses() {
     if (this.state.event) {

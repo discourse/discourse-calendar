@@ -10,7 +10,7 @@ def create_post_with_event(user, extra_raw)
   PostCreator.create!(
     user,
     title: "Sell a boat party ##{SecureRandom.alphanumeric}",
-    raw: "[wrap=event start=\"#{start}\" #{extra_raw}]\n[/wrap]",
+    raw: "[event start=\"#{start}\" #{extra_raw}]\n[/event]",
   )
 end
 
@@ -38,7 +38,7 @@ describe Post do
           post = PostCreator.create!(
             user,
             title: 'Sell a boat party',
-            raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+            raw: "[event start=\"#{start}\"]\n[/event]",
           )
 
           expect(post.reload.event.persisted?).to eq(true)
@@ -61,7 +61,7 @@ describe Post do
           post = PostCreator.create!(
             user,
             title: 'Sell a boat party',
-            raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+            raw: "[event start=\"#{start}\"]\n[/event]",
           )
 
           expect(post.reload.persisted?).to eq(true)
@@ -129,7 +129,7 @@ describe Post do
           post = PostCreator.create!(
             user_with_rights,
             title: 'Sell a boat party',
-            raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+            raw: "[event start=\"#{start}\"]\n[/event]",
           )
 
           expect(post.reload.persisted?).to eq(true)
@@ -153,7 +153,7 @@ describe Post do
             PostCreator.create!(
               user_without_rights,
               title: 'Sell a boat party',
-              raw: "[wrap=event start=\"#{start}\"]\n[/wrap]",
+              raw: "[event start=\"#{start}\"]\n[/event]",
             )
           }.to(
             raise_error(ActiveRecord::RecordNotSaved)
@@ -164,29 +164,33 @@ describe Post do
     end
 
     context 'when the post contains one invalid event' do
-      context 'when start is not provided or is invalid' do
+      context 'when start is invalid' do
         it 'raises an error' do
           expect {
             PostCreator.create!(
               user,
               title: 'Sell a boat party',
-              raw: "[wrap=event end=\"1\"]\n[/wrap]",
+              raw: "[event start=\"x\"]\n[/event]",
             )
           }.to(
             raise_error(ActiveRecord::RecordNotSaved)
               .with_message(I18n.t("discourse_post_event.errors.models.event.start_must_be_present_and_a_valid_date"))
+          )
+        end
+      end
+
+      context 'when start is not provided or' do
+        it 'is not cooked' do
+          post = PostCreator.create!(
+            user,
+            title: 'Sell a boat party',
+            raw: <<~TXT
+              [event end=\"1\"]
+              [/event]
+            TXT
           )
 
-          expect {
-            PostCreator.create!(
-              user,
-              title: 'Sell a boat party',
-              raw: "[wrap=event start=\"x\"]\n[/wrap]",
-            )
-          }.to(
-            raise_error(ActiveRecord::RecordNotSaved)
-              .with_message(I18n.t("discourse_post_event.errors.models.event.start_must_be_present_and_a_valid_date"))
-          )
+          expect(!post.cooked.include?('discourse-post-event')).to be(true)
         end
       end
 
@@ -196,7 +200,7 @@ describe Post do
             PostCreator.create!(
               user,
               title: 'Sell a boat party',
-              raw: "[wrap=event start=\"#{Time.now.utc.iso8601(3)}\" end=\"d\"]\n[/wrap]",
+              raw: "[event start=\"#{Time.now.utc.iso8601(3)}\" end=\"d\"]\n[/event]",
             )
           }.to(
             raise_error(ActiveRecord::RecordNotSaved)
@@ -212,12 +216,14 @@ describe Post do
           PostCreator.create!(
             user,
             title: 'Sell a boat party',
-            raw: <<-TXT
-[wrap=event start=\"#{Time.now.utc.iso8601(3)}\"][/wrap]
+            raw: <<~TXT
+              [event start=\"#{Time.now.utc.iso8601(3)}\"]
+              [/event]
 
-[wrap=event start=\"#{Time.now.utc.iso8601(3)}\"][/wrap]
-TXT
-)
+              [event start=\"#{Time.now.utc.iso8601(3)}\"]
+              [/event]
+            TXT
+          )
         }.to(
           raise_error(ActiveRecord::RecordNotSaved)
             .with_message(I18n.t("discourse_post_event.errors.models.event.only_one_event"))
