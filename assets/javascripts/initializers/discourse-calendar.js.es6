@@ -26,10 +26,8 @@ function stringToHexColor(str) {
 }
 
 function loadFullCalendar() {
-  return new Promise(resolve =>
-    loadScript(
-      "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-    ).then(resolve)
+  return loadScript(
+    "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
   );
 }
 
