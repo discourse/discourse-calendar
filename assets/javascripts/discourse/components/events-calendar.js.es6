@@ -1,3 +1,4 @@
+import { Promise } from "rsvp";
 import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
 import loadScript from "discourse/lib/load-script";
@@ -24,18 +25,25 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    loadScript(
-      "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-    ).then(() => {
-      schedule("afterRender", () => {
-        const calendarNode = document.getElementById("events-calendar");
+    this._loadCalendar().then(() => {
+      const calendarNode = document.getElementById("events-calendar");
+
+      if (calendarNode) {
         this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
-      });
+      }
     });
   },
 
-  didUpdateAttrs() {
+  didReceiveAttrs() {
     this._super(...arguments);
+
+    this._renderCalendar();
+  },
+
+  _renderCalendar() {
+    if (!this._calendar) {
+      return;
+    }
 
     (this.events || []).forEach(event => {
       const { starts_at, ends_at, post } = event;
@@ -47,6 +55,23 @@ export default Component.extend({
         url: Discourse.getURL(`/t/-/${post.topic.id}/${post.post_number}`)
       });
     });
+
     this._calendar.render();
+  },
+
+  _loadCalendar() {
+    return new Promise(resolve => {
+      loadScript(
+        "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
+      ).then(() => {
+        schedule("afterRender", () => {
+          if (this.isDestroying || this.isDestroyed) {
+            return;
+          }
+
+          resolve();
+        });
+      });
+    });
   }
 });
