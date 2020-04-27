@@ -1,6 +1,6 @@
+import { Promise } from "rsvp";
 import { isPresent } from "@ember/utils";
 import DiscourseURL from "discourse/lib/url";
-import { Promise } from "rsvp";
 import { cookAsync } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import loadScript from "discourse/lib/load-script";
@@ -23,6 +23,14 @@ function stringToHexColor(str) {
     hex += ("00" + value.toString(16)).substr(-2);
   }
   return hex;
+}
+
+function loadFullCalendar() {
+  return new Promise(resolve =>
+    loadScript(
+      "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
+    ).then(resolve)
+  );
 }
 
 function initializeDiscourseCalendar(api) {
@@ -71,9 +79,7 @@ function initializeDiscourseCalendar(api) {
           '<div class="calendar"><div class="spinner medium"></div></div>'
         );
         $calendarContainer.html($spinner);
-        loadScript(
-          "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-        ).then(() => {
+        loadFullCalendar().then(() => {
           const options = [`postId=${postId}`];
 
           const optionals = ["weekends", "tzPicker", "defaultView"];
@@ -114,11 +120,9 @@ function initializeDiscourseCalendar(api) {
     const $calendar = $op.find(".calendar").first();
 
     if (post && $calendar.length > 0) {
-      ajax(`/posts/${post.id}.json`).then(post => {
-        loadScript(
-          "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-        ).then(() => render($calendar, post));
-      });
+      ajax(`/posts/${post.id}.json`).then(post =>
+        loadFullCalendar().then(() => render($calendar, post))
+      );
     }
   });
 
@@ -154,9 +158,7 @@ function initializeDiscourseCalendar(api) {
       return;
     }
 
-    loadScript(
-      "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-    ).then(() => render($calendar, helper.getModel()));
+    loadFullCalendar().then(() => render($calendar, helper.getModel()));
   }
 
   function _buildCalendar($calendar, timeZone) {

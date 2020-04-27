@@ -38,17 +38,13 @@ export default Component.extend({
     this._super(...arguments);
 
     (this.events || []).forEach(event => {
+      const { starts_at, ends_at, post } = event;
       this._calendar.addEvent({
         title: formatEventName(event),
-        start: event.starts_at,
-        end: event.ends_at || event.starts_at,
-        allDay: !isNotFullDayEvent(
-          moment(event.starts_at),
-          moment(event.ends_at)
-        ),
-        url: Discourse.getURL(
-          `/t/-/${event.post.topic.id}/${event.post.post_number}`
-        )
+        start: starts_at,
+        end: ends_at || starts_at,
+        allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
+        url: Discourse.getURL(`/t/-/${post.topic.id}/${post.post_number}`)
       });
     });
     this._calendar.render();
