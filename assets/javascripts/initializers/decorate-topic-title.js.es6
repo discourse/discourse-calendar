@@ -6,10 +6,18 @@ function initializeDecorateTopicTitle(api) {
     const startsAt = topic.event_starts_at;
     if (startsAt) {
       if (topicTitleType === "topic-list-item-title") {
+        if (node.querySelector(".event-date")) {
+          return;
+        }
+
         const date = moment.utc(startsAt);
-        node.innerHTML = `${node.innerText}<span class="event-date">${date
+        const dateContainer = document.createElement("span");
+        dateContainer.classList.add("event-date");
+        dateContainer.innerText = date
           .tz(moment.tz.guess())
-          .format(guessDateFormat(date))}</span>`;
+          .format(guessDateFormat(date));
+
+        node.appendChild(dateContainer);
       }
     }
   });
