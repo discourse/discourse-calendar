@@ -9,6 +9,55 @@ function _decorateEvent(api, cooked, post) {
   _attachWidget(api, cooked, post);
 }
 
+function _decorateEventPreview(api, cooked) {
+  const eventContainer = cooked.querySelector(".discourse-post-event");
+
+  if (eventContainer) {
+    if (!eventContainer.dataset.start) {
+      return;
+    }
+
+    const eventPreviewContainer = document.createElement("div");
+    eventPreviewContainer.classList.add("discourse-post-event-preview");
+
+    const statusLocaleKey = `discourse_post_event.models.event.status.${eventContainer
+      .dataset.status || "public"}.title`;
+    if (I18n.lookup(statusLocaleKey, { locale: "en" })) {
+      const statusContainer = document.createElement("div");
+      statusContainer.classList.add("event-preview-status");
+      statusContainer.innerText = I18n.t(statusLocaleKey);
+      eventPreviewContainer.appendChild(statusContainer);
+    }
+
+    const datesContainer = document.createElement("div");
+    datesContainer.classList.add("event-preview-dates");
+
+    const startsAt = moment
+      .utc(eventContainer.dataset.start)
+      .tz(moment.tz.guess());
+
+    const endsAtValue = eventContainer.dataset.end;
+    const format = guessDateFormat(
+      startsAt,
+      endsAtValue && moment.utc(endsAtValue).tz(moment.tz.guess())
+    );
+
+    let datesString = `<span class='start'>${startsAt.format(format)}</span>`;
+    if (endsAtValue) {
+      datesString += ` → <span class='start'>${moment
+        .utc(endsAtValue)
+        .tz(moment.tz.guess())
+        .format(format)}</span>`;
+    }
+    datesContainer.innerHTML = datesString;
+
+    eventPreviewContainer.appendChild(datesContainer);
+
+    eventContainer.innerHTML = "";
+    eventContainer.appendChild(eventPreviewContainer);
+  }
+}
+
 let _glued = [];
 
 function cleanUp() {
@@ -94,15 +143,20 @@ function initializeDiscoursePostEventDecorator(api) {
 
   api.decorateCooked(
     ($cooked, helper) => {
+      if ($cooked[0].classList.contains("d-editor-preview")) {
+        _decorateEventPreview(api, $cooked[0]);
+        return;
+      }
+
       if (helper) {
         const post = helper.getModel();
+
         if (post.event) {
           _decorateEvent(api, $cooked[0], post.event);
         }
       }
     },
     {
-      onlyStream: true,
       id: "discourse-post-event-decorator"
     }
   );
