@@ -17,24 +17,12 @@ module DiscoursePostEvent
     end
 
     def update
-      invitee = Invitee.find(params[:id])
-      guardian.ensure_can_act_on_invitee!(invitee)
-      status = Invitee.statuses[invitee_params[:status].to_sym]
-      invitee.update_attendance(status: status)
-      invitee.event.publish_update!
+      invitee = Invitee.upsert_attendance!(params[:id], invitee_params, guardian)
       render json: InviteeSerializer.new(invitee)
     end
 
     def create
-      status = Invitee.statuses[invitee_params[:status].to_sym]
-      event = Event.find(invitee_params[:post_id])
-      guardian.ensure_can_see!(event.post)
-      invitee = Invitee.create!(
-        status: status,
-        post_id: invitee_params[:post_id],
-        user_id: current_user.id,
-      )
-      invitee.event.publish_update!
+      invitee = Invitee.upsert_attendance!(current_user.id, invitee_params, guardian)
       render json: InviteeSerializer.new(invitee)
     end
 

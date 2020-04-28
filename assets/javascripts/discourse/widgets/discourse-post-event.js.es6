@@ -57,7 +57,8 @@ export default createWidget("discourse-post-event", {
         "discourse-post-event-invitee",
         this.state.eventModel.watching_invitee.id,
         {
-          status
+          status,
+          post_id: this.state.eventModel.id
         }
       );
     } else {

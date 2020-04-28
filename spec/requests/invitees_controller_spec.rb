@@ -63,6 +63,26 @@ module DiscoursePostEvent
             status: 2,
           )
         end
+
+        context 'when the invitee is the event owner' do
+          let(:post_event) { Fabricate(:event, post: post1) }
+
+          it 'creates an invitee' do
+            expect(post_event.invitees.length).to eq(0)
+
+            put "/discourse-post-event/invitees/#{post1.user.id}.json", params: {
+              invitee: {
+                post_id: post1.id,
+                status: "interested"
+              }
+            }
+
+            post_event.reload
+
+            invitee = post_event.invitees.first
+            expect(invitee.status).to eq(1)
+          end
+        end
       end
     end
   end
