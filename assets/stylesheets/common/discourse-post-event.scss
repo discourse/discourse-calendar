@@ -12,6 +12,10 @@
     .widget-dropdown {
       margin: 0;
 
+      .widget-dropdown-header.disabled {
+        pointer-events: none;
+      }
+
       .widget-dropdown-item {
         .d-icon + span {
           margin-left: 0.5em;
