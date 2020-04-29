@@ -118,7 +118,7 @@ function _attachWidget(api, cooked, eventModel) {
       );
     }
 
-    cookAsync(dates.join(" → ")).then(result => {
+    cookAsync(dates.join("<span> → </span>")).then(result => {
       eventContainer.classList.remove("is-loading");
       eventContainer.classList.add("is-loaded");
 
