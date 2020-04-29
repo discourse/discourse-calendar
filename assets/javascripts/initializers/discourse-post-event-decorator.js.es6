@@ -44,7 +44,7 @@ function _decorateEventPreview(api, cooked) {
 
     let datesString = `<span class='start'>${startsAt.format(format)}</span>`;
     if (endsAtValue) {
-      datesString += ` → <span class='start'>${moment
+      datesString += ` → <span class='end'>${moment
         .utc(endsAtValue)
         .tz(moment.tz.guess())
         .format(format)}</span>`;
