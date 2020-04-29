@@ -13,6 +13,8 @@ export default createWidget("discourse-post-event-status", {
   },
 
   defaultState(attrs) {
+    const status = attrs.watchingInvitee ? attrs.watchingInvitee.status : null;
+
     return {
       onChange: data => {
         this.state.icon = null;
@@ -20,23 +22,24 @@ export default createWidget("discourse-post-event-status", {
         this.state.options.headerClass = "disabled";
         this.sendWidgetAction("changeWatchingInviteeStatus", data.id);
       },
-      icon: this._headerIconForStatus(attrs.watchingInvitee.status),
+      icon: this._headerIconForStatus(status),
       options: {
         caret: true,
         headerClass: ""
       },
-      label: attrs.watchingInvitee.status
-        ? `discourse_post_event.models.invitee.status.${attrs.watchingInvitee.status}`
+      label: status
+        ? `discourse_post_event.models.invitee.status.${status}`
         : "discourse_post_event.models.invitee.status.unknown",
-      statuses: this._statusesForStatus(attrs.watchingInvitee.status)
+      statuses: this._statusesForStatus(status)
     };
   },
 
   transform(attrs) {
     return {
       mightAttend:
-        attrs.watchingInvitee.status === "going" ||
-        attrs.watchingInvitee.status === "interested"
+        attrs.status &&
+        (attrs.watchingInvitee.status === "going" ||
+          attrs.watchingInvitee.status === "interested")
     };
   },
 
