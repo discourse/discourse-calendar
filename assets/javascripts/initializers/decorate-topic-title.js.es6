@@ -4,13 +4,15 @@ import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best
 function initializeDecorateTopicTitle(api) {
   api.decorateTopicTitle((topic, node, topicTitleType) => {
     const startsAt = topic.event_starts_at;
+
     if (startsAt) {
+      const date = moment.utc(startsAt);
+
       if (topicTitleType === "topic-list-item-title") {
         if (node.querySelector(".event-date")) {
           return;
         }
 
-        const date = moment.utc(startsAt);
         const dateContainer = document.createElement("span");
         dateContainer.classList.add("event-date");
         dateContainer.innerText = date
@@ -18,6 +20,19 @@ function initializeDecorateTopicTitle(api) {
           .format(guessDateFormat(date));
 
         node.appendChild(dateContainer);
+      }
+
+      if (topicTitleType === "header-title") {
+        if (node.querySelector(".event-date")) {
+          return;
+        }
+
+        const child = document.createElement("span");
+        child.classList.add("event-date");
+        child.innerText = date
+          .tz(moment.tz.guess())
+          .format(guessDateFormat(date));
+        node.appendChild(child);
       }
     }
   });
