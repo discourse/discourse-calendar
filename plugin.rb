@@ -25,7 +25,6 @@ register_asset "stylesheets/mobile/discourse-calendar.scss", :mobile
 register_asset "stylesheets/mobile/discourse-post-event.scss", :mobile
 register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
 register_svg_icon "fas fa-calendar-day"
-register_svg_icon "fas fa-question"
 register_svg_icon "fas fa-clock"
 register_svg_icon "fas fa-clock"
 register_svg_icon "fas fa-star"

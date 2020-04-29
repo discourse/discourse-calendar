@@ -33,7 +33,7 @@ export default createWidget("discourse-post-event-invitee", {
         statusIcon = "fa-check";
         break;
       case "interested":
-        statusIcon = "fa-question";
+        statusIcon = "fa-star";
         break;
       case "not_going":
         statusIcon = "fa-times";
