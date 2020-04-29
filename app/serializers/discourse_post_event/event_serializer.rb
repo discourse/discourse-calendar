@@ -86,7 +86,7 @@ module DiscoursePostEvent
     end
 
     def should_display_invitees
-      object.status != Event.statuses[:standalone]
+      object.status != Event.statuses[:standalone] && object.invitees.count > 0
     end
   end
 end
