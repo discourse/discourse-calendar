@@ -37,7 +37,7 @@ export default createWidget("discourse-post-event-status", {
   transform(attrs) {
     return {
       mightAttend:
-        attrs.status &&
+        attrs.watchingInvitee &&
         (attrs.watchingInvitee.status === "going" ||
           attrs.watchingInvitee.status === "interested")
     };
