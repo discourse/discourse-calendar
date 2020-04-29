@@ -149,8 +149,6 @@ export default Controller.extend(ModalFunctionality, {
 
     if (this.model.eventModel.name) {
       eventParams.name = this.model.eventModel.name;
-    } else {
-      eventParams.name = "";
     }
 
     if (this.endsAt) {
