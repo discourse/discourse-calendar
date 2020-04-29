@@ -41,7 +41,7 @@ export default createWidget("discourse-post-event-invitee", {
     }
 
     const avatarContent = [
-      avatarImg("large", {
+      avatarImg(this.site.mobileView ? "tiny" : "large", {
         template: avatar_template,
         username: name || formatUsername(username)
       })

@@ -2,4 +2,18 @@
   .event-dates .date {
     max-width: 75vw;
   }
+
+  .event-invitees-status {
+    font-size: $font-down-1;
+  }
+
+  .event-invitees .event-invitees-avatars .topic-invitee-avatar .avatar-flair {
+    background: none;
+    border-radius: 50%;
+    height: 12px;
+    width: 12px;
+    border: none;
+    right: -2px;
+    bottom: -2px;
+  }
 }
