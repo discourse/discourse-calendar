@@ -15,6 +15,7 @@ export default createWidget("discourse-post-event-status", {
   defaultState(attrs) {
     return {
       onChange: data => {
+        this.state.icon = null;
         this.state.label = data.label;
         this.state.options.headerClass = "disabled";
         this.sendWidgetAction("changeWatchingInviteeStatus", data.id);
