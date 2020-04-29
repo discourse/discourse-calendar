@@ -44,16 +44,17 @@ en:
         participants:
           one: "%{count} user participated."
           other: "%{count} users participated."
-        invite: Invite
+        invite: Notify user
         add_to_calendar: Add to calendar
         send_pm_to_creator: Send PM to %{username}
+        edit_event: Edit event
       invitees_modal:
         title_invited: "List of invited users"
         title_participated: "List of users who participated"
         filter_placeholder: "Filter users"
       builder_modal:
         create_event_title: Create Event
-        update_event_title: Update Event
+        update_event_title: Edit Event
         confirm_delete: Are you sure you want to delete this event?
         create: Create
         update: Save
@@ -66,8 +67,8 @@ en:
         status:
           label: Status
       invite_user_or_group:
-        title: Invite user(s) or group(s)
-        invite: Invite
+        title: Notify user(s) or group(s)
+        invite: Send
       upcoming_events:
         title: Upcoming events
         creator: Creator

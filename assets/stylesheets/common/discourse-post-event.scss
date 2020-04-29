@@ -5,9 +5,19 @@
     border: 5px solid $primary-low;
     display: flex;
     background: $secondary;
-    margin: 0.5em 0;
+    margin: 5px 0;
     flex-direction: column;
     flex: 1 0 auto;
+
+    .widget-dropdown {
+      margin: 0;
+
+      .widget-dropdown-item {
+        .d-icon + span {
+          margin-left: 0.5em;
+        }
+      }
+    }
   }
 
   &.is-loading {
@@ -20,29 +30,30 @@
     flex-direction: column;
   }
 
-  .event-footer {
-    padding: 0.5em;
-    background: $primary-very-low;
-    align-items: center;
-    display: inline-flex;
-
-    .btn {
-      display: flex;
-      align-items: center;
-      margin-right: 0.5em;
-    }
-  }
-
-  .add-to-calendar-button {
-    .d-icon-external-link-alt {
-      margin-left: 0.25em;
-    }
-  }
-
   .event-header {
     display: flex;
     align-items: center;
-    padding: 1em;
+    padding: 0 1em;
+    height: 75px;
+
+    .more-dropdown {
+      margin-left: auto;
+      align-self: flex-start;
+      margin-top: 1em;
+
+      .widget-dropdown {
+        margin: 0;
+
+        .widget-dropdown-header {
+          .d-icon {
+            margin: 0;
+          }
+          .label {
+            display: none;
+          }
+        }
+      }
+    }
 
     .actions {
       margin-bottom: auto;
@@ -160,7 +171,7 @@
 
   .event-invitees {
     display: flex;
-    height: 120px;
+    height: 110px;
     padding: 0 1em;
     align-items: flex-start;
     justify-content: center;

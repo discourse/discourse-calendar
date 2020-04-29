@@ -71,10 +71,16 @@ function _attachWidget(api, cooked, eventModel) {
   if (eventModel && eventContainer) {
     eventContainer.innerHTML = "";
 
-    let widgetHeight = 173;
+    const datesHeight = 50;
+    const headerHeight = 75;
+    const bordersHeight = 10;
+    const separatorsHeight = 4;
+    const margins = 10;
+    let widgetHeight =
+      datesHeight + headerHeight + bordersHeight + separatorsHeight + margins;
 
     if (eventModel.should_display_invitees) {
-      widgetHeight += 120;
+      widgetHeight += 110;
     }
 
     if (eventModel.can_update_attendance) {

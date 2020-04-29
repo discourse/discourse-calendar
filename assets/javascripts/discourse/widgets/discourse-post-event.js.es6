@@ -147,19 +147,16 @@ export default createWidget("discourse-post-event", {
           </div>
         </div>
 
-        {{#if state.eventModel.can_act_on_discourse_post_event}}
-          <div class="actions">
-            {{attach
-              widget="button"
-              attrs=(hash
-                className="btn-small edit-post-event"
-                icon="pencil-alt"
-                action="editPostEvent"
-                actionParam=state.eventModel.id
-              )
-            }}
-          </div>
-        {{/if}}
+        {{attach
+          widget="more-dropdown"
+          attrs=(hash
+            canActOnEvent=state.eventModel.can_act_on_discourse_post_event
+            postEventId=state.eventModel.id
+            isExpired=state.eventModel.is_expired
+            creatorUsername=state.eventModel.creator.username
+            isPublicEvent=this.transformed.isPublicEvent
+          )
+        }}
       </header>
 
       {{#if state.eventModel.can_update_attendance}}
@@ -189,34 +186,6 @@ export default createWidget("discourse-post-event", {
           attrs=(hash eventModel=state.eventModel)
         }}
       {{/if}}
-
-      <footer class="event-footer">
-        {{#unless state.eventModel.is_expired}}
-          {{attach widget="add-to-calendar-button"}}
-        {{/unless}}
-
-        {{attach
-          widget="contact-creator-button"
-          attrs=(hash username=state.eventModel.creator.username)
-        }}
-
-        {{#unless state.eventModel.is_expired}}
-        {{#if state.eventModel.can_act_on_discourse_post_event}}
-        {{#if transformed.isPublicEvent}}
-          {{attach
-            widget="button"
-            attrs=(hash
-              className="btn-small"
-              icon="user-plus"
-              label="discourse_post_event.event_ui.invite"
-              action="inviteUserOrGroup"
-              actionParam=state.eventModel.id
-            )
-          }}
-        {{/if}}
-        {{/if}}
-        {{/unless}}
-      </footer>
     {{/if}}
   `,
 
