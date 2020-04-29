@@ -1,12 +1,10 @@
-import { h } from "virtual-dom";
 import { createWidget } from "discourse/widgets/widget";
+import hbs from "discourse/widgets/hbs-compiler";
 
 export default createWidget("discourse-post-event-status", {
-  tagName: "select.event-status",
+  tagName: "div.event-status",
 
-  change(event) {
-    this.sendWidgetAction("changeWatchingInviteeStatus", event.target.value);
-  },
+  buildKey: attrs => `discourse-post-event-status-${attrs.id}`,
 
   buildClasses(attrs) {
     if (attrs.watchingInvitee) {
@@ -14,38 +12,113 @@ export default createWidget("discourse-post-event-status", {
     }
   },
 
-  html(attrs) {
-    const statuses = [
-      {
-        value: null,
-        name: I18n.t("discourse_post_event.models.invitee.status.unknown")
+  defaultState(attrs) {
+    return {
+      onChange: data => {
+        this.state.label = data.label;
+        this.state.options.headerClass = "disabled";
+        this.sendWidgetAction("changeWatchingInviteeStatus", data.id);
       },
-      {
-        value: "going",
-        name: I18n.t("discourse_post_event.models.invitee.status.going")
+      icon: this._headerIconForStatus(attrs.watchingInvitee.status),
+      options: {
+        caret: true,
+        headerClass: ""
       },
-      {
-        value: "interested",
-        name: I18n.t("discourse_post_event.models.invitee.status.interested")
-      },
-      {
-        value: "not_going",
-        name: I18n.t("discourse_post_event.models.invitee.status.not_going")
-      }
-    ];
+      label: attrs.watchingInvitee.status
+        ? `discourse_post_event.models.invitee.status.${attrs.watchingInvitee.status}`
+        : "discourse_post_event.models.invitee.status.unknown",
+      statuses: this._statusesForStatus(attrs.watchingInvitee.status)
+    };
+  },
 
-    const value = attrs.watchingInvitee ? attrs.watchingInvitee.status : null;
+  transform(attrs) {
+    return {
+      mightAttend:
+        attrs.watchingInvitee.status === "going" ||
+        attrs.watchingInvitee.status === "interested"
+    };
+  },
 
-    return statuses.map(status =>
-      h(
-        "option",
-        {
-          value: status.value,
-          class: `status-${status.value}`,
-          selected: status.value === value
-        },
-        status.name
-      )
-    );
+  template: hbs`
+    {{#if transformed.mightAttend}}
+      {{attach
+        widget="widget-dropdown"
+        attrs=(hash
+          id="discourse-post-event-status-dropdown"
+          label=state.label
+          icon=state.icon
+          content=state.statuses
+          onChange=state.onChange
+          options=state.options
+        )
+      }}
+    {{else}}
+      {{attach widget="interested-button"}}
+      {{attach widget="going-button"}}
+    {{/if}}
+  `,
+
+  _statusesForStatus(status) {
+    switch (status) {
+      case "going":
+        return [
+          {
+            id: "going",
+            label: "discourse_post_event.models.invitee.status.going"
+          },
+          {
+            id: "interested",
+            label: "discourse_post_event.models.invitee.status.interested"
+          },
+          "separator",
+          {
+            id: "not_going",
+            label: "discourse_post_event.models.invitee.status.not_going"
+          }
+        ];
+      case "interested":
+        return [
+          {
+            id: "going",
+            label: "discourse_post_event.models.invitee.status.going"
+          },
+          {
+            id: "interested",
+            label: "discourse_post_event.models.invitee.status.interested"
+          },
+          "separator",
+          {
+            id: "not_going",
+            label: "discourse_post_event.models.invitee.status.not_going"
+          }
+        ];
+      case "not_going":
+        return [
+          {
+            id: "going",
+            label: "discourse_post_event.models.invitee.status.going"
+          },
+          {
+            id: "not_going",
+            label: "discourse_post_event.models.invitee.status.not_going"
+          },
+          "separator",
+          {
+            id: "interested",
+            label: "discourse_post_event.models.invitee.status.interested"
+          }
+        ];
+    }
+  },
+
+  _headerIconForStatus(status) {
+    switch (status) {
+      case "going":
+        return "check";
+      case "interested":
+        return "star";
+      case "not_going":
+        return "times";
+    }
   }
 });

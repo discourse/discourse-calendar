@@ -121,12 +121,33 @@
 
     .event-status {
       margin: 0;
+
+      .widget-dropdown {
+        margin: 0;
+      }
+
       &.status-going {
-        color: $success;
+        .widget-dropdown-header {
+          .d-icon-check {
+            color: $success;
+          }
+        }
+
+        .item-going {
+          font-weight: 700;
+        }
+      }
+
+      &.status-interested {
+        .item-interested {
+          font-weight: 700;
+        }
       }
 
       &.status-not_going {
-        color: $danger;
+        .item-not_going {
+          font-weight: 700;
+        }
       }
     }
   }

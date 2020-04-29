@@ -23,7 +23,7 @@ en:
       models:
         invitee:
           status:
-            unknown: "Undecided?"
+            unknown: "Not interested"
             going: "Going"
             not_going: "Not Going"
             interested: "Interested"

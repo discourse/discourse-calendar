@@ -28,6 +28,7 @@ register_svg_icon "fas fa-calendar-day"
 register_svg_icon "fas fa-question"
 register_svg_icon "fas fa-clock"
 register_svg_icon "fas fa-clock"
+register_svg_icon "fas fa-star"
 
 after_initialize do
   module ::DiscourseCalendar
