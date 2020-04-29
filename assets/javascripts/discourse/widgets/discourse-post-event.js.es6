@@ -152,7 +152,7 @@ export default createWidget("discourse-post-event", {
             {{attach
               widget="button"
               attrs=(hash
-                className="btn-small"
+                className="btn-small edit-post-event"
                 icon="pencil-alt"
                 action="editPostEvent"
                 actionParam=state.eventModel.id
