@@ -71,7 +71,7 @@ module DiscoursePostEvent
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees.map { |i| i['user']['id'] }).to match_array([user.id] + group.group_users.map { |gu| gu.user.id })
+        expect(sample_invitees.map { |i| i['user']['id'] }).to match_array(group.group_users.map { |gu| gu.user.id })
         raw_invitees = response.parsed_body['event']['raw_invitees']
         expect(raw_invitees).to match_array(invitees)
       end
@@ -88,7 +88,7 @@ module DiscoursePostEvent
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees.map { |i| i['user']['id'] }).to match_array([user.id])
+        expect(sample_invitees.length).to eq(0)
       end
 
       it 'accepts one group invitee' do
@@ -103,7 +103,7 @@ module DiscoursePostEvent
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees.map { |i| i['user']['username'] }).to match_array([user.username] + group.group_users.map(&:user).map(&:username))
+        expect(sample_invitees.map { |i| i['user']['username'] }).to match_array(group.group_users.map(&:user).map(&:username))
       end
 
       it 'accepts no invitee' do
@@ -118,8 +118,7 @@ module DiscoursePostEvent
 
         expect(response.status).to eq(200)
         sample_invitees = response.parsed_body['event']['sample_invitees']
-        expect(sample_invitees.count).to eq(1)
-        expect(sample_invitees[0]['user']['username']).to eq(user.username)
+        expect(sample_invitees.count).to eq(0)
       end
 
       it 'limits displayed invitees' do

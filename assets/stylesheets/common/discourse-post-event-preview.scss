@@ -1,0 +1,17 @@
+.discourse-post-event-preview {
+  background: $secondary;
+  display: flex;
+  flex: 1 0 auto;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.5em;
+  border: 1px solid $primary-low;
+
+  .event-preview-status {
+    margin: 0 0 0.5em 0;
+  }
+
+  .event-preview-dates {
+    font-weight: 700;
+  }
+}

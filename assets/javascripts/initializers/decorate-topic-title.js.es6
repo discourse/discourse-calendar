@@ -9,9 +9,17 @@ function initializeDecorateTopicTitle(api) {
       const date = moment.utc(startsAt);
 
       if (topicTitleType === "topic-list-item-title") {
-        node.innerHTML = `${node.innerText}<span class="event-date">${date
+        if (node.querySelector(".event-date")) {
+          return;
+        }
+
+        const dateContainer = document.createElement("span");
+        dateContainer.classList.add("event-date");
+        dateContainer.innerText = date
           .tz(moment.tz.guess())
-          .format(guessDateFormat(date))}</span>`;
+          .format(guessDateFormat(date));
+
+        node.appendChild(dateContainer);
       }
 
       if (topicTitleType === "header-title") {

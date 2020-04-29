@@ -109,26 +109,10 @@ module DiscoursePostEvent
       @statuses ||= Enum.new(standalone: 0, public: 1, private: 2)
     end
 
-    def most_likely_going(current_user, limit = SiteSetting.displayed_invitees_limit)
-      most_likely = []
-
-      if self.can_user_update_attendance(current_user)
-        most_likely << Invitee.find_or_initialize_by(
-          user_id: current_user.id,
-          post_id: self.id
-        )
-      end
-
-      most_likely << Invitee.new(
-        user_id: self.post.user_id,
-        status: Invitee.statuses[:going],
-        post_id: self.id
-      )
-
-      most_likely + self.invitees
+    def most_likely_going(limit = SiteSetting.displayed_invitees_limit)
+      self.invitees
         .order([:status, :user_id])
-        .where.not(user_id: current_user.id)
-        .limit(limit - most_likely.count)
+        .limit(limit)
     end
 
     def publish_update!
@@ -160,7 +144,6 @@ module DiscoursePostEvent
 
     def can_user_update_attendance(user)
       !self.is_expired? &&
-      self.post.user != user &&
       (
         self.status == Event.statuses[:public] ||
         (

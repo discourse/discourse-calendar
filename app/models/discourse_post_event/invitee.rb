@@ -19,6 +19,27 @@ module DiscoursePostEvent
       self.update!(params)
     end
 
+    def self.upsert_attendance!(user_id, params, guardian)
+      invitee = Invitee.find_by(id: user_id)
+      status = Invitee.statuses[params[:status].to_sym]
+
+      if invitee
+        guardian.ensure_can_act_on_invitee!(invitee)
+        invitee.update_attendance(status: status)
+      else
+        event = Event.find(params[:post_id])
+        guardian.ensure_can_see!(event.post)
+        invitee = Invitee.create!(
+          status: status,
+          post_id: params[:post_id],
+          user_id: user_id,
+        )
+      end
+
+      invitee.event.publish_update!
+      invitee
+    end
+
     def self.extract_uniq_usernames(groups)
       User.where(
         id: GroupUser.where(

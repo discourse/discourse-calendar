@@ -56,7 +56,7 @@ module DiscoursePostEvent
       counts = object.invitees.group(:status).count
 
       # event creator is always going so we add one
-      going = (counts[Invitee.statuses[:going]] || 0) + (object.is_expired? ? 0 : 1)
+      going = counts[Invitee.statuses[:going]] || 0
       interested = counts[Invitee.statuses[:interested]] || 0
       not_going = counts[Invitee.statuses[:not_going]] || 0
       unanswered = counts[nil] || 0
@@ -70,18 +70,10 @@ module DiscoursePostEvent
     end
 
     def watching_invitee
-      if scope.current_user === object.post.user
-        watching_invitee = Invitee.new(
-          user_id: object.post.user.id,
-          status: Invitee.statuses[:going],
-          post_id: object.id
-        )
-      else
-        watching_invitee = Invitee.find_by(
-          user_id: scope.current_user.id,
-          post_id: object.id
-        )
-      end
+      watching_invitee = Invitee.find_by(
+        user_id: scope.current_user.id,
+        post_id: object.id
+      )
 
       if watching_invitee
         InviteeSerializer.new(watching_invitee, root: false)
@@ -89,7 +81,7 @@ module DiscoursePostEvent
     end
 
     def sample_invitees
-      invitees = object.most_likely_going(scope.current_user)
+      invitees = object.most_likely_going
       ActiveModel::ArraySerializer.new(invitees, each_serializer: InviteeSerializer)
     end
 
