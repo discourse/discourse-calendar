@@ -138,6 +138,12 @@
         .item-interested {
           font-weight: 700;
         }
+
+        .widget-dropdown-header {
+          .d-icon-star {
+            color: $tertiary;
+          }
+        }
       }
 
       &.status-not_going {
