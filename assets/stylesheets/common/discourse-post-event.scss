@@ -58,19 +58,6 @@
         }
       }
     }
-
-    .actions {
-      margin-bottom: auto;
-      margin-left: auto;
-
-      .edit-post-event {
-        background: none;
-
-        &:hover {
-          background: $primary-medium;
-        }
-      }
-    }
   }
 
   .event-date {
