@@ -33,9 +33,9 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.2]
       SQL
 
       # this is not ideal we should be using SQL here but this will work around bad schema
-      ActiveRecord::Base.clear_cache!
+      ActiveRecord::Base.connection.query_cache.clear
+      Post.reset_column_information
       Post.where(topic_id: calendar_topic_ids).each { |post| CalendarEvent.update(post) }
-      ActiveRecord::Base.clear_cache!
 
       execute "DELETE FROM post_custom_fields WHERE name = 'calendar-details' OR name = 'calendar-holidays'"
     rescue => e
