@@ -88,16 +88,28 @@
       max-width: 45vw;
     }
     .status-and-creators {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      margin-bottom: 0.25em;
-    }
-    .status-and-creators {
       color: $primary-medium;
       font-size: $font-down-1;
+      margin: 0.25em 0;
 
       .separator {
         margin: 0 0.25em;
+      }
+
+      .creators {
+        display: flex;
+        align-items: center;
+
+        .event-creator {
+          margin-left: 0.25em;
+
+          .topic-invitee-avatar {
+            display: flex;
+            align-items: center;
+          }
+        }
       }
 
       .status {

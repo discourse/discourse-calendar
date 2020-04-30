@@ -142,7 +142,8 @@ export default createWidget("discourse-post-event", {
               <span class="separator">·</span>
             {{/unless}}
             <span class="creators">
-              Created by {{attach widget="discourse-post-event-creator" attrs=(hash user=state.eventModel.creator)}}
+              <span>{{i18n "discourse_post_event.event_ui.created_by"}}</span>
+              {{attach widget="discourse-post-event-creator" attrs=(hash user=state.eventModel.creator)}}
             </span>
           </div>
         </div>
