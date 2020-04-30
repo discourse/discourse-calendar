@@ -11,7 +11,7 @@ describe DiscourseCalendar::GroupTimezones do
   let(:calendar_post) { create_post(raw: '[timezones group="admins"]\n[/timezones]') }
 
   it "converts the Markdown to HTML" do
-    expect(calendar_post.cooked).to match_html(<<~HTML)
+    expect(calendar_post.cooked.rstrip).to match_html(<<~HTML.rstrip)
       <div class="group-timezones" data-group="admins" data-size="medium">
       <p>\\n</p>
       </div>
