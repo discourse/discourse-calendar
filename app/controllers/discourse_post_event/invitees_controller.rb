@@ -13,7 +13,7 @@ module DiscoursePostEvent
           .where("LOWER(users.username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
       end
 
-      render json: ActiveModel::ArraySerializer.new(event_invitees.limit(10), each_serializer: InviteeSerializer).as_json
+      render json: ActiveModel::ArraySerializer.new(event_invitees.order([:status, :user_id]).limit(10), each_serializer: InviteeSerializer).as_json
     end
 
     def update
