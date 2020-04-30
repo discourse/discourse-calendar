@@ -17,6 +17,9 @@
       }
 
       .widget-dropdown-item {
+        &:not(.separator) {
+          padding: 0.5em;
+        }
         .d-icon + span {
           margin-left: 0.5em;
         }
