@@ -223,6 +223,18 @@
         &.status-interested {
           opacity: 1;
         }
+
+        &.status-going .avatar-flair {
+          color: $success;
+        }
+
+        &.status-not_going .avatar-flair {
+          color: $danger;
+        }
+
+        &.status-interested .avatar-flair {
+          color: $tertiary;
+        }
       }
 
       .topic-invitee-avatar {
@@ -242,18 +254,6 @@
           justify-content: center;
           color: $primary-medium;
           border: 1px solid $primary-low;
-
-          &.avatar-flair-status-going {
-            color: $success;
-          }
-
-          &.avatar-flair-status-not_going {
-            color: $danger;
-          }
-
-          &.avatar-flair-status-interested {
-            color: $tertiary;
-          }
 
           .d-icon {
             font-size: $font-down-3;
