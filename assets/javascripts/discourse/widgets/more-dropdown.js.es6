@@ -39,14 +39,16 @@ export default createWidget("more-dropdown", {
       });
     }
 
-    content.push({
-      id: "sendPMToCreator",
-      icon: "envelope",
-      translatedLabel: I18n.t(
-        "discourse_post_event.event_ui.send_pm_to_creator",
-        { username: attrs.creatorUsername }
-      )
-    });
+    if (this.currentUser) {
+      content.push({
+        id: "sendPMToCreator",
+        icon: "envelope",
+        translatedLabel: I18n.t(
+          "discourse_post_event.event_ui.send_pm_to_creator",
+          { username: attrs.creatorUsername }
+        )
+      });
+    }
 
     if (!attrs.isExpired && attrs.canActOnEvent && attrs.isPublicEvent) {
       content.push({

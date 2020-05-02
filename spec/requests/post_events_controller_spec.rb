@@ -137,7 +137,7 @@ module DiscoursePostEvent
         expect(sample_invitees.length).to eq(3)
       end
 
-      context 'when a event exists' do
+      context 'when an event exists' do
         let(:event) { Fabricate(:event, post: post1) }
 
         context 'when we update the event' do
@@ -323,6 +323,32 @@ module DiscoursePostEvent
             }
 
             expect(response.status).to eq(403)
+          end
+        end
+
+        context 'when watching user is not logged' do
+          before do
+            sign_out
+          end
+
+          context 'when topic is public' do
+            it 'can see the event' do
+              get "/discourse-post-event/events/#{event.id}.json"
+
+              expect(response.status).to eq(200)
+            end
+          end
+
+          context 'when topic is not public' do
+            before do
+              event.post.topic.convert_to_private_message(Discourse.system_user)
+            end
+
+            it 'can’t see the event' do
+              get "/discourse-post-event/events/#{event.id}.json"
+
+              expect(response.status).to eq(404)
+            end
           end
         end
       end

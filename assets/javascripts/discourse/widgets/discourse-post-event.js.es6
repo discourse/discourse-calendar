@@ -113,7 +113,10 @@ export default createWidget("discourse-post-event", {
       ),
       statusClass: `status ${eventModel.status}`,
       isPublicEvent: eventModel.status === "public",
-      isStandaloneEvent: eventModel.status === "standalone"
+      isStandaloneEvent: eventModel.status === "standalone",
+      canActOnEvent:
+        this.currentUser &&
+        this.state.eventModel.can_act_on_discourse_post_event
     };
   },
 
@@ -151,7 +154,7 @@ export default createWidget("discourse-post-event", {
         {{attach
           widget="more-dropdown"
           attrs=(hash
-            canActOnEvent=state.eventModel.can_act_on_discourse_post_event
+            canActOnEvent=this.transformed.canActOnEvent
             postEventId=state.eventModel.id
             isExpired=state.eventModel.is_expired
             creatorUsername=state.eventModel.creator.username

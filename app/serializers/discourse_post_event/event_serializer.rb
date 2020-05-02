@@ -45,7 +45,7 @@ module DiscoursePostEvent
     end
 
     def can_update_attendance
-      object.can_user_update_attendance(scope.current_user)
+      scope.current_user && object.can_user_update_attendance(scope.current_user)
     end
 
     def creator
@@ -70,10 +70,12 @@ module DiscoursePostEvent
     end
 
     def watching_invitee
-      watching_invitee = Invitee.find_by(
-        user_id: scope.current_user.id,
-        post_id: object.id
-      )
+      if scope.current_user
+        watching_invitee = Invitee.find_by(
+          user_id: scope.current_user.id,
+          post_id: object.id
+        )
+      end
 
       if watching_invitee
         InviteeSerializer.new(watching_invitee, root: false)
