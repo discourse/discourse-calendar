@@ -63,6 +63,13 @@ export default createWidget("more-dropdown", {
       content.push("separator");
 
       content.push({
+        icon: "file-csv",
+        id: "exportPostEvent",
+        label: "discourse_post_event.event_ui.export_event",
+        param: attrs.postEventId
+      });
+
+      content.push({
         icon: "pencil-alt",
         id: "editPostEvent",
         label: "discourse_post_event.event_ui.edit_event",

@@ -48,6 +48,7 @@ en:
         add_to_calendar: Add to calendar
         send_pm_to_creator: Send PM to %{username}
         edit_event: Edit event
+        export_event: Export event
         created_by: Created by
       invitees_modal:
         title_invited: "List of invited users"
