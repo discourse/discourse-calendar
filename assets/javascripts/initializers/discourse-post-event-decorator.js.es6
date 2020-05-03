@@ -94,50 +94,68 @@ function _attachWidget(api, cooked, eventModel) {
     glueContainer.innerHTML = '<div class="spinner medium"></div>';
     eventContainer.appendChild(glueContainer);
 
-    const dates = [];
     const startsAt = moment(eventModel.starts_at);
     const format = guessDateFormat(
       startsAt,
       eventModel.ends_at && moment(eventModel.ends_at)
     );
 
-    dates.push(
-      `[date=${moment
-        .utc(eventModel.starts_at)
-        .format("YYYY-MM-DD")} time=${moment
-        .utc(eventModel.starts_at)
-        .format("HH:mm")} format=${format}]`
-    );
+    const siteSettings = api.container.lookup("site-settings:main");
+    if (siteSettings.discourse_local_dates_enabled) {
+      const dates = [];
 
-    if (eventModel.ends_at) {
-      const endsAt = moment.utc(eventModel.ends_at);
       dates.push(
-        `[date=${endsAt.format("YYYY-MM-DD")} time=${endsAt.format(
-          "HH:mm"
-        )} format=${format}]`
+        `[date=${moment
+          .utc(eventModel.starts_at)
+          .format("YYYY-MM-DD")} time=${moment
+          .utc(eventModel.starts_at)
+          .format("HH:mm")} format=${format}]`
       );
-    }
 
-    cookAsync(dates.join("<span> → </span>")).then(result => {
-      eventContainer.classList.remove("is-loading");
-      eventContainer.classList.add("is-loaded");
+      if (eventModel.ends_at) {
+        const endsAt = moment.utc(eventModel.ends_at);
+        dates.push(
+          `[date=${endsAt.format("YYYY-MM-DD")} time=${endsAt.format(
+            "HH:mm"
+          )} format=${format}]`
+        );
+      }
+
+      cookAsync(dates.join("<span> → </span>")).then(result => {
+        eventContainer.classList.remove("is-loading");
+        eventContainer.classList.add("is-loaded");
+
+        const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
+          eventModel,
+          widgetHeight,
+          localDates: $(result.string).html()
+        });
+
+        glue.appendTo(glueContainer);
+        _glued.push(glue);
+
+        schedule("afterRender", () =>
+          $(
+            ".discourse-local-date",
+            $(`[data-post-id="${eventModel.id}"]`)
+          ).applyLocalDates()
+        );
+      });
+    } else {
+      let localDates = `${startsAt.format(format)}`;
+      if (eventModel.ends_at) {
+        localDates += ` → ${moment(eventModel.ends_at).format(format)}`;
+      }
 
       const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
         eventModel,
         widgetHeight,
-        localDates: $(result.string).html()
+        localDates
       });
 
       glue.appendTo(glueContainer);
       _glued.push(glue);
-
-      schedule("afterRender", () =>
-        $(
-          ".discourse-local-date",
-          $(`[data-post-id="${eventModel.id}"]`)
-        ).applyLocalDates()
-      );
-    });
+    }
   } else if (!eventModel) {
     const loadedEventContainer = cooked.querySelector(".discourse-post-event");
     loadedEventContainer && loadedEventContainer.remove();
