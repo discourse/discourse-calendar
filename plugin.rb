@@ -26,7 +26,7 @@ register_asset "stylesheets/mobile/discourse-post-event.scss", :mobile
 register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
 register_svg_icon "fas fa-calendar-day"
 register_svg_icon "fas fa-clock"
-register_svg_icon "fas fa-clock"
+register_svg_icon "fas fa-file-csv"
 register_svg_icon "fas fa-star"
 
 after_initialize do
@@ -152,7 +152,7 @@ after_initialize do
     return @can_act_on_discourse_post_event if defined?(@can_act_on_discourse_post_event)
     @can_act_on_discourse_post_event = begin
       return true if admin?
-      can_create_discourse_post_event? && event.post.user_id == id
+      can_create_discourse_post_event? || event.post.user_id == id
     rescue
       false
     end
@@ -373,5 +373,81 @@ after_initialize do
 
   add_to_serializer(:site, :include_users_on_holiday?) do
     scope.is_staff?
+  end
+
+  reloadable_patch do
+    module ExportPostEventCsvParamsExtension
+      private
+
+      def export_params
+        if post_event_export?
+          @_export_params ||= begin
+            params.require(:entity)
+            params.permit(:entity, args: [:id]).to_h
+          end
+        else
+          super
+        end
+      end
+
+      def post_event_export?
+        params[:entity] === 'post_event'
+      end
+
+      def ensure_can_export_post_event
+        return if !post_event_export?
+        return if !SiteSetting.discourse_post_event_enabled
+
+        post_event = DiscoursePostEvent::Event.find(export_params[:args][:id])
+        post_event && guardian.can_act_on_discourse_post_event?(post_event)
+      end
+    end
+
+    require_dependency 'export_csv_controller'
+    class ::ExportCsvController
+      before_action :ensure_can_export_post_event
+      prepend ExportPostEventCsvParamsExtension
+    end
+
+    module ExportPostEventCsvReportExtension
+      def post_event_export(&block)
+        return enum_for(:post_event_export) unless block_given?
+
+        guardian = Guardian.new(current_user)
+
+        event = DiscoursePostEvent::Event
+          .includes(invitees: :user)
+          .find(@extra[:id])
+
+        guardian.ensure_can_act_on_discourse_post_event!(event)
+
+        event.invitees
+          .each do |invitee|
+            yield [
+              invitee.user.username,
+              DiscoursePostEvent::Invitee.statuses[invitee.status],
+              invitee.created_at,
+              invitee.updated_at,
+            ]
+          end
+      end
+
+      def get_header(entity)
+        if SiteSetting.discourse_post_event_enabled && entity === 'post_event'
+          [
+            'username',
+            'status',
+            'first_answered_at',
+            'last_updated_at',
+          ]
+        else
+          super
+        end
+      end
+    end
+
+    class Jobs::ExportCsvFile
+      prepend ExportPostEventCsvReportExtension
+    end
   end
 end

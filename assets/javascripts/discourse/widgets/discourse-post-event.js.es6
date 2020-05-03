@@ -1,3 +1,4 @@
+import { exportEntity } from "discourse/lib/export-csv";
 import { emojiUnescape } from "discourse/lib/text";
 import cleanTitle from "discourse/plugins/discourse-calendar/lib/clean-title";
 import { dasherize } from "@ember/string";
@@ -72,6 +73,13 @@ export default createWidget("discourse-post-event", {
     return {
       eventModel: attrs.eventModel
     };
+  },
+
+  exportPostEvent(postId) {
+    exportEntity("post_event", {
+      name: "post_event",
+      id: postId
+    });
   },
 
   sendPMToCreator() {
