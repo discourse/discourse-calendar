@@ -14,7 +14,7 @@ enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
 register_asset "stylesheets/common/discourse-calendar.scss"
-register_asset "stylesheets/common/events-calendar.scss"
+register_asset "stylesheets/common/upcoming-events-calendar.scss"
 register_asset "stylesheets/common/discourse-post-event.scss"
 register_asset "stylesheets/common/discourse-post-event-preview.scss"
 register_asset "stylesheets/common/discourse-post-event-builder.scss"

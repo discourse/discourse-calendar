@@ -26,7 +26,7 @@ export default Component.extend({
     this._super(...arguments);
 
     this._loadCalendar().then(() => {
-      const calendarNode = document.getElementById("events-calendar");
+      const calendarNode = document.getElementById("upcoming-events-calendar");
 
       if (calendarNode) {
         this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
