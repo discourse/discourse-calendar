@@ -449,5 +449,26 @@ after_initialize do
     class Jobs::ExportCsvFile
       prepend ExportPostEventCsvReportExtension
     end
+
+    on(:reduce_cooked) do |fragment, post|
+      if SiteSetting.discourse_post_event_enabled
+        fragment.css('.discourse-post-event').each do |event_node|
+          starts_at = event_node['data-start']
+          ends_at = event_node['data-end']
+          dates = "#{starts_at} (UTC)"
+          if ends_at
+            dates = "#{dates} → #{ends_at} (UTC)"
+          end
+
+          event_name = event_node['data-name'] || post.topic.title
+          event_node.replace <<~TXT
+            <div style='border:1px solid #dedede'>
+              <p><a href="#{Discourse.base_url}#{post.url}">#{event_name}</a></p>
+              <p>#{dates}</p>
+            </div>
+          TXT
+        end
+      end
+    end
   end
 end
