@@ -25,13 +25,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    this._loadCalendar().then(() => {
-      const calendarNode = document.getElementById("upcoming-events-calendar");
-
-      if (calendarNode) {
-        this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
-      }
-    });
+    this._renderCalendar();
   },
 
   didReceiveAttrs() {
@@ -41,22 +35,34 @@ export default Component.extend({
   },
 
   _renderCalendar() {
-    if (!this._calendar) {
+    const calendarNode = document.getElementById("upcoming-events-calendar");
+    if (!calendarNode) {
       return;
     }
 
-    (this.events || []).forEach(event => {
-      const { starts_at, ends_at, post } = event;
-      this._calendar.addEvent({
-        title: formatEventName(event),
-        start: starts_at,
-        end: ends_at || starts_at,
-        allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
-        url: Discourse.getURL(`/t/-/${post.topic.id}/${post.post_number}`)
-      });
-    });
+    calendarNode.innerHTML = "";
 
-    this._calendar.render();
+    if (this._calendar) {
+      this._calendar.destroy();
+      this._calendar = null;
+    }
+
+    this._loadCalendar().then(() => {
+      this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
+
+      (this.events || []).forEach(event => {
+        const { starts_at, ends_at, post } = event;
+        this._calendar.addEvent({
+          title: formatEventName(event),
+          start: starts_at,
+          end: ends_at || starts_at,
+          allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
+          url: Discourse.getURL(`/t/-/${post.topic.id}/${post.post_number}`)
+        });
+      });
+
+      this._calendar.render();
+    });
   },
 
   _loadCalendar() {
