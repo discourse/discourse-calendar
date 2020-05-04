@@ -28,6 +28,13 @@ export default createWidget("more-dropdown", {
     }}
   `,
 
+  buildClasses(attrs) {
+    const content = this._buildContent(attrs);
+    if (!content.length) {
+      return ["has-no-actions"];
+    }
+  },
+
   _buildContent(attrs) {
     const content = [];
 
@@ -76,6 +83,7 @@ export default createWidget("more-dropdown", {
         param: attrs.postEventId
       });
     }
+
     return content;
   }
 });

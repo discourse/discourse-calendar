@@ -48,6 +48,10 @@
       align-self: flex-start;
       margin-top: 1em;
 
+      &.has-no-actions {
+        display: none;
+      }
+
       .widget-dropdown {
         .widget-dropdown-header {
           .d-icon {
