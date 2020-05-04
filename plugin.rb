@@ -470,5 +470,9 @@ after_initialize do
         end
       end
     end
+
+    on(:user_destroyed) do |user|
+      DiscoursePostEvent::Invitee.where(user_id: user.id).destroy_all
+    end
   end
 end
