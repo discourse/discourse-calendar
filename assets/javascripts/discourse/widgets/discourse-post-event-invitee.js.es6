@@ -16,7 +16,6 @@ export default createWidget("discourse-post-event-invitee", {
 
     if (
       this.currentUser &&
-      attrs.invitee.user &&
       this.currentUser.username === attrs.invitee.user.username
     ) {
       classes.push("is-current-user");

@@ -7,6 +7,12 @@ module DiscoursePostEvent
     belongs_to :event, foreign_key: :post_id
     belongs_to :user
 
+    default_scope {
+      joins(:user)
+        .includes(:user)
+        .where('users.id IS NOT NULL')
+    }
+
     scope :with_status, ->(status) {
       where(status: Invitee.statuses[status])
     }
