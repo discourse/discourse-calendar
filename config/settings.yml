@@ -1,8 +1,7 @@
-plugins:
+discourse_calendar:
   calendar_enabled:
     default: false
     client: true
-discourse_calendar:
   holiday_calendar_topic_id:
     default: ""
     client: true
