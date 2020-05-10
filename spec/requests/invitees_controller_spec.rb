@@ -13,14 +13,14 @@ module DiscoursePostEvent
     end
 
     let(:user) { Fabricate(:user, admin: true) }
-    let(:topic) { Fabricate(:topic, user: user) }
-    let(:post1) { Fabricate(:post, user: user, topic: topic) }
+    let(:topic_1) { Fabricate(:topic, user: user) }
+    let(:post_1) { Fabricate(:post, user: user, topic: topic_1) }
 
     context 'when a post event exists' do
       context 'when an invitee exists' do
         let(:invitee1) { Fabricate(:user) }
-        let(:post_event) {
-          pe = Fabricate(:event, post: post1)
+        let(:post_event_2) {
+          pe = Fabricate(:event, post: post_1)
           pe.create_invitees([{
             user_id: invitee1.id,
             status: Invitee.statuses[:going]
@@ -29,58 +29,60 @@ module DiscoursePostEvent
         }
 
         it 'updates its status' do
-          invitee = post_event.invitees.first
+          invitee = post_event_2.invitees.first
 
           expect(invitee.status).to eq(0)
 
           put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
             invitee: {
-              status: "interested"
+              status: 'interested'
             }
           }
 
           invitee.reload
 
           expect(invitee.status).to eq(1)
+          expect(invitee.post_id).to eq(post_1.id)
         end
       end
 
       context 'when an invitee doesn’t exist' do
-        let(:post_event) { Fabricate(:event, post: post1) }
+        let(:post_event_2) { Fabricate(:event, post: post_1) }
 
         it 'creates an invitee' do
           post "/discourse-post-event/invitees.json", params: {
             invitee: {
               user_id: user.id,
-              post_id: post_event.id,
-              status: "not_going",
+              post_id: post_event_2.id,
+              status: 'not_going',
             }
           }
 
           expect(Invitee).to exist(
-            post_id: post_event.id,
+            post_id: post_event_2.id,
             user_id: user.id,
             status: 2,
           )
         end
 
         context 'when the invitee is the event owner' do
-          let(:post_event) { Fabricate(:event, post: post1) }
+          let(:post_event_2) { Fabricate(:event, post: post_1) }
 
           it 'creates an invitee' do
-            expect(post_event.invitees.length).to eq(0)
+            expect(post_event_2.invitees.length).to eq(0)
 
-            put "/discourse-post-event/invitees/#{post1.user.id}.json", params: {
+            post "/discourse-post-event/invitees.json", params: {
               invitee: {
-                post_id: post1.id,
-                status: "interested"
+                post_id: post_1.id,
+                status: 'interested'
               }
             }
 
-            post_event.reload
+            post_event_2.reload
 
-            invitee = post_event.invitees.first
+            invitee = post_event_2.invitees.first
             expect(invitee.status).to eq(1)
+            expect(invitee.post_id).to eq(post_1.id)
           end
         end
       end

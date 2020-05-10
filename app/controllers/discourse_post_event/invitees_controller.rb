@@ -10,19 +10,32 @@ module DiscoursePostEvent
       if params[:filter]
         event_invitees = event_invitees
           .joins(:user)
-          .where("LOWER(users.username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
+          .where('LOWER(users.username) LIKE :filter', filter: "%#{params[:filter].downcase}%")
       end
 
-      render json: ActiveModel::ArraySerializer.new(event_invitees.order([:status, :user_id]).limit(10), each_serializer: InviteeSerializer).as_json
+      render json: ActiveModel::ArraySerializer.new(
+        event_invitees
+          .order([:status, :user_id])
+          .limit(10),
+        each_serializer: InviteeSerializer
+      ).as_json
     end
 
     def update
-      invitee = Invitee.upsert_attendance!(params[:id], invitee_params, guardian)
+      invitee = Invitee.update_attendance!(
+        params[:id],
+        invitee_params.tap { |ip| ip.require(:status) },
+        guardian
+      )
       render json: InviteeSerializer.new(invitee)
     end
 
     def create
-      invitee = Invitee.upsert_attendance!(current_user.id, invitee_params, guardian)
+      invitee = Invitee.create_attendance!(
+        current_user.id,
+        invitee_params.tap { |ip| ip.require([:status, :post_id]) },
+        guardian
+      )
       render json: InviteeSerializer.new(invitee)
     end
 

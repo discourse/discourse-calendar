@@ -21,29 +21,28 @@ module DiscoursePostEvent
       @statuses ||= Enum.new(going: 0, interested: 1, not_going: 2)
     end
 
-    def update_attendance(params)
-      self.update!(params)
-    end
-
-    def self.upsert_attendance!(user_id, params, guardian)
-      invitee = Invitee.find_by(id: user_id)
-      status = Invitee.statuses[params[:status].to_sym]
-
-      if invitee
-        guardian.ensure_can_act_on_invitee!(invitee)
-        invitee.update_attendance(status: status)
-      else
-        event = Event.find(params[:post_id])
-        guardian.ensure_can_see!(event.post)
-        invitee = Invitee.create!(
-          status: status,
-          post_id: params[:post_id],
-          user_id: user_id,
-        )
-      end
-
+    def self.create_attendance!(user_id, params, guardian)
+      event = Event.find(params[:post_id])
+      guardian.ensure_can_see!(event.post)
+      invitee = Invitee.create!(
+        status: Invitee.statuses[params[:status].to_sym],
+        post_id: params[:post_id],
+        user_id: user_id,
+      )
       invitee.event.publish_update!
       invitee
+    end
+
+    def update_attendance!(params, guardian)
+      guardian.ensure_can_act_on_invitee!(self)
+      self.update(status: Invitee.statuses[params[:status].to_sym])
+      self.event.publish_update!
+      self
+    end
+
+    def self.update_attendance!(invitee_id, params, guardian)
+      invitee = Invitee.find(invitee_id)
+      invitee.update_attendance!(params, guardian)
     end
 
     def self.extract_uniq_usernames(groups)
