@@ -39,10 +39,10 @@ module DiscoursePostEvent
 
     scope :visible, -> { where(deleted_at: nil) }
     scope :not_expired, -> {
-      where('ends_at IS NOT NULL and ends_at > :now', now: Time.now)
-        .or(
-          Event.where('starts_at > :now and ends_at IS NULL', now: Time.now)
-        )
+      where(<<-SQL, now: Time.now)
+        (ends_at IS NOT NULL AND ends_at > :now) OR
+        (starts_at > :now AND ends_at IS NULL)
+      SQL
     }
 
     def is_expired?
