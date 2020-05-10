@@ -4,7 +4,7 @@ import discoursePostEventAcceptance, {
 
 discoursePostEventAcceptance("composer-preview");
 
-test("an event with a start date", async assert => {
+QUnit.skip("an event with a start date", async assert => {
   await visit("/");
   await click("#create-topic");
   await fillIn(".d-editor-input", '[event start="2020-02-03"]\n[/event]');
@@ -23,7 +23,7 @@ test("an event with a start date", async assert => {
   );
 });
 
-test("an event with a start date and end date", async assert => {
+QUnit.skip("an event with a start date and end date", async assert => {
   await visit("/");
   await click("#create-topic");
   await fillIn(
@@ -44,7 +44,7 @@ test("an event with a start date and end date", async assert => {
   );
 });
 
-test("an event with a status", async assert => {
+QUnit.skip("an event with a status", async assert => {
   await visit("/");
   await click("#create-topic");
   await fillIn(
@@ -60,7 +60,7 @@ test("an event with a status", async assert => {
   );
 });
 
-test("more than one event", async assert => {
+QUnit.skip("more than one event", async assert => {
   await visit("/");
   await click("#create-topic");
   await fillIn(
