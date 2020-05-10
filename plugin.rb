@@ -169,7 +169,7 @@ after_initialize do
   end
 
   add_to_serializer(:post, :include_event?) do
-    SiteSetting.discourse_post_event_enabled
+    SiteSetting.discourse_post_event_enabled && !object.nil? && !object.deleted_at.present?
   end
 
   on(:post_process_cooked) do |doc, post|
