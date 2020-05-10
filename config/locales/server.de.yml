@@ -1,0 +1,38 @@
+en:
+  site_settings:
+    calendar_enabled: "Aktiviert das discourse-calendar Plugin. Dies aktiviert die Unterstützung des [calendar][/calendar] Schlagworts in der ersten Nachricht eines Themas."
+    discourse_post_event_enabled: "[Experimentell] Erlaubt ein Event zu eineem Beitrag hinzuzufügen. Beachte, dass auch `calendar enabled` aktiviert ein muss."
+    displayed_invitees_limit: "Limitiert die Anzahl an eingeladenen für einen Termin."
+    display_post_event_date_on_topic_title: "Zeigt das Datum eines Termins nach dem Thementitel."
+    discourse_post_event_allowed_on_groups: "Gruppen die einen Event erstellen dürfen."
+    holiday_calendar_topic_id: "Thema ID des Team Urlaub/Abwesenheitskalender."
+    delete_expired_event_posts_after: "Beiträge eines abgelaufenen Termin werden automatisch nach (n) Stunden gelöscht. -1 deaktivert diese Funktion."
+    all_day_event_start_time: "Termine ohne eine gesetzte Start Zeit starten um diese Zeit. Format ist HH:mm. Für 6:00 am, geben Sie 06:00 an"
+    all_day_event_end_time: "Termine ohne gesetzter End Zeit enden um diese Zeit. Format ist HH:mm. Für 6:00 pm, geben Sie 18:00 an"
+    all_day_event_time_error: "Ungültige Zeit. Format muss HH:mm sein (Beispiel: 08:00)."
+    calendar_categories: "Zeigt den Kalender oben in der Kategorie an. Erforderliche Parameter sind categoryId und postId. Beispiel: categoryId=6;postId=453\n Weitere gültige Parameter: tzPicker, weekends und defaultView."
+    calendar_categories_outlet: "Erlaubt das Setzen des 'outlets' welche die Kalender Kategorie anzeigen soll."
+    working_days: "Setzt die Arbeitstage in welcher die Zeitzone die in einem Beitrag hervorgehoben wird. Setze es per [timezones group=admins][timezones]."
+    working_day_start_hour: "Start Zeit eines Arbeitstages."
+    working_day_end_hour: "End Zeit eines Arbeitstages."
+    close_to_working_day_hours_extension: "Setze Arbeitszeitverklärung in Stunden die zu einem hervorheben der Zeitzone führt."
+  discourse_calendar:
+    invite_user_notification: "%{username} lädt dich ein zu: %{description}"
+    calendar_must_be_in_first_post: "Kalender Schlagwort kann nur im ersten Beitrag erwähnt werden."
+    more_than_one_calendar: "Nur ein Kalender pro Beitrag möglich"
+    more_than_two_dates: "Ein Kalenderbeitrag kann nicht mehr als zwei Datum-Angaben beinhalten."
+    event_expired: "Termin abgelaufen"
+  discourse_post_event:
+    errors:
+      models:
+        event:
+          only_one_event: Ein Beitrag kann nur einen Termin beinhalten.
+          must_be_in_first_post: Ein Termin kann nur im ersten Beitrag angegeben werden.
+          raw_invitees_length: "Ein Termin ist limitiert auf %{count} Benutzern/Gruppen."
+          ends_at_before_starts_at: "Ein Termin kann nicht enden bevor er startet."
+          start_must_be_present_and_a_valid_date: "Ein Termin benötigt einen gültigen Startzeitpunkt."
+          end_must_be_a_valid_date: "Ein Termin benötigt einen gültigen Endzeitpunkt."
+          acting_user_not_allowed_to_create_event: "Der aktuelle Benutzer kann keinen Termin erstellen."
+          acting_user_not_allowed_to_act_on_this_event: "Der aktuelle Benutzer kann nicht bei diesem Termin teilhaben."
+          name:
+            length: "Die Länge des Namens des Termins muss zwischen %{minimum} und %{maximum} Zeichen haben."
