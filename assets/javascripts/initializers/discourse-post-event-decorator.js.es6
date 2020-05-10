@@ -9,53 +9,66 @@ function _decorateEvent(api, cooked, post) {
   _attachWidget(api, cooked, post);
 }
 
-function _decorateEventPreview(api, cooked) {
-  const eventContainer = cooked.querySelector(".discourse-post-event");
+function _validEventPreview(eventContainer) {
+  eventContainer.innerHTML = "";
+  eventContainer.classList.add("discourse-post-event-preview");
 
-  if (eventContainer) {
-    if (!eventContainer.dataset.start) {
-      return;
-    }
-
-    const eventPreviewContainer = document.createElement("div");
-    eventPreviewContainer.classList.add("discourse-post-event-preview");
-
-    const statusLocaleKey = `discourse_post_event.models.event.status.${eventContainer
-      .dataset.status || "public"}.title`;
-    if (I18n.lookup(statusLocaleKey, { locale: "en" })) {
-      const statusContainer = document.createElement("div");
-      statusContainer.classList.add("event-preview-status");
-      statusContainer.innerText = I18n.t(statusLocaleKey);
-      eventPreviewContainer.appendChild(statusContainer);
-    }
-
-    const datesContainer = document.createElement("div");
-    datesContainer.classList.add("event-preview-dates");
-
-    const startsAt = moment
-      .utc(eventContainer.dataset.start)
-      .tz(moment.tz.guess());
-
-    const endsAtValue = eventContainer.dataset.end;
-    const format = guessDateFormat(
-      startsAt,
-      endsAtValue && moment.utc(endsAtValue).tz(moment.tz.guess())
-    );
-
-    let datesString = `<span class='start'>${startsAt.format(format)}</span>`;
-    if (endsAtValue) {
-      datesString += ` → <span class='end'>${moment
-        .utc(endsAtValue)
-        .tz(moment.tz.guess())
-        .format(format)}</span>`;
-    }
-    datesContainer.innerHTML = datesString;
-
-    eventPreviewContainer.appendChild(datesContainer);
-
-    eventContainer.innerHTML = "";
-    eventContainer.appendChild(eventPreviewContainer);
+  const statusLocaleKey = `discourse_post_event.models.event.status.${eventContainer
+    .dataset.status || "public"}.title`;
+  if (I18n.lookup(statusLocaleKey, { locale: "en" })) {
+    const statusContainer = document.createElement("div");
+    statusContainer.classList.add("event-preview-status");
+    statusContainer.innerText = I18n.t(statusLocaleKey);
+    eventContainer.appendChild(statusContainer);
   }
+
+  const datesContainer = document.createElement("div");
+  datesContainer.classList.add("event-preview-dates");
+
+  const startsAt = moment
+    .utc(eventContainer.dataset.start)
+    .tz(moment.tz.guess());
+
+  const endsAtValue = eventContainer.dataset.end;
+  const format = guessDateFormat(
+    startsAt,
+    endsAtValue && moment.utc(endsAtValue).tz(moment.tz.guess())
+  );
+
+  let datesString = `<span class='start'>${startsAt.format(format)}</span>`;
+  if (endsAtValue) {
+    datesString += ` → <span class='end'>${moment
+      .utc(endsAtValue)
+      .tz(moment.tz.guess())
+      .format(format)}</span>`;
+  }
+  datesContainer.innerHTML = datesString;
+
+  eventContainer.appendChild(datesContainer);
+}
+
+function _invalidEventPreview(eventContainer) {
+  eventContainer.classList.add(
+    "discourse-post-event-preview",
+    "alert",
+    "alert-error"
+  );
+  eventContainer.classList.remove("discourse-post-event");
+  eventContainer.innerText = I18n.t(
+    "discourse_post_event.preview.more_than_one_event"
+  );
+}
+
+function _decorateEventPreview(api, cooked) {
+  const eventContainers = cooked.querySelectorAll(".discourse-post-event");
+
+  eventContainers.forEach((eventContainer, index) => {
+    if (index > 0) {
+      _invalidEventPreview(eventContainer);
+    } else {
+      _validEventPreview(eventContainer);
+    }
+  });
 }
 
 let _glued = [];
