@@ -68,21 +68,20 @@ export default Controller.extend(ModalFunctionality, {
               const raw = post.raw;
               const newRaw = this._removeRawEvent(raw);
 
-              if (newRaw) {
-                const props = {
-                  raw: newRaw,
-                  edit_reason: I18n.t("discourse_post_event.destroy_event")
-                };
+              const props = {
+                raw: newRaw,
+                edit_reason: I18n.t("discourse_post_event.destroy_event")
+              };
 
-                return TextLib.cookAsync(newRaw).then(cooked => {
-                  props.cooked = cooked.string;
-                  return post
-                    .save(props)
-                    .catch(e => this.flash(extractError(e), "error"))
-                    .then(result => result && this.send("closeModal"));
-                });
-              }
-            });
+              return TextLib.cookAsync(newRaw).then(cooked => {
+                props.cooked = cooked.string;
+                return post
+                  .save(props)
+                  .catch(e => this.flash(extractError(e), "error"))
+                  .then(result => result && this.send("closeModal"));
+              });
+            })
+            .catch(e => this.flash(extractError(e), "error"));
         }
       }
     );
