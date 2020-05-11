@@ -28,12 +28,6 @@ export default Component.extend({
     this._renderCalendar();
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    this._renderCalendar();
-  },
-
   _renderCalendar() {
     const calendarNode = document.getElementById("upcoming-events-calendar");
     if (!calendarNode) {
@@ -41,11 +35,6 @@ export default Component.extend({
     }
 
     calendarNode.innerHTML = "";
-
-    if (this._calendar) {
-      this._calendar.destroy();
-      this._calendar = null;
-    }
 
     this._loadCalendar().then(() => {
       this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
