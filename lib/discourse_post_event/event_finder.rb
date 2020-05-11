@@ -28,7 +28,7 @@ module DiscoursePostEvent
     end
 
     def self.private_messages(user)
-      Topic.private_messages_for_user(user)
+      user ? Topic.private_messages_for_user(user) : Topic.none
     end
   end
 end
