@@ -1,4 +1,4 @@
-en:
+de:
   site_settings:
     calendar_enabled: "Aktiviert das discourse-calendar Plugin. Dies aktiviert die Unterstützung des [calendar][/calendar] Schlagworts in der ersten Nachricht eines Themas."
     discourse_post_event_enabled: "[Experimentell] Erlaubt ein Event zu eineem Beitrag hinzuzufügen. Beachte, dass auch `calendar enabled` aktiviert ein muss."
