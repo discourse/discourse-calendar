@@ -15,6 +15,8 @@ test("replying to a post", async assert => {
     popupMenu.rowByValue("insertEvent").exists(),
     "it doesn’t show the option"
   );
+
+  await click(".save-or-cancel .cancel");
 });
 
 test("edit the op", async assert => {
@@ -30,4 +32,6 @@ test("edit the op", async assert => {
     popupMenu.rowByValue("insertEvent").exists(),
     "it shows the option"
   );
+
+  await click(".save-or-cancel .cancel");
 });
