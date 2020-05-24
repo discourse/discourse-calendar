@@ -1,7 +1,7 @@
 de:
   site_settings:
     calendar_enabled: "Aktiviert das discourse-calendar Plugin. Dies aktiviert die Unterstützung des [calendar][/calendar] Schlagworts in der ersten Nachricht eines Themas."
-    discourse_post_event_enabled: "[Experimentell] Erlaubt ein Event zu eineem Beitrag hinzuzufügen. Beachte, dass auch `calendar enabled` aktiviert ein muss."
+    discourse_post_event_enabled: "[Experimentell] Erlaubt ein Event zu eineem Beitrag hinzuzufügen. Beachte, dass auch `calendar enabled` aktiviert sein muss."
     displayed_invitees_limit: "Limitiert die Anzahl an eingeladenen für einen Termin."
     display_post_event_date_on_topic_title: "Zeigt das Datum eines Termins nach dem Thementitel."
     discourse_post_event_allowed_on_groups: "Gruppen die einen Event erstellen dürfen."
