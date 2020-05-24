@@ -395,7 +395,6 @@ after_initialize do
       end
 
       def ensure_can_export_post_event
-        return if !post_event_export?
         return if !SiteSetting.discourse_post_event_enabled
 
         post_event = DiscoursePostEvent::Event.find(export_params[:args][:id])
@@ -405,8 +404,17 @@ after_initialize do
 
     require_dependency 'export_csv_controller'
     class ::ExportCsvController
-      before_action :ensure_can_export_post_event
       prepend ExportPostEventCsvParamsExtension
+
+      def export_entity
+        if post_event_export? && ensure_can_export_post_event
+          Jobs.enqueue(:export_csv_file, entity: export_params[:entity], user_id: current_user.id, args: export_params[:args])
+          StaffActionLogger.new(current_user).log_entity_export(export_params[:entity])
+          render json: success_json
+        else
+          super
+        end
+      end
     end
 
     module ExportPostEventCsvReportExtension
