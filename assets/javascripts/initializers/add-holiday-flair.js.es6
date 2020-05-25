@@ -49,19 +49,22 @@ export default {
 
         api.decorateCooked(
           ($el, helper) => {
-            usernames.forEach(username => {
-              if (helper) {
-                // decorating a post
-                applyFlairOnMention($el[0], username);
-              } else {
-                // decorating preview
-                flairHandler && cancel(flairHandler);
-                flairHandler = later(
-                  () => applyFlairOnMention($el[0], username),
-                  1000
-                );
-              }
-            });
+            if (helper) {
+              // decorating a post
+              usernames.forEach(username =>
+                applyFlairOnMention($el[0], username)
+              );
+            } else {
+              // decorating preview
+              flairHandler && cancel(flairHandler);
+              flairHandler = later(
+                () =>
+                  usernames.forEach(username =>
+                    applyFlairOnMention($el[0], username)
+                  ),
+                1000
+              );
+            }
           },
           { id: "discourse-calendar-holiday-flair" }
         );
