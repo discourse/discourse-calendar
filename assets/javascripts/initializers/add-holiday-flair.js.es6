@@ -1,5 +1,26 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { iconHTML } from "discourse-common/lib/icon-library";
+import { later, cancel } from "@ember/runloop";
+import { htmlSafe } from "@ember/template";
+
+function applyFlairOnMention(element, username) {
+  if (!element) return;
+
+  const href = `${Discourse.BaseUri}/u/${username}`;
+
+  const mentions = element.querySelectorAll(
+    `a.mention[href="${href}"]:not(.on-holiday)`
+  );
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(iconHTML("calendar-alt"), "text/html");
+  const iconDocument = doc.body.firstChild;
+
+  mentions.forEach(mention => {
+    mention.appendChild(iconDocument);
+    mention.classList.add("on-holiday");
+  });
+}
 
 export default {
   name: "add-holiday-flair",
@@ -9,17 +30,24 @@ export default {
       const usernames = api.container.lookup("site:main").users_on_holiday;
 
       if (usernames && usernames.length > 0) {
+        let flairHandler;
+
+        api.cleanupStream(() => flairHandler && cancel(flairHandler));
+
         api.decorateCooked(
-          el => {
-            const $el = $(el);
-
+          ($el, helper) => {
             usernames.forEach(username => {
-              const href = `${Discourse.BaseUri}/u/${username}`;
-
-              $el
-                .find(`a.mention[href="${href}"]:not(.on-holiday)`)
-                .append(iconHTML("calendar-alt"))
-                .addClass("on-holiday");
+              if (helper) {
+                // decorating a post
+                applyFlairOnMention($el[0], username);
+              } else {
+                // decorating preview
+                flairHandler && cancel(flairHandler);
+                flairHandler = later(
+                  () => applyFlairOnMention($el[0], username),
+                  1000
+                );
+              }
             });
           },
           { id: "discourse-calendar-holiday-flair" }
