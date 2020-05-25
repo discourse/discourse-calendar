@@ -1,7 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { iconHTML } from "discourse-common/lib/icon-library";
 import { later, cancel } from "@ember/runloop";
-import { htmlSafe } from "@ember/template";
 
 function applyFlairOnMention(element, username) {
   if (!element) return;
