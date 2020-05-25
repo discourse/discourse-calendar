@@ -22,7 +22,7 @@ export default {
                 .addClass("on-holiday");
             });
           },
-          { onlyStream: true, id: "discourse-calendar-holiday-flair" }
+          { id: "discourse-calendar-holiday-flair" }
         );
 
         api.addPosterIcon(cfs => {
