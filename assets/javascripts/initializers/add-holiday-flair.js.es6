@@ -25,6 +25,20 @@ export default {
   name: "add-holiday-flair",
 
   initialize() {
+    withPluginApi("0.10.1", api => {
+      const usernames = api.container.lookup("site:main").users_on_holiday;
+
+      if (usernames && usernames.length > 0) {
+        api.addUsernameSelectorDecorator(username => {
+          if (usernames.includes(username)) {
+            return `<span class="on-holiday">${iconHTML(
+              "calendar-alt"
+            )}</span>`;
+          }
+        });
+      }
+    });
+
     withPluginApi("0.8", api => {
       const usernames = api.container.lookup("site:main").users_on_holiday;
 
