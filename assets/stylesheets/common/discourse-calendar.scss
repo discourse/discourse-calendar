@@ -32,8 +32,11 @@
       }
     }
 
+    overflow: hidden;
+
     .fc-scroller {
-      max-height: 565px;
+      height: 570px !important;
+      padding-bottom: 5px;
     }
 
     .fc-basic-view .fc-day-top .fc-day-number {
