@@ -1,5 +1,6 @@
 .discourse-calendar-wrap {
   margin: 0.5em 0;
+  border: 5px solid $primary-low;
 }
 
 .category-calendar .calendar {
@@ -13,13 +14,22 @@
 
 .calendar {
   height: 645px; // Must be fixed to prevent height change on load
-  padding: 0 0.5em;
+  border: 0;
 
   &.fc-unthemed {
     tbody,
     thead,
     tr {
       border: none;
+
+      td.fc-widget-content,
+      td.fc-widget-header {
+        border-left: 0;
+
+        &:last-child {
+          border-right: 0;
+        }
+      }
     }
 
     .fc-basic-view .fc-day-top .fc-day-number {
@@ -42,7 +52,7 @@
     }
 
     .fc-header-toolbar {
-      margin: 1em 0 0.5em 0;
+      padding: 0.5em 0.5em 0 0.5em;
     }
 
     .fc-title {
@@ -70,7 +80,6 @@
       color: $primary;
       text-shadow: none;
       border: none;
-
       padding: 6px 12px;
 
       &:hover {
@@ -82,11 +91,9 @@
         background: $tertiary;
         color: $secondary;
       }
-      margin: 0.3em 0 0.3em 0.5em;
     }
 
     .fc-button-group {
-      margin: 0.3em 0 0.3em 0.5em;
       // margin-right: 0;
       .fc-button {
         margin: 0;
@@ -180,10 +187,6 @@ a.holiday {
     font-weight: 700;
     text-transform: capitalize;
   }
-}
-
-.discourse-calendar-wrap {
-  border: 1px solid $primary-low;
 }
 
 .discourse-calendar-header .discourse-calendar-timezone-picker {
