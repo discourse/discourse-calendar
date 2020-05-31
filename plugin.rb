@@ -376,7 +376,17 @@ after_initialize do
   end
 
   reloadable_patch do
-    module ExportPostEventCsvParamsExtension
+    module DiscoursePostEvent::ExportCsvControllerExtension
+      def export_entity
+        if post_event_export? && ensure_can_export_post_event
+          Jobs.enqueue(:export_csv_file, entity: export_params[:entity], user_id: current_user.id, args: export_params[:args])
+          StaffActionLogger.new(current_user).log_entity_export(export_params[:entity])
+          render json: success_json
+        else
+          super
+        end
+      end
+
       private
 
       def export_params
@@ -404,17 +414,7 @@ after_initialize do
 
     require_dependency 'export_csv_controller'
     class ::ExportCsvController
-      prepend ExportPostEventCsvParamsExtension
-
-      def export_entity
-        if post_event_export? && ensure_can_export_post_event
-          Jobs.enqueue(:export_csv_file, entity: export_params[:entity], user_id: current_user.id, args: export_params[:args])
-          StaffActionLogger.new(current_user).log_entity_export(export_params[:entity])
-          render json: success_json
-        else
-          super
-        end
-      end
+      prepend DiscoursePostEvent::ExportCsvControllerExtension
     end
 
     module ExportPostEventCsvReportExtension
