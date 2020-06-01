@@ -319,7 +319,7 @@ after_initialize do
           post_url: Post.url('-', event.topic_id, event.post_number)
         }
       else
-        identifier = "#{event.region.split("_").first}-#{event.description}-#{event.start_date.strftime("%W")}"
+        identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%W")}-#{(event.end_date || event.start_date).strftime("%W")}"
 
         if grouped_events[identifier]
           grouped_events[identifier][:to] = event.start_date
@@ -328,7 +328,8 @@ after_initialize do
             type: :grouped,
             name: event.description,
             from: event.start_date,
-            usernames: []
+            usernames: [],
+            identifier: identifier
           }
         end
 

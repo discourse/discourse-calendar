@@ -443,18 +443,16 @@ function initializeDiscourseCalendar(api) {
       const minDate = moment(groupedEvent.from)
         .utc()
         .startOf("day")
-        .subtract(12, "hours")
         .toISOString();
-      const maxdate = moment(groupedEvent.to || groupedEvent.from)
+      const maxDate = moment(groupedEvent.to || groupedEvent.from)
         .utc()
         .endOf("day")
-        .add(12, "hours")
         .toISOString();
 
-      const identifier = `${minDate}-${maxdate}`;
+      const identifier = `${minDate}-${maxDate}`;
       formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
-        from: groupedEvent.from,
-        to: groupedEvent.to,
+        from: minDate,
+        to: maxDate || minDate,
         localEvents: {}
       };
 
