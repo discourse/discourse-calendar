@@ -6,17 +6,12 @@ function applyFlairOnMention(element, username) {
   if (!element) return;
 
   const href = `${Discourse.BaseUri}/u/${username}`;
-
-  const mentions = element.querySelectorAll(
-    `a.mention[href="${href}"]:not(.on-holiday)`
-  );
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(iconHTML("calendar-alt"), "text/html");
-  const iconDocument = doc.body.firstChild;
+  const mentions = element.querySelectorAll(`a.mention[href="${href}"]`);
 
   mentions.forEach(mention => {
-    mention.appendChild(iconDocument);
+    if (!mention.querySelector(".d-icon-calendar-alt")) {
+      mention.insertAdjacentHTML("beforeend", iconHTML("calendar-alt"));
+    }
     mention.classList.add("on-holiday");
   });
 }
