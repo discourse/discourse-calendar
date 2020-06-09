@@ -6,7 +6,7 @@
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
-gem "holidays", "8.1.0", require: false
+gem "holidays", "8.2.0", require: false
 
 load File.expand_path("../lib/calendar_settings_validator.rb", __FILE__)
 
