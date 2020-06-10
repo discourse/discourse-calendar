@@ -14,9 +14,7 @@ export default ComboBoxComponent.extend({
 
   content: computed(function() {
     const localeNames = {};
-
-    const availableLocales = JSON.parse(this.siteSettings.available_locales);
-    availableLocales.forEach(locale => {
+    JSON.parse(this.siteSettings.available_locales).forEach(locale => {
       localeNames[locale.value] = locale.name;
     });
 

@@ -1,8 +1,9 @@
 TIMEZONES_DEFINITIONS = 'https://raw.githubusercontent.com/moment/moment-timezone/develop/data/meta/latest.json'
+UNUSED_REGIONS = ["ecbtarget", "federalreserve", "federalreservebanks", "fedex", "nerc", "unitednations", "ups"]
 
 task 'javascript:update_constants' => :environment do
   require 'holidays'
-  holiday_regions = Holidays.available_regions.map(&:to_s) - ["ecbtarget", "federalreserve", "federalreservebanks", "fedex", "nerc", "unitednations", "ups"]
+  holiday_regions = Holidays.available_regions.map(&:to_s) - UNUSED_REGIONS
 
   time_zone_to_region = {}
   data = JSON.parse(URI.open(TIMEZONES_DEFINITIONS).read)
