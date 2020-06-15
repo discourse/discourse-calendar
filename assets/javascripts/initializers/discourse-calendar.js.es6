@@ -246,14 +246,15 @@ function initializeDiscourseCalendar(api) {
       }
     } else {
       event.allDay = true;
-      if (from.weeklyRecurring) {
-        event.startTime = {
-          hours: from.dateTime.hours(),
-          minutes: from.dateTime.minutes(),
-          seconds: from.dateTime.seconds()
-        };
-        event.daysOfWeek = [from.dateTime.isoWeekday()];
-      }
+    }
+
+    if (from.weeklyRecurring) {
+      event.startTime = {
+        hours: from.dateTime.hours(),
+        minutes: from.dateTime.minutes(),
+        seconds: from.dateTime.seconds()
+      };
+      event.daysOfWeek = [from.dateTime.isoWeekday()];
     }
 
     return event;
