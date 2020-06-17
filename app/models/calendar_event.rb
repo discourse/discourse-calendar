@@ -28,7 +28,7 @@ class CalendarEvent < ActiveRecord::Base
       to = (to || from).change(hour_adjustment(SiteSetting.all_day_event_end_time)) if adjust_to && !artificial_to
     end
 
-    doc = Nokogiri::HTML::fragment(post.cooked)
+    doc = Nokogiri::HTML5.fragment(post.cooked)
     doc.css('.discourse-local-date').each(&:remove)
     html = doc.to_html.sub(' → ', '')
 
