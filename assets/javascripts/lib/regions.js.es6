@@ -250,7 +250,8 @@ export const HOLIDAY_REGIONS = [
   "vi",
   "sg",
   "my",
-  "th"
+  "th",
+  "ng"
 ];
 
 export const TIME_ZONE_TO_REGION = {
@@ -365,6 +366,7 @@ export const TIME_ZONE_TO_REGION = {
   "America/Bahia_Banderas": "mx",
   "Asia/Kuala_Lumpur": "my",
   "Asia/Kuching": "my",
+  "Africa/Lagos": "ng",
   "Europe/Amsterdam": "nl",
   "Europe/Oslo": "no",
   "Pacific/Auckland": "nz",
