@@ -23,6 +23,6 @@ export default ComboBoxComponent.extend({
         name: I18n.t(`discourse_calendar.region.names.${region}`),
         id: region
       };
-    });
+    }).sort((a, b) => a.name.localeCompare(b.name));
   })
 });
