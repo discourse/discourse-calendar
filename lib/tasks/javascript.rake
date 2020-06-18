@@ -2,6 +2,7 @@
 
 TIMEZONES_DEFINITIONS = 'https://raw.githubusercontent.com/moment/moment-timezone/develop/data/meta/latest.json'
 UNUSED_REGIONS = ["ecbtarget", "federalreserve", "federalreservebanks", "fedex", "nerc", "unitednations", "ups"]
+HOLIDAYS_COUNTRY_OVERRIDES = { "gr" => "el" }
 
 task 'javascript:update_constants' => :environment do
   require 'holidays'
@@ -11,6 +12,10 @@ task 'javascript:update_constants' => :environment do
   data = JSON.parse(URI.open(TIMEZONES_DEFINITIONS).read)
   data['zones'].each do |timezone, timezone_data|
     country_code = timezone_data['countries'].first.downcase
+    if HOLIDAYS_COUNTRY_OVERRIDES.include?(country_code)
+      country_code = HOLIDAYS_COUNTRY_OVERRIDES[country_code]
+    end
+
     next if !holiday_regions.include?(country_code)
     time_zone_to_region[timezone] = country_code
   end

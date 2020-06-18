@@ -342,6 +342,7 @@ export const TIME_ZONE_TO_REGION = {
   "Europe/Paris": "fr",
   "Europe/London": "gb",
   "Asia/Tbilisi": "ge",
+  "Europe/Athens": "el",
   "Asia/Hong_Kong": "hk",
   "Europe/Budapest": "hu",
   "Europe/Dublin": "ie",
