@@ -250,7 +250,7 @@ export const HOLIDAY_REGIONS = [
   "vi",
   "sg",
   "my",
-  "th",
+  "th"
 ];
 
 export const TIME_ZONE_TO_REGION = {
@@ -450,5 +450,5 @@ export const TIME_ZONE_TO_REGION = {
   "Europe/Vaduz": "li",
   "Europe/Ljubljana": "si",
   "Europe/Bratislava": "sk",
-  "America/St_Thomas": "vi",
+  "America/St_Thomas": "vi"
 };
