@@ -1,0 +1,11 @@
+<div class="control-group">
+  <label class="control-label">{{i18n 'discourse_calendar.region.title'}}</label>
+  <div class="controls">
+    {{region-input
+      value=model.custom_fields.holidays-region
+      onChange=(action "onChange")
+      class="input-xxlarge"
+    }}
+  </div>
+  {{d-button icon="globe" label="discourse_calendar.region.use_current_region" action=(action "useCurrentRegion") }}
+</div>
