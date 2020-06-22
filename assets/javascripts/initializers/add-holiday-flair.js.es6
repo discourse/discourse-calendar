@@ -5,7 +5,7 @@ import { later, cancel } from "@ember/runloop";
 function applyFlairOnMention(element, username) {
   if (!element) return;
 
-  const href = `${Discourse.BaseUri}/u/${username}`;
+  const href = `${Discourse.BaseUri}/u/${username.toLowerCase()}`;
   const mentions = element.querySelectorAll(`a.mention[href="${href}"]`);
 
   mentions.forEach(mention => {
