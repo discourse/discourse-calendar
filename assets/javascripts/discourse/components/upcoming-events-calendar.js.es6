@@ -4,6 +4,7 @@ import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/fo
 import loadScript from "discourse/lib/load-script";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
+import getURL from "discourse-common/lib/get-url";
 
 export default Component.extend({
   tagName: "",
@@ -46,7 +47,7 @@ export default Component.extend({
           start: starts_at,
           end: ends_at || starts_at,
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
-          url: Discourse.getURL(`/t/-/${post.topic.id}/${post.post_number}`)
+          url: getURL(`/t/-/${post.topic.id}/${post.post_number}`)
         });
       });
 
