@@ -7,6 +7,7 @@ import showModal from "discourse/lib/show-modal";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
+import getURL from "discourse-common/lib/get-url";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -90,7 +91,7 @@ export default createWidget("discourse-post-event", {
   },
 
   addToCalendar() {
-    const link = Discourse.getURL(
+    const link = getURL(
       `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
     );
 
