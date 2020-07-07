@@ -1,5 +1,4 @@
-import selectKit from "helpers/select-kit-helper";
-import { acceptance, updateCurrentUser } from "helpers/qunit-helpers";
+import { acceptance } from "helpers/qunit-helpers";
 
 acceptance("Discourse Calendar - Holiday Flair", {
   loggedIn: true,
