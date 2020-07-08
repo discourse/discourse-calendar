@@ -6,6 +6,7 @@ export default {
   shouldRender(args, context) {
     return (
       context.siteSettings.calendar_enabled &&
+      context.site.users_on_holiday &&
       context.site.users_on_holiday.includes(args.user.username)
     );
   },
