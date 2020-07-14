@@ -238,10 +238,22 @@ after_initialize do
   TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
 
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
-  whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+
+  # TODO Drop after Discourse 2.6.0 release
+  if respond_to?(:whitelist_staff_user_custom_field)
+    whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+  else
+    allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+  end
 
   register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
-  whitelist_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
+
+  # TODO Drop after Discourse 2.6.0 release
+  if respond_to?(:whitelist_staff_user_custom_field)
+    whitelist_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
+  else
+    allow_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
+  end
 
   on(:site_setting_changed) do |name, old_value, new_value|
     next unless [:all_day_event_start_time, :all_day_event_end_time].include? name
