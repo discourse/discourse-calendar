@@ -183,8 +183,8 @@ export default createWidget("discourse-post-event", {
 
           <div class="meeting-location">
             <div title="Add to google calendar" >{{d-icon 'calendar-alt'}} <a href={{transformed.gcalUrl}} target="_blank">{{d-icon 'fab-google'}}</a></div>
-            {{#if transformed.meetingLocation}}
-            <div title="Join meeting" data-url=transformed.meetingLocation.url>{{d-icon 'map-marker-alt'}}
+            {{#if transformed.meetingLocation.location}}
+            <div data-url=transformed.meetingLocation.url>{{d-icon 'map-marker-alt'}}
             {{#if transformed.meetingLocation.url}}
             <a href={{transformed.meetingLocation.url}} target="_blank">{{transformed.meetingLocation.location}}</a>
             {{else}}
