@@ -100,6 +100,13 @@ export default createWidget("discourse-post-event", {
 
   transform() {
     const eventModel = this.state.eventModel;
+    const eName = emojiUnescape(
+      eventModel.name ||
+      this._cleanTopicTitle(
+        eventModel.post.topic.title,
+        eventModel.starts_at
+      )
+    );
     const mLocation = ((value) => {
       const ret = {
         location: value
@@ -111,6 +118,14 @@ export default createWidget("discourse-post-event", {
       }
       return ret;
     })(eventModel.meetingLocation);
+    const gCalUrl = (() => {
+      const mUrl = mLocation.url ? (mLocation.url) : mLocation.location;
+      let dates = '';
+      if (eventModel.starts_at) dates += eventModel.starts_at.replace(/-|:|\.000/g, '');
+      if (eventModel.ends_at) dates += '%2F' + eventModel.ends_at.replace(/-|:|\.000/g, '');
+      return `https://www.google.com/calendar/render?action=TEMPLATE&text=${eName}&location=${mUrl}&dates=${dates}`;
+    })();
+
     return {
       eventStatusLabel: I18n.t(
         `discourse_post_event.models.event.status.${eventModel.status}.title`
@@ -121,13 +136,8 @@ export default createWidget("discourse-post-event", {
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
       meetingLocation: mLocation,
-      eventName: emojiUnescape(
-        eventModel.name ||
-          this._cleanTopicTitle(
-            eventModel.post.topic.title,
-            eventModel.starts_at
-          )
-      ),
+      gcal_url: gCalUrl,
+      eventName: eName,
       statusClass: `status ${eventModel.status}`,
       isPublicEvent: eventModel.status === "public",
       isStandaloneEvent: eventModel.status === "standalone",
@@ -168,6 +178,14 @@ export default createWidget("discourse-post-event", {
           </div>
         </div>
 
+        {{#if state.eventModel.meetingLocation}}
+          <div class="meeting-location">
+            <div title="Add to google calendar" >{{d-icon 'calendar-alt'}} <a href={{transformed.gcal_url}} target="_blank">{{d-icon 'fab-google'}}</a></div>
+            <div title="Join meeting">{{d-icon 'map-marker-alt'}} <a href={{transformed.meetingLocation.url}} target="_blank">{{{transformed.meetingLocation.location}}}</a></div><br/>
+          </div>
+          <hr />
+        {{/if}}
+
         {{attach
           widget="more-dropdown"
           attrs=(hash
@@ -193,14 +211,6 @@ export default createWidget("discourse-post-event", {
       {{/if}}
 
       <hr />
-
-
-      {{#if state.eventModel.meetingLocation}}
-        <section class="meeting-location">
-        Location: <a href={{transformed.meetingLocation.url}}>{{{transformed.meetingLocation.location}}}</a>
-        </section>
-        <hr />
-      {{/if}}
 
       {{attach widget="discourse-post-event-dates"
         attrs=(hash
