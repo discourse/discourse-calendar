@@ -111,15 +111,17 @@ export default createWidget("discourse-post-event", {
       const ret = {
         location: value
       }
-      const uidx = value.indexOf('~');
-      if (value && uidx >= 0) {
-        ret.location = value.substr(0, uidx);
-        ret.url = value.substr(uidx + 1);
+      if (value) {
+        const uidx = value.indexOf('~');
+        if (uidx >= 0) {
+          ret.location = value.substr(0, uidx);
+          ret.url = value.substr(uidx + 1);
+        }
       }
       return ret;
     })(eventModel.meetingLocation);
     const gCalUrl = (() => {
-      const mUrl = mLocation.url ? (mLocation.url) : mLocation.location;
+      const mUrl = mLocation.location ? (mLocation.url ? (mLocation.url) : mLocation.location) : '';
       let dates = '';
       if (eventModel.starts_at) dates += eventModel.starts_at.replace(/-|:|\.000/g, '');
       if (eventModel.ends_at) dates += '%2F' + eventModel.ends_at.replace(/-|:|\.000/g, '');
@@ -178,13 +180,20 @@ export default createWidget("discourse-post-event", {
           </div>
         </div>
 
-        {{#if state.eventModel.meetingLocation}}
+
           <div class="meeting-location">
             <div title="Add to google calendar" >{{d-icon 'calendar-alt'}} <a href={{transformed.gcal_url}} target="_blank">{{d-icon 'fab-google'}}</a></div>
-            <div title="Join meeting">{{d-icon 'map-marker-alt'}} <a href={{transformed.meetingLocation.url}} target="_blank">{{{transformed.meetingLocation.location}}}</a></div><br/>
+            {{#if transformed.meetingLocation}}
+            <div title="Join meeting" data-url=transformed.meetingLocation.url>{{d-icon 'map-marker-alt'}}
+            {{#if transformed.meetingLocation.url}}
+            <a href={{transformed.meetingLocation.url}} target="_blank">{{transformed.meetingLocation.location}}</a>
+            {{else}}
+            {{transformed.meetingLocation.location}}
+            {{/if}}
+            </div>
+            {{/if}}
           </div>
           <hr />
-        {{/if}}
 
         {{attach
           widget="more-dropdown"
