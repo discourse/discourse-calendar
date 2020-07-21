@@ -138,7 +138,7 @@ export default createWidget("discourse-post-event", {
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
       meetingLocation: mLocation,
-      gcal_url: gCalUrl,
+      gcalUrl: gCalUrl,
       eventName: eName,
       statusClass: `status ${eventModel.status}`,
       isPublicEvent: eventModel.status === "public",
@@ -182,7 +182,7 @@ export default createWidget("discourse-post-event", {
 
 
           <div class="meeting-location">
-            <div title="Add to google calendar" >{{d-icon 'calendar-alt'}} <a href={{transformed.gcal_url}} target="_blank">{{d-icon 'fab-google'}}</a></div>
+            <div title="Add to google calendar" >{{d-icon 'calendar-alt'}} <a href={{transformed.gcalUrl}} target="_blank">{{d-icon 'fab-google'}}</a></div>
             {{#if transformed.meetingLocation}}
             <div title="Join meeting" data-url=transformed.meetingLocation.url>{{d-icon 'map-marker-alt'}}
             {{#if transformed.meetingLocation.url}}

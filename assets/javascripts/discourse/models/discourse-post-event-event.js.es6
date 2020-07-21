@@ -43,7 +43,6 @@ const Event = RestModel.extend({
       const attribute = ATTRIBUTES[key];
       if (attribute.transform) {
         props[key] = attribute.transform(props[key]);
-        console.log(key, props[key]);
       }
     });
   },
