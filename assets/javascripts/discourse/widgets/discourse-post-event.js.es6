@@ -100,7 +100,17 @@ export default createWidget("discourse-post-event", {
 
   transform() {
     const eventModel = this.state.eventModel;
-
+    const mLocation = ((value) => {
+      const ret = {
+        location: value
+      }
+      const uidx = value.indexOf('~');
+      if (value && uidx >= 0) {
+        ret.location = value.substr(0, uidx);
+        ret.url = value.substr(uidx + 1);
+      }
+      return ret;
+    })(eventModel.meetingLocation);
     return {
       eventStatusLabel: I18n.t(
         `discourse_post_event.models.event.status.${eventModel.status}.title`
@@ -110,7 +120,7 @@ export default createWidget("discourse-post-event", {
       ),
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
-      meetingLocation: eventModel.meetingLocation,
+      meetingLocation: mLocation,
       eventName: emojiUnescape(
         eventModel.name ||
           this._cleanTopicTitle(
@@ -187,7 +197,7 @@ export default createWidget("discourse-post-event", {
 
       {{#if state.eventModel.meetingLocation}}
         <section class="meeting-location">
-        Location: <a href={{transformed.meetingLocation}}>{{{transformed.meetingLocation}}}</a>
+        Location: <a href={{transformed.meetingLocation.url}}>{{{transformed.meetingLocation.location}}}</a>
         </section>
         <hr />
       {{/if}}
