@@ -146,6 +146,10 @@ export default Controller.extend(ModalFunctionality, {
       eventParams.status = this.model.eventModel.status;
     }
 
+    if (this.model.eventModel.meetingLocation) {
+      eventParams.meetingLocation = this.model.eventModel.meetingLocation;
+    }
+
     if (this.model.eventModel.name) {
       eventParams.name = this.model.eventModel.name;
     }

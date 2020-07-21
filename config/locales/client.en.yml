@@ -318,6 +318,7 @@ en:
         name:
           label: Event name
           placeholder: Optional, defaults to topic title
+        meetingLocation: Location
         invitees:
           label: Invited groups
         status:

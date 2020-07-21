@@ -110,6 +110,7 @@ export default createWidget("discourse-post-event", {
       ),
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
+      meetingLocation: eventModel.meetingLocation,
       eventName: emojiUnescape(
         eventModel.name ||
           this._cleanTopicTitle(
@@ -162,6 +163,7 @@ export default createWidget("discourse-post-event", {
           attrs=(hash
             canActOnEvent=this.transformed.canActOnEvent
             postEventId=state.eventModel.id
+            meetingLocation=state.eventModel.meetingLocation
             isExpired=state.eventModel.is_expired
             creatorUsername=state.eventModel.creator.username
             isPublicEvent=this.transformed.isPublicEvent
@@ -181,6 +183,14 @@ export default createWidget("discourse-post-event", {
       {{/if}}
 
       <hr />
+
+
+      {{#if state.eventModel.meetingLocation}}
+        <section class="meeting-location">
+        Location: <a href={{transformed.meetingLocation}}>{{{transformed.meetingLocation}}}</a>
+        </section>
+        <hr />
+      {{/if}}
 
       {{attach widget="discourse-post-event-dates"
         attrs=(hash

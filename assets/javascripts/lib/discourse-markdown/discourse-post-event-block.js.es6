@@ -23,6 +23,10 @@ const rule = {
       token.attrs.push(["data-name", info.attrs.name]);
     }
 
+    if (info.attrs.meetingLocation) {
+      token.attrs.push(["data-meeting-location", info.attrs.meetingLocation]);
+    }
+
     if (info.attrs.allowedGroups) {
       token.attrs.push(["data-allowed-groups", info.attrs.allowedGroups]);
     }

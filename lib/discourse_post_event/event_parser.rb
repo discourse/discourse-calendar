@@ -4,6 +4,7 @@ VALID_OPTIONS = [
   :start,
   :end,
   :status,
+  :"meeting-location",
   :"allowed-groups",
   :name
 ]

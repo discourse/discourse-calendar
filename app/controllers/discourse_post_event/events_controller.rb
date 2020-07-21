@@ -89,6 +89,7 @@ module DiscoursePostEvent
         .permit(
           :id,
           :name,
+          :meetingLocation,
           :starts_at,
           :ends_at,
           :status,

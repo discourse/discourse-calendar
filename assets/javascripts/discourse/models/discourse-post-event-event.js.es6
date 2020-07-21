@@ -3,6 +3,7 @@ import RestModel from "discourse/models/rest";
 const ATTRIBUTES = {
   id: {},
   name: {},
+  meetingLocation: {},
   starts_at: {},
   ends_at: {},
   raw_invitees: {},

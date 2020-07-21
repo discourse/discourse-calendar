@@ -19,6 +19,13 @@
         }}
       {{/event-field}}
 
+      {{#event-field class="meeting-location" label="discourse_post_event.builder_modal.meetingLocation"}}
+        {{input
+          value=(readonly model.eventModel.meetingLocation)
+          input=(action (mut model.eventModel.meetingLocation) value="target.value")
+        }}
+      {{/event-field}}
+
       {{#event-field label="discourse_post_event.builder_modal.status.label"}}
         <label class="radio-label">
           {{radio-button

@@ -163,6 +163,7 @@ module DiscoursePostEvent
 
         params = {
           name: event_params[:name],
+          meetingLocation: event_params[:"meeting-location"],
           starts_at: event_params[:start] || event.starts_at,
           ends_at: event_params[:end],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
