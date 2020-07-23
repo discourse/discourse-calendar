@@ -58,7 +58,7 @@ acceptance("Discourse Calendar - Holiday Flair", {
 });
 
 QUnit.test("shows holiday emoji in directory", async assert => {
-  await visit("/users");
+  await visit("/u");
   assert.equal(find(".holiday-flair").length, 1);
   assert.equal(find("div[data-username='foo'] .holiday-flair").length, 1);
   assert.equal(find("div[data-username='bar'] .holiday-flair").length, 0);
