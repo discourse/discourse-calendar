@@ -240,19 +240,19 @@ after_initialize do
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
   # TODO Drop after Discourse 2.6.0 release
-  if respond_to?(:whitelist_staff_user_custom_field)
-    whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
-  else
+  if respond_to?(:allow_staff_user_custom_field)
     allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+  else
+    whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
   end
 
   register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
 
   # TODO Drop after Discourse 2.6.0 release
-  if respond_to?(:whitelist_staff_user_custom_field)
-    whitelist_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
-  else
+  if respond_to?(:allow_staff_user_custom_field)
     allow_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
+  else
+    whitelist_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
   end
 
   on(:site_setting_changed) do |name, old_value, new_value|
