@@ -38,6 +38,7 @@ module DiscoursePostEvent
     belongs_to :post, foreign_key: :id
 
     scope :visible, -> { where(deleted_at: nil) }
+    scope :expired, -> { where('COALESCE(ends_at, starts_at) < ?', Time.now) }
     scope :not_expired, -> {
       where(<<-SQL, now: Time.now)
         (ends_at IS NOT NULL AND ends_at > :now) OR

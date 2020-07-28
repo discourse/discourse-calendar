@@ -7,18 +7,32 @@ module DiscoursePostEvent
       topics = listable_topics(guardian)
       pms = private_messages(user)
 
-      events = DiscoursePostEvent::Event
-        .visible
-        .not_expired
+      events = DiscoursePostEvent::Event.visible
+
+      if params[:expired]
+        events = events.expired
+      else
+        events = events.not_expired
+      end
 
       if params[:post_id]
         events = events.where(id: Array(params[:post_id]))
       end
 
-      events.joins(post: :topic)
+      events = events.joins(post: :topic)
         .merge(Post.secured(guardian))
         .merge(topics.or(pms).distinct)
         .order(starts_at: :asc)
+
+      if params[:category_id].present?
+        if params[:include_subcategories].present?
+          events = events.where(topics: { category_id: Category.subcategory_ids(params[:category_id].to_i) })
+        else
+          events = events.where(topics: { category_id: params[:category_id].to_i })
+        end
+      end
+
+      events
     end
 
     private
