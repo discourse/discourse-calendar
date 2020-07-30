@@ -49,7 +49,7 @@ describe PrettyText do
         )
       }
 
-      it 'displays the topic title' do
+      it 'displays the event name' do
         cooked = PrettyText.cook(post_1.raw)
 
         expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
@@ -72,7 +72,7 @@ describe PrettyText do
         )
       }
 
-      it 'displays the topic title' do
+      it 'displays the end date' do
         cooked = PrettyText.cook(post_1.raw)
 
         expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
