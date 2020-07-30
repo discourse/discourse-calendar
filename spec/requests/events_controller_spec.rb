@@ -141,6 +141,20 @@ module DiscoursePostEvent
         let(:event) { Fabricate(:event, post: post1) }
 
         context 'when we update the event' do
+          context 'when an url is defined' do
+            it 'changes the url' do
+              url = 'https://www.google.fr'
+
+              put "/discourse-post-event/events/#{event.id}.json", params: {
+                event: { url: url }
+              }
+
+              event.reload
+
+              expect(event.url).to eq(url)
+            end
+          end
+
           context 'when status changes from standalone to private' do
             it 'changes the status, raw_invitees and invitees' do
               event.update!(status: Event.statuses[:standalone])

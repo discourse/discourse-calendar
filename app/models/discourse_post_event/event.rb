@@ -165,6 +165,7 @@ module DiscoursePostEvent
           name: event_params[:name],
           starts_at: event_params[:start] || event.starts_at,
           ends_at: event_params[:end],
+          url: event_params[:"url"],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
           raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }

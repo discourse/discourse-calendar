@@ -85,6 +85,7 @@ function _attachWidget(api, cooked, eventModel) {
     eventContainer.innerHTML = "";
 
     const datesHeight = 50;
+    const urlHeight = 50;
     const headerHeight = 75;
     const bordersHeight = 10;
     const separatorsHeight = 4;
@@ -98,6 +99,10 @@ function _attachWidget(api, cooked, eventModel) {
 
     if (eventModel.can_update_attendance) {
       widgetHeight += 60;
+    }
+
+    if (eventModel.url) {
+      widgetHeight += urlHeight;
     }
 
     eventContainer.classList.add("is-loading");

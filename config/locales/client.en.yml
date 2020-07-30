@@ -315,6 +315,9 @@ en:
         create: Create
         update: Save
         attach: Create event
+        url:
+          label: URL
+          placeholder: Optional
         name:
           label: Event name
           placeholder: Optional, defaults to topic title

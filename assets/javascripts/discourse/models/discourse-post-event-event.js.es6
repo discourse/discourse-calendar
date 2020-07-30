@@ -6,6 +6,7 @@ const ATTRIBUTES = {
   starts_at: {},
   ends_at: {},
   raw_invitees: {},
+  url: {},
   status: {
     transform(value) {
       return STATUSES[value];

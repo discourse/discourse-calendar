@@ -80,6 +80,19 @@ describe Post do
           expect(post.event.name).to be_blank
         end
 
+        it 'works with url attribute' do
+          url = 'https://www.discourse.org'
+
+          post = create_post_with_event(user, "url=\"#{url}\"").reload
+          expect(post.event.url).to eq(url)
+
+          post = create_post_with_event(user, 'url=""').reload
+          expect(post.event.url).to be_blank
+
+          post = create_post_with_event(user, 'url=').reload
+          expect(post.event.url).to be_blank
+        end
+
         it 'works with status attribute' do
           post = create_post_with_event(user, 'status="private"').reload
           expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:private])

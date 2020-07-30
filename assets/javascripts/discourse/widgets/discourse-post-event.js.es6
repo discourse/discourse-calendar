@@ -180,6 +180,16 @@ export default createWidget("discourse-post-event", {
         </section>
       {{/if}}
 
+      {{#if this.state.eventModel.url}}
+        <hr />
+
+        {{attach widget="discourse-post-event-url"
+          attrs=(hash
+            url=this.state.eventModel.url
+          )
+        }}
+      {{/if}}
+
       <hr />
 
       {{attach widget="discourse-post-event-dates"
