@@ -1,20 +1,20 @@
-en:
+cs:
   admin_js:
     admin:
       site_settings:
         categories:
-          discourse_post_event: "Discourse Event"
-          discourse_calendar: "Discourse Calendar"
+          discourse_post_event: "Událost Discourse"
+          discourse_calendar: "Kalendář Discourse"
   js:
     discourse_calendar:
-      invite_user_notification: "%{username} invited you to: %{description}"
-      on_holiday: "On Holiday"
-      holiday: "Holiday"
-      add_to_calendar: "Add to Google Calendar"
+      invite_user_notification: "%{username} vás zve do kalendáře: %{description}"
+      on_holiday: "Na dovolené"
+      holiday: "Dovolená"
+      add_to_calendar: "Přidat do Kalendáře Google"
       region:
         title: "Region"
-        none: "Select a region..."
-        use_current_region: "Use Current Region"
+        none: "Vyberte region…"
+        use_current_region: "Použít současný region"
         names:
           ar: "Argentina"
           at: "Austria"
@@ -81,7 +81,7 @@ en:
           cl: "Chile"
           co: "Colombia"
           cr: "Costa Rica"
-          cz: "Czech Republic"
+          cz: "Česká republika"
           de_bb: "Germany (de_bb)"
           de_be: "Germany (de_be)"
           de_bw: "Germany (de_bw)"
@@ -202,7 +202,7 @@ en:
           se: "Sweden"
           sg: "Singapore"
           si: "Slovenia"
-          sk: "Slovakia"
+          sk: "Slovensko"
           th: "Thailand"
           tn: "Tunisia"
           tr: "Turkey"
@@ -268,65 +268,65 @@ en:
           vi: "Virgin Islands (U.S.)"
           za: "South Africa"
     group_timezones:
-      search: "Search..."
-      group_availability: "%{group} availability"
+      search: "Hledat…"
+      group_availability: "Dostupnost %{group}"
     discourse_post_event:
       preview:
-        more_than_one_event: You can’t have more than one event.
-      edit_reason: Event updated
+        more_than_one_event: "Nemůžete mít více než jednu událost."
+      edit_reason: "Událost aktualizována"
       models:
         invitee:
           status:
-            unknown: "Not interested"
-            going: "Going"
-            not_going: "Not Going"
-            interested: "Interested"
+            unknown: "Nemá zájem"
+            going: "Zúčastní se"
+            not_going: "Nezúčastní se"
+            interested: "Má zájem"
         event:
-          expired: Expired
+          expired: Uplynulá
           status:
             standalone:
-              title: Standalone
-              description: "A standalone event can't be joined."
+              title: Samostatná
+              description: "Samostatné události se nejde účastnit."
             public:
-              title: Public
-              description: "A public event can be joined by anyone."
+              title: Veřejná
+              description: "Veřejné události se může účastnit kdokoliv."
             private:
-              title: Private
-              description: "A private event can only be joined by invited users."
+              title: Soukromá
+              description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
       event_ui:
-        show_all: Show all
+        show_all: "Zobrazit vše"
         participants:
-          one: "%{count} user participated."
-          other: "%{count} users participated."
-        invite: Notify user
-        add_to_calendar: Add to calendar
-        send_pm_to_creator: Send PM to %{username}
-        edit_event: Edit event
-        export_event: Export event
-        created_by: Created by
+          one: "%{count} uživatel se zúčastnil."
+          other: "%{count} uživatelů se zúčastnilo."
+        invite: "Oznámit uživateli"
+        add_to_calendar: "Přidat do kalendáře"
+        send_pm_to_creator: "Poslat uživateli %{username} soukromou zprávu"
+        edit_event: "Upravit událost"
+        export_event: "Exportovat událost"
+        created_by: "Vytvořil/a"
       invitees_modal:
-        title_invited: "List of invited users"
-        title_participated: "List of users who participated"
-        filter_placeholder: "Filter users"
+        title_invited: "Seznam pozvaných uživatelů"
+        title_participated: "Seznam uživatelů, kteří se zúčastnili"
+        filter_placeholder: "Filtrovat uživatele"
       builder_modal:
-        create_event_title: Create Event
-        update_event_title: Edit Event
-        confirm_delete: Are you sure you want to delete this event?
-        create: Create
-        update: Save
-        attach: Create event
+        create_event_title: "Vytvořit událost"
+        update_event_title: "Upravit událost"
+        confirm_delete: "Určitě chcete tuto událost smazat?"
+        create: "Vytvořit"
+        update: "Uložit"
+        attach: "Vytvořit událost"
         name:
-          label: Event name
-          placeholder: Optional, defaults to topic title
+          label: "Název události"
+          placeholder: "Volitelný, ve výchozím stavu název tématu"
         invitees:
-          label: Invited groups
+          label: "Pozvané skupiny"
         status:
-          label: Status
+          label: "Stav"
       invite_user_or_group:
-        title: Notify user(s) or group(s)
-        invite: Send
+        title: "Oznámit uživatelům nebo skupinám"
+        invite: "Odeslat"
       upcoming_events:
-        title: Upcoming events
-        creator: Creator
-        status: Status
-        starts_at: Starts at
+        title: "Nadcházející události"
+        creator: "Vytvořil/a"
+        status: "Stav"
+        starts_at: "Začíná v"
