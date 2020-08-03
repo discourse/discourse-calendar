@@ -81,7 +81,6 @@ export default createWidget("discourse-post-event", {
   },
 
   bulkInvite(postId) {
-    console.log("discourse-post-event-bulk-invite", postId);
     showModal("discourse-post-event-bulk-invite", {
       model: { id: postId }
     });
