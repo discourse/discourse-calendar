@@ -8,10 +8,10 @@ module DiscoursePostEvent
       @events = DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params)
 
       respond_to do |format|
-        format.ics {
+        format.ics do
           filename = "events-#{@events.map(&:id).join('-')}"
           response.headers['Content-Disposition'] = "attachment; filename=\"#{filename}.#{request.format.symbol}\""
-        }
+        end
 
         format.json do
           render json: ActiveModel::ArraySerializer.new(
@@ -62,23 +62,52 @@ module DiscoursePostEvent
     end
 
     def create
-      event = Event.new(event_params)
+      event = Event.new(id: event_params[:id])
       guardian.ensure_can_edit!(event.post)
       guardian.ensure_can_create_discourse_post_event!
-
-      case event_params[:status].to_i
-      when Event.statuses[:private]
-        raw_invitees = Array(event_params[:raw_invitees])
-        event.update!(raw_invitees: raw_invitees)
-        event.fill_invitees!
-        event.notify_invitees!
-      when Event.statuses[:public], Event.statuses[:standalone]
-        event.update!(event_params.merge(raw_invitees: []))
-      end
-
+      event.update_with_params!(event_params)
       event.publish_update!
       serializer = EventSerializer.new(event, scope: guardian)
       render_json_dump(serializer)
+    end
+
+    def bulk_invite
+      require 'csv'
+
+      event = Event.find(params[:id])
+      guardian.ensure_can_edit!(event.post)
+      guardian.ensure_can_create_discourse_post_event!
+
+      file = params[:file] || (params[:files] || []).first
+      raise Discourse::InvalidParameters.new(:file) if file.blank?
+
+      hijack do
+        begin
+          count = 0
+          invitees = []
+
+          CSV.foreach(file.tempfile) do |row|
+            if row[0].present?
+              count += 1
+              invitees << { identifier: row[0], attendance: row[1] || 'going' }
+            end
+          end
+
+          if invitees.present?
+            Jobs.enqueue(
+              :discourse_post_event_bulk_invite,
+              event_id: event.id,
+              invitees: invitees,
+              current_user_id: current_user.id
+            )
+            render json: success_json
+          else
+            render json: failed_json.merge(errors: [I18n.t('discourse_post_event.errors.bulk_invite.error')]), status: 422
+          end
+        rescue
+          render json: failed_json.merge(errors: [I18n.t('discourse_post_event.errors.bulk_invite.error')]), status: 422
+        end
+      end
     end
 
     private

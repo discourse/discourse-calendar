@@ -22,19 +22,20 @@ module DiscoursePostEvent
     end
 
     def update
-      invitee = Invitee.update_attendance!(
-        params[:id],
-        invitee_params.tap { |ip| ip.require(:status) },
-        guardian
-      )
+      invitee = Invitee.find(params[:id])
+      guardian.ensure_can_act_on_invitee!(invitee)
+      invitee.update_attendance!(invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
     def create
+      event = Event.find(invitee_params[:post_id])
+      guardian.ensure_can_see!(event.post)
+
       invitee = Invitee.create_attendance!(
         current_user.id,
-        invitee_params.tap { |ip| ip.require([:status, :post_id]) },
-        guardian
+        invitee_params[:post_id],
+        invitee_params[:status]
       )
       render json: InviteeSerializer.new(invitee)
     end

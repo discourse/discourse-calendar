@@ -77,6 +77,13 @@ export default createWidget("more-dropdown", {
       });
 
       content.push({
+        icon: "file-upload",
+        id: "bulkInvite",
+        label: "discourse_post_event.event_ui.bulk_invite",
+        param: attrs.postEventId
+      });
+
+      content.push({
         icon: "pencil-alt",
         id: "editPostEvent",
         label: "discourse_post_event.event_ui.edit_event",

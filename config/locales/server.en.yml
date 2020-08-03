@@ -1,4 +1,21 @@
 en:
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "Bulk Invite Succeeded"
+      subject_template: "Bulk user invite processed successfully"
+      text_body_template: "Your bulk user invite file was processed, %{processed} user(s) invited."
+    discourse_post_event_bulk_invite_failed:
+      title: "Bulk Invite Failed"
+      subject_template: "Bulk user invite processed with errors"
+      text_body_template: |
+        Your bulk user invite file was processed, %{processed} invite(s) created with %{failed} error(s).
+
+        Here's the log:
+
+        ```text
+        %{logs}
+        ```
+
   site_settings:
     calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
     discourse_post_event_enabled: "[experimental] Enables to attach an event to a post. Note: also needs `calendar enabled` to be enabled."
@@ -24,6 +41,9 @@ en:
     event_expired: "Event expired"
   discourse_post_event:
     errors:
+      bulk_invite:
+        max_invitees: "First %{max_invittes} invitees have been created. Try splitting the file in smaller parts."
+        error: "There was an error uploading that file. Please try again later."
       models:
         event:
           only_one_event: A post can only have one event.

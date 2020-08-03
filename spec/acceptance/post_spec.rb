@@ -109,7 +109,7 @@ describe Post do
           expect(post.event.raw_invitees).to eq([])
 
           post = create_post_with_event(user, 'status="public" allowedGroups="euro"').reload
-          expect(post.event.raw_invitees).to eq([])
+          expect(post.event.raw_invitees).to eq(['trust_level_0'])
 
           post = create_post_with_event(user, 'status="standalone" allowedGroups="euro"').reload
           expect(post.event.raw_invitees).to eq([])

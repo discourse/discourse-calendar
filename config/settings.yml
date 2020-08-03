@@ -59,3 +59,6 @@ discourse_post_event:
   display_post_event_date_on_topic_title:
     default: true
     client: true
+  discourse_post_event_max_bulk_invitees:
+    default: 500
+    hidden: true
