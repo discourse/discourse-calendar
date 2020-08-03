@@ -1,4 +1,3 @@
-import RawHtml from "discourse/widgets/raw-html";
 import { iconNode } from "discourse-common/lib/icon-library";
 import { h } from "virtual-dom";
 import { createWidget } from "discourse/widgets/widget";
