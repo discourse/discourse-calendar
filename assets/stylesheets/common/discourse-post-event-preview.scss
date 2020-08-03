@@ -1,9 +1,9 @@
 .discourse-post-event-preview {
-  background: $secondary;
+  background: var(--secondary, $secondary);
   align-items: center;
   flex-direction: column;
   padding: 0.5em;
-  border: 1px solid $primary-low;
+  border: 1px solid var(--primary-low, $primary-low);
   display: flex;
   flex: 1 0 auto;
 

@@ -15,7 +15,7 @@
       padding: 0.5em;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid $primary-low;
+      border-bottom: 1px solid var(--primary-low, $primary-low);
 
       &:last-child {
         border: none;
@@ -31,11 +31,11 @@
         margin-left: 1em;
 
         &.going {
-          color: $success;
+          color: var(--success, $success);
         }
 
         &.not_going {
-          color: $danger;
+          color: var(--danger, $danger);
         }
       }
     }
