@@ -187,7 +187,7 @@ module DiscoursePostEvent
               event.reload
 
               expect(event.status).to eq(Event.statuses[:public])
-              expect(event.raw_invitees).to eq([])
+              expect(event.raw_invitees).to eq(['trust_level_0'])
               expect(event.invitees).to eq([])
             end
           end
@@ -241,7 +241,7 @@ module DiscoursePostEvent
               event.reload
 
               expect(event.status).to eq(Event.statuses[:public])
-              expect(event.raw_invitees).to eq([])
+              expect(event.raw_invitees).to eq(['trust_level_0'])
               expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
             end
           end
@@ -295,6 +295,74 @@ module DiscoursePostEvent
               expect(event.status).to eq(Event.statuses[:standalone])
               expect(event.raw_invitees).to eq([])
               expect(event.invitees).to eq([])
+            end
+          end
+
+          context 'when doing bulk invite' do
+            let(:valid_file) {
+              file = Tempfile.new("valid.csv")
+              file.write("bob,going\n")
+              file.write("sam,interested\n")
+              file.write("the_foo_bar_group,not_going\n")
+              file.rewind
+              file
+            }
+
+            let(:empty_file) {
+              file = Tempfile.new("invalid.pdf")
+              file.rewind
+              file
+            }
+
+            context 'current user can manage the event' do
+              context 'no file is given' do
+                it 'returns an error' do
+                  post "/discourse-post-event/events/#{event.id}/bulk-invite.json"
+                  expect(response.parsed_body['error_type']).to eq('invalid_parameters')
+                end
+              end
+
+              context 'empty file is given' do
+                it 'returns an error' do
+                  post "/discourse-post-event/events/#{event.id}/bulk-invite.json", { params: { file: fixture_file_upload(empty_file) } }
+                  expect(response.status).to eq(422)
+                end
+              end
+
+              context 'a valid file is given' do
+                before do
+                  Jobs.run_later!
+                end
+
+                it 'enqueues the job and returns 200' do
+                  expect_enqueued_with(job: :discourse_post_event_bulk_invite, args: {
+                    "event_id" => event.id,
+                    "invitees" => [
+                      { 'identifier' => 'bob', 'attendance' => 'going' },
+                      { 'identifier' => 'sam', 'attendance' => 'interested' },
+                      { 'identifier' => 'the_foo_bar_group', 'attendance' => 'not_going' }
+                    ],
+                    "current_user_id" => user.id
+                  }) do
+                    post "/discourse-post-event/events/#{event.id}/bulk-invite.json", { params: { file: fixture_file_upload(valid_file) } }
+                  end
+
+                  expect(response.status).to eq(200)
+                end
+              end
+            end
+
+            context 'current user can’t manage the event' do
+              let(:lurker) { Fabricate(:user) }
+
+              before do
+                sign_in(lurker)
+              end
+
+              it 'returns an error' do
+                post "/discourse-post-event/events/#{event.id}/bulk-invite.json"
+                expect(response.status).to eq(403)
+              end
             end
           end
         end

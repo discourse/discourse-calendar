@@ -106,6 +106,18 @@ module DiscoursePostEvent
       @statuses ||= Enum.new(standalone: 0, public: 1, private: 2)
     end
 
+    def public?
+      status == Event.statuses[:public]
+    end
+
+    def standalone?
+      status == Event.statuses[:standalone]
+    end
+
+    def private?
+      status == Event.statuses[:private]
+    end
+
     def most_likely_going(limit = SiteSetting.displayed_invitees_limit)
       self.invitees
         .order([:status, :user_id])
@@ -180,7 +192,7 @@ module DiscoursePostEvent
         self.update!(params.merge(raw_invitees: raw_invitees))
         self.enforce_raw_invitees!
       when Event.statuses[:public]
-        self.update!(params.merge(raw_invitees: []))
+        self.update!(params.merge(raw_invitees: [:trust_level_0]))
       when Event.statuses[:standalone]
         self.update!(params.merge(raw_invitees: []))
         self.invitees.destroy_all

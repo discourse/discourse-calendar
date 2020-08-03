@@ -28,6 +28,7 @@ register_svg_icon "fas fa-calendar-day"
 register_svg_icon "fas fa-clock"
 register_svg_icon "fas fa-file-csv"
 register_svg_icon "fas fa-star"
+register_svg_icon "fas fa-file-upload"
 
 after_initialize do
   module ::DiscourseCalendar
@@ -85,6 +86,7 @@ after_initialize do
     "../app/models/discourse_post_event/invitee.rb",
     "../lib/discourse_post_event/event_parser.rb",
     "../lib/discourse_post_event/event_validator.rb",
+    "../jobs/regular/discourse_post_event/bulk_invite.rb",
     "../lib/discourse_post_event/event_finder.rb",
     "../app/serializers/discourse_post_event/invitee_serializer.rb",
     "../app/serializers/discourse_post_event/event_serializer.rb"
@@ -102,6 +104,7 @@ after_initialize do
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
     put '/discourse-post-event/events/:id' => 'events#update'
+    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite'
     post '/discourse-post-event/events/:id/invite' => 'events#invite'
     put '/discourse-post-event/invitees/:id' => 'invitees#update'
     post '/discourse-post-event/invitees' => 'invitees#create'

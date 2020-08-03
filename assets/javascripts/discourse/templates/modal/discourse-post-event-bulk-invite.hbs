@@ -1,0 +1,17 @@
+{{#d-modal-body
+  title=(concat "discourse_post_event.bulk_invite_modal.title")
+  class="discourse-post-event-bulk-invite"
+}}
+  {{html-safe (i18n "discourse_post_event.bulk_invite_modal.description")}}
+
+  {{bulk-invite-sample-csv-file}}
+
+  <hr>
+
+  {{csv-uploader
+    uploadUrl=(concat "/discourse-post-event/events/" model.id "/bulk-invite")
+    i18nPrefix="discourse_post_event.bulk_invite_modal"
+    uploading=uploading
+    uploadDone=(action "uploadDone")
+  }}
+{{/d-modal-body}}
