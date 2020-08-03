@@ -67,7 +67,6 @@ export default Controller.extend(ModalFunctionality, {
             .then(post => {
               const raw = post.raw;
               const newRaw = this._removeRawEvent(raw);
-
               const props = {
                 raw: newRaw,
                 edit_reason: I18n.t("discourse_post_event.destroy_event")
@@ -150,6 +149,10 @@ export default Controller.extend(ModalFunctionality, {
       eventParams.name = this.model.eventModel.name;
     }
 
+    if (this.model.eventModel.url) {
+      eventParams.url = this.model.eventModel.url;
+    }
+
     if (this.endsAt) {
       eventParams.end = moment(this.endsAt)
         .utc()
@@ -170,13 +173,12 @@ export default Controller.extend(ModalFunctionality, {
     return raw.replace(eventRegex, "");
   },
 
-  _replaceRawEvent(eventparams, raw) {
+  _replaceRawEvent(eventParams, raw) {
     const eventRegex = new RegExp(`\\[event\\s(.*?)\\]`, "m");
     const eventMatches = raw.match(eventRegex);
 
     if (eventMatches && eventMatches[1]) {
       const markdownParams = [];
-      const eventParams = this._buildEventParams();
       Object.keys(eventParams).forEach(eventParam => {
         const value = eventParams[eventParam];
         if (value && value.length) {

@@ -5,6 +5,7 @@ VALID_OPTIONS = [
   :end,
   :status,
   :"allowed-groups",
+  :url,
   :name
 ]
 

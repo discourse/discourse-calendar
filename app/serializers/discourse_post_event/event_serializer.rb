@@ -17,6 +17,7 @@ module DiscoursePostEvent
     attributes :can_update_attendance
     attributes :is_expired
     attributes :should_display_invitees
+    attributes :url
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)

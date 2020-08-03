@@ -11,11 +11,20 @@
         clearable=true
         onChange=(action "onChangeDates")
       }}
+
       {{#event-field class="name" label="discourse_post_event.builder_modal.name.label"}}
         {{input
           value=(readonly model.eventModel.name)
           placeholderKey="discourse_post_event.builder_modal.name.placeholder"
           input=(action (mut model.eventModel.name) value="target.value")
+        }}
+      {{/event-field}}
+
+      {{#event-field class="url" label="discourse_post_event.builder_modal.url.label"}}
+        {{input
+          value=(readonly model.eventModel.url)
+          placeholderKey="discourse_post_event.builder_modal.url.placeholder"
+          input=(action (mut model.eventModel.url) value="target.value")
         }}
       {{/event-field}}
 

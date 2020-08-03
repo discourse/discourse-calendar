@@ -27,6 +27,10 @@ const rule = {
       token.attrs.push(["data-allowed-groups", info.attrs.allowedGroups]);
     }
 
+    if (info.attrs.url) {
+      token.attrs.push(["data-url", info.attrs.url]);
+    }
+
     return true;
   }
 };
