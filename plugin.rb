@@ -509,11 +509,8 @@ after_initialize do
         ids = []
         post = post_revision.post
 
-        if post && post.is_first_post?
-          event = DiscoursePostEvent::Event.find(post.id)
-          if event
-            ids.concat(event.currently_attending_invitees.pluck(:user_id))
-          end
+        if post && post.is_first_post? && post.event
+          ids.concat(post.event.currently_attending_invitees.pluck(:user_id))
         end
 
         ids
