@@ -6,7 +6,7 @@ module Jobs
 
     def execute(args)
       raise Discourse::InvalidParameters.new(:event_id) if args[:event_id].blank?
-      event = Event.find(args[:event_id])
+      event = DiscoursePostEvent::Event.find(args[:event_id])
       DiscourseEvent.trigger(:discourse_post_event_event_started, event)
     end
   end
