@@ -30,12 +30,16 @@ module DiscoursePostEvent
         user_id: user_id,
       )
       invitee.event.publish_update!
+      invitee.update_topic_tracking!
       invitee
     end
 
     def update_attendance!(status)
-      self.update(status: Invitee.statuses[status.to_sym])
+      new_status = Invitee.statuses[status.to_sym]
+      status_changed = self.status != new_status
+      self.update(status: new_status)
       self.event.publish_update!
+      self.update_topic_tracking! if status_changed
       self
     end
 
@@ -45,6 +49,21 @@ module DiscoursePostEvent
           group_id: Group.where(name: groups).select(:id)
         ).select(:user_id)
       )
+    end
+
+    def update_topic_tracking!
+      topic_id = self.event.post.topic.id
+      user_id = self.user.id
+      tracking = :regular
+
+      case self.status
+      when Invitee.statuses[:going]
+        tracking = :watching
+      when Invitee.statuses[:interested]
+        tracking = :tracking
+      end
+
+      TopicUser.change(user_id, topic_id, notification_level: TopicUser.notification_levels[tracking])
     end
   end
 end

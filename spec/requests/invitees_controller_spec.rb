@@ -44,6 +44,41 @@ module DiscoursePostEvent
           expect(invitee.status).to eq(1)
           expect(invitee.post_id).to eq(post_1.id)
         end
+
+        context 'when changing status' do
+          it 'sets tracking of the topic' do
+            invitee = post_event_2.invitees.first
+
+            expect(invitee.status).to eq(0)
+
+            put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
+              invitee: {
+                status: 'interested'
+              }
+            }
+
+            tu = TopicUser.get(invitee.event.post.topic, invitee.user)
+            expect(tu.notification_level).to eq(TopicUser.notification_levels[:tracking])
+
+            put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
+              invitee: {
+                status: 'going'
+              }
+            }
+
+            tu = TopicUser.get(invitee.event.post.topic, invitee.user)
+            expect(tu.notification_level).to eq(TopicUser.notification_levels[:watching])
+
+            put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
+              invitee: {
+                status: 'not_going'
+              }
+            }
+
+            tu = TopicUser.get(invitee.event.post.topic, invitee.user)
+            expect(tu.notification_level).to eq(TopicUser.notification_levels[:regular])
+          end
+        end
       end
 
       context 'when an invitee doesn’t exist' do
@@ -63,6 +98,21 @@ module DiscoursePostEvent
             user_id: user.id,
             status: 2,
           )
+        end
+
+        it 'sets tracking of the topic' do
+          post "/discourse-post-event/invitees.json", params: {
+            invitee: {
+              user_id: user.id,
+              post_id: post_event_2.id,
+              status: 'going',
+            }
+          }
+
+          invitee = Invitee.find_by(user_id: user.id)
+
+          tu = TopicUser.get(invitee.event.post.topic, user)
+          expect(tu.notification_level).to eq(TopicUser.notification_levels[:watching])
         end
 
         context 'when the invitee is the event owner' do
