@@ -87,6 +87,8 @@ after_initialize do
     "../lib/discourse_post_event/event_parser.rb",
     "../lib/discourse_post_event/event_validator.rb",
     "../jobs/regular/discourse_post_event/bulk_invite.rb",
+    "../jobs/regular/discourse_post_event/event_started.rb",
+    "../jobs/regular/discourse_post_event/event_ended.rb",
     "../lib/discourse_post_event/event_finder.rb",
     "../app/serializers/discourse_post_event/invitee_serializer.rb",
     "../app/serializers/discourse_post_event/event_serializer.rb"

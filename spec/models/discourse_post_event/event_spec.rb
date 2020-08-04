@@ -47,6 +47,100 @@ describe DiscoursePostEvent::Event do
             expect(second_post.topic.custom_fields).to be_blank
           end
         end
+
+        context 'setting dates enqueues future jobs at date' do
+          before do
+            Jobs.run_later!
+          end
+
+          context 'starts_at' do
+            context 'is after current time' do
+              it 'queues a future discourse event trigger' do
+                expect_enqueued_with(job: :discourse_post_event_event_started, args: {
+                  "event_id" => first_post.id
+                }) do
+                  Event.create!(id: first_post.id, starts_at: starts_at)
+                end
+              end
+            end
+
+            context 'is before current time' do
+              it 'doesn’t queues a future discourse event trigger' do
+                expect {
+                  Event.create!(id: first_post.id, starts_at: Time.now - 1.day)
+                }.to change {
+                  Jobs::DiscoursePostEventEventStarted.jobs.count
+                }.by(0)
+              end
+            end
+
+            context 'an event started job was already scheduled' do
+              it 'queues a future discourse event trigger' do
+                Jobs
+                  .expects(:cancel_scheduled_job)
+                  .with(:discourse_post_event_event_ended, event_id: first_post.id)
+                  .once
+
+                Jobs
+                  .expects(:cancel_scheduled_job)
+                  .with(:discourse_post_event_event_started, event_id: first_post.id)
+                  .once
+
+                Event.create!(id: first_post.id, starts_at: starts_at)
+
+                expect(Jobs::DiscoursePostEventEventStarted.jobs.count).to eq(1)
+
+                Event.find(first_post.id).update!(starts_at: Time.now + 2.hours)
+
+                expect(Jobs::DiscoursePostEventEventStarted.jobs.count).to eq(2)
+              end
+            end
+          end
+
+          context 'ends_at' do
+            context 'is after current time' do
+              it 'queues a future discourse event trigger' do
+                expect_enqueued_with(job: :discourse_post_event_event_ended, args: {
+                  "event_id" => first_post.id
+                }) do
+                  Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now + 12.hours)
+                end
+              end
+            end
+
+            context 'is before current time' do
+              it 'doesn’t queue a future discourse event trigger' do
+                expect {
+                  Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now - 12.hours)
+                }.to change {
+                  Jobs::DiscoursePostEventEventEnded.jobs.count
+                }.by(0)
+              end
+            end
+
+            context 'an event ended job was already scheduled' do
+              it 'queues a future discourse event trigger' do
+                Jobs
+                  .expects(:cancel_scheduled_job)
+                  .with(:discourse_post_event_event_ended, event_id: first_post.id)
+                  .once
+
+                Jobs
+                  .expects(:cancel_scheduled_job)
+                  .with(:discourse_post_event_event_started, event_id: first_post.id)
+                  .once
+
+                Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now + 12.hours)
+
+                expect(Jobs::DiscoursePostEventEventEnded.jobs.count).to eq(1)
+
+                Event.find(first_post.id).update!(starts_at: Time.now - 1.day, ends_at: Time.now + 13.hours)
+
+                expect(Jobs::DiscoursePostEventEventEnded.jobs.count).to eq(2)
+              end
+            end
+          end
+        end
       end
 
       context 'a post event has been updated' do

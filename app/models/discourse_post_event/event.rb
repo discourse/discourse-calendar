@@ -34,6 +34,28 @@ module DiscoursePostEvent
       end
     end
 
+    after_commit :setup_starts_at_handler, on: [:create, :update]
+    def setup_starts_at_handler
+      if !transaction_include_any_action?([:create])
+        Jobs.cancel_scheduled_job(:discourse_post_event_event_started, event_id: self.id)
+      end
+
+      if self.starts_at > Time.now
+        Jobs.enqueue_at(self.starts_at, :discourse_post_event_event_started, event_id: self.id)
+      end
+    end
+
+    after_commit :setup_ends_at_handler, on: [:create, :update]
+    def setup_ends_at_handler
+      if !transaction_include_any_action?([:create])
+        Jobs.cancel_scheduled_job(:discourse_post_event_event_ended, event_id: self.id)
+      end
+
+      if self.ends_at && self.ends_at > Time.now
+        Jobs.enqueue_at(self.ends_at, :discourse_post_event_event_ended, event_id: self.id)
+      end
+    end
+
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
     belongs_to :post, foreign_key: :id
 
