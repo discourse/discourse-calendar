@@ -70,6 +70,17 @@ module DiscoursePostEvent
 
     validates :starts_at, presence: true
 
+    def currently_attending_invitees
+      starts_at = self.starts_at
+      ends_at = self.ends_at || starts_at + 1.hour
+
+      if !(starts_at..ends_at).cover?(Time.now)
+        return []
+      end
+
+      invitees.where(status: DiscoursePostEvent::Invitee.statuses[:going])
+    end
+
     MIN_NAME_LENGTH = 5
     MAX_NAME_LENGTH = 30
     validates :name,

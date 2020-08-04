@@ -503,5 +503,21 @@ after_initialize do
     on(:user_destroyed) do |user|
       DiscoursePostEvent::Invitee.where(user_id: user.id).destroy_all
     end
+
+    if respond_to?(:add_post_revision_notifier_recipients)
+      add_post_revision_notifier_recipients do |post_revision|
+        ids = []
+        post = post_revision.post
+
+        if post && post.is_first_post?
+          event = DiscoursePostEvent::Event.find(post.id)
+          if event
+            ids.concat(event.currently_attending_invitees.pluck(:user_id))
+          end
+        end
+
+        ids
+      end
+    end
   end
 end

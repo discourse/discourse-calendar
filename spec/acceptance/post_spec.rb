@@ -4,8 +4,8 @@ require 'rails_helper'
 require 'securerandom'
 require_relative '../fabricators/event_fabricator'
 
-def create_post_with_event(user, extra_raw)
-  start = Time.now.utc.iso8601(3)
+def create_post_with_event(user, extra_raw = '')
+  start = (Time.now - 10.seconds).utc.iso8601(3)
 
   PostCreator.create!(
     user,
@@ -16,10 +16,11 @@ end
 
 describe Post do
   Event ||= DiscoursePostEvent::Event
+  Invitee ||= DiscoursePostEvent::Invitee
 
   before do
     freeze_time
-    SiteSetting.queue_jobs = false
+    Jobs.run_immediately!
     SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
   end
@@ -27,7 +28,7 @@ describe Post do
   let(:user) { Fabricate(:user, admin: true) }
   let(:topic) { Fabricate(:topic, user: user) }
   let(:post1) { Fabricate(:post, topic: topic) }
-  let(:post_event) { Fabricate(:event, post: post1) }
+  let!(:post_event) { Fabricate(:event, post: post1, status: Event.statuses[:public]) }
 
   context 'when a post is updated' do
     context 'when the post has a valid event' do
@@ -47,6 +48,35 @@ describe Post do
           revisor.revise!(user, raw: 'The event is over. Come back another day.')
 
           expect(post.reload.event).to be(nil)
+        end
+      end
+
+      context 'when event is on going' do
+        let(:going_user) { Fabricate(:user) }
+        let(:interested_user) { Fabricate(:user) }
+
+        before do
+          SiteSetting.editing_grace_period = 1.minute
+          PostActionNotifier.enable
+        end
+
+        context 'when in edit grace period' do
+          it 'sends a post revision to going invitees' do
+            post = create_post_with_event(user).reload
+
+            Invitee.create_attendance!(going_user.id, post.id, :going)
+            Invitee.create_attendance!(interested_user.id, post.id, :interested)
+
+            revisor = PostRevisor.new(post)
+            revisor.revise!(
+              user,
+              { raw: post.raw + "\nWe are bout half way into our event!" },
+              revised_at: Time.now + 2.minutes
+            )
+
+            expect(going_user.notifications.count).to eq(1)
+            expect(interested_user.notifications.count).to eq(0)
+          end
         end
       end
     end
