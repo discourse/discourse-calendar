@@ -180,7 +180,7 @@ a.holiday {
   box-sizing: border-box;
   padding: 0.5em;
   border-bottom: 1px solid var(--primary-low, $primary-low);
-  background: $primary-very-low;
+  background: var(--primary-very-low, $primary-very-low);
   min-height: 60px;
 
   .discourse-calendar-timezone-picker {
