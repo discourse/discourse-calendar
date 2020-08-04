@@ -1,6 +1,6 @@
 .discourse-calendar-wrap {
   margin: 0.5em 0;
-  border: 5px solid $primary-low;
+  border: 5px solid var(--primary-low, $primary-low);
 }
 
 .category-calendar .calendar {
@@ -44,7 +44,7 @@
     }
 
     .fc-bg td.fc-today {
-      background-color: $highlight-medium;
+      background-color: var(--highlight-medium, $highlight-medium);
       border-style: solid;
     }
 
@@ -82,21 +82,21 @@
     .fc-button {
       border-radius: 0;
       box-shadow: none;
-      background: $primary-low;
+      background: var(--primary-low, $primary-low);
       text-transform: capitalize;
-      color: $primary;
+      color: var(--primary, $primary);
       text-shadow: none;
       border: none;
       padding: 6px 12px;
 
       &:hover {
-        background: $primary-medium;
-        color: $secondary;
+        background: var(--primary-medium, $primary-medium);
+        color: var(--secondary, $secondary);
       }
 
       &.fc-state-active {
-        background: $tertiary;
-        color: $secondary;
+        background: var(--tertiary, $tertiary);
+        color: var(--secondary, $secondary);
       }
     }
 
@@ -111,7 +111,7 @@
     .fc-list-empty,
     .fc-list-heading td,
     .fc-popover .fc-header {
-      background: $primary-low;
+      background: var(--primary-low, $primary-low);
     }
 
     .fc-content,
@@ -124,13 +124,13 @@
     td,
     th,
     thead {
-      border-color: $primary-low;
+      border-color: var(--primary-low, $primary-low);
     }
   }
 
   .fc-event,
   .fc-event-dot {
-    background-color: $tertiary;
+    background-color: var(--tertiary, $tertiary);
     border: 1px solid transparent;
 
     .fc-time {
@@ -138,9 +138,9 @@
     }
 
     &.grouped-event {
-      background-color: $primary-low;
-      border: 1px solid $primary-low-mid;
-      color: $primary;
+      background-color: var(--primary-low, $primary-low);
+      border: 1px solid var(--primary-low-mid, $primary-low-mid);
+      color: var(--primary, $primary);
 
       .emoji {
         margin-right: 0.25em;
@@ -154,7 +154,7 @@
     }
   }
   .fc-list-item-add-to-calendar {
-    color: $tertiary;
+    color: var(--tertiary, $tertiary);
     font-size: $font-down-1;
   }
 }
@@ -179,8 +179,8 @@ a.holiday {
   justify-content: space-between;
   box-sizing: border-box;
   padding: 0.5em;
-  border-bottom: 1px solid $primary-low;
-  background: $primary-very-low;
+  border-bottom: 1px solid var(--primary-low, $primary-low);
+  background: var(--primary-very-low, $primary-very-low);
   min-height: 60px;
 
   .discourse-calendar-timezone-picker {
@@ -327,7 +327,7 @@ $bg-in-working-hours: dark-light-choose(
   }
 
   .group-timezone {
-    color: $primary;
+    color: var(--primary, $primary);
     background-color: $bg-normal;
     transition: opacity 0.4s;
     opacity: 0.5;

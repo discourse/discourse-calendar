@@ -11,7 +11,7 @@
     }
 
     .fc-bg td.fc-today {
-      background-color: $highlight-medium;
+      background-color: var(--highlight-medium, $highlight-medium);
       border-style: solid;
     }
 
@@ -49,22 +49,22 @@
     .fc-button {
       border-radius: 0;
       box-shadow: none;
-      background: $primary-low;
+      background: var(--primary-low, $primary-low);
       text-transform: capitalize;
-      color: $primary;
+      color: var(--primary, $primary);
       text-shadow: none;
       border: none;
 
       padding: 6px 12px;
 
       &:hover {
-        background: $primary-medium;
-        color: $secondary;
+        background: var(--primary-medium, $primary-medium);
+        color: var(--secondary, $secondary);
       }
 
       &.fc-state-active {
-        background: $tertiary;
-        color: $secondary;
+        background: var(--tertiary, $tertiary);
+        color: var(--secondary, $secondary);
       }
       margin: 0.3em 0 0.3em 0.5em;
     }
@@ -81,7 +81,7 @@
     .fc-list-empty,
     .fc-list-heading td,
     .fc-popover .fc-header {
-      background: $primary-low;
+      background: var(--primary-low, $primary-low);
     }
 
     .fc-content,
@@ -94,14 +94,14 @@
     td,
     th,
     thead {
-      border-color: $primary-low;
+      border-color: var(--primary-low, $primary-low);
     }
   }
 
   .fc-event,
   .fc-event-dot {
-    color: $secondary;
-    background-color: $tertiary;
+    color: var(--secondary, $secondary);
+    background-color: var(--tertiary, $tertiary);
     border: 1px solid transparent;
 
     .fc-time {
@@ -110,9 +110,9 @@
 
     &.grouped-event {
       background-color: none;
-      background: $secondary;
-      border: 1px solid $primary-low-mid;
-      color: $primary;
+      background: var(--secondary, $secondary);
+      border: 1px solid var(--primary-low-mid, $primary-low-mid);
+      color: var(--primary, $primary);
 
       .emoji {
         margin-right: 0.25em;
@@ -126,7 +126,7 @@
     }
   }
   .fc-list-item-add-to-calendar {
-    color: $tertiary;
+    color: var(--tertiary, $tertiary);
     font-size: $font-down-1;
   }
 }

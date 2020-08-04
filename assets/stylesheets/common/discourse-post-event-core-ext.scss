@@ -1,7 +1,7 @@
 .raw-topic-link {
   .event-date {
     font-size: $font-down-2;
-    background: $primary-low;
+    background: var(--primary-low, $primary-low);
     padding: 0.25em;
     border-radius: 3px;
     vertical-align: middle;
@@ -12,8 +12,8 @@
 .header-title {
   .event-date {
     font-size: $font-down-3;
-    background: $primary-low;
-    color: $primary-high;
+    background: var(--primary-low, $primary-low);
+    color: var(--primary-high, $primary-high);
     padding: 0.25em;
     border-radius: 3px;
     vertical-align: middle;

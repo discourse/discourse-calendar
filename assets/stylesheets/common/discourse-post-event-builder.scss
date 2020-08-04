@@ -109,7 +109,7 @@
           flex-direction: column;
 
           .description {
-            color: $primary-medium;
+            color: var(--primary-medium, $primary-medium);
           }
         }
       }
