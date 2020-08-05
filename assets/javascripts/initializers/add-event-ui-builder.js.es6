@@ -14,6 +14,7 @@ function initializeEventBuilder(api) {
       composerModel &&
       !composerModel.replyingToTopic &&
       (composerModel.topicFirstPost ||
+        composerModel.creatingPrivateMessage ||
         (composerModel.editingPost &&
           composerModel.post &&
           composerModel.post.post_number === 1))
