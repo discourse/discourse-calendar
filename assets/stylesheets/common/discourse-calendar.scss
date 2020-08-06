@@ -202,6 +202,7 @@ a.holiday {
   font-size: 16px;
 }
 
+// TODO: remove fallbacks when colors CSS custom properties are in stable in core
 $bg-normal: dark-light-choose(lighten($tertiary, 55%), darken($tertiary, 25%));
 $bg-close-to-working-hours: dark-light-choose(
   desaturate(lighten($tertiary, 45%), 15%),
@@ -283,6 +284,7 @@ $bg-in-working-hours: dark-light-choose(
       "<svg xmlns='http://www.w3.org/2000/svg' width='2' height='2'><rect fill='#{$tertiary}' x='0' y='0' width='2' height='2'/></svg>"
     )
     50% 50% repeat-x;
+
   box-sizing: border-box;
   transition: opacity 0.2s;
 }
@@ -328,7 +330,7 @@ $bg-in-working-hours: dark-light-choose(
 
   .group-timezone {
     color: var(--primary, $primary);
-    background-color: $bg-normal;
+    background-color: var(--calendar-normal, $bg-normal);
     transition: opacity 0.4s;
     opacity: 0.5;
 
@@ -341,12 +343,15 @@ $bg-in-working-hours: dark-light-choose(
     }
 
     &.close-to-working-hours {
-      background-color: $bg-close-to-working-hours;
+      background-color: var(
+        --calendar-close-to-working-hours,
+        $bg-close-to-working-hours
+      );
       opacity: 0.7;
     }
 
     &.in-working-hours {
-      background-color: $bg-in-working-hours;
+      background-color: var(--calendar-in-working-hours, $bg-in-working-hours);
       opacity: 1;
     }
 
