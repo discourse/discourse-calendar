@@ -1,3 +1,4 @@
+import { set } from "@ember/object";
 import TextLib from "discourse/lib/text";
 import Group from "discourse/models/group";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
@@ -5,8 +6,14 @@ import Controller from "@ember/controller";
 import { action, computed } from "@ember/object";
 import { equal } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
+import { Promise } from "rsvp";
 
 export default Controller.extend(ModalFunctionality, {
+  init() {
+    this._super(...arguments);
+    this._dirtyCustomFields = false;
+  },
+
   modalTitle: computed("model.eventModel.isNew", {
     get() {
       return this.model.eventModel.isNew
@@ -15,11 +22,27 @@ export default Controller.extend(ModalFunctionality, {
     }
   }),
 
+  allowedCustomFields: computed(
+    "siteSettings.discourse_post_event_allowed_custom_fields",
+    function() {
+      return this.siteSettings.discourse_post_event_allowed_custom_fields
+        .split("|")
+        .filter(Boolean);
+    }
+  ),
+
   groupFinder(term) {
     return Group.findAll({ term, ignore_automatic: true });
   },
 
   allowsInvitees: equal("model.eventModel.status", "private"),
+
+  @action
+  onChangeCustomField(field, event) {
+    this._dirtyCustomFields = true;
+    const value = event.target.value;
+    set(this.model.eventModel.custom_fields, field, value);
+  },
 
   @action
   setRawInvitees(_, newInvitees) {
@@ -106,25 +129,45 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   updateEvent() {
-    const eventParams = this._buildEventParams();
     return this.store.find("post", this.model.eventModel.id).then(post => {
-      const raw = post.raw;
-      const newRaw = this._replaceRawEvent(eventParams, raw);
-
-      if (newRaw) {
-        const props = {
-          raw: newRaw,
-          edit_reason: I18n.t("discourse_post_event.edit_reason")
-        };
-
-        return TextLib.cookAsync(newRaw).then(cooked => {
-          props.cooked = cooked.string;
-          return post
-            .save(props)
-            .catch(e => this.flash(extractError(e), "error"))
-            .then(result => result && this.send("closeModal"));
-        });
+      const promises = [];
+      if (this._dirtyCustomFields) {
+        // custom_fields are not stored on the raw and are updated separately
+        const customFields = this.model.eventModel.getProperties(
+          "custom_fields"
+        );
+        promises.push(
+          this.model.eventModel
+            .update(customFields)
+            .finally(() => (this._dirtyCustomFields = false))
+        );
       }
+
+      const updateRawPromise = new Promise(resolve => {
+        const raw = post.raw;
+        const eventParams = this._buildEventParams();
+        const newRaw = this._replaceRawEvent(eventParams, raw);
+
+        if (newRaw) {
+          const props = {
+            raw: newRaw,
+            edit_reason: I18n.t("discourse_post_event.edit_reason")
+          };
+
+          return TextLib.cookAsync(newRaw).then(cooked => {
+            props.cooked = cooked.string;
+            return post
+              .save(props)
+              .catch(e => this.flash(extractError(e), "error"))
+              .then(result => result && this.send("closeModal"))
+              .finally(resolve);
+          });
+        } else {
+          resolve();
+        }
+      });
+
+      return Promise.all(promises.concat(updateRawPromise));
     });
   },
 

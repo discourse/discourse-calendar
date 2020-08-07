@@ -76,6 +76,21 @@
           placeholderKey="topic.invite_private.group_name"
         }}
       {{/event-field}}
+
+      {{#if allowedCustomFields.length}}
+        {{#event-field label="discourse_post_event.builder_modal.custom_fields.label"}}
+          <p>{{i18n "discourse_post_event.builder_modal.custom_fields.description"}}</p>
+          {{#each allowedCustomFields as |allowedCustomField|}}
+            <span class="label custom-field-label">{{allowedCustomField}}</span>
+            {{input
+              class="custom-field-input"
+              value=(readonly (get model.eventModel.custom_fields allowedCustomField))
+              placeholderKey="discourse_post_event.builder_modal.name.placeholder"
+              input=(action "onChangeCustomField" allowedCustomField)
+            }}
+          {{/each}}
+        {{/event-field}}
+      {{/if}}
     </form>
   {{/conditional-loading-section}}
 {{/d-modal-body}}

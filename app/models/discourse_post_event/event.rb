@@ -38,10 +38,15 @@ module DiscoursePostEvent
     def setup_starts_at_handler
       if !transaction_include_any_action?([:create])
         Jobs.cancel_scheduled_job(:discourse_post_event_event_started, event_id: self.id)
+        Jobs.cancel_scheduled_job(:discourse_post_event_event_will_start, event_id: self.id)
       end
 
       if self.starts_at > Time.now
         Jobs.enqueue_at(self.starts_at, :discourse_post_event_event_started, event_id: self.id)
+
+        if self.starts_at - 1.hour > Time.now
+          Jobs.enqueue_at(self.starts_at - 1.hour, :discourse_post_event_event_will_start, event_id: self.id)
+        end
       end
     end
 
@@ -99,6 +104,16 @@ module DiscoursePostEvent
     def ends_before_start
       if self.starts_at && self.ends_at && self.starts_at >= self.ends_at
         errors.add(:base, I18n.t("discourse_post_event.errors.models.event.ends_at_before_starts_at"))
+      end
+    end
+
+    validate :allowed_custom_fields
+    def allowed_custom_fields
+      allowed_custom_fields = SiteSetting.discourse_post_event_allowed_custom_fields.split('|')
+      self.custom_fields.each do |key, value|
+        if !allowed_custom_fields.include?(key)
+          errors.add(:base, I18n.t("discourse_post_event.errors.models.event.custom_field_is_invalid", field: key))
+        end
       end
     end
 
@@ -219,6 +234,8 @@ module DiscoursePostEvent
     end
 
     def update_with_params!(params)
+      params[:custom_fields] = (params[:custom_fields] || {}).reject { |_, value| value.blank? }
+
       case params[:status].to_i
       when Event.statuses[:private]
         raw_invitees = Array(params[:raw_invitees])

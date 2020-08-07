@@ -69,7 +69,8 @@ describe DiscoursePostEvent::Event do
                 expect {
                   Event.create!(id: first_post.id, starts_at: Time.now - 1.day)
                 }.to change {
-                  Jobs::DiscoursePostEventEventStarted.jobs.count
+                  Jobs::DiscoursePostEventEventStarted.jobs.count +
+                  Jobs::DiscoursePostEventEventWillStart.jobs.count
                 }.by(0)
               end
             end
@@ -86,13 +87,20 @@ describe DiscoursePostEvent::Event do
                   .with(:discourse_post_event_event_started, event_id: first_post.id)
                   .once
 
+                Jobs
+                  .expects(:cancel_scheduled_job)
+                  .with(:discourse_post_event_event_will_start, event_id: first_post.id)
+                  .once
+
                 Event.create!(id: first_post.id, starts_at: starts_at)
 
                 expect(Jobs::DiscoursePostEventEventStarted.jobs.count).to eq(1)
+                expect(Jobs::DiscoursePostEventEventWillStart.jobs.count).to eq(0)
 
                 Event.find(first_post.id).update!(starts_at: Time.now + 2.hours)
 
                 expect(Jobs::DiscoursePostEventEventStarted.jobs.count).to eq(2)
+                expect(Jobs::DiscoursePostEventEventWillStart.jobs.count).to eq(1)
               end
             end
           end
@@ -128,6 +136,11 @@ describe DiscoursePostEvent::Event do
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_started, event_id: first_post.id)
+                  .once
+
+                Jobs
+                  .expects(:cancel_scheduled_job)
+                  .with(:discourse_post_event_event_will_start, event_id: first_post.id)
                   .once
 
                 Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now + 12.hours)

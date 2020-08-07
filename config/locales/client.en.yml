@@ -320,6 +320,9 @@ en:
           <blockquote>username or group name,desired attendance (going, not_going, interested, unknown)</blockquote>
         download_sample_csv: Download a sample CSV file
       builder_modal:
+        custom_fields:
+          label: Custom Fields
+          description: Allowed custom fields are defined in site settings. Custom fields are used to transmit data to other plugins.
         create_event_title: Create Event
         update_event_title: Edit Event
         confirm_delete: Are you sure you want to delete this event?

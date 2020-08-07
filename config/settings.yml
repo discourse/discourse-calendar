@@ -62,3 +62,7 @@ discourse_post_event:
   discourse_post_event_max_bulk_invitees:
     default: 500
     hidden: true
+  discourse_post_event_allowed_custom_fields:
+    type: list
+    client: true
+    default: ""

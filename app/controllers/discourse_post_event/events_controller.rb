@@ -113,6 +113,8 @@ module DiscoursePostEvent
     private
 
     def event_params
+      allowed_custom_fields = SiteSetting.discourse_post_event_allowed_custom_fields.split('|')
+
       params
         .require(:event)
         .permit(
@@ -122,6 +124,7 @@ module DiscoursePostEvent
           :ends_at,
           :status,
           :url,
+          custom_fields: allowed_custom_fields,
           raw_invitees: []
         )
     end

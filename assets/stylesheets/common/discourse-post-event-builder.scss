@@ -88,6 +88,15 @@
       flex: 1;
       flex-direction: column;
 
+      .custom-field-label {
+        font-weight: 500;
+        margin-bottom: 0.5em;
+      }
+
+      .custom-field-input {
+        width: 100%;
+      }
+
       .radio-label {
         display: flex;
         align-items: center;

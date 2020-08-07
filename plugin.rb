@@ -88,6 +88,7 @@ after_initialize do
     "../lib/discourse_post_event/event_parser.rb",
     "../lib/discourse_post_event/event_validator.rb",
     "../jobs/regular/discourse_post_event/bulk_invite.rb",
+    "../jobs/regular/discourse_post_event/event_will_start.rb",
     "../jobs/regular/discourse_post_event/event_started.rb",
     "../jobs/regular/discourse_post_event/event_ended.rb",
     "../lib/discourse_post_event/event_finder.rb",
@@ -515,6 +516,23 @@ after_initialize do
         end
 
         ids
+      end
+    end
+
+    on(:site_setting_changed) do |name, old_val, new_val|
+      next if name != :discourse_post_event_allowed_custom_fields
+
+      previous_fields = old_val.split('|')
+      new_fields = new_val.split('|')
+      removed_fields = previous_fields - new_fields
+
+      next if removed_fields.empty?
+
+      DiscoursePostEvent::Event.all.find_each do |event|
+        removed_fields.each do |field|
+          event.custom_fields.delete(field)
+        end
+        event.save
       end
     end
   end
