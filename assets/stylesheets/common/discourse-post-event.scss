@@ -62,6 +62,13 @@
             display: none;
           }
         }
+
+        .item-closePostEvent {
+          .d-icon,
+          span {
+            color: $danger;
+          }
+        }
       }
     }
   }

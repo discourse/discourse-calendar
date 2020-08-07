@@ -38,7 +38,7 @@ export default createWidget("more-dropdown", {
   _buildContent(attrs) {
     const content = [];
 
-    if (!attrs.isExpired) {
+    if (!attrs.eventModel.is_expired) {
       content.push({
         id: "addToCalendar",
         icon: "file",
@@ -52,17 +52,17 @@ export default createWidget("more-dropdown", {
         icon: "envelope",
         translatedLabel: I18n.t(
           "discourse_post_event.event_ui.send_pm_to_creator",
-          { username: attrs.creatorUsername }
+          { username: attrs.eventModel.creator.username }
         )
       });
     }
 
-    if (!attrs.isExpired && attrs.canActOnEvent && attrs.isPublicEvent) {
+    if (!attrs.is_expired && attrs.canActOnEvent && attrs.isPublicEvent) {
       content.push({
         id: "inviteUserOrGroup",
         icon: "user-plus",
         label: "discourse_post_event.event_ui.invite",
-        param: attrs.postEventId
+        param: attrs.eventModel.id
       });
     }
 
@@ -73,22 +73,32 @@ export default createWidget("more-dropdown", {
         icon: "file-csv",
         id: "exportPostEvent",
         label: "discourse_post_event.event_ui.export_event",
-        param: attrs.postEventId
+        param: attrs.eventModel.id
       });
 
       content.push({
         icon: "file-upload",
         id: "bulkInvite",
         label: "discourse_post_event.event_ui.bulk_invite",
-        param: attrs.postEventId
+        param: attrs.eventModel.id
       });
 
       content.push({
         icon: "pencil-alt",
         id: "editPostEvent",
         label: "discourse_post_event.event_ui.edit_event",
-        param: attrs.postEventId
+        param: attrs.eventModel.id
       });
+
+      if (!attrs.eventModel.is_expired) {
+        content.push({
+          icon: "times",
+          id: "closePostEvent",
+          label: "discourse_post_event.event_ui.close_event",
+          class: "danger",
+          param: attrs.eventModel
+        });
+      }
     }
 
     return content;

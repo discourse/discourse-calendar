@@ -1,3 +1,4 @@
+import TextLib from "discourse/lib/text";
 import { exportEntity } from "discourse/lib/export-csv";
 import { emojiUnescape } from "discourse/lib/text";
 import cleanTitle from "discourse/plugins/discourse-calendar/lib/clean-title";
@@ -8,6 +9,7 @@ import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
 import getURL from "discourse-common/lib/get-url";
+import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -51,6 +53,39 @@ export default createWidget("discourse-post-event", {
         model: { eventModel, topicId: eventModel.post.topic.id }
       });
     });
+  },
+
+  closePostEvent(eventModel) {
+    bootbox.confirm(
+      I18n.t("discourse_post_event.builder_modal.confirm_close"),
+      I18n.t("no_value"),
+      I18n.t("yes_value"),
+      confirmed => {
+        if (confirmed) {
+          return this.store.find("post", eventModel.id).then(post => {
+            const raw = post.raw;
+            const eventParams = buildParams(
+              eventModel.starts_at ? moment(eventModel.starts_at) : moment(),
+              moment(),
+              eventModel
+            );
+            const newRaw = replaceRaw(eventParams, raw);
+
+            if (newRaw) {
+              const props = {
+                raw: newRaw,
+                edit_reason: I18n.t("discourse_post_event.edit_reason")
+              };
+
+              return TextLib.cookAsync(newRaw).then(cooked => {
+                props.cooked = cooked.string;
+                return post.save(props);
+              });
+            }
+          });
+        }
+      }
+    );
   },
 
   changeWatchingInviteeStatus(status) {
@@ -167,10 +202,8 @@ export default createWidget("discourse-post-event", {
           widget="more-dropdown"
           attrs=(hash
             canActOnEvent=this.transformed.canActOnEvent
-            postEventId=state.eventModel.id
-            isExpired=state.eventModel.is_expired
-            creatorUsername=state.eventModel.creator.username
             isPublicEvent=this.transformed.isPublicEvent
+            eventModel=state.eventModel
           )
         }}
       </header>

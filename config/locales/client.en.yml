@@ -305,6 +305,7 @@ en:
         export_event: Export event
         created_by: Created by
         bulk_invite: Bulk Invite
+        close_event: Close event
       invitees_modal:
         title_invited: "List of invited users"
         title_participated: "List of users who participated"
@@ -326,6 +327,7 @@ en:
         create_event_title: Create Event
         update_event_title: Edit Event
         confirm_delete: Are you sure you want to delete this event?
+        confirm_close: Are you sure you want to close this event?
         create: Create
         update: Save
         attach: Create event

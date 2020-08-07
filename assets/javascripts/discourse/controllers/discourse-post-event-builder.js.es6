@@ -8,6 +8,8 @@ import { equal } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
 import { Promise } from "rsvp";
 
+import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
+
 export default Controller.extend(ModalFunctionality, {
   init() {
     this._super(...arguments);
@@ -116,7 +118,11 @@ export default Controller.extend(ModalFunctionality, {
       return;
     }
 
-    const eventParams = this._buildEventParams();
+    const eventParams = buildParams(
+      this.startsAt,
+      this.endsAt,
+      this.model.eventModel
+    );
     const markdownParams = [];
     Object.keys(eventParams).forEach(key => {
       let value = eventParams[key];
@@ -145,8 +151,12 @@ export default Controller.extend(ModalFunctionality, {
 
       const updateRawPromise = new Promise(resolve => {
         const raw = post.raw;
-        const eventParams = this._buildEventParams();
-        const newRaw = this._replaceRawEvent(eventParams, raw);
+        const eventParams = buildParams(
+          this.startsAt,
+          this.endsAt,
+          this.model.eventModel
+        );
+        const newRaw = replaceRaw(eventParams, raw);
 
         if (newRaw) {
           const props = {
@@ -171,67 +181,8 @@ export default Controller.extend(ModalFunctionality, {
     });
   },
 
-  _buildEventParams() {
-    const eventParams = {};
-
-    if (this.startsAt) {
-      eventParams.start = moment(this.startsAt)
-        .utc()
-        .format("YYYY-MM-DD HH:mm");
-    } else {
-      eventParams.start = moment()
-        .utc()
-        .format("YYYY-MM-DD HH:mm");
-    }
-
-    if (this.model.eventModel.status) {
-      eventParams.status = this.model.eventModel.status;
-    }
-
-    if (this.model.eventModel.name) {
-      eventParams.name = this.model.eventModel.name;
-    }
-
-    if (this.model.eventModel.url) {
-      eventParams.url = this.model.eventModel.url;
-    }
-
-    if (this.endsAt) {
-      eventParams.end = moment(this.endsAt)
-        .utc()
-        .format("YYYY-MM-DD HH:mm");
-    }
-
-    if (this.model.eventModel.status === "private") {
-      eventParams.allowedGroups = (
-        this.model.eventModel.raw_invitees || []
-      ).join(",");
-    }
-
-    return eventParams;
-  },
-
   _removeRawEvent(raw) {
     const eventRegex = new RegExp(`\\[event\\s(.*?)\\]\\n\\[\\/event\\]`, "m");
     return raw.replace(eventRegex, "");
-  },
-
-  _replaceRawEvent(eventParams, raw) {
-    const eventRegex = new RegExp(`\\[event\\s(.*?)\\]`, "m");
-    const eventMatches = raw.match(eventRegex);
-
-    if (eventMatches && eventMatches[1]) {
-      const markdownParams = [];
-      Object.keys(eventParams).forEach(eventParam => {
-        const value = eventParams[eventParam];
-        if (value && value.length) {
-          markdownParams.push(`${eventParam}="${eventParams[eventParam]}"`);
-        }
-      });
-
-      return raw.replace(eventRegex, `[event ${markdownParams.join(" ")}]`);
-    }
-
-    return false;
   }
 });
