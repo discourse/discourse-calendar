@@ -1,0 +1,49 @@
+.mobile-view {
+  .discourse-post-event-bulk-invite {
+  }
+}
+
+.discourse-post-event-bulk-invite {
+  .bulk-event-help {
+    margin: 0 0 1em 0;
+  }
+  .bulk-invite-row {
+    display: flex;
+    padding: 0.25em 0;
+
+    .bulk-invite-identifier {
+    }
+
+    .bulk-invite-attendance {
+      margin: 0 0.5em;
+    }
+
+    .remove-bulk-invite {
+      margin-left: auto;
+    }
+  }
+
+  .bulk-invites {
+    margin-bottom: 2em;
+
+    .bulk-invite-actions {
+      display: flex;
+      .send-bulk-invites {
+      }
+
+      .add-bulk-invite {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .csv-bulk-invites {
+    .bulk-invite-actions {
+      display: flex;
+
+      > :last-child {
+        margin-left: 0.5em;
+      }
+    }
+  }
+}

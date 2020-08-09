@@ -298,7 +298,7 @@ module DiscoursePostEvent
             end
           end
 
-          context 'when doing bulk invite' do
+          context 'when doing csv bulk invite' do
             let(:valid_file) {
               file = Tempfile.new("valid.csv")
               file.write("bob,going\n")
@@ -317,14 +317,14 @@ module DiscoursePostEvent
             context 'current user can manage the event' do
               context 'no file is given' do
                 it 'returns an error' do
-                  post "/discourse-post-event/events/#{event.id}/bulk-invite.json"
+                  post "/discourse-post-event/events/#{event.id}/csv-bulk-invite.json"
                   expect(response.parsed_body['error_type']).to eq('invalid_parameters')
                 end
               end
 
               context 'empty file is given' do
                 it 'returns an error' do
-                  post "/discourse-post-event/events/#{event.id}/bulk-invite.json", { params: { file: fixture_file_upload(empty_file) } }
+                  post "/discourse-post-event/events/#{event.id}/csv-bulk-invite.json", { params: { file: fixture_file_upload(empty_file) } }
                   expect(response.status).to eq(422)
                 end
               end
@@ -344,7 +344,64 @@ module DiscoursePostEvent
                     ],
                     "current_user_id" => user.id
                   }) do
-                    post "/discourse-post-event/events/#{event.id}/bulk-invite.json", { params: { file: fixture_file_upload(valid_file) } }
+                    post "/discourse-post-event/events/#{event.id}/csv-bulk-invite.json", { params: { file: fixture_file_upload(valid_file) } }
+                  end
+
+                  expect(response.status).to eq(200)
+                end
+              end
+            end
+
+            context 'current user can’t manage the event' do
+              let(:lurker) { Fabricate(:user) }
+
+              before do
+                sign_in(lurker)
+              end
+
+              it 'returns an error' do
+                post "/discourse-post-event/events/#{event.id}/csv-bulk-invite.json"
+                expect(response.status).to eq(403)
+              end
+            end
+          end
+
+          context 'when doing bulk invite' do
+            context 'current user can manage the event' do
+              context 'no invitees is given' do
+                it 'returns an error' do
+                  post "/discourse-post-event/events/#{event.id}/bulk-invite.json"
+                  expect(response.parsed_body['error_type']).to eq('invalid_parameters')
+                end
+              end
+
+              context 'empty invitees are given' do
+                it 'returns an error' do
+                  post "/discourse-post-event/events/#{event.id}/bulk-invite.json", { params: { invitees: [] } }
+                  expect(response.status).to eq(400)
+                end
+              end
+
+              context 'valid invitees are given' do
+                before do
+                  Jobs.run_later!
+                end
+
+                it 'enqueues the job and returns 200' do
+                  expect_enqueued_with(job: :discourse_post_event_bulk_invite, args: {
+                    "event_id" => event.id,
+                    "invitees" => [
+                      { 'identifier' => 'bob', 'attendance' => 'going' },
+                      { 'identifier' => 'sam', 'attendance' => 'interested' },
+                      { 'identifier' => 'the_foo_bar_group', 'attendance' => 'not_going' }
+                    ],
+                    "current_user_id" => user.id
+                  }) do
+                    post "/discourse-post-event/events/#{event.id}/bulk-invite.json", { params: { invitees: [
+                      { 'identifier' => 'bob', 'attendance' => 'going' },
+                      { 'identifier' => 'sam', 'attendance' => 'interested' },
+                      { 'identifier' => 'the_foo_bar_group', 'attendance' => 'not_going' }
+                    ] } }
                   end
 
                   expect(response.status).to eq(200)

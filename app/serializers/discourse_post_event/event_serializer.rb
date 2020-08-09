@@ -19,6 +19,9 @@ module DiscoursePostEvent
     attributes :should_display_invitees
     attributes :url
     attributes :custom_fields
+    attributes :is_public
+    attributes :is_private
+    attributes :is_standalone
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)
@@ -26,6 +29,18 @@ module DiscoursePostEvent
 
     def is_expired
       object.is_expired?
+    end
+
+    def is_public
+      object.status === Event.statuses[:public]
+    end
+
+    def is_private
+      object.status === Event.statuses[:private]
+    end
+
+    def is_standalone
+      object.status === Event.statuses[:standalone]
     end
 
     def status

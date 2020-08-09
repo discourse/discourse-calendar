@@ -21,6 +21,7 @@ register_asset "stylesheets/common/discourse-post-event-builder.scss"
 register_asset "stylesheets/common/discourse-post-event-invitees.scss"
 register_asset "stylesheets/common/discourse-post-event-upcoming-events.scss"
 register_asset "stylesheets/common/discourse-post-event-core-ext.scss"
+register_asset "stylesheets/common/discourse-post-event-bulk-invite-modal.scss"
 register_asset "stylesheets/mobile/discourse-calendar.scss", :mobile
 register_asset "stylesheets/mobile/discourse-post-event.scss", :mobile
 register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
@@ -108,7 +109,8 @@ after_initialize do
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
     put '/discourse-post-event/events/:id' => 'events#update'
-    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite'
+    post '/discourse-post-event/events/:id/csv-bulk-invite' => 'events#csv_bulk_invite'
+    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite', format: :json
     post '/discourse-post-event/events/:id/invite' => 'events#invite'
     put '/discourse-post-event/invitees/:id' => 'invitees#update'
     post '/discourse-post-event/invitees' => 'invitees#create'

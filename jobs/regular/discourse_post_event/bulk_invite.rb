@@ -42,7 +42,7 @@ module Jobs
 
       if @processed > 0
         @event.publish_update!
-        @event.notify_invitees!
+        @event.notify_invitees!(auto: true)
       end
     rescue Exception => e
       save_log "Bulk Invite Process Failed -- '#{e.message}'"
@@ -54,7 +54,6 @@ module Jobs
         users = User.where(username: invitee['identifier']).pluck(:id)
       else
         group = Group.find_by(name: invitee['identifier'])
-
         if group
           users = group.users.pluck(:id)
           @event.update!(raw_invitees: (@event.raw_invitees || []).push(group.name).uniq)
@@ -62,7 +61,7 @@ module Jobs
       end
 
       if users.blank?
-        save_log "Couldn't find user or group: '#{invitee['identifier']}'. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
+        save_log "Couldn't find user or group: '#{invitee['identifier']}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
         @failed += 1
         return
       end

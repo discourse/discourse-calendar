@@ -204,6 +204,16 @@ function initializeDiscoursePostEventDecorator(api) {
   );
 
   api.replaceIcon(
+    "notification.discourse_post_event.notifications.invite_user_notification",
+    "calendar-day"
+  );
+
+  api.replaceIcon(
+    "notification.discourse_post_event.notifications.invite_user_auto_notification",
+    "calendar-day"
+  );
+
+  api.replaceIcon(
     "notification.discourse_calendar.invite_user_notification",
     "calendar-day"
   );

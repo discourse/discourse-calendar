@@ -271,6 +271,9 @@ en:
       search: "Search..."
       group_availability: "%{group} availability"
     discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} has invited you to %{description}"
+        invite_user_auto_notification: "%{username} has automatically set your attendance and invited you to %{description}"
       preview:
         more_than_one_event: You can’t have more than one event.
       edit_reason: Event updated
@@ -316,10 +319,14 @@ en:
         success: "File uploaded successfully, you will be notified via message when the process is complete."
         error: "Sorry, file should be CSV format."
         confirmation_message: "You’re about to notify everyone in the uploaded file."
-        description: >
-          To invite users or group users to your event, upload a CSV file. Note that public events only support usernames. Please follow this format:
-          <blockquote>username or group name,desired attendance (going, not_going, interested, unknown)</blockquote>
+        description_public: Private event accepts only usernames as bulk invites.
+        description_private: Private event accepts only groups as bulk invites.
         download_sample_csv: Download a sample CSV file
+        send_bulk_invites: "Send invites"
+        group_selector_placeholder: "Choose a group..."
+        user_selector_placeholder: "Choose user..."
+        inline_title: "Inline bulk invite"
+        csv_title: "CSV bulk invite"
       builder_modal:
         custom_fields:
           label: Custom Fields

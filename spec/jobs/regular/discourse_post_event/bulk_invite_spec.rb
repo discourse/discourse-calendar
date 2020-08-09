@@ -84,7 +84,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
             SystemMessage.expects(:create_from_system_user).with(user_1, :discourse_post_event_bulk_invite_failed, {
               processed: 1,
               failed: 3,
-              logs: "[#{Time.zone.now}] Couldn't find user or group: '#{invitee_3.username}'. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: '#{invitee_4.username}'. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: 'non_existent'. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
+              logs: "[#{Time.zone.now}] Couldn't find user or group: '#{invitee_3.username}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: '#{invitee_4.username}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: 'non_existent' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
             }).once
 
             subject.execute(valid_params)
@@ -150,7 +150,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
             SystemMessage.expects(:create_from_system_user).with(user_1, :discourse_post_event_bulk_invite_failed, {
               processed: 2,
               failed: 2,
-              logs: "[#{Time.zone.now}] Couldn't find user or group: '#{group_1.name}'. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: 'non_existent'. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
+              logs: "[#{Time.zone.now}] Couldn't find user or group: '#{group_1.name}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: 'non_existent' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
             }).once
 
             subject.execute(valid_params)

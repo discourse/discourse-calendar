@@ -71,7 +71,7 @@ module DiscoursePostEvent
       render_json_dump(serializer)
     end
 
-    def bulk_invite
+    def csv_bulk_invite
       require 'csv'
 
       event = Event.find(params[:id])
@@ -83,12 +83,10 @@ module DiscoursePostEvent
 
       hijack do
         begin
-          count = 0
           invitees = []
 
           CSV.foreach(file.tempfile) do |row|
             if row[0].present?
-              count += 1
               invitees << { identifier: row[0], attendance: row[1] || 'going' }
             end
           end
@@ -107,6 +105,27 @@ module DiscoursePostEvent
         rescue
           render json: failed_json.merge(errors: [I18n.t('discourse_post_event.errors.bulk_invite.error')]), status: 422
         end
+      end
+    end
+
+    def bulk_invite
+      event = Event.find(params[:id])
+      guardian.ensure_can_edit!(event.post)
+      guardian.ensure_can_create_discourse_post_event!
+
+      invitees = Array(params[:invitees]).reject { |x| x.empty? }
+      raise Discourse::InvalidParameters.new(:invitees) if invitees.blank?
+
+      begin
+        Jobs.enqueue(
+          :discourse_post_event_bulk_invite,
+          event_id: event.id,
+          invitees: invitees.as_json,
+          current_user_id: current_user.id
+        )
+        render json: success_json
+      rescue
+        render json: failed_json.merge(errors: [I18n.t('discourse_post_event.errors.bulk_invite.error')]), status: 422
       end
     end
 

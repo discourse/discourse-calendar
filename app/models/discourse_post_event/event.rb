@@ -130,14 +130,18 @@ module DiscoursePostEvent
       self.invitees.insert_all!(attrs)
     end
 
-    def notify_invitees!
+    def notify_invitees!(auto: false)
       self.invitees.where(notified: false).each do |invitee|
-        create_notification!(invitee.user, self.post)
+        create_notification!(invitee.user, self.post, auto: auto)
         invitee.update!(notified: true)
       end
     end
 
-    def create_notification!(user, post)
+    def create_notification!(user, post, auto: false)
+      message = auto ?
+        'discourse_post_event.notifications.invite_user_auto_notification' :
+        'discourse_post_event.notifications.invite_user_notification'
+
       user.notifications.create!(
         notification_type: Notification.types[:custom],
         topic_id: post.topic_id,
@@ -145,7 +149,7 @@ module DiscoursePostEvent
         data: {
           topic_title: post.topic.title,
           display_username: post.user.username,
-          message: 'discourse_calendar.invite_user_notification'
+          message: message
         }.to_json
       )
     end
@@ -196,7 +200,7 @@ module DiscoursePostEvent
     def enforce_raw_invitees!
       self.destroy_extraneous_invitees!
       self.fill_invitees!
-      self.notify_invitees!
+      self.notify_invitees!(auto: false)
     end
 
     def can_user_update_attendance(user)

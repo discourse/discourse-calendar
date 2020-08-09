@@ -115,9 +115,9 @@ export default createWidget("discourse-post-event", {
     });
   },
 
-  bulkInvite(postId) {
+  bulkInvite(eventModel) {
     showModal("discourse-post-event-bulk-invite", {
-      model: { id: postId }
+      model: { eventModel }
     });
   },
 
