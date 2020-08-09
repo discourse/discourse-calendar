@@ -3,7 +3,7 @@
 module DiscoursePostEvent
   class InviteesController < DiscoursePostEventController
     def index
-      event = Event.find(params['event-id'])
+      event = Event.find(params[:post_id])
 
       event_invitees = event.invitees
 
@@ -22,28 +22,37 @@ module DiscoursePostEvent
     end
 
     def update
-      invitee = Invitee.find(params[:id])
+      invitee = Invitee.find_by(id: params[:id], post_id: params[:post_id])
       guardian.ensure_can_act_on_invitee!(invitee)
       invitee.update_attendance!(invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
     def create
-      event = Event.find(invitee_params[:post_id])
+      event = Event.find(params[:post_id])
       guardian.ensure_can_see!(event.post)
 
       invitee = Invitee.create_attendance!(
         current_user.id,
-        invitee_params[:post_id],
+        params[:post_id],
         invitee_params[:status]
       )
       render json: InviteeSerializer.new(invitee)
     end
 
+    def destroy
+      event = Event.find_by(id: params[:post_id])
+      invitee = event.invitees.find_by(id: params[:id])
+      guardian.ensure_can_act_on_discourse_post_event!(event)
+      invitee.destroy!
+      event.publish_update!
+      render json: success_json
+    end
+
     private
 
     def invitee_params
-      params.require(:invitee).permit(:status, :post_id)
+      params.require(:invitee).permit(:status)
     end
   end
 end

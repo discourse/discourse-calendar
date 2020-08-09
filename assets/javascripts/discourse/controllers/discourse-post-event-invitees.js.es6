@@ -17,13 +17,20 @@ export default Controller.extend(ModalFunctionality, {
     debounce(this, this._fetchInvitees, filter, 250);
   },
 
+  @action
+  removeInvitee(invitee) {
+    invitee
+      .destroyRecord({ parent: this.model })
+      .then(() => this._fetchInvitees());
+  },
+
   _fetchInvitees(filter) {
     this.set("isLoading", true);
 
     this.store
       .findAll("discourse-post-event-invitee", {
-        "event-id": this.model.id,
-        filter
+        filter,
+        post_id: this.model.id
       })
       .then(invitees => this.set("invitees", invitees))
       .finally(() => this.set("isLoading", false));

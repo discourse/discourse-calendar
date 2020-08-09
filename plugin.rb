@@ -112,9 +112,10 @@ after_initialize do
     post '/discourse-post-event/events/:id/csv-bulk-invite' => 'events#csv_bulk_invite'
     post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite', format: :json
     post '/discourse-post-event/events/:id/invite' => 'events#invite'
-    put '/discourse-post-event/invitees/:id' => 'invitees#update'
-    post '/discourse-post-event/invitees' => 'invitees#create'
-    get '/discourse-post-event/invitees' => 'invitees#index'
+    put '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#update'
+    post '/discourse-post-event/events/:post_id/invitees' => 'invitees#create'
+    get '/discourse-post-event/events/:post_id/invitees' => 'invitees#index'
+    delete '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#destroy'
     get '/upcoming-events' => 'upcoming_events#index'
   end
 

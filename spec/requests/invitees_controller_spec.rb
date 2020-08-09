@@ -28,21 +28,49 @@ module DiscoursePostEvent
           pe
         }
 
-        it 'updates its status' do
-          invitee = post_event_2.invitees.first
+        context "updating invitee" do
+          it 'updates its status' do
+            invitee = post_event_2.invitees.first
 
-          expect(invitee.status).to eq(0)
+            expect(invitee.status).to eq(0)
 
-          put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
-            invitee: {
-              status: 'interested'
+            put "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json", params: {
+              invitee: {
+                status: 'interested'
+              }
             }
-          }
 
-          invitee.reload
+            invitee.reload
 
-          expect(invitee.status).to eq(1)
-          expect(invitee.post_id).to eq(post_1.id)
+            expect(invitee.status).to eq(1)
+            expect(invitee.post_id).to eq(post_1.id)
+          end
+        end
+
+        context 'destroying invitee' do
+          context 'acting user can act on discourse event' do
+            it 'destroys the invitee' do
+              invitee = post_event_2.invitees.first
+              delete "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json"
+              expect(Invitee.where(id: invitee.id).length).to eq(0)
+              expect(response.status).to eq(200)
+            end
+          end
+
+          context 'acting user can’t act on discourse event' do
+            let(:lurker) { Fabricate(:user) }
+
+            before do
+              sign_in(lurker)
+            end
+
+            it 'doesn’t destroy the invitee' do
+              invitee = post_event_2.invitees.first
+              delete "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json"
+              expect(Invitee.where(id: invitee.id).length).to eq(1)
+              expect(response.status).to eq(403)
+            end
+          end
         end
 
         context 'when changing status' do
@@ -51,7 +79,7 @@ module DiscoursePostEvent
 
             expect(invitee.status).to eq(0)
 
-            put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
+            put "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json", params: {
               invitee: {
                 status: 'interested'
               }
@@ -60,7 +88,7 @@ module DiscoursePostEvent
             tu = TopicUser.get(invitee.event.post.topic, invitee.user)
             expect(tu.notification_level).to eq(TopicUser.notification_levels[:tracking])
 
-            put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
+            put "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json", params: {
               invitee: {
                 status: 'going'
               }
@@ -69,7 +97,7 @@ module DiscoursePostEvent
             tu = TopicUser.get(invitee.event.post.topic, invitee.user)
             expect(tu.notification_level).to eq(TopicUser.notification_levels[:watching])
 
-            put "/discourse-post-event/invitees/#{invitee.id}.json", params: {
+            put "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json", params: {
               invitee: {
                 status: 'not_going'
               }
@@ -85,26 +113,23 @@ module DiscoursePostEvent
         let(:post_event_2) { Fabricate(:event, post: post_1) }
 
         it 'creates an invitee' do
-          post "/discourse-post-event/invitees.json", params: {
+          post "/discourse-post-event/events/#{post_event_2.id}/invitees.json", params: {
             invitee: {
               user_id: user.id,
-              post_id: post_event_2.id,
               status: 'not_going',
             }
           }
 
           expect(Invitee).to exist(
-            post_id: post_event_2.id,
             user_id: user.id,
             status: 2,
           )
         end
 
         it 'sets tracking of the topic' do
-          post "/discourse-post-event/invitees.json", params: {
+          post "/discourse-post-event/events/#{post_event_2.id}/invitees.json", params: {
             invitee: {
               user_id: user.id,
-              post_id: post_event_2.id,
               status: 'going',
             }
           }
@@ -121,9 +146,8 @@ module DiscoursePostEvent
           it 'creates an invitee' do
             expect(post_event_2.invitees.length).to eq(0)
 
-            post "/discourse-post-event/invitees.json", params: {
+            post "/discourse-post-event/events/#{post_event_2.id}/invitees.json", params: {
               invitee: {
-                post_id: post_1.id,
                 status: 'interested'
               }
             }

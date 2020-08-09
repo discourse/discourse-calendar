@@ -6,8 +6,7 @@ export default createWidget("discourse-post-event-invitees", {
 
   transform(attrs) {
     return {
-      isPrivateEvent: attrs.eventModel.status === "private",
-      showAll: attrs.eventModel.stats.invited > 10
+      isPrivateEvent: attrs.eventModel.status === "private"
     };
   },
 
@@ -22,17 +21,15 @@ export default createWidget("discourse-post-event-invitees", {
         {{/if}}
       </div>
 
-      {{#if transformed.showAll}}
-        {{attach
-          widget="button"
-          attrs=(hash
-            className="show-all btn-small"
-            label="discourse_post_event.event_ui.show_all"
-            action="showAllInvitees"
-            actionParam=(hash postId=attrs.eventModel.id)
-          )
-        }}
-      {{/if}}
+      {{attach
+        widget="button"
+        attrs=(hash
+          className="show-all btn-small"
+          label="discourse_post_event.event_ui.show_all"
+          action="showAllInvitees"
+          actionParam=(hash postId=attrs.eventModel.id)
+        )
+      }}
     </div>
     <ul class="event-invitees-avatars">
       {{#each attrs.eventModel.sample_invitees as |invitee|}}

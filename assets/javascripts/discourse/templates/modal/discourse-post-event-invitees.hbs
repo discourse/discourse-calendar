@@ -11,6 +11,7 @@
     {{#each invitees as |invitee|}}
       <li class="invitee">
         {{render-invitee invitee}}
+
         {{#if invitee.status}}
           <span class="status {{invitee.status}}">
             {{i18n (concat "discourse_post_event.models.invitee.status." invitee.status)}}
@@ -19,6 +20,14 @@
           <span class="status">
             -
           </span>
+        {{/if}}
+
+        {{#if model.can_act_on_discourse_post_event}}
+          {{d-button
+            class="btn-danger"
+            icon="times"
+            action=(action "removeInvitee" invitee)
+          }}
         {{/if}}
       </li>
     {{/each}}
