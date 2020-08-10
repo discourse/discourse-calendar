@@ -33,6 +33,10 @@ export function buildParams(startsAt, endsAt, eventModel) {
     params.allowedGroups = (eventModel.raw_invitees || []).join(",");
   }
 
+  if (eventModel.status === "public") {
+    params.allowedGroups = "trust_level_0";
+  }
+
   if (eventModel.reminders && eventModel.reminders.length) {
     params.reminders = eventModel.reminders
       .map(r => `${r.value}.${r.unit}`)
