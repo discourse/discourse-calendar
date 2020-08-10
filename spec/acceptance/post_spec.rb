@@ -4,16 +4,6 @@ require 'rails_helper'
 require 'securerandom'
 require_relative '../fabricators/event_fabricator'
 
-def create_post_with_event(user, extra_raw = '')
-  start = (Time.now - 10.seconds).utc.iso8601(3)
-
-  PostCreator.create!(
-    user,
-    title: "Sell a boat party ##{SecureRandom.alphanumeric}",
-    raw: "[event start=\"#{start}\" #{extra_raw}]\n[/event]",
-  )
-end
-
 describe Post do
   Event ||= DiscoursePostEvent::Event
   Invitee ||= DiscoursePostEvent::Invitee

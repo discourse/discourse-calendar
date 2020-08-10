@@ -274,6 +274,8 @@ en:
       notifications:
         invite_user_notification: "%{username} has invited you to %{description}"
         invite_user_auto_notification: "%{username} has automatically set your attendance and invited you to %{description}"
+        before_event_reminder: "An event is about to start %{description}"
+        after_event_reminder: "An event has started %{description}"
       preview:
         more_than_one_event: You can’t have more than one event.
       edit_reason: Event updated
@@ -338,6 +340,10 @@ en:
         create: Create
         update: Save
         attach: Create event
+        add_reminder: Add reminder
+        reminders:
+          label: Reminders
+          description: A negative value will be sent after event started to `going` users who didn't visit the event since it started.
         url:
           label: URL
           placeholder: Optional

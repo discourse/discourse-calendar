@@ -19,9 +19,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   removeInvitee(invitee) {
-    invitee
-      .destroyRecord({ parent: this.model })
-      .then(() => this._fetchInvitees());
+    invitee.destroyRecord().then(() => this._fetchInvitees());
   },
 
   _fetchInvitees(filter) {

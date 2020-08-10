@@ -83,8 +83,10 @@ after_initialize do
     "../app/controllers/discourse_post_event_controller.rb",
     "../app/controllers/discourse_post_event/invitees_controller.rb",
     "../app/controllers/discourse_post_event/events_controller.rb",
+    "../app/controllers/discourse_post_event/reminders_controller.rb",
     "../app/controllers/discourse_post_event/upcoming_events_controller.rb",
     "../app/models/discourse_post_event/event.rb",
+    "../app/models/discourse_post_event/reminder.rb",
     "../app/models/discourse_post_event/invitee.rb",
     "../lib/discourse_post_event/event_parser.rb",
     "../lib/discourse_post_event/event_validator.rb",
@@ -92,6 +94,7 @@ after_initialize do
     "../jobs/regular/discourse_post_event/event_will_start.rb",
     "../jobs/regular/discourse_post_event/event_started.rb",
     "../jobs/regular/discourse_post_event/event_ended.rb",
+    "../jobs/regular/discourse_post_event/send_reminder.rb",
     "../lib/discourse_post_event/event_finder.rb",
     "../app/serializers/discourse_post_event/invitee_serializer.rb",
     "../app/serializers/discourse_post_event/event_serializer.rb"
@@ -108,7 +111,7 @@ after_initialize do
     get '/discourse-post-event/events/:id' => 'events#show'
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
-    put '/discourse-post-event/events/:id' => 'events#update'
+    put '/discourse-post-event/events/:id' => 'events#update', format: :json
     post '/discourse-post-event/events/:id/csv-bulk-invite' => 'events#csv_bulk_invite'
     post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite', format: :json
     post '/discourse-post-event/events/:id/invite' => 'events#invite'
@@ -116,6 +119,7 @@ after_initialize do
     post '/discourse-post-event/events/:post_id/invitees' => 'invitees#create'
     get '/discourse-post-event/events/:post_id/invitees' => 'invitees#index'
     delete '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#destroy'
+    delete '/discourse-post-event/events/:post_id/reminders/:id' => 'reminders#destroy'
     get '/upcoming-events' => 'upcoming_events#index'
   end
 

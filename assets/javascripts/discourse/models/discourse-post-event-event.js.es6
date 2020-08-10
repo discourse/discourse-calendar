@@ -1,4 +1,5 @@
 import RestModel from "discourse/models/rest";
+import { ajax } from "discourse/lib/ajax";
 
 const ATTRIBUTES = {
   id: {},
@@ -25,6 +26,15 @@ const Event = RestModel.extend({
     this._super(...arguments);
 
     this.__type = "discourse-post-event-event";
+  },
+
+  update(data) {
+    return ajax(`/discourse-post-event/events/${this.id}.json`, {
+      type: "PUT",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({ event: data })
+    });
   },
 
   updateProperties() {

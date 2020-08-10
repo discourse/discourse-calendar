@@ -22,6 +22,7 @@ module DiscoursePostEvent
     attributes :is_public
     attributes :is_private
     attributes :is_standalone
+    attributes :reminders
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)

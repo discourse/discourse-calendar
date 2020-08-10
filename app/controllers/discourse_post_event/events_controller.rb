@@ -36,7 +36,7 @@ module DiscoursePostEvent
     end
 
     def show
-      event = Event.find(params[:id])
+      event = Event.includes(:reminders).find(params[:id])
       guardian.ensure_can_see!(event.post)
       serializer = EventSerializer.new(event, scope: guardian)
       render_json_dump(serializer)
@@ -56,6 +56,7 @@ module DiscoursePostEvent
         guardian.ensure_can_edit!(event.post)
         guardian.ensure_can_act_on_discourse_post_event!(event)
         event.update_with_params!(event_params)
+        event.update_reminders!(event_reminders_params)
         serializer = EventSerializer.new(event, scope: guardian)
         render_json_dump(serializer)
       end
@@ -131,6 +132,10 @@ module DiscoursePostEvent
 
     private
 
+    def event_reminders_params
+      Array(params.require(:event).permit(reminders: [:id, :value, :unit])[:reminders])
+    end
+
     def event_params
       allowed_custom_fields = SiteSetting.discourse_post_event_allowed_custom_fields.split('|')
 
@@ -144,7 +149,7 @@ module DiscoursePostEvent
           :status,
           :url,
           custom_fields: allowed_custom_fields,
-          raw_invitees: []
+          raw_invitees: [],
         )
     end
 

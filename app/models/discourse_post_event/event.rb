@@ -34,34 +34,41 @@ module DiscoursePostEvent
       end
     end
 
-    after_commit :setup_starts_at_handler, on: [:create, :update]
-    def setup_starts_at_handler
-      if !transaction_include_any_action?([:create])
+    after_commit :setup_handlers, on: [:create, :update]
+    def setup_handlers
+      starts_at_changes = saved_change_to_starts_at
+      if starts_at_changes
+        new_starts_at = starts_at_changes[1]
+
         Jobs.cancel_scheduled_job(:discourse_post_event_event_started, event_id: self.id)
         Jobs.cancel_scheduled_job(:discourse_post_event_event_will_start, event_id: self.id)
+
+        if new_starts_at > Time.now
+          Jobs.enqueue_at(new_starts_at, :discourse_post_event_event_started, event_id: self.id)
+
+          will_start_at = new_starts_at - 1.hour
+          if will_start_at > Time.now
+            Jobs.enqueue_at(will_start_at, :discourse_post_event_event_will_start, event_id: self.id)
+          end
+        end
+
+        self.refresh_reminders!
       end
 
-      if self.starts_at > Time.now
-        Jobs.enqueue_at(self.starts_at, :discourse_post_event_event_started, event_id: self.id)
+      ends_at_changes = saved_change_to_ends_at
+      if ends_at_changes
+        new_ends_at = ends_at_changes[1]
 
-        if self.starts_at - 1.hour > Time.now
-          Jobs.enqueue_at(self.starts_at - 1.hour, :discourse_post_event_event_will_start, event_id: self.id)
+        Jobs.cancel_scheduled_job(:discourse_post_event_event_ended, event_id: self.id)
+
+        if new_ends_at && new_ends_at > Time.now
+          Jobs.enqueue_at(new_ends_at, :discourse_post_event_event_ended, event_id: self.id)
         end
       end
     end
 
-    after_commit :setup_ends_at_handler, on: [:create, :update]
-    def setup_ends_at_handler
-      if !transaction_include_any_action?([:create])
-        Jobs.cancel_scheduled_job(:discourse_post_event_event_ended, event_id: self.id)
-      end
-
-      if self.ends_at && self.ends_at > Time.now
-        Jobs.enqueue_at(self.ends_at, :discourse_post_event_event_ended, event_id: self.id)
-      end
-    end
-
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
+    has_many :reminders, foreign_key: :post_id, dependent: :delete_all
     belongs_to :post, foreign_key: :id
 
     scope :visible, -> { where(deleted_at: nil) }
@@ -219,14 +226,12 @@ module DiscoursePostEvent
 
       if events.present?
         event_params = events.first
-
         event = post.event || DiscoursePostEvent::Event.new(id: post.id)
-
         params = {
           name: event_params[:name],
           starts_at: event_params[:start] || event.starts_at,
           ends_at: event_params[:end],
-          url: event_params[:"url"],
+          url: event_params[:url],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
           raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
@@ -253,6 +258,21 @@ module DiscoursePostEvent
       end
 
       self.publish_update!
+    end
+
+    def refresh_reminders!
+      self.reminders.each(&:refresh!)
+    end
+
+    def update_reminders!(reminders)
+      reminders.each do |reminder|
+        if reminder[:id]
+          model = Reminder.find(reminder[:id])
+          model.update!(value: reminder[:value], unit: reminder[:unit])
+        else
+          model = Reminder.create!(value: reminder[:value], unit: reminder[:unit], post_id: self.id)
+        end
+      end
     end
   end
 end

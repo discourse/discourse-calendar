@@ -12,6 +12,10 @@
               width: 100%;
             }
 
+            .name {
+              font-size: $font-down-1;
+            }
+
             &.from {
               margin-right: 2.65em;
             }
@@ -43,6 +47,16 @@
     min-height: 200px;
 
     .d-date-time-input-range {
+      .d-time-input {
+        .selected-name {
+          border: 0;
+
+          .name {
+            font-size: $font-down-1;
+          }
+        }
+      }
+
       .to.d-date-time-input {
         .pika-single.is-bound {
           left: -2px !important;
@@ -90,7 +104,7 @@
 
       .custom-field-label {
         font-weight: 500;
-        margin-bottom: 0.5em;
+        margin: 0.5em 0 0.25em 0;
       }
 
       .custom-field-input {
@@ -130,6 +144,35 @@
       input {
         margin: 0;
       }
+    }
+  }
+
+  .event-field.reminders {
+    display: flex;
+
+    .reminders-list {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1em;
+
+      .reminder-item {
+        display: flex;
+        flex: 1 0 auto;
+        padding: 0.25em 0;
+
+        .reminder-value {
+          width: 80px;
+          margin-right: 0.5em;
+        }
+
+        .remove-reminder {
+          margin-left: auto;
+        }
+      }
+    }
+
+    .add-reminder {
+      align-self: flex-start;
     }
   }
 }

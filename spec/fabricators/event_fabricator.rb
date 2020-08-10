@@ -13,3 +13,13 @@ Fabricator(:event, from: 'DiscoursePostEvent::Event') do
   starts_at { |attrs| attrs[:starts_at] || 1.day.from_now.iso8601 }
   ends_at { |attrs| attrs[:ends_at] }
 end
+
+def create_post_with_event(user, extra_raw = '')
+  start = (Time.now - 10.seconds).utc.iso8601(3)
+
+  PostCreator.create!(
+    user,
+    title: "Sell a boat party ##{SecureRandom.alphanumeric}",
+    raw: "[event start=\"#{start}\" #{extra_raw}]\n[/event]",
+  )
+end

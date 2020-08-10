@@ -1,19 +1,24 @@
-import { set } from "@ember/object";
 import TextLib from "discourse/lib/text";
 import Group from "discourse/models/group";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
-import { action, computed } from "@ember/object";
-import { equal } from "@ember/object/computed";
+import { set, action, computed } from "@ember/object";
+import { equal, gte } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
 import { Promise } from "rsvp";
 
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
+const DEFAULT_REMINDER = { value: 15, unit: "minutes", type: "notification" };
+
 export default Controller.extend(ModalFunctionality, {
+  reminders: null,
+  isLoadingReminders: false,
+
   init() {
     this._super(...arguments);
-    this._dirtyCustomFields = false;
+
+    this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
   },
 
   modalTitle: computed("model.eventModel.isNew", {
@@ -39,9 +44,10 @@ export default Controller.extend(ModalFunctionality, {
 
   allowsInvitees: equal("model.eventModel.status", "private"),
 
+  addReminderDisabled: gte("reminders.length", 5),
+
   @action
   onChangeCustomField(field, event) {
-    this._dirtyCustomFields = true;
     const value = event.target.value;
     set(this.model.eventModel.custom_fields, field, value);
   },
@@ -49,6 +55,30 @@ export default Controller.extend(ModalFunctionality, {
   @action
   setRawInvitees(_, newInvitees) {
     this.set("model.eventModel.raw_invitees", newInvitees);
+  },
+
+  @action
+  removeReminder(reminder) {
+    this.model.eventModel.reminders.removeObject(reminder);
+
+    if (reminder.id) {
+      this.set("isLoadingReminders", true);
+
+      this.store
+        .createRecord("discourse-post-event-reminder", {
+          id: reminder.id,
+          post_id: this.model.eventModel.id
+        })
+        .destroyRecord()
+        .finally(() => this.set("isLoadingReminders", false));
+    }
+  },
+
+  @action
+  addReminder() {
+    this.model.eventModel.reminders.pushObject(
+      Object.assign({}, DEFAULT_REMINDER)
+    );
   },
 
   startsAt: computed("model.eventModel.starts_at", {
@@ -137,17 +167,13 @@ export default Controller.extend(ModalFunctionality, {
   updateEvent() {
     return this.store.find("post", this.model.eventModel.id).then(post => {
       const promises = [];
-      if (this._dirtyCustomFields) {
-        // custom_fields are not stored on the raw and are updated separately
-        const customFields = this.model.eventModel.getProperties(
-          "custom_fields"
-        );
-        promises.push(
-          this.model.eventModel
-            .update(customFields)
-            .finally(() => (this._dirtyCustomFields = false))
-        );
-      }
+
+      // custom_fields are not stored on the raw and are updated separately
+      const data = this.model.eventModel.getProperties(
+        "custom_fields",
+        "reminders"
+      );
+      promises.push(this.model.eventModel.update(data));
 
       const updateRawPromise = new Promise(resolve => {
         const raw = post.raw;

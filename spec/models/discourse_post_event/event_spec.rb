@@ -80,17 +80,17 @@ describe DiscoursePostEvent::Event do
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_ended, event_id: first_post.id)
-                  .once
+                  .never
 
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_started, event_id: first_post.id)
-                  .once
+                  .at_least_once
 
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_will_start, event_id: first_post.id)
-                  .once
+                  .at_least_once
 
                 Event.create!(id: first_post.id, starts_at: starts_at)
 
@@ -131,17 +131,17 @@ describe DiscoursePostEvent::Event do
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_ended, event_id: first_post.id)
-                  .once
+                  .at_least_once
 
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_started, event_id: first_post.id)
-                  .once
+                  .at_least_once
 
                 Jobs
                   .expects(:cancel_scheduled_job)
                   .with(:discourse_post_event_event_will_start, event_id: first_post.id)
-                  .once
+                  .at_least_once
 
                 Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now + 12.hours)
 
