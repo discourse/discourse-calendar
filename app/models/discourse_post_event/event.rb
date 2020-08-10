@@ -234,8 +234,8 @@ module DiscoursePostEvent
           ends_at: event_params[:end],
           url: event_params[:url],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
-          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil,
           reminders: event_params[:reminders],
+          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
 
         event.update_with_params!(params)
@@ -247,7 +247,7 @@ module DiscoursePostEvent
     def update_with_params!(params)
       params[:custom_fields] = (params[:custom_fields] || {}).reject { |_, value| value.blank? }
 
-      case params[:status].to_i
+      case params[:status] ? params[:status].to_i : self.status
       when Event.statuses[:private]
         raw_invitees = Array(params[:raw_invitees])
         self.update!(params.merge(raw_invitees: raw_invitees))
