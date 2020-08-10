@@ -146,6 +146,14 @@ describe Post do
           post = create_post_with_event(user, 'status="private" allowedGroups=').reload
           expect(post.event.raw_invitees).to eq([])
         end
+
+        it 'works with reminders attribute' do
+          post = create_post_with_event(user).reload
+          expect(post.event.reminders).to eq(nil)
+
+          post = create_post_with_event(user, 'reminders="1.hours,-3.days"').reload
+          expect(post.event.reminders).to eq('1.hours,-3.days')
+        end
       end
 
       context 'when the acting user has rights to create events' do

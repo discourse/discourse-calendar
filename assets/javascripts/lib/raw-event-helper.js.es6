@@ -33,6 +33,12 @@ export function buildParams(startsAt, endsAt, eventModel) {
     params.allowedGroups = (eventModel.raw_invitees || []).join(",");
   }
 
+  if (eventModel.reminders && eventModel.reminders.length) {
+    params.reminders = eventModel.reminders
+      .map(r => `${r.value}.${r.unit}`)
+      .join(",");
+  }
+
   return params;
 }
 

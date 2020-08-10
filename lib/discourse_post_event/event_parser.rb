@@ -6,7 +6,8 @@ VALID_OPTIONS = [
   :status,
   :"allowed-groups",
   :url,
-  :name
+  :name,
+  :reminders
 ]
 
 module DiscoursePostEvent

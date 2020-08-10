@@ -83,7 +83,6 @@ after_initialize do
     "../app/controllers/discourse_post_event_controller.rb",
     "../app/controllers/discourse_post_event/invitees_controller.rb",
     "../app/controllers/discourse_post_event/events_controller.rb",
-    "../app/controllers/discourse_post_event/reminders_controller.rb",
     "../app/controllers/discourse_post_event/upcoming_events_controller.rb",
     "../app/models/discourse_post_event/event.rb",
     "../app/models/discourse_post_event/reminder.rb",

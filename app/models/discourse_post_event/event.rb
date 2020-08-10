@@ -51,7 +51,9 @@ module DiscoursePostEvent
             Jobs.enqueue_at(will_start_at, :discourse_post_event_event_will_start, event_id: self.id)
           end
         end
+      end
 
+      if saved_change_to_starts_at || saved_change_to_reminders
         self.refresh_reminders!
       end
 
@@ -68,7 +70,6 @@ module DiscoursePostEvent
     end
 
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
-    has_many :reminders, foreign_key: :post_id, dependent: :delete_all
     belongs_to :post, foreign_key: :id
 
     scope :visible, -> { where(deleted_at: nil) }
@@ -233,7 +234,8 @@ module DiscoursePostEvent
           ends_at: event_params[:end],
           url: event_params[:url],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
-          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
+          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil,
+          reminders: event_params[:reminders],
         }
 
         event.update_with_params!(params)
@@ -261,16 +263,16 @@ module DiscoursePostEvent
     end
 
     def refresh_reminders!
-      self.reminders.each(&:refresh!)
-    end
+      (self.reminders || '').split(',').map do |reminder|
+        value, unit = reminder.split('.')
 
-    def update_reminders!(reminders)
-      reminders.each do |reminder|
-        if reminder[:id]
-          model = Reminder.find(reminder[:id])
-          model.update!(value: reminder[:value], unit: reminder[:unit])
-        else
-          model = Reminder.create!(value: reminder[:value], unit: reminder[:unit], post_id: self.id)
+        if transaction_include_any_action?([:update])
+          Jobs.cancel_scheduled_job(:discourse_post_event_send_reminder, event_id: self.id, reminder: reminder)
+        end
+
+        enqueue_at = self.starts_at - value.to_i.send(unit)
+        if enqueue_at > Time.now
+          Jobs.enqueue_at(enqueue_at, :discourse_post_event_send_reminder, event_id: self.id, reminder: reminder)
         end
       end
     end

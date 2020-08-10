@@ -303,4 +303,59 @@ describe DiscoursePostEvent::Event do
       end
     end
   end
+
+  context 'reminders callbacks' do
+    let!(:post_1) { Fabricate(:post) }
+    let!(:event_1) { Fabricate(:event, post: post_1) }
+
+    before do
+      freeze_time
+    end
+
+    it 'does nothing with no reminders' do
+      Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id).never
+      event_1.save!
+    end
+
+    it 'creates jobs with reminders' do
+      Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
+      Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '-2.days').once
+      Jobs.expects(:enqueue_at).with(event_1.starts_at - 1.hour, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
+      Jobs.expects(:enqueue_at).with(event_1.starts_at + 2.days, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '-2.days').once
+
+      event_1.update!(reminders: '1.hours,-2.days')
+    end
+
+    context 'reminder is after current time' do
+      before do
+        event_1.update!(starts_at: 30.minutes.from_now)
+      end
+
+      it 'doesn’t create job' do
+        Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
+        Jobs.expects(:enqueue_at).with(event_1.starts_at - 1.hour, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').never
+
+        event_1.update!(reminders: '1.hours')
+      end
+    end
+
+    context 'starts at is changed' do
+      context 'event has reminders' do
+        before do
+          event_1.update!(reminders: '1.hours')
+        end
+
+        it 'creates jobs with reminders' do
+          Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_event_started, event_id: event_1.id).once
+          Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_event_will_start, event_id: event_1.id).once
+          Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
+          Jobs.expects(:enqueue_at).with(2.hours.from_now - 1.hour, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
+          Jobs.expects(:enqueue_at).with(2.hours.from_now - 1.hour, :discourse_post_event_event_will_start, event_id: event_1.id).once
+          Jobs.expects(:enqueue_at).with(2.hours.from_now, :discourse_post_event_event_started, event_id: event_1.id).once
+
+          event_1.update!(starts_at: 2.hours.from_now)
+        end
+      end
+    end
+  end
 end

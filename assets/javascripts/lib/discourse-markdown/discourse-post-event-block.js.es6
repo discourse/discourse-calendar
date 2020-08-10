@@ -31,6 +31,10 @@ const rule = {
       token.attrs.push(["data-url", info.attrs.url]);
     }
 
+    if (info.attrs.reminders) {
+      token.attrs.push(["data-reminders", info.attrs.reminders]);
+    }
+
     return true;
   }
 };

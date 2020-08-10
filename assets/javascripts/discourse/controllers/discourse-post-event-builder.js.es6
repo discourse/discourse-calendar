@@ -9,7 +9,7 @@ import { Promise } from "rsvp";
 
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
-const DEFAULT_REMINDER = { value: 15, unit: "minutes", type: "notification" };
+const DEFAULT_REMINDER = { value: 15, unit: "minutes" };
 
 export default Controller.extend(ModalFunctionality, {
   reminders: null,
@@ -44,7 +44,7 @@ export default Controller.extend(ModalFunctionality, {
 
   allowsInvitees: equal("model.eventModel.status", "private"),
 
-  addReminderDisabled: gte("reminders.length", 5),
+  addReminderDisabled: gte("model.eventModel.reminders.length", 5),
 
   @action
   onChangeCustomField(field, event) {
@@ -60,18 +60,6 @@ export default Controller.extend(ModalFunctionality, {
   @action
   removeReminder(reminder) {
     this.model.eventModel.reminders.removeObject(reminder);
-
-    if (reminder.id) {
-      this.set("isLoadingReminders", true);
-
-      this.store
-        .createRecord("discourse-post-event-reminder", {
-          id: reminder.id,
-          post_id: this.model.eventModel.id
-        })
-        .destroyRecord()
-        .finally(() => this.set("isLoadingReminders", false));
-    }
   },
 
   @action
@@ -169,10 +157,7 @@ export default Controller.extend(ModalFunctionality, {
       const promises = [];
 
       // custom_fields are not stored on the raw and are updated separately
-      const data = this.model.eventModel.getProperties(
-        "custom_fields",
-        "reminders"
-      );
+      const data = this.model.eventModel.getProperties("custom_fields");
       promises.push(this.model.eventModel.update(data));
 
       const updateRawPromise = new Promise(resolve => {

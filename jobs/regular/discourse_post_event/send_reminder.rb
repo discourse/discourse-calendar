@@ -5,10 +5,10 @@ module Jobs
     sidekiq_options retry: false
 
     def execute(args)
-      raise Discourse::InvalidParameters.new(:reminder_id) if args[:reminder_id].blank?
+      raise Discourse::InvalidParameters.new(:event_id) if args[:event_id].blank?
+      raise Discourse::InvalidParameters.new(:reminder) if args[:reminder].blank?
 
-      reminder = DiscoursePostEvent::Reminder.includes(event: [post: [:topic], invitees: [:user]]).find(args[:reminder_id])
-      event = reminder.event
+      event = Event.includes(post: [:topic], invitees: [:user]).find(args[:event_id])
       invitees = event.invitees
 
       unread_notified_user_ids = Notification.where(

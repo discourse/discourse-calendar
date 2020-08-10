@@ -28,6 +28,13 @@ module DiscoursePostEvent
       scope.can_act_on_discourse_post_event?(object)
     end
 
+    def reminders
+      (object.reminders || '').split(',').map do |reminder|
+        value, unit = reminder.split('.')
+        { value: value.to_i, unit: unit }
+      end
+    end
+
     def is_expired
       object.is_expired?
     end

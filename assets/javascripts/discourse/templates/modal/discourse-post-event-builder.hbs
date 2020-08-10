@@ -77,46 +77,44 @@
         }}
       {{/event-field}}
 
-      {{#if model.eventModel.reminders}}
-        {{#event-field class="reminders" label="discourse_post_event.builder_modal.reminders.label"}}
-          <div class="reminders-list">
-            {{#each model.eventModel.reminders as |reminder|}}
-              <div class="reminder-item">
-                {{input
-                  class="reminder-value"
-                  value=(readonly reminder.value)
-                  placeholderKey="discourse_post_event.builder_modal.name.placeholder"
-                  input=(action (mut reminder.value) value="target.value")
-                }}
+      {{#event-field class="reminders" label="discourse_post_event.builder_modal.reminders.label"}}
+        <div class="reminders-list">
+          {{#each model.eventModel.reminders as |reminder|}}
+            <div class="reminder-item">
+              {{input
+                class="reminder-value"
+                value=(readonly reminder.value)
+                placeholderKey="discourse_post_event.builder_modal.name.placeholder"
+                input=(action (mut reminder.value) value="target.value")
+              }}
 
-                {{combo-box
-                  class="reminder-unit"
-                  value=reminder.unit
-                  nameProperty=null
-                  valueProperty=null
-                  content=reminderUnits
-                  onChange=(action (mut reminder.unit))
-                }}
+              {{combo-box
+                class="reminder-unit"
+                value=reminder.unit
+                nameProperty=null
+                valueProperty=null
+                content=reminderUnits
+                onChange=(action (mut reminder.unit))
+              }}
 
-                {{d-button
-                  class="remove-reminder"
-                  icon="times"
-                  action=(action "removeReminder" reminder)
-                  disabled=isLoadingReminders
-                }}
-              </div>
-            {{/each}}
-          </div>
+              {{d-button
+                class="remove-reminder"
+                icon="times"
+                action=(action "removeReminder" reminder)
+                disabled=isLoadingReminders
+              }}
+            </div>
+          {{/each}}
+        </div>
 
-          {{d-button
-            class="add-reminder"
-            disabled=addReminderDisabled
-            icon="plus"
-            label="discourse_post_event.builder_modal.add_reminder"
-            action=(action "addReminder")
-          }}
-        {{/event-field}}
-      {{/if}}
+        {{d-button
+          class="add-reminder"
+          disabled=addReminderDisabled
+          icon="plus"
+          label="discourse_post_event.builder_modal.add_reminder"
+          action=(action "addReminder")
+        }}
+      {{/event-field}}
 
       {{#if model.eventModel.custom_fields}}
       {{#if allowedCustomFields.length}}
