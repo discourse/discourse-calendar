@@ -305,21 +305,19 @@ after_initialize do
     validator.validate_event
   end
 
-  Post.class_eval do
-    def has_group_timezones?
-      custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD].present?
-    end
+  add_to_class(:post, :has_group_timezones?) do
+    custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD].present?
+  end
 
-    def group_timezones
-      custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] || {}
-    end
+  add_to_class(:post, :group_timezones) do
+    custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] || {}
+  end
 
-    def group_timezones=(val)
-      if val.present?
-        custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] = val
-      else
-        custom_fields.delete(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD)
-      end
+  add_to_class(:post, :group_timezones=) do |val|
+    if val.present?
+      custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] = val
+    else
+      custom_fields.delete(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD)
     end
   end
 
