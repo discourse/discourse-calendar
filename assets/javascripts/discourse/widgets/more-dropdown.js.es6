@@ -95,7 +95,7 @@ export default createWidget("more-dropdown", {
       if (!attrs.eventModel.is_expired) {
         content.push({
           icon: "times",
-          id: "closePostEvent",
+          id: "closeEvent",
           label: "discourse_post_event.event_ui.close_event",
           class: "danger",
           param: attrs.eventModel

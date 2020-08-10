@@ -55,7 +55,7 @@ export default createWidget("discourse-post-event", {
     });
   },
 
-  closePostEvent(eventModel) {
+  closeEvent(eventModel) {
     bootbox.confirm(
       I18n.t("discourse_post_event.builder_modal.confirm_close"),
       I18n.t("no_value"),
@@ -64,9 +64,14 @@ export default createWidget("discourse-post-event", {
         if (confirmed) {
           return this.store.find("post", eventModel.id).then(post => {
             const raw = post.raw;
+            const startsAt = eventModel.starts_at
+              ? moment(eventModel.starts_at)
+              : moment();
             const eventParams = buildParams(
-              eventModel.starts_at ? moment(eventModel.starts_at) : moment(),
-              moment(),
+              moment().isBefore(startsAt) ? moment() : startsAt,
+              moment().isBefore(startsAt)
+                ? moment().add(1, "minute")
+                : moment(),
               eventModel
             );
             const newRaw = replaceRaw(eventParams, raw);
