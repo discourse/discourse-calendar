@@ -117,7 +117,6 @@ after_initialize do
     post '/discourse-post-event/events/:post_id/invitees' => 'invitees#create'
     get '/discourse-post-event/events/:post_id/invitees' => 'invitees#index'
     delete '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#destroy'
-    delete '/discourse-post-event/events/:post_id/reminders/:id' => 'reminders#destroy'
     get '/upcoming-events' => 'upcoming_events#index'
   end
 
