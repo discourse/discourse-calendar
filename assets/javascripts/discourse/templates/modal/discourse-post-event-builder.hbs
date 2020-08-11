@@ -34,7 +34,7 @@
             name="status"
             value="public"
             selection=model.eventModel.status
-            onChange=(action (mut model.eventModel.status))
+            onChange=(action "onChangeStatus")
           }}
           <span class="message">
             <span class="title">{{i18n "discourse_post_event.models.event.status.public.title"}}</span>
@@ -46,7 +46,7 @@
             name="status"
             value="private"
             selection=model.eventModel.status
-            onChange=(action (mut model.eventModel.status))
+            onChange=(action "onChangeStatus")
           }}
           <span class="message">
             <span class="title">{{i18n "discourse_post_event.models.event.status.private.title"}}</span>
@@ -58,7 +58,7 @@
             name="status"
             value="standalone"
             selection=model.eventModel.status
-            onChange=(action (mut model.eventModel.status))
+            onChange=(action "onChangeStatus")
           }}
           <span class="message">
             <span class="title">{{i18n "discourse_post_event.models.event.status.standalone.title"}}</span>

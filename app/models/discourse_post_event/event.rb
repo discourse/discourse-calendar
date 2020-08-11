@@ -249,11 +249,11 @@ module DiscoursePostEvent
 
       case params[:status] ? params[:status].to_i : self.status
       when Event.statuses[:private]
-        raw_invitees = Array(params[:raw_invitees])
+        raw_invitees = Array(params[:raw_invitees]) - ['trust_level_0']
         self.update!(params.merge(raw_invitees: raw_invitees))
         self.enforce_raw_invitees!
       when Event.statuses[:public]
-        self.update!(params.merge(raw_invitees: [:trust_level_0]))
+        self.update!(params.merge(raw_invitees: ['trust_level_0']))
       when Event.statuses[:standalone]
         self.update!(params.merge(raw_invitees: []))
         self.invitees.destroy_all

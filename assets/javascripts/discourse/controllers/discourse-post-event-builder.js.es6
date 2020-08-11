@@ -53,6 +53,17 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   @action
+  onChangeStatus(newStatus) {
+    if (newStatus === "private") {
+      this.setRawInvitees(
+        null,
+        this.model.eventModel.raw_invitees.filter(x => x !== "trust_level_0")
+      );
+    }
+    this.set("model.eventModel.status", newStatus);
+  },
+
+  @action
   setRawInvitees(_, newInvitees) {
     this.set("model.eventModel.raw_invitees", newInvitees);
   },
