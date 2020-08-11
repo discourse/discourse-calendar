@@ -514,7 +514,7 @@ after_initialize do
         post = post_revision.post
 
         if post && post.is_first_post? && post.event
-          ids.concat(post.event.currently_attending_invitees.pluck(:user_id))
+          ids.concat(post.event.on_going_event_invitees.pluck(:user_id))
         end
 
         ids

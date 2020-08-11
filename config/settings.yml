@@ -62,6 +62,9 @@ discourse_post_event:
   discourse_post_event_max_bulk_invitees:
     default: 500
     hidden: true
+  discourse_post_event_edit_notifications_time_extension:
+    default: 0
+    min: 0
   discourse_post_event_allowed_custom_fields:
     type: list
     client: true

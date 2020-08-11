@@ -83,9 +83,9 @@ module DiscoursePostEvent
 
     validates :starts_at, presence: true
 
-    def currently_attending_invitees
+    def on_going_event_invitees
       starts_at = self.starts_at
-      ends_at = self.ends_at || starts_at + 1.hour
+      ends_at = (self.ends_at || starts_at + 1.hour) + SiteSetting.discourse_post_event_edit_notifications_time_extension.minutes
 
       if !(starts_at..ends_at).cover?(Time.now)
         return []

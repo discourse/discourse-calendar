@@ -44,27 +44,52 @@ describe Post do
       context 'when event is on going' do
         let(:going_user) { Fabricate(:user) }
         let(:interested_user) { Fabricate(:user) }
+        let(:post_1) { create_post_with_event(user) }
 
         before do
           SiteSetting.editing_grace_period = 1.minute
           PostActionNotifier.enable
+          SiteSetting.discourse_post_event_edit_notifications_time_extension = 180
         end
 
         context 'when in edit grace period' do
+          before do
+            post_1.reload.event.update!(starts_at: 2.hours.ago)
+          end
+
           it 'sends a post revision to going invitees' do
-            post = create_post_with_event(user).reload
+            Invitee.create_attendance!(going_user.id, post_1.id, :going)
+            Invitee.create_attendance!(interested_user.id, post_1.id, :interested)
 
-            Invitee.create_attendance!(going_user.id, post.id, :going)
-            Invitee.create_attendance!(interested_user.id, post.id, :interested)
-
-            revisor = PostRevisor.new(post)
+            revisor = PostRevisor.new(post_1)
             revisor.revise!(
               user,
-              { raw: post.raw + "\nWe are bout half way into our event!" },
+              { raw: post_1.raw + "\nWe are bout half way into our event!" },
               revised_at: Time.now + 2.minutes
             )
 
             expect(going_user.notifications.count).to eq(1)
+            expect(interested_user.notifications.count).to eq(0)
+          end
+        end
+
+        context 'when not edit grace period' do
+          before do
+            post_1.reload.event.update!(starts_at: 5.hours.ago)
+          end
+
+          it 'doesn’t send a post revision to anyone' do
+            Invitee.create_attendance!(going_user.id, post_1.id, :going)
+            Invitee.create_attendance!(interested_user.id, post_1.id, :interested)
+
+            revisor = PostRevisor.new(post_1)
+            revisor.revise!(
+              user,
+              { raw: post_1.raw + "\nWe are bout half way into our event!" },
+              revised_at: Time.now + 2.minutes
+            )
+
+            expect(going_user.notifications.count).to eq(0)
             expect(interested_user.notifications.count).to eq(0)
           end
         end
