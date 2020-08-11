@@ -44,7 +44,7 @@ module DiscoursePostEvent
     end
 
     def self.extract_uniq_usernames(groups)
-      User.where(
+      User.real.where(
         id: GroupUser.where(
           group_id: Group.where(name: groups).select(:id)
         ).select(:user_id)
