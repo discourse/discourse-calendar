@@ -5,43 +5,46 @@
   <div class="bulk-invites">
     <p class="bulk-event-help">{{i18n (concat "discourse_post_event.bulk_invite_modal.description_" model.eventModel.status)}}</p>
     <h3>{{i18n "discourse_post_event.bulk_invite_modal.inline_title"}}</h3>
-    {{#each bulkInvites as |bulkInvite|}}
-      <div class="bulk-invite-row">
-        {{#if model.eventModel.is_private}}
-          {{group-selector
-            class="bulk-invite-identifier"
-            single=true
-            groupFinder=groupFinder
-            groupNames=bulkInvite.identifier
-            placeholderKey="discourse_post_event.bulk_invite_modal.group_selector_placeholder"
-          }}
-        {{/if}}
-        {{#if model.eventModel.is_public}}
-          {{user-selector
-            class="bulk-invite-identifier"
-            single=true
-            placeholderKey="discourse_post_event.bulk_invite_modal.user_selector_placeholder"
-            usernames=bulkInvite.identifier
-            autocomplete="discourse"
-          }}
-        {{/if}}
 
-        {{combo-box
-          class="bulk-invite-attendance"
-          value=bulkInvite.attendance
-          content=bulkInviteStatuses
-          nameProperty="name"
-          valueProperty="name"
-          onChange=(action (mut bulkInvite.attendance))
-        }}
+    <div class="bulk-invite-rows">
+      {{#each bulkInvites as |bulkInvite|}}
+        <div class="bulk-invite-row">
+          {{#if model.eventModel.is_private}}
+            {{group-selector
+              class="bulk-invite-identifier"
+              single=true
+              groupFinder=groupFinder
+              groupNames=bulkInvite.identifier
+              placeholderKey="discourse_post_event.bulk_invite_modal.group_selector_placeholder"
+            }}
+          {{/if}}
+          {{#if model.eventModel.is_public}}
+            {{user-selector
+              class="bulk-invite-identifier"
+              single=true
+              placeholderKey="discourse_post_event.bulk_invite_modal.user_selector_placeholder"
+              usernames=bulkInvite.identifier
+              autocomplete="discourse"
+            }}
+          {{/if}}
 
-        {{d-button
-          icon="trash-alt"
-          action=(action "removeBulkInvite" bulkInvite)
-          class="remove-bulk-invite"
-        }}
-      </div>
-    {{/each}}
+          {{combo-box
+            class="bulk-invite-attendance"
+            value=bulkInvite.attendance
+            content=bulkInviteStatuses
+            nameProperty="name"
+            valueProperty="name"
+            onChange=(action (mut bulkInvite.attendance))
+          }}
+
+          {{d-button
+            icon="trash-alt"
+            action=(action "removeBulkInvite" bulkInvite)
+            class="remove-bulk-invite"
+          }}
+        </div>
+      {{/each}}
+    </div>
 
     <div class="bulk-invite-actions">
       {{d-button class="send-bulk-invites btn-primary" label="discourse_post_event.bulk_invite_modal.send_bulk_invites" action=(action "sendBulkInvites") disabled=bulkInviteDisabled}}

@@ -24,8 +24,7 @@
 
         {{#if model.can_act_on_discourse_post_event}}
           {{d-button
-            class="btn-danger"
-            icon="times"
+            icon="trash-alt"
             action=(action "removeInvitee" invitee)
           }}
         {{/if}}

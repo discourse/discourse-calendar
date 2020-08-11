@@ -7,12 +7,14 @@
   .bulk-event-help {
     margin: 0 0 1em 0;
   }
+
+  .bulk-invite-rows {
+    margin-bottom: 1em;
+  }
+
   .bulk-invite-row {
     display: flex;
     padding: 0.25em 0;
-
-    .bulk-invite-identifier {
-    }
 
     .bulk-invite-attendance {
       margin: 0 0.5em;

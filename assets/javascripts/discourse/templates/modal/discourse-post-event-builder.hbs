@@ -78,6 +78,7 @@
       {{/event-field}}
 
       {{#event-field class="reminders" label="discourse_post_event.builder_modal.reminders.label"}}
+        <p class="event-field-description">{{i18n "discourse_post_event.builder_modal.reminders.description"}}</p>
         <div class="reminders-list">
           {{#each model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
@@ -119,7 +120,7 @@
       {{#if model.eventModel.custom_fields}}
       {{#if allowedCustomFields.length}}
         {{#event-field label="discourse_post_event.builder_modal.custom_fields.label"}}
-          <p>{{i18n "discourse_post_event.builder_modal.custom_fields.description"}}</p>
+          <p class="event-field-description">{{i18n "discourse_post_event.builder_modal.custom_fields.description"}}</p>
           {{#each allowedCustomFields as |allowedCustomField|}}
             <span class="label custom-field-label">{{allowedCustomField}}</span>
             {{input
