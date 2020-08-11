@@ -15,7 +15,7 @@ describe Jobs::DiscoursePostEventSendReminder do
   let(:reminders) { '-5.minutes' }
   let(:event_1) { Fabricate(:event, post: post_1, reminders: reminders) }
 
-  # ensures we start form a known state
+  # ensures we start from a known state
   def init_notifications
     [
       going_user,
