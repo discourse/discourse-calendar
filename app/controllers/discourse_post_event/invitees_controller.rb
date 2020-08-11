@@ -14,9 +14,7 @@ module DiscoursePostEvent
       end
 
       render json: ActiveModel::ArraySerializer.new(
-        event_invitees
-          .order([:status, :user_id])
-          .limit(10),
+        event_invitees.order([:status, :user_id]).limit(200),
         each_serializer: InviteeSerializer
       ).as_json
     end
