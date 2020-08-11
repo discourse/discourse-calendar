@@ -321,8 +321,8 @@ en:
         success: "File uploaded successfully, you will be notified via message when the process is complete."
         error: "Sorry, file should be CSV format."
         confirmation_message: "You’re about to notify everyone in the uploaded file."
-        description_public: Public event accepts only usernames as bulk invites.
-        description_private: Private event accepts only groups as bulk invites.
+        description_public: Public events only accept usernames for bulk invites.
+        description_private: Private events only accept group names for bulk invites.
         download_sample_csv: Download a sample CSV file
         send_bulk_invites: "Send invites"
         group_selector_placeholder: "Choose a group..."
