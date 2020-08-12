@@ -39,7 +39,20 @@ export function buildParams(startsAt, endsAt, eventModel) {
 
   if (eventModel.reminders && eventModel.reminders.length) {
     params.reminders = eventModel.reminders
-      .map(r => `${r.value}.${r.unit}`)
+      .map(r => {
+        // we create a new intermediate object to avoid changes in the UI while
+        // we prepare the values for request
+        const reminder = Object.assign({}, r);
+
+        if (reminder.period === "after") {
+          reminder.value = `-${Math.abs(parseInt(reminder.value, 10))}`;
+        }
+        if (reminder.period === "before") {
+          reminder.value = Math.abs(parseInt(`${reminder.value}`, 10));
+        }
+
+        return `${reminder.value}.${reminder.unit}`;
+      })
       .join(",");
   }
 

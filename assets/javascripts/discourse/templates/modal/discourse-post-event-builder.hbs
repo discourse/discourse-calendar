@@ -66,12 +66,12 @@
       {{/event-field}}
 
       {{#event-field class="reminders" label="discourse_post_event.builder_modal.reminders.label"}}
-        <p class="event-field-description">{{i18n "discourse_post_event.builder_modal.reminders.description"}}</p>
         <div class="reminders-list">
           {{#each model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
               {{input
                 class="reminder-value"
+                min=0
                 value=(readonly reminder.value)
                 placeholderKey="discourse_post_event.builder_modal.name.placeholder"
                 input=(action (mut reminder.value) value="target.value")
@@ -84,6 +84,15 @@
                 valueProperty=null
                 content=reminderUnits
                 onChange=(action (mut reminder.unit))
+              }}
+
+              {{combo-box
+                class="reminder-period"
+                value=reminder.period
+                nameProperty=null
+                valueProperty=null
+                content=reminderPeriods
+                onChange=(action (mut reminder.period))
               }}
 
               {{d-button

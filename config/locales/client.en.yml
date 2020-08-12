@@ -343,7 +343,6 @@ en:
         add_reminder: Add reminder
         reminders:
           label: Reminders
-          description: A negative value will be sent after event started to `going` users who didn't visit the event since it started.
         url:
           label: URL
           placeholder: Optional

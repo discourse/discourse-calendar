@@ -165,7 +165,17 @@
         padding: 0.25em 0;
 
         .reminder-value {
-          width: 80px;
+          width: 60px;
+          margin-right: 0.5em;
+        }
+
+        .reminder-unit {
+          width: 140;
+          margin-right: 0.5em;
+        }
+
+        .reminder-period {
+          width: 100%;
           margin-right: 0.5em;
         }
 

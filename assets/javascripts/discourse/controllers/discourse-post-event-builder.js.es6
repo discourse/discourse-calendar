@@ -9,7 +9,7 @@ import { Promise } from "rsvp";
 
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
-const DEFAULT_REMINDER = { value: 15, unit: "minutes" };
+const DEFAULT_REMINDER = { value: 15, unit: "minutes", period: "before" };
 
 export default Controller.extend(ModalFunctionality, {
   reminders: null,
@@ -19,6 +19,7 @@ export default Controller.extend(ModalFunctionality, {
     this._super(...arguments);
 
     this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
+    this.set("reminderPeriods", ["before", "after"]);
   },
 
   modalTitle: computed("model.eventModel.isNew", {

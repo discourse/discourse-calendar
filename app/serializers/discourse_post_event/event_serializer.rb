@@ -31,7 +31,8 @@ module DiscoursePostEvent
     def reminders
       (object.reminders || '').split(',').map do |reminder|
         value, unit = reminder.split('.')
-        { value: value.to_i, unit: unit }
+        value = value.to_i
+        { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after' }
       end
     end
 
