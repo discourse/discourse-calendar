@@ -164,7 +164,7 @@ describe DiscoursePostEvent::Event do
             expect(first_post.is_first_post?).to be(true)
             expect(first_post.topic.custom_fields[Field]).to eq(starts_at)
 
-            post_event.update!(starts_at: alt_starts_at)
+            post_event.update_with_params!(starts_at: alt_starts_at)
             first_post.topic.reload
 
             expect(first_post.topic.custom_fields[Field]).to eq(alt_starts_at)
@@ -178,7 +178,7 @@ describe DiscoursePostEvent::Event do
             expect(second_post.is_first_post?).to be(false)
             expect(second_post.topic.custom_fields[Field]).to be_blank
 
-            post_event.update!(starts_at: alt_starts_at)
+            post_event.update_with_params!(starts_at: alt_starts_at)
             second_post.topic.reload
 
             expect(second_post.topic.custom_fields[Field]).to be_blank

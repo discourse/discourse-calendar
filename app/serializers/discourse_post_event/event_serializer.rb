@@ -113,7 +113,7 @@ module DiscoursePostEvent
     end
 
     def should_display_invitees
-      object.status != Event.statuses[:standalone] && object.invitees.count > 0
+      (object.public? && object.invitees.count > 0) || (object.private? && object.raw_invitees.count > 0)
     end
   end
 end

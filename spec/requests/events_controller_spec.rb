@@ -157,7 +157,7 @@ module DiscoursePostEvent
 
           context 'when status changes from standalone to private' do
             it 'changes the status, raw_invitees and invitees' do
-              event.update!(status: Event.statuses[:standalone])
+              event.update_with_params!(status: Event.statuses[:standalone])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
@@ -170,13 +170,13 @@ module DiscoursePostEvent
 
               expect(event.status).to eq(Event.statuses[:private])
               expect(event.raw_invitees).to eq([group.name])
-              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.invitees).to eq([])
             end
           end
 
           context 'when status changes from standalone to public' do
             it 'changes the status' do
-              event.update!(status: Event.statuses[:standalone])
+              event.update_with_params!(status: Event.statuses[:standalone])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
@@ -194,15 +194,14 @@ module DiscoursePostEvent
 
           context 'when status changes from private to standalone' do
             it 'changes the status' do
-              event.update!(
+              event.update_with_params!(
                 status: Event.statuses[:private],
                 raw_invitees: [group.name]
               )
-              event.fill_invitees!
 
               event.reload
 
-              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.invitees).to eq([])
               expect(event.raw_invitees).to eq([group.name])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
@@ -220,16 +219,15 @@ module DiscoursePostEvent
           end
 
           context 'when status changes from private to public' do
-            it 'changes the status, removes raw_invitees and keeps invitees' do
-              event.update!(
+            it 'changes the status, removes raw_invitees and drops invitees' do
+              event.update_with_params!(
                 status: Event.statuses[:private],
                 raw_invitees: [group.name]
               )
-              event.fill_invitees!
 
               event.reload
 
-              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.invitees).to eq([])
               expect(event.raw_invitees).to eq([group.name])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
@@ -242,13 +240,13 @@ module DiscoursePostEvent
 
               expect(event.status).to eq(Event.statuses[:public])
               expect(event.raw_invitees).to eq(['trust_level_0'])
-              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.invitees).to eq([])
             end
           end
 
           context 'when status changes from public to private' do
-            it 'changes the status, removes raw_invitees and keeps invitees' do
-              event.update!(status: Event.statuses[:public])
+            it 'changes the status, removes raw_invitees and drops invitees not part of new raw_invitees' do
+              event.update_with_params!(status: Event.statuses[:public])
               event.create_invitees([
                 { user_id: invitee1.id },
                 { user_id: invitee2.id },
@@ -256,7 +254,7 @@ module DiscoursePostEvent
               event.reload
 
               expect(event.invitees.pluck(:user_id)).to match_array([invitee1.id, invitee2.id])
-              expect(event.raw_invitees).to eq(nil)
+              expect(event.raw_invitees).to eq(['trust_level_0'])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {
@@ -269,20 +267,20 @@ module DiscoursePostEvent
 
               expect(event.status).to eq(Event.statuses[:private])
               expect(event.raw_invitees).to eq([group.name])
-              expect(event.invitees.pluck(:user_id)).to match_array(group.group_users.map { |gu| gu.user.id })
+              expect(event.invitees.pluck(:user_id)).to eq([invitee2.id])
             end
           end
 
           context 'when status changes from public to standalone' do
             it 'changes the status, removes invitees' do
-              event.update!(
+              event.update_with_params!(
                 status: Event.statuses[:public]
               )
               event.create_invitees([ { user_id: invitee1.id } ])
               event.reload
 
               expect(event.invitees.pluck(:user_id)).to eq([invitee1.id])
-              expect(event.raw_invitees).to eq(nil)
+              expect(event.raw_invitees).to eq(['trust_level_0'])
 
               put "/discourse-post-event/events/#{event.id}.json", params: {
                 event: {

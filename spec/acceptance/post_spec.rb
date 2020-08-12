@@ -54,7 +54,7 @@ describe Post do
 
         context 'when in edit grace period' do
           before do
-            post_1.reload.event.update!(starts_at: 2.hours.ago)
+            post_1.reload.event.update_with_params!(starts_at: 2.hours.ago)
           end
 
           it 'sends a post revision to going invitees' do
@@ -75,7 +75,7 @@ describe Post do
 
         context 'when not edit grace period' do
           before do
-            post_1.reload.event.update!(starts_at: 5.hours.ago)
+            post_1.reload.event.update_with_params!(starts_at: 5.hours.ago)
           end
 
           it 'doesn’t send a post revision to anyone' do

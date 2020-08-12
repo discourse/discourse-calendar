@@ -179,45 +179,47 @@ module DiscoursePostEvent
     end
 
     def most_likely_going(limit = SiteSetting.displayed_invitees_limit)
-      self.invitees
+      going = self.invitees
         .order([:status, :user_id])
         .limit(limit)
+
+      if self.private? && going.count < limit
+        # invitees are only created when an attendance is set
+        # so we create a dummy invitee object with only what's needed for serializer
+        going = going + GroupUser
+          .includes(:group, :user)
+          .where('groups.name' => self.raw_invitees)
+          .where.not('users.id' => going.pluck(:user_id))
+          .limit(limit - going.count)
+          .map { |gu| Invitee.new(user: gu.user, post_id: self.id) }
+      end
+
+      going
     end
 
     def publish_update!
       self.post.publish_message!("/discourse-post-event/#{self.post.topic_id}", id: self.id)
     end
 
-    def destroy_extraneous_invitees!
-      self.invitees.where.not(user_id: fetch_users.select(:id)).delete_all
-    end
-
-    def fill_invitees!
-      invited_users_ids = fetch_users.pluck(:id) - self.invitees.pluck(:user_id)
-      if invited_users_ids.present?
-        self.create_invitees(invited_users_ids.map { |user_id|
-          { user_id: user_id }
-        })
-      end
-    end
-
     def fetch_users
       @fetched_users ||= Invitee.extract_uniq_usernames(self.raw_invitees)
     end
 
-    def enforce_raw_invitees!
-      self.destroy_extraneous_invitees!
-      self.fill_invitees!
+    def enforce_private_invitees!
+      self.invitees.where.not(user_id: fetch_users.select(:id)).delete_all
       self.notify_invitees!(auto: false)
     end
 
     def can_user_update_attendance(user)
       !self.is_expired? &&
       (
-        self.status == Event.statuses[:public] ||
+        self.public? ||
         (
-          self.status == Event.statuses[:private] &&
-          self.invitees.exists?(user_id: user.id)
+          self.private? &&
+          (
+            self.invitees.exists?(user_id: user.id) ||
+            (user.groups.pluck(:name) & self.raw_invitees).any?
+          )
         )
       )
     end
@@ -251,7 +253,7 @@ module DiscoursePostEvent
       when Event.statuses[:private]
         raw_invitees = Array(params[:raw_invitees]) - ['trust_level_0']
         self.update!(params.merge(raw_invitees: raw_invitees))
-        self.enforce_raw_invitees!
+        self.enforce_private_invitees!
       when Event.statuses[:public]
         self.update!(params.merge(raw_invitees: ['trust_level_0']))
       when Event.statuses[:standalone]

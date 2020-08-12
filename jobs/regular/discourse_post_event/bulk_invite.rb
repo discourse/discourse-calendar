@@ -56,7 +56,7 @@ module Jobs
         group = Group.find_by(name: invitee['identifier'])
         if group
           users = group.users.pluck(:id)
-          @event.update!(raw_invitees: (@event.raw_invitees || []).push(group.name).uniq)
+          @event.update_with_params!(raw_invitees: (@event.raw_invitees || []).push(group.name).uniq)
         end
       end
 
