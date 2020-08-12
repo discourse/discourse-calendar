@@ -2,6 +2,8 @@
 
 module DiscoursePostEvent
   class Event < ActiveRecord::Base
+    PUBLIC_GROUP = 'trust_level_0'
+
     self.table_name = 'discourse_post_event_events'
 
     def self.attributes_protected_by_default
@@ -255,11 +257,11 @@ module DiscoursePostEvent
 
       case params[:status] ? params[:status].to_i : self.status
       when Event.statuses[:private]
-        raw_invitees = Array(params[:raw_invitees]) - ['trust_level_0']
+        raw_invitees = Set.new(Array(self.raw_invitees) + Array(params[:raw_invitees]) - [PUBLIC_GROUP]).to_a
         self.update!(params.merge(raw_invitees: raw_invitees))
         self.enforce_private_invitees!
       when Event.statuses[:public]
-        self.update!(params.merge(raw_invitees: ['trust_level_0']))
+        self.update!(params.merge(raw_invitees: [PUBLIC_GROUP]))
       when Event.statuses[:standalone]
         self.update!(params.merge(raw_invitees: []))
         self.invitees.destroy_all

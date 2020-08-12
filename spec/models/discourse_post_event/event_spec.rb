@@ -304,6 +304,47 @@ describe DiscoursePostEvent::Event do
     end
   end
 
+  context '#update_with_params!' do
+    let!(:post_1) { Fabricate(:post) }
+    let!(:user_1) { Fabricate(:user) }
+    let(:group_1) {
+      Fabricate(:group).tap do |g|
+        g.add(user_1)
+        g.save!
+      end
+    }
+
+    before do
+      freeze_time
+    end
+
+    context 'private event' do
+      let!(:event_1) {
+        Fabricate(:event, post: post_1, status: Event.statuses[:private], raw_invitees: [group_1.name])
+      }
+
+      before do
+        freeze_time
+
+        event_1.create_invitees([
+          { user_id: user_1.id, status: 0 }
+        ])
+      end
+
+      context 'updating the name' do
+        it 'doesn’t clear existing invitees' do
+          expect(event_1.invitees.count).to eq(1)
+
+          expect {
+            event_1.update_with_params!(name: 'The event')
+          }.to change {
+            event_1.invitees.count
+          }.by(0)
+        end
+      end
+    end
+  end
+
   context 'reminders callbacks' do
     let!(:post_1) { Fabricate(:post) }
     let!(:event_1) { Fabricate(:event, post: post_1) }
