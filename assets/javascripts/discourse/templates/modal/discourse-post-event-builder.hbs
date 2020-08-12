@@ -53,18 +53,6 @@
             <span class="description">{{i18n "discourse_post_event.models.event.status.private.description"}}</span>
           </span>
         </label>
-        <label class="radio-label">
-          {{radio-button
-            name="status"
-            value="standalone"
-            selection=model.eventModel.status
-            onChange=(action "onChangeStatus")
-          }}
-          <span class="message">
-            <span class="title">{{i18n "discourse_post_event.models.event.status.standalone.title"}}</span>
-            <span class="description">{{i18n "discourse_post_event.models.event.status.standalone.description"}}</span>
-          </span>
-        </label>
       {{/event-field}}
 
       {{#event-field enabled=allowsInvitees label="discourse_post_event.builder_modal.invitees.label"}}
