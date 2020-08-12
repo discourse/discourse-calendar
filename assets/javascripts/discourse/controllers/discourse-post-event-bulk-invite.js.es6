@@ -91,7 +91,9 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   addBulkInvite() {
-    this.bulkInvites.pushObject({ identifier: null, attendance: "unknown" });
+    const attendance =
+      this.bulkInvites.get("lastObject.attendance") || "unknown";
+    this.bulkInvites.pushObject({ identifier: null, attendance });
   },
 
   @action
