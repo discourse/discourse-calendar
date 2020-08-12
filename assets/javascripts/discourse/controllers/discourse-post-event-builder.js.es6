@@ -76,6 +76,10 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   addReminder() {
+    if (!this.model.eventModel.reminders) {
+      this.model.eventModel.set("reminders", []);
+    }
+
     this.model.eventModel.reminders.pushObject(
       Object.assign({}, DEFAULT_REMINDER)
     );
