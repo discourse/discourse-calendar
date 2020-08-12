@@ -312,7 +312,7 @@ en:
         bulk_invite: Bulk Invite
         close_event: Close event
       invitees_modal:
-        title_invited: "List of invited users"
+        title_invited: "List of RSVPed users"
         title_participated: "List of users who participated"
         filter_placeholder: "Filter users"
       bulk_invite_modal:
