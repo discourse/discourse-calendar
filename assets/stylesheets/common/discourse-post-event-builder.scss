@@ -47,6 +47,12 @@
     min-height: 200px;
 
     .d-date-time-input-range {
+      margin-bottom: 2em;
+
+      .select-kit-header {
+        height: 100%;
+      }
+
       .d-time-input {
         .selected-name {
           border: 0;
@@ -73,7 +79,7 @@
 
   .event-field {
     display: flex;
-    margin: 1em 0;
+    margin-bottom: 2em;
     flex-direction: column;
 
     &.name,
@@ -164,13 +170,17 @@
         flex: 1 0 auto;
         padding: 0.25em 0;
 
+        .select-kit-header {
+          height: 100%;
+        }
+
         .reminder-value {
           width: 60px;
           margin-right: 0.5em;
         }
 
         .reminder-unit {
-          width: 140;
+          width: 140px;
           margin-right: 0.5em;
         }
 
