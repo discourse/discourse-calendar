@@ -32,6 +32,14 @@ module Jobs
         invitees = invitees.where.not(user_id: already_notified_users.pluck(:user_id))
       end
 
+      event_ended = event.ends_at && Time.now > event.ends_at
+      prefix = 'before'
+      if event_ended
+        prefix = 'after'
+      elsif event_started && !event_ended
+        prefix = 'ongoing'
+      end
+
       invitees.find_each do |invitee|
         invitee.user.notifications.create!(
           notification_type: Notification.types[:custom],
@@ -40,7 +48,7 @@ module Jobs
           data: {
             topic_title: event.post.topic.title,
             display_username: invitee.user.username,
-            message: "discourse_post_event.notifications.#{event_started ? 'after' : 'before'}_event_reminder"
+            message: "discourse_post_event.notifications.#{prefix}_event_reminder"
           }.to_json
         )
       end

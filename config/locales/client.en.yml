@@ -275,7 +275,8 @@ en:
         invite_user_notification: "%{username} has invited you to %{description}"
         invite_user_auto_notification: "%{username} has automatically set your attendance and invited you to %{description}"
         before_event_reminder: "An event is about to start %{description}"
-        after_event_reminder: "An event has started %{description}"
+        after_event_reminder: "An event has ended %{description}"
+        ongoing_event_reminder: "An event is ongoing  %{description}"
       preview:
         more_than_one_event: You can’t have more than one event.
       edit_reason: Event updated

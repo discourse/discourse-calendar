@@ -74,21 +74,25 @@ module DiscoursePostEvent
 
     scope :visible, -> { where(deleted_at: nil) }
 
-    scope :expired,     -> { where('COALESCE(ends_at, starts_at) < ?',  Time.now) }
-    scope :not_expired, -> { where('COALESCE(ends_at, starts_at) >= ?', Time.now) }
+    scope :expired,     -> { where('ends_at IS NOT NULL AND ends_at < ?',  Time.now) }
+    scope :not_expired, -> { where('ends_at IS NULL OR ends_at > ?', Time.now) }
 
     def is_expired?
-      self.ends_at.present? ? Time.now > self.ends_at : Time.now > self.starts_at
+      !!(self.ends_at && Time.now > self.ends_at)
     end
 
     validates :starts_at, presence: true
 
     def on_going_event_invitees
-      starts_at = self.starts_at
-      ends_at = (self.ends_at || starts_at + 1.hour) + SiteSetting.discourse_post_event_edit_notifications_time_extension.minutes
-
-      if !(starts_at..ends_at).cover?(Time.now)
+      if !self.ends_at && self.starts_at < Time.now
         return []
+      end
+
+      if self.ends_at
+        extended_ends_at = self.ends_at + SiteSetting.discourse_post_event_edit_notifications_time_extension.minutes
+        if !(self.starts_at..extended_ends_at).cover?(Time.now)
+          return []
+        end
       end
 
       invitees.where(status: DiscoursePostEvent::Invitee.statuses[:going])

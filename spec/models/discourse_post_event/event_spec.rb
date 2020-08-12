@@ -278,7 +278,7 @@ describe DiscoursePostEvent::Event do
             starts_at: DateTime.parse('2020-04-24 14:05')
           )
 
-          expect(post_event.is_expired?).to be(true)
+          expect(post_event.is_expired?).to be(false)
         end
       end
 
