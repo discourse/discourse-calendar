@@ -42,7 +42,7 @@ module Jobs
 
       if @processed > 0
         @event.publish_update!
-        @event.notify_invitees!(auto: true)
+        @event.notify_invitees!(predefined_attendance: true)
       end
     rescue Exception => e
       save_log "Bulk Invite Process Failed -- '#{e.message}'"

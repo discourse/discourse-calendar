@@ -144,16 +144,16 @@ module DiscoursePostEvent
       self.invitees.insert_all!(attrs)
     end
 
-    def notify_invitees!(auto: false)
+    def notify_invitees!(predefined_attendance: false)
       self.invitees.where(notified: false).each do |invitee|
-        create_notification!(invitee.user, self.post, auto: auto)
+        create_notification!(invitee.user, self.post, predefined_attendance: predefined_attendance)
         invitee.update!(notified: true)
       end
     end
 
-    def create_notification!(user, post, auto: false)
-      message = auto ?
-        'discourse_post_event.notifications.invite_user_auto_notification' :
+    def create_notification!(user, post, predefined_attendance: false)
+      message = predefined_attendance ?
+        'discourse_post_event.notifications.invite_user_predefined_attendance_notification' :
         'discourse_post_event.notifications.invite_user_notification'
 
       user.notifications.create!(
@@ -213,7 +213,7 @@ module DiscoursePostEvent
 
     def enforce_private_invitees!
       self.invitees.where.not(user_id: fetch_users.select(:id)).delete_all
-      self.notify_invitees!(auto: false)
+      self.notify_invitees!(predefined_attendance: false)
     end
 
     def can_user_update_attendance(user)
