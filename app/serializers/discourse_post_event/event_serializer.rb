@@ -88,6 +88,16 @@ module DiscoursePostEvent
       not_going = counts[Invitee.statuses[:not_going]] || 0
       unanswered = counts[nil] || 0
 
+      # when a group is private we know the list of possible users
+      # even if an invitee has not been created yet
+      if object.private?
+        unanswered += GroupUser
+          .includes(:group, :user)
+          .where('groups.name' => object.raw_invitees)
+          .where.not('users.id' => object.invitees.select(:user_id))
+          .count
+      end
+
       {
         going: going,
         interested: interested,
