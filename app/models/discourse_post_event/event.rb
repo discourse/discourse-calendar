@@ -53,8 +53,7 @@ module DiscoursePostEvent
 
     scope :visible, -> { where(deleted_at: nil) }
 
-    scope :expired,
-          -> { where('ends_at IS NOT NULL AND ends_at < ?', Time.now) }
+    scope :expired, -> { where('ends_at IS NOT NULL AND ends_at < ?', Time.now) }
     scope :not_expired, -> { where('ends_at IS NULL OR ends_at > ?', Time.now) }
 
     def is_expired?
@@ -69,8 +68,7 @@ module DiscoursePostEvent
       if self.ends_at
         extended_ends_at =
           self.ends_at +
-            SiteSetting.discourse_post_event_edit_notifications_time_extension
-              .minutes
+          SiteSetting.discourse_post_event_edit_notifications_time_extension.minutes
         return [] if !(self.starts_at..extended_ends_at).cover?(Time.now)
       end
 
