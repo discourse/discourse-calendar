@@ -228,6 +228,11 @@ function initializeDiscoursePostEventDecorator(api) {
     "calendar-day"
   );
 
+  api.replaceIcon(
+    "notification.discourse_post_event.notifications.ongoing_event_reminder",
+    "calendar-day"
+  );
+
   api.modifyClass("controller:topic", {
     subscribe() {
       this._super(...arguments);
