@@ -344,6 +344,9 @@ en:
         add_reminder: Add reminder
         reminders:
           label: Reminders
+        recurrence:
+          label: Recurrence
+          none: No recurrence
         url:
           label: URL
           placeholder: Optional

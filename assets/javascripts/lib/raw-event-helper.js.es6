@@ -23,6 +23,10 @@ export function buildParams(startsAt, endsAt, eventModel) {
     params.url = eventModel.url;
   }
 
+  if (eventModel.recurrence) {
+    params.recurrence = eventModel.recurrence;
+  }
+
   if (endsAt) {
     params.end = moment(endsAt)
       .utc()

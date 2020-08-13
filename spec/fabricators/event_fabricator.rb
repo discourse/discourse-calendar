@@ -21,5 +21,5 @@ def create_post_with_event(user, extra_raw = '')
     user,
     title: "Sell a boat party ##{SecureRandom.alphanumeric}",
     raw: "[event start=\"#{start}\" #{extra_raw}]\n[/event]",
-  )
+  ).reload
 end

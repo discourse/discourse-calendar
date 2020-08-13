@@ -6,50 +6,51 @@
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
-gem "holidays", "8.2.0", require: false
+gem 'holidays', '8.2.0', require: false
+gem 'rrule', '0.4.2', require: false
 
-load File.expand_path("../lib/calendar_settings_validator.rb", __FILE__)
+load File.expand_path('../lib/calendar_settings_validator.rb', __FILE__)
 
 enabled_site_setting :calendar_enabled
 
-register_asset "stylesheets/vendor/fullcalendar.min.css"
-register_asset "stylesheets/common/discourse-calendar.scss"
-register_asset "stylesheets/common/upcoming-events-calendar.scss"
-register_asset "stylesheets/common/discourse-post-event.scss"
-register_asset "stylesheets/common/discourse-post-event-preview.scss"
-register_asset "stylesheets/common/discourse-post-event-builder.scss"
-register_asset "stylesheets/common/discourse-post-event-invitees.scss"
-register_asset "stylesheets/common/discourse-post-event-upcoming-events.scss"
-register_asset "stylesheets/common/discourse-post-event-core-ext.scss"
-register_asset "stylesheets/common/discourse-post-event-bulk-invite-modal.scss"
-register_asset "stylesheets/mobile/discourse-calendar.scss", :mobile
-register_asset "stylesheets/mobile/discourse-post-event.scss", :mobile
-register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
-register_asset "stylesheets/colors.scss", :color_definitions
-register_svg_icon "fas fa-calendar-day"
-register_svg_icon "fas fa-clock"
-register_svg_icon "fas fa-file-csv"
-register_svg_icon "fas fa-star"
-register_svg_icon "fas fa-file-upload"
+register_asset 'stylesheets/vendor/fullcalendar.min.css'
+register_asset 'stylesheets/common/discourse-calendar.scss'
+register_asset 'stylesheets/common/upcoming-events-calendar.scss'
+register_asset 'stylesheets/common/discourse-post-event.scss'
+register_asset 'stylesheets/common/discourse-post-event-preview.scss'
+register_asset 'stylesheets/common/discourse-post-event-builder.scss'
+register_asset 'stylesheets/common/discourse-post-event-invitees.scss'
+register_asset 'stylesheets/common/discourse-post-event-upcoming-events.scss'
+register_asset 'stylesheets/common/discourse-post-event-core-ext.scss'
+register_asset 'stylesheets/common/discourse-post-event-bulk-invite-modal.scss'
+register_asset 'stylesheets/mobile/discourse-calendar.scss', :mobile
+register_asset 'stylesheets/mobile/discourse-post-event.scss', :mobile
+register_asset 'stylesheets/desktop/discourse-calendar.scss', :desktop
+register_asset 'stylesheets/colors.scss', :color_definitions
+register_svg_icon 'fas fa-calendar-day'
+register_svg_icon 'fas fa-clock'
+register_svg_icon 'fas fa-file-csv'
+register_svg_icon 'fas fa-star'
+register_svg_icon 'fas fa-file-upload'
 
 after_initialize do
   module ::DiscourseCalendar
-    PLUGIN_NAME ||= "discourse-calendar"
+    PLUGIN_NAME ||= 'discourse-calendar'
 
     # Type of calendar ('static' or 'dynamic')
-    CALENDAR_CUSTOM_FIELD ||= "calendar"
+    CALENDAR_CUSTOM_FIELD ||= 'calendar'
 
     # User custom field set when user is on holiday
-    HOLIDAY_CUSTOM_FIELD ||= "on_holiday"
+    HOLIDAY_CUSTOM_FIELD ||= 'on_holiday'
 
     # List of all users on holiday
-    USERS_ON_HOLIDAY_KEY ||= "users_on_holiday"
+    USERS_ON_HOLIDAY_KEY ||= 'users_on_holiday'
 
     # User region used in finding holidays
-    REGION_CUSTOM_FIELD ||= "holidays-region"
+    REGION_CUSTOM_FIELD ||= 'holidays-region'
 
     # List of groups
-    GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
+    GROUP_TIMEZONES_CUSTOM_FIELD ||= 'group-timezones'
 
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
@@ -66,10 +67,10 @@ after_initialize do
   end
 
   module ::DiscoursePostEvent
-    PLUGIN_NAME ||= "discourse-post-event"
+    PLUGIN_NAME ||= 'discourse-post-event'
 
     # Topic where op has a post event custom field
-    TOPIC_POST_EVENT_STARTS_AT ||= "TopicEventStartsAt"
+    TOPIC_POST_EVENT_STARTS_AT ||= 'TopicEventStartsAt'
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
@@ -79,44 +80,53 @@ after_initialize do
 
   # DISCOURSE POST EVENT
 
-  [
-    "../app/controllers/discourse_post_event_controller.rb",
-    "../app/controllers/discourse_post_event/invitees_controller.rb",
-    "../app/controllers/discourse_post_event/events_controller.rb",
-    "../app/controllers/discourse_post_event/upcoming_events_controller.rb",
-    "../app/models/discourse_post_event/event.rb",
-    "../app/models/discourse_post_event/invitee.rb",
-    "../lib/discourse_post_event/event_parser.rb",
-    "../lib/discourse_post_event/event_validator.rb",
-    "../jobs/regular/discourse_post_event/bulk_invite.rb",
-    "../jobs/regular/discourse_post_event/event_will_start.rb",
-    "../jobs/regular/discourse_post_event/event_started.rb",
-    "../jobs/regular/discourse_post_event/event_ended.rb",
-    "../jobs/regular/discourse_post_event/send_reminder.rb",
-    "../lib/discourse_post_event/event_finder.rb",
-    "../app/serializers/discourse_post_event/invitee_serializer.rb",
-    "../app/serializers/discourse_post_event/event_serializer.rb"
+  %w[
+    ../app/controllers/discourse_post_event_controller.rb
+    ../app/controllers/discourse_post_event/invitees_controller.rb
+    ../app/controllers/discourse_post_event/events_controller.rb
+    ../app/controllers/discourse_post_event/upcoming_events_controller.rb
+    ../app/models/discourse_post_event/event.rb
+    ../app/models/discourse_post_event/invitee.rb
+    ../lib/discourse_post_event/event_parser.rb
+    ../lib/discourse_post_event/event_validator.rb
+    ../lib/discourse_post_event/rrule_generator.rb
+    ../jobs/regular/discourse_post_event/bulk_invite.rb
+    ../jobs/regular/discourse_post_event/event_will_start.rb
+    ../jobs/regular/discourse_post_event/event_started.rb
+    ../jobs/regular/discourse_post_event/event_ended.rb
+    ../jobs/regular/discourse_post_event/send_reminder.rb
+    ../lib/discourse_post_event/event_finder.rb
+    ../app/serializers/discourse_post_event/invitee_serializer.rb
+    ../app/serializers/discourse_post_event/event_serializer.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
-  ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
+  ::ActionController::Base.prepend_view_path File.expand_path(
+                                               '../app/views',
+                                               __FILE__
+                                             )
 
   Discourse::Application.routes.append do
     mount ::DiscoursePostEvent::Engine, at: '/'
   end
 
   DiscoursePostEvent::Engine.routes.draw do
-    get '/discourse-post-event/events' => 'events#index', constraints: { format: /(json|ics)/ }
+    get '/discourse-post-event/events' => 'events#index',
+        constraints: { format: /(json|ics)/ }
     get '/discourse-post-event/events/:id' => 'events#show'
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
     put '/discourse-post-event/events/:id' => 'events#update', format: :json
-    post '/discourse-post-event/events/:id/csv-bulk-invite' => 'events#csv_bulk_invite'
-    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite', format: :json
+    post '/discourse-post-event/events/:id/csv-bulk-invite' =>
+           'events#csv_bulk_invite'
+    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite',
+         format: :json
     post '/discourse-post-event/events/:id/invite' => 'events#invite'
-    put '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#update'
+    put '/discourse-post-event/events/:post_id/invitees/:id' =>
+          'invitees#update'
     post '/discourse-post-event/events/:post_id/invitees' => 'invitees#create'
     get '/discourse-post-event/events/:post_id/invitees' => 'invitees#index'
-    delete '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#destroy'
+    delete '/discourse-post-event/events/:post_id/invitees/:id' =>
+             'invitees#destroy'
     get '/upcoming-events' => 'upcoming_events#index'
   end
 
@@ -125,9 +135,9 @@ after_initialize do
 
     class ::Post
       has_one :event,
-        dependent: :destroy,
-        class_name: 'DiscoursePostEvent::Event',
-        foreign_key: :id
+              dependent: :destroy,
+              class_name: 'DiscoursePostEvent::Event',
+              foreign_key: :id
 
       validate :valid_event
       def valid_event
@@ -139,48 +149,65 @@ after_initialize do
   end
 
   add_to_class(:user, :can_create_discourse_post_event?) do
-    return @can_create_discourse_post_event if defined?(@can_create_discourse_post_event)
-    @can_create_discourse_post_event = begin
-      return true if staff?
-      allowed_groups = SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
-      allowed_groups.present? && groups.where(id: allowed_groups).exists?
-    rescue
-      false
+    if defined?(@can_create_discourse_post_event)
+      return @can_create_discourse_post_event
     end
+    @can_create_discourse_post_event =
+      begin
+        return true if staff?
+        allowed_groups =
+          SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
+        allowed_groups.present? && groups.where(id: allowed_groups).exists?
+      rescue StandardError
+        false
+      end
   end
 
   add_to_class(:guardian, :can_act_on_invitee?) do |invitee|
     user && (user.staff? || user.id == invitee.user_id)
   end
 
-  add_to_class(:guardian, :can_create_discourse_post_event?) { user && user.can_create_discourse_post_event? }
+  add_to_class(:guardian, :can_create_discourse_post_event?) do
+    user && user.can_create_discourse_post_event?
+  end
 
   add_to_serializer(:current_user, :can_create_discourse_post_event) do
     object.can_create_discourse_post_event?
   end
 
   add_to_class(:user, :can_act_on_discourse_post_event?) do |event|
-    return @can_act_on_discourse_post_event if defined?(@can_act_on_discourse_post_event)
-    @can_act_on_discourse_post_event = begin
-      return true if admin?
-      can_create_discourse_post_event? || event.post.user_id == id
-    rescue
-      false
+    if defined?(@can_act_on_discourse_post_event)
+      return @can_act_on_discourse_post_event
     end
+    @can_act_on_discourse_post_event =
+      begin
+        return true if admin?
+        can_create_discourse_post_event? || event.post.user_id == id
+      rescue StandardError
+        false
+      end
   end
 
-  add_to_class(:guardian, :can_act_on_discourse_post_event?) { |event| user && user.can_act_on_discourse_post_event?(event) }
+  add_to_class(:guardian, :can_act_on_discourse_post_event?) do |event|
+    user && user.can_act_on_discourse_post_event?(event)
+  end
 
   add_class_method(:group, :discourse_post_event_allowed_groups) do
-    where(id: SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact)
+    where(
+      id: SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
+    )
   end
 
   add_to_serializer(:post, :event) do
-    DiscoursePostEvent::EventSerializer.new(object.event, scope: scope, root: false)
+    DiscoursePostEvent::EventSerializer.new(
+      object.event,
+      scope: scope, root: false
+    )
   end
 
   add_to_serializer(:post, :include_event?) do
-    SiteSetting.discourse_post_event_enabled && !object.nil? && !object.deleted_at.present?
+    SiteSetting.discourse_post_event_enabled && !object.nil? &&
+      !object.deleted_at.present?
   end
 
   on(:post_process_cooked) do |doc, post|
@@ -199,7 +226,8 @@ after_initialize do
     end
   end
 
-  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+  TopicList.preloaded_custom_fields <<
+    DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
 
   add_to_serializer(:topic_view, :event_starts_at, false) do
     object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
@@ -207,16 +235,15 @@ after_initialize do
 
   add_to_serializer(:topic_view, 'include_event_starts_at?') do
     SiteSetting.discourse_post_event_enabled &&
-    SiteSetting.display_post_event_date_on_topic_title &&
-    object
-      .topic
-      .custom_fields
-      .keys
-      .include?(DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT)
+      SiteSetting.display_post_event_date_on_topic_title &&
+      object.topic.custom_fields.keys.include?(
+        DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+      )
   end
 
   add_to_class(:topic, :event_starts_at) do
-    @event_starts_at ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
+    @event_starts_at ||=
+      custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
   end
 
   add_to_serializer(:topic_list_item, :event_starts_at, false) do
@@ -225,30 +252,40 @@ after_initialize do
 
   add_to_serializer(:topic_list_item, 'include_event_starts_at?') do
     SiteSetting.discourse_post_event_enabled &&
-    SiteSetting.display_post_event_date_on_topic_title &&
-    object.event_starts_at
+      SiteSetting.display_post_event_date_on_topic_title &&
+      object.event_starts_at
   end
 
   # DISCOURSE CALENDAR
 
-  [
-    "../app/models/calendar_event.rb",
-    "../app/serializers/user_timezone_serializer.rb",
-    "../jobs/scheduled/create_holiday_events.rb",
-    "../jobs/scheduled/destroy_past_events.rb",
-    "../jobs/scheduled/update_holiday_usernames.rb",
-    "../lib/calendar_validator.rb",
-    "../lib/calendar.rb",
-    "../lib/event_validator.rb",
-    "../lib/group_timezones.rb",
-    "../lib/time_sniffer.rb",
+  %w[
+    ../app/models/calendar_event.rb
+    ../app/serializers/user_timezone_serializer.rb
+    ../jobs/scheduled/create_holiday_events.rb
+    ../jobs/scheduled/destroy_past_events.rb
+    ../jobs/scheduled/update_holiday_usernames.rb
+    ../lib/calendar_validator.rb
+    ../lib/calendar.rb
+    ../lib/event_validator.rb
+    ../lib/group_timezones.rb
+    ../lib/time_sniffer.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
-  register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
-  register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
-  TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
+  register_post_custom_field_type(
+    DiscourseCalendar::CALENDAR_CUSTOM_FIELD,
+    :string
+  )
+  register_post_custom_field_type(
+    DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD,
+    :json
+  )
+  TopicView.default_post_custom_fields <<
+    DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
 
-  register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
+  register_user_custom_field_type(
+    DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+    :boolean
+  )
 
   # TODO Drop after Discourse 2.6.0 release
   if respond_to?(:allow_staff_user_custom_field)
@@ -267,7 +304,9 @@ after_initialize do
   end
 
   on(:site_setting_changed) do |name, old_value, new_value|
-    next unless [:all_day_event_start_time, :all_day_event_end_time].include? name
+    unless %i[all_day_event_start_time all_day_event_end_time].include? name
+      next
+    end
 
     Post.where(id: CalendarEvent.select(:post_id).distinct).each do |post|
       CalendarEvent.update(post)
@@ -303,7 +342,11 @@ after_initialize do
     return if self.is_first_post?
 
     # Skip if not a calendar topic
-    return if !self&.topic&.first_post&.custom_fields&.[](DiscourseCalendar::CALENDAR_CUSTOM_FIELD)
+    if !self&.topic&.first_post&.custom_fields&.[](
+         DiscourseCalendar::CALENDAR_CUSTOM_FIELD
+       )
+      return
+    end
 
     validator = DiscourseCalendar::EventValidator.new(self)
     validator.validate_event
@@ -330,20 +373,25 @@ after_initialize do
     grouped_events = {}
 
     CalendarEvent.where(topic_id: object.topic_id).each do |event|
-      # Events with no `post_id` are holidays
       if event.post_id
-        result << {
-          type: :standalone,
-          post_number: event.post_number,
-          message: event.description,
-          from: event.start_date,
-          to: event.end_date,
-          username: event.username,
-          recurring: event.recurrence,
-          post_url: Post.url('-', event.topic_id, event.post_number)
-        }
+        # Events with no `post_id` are holidays
+
+        result <<
+          {
+            type: :standalone,
+            post_number: event.post_number,
+            message: event.description,
+            from: event.start_date,
+            to: event.end_date,
+            username: event.username,
+            recurring: event.recurrence,
+            post_url: Post.url('-', event.topic_id, event.post_number)
+          }
       else
-        identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%W")}-#{(event.end_date || event.start_date).strftime("%W")}"
+        identifier =
+          "#{event.region.split('_').first}-#{
+            event.start_date.strftime('%W')
+          }-#{(event.end_date || event.start_date).strftime('%W')}"
 
         if grouped_events[identifier]
           grouped_events[identifier][:to] = event.start_date
@@ -365,23 +413,25 @@ after_initialize do
     result.concat(grouped_events.values)
   end
 
-  add_to_serializer(:post, :include_calendar_details?) do
-    object.is_first_post?
-  end
+  add_to_serializer(:post, :include_calendar_details?) { object.is_first_post? }
 
   add_to_serializer(:post, :group_timezones) do
     result = {}
-    group_names = object.group_timezones["groups"] || []
+    group_names = object.group_timezones['groups'] || []
 
     if group_names.present?
-      users = User
-        .joins(:groups, :user_option)
-        .where("groups.name": group_names)
-        .select("users.*", "groups.name AS group_name", "user_options.timezone")
+      users =
+        User.joins(:groups, :user_option).where("groups.name": group_names)
+          .select(
+          'users.*',
+          'groups.name AS group_name',
+          'user_options.timezone'
+        )
 
       users.each do |u|
         result[u.group_name] ||= []
-        result[u.group_name] << UserTimezoneSerializer.new(u, root: false).as_json
+        result[u.group_name] <<
+          UserTimezoneSerializer.new(u, root: false).as_json
       end
     end
 
@@ -396,16 +446,21 @@ after_initialize do
     DiscourseCalendar.users_on_holiday
   end
 
-  add_to_serializer(:site, :include_users_on_holiday?) do
-    scope.is_staff?
-  end
+  add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
 
   reloadable_patch do
     module DiscoursePostEvent::ExportCsvControllerExtension
       def export_entity
         if post_event_export? && ensure_can_export_post_event
-          Jobs.enqueue(:export_csv_file, entity: export_params[:entity], user_id: current_user.id, args: export_params[:args])
-          StaffActionLogger.new(current_user).log_entity_export(export_params[:entity])
+          Jobs.enqueue(
+            :export_csv_file,
+            entity: export_params[:entity],
+            user_id: current_user.id,
+            args: export_params[:args]
+          )
+          StaffActionLogger.new(current_user).log_entity_export(
+            export_params[:entity]
+          )
           render json: success_json
         else
           super
@@ -416,10 +471,11 @@ after_initialize do
 
       def export_params
         if post_event_export?
-          @_export_params ||= begin
-            params.require(:entity)
-            params.permit(:entity, args: [:id]).to_h
-          end
+          @_export_params ||=
+            begin
+              params.require(:entity)
+              params.permit(:entity, args: %i[id]).to_h
+            end
         else
           super
         end
@@ -448,31 +504,24 @@ after_initialize do
 
         guardian = Guardian.new(current_user)
 
-        event = DiscoursePostEvent::Event
-          .includes(invitees: :user)
-          .find(@extra[:id])
+        event =
+          DiscoursePostEvent::Event.includes(invitees: :user).find(@extra[:id])
 
         guardian.ensure_can_act_on_discourse_post_event!(event)
 
-        event.invitees
-          .each do |invitee|
-            yield [
-              invitee.user.username,
-              DiscoursePostEvent::Invitee.statuses[invitee.status],
-              invitee.created_at,
-              invitee.updated_at,
-            ]
-          end
+        event.invitees.each do |invitee|
+          yield [
+            invitee.user.username,
+            DiscoursePostEvent::Invitee.statuses[invitee.status],
+            invitee.created_at,
+            invitee.updated_at
+          ]
+        end
       end
 
       def get_header(entity)
         if SiteSetting.discourse_post_event_enabled && entity === 'post_event'
-          [
-            'username',
-            'status',
-            'first_answered_at',
-            'last_updated_at',
-          ]
+          %w[username status first_answered_at last_updated_at]
         else
           super
         end
@@ -489,15 +538,17 @@ after_initialize do
           starts_at = event_node['data-start']
           ends_at = event_node['data-end']
           dates = "#{starts_at} (UTC)"
-          if ends_at
-            dates = "#{dates} → #{ends_at} (UTC)"
-          end
+          dates = "#{dates} → #{ends_at} (UTC)" if ends_at
 
           event_name = event_node['data-name'] || post.topic.title
           event_node.replace <<~TXT
             <div style='border:1px solid #dedede'>
-              <p><a href="#{Discourse.base_url}#{post.url}">#{event_name}</a></p>
-              <p>#{dates}</p>
+              <p><a href="#{
+            Discourse.base_url
+          }#{post.url}">#{event_name}</a></p>
+              <p>#{
+            dates
+          }</p>
             </div>
           TXT
         end
@@ -531,10 +582,37 @@ after_initialize do
       next if removed_fields.empty?
 
       DiscoursePostEvent::Event.all.find_each do |event|
-        removed_fields.each do |field|
-          event.custom_fields.delete(field)
-        end
+        removed_fields.each { |field| event.custom_fields.delete(field) }
         event.save
+      end
+    end
+
+    on(:discourse_post_event_event_ended) do |event|
+      next if !event.ends_at
+
+      if event.recurrence.present?
+        recurrence = nil
+
+        case event.recurrence
+        when 'every_day'
+          recurrence = 'FREQ=DAILY'
+        when 'every_month'
+          recurrence = 'FREQ=MONTHLY'
+        when 'every_weekday'
+          recurrence = 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
+        else
+          byday = event.starts_at.strftime('%A').upcase[0, 2]
+          recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
+        end
+
+        next_starts_at = RRuleGenerator.generate(recurrence, event.starts_at)
+
+        difference = event.ends_at - event.starts_at
+        next_ends_at = next_starts_at + difference.seconds
+
+        event.update!(starts_at: next_starts_at, ends_at: next_ends_at)
+        event.invitees.update_all(status: nil)
+        event.publish_update!
       end
     end
   end

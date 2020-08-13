@@ -35,6 +35,10 @@ const rule = {
       token.attrs.push(["data-reminders", info.attrs.reminders]);
     }
 
+    if (info.attrs.recurrence) {
+      token.attrs.push(["data-recurrence", info.attrs.recurrence]);
+    }
+
     return true;
   }
 };

@@ -114,6 +114,18 @@
         }}
       {{/event-field}}
 
+      {{#event-field class="recurrence" label="discourse_post_event.builder_modal.recurrence.label"}}
+        {{combo-box
+          class="available-recurrences"
+          value=(readonly model.eventModel.recurrence)
+          nameProperty=null
+          valueProperty=null
+          content=availableRecurrences
+          onChange=(action (mut model.eventModel.recurrence))
+          options=(hash none="discourse_post_event.builder_modal.recurrence.none")
+        }}
+      {{/event-field}}
+
       {{#if model.eventModel.custom_fields}}
       {{#if allowedCustomFields.length}}
         {{#event-field label="discourse_post_event.builder_modal.custom_fields.label"}}
@@ -133,7 +145,6 @@
     </form>
   {{/conditional-loading-section}}
 {{/d-modal-body}}
-
 
 <div class="modal-footer">
   {{#if model.eventModel.isNew}}

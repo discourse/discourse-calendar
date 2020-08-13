@@ -143,6 +143,7 @@ module DiscoursePostEvent
           :ends_at,
           :status,
           :url,
+          :recurrence,
           custom_fields: allowed_custom_fields,
           raw_invitees: [],
         )

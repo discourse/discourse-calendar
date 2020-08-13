@@ -23,6 +23,7 @@ module DiscoursePostEvent
     attributes :is_private
     attributes :is_standalone
     attributes :reminders
+    attributes :recurrence
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)

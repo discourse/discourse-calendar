@@ -7,7 +7,8 @@ VALID_OPTIONS = [
   :"allowed-groups",
   :url,
   :name,
-  :reminders
+  :reminders,
+  :recurrence
 ]
 
 module DiscoursePostEvent
@@ -24,7 +25,7 @@ module DiscoursePostEvent
 
           if valid_options.include?(name) && value
             event ||= {}
-            event[name["data-".length..-1].to_sym] = CGI.escapeHTML(value)
+            event[name['data-'.length..-1].to_sym] = CGI.escapeHTML(value)
           end
         end
         event

@@ -20,6 +20,12 @@ export default Controller.extend(ModalFunctionality, {
 
     this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
     this.set("reminderPeriods", ["before", "after"]);
+    this.set("availableRecurrences", [
+      "every_day",
+      "every_month",
+      "every_weekday",
+      "every_week"
+    ]);
   },
 
   modalTitle: computed("model.eventModel.isNew", {
