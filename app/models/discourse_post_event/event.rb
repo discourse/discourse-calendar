@@ -46,6 +46,12 @@ module DiscoursePostEvent
 
       ends_at_changes = saved_change_to_ends_at
       self.refresh_ends_at_handlers!(ends_at_changes) if ends_at_changes
+
+      if starts_at_changes
+        self.invitees.update_all(status: nil, notified: false)
+        self.notify_invitees!
+        self.notify_missing_invitees!
+      end
     end
 
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
@@ -136,13 +142,21 @@ module DiscoursePostEvent
     end
 
     def notify_invitees!(predefined_attendance: false)
-      self.invitees.where(notified: false).each do |invitee|
+      self.invitees.where(notified: false).find_each do |invitee|
         create_notification!(
           invitee.user,
           self.post,
           predefined_attendance: predefined_attendance
         )
         invitee.update!(notified: true)
+      end
+    end
+
+    def notify_missing_invitees!
+      if self.private?
+        self.missing_group_users.each do |group_user|
+          create_notification!(group_user.user, self.post)
+        end
       end
     end
 
@@ -213,7 +227,6 @@ module DiscoursePostEvent
 
     def enforce_private_invitees!
       self.invitees.where.not(user_id: fetch_users.select(:id)).delete_all
-      self.notify_invitees!(predefined_attendance: false)
     end
 
     def can_user_update_attendance(user)
@@ -261,6 +274,13 @@ module DiscoursePostEvent
       elsif post.event
         post.event.destroy!
       end
+    end
+
+    def missing_group_users
+      GroupUser
+        .joins(:group, :user)
+        .where('groups.name' => self.raw_invitees)
+        .where.not('users.id' => self.invitees.select(:user_id))
     end
 
     def update_with_params!(params)
