@@ -611,7 +611,8 @@ after_initialize do
         next_ends_at = next_starts_at + difference.seconds
 
         event.update!(starts_at: next_starts_at, ends_at: next_ends_at)
-        event.invitees.update_all(status: nil)
+        event.invitees.update_all(status: nil, notified: false)
+        event.notify_invitees!
         event.publish_update!
       end
     end

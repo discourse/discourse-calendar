@@ -152,6 +152,12 @@ describe Post do
 
               expect(event_1.invitees.pluck(:status)).to eq([])
             end
+
+            it 'resends event creation notification to invitees' do
+              expect { event_1.update_with_params!(ends_at: Time.now) }.to change {
+                going_user.notifications.count
+              }.by(1)
+            end
           end
         end
       end
