@@ -61,6 +61,8 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   onChangeStatus(newStatus) {
+    this.model.eventModel.set("raw_invitees", []);
+
     if (newStatus === "private") {
       this.setRawInvitees(
         null,
