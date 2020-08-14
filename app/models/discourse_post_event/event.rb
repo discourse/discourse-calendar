@@ -101,6 +101,13 @@ module DiscoursePostEvent
       end
     end
 
+    validate :raw_invitees_are_groups
+    def raw_invitees_are_groups
+      if self.raw_invitees && User.select(:id).where(username: self.raw_invitees).limit(1).count > 0
+        errors.add(:base, I18n.t('discourse_post_event.errors.models.event.raw_invitees.only_group'))
+      end
+    end
+
     validate :ends_before_start
     def ends_before_start
       if self.starts_at && self.ends_at && self.starts_at >= self.ends_at
@@ -284,17 +291,14 @@ module DiscoursePostEvent
     end
 
     def update_with_params!(params)
-      params[:custom_fields] =
-        (params[:custom_fields] || {}).reject { |_, value| value.blank? }
-
       case params[:status] ? params[:status].to_i : self.status
       when Event.statuses[:private]
-        raw_invitees =
-          Set.new(
-            Array(self.raw_invitees) + Array(params[:raw_invitees]) -
-              [PUBLIC_GROUP]
-          ).to_a
-        self.update!(params.merge(raw_invitees: raw_invitees))
+        if params.key?(:raw_invitees)
+          params = params.merge(raw_invitees: Array(params[:raw_invitees]) - [PUBLIC_GROUP])
+        else
+          params = params.merge(raw_invitees: Array(self.raw_invitees) - [PUBLIC_GROUP])
+        end
+        self.update!(params)
         self.enforce_private_invitees!
       when Event.statuses[:public]
         self.update!(params.merge(raw_invitees: [PUBLIC_GROUP]))

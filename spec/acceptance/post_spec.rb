@@ -19,7 +19,7 @@ describe Post do
 
   context 'public event' do
     let(:post_1) { Fabricate(:post) }
-    let(:event_1) { Fabricate(:event, post: post_1) }
+    let(:event_1) { Fabricate(:event, post: post_1, raw_invitees: ['trust_level_0']) }
 
     context 'when a post is updated' do
       context 'when the post has a valid event' do
@@ -159,6 +159,33 @@ describe Post do
                   going_user.notifications.count
                 }.by(1)
               end
+            end
+          end
+
+          context 'updating raw_invitees' do
+            let(:lurker_1) { Fabricate(:user) }
+            let(:group_1) { Fabricate(:group) }
+
+            it 'doesn’t accept usernames' do
+              event_1.update_with_params!(raw_invitees: [lurker_1.username])
+              expect(event_1.raw_invitees).to eq(['trust_level_0'])
+            end
+
+            it 'doesn’t accept another group than trust_level_0' do
+              event_1.update_with_params!(raw_invitees: [group_1.name])
+              expect(event_1.raw_invitees).to eq(['trust_level_0'])
+            end
+          end
+
+          context 'updating status to private' do
+            it 'it changes the status and force invitees' do
+              expect(event_1.raw_invitees).to eq(['trust_level_0'])
+              expect(event_1.status).to eq(Event.statuses[:public])
+
+              event_1.update_with_params!(status: Event.statuses[:private])
+
+              expect(event_1.raw_invitees).to eq([])
+              expect(event_1.status).to eq(Event.statuses[:private])
             end
           end
         end
@@ -451,13 +478,24 @@ describe Post do
         post: post_1,
         status: Event.statuses[:private],
         raw_invitees: [group_1.name],
-        recurrence: 'FREQ=WEEKLY;BYDAY=MO',
         starts_at: 3.hours.ago,
         ends_at: nil
       )
     }
 
     context 'an event with recurrence' do
+      let(:event_1) {
+        Fabricate(
+          :event,
+          post: post_1,
+          status: Event.statuses[:private],
+          raw_invitees: [group_1.name],
+          recurrence: 'FREQ=WEEKLY;BYDAY=MO',
+          starts_at: 3.hours.ago,
+          ends_at: nil
+        )
+      }
+
       before do
         Invitee.create_attendance!(invitee_1.id, event_1.id, :going)
 
@@ -466,14 +504,42 @@ describe Post do
         Jobs.run_later!
       end
 
-      context 'when the event ends' do
+      context 'updating the end' do
         it 'resends event creation notification to invitees and possible invitees' do
           expect(event_1.invitees.count).to eq(1)
 
-          expect { event_1.update_with_params!(ends_at: Time.now) }.to change {
+          expect { event_1.update_with_params!(ends_at: 2.hours.ago) }.to change {
             invitee_1.notifications.count + invitee_2.notifications.count
           }.by(2)
         end
+      end
+    end
+
+    context 'updating raw_invitees' do
+      let(:lurker_1) { Fabricate(:user) }
+      let(:group_2) { Fabricate(:group) }
+
+      it 'doesn’t accept usernames' do
+        expect {
+          event_1.update_with_params!(raw_invitees: [lurker_1.username])
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      it 'accepts another group than trust_level_0' do
+        event_1.update_with_params!(raw_invitees: [group_2.name])
+        expect(event_1.raw_invitees).to eq([group_2.name])
+      end
+    end
+
+    context 'updating status to public' do
+      it 'it changes the status and force invitees' do
+        expect(event_1.raw_invitees).to eq([group_1.name])
+        expect(event_1.status).to eq(Event.statuses[:private])
+
+        event_1.update_with_params!(status: Event.statuses[:public])
+
+        expect(event_1.raw_invitees).to eq(['trust_level_0'])
+        expect(event_1.status).to eq(Event.statuses[:public])
       end
     end
   end

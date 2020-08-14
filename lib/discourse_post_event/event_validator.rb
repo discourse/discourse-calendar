@@ -54,7 +54,7 @@ module DiscoursePostEvent
         end
       end
 
-      if extracted_event[:name].present? && extracted_event[:name]
+      if extracted_event[:name].present?
         if !(Event::MIN_NAME_LENGTH..Event::MAX_NAME_LENGTH).cover?(extracted_event[:name].length)
           @post.errors.add(:base, I18n.t('discourse_post_event.errors.models.event.name.length', minimum: Event::MIN_NAME_LENGTH, maximum: Event::MAX_NAME_LENGTH))
           return false

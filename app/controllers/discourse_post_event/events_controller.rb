@@ -50,25 +50,19 @@ module DiscoursePostEvent
       render json: success_json
     end
 
+    # update is only used for custom fields
+    # everything else is managed by cooking the post
     def update
       DistributedMutex.synchronize("discourse-post-event[event-update]") do
+        event_params[:custom_fields] = (event_params[:custom_fields] || {}).reject { |_, value| value.blank? }
+
         event = Event.find(params[:id])
         guardian.ensure_can_edit!(event.post)
         guardian.ensure_can_act_on_discourse_post_event!(event)
-        event.update_with_params!(event_params)
+        event.update!(event_params)
         serializer = EventSerializer.new(event, scope: guardian)
         render_json_dump(serializer)
       end
-    end
-
-    def create
-      event = Event.new(id: event_params[:id])
-      guardian.ensure_can_edit!(event.post)
-      guardian.ensure_can_create_discourse_post_event!
-      event.update_with_params!(event_params)
-      event.publish_update!
-      serializer = EventSerializer.new(event, scope: guardian)
-      render_json_dump(serializer)
     end
 
     def csv_bulk_invite
@@ -136,17 +130,7 @@ module DiscoursePostEvent
 
       params
         .require(:event)
-        .permit(
-          :id,
-          :name,
-          :starts_at,
-          :ends_at,
-          :status,
-          :url,
-          :recurrence,
-          custom_fields: allowed_custom_fields,
-          raw_invitees: [],
-        )
+        .permit(custom_fields: allowed_custom_fields)
     end
 
     def ics_request?
