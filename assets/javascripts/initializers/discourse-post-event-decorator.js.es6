@@ -183,10 +183,10 @@ function _attachWidget(api, cooked, eventModel) {
 function initializeDiscoursePostEventDecorator(api) {
   api.cleanupStream(cleanUp);
 
-  api.decorateCooked(
-    ($cooked, helper) => {
-      if ($cooked[0].classList.contains("d-editor-preview")) {
-        _decorateEventPreview(api, $cooked[0]);
+  api.decorateCookedElement(
+    (cooked, helper) => {
+      if (cooked.classList.contains("d-editor-preview")) {
+        _decorateEventPreview(api, cooked);
         return;
       }
 
@@ -194,7 +194,7 @@ function initializeDiscoursePostEventDecorator(api) {
         const post = helper.getModel();
 
         if (post.event) {
-          _decorateEvent(api, $cooked[0], post.event);
+          _decorateEvent(api, cooked, post.event);
         }
       }
     },
