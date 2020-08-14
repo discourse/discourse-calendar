@@ -7,7 +7,7 @@ module Jobs
     def execute(args)
       raise Discourse::InvalidParameters.new(:event_id) if args[:event_id].blank?
       event = DiscoursePostEvent::Event.find(args[:event_id])
-      event.publish_update!
+      MessageBus.publish("/topic/#{event.post.topic_id}", refresh_stream: true)
       DiscourseEvent.trigger(:discourse_post_event_event_will_start, event)
     end
   end
