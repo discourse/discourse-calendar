@@ -169,7 +169,7 @@
 
         .widget-dropdown-header {
           .d-icon-star {
-            color: #daa520;
+            color: adjust-hue($danger, 25%);
           }
         }
       }
@@ -246,7 +246,7 @@
         }
 
         &.status-interested .avatar-flair {
-          color: #daa520;
+          color: adjust-hue($danger, 25%);
         }
       }
 
