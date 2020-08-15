@@ -62,7 +62,7 @@ module DiscoursePostEvent
     scope :expired, -> { where('ends_at IS NOT NULL AND ends_at < ?', Time.now) }
     scope :not_expired, -> { where('ends_at IS NULL OR ends_at > ?', Time.now) }
 
-    def is_expired?
+    def expired?
       !!(self.ends_at && Time.now > self.ends_at)
     end
 
@@ -187,6 +187,14 @@ module DiscoursePostEvent
       )
     end
 
+    def ongoing?
+      (
+        self.ends_at ?
+          (self.starts_at..self.ends_at).cover?(Time.now) :
+          self.starts_at >= Time.now
+      ) && !self.expired?
+    end
+
     def self.statuses
       @statuses ||= Enum.new(standalone: 0, public: 1, private: 2)
     end
@@ -237,7 +245,7 @@ module DiscoursePostEvent
     end
 
     def can_user_update_attendance(user)
-      !self.is_expired? &&
+      !self.expired? &&
         (
           self.public? ||
             (

@@ -222,17 +222,90 @@ describe DiscoursePostEvent::Event do
     end
   end
 
-  describe '#is_expired?' do
+  describe '#ongoing?' do
+    context 'has ends_at' do
+      context '&& starts_at < current date' do
+        context '&& ends_at < current date' do
+          it 'is ongoing' do
+            post_event = Event.new(
+              starts_at: 2.hours.ago,
+              ends_at: 1.hours.ago
+            )
+
+            expect(post_event.ongoing?).to be(false)
+          end
+        end
+
+        context '&& ends_at > current date' do
+          it 'is not ongoing' do
+            post_event = Event.new(
+              starts_at: 2.hours.ago,
+              ends_at: 3.hours.from_now
+            )
+
+            expect(post_event.ongoing?).to be(true)
+          end
+        end
+      end
+
+      context '&& starts_at > current date' do
+        context '&& ends_at > current date' do
+          it 'is not ongoing' do
+            post_event = Event.new(
+              starts_at: 1.hour.from_now,
+              ends_at: 2.hours.from_now
+            )
+
+            expect(post_event.ongoing?).to be(false)
+          end
+        end
+      end
+    end
+
+    context 'has not ends_at date' do
+      context '&& starts_at < current date' do
+        it 'is not ongoing' do
+          post_event = Event.new(
+            starts_at: 2.hours.ago
+          )
+
+          expect(post_event.ongoing?).to be(false)
+        end
+      end
+
+      context '&& starts_at == current date' do
+        it 'is ongoing' do
+          post_event = Event.new(
+            starts_at: Time.now
+          )
+
+          expect(post_event.ongoing?).to be(true)
+        end
+      end
+
+      context '&& starts_at > current date' do
+        it 'is ongoing' do
+          post_event = Event.new(
+            starts_at: 1.hours.from_now
+          )
+
+          expect(post_event.ongoing?).to be(true)
+        end
+      end
+    end
+  end
+
+  describe '#expired?' do
     context 'has ends_at' do
       context '&& starts_at < current date' do
         context '&& ends_at < current date' do
           it 'is expired' do
             post_event = Event.new(
               starts_at: DateTime.parse('2020-04-22 14:05'),
-              ends_at: DateTime.parse('2020-04-23 14:05'),
+              ends_at: DateTime.parse('2020-04-23 14:05')
             )
 
-            expect(post_event.is_expired?).to be(true)
+            expect(post_event.expired?).to be(true)
           end
         end
 
@@ -240,21 +313,10 @@ describe DiscoursePostEvent::Event do
           it 'is not expired' do
             post_event = Event.new(
               starts_at: DateTime.parse('2020-04-24 14:15'),
-              ends_at: DateTime.parse('2020-04-25 11:05'),
+              ends_at: DateTime.parse('2020-04-25 11:05')
             )
 
-            expect(post_event.is_expired?).to be(false)
-          end
-        end
-
-        context '&& ends_at < current date' do
-          it 'is expired' do
-            post_event = Event.new(
-              starts_at: DateTime.parse('2020-04-22 14:15'),
-              ends_at: DateTime.parse('2020-04-23 11:05'),
-            )
-
-            expect(post_event.is_expired?).to be(true)
+            expect(post_event.expired?).to be(false)
           end
         end
       end
@@ -263,10 +325,10 @@ describe DiscoursePostEvent::Event do
         it 'is not expired' do
           post_event = Event.new(
             starts_at: DateTime.parse('2020-04-25 14:05'),
-            ends_at: DateTime.parse('2020-04-26 14:05'),
+            ends_at: DateTime.parse('2020-04-26 14:05')
           )
 
-          expect(post_event.is_expired?).to be(false)
+          expect(post_event.expired?).to be(false)
         end
       end
     end
@@ -278,7 +340,7 @@ describe DiscoursePostEvent::Event do
             starts_at: DateTime.parse('2020-04-24 14:05')
           )
 
-          expect(post_event.is_expired?).to be(false)
+          expect(post_event.expired?).to be(false)
         end
       end
 
@@ -288,7 +350,7 @@ describe DiscoursePostEvent::Event do
             starts_at: DateTime.parse('2020-04-24 14:10')
           )
 
-          expect(post_event.is_expired?).to be(false)
+          expect(post_event.expired?).to be(false)
         end
       end
 
@@ -298,7 +360,7 @@ describe DiscoursePostEvent::Event do
             starts_at: DateTime.parse('2020-04-24 14:15')
           )
 
-          expect(post_event.is_expired?).to be(false)
+          expect(post_event.expired?).to be(false)
         end
       end
     end

@@ -16,6 +16,7 @@ module DiscoursePostEvent
     attributes :can_act_on_discourse_post_event
     attributes :can_update_attendance
     attributes :is_expired
+    attributes :is_ongoing
     attributes :should_display_invitees
     attributes :url
     attributes :custom_fields
@@ -38,7 +39,11 @@ module DiscoursePostEvent
     end
 
     def is_expired
-      object.is_expired?
+      object.expired?
+    end
+
+    def is_ongoing
+      object.ongoing?
     end
 
     def is_public
