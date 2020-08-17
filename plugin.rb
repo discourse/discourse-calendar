@@ -34,6 +34,21 @@ register_svg_icon 'fas fa-star'
 register_svg_icon 'fas fa-file-upload'
 
 after_initialize do
+
+  # TODO: Put this code inside a migration.
+  # lib/db_helper_spec.rb fails without this because these tables are read-only
+  # See: https://github.com/discourse/discourse-calendar/commit/c17bbf57d15920101319b0be40f0bc0fbf17802a
+  if Rails.env.test?
+    connection = ActiveRecord::Base.connection
+    if connection.table_exists?(:discourse_calendar_post_events)
+      Migration::TableDropper.execute_drop(:discourse_calendar_post_events)
+    end
+
+    if connection.table_exists?(:discourse_calendar_invitees)
+      Migration::TableDropper.execute_drop(:discourse_calendar_invitees)
+    end
+  end
+
   module ::DiscourseCalendar
     PLUGIN_NAME ||= 'discourse-calendar'
 
