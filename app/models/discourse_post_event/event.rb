@@ -180,7 +180,7 @@ module DiscoursePostEvent
         topic_id: post.topic_id,
         post_number: post.post_number,
         data: {
-          topic_title: post.topic.title,
+          topic_title: self.name || post.topic.title,
           display_username: post.user.username,
           message: message
         }.to_json

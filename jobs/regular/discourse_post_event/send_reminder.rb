@@ -46,7 +46,7 @@ module Jobs
           topic_id: event.post.topic_id,
           post_number: event.post.post_number,
           data: {
-            topic_title: event.post.topic.title,
+            topic_title: event.name || event.post.topic.title,
             display_username: invitee.user.username,
             message: "discourse_post_event.notifications.#{prefix}_event_reminder"
           }.to_json
