@@ -51,6 +51,18 @@ module Jobs
             message: "discourse_post_event.notifications.#{prefix}_event_reminder"
           }.to_json
         )
+
+        PostAlerter.new(event.post).create_notification_alert(
+          user: invitee.user,
+          post: event.post,
+          username: invitee.user.username,
+          notification_type: Notification.types[:event_reminder] || Notification.types[:custom],
+          excerpt: I18n.t(
+            "discourse_post_event.notifications.#{prefix}_event_reminder",
+            title: event.name || event.post.topic.title,
+            locale: invitee.user.effective_locale
+          )
+        )
       end
     end
   end

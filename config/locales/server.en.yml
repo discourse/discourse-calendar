@@ -42,6 +42,10 @@ en:
     more_than_two_dates: "A post of a calendar topic can’t contain more than two dates."
     event_expired: "Event expired"
   discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} is about to start."
+      after_event_reminder: "%{title} has ended."
+      ongoing_event_reminder: "%{title} is ongoing."
     errors:
       bulk_invite:
         max_invitees: "First %{max_invittes} invitees have been created. Try splitting the file in smaller parts."
