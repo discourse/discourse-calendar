@@ -219,6 +219,11 @@ function initializeDiscoursePostEventDecorator(api) {
   );
 
   api.replaceIcon(
+    "notification.discourse_calendar.invite_user_predefined_attendance_notification",
+    "calendar-day"
+  );
+
+  api.replaceIcon(
     "notification.discourse_post_event.notifications.before_event_reminder",
     "calendar-day"
   );

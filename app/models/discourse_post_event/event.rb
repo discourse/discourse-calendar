@@ -176,7 +176,7 @@ module DiscoursePostEvent
         end
 
       user.notifications.create!(
-        notification_type: Notification.types[:custom],
+        notification_type: Notification.types[:event_invitation] || Notification.types[:custom],
         topic_id: post.topic_id,
         post_number: post.post_number,
         data: {

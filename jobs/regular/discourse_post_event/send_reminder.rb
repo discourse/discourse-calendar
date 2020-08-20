@@ -13,7 +13,7 @@ module Jobs
 
       already_notified_users = Notification.where(
         read: false,
-        notification_type: Notification.types[:custom],
+        notification_type: Notification.types[:event_reminder] || Notification.types[:custom],
         topic_id: event.post.topic_id,
         post_number: 1
       )
@@ -42,7 +42,7 @@ module Jobs
 
       invitees.find_each do |invitee|
         invitee.user.notifications.create!(
-          notification_type: Notification.types[:custom],
+          notification_type: Notification.types[:event_reminder] || Notification.types[:custom],
           topic_id: event.post.topic_id,
           post_number: event.post.post_number,
           data: {

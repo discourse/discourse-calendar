@@ -33,7 +33,7 @@ describe Jobs::DiscoursePostEventSendReminder do
     end
 
     going_user_unread_notification.notifications.create!(
-      notification_type: Notification.types[:custom],
+      notification_type: Notification.types[:event_reminder],
       topic_id: post_1.topic_id,
       post_number: 1,
       data: {}.to_json
