@@ -131,9 +131,7 @@ after_initialize do
   end
 
   reloadable_patch do
-    require 'post'
-
-    class ::Post
+    Post.class_eval do
       has_one :event,
               dependent: :destroy,
               class_name: 'DiscoursePostEvent::Event',
