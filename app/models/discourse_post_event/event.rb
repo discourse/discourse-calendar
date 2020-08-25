@@ -161,8 +161,8 @@ module DiscoursePostEvent
 
     def notify_missing_invitees!
       if self.private?
-        self.missing_group_users.each do |group_user|
-          create_notification!(group_user.user, self.post)
+        self.missing_users.each do |user|
+          create_notification!(user, self.post)
         end
       end
     end
@@ -219,11 +219,9 @@ module DiscoursePostEvent
         # so we create a dummy invitee object with only what's needed for serializer
         going =
           going +
-            GroupUser.includes(:group, :user).where(
-              'groups.name' => self.raw_invitees
-            ).where.not('users.id' => going.pluck(:user_id)).limit(
-              limit - going.count
-            ).map { |gu| Invitee.new(user: gu.user, post_id: self.id) }
+          missing_users(going.pluck(:user_id))
+            .limit(limit - going.count)
+            .map { |user| Invitee.new(user: user, post_id: self.id) }
       end
 
       going
@@ -288,11 +286,12 @@ module DiscoursePostEvent
       end
     end
 
-    def missing_group_users
-      GroupUser
-        .joins(:group, :user)
+    def missing_users(excluded_ids = self.invitees.select(:user_id))
+      User
+        .joins(:groups)
         .where('groups.name' => self.raw_invitees)
-        .where.not('users.id' => self.invitees.select(:user_id))
+        .where.not(id: excluded_ids)
+        .distinct
     end
 
     def update_with_params!(params)

@@ -5,6 +5,7 @@ require_relative '../../fabricators/event_fabricator'
 
 describe DiscoursePostEvent::Event do
   Event ||= DiscoursePostEvent::Event
+  Invitee ||= DiscoursePostEvent::Invitee
   Field ||= DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
 
   before do
@@ -459,6 +460,40 @@ describe DiscoursePostEvent::Event do
           event_1.update!(starts_at: 2.hours.from_now)
         end
       end
+    end
+  end
+
+  context '#missing_users' do
+    let!(:post_1) { Fabricate(:post) }
+    let!(:user_1) { Fabricate(:user) }
+    let!(:user_2) { Fabricate(:user) }
+    let!(:user_3) { Fabricate(:user) }
+    let!(:group_1) {
+      Fabricate(:group).tap do |g|
+        g.add(user_1)
+        g.add(user_2)
+        g.add(user_3)
+        g.save!
+      end
+    }
+    let!(:group_2) {
+      Fabricate(:group).tap do |g|
+        g.add(user_2)
+        g.save!
+      end
+    }
+    let!(:event_1) { Fabricate(:event, post: post_1, status: Event.statuses[:private], raw_invitees: [group_1.name, group_2.name]) }
+
+    before do
+      Invitee.create_attendance!(user_3.id, post_1.id, :going)
+    end
+
+    it 'doesn’t return already attending user' do
+      expect(event_1.missing_users.pluck(:id)).to_not include(user_3.id)
+    end
+
+    it 'return users from groups with no duplicates' do
+      expect(event_1.missing_users.pluck(:id)).to match_array([user_1.id, user_2.id])
     end
   end
 end
