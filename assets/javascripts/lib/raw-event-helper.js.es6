@@ -1,4 +1,4 @@
-export function buildParams(startsAt, endsAt, eventModel) {
+export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
   const params = {};
 
   if (startsAt) {
@@ -60,6 +60,16 @@ export function buildParams(startsAt, endsAt, eventModel) {
       .join(",");
   }
 
+  siteSettings.discourse_post_event_allowed_custom_fields
+    .split("|")
+    .filter(Boolean)
+    .forEach(setting => {
+      const param = camelCase(setting);
+      if (typeof eventModel.custom_fields[setting] !== undefined) {
+        params[param] = eventModel.custom_fields[setting];
+      }
+    });
+
   return params;
 }
 
@@ -80,4 +90,10 @@ export function replaceRaw(params, raw) {
   }
 
   return false;
+}
+
+function camelCase(input) {
+  return input.toLowerCase().replace(/-(.)/g, function(match, group1) {
+    return group1.toUpperCase();
+  });
 }

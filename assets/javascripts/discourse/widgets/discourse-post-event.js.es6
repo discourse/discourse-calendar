@@ -72,7 +72,8 @@ export default createWidget("discourse-post-event", {
               moment().isBefore(startsAt)
                 ? moment().add(1, "minute")
                 : moment(),
-              eventModel
+              eventModel,
+              this.siteSettings
             );
             const newRaw = replaceRaw(eventParams, raw);
 

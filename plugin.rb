@@ -115,7 +115,6 @@ after_initialize do
     get '/discourse-post-event/events/:id' => 'events#show'
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
-    put '/discourse-post-event/events/:id' => 'events#update', format: :json
     post '/discourse-post-event/events/:id/csv-bulk-invite' =>
            'events#csv_bulk_invite'
     post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite',

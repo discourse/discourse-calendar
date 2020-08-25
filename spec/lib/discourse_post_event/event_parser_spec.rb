@@ -79,4 +79,31 @@ describe DiscoursePostEvent::EventParser do
     events = subject.extract_events(post_event)
     expect(events).to eq([])
   end
+
+  context 'with custom fields' do
+    before do
+      SiteSetting.discourse_post_event_allowed_custom_fields = 'foo-bar|bar'
+    end
+
+    it 'parses allowed custom fields' do
+      post_event = build_post user, <<~TXT
+        [event start="2020" fooBar="1" bar="2"]
+        [/event]
+      TXT
+
+      events = subject.extract_events(post_event)
+      expect(events[0][:"foo-bar"]).to eq("1")
+      expect(events[0][:"bar"]).to eq("2")
+    end
+
+    it 'doesn’t parse not allowed custom fields' do
+      post_event = build_post user, <<~TXT
+        [event start="2020" baz="1"]
+        [/event]
+      TXT
+
+      events = subject.extract_events(post_event)
+      expect(events[0][:"baz"]).to eq(nil)
+    end
+  end
 end

@@ -36,6 +36,7 @@ function initializeEventBuilder(api) {
           "discourse-post-event-event"
         );
         eventModel.set("status", "public");
+        eventModel.set("custom_fields", {});
 
         showModal("discourse-post-event-builder").setProperties({
           toolbarEvent: this.toolbarEvent,

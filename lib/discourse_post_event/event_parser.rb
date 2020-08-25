@@ -17,6 +17,10 @@ module DiscoursePostEvent
       cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
       valid_options = VALID_OPTIONS.map { |o| "data-#{o}" }
 
+      SiteSetting.discourse_post_event_allowed_custom_fields.split('|').each do |setting|
+        valid_options << "data-#{setting}"
+      end
+
       Nokogiri::HTML(cooked).css('div.discourse-post-event').map do |doc|
         event = nil
         doc.attributes.values.each do |attribute|

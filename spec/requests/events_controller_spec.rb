@@ -27,43 +27,6 @@ module DiscoursePostEvent
         end
 
         context 'when updating' do
-          context 'a custom field' do
-            context 'allowed custom field' do
-              before do
-                SiteSetting.discourse_post_event_allowed_custom_fields = 'foo'
-              end
-
-              it 'works' do
-                expect(event_1.custom_fields['foo']).to eq(nil)
-                expect(event_1.raw_invitees).to eq(nil)
-
-                put "/discourse-post-event/events/#{event_1.id}.json", params: {
-                  event: {
-                    custom_fields: { foo: 1 },
-                    raw_invitees: ["bar"]
-                  }
-                }
-
-                expect(response.parsed_body['event']['custom_fields']['foo']).to eq('1')
-                # doesn't update other fields
-                expect(response.parsed_body['event']['raw_invitees']).to eq(nil)
-              end
-            end
-
-            context 'not allowed custom field' do
-              it 'doesn’t update' do
-                put "/discourse-post-event/events/#{event_1.id}.json", params: {
-                  event: {
-                    custom_fields: { bar: 1 }
-                  }
-                }
-
-                expect(response.status).to eq(200)
-                expect(response.parsed_body['custom_fields']).to eq(nil)
-              end
-            end
-          end
-
           context 'when doing csv bulk invite' do
             let(:valid_file) {
               file = Tempfile.new("valid.csv")
@@ -218,16 +181,6 @@ module DiscoursePostEvent
             delete "/discourse-post-event/events/#{event_1.id}.json"
             expect(response.status).to eq(403)
             expect(Event).to exist(id: event_1.id)
-          end
-
-          it 'doesn’t update the event' do
-            put "/discourse-post-event/events/#{event_1.id}.json", params: {
-              event: {
-                status: Event.statuses[:public],
-              }
-            }
-
-            expect(response.status).to eq(403)
           end
         end
 

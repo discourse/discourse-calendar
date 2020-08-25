@@ -300,6 +300,25 @@ describe Post do
               create_post_with_event(user, 'reminders="1.hours,-3.days"').reload
             expect(post.event.reminders).to eq('1.hours,-3.days')
           end
+
+          context 'with custom fields' do
+            before do
+              SiteSetting.discourse_post_event_allowed_custom_fields = 'foo-bar|bar'
+            end
+
+            it 'works with allowed custom fields' do
+              post = create_post_with_event(user, 'fooBar="1"').reload
+              expect(post.event.custom_fields['foo-bar']).to eq('1')
+
+              post = create_post_with_event(user, 'bar="2"').reload
+              expect(post.event.custom_fields['bar']).to eq('2')
+            end
+
+            it 'doesn’t work with not allowed custom fields' do
+              post = create_post_with_event(user, 'baz="3"').reload
+              expect(post.event.custom_fields['baz']).to eq(nil)
+            end
+          end
         end
 
         context 'when the acting user has rights to create events' do

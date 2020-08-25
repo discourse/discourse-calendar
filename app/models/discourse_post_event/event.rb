@@ -270,20 +270,17 @@ module DiscoursePostEvent
           ends_at: event_params[:end],
           url: event_params[:url],
           recurrence: event_params[:recurrence],
-          status:
-            if event_params[:status].present?
-              Event.statuses[event_params[:status].to_sym]
-            else
-              event.status
-            end,
+          status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
           reminders: event_params[:reminders],
-          raw_invitees:
-            if event_params[:"allowed-groups"]
-              event_params[:"allowed-groups"].split(',')
-            else
-              nil
-            end
+          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
+
+        params[:custom_fields] = {}
+        SiteSetting.discourse_post_event_allowed_custom_fields.split("|").each do |setting|
+          if event_params[setting.to_sym].present?
+            params[:custom_fields][setting] = event_params[setting.to_sym]
+          end
+        end
 
         event.update_with_params!(params)
       elsif post.event

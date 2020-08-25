@@ -6,42 +6,25 @@ const rule = {
       return false;
     }
 
-    token.attrs = [
-      ["class", "discourse-post-event"],
-      ["data-start", info.attrs.start]
-    ];
+    token.attrs = [["class", "discourse-post-event"]];
 
-    if (info.attrs["status"]) {
-      token.attrs.push(["data-status", info.attrs.status]);
-    }
+    Object.keys(info.attrs).forEach(key => {
+      const value = info.attrs[key];
 
-    if (info.attrs["end"]) {
-      token.attrs.push(["data-end", info.attrs.end]);
-    }
-
-    if (info.attrs.name) {
-      token.attrs.push(["data-name", info.attrs.name]);
-    }
-
-    if (info.attrs.allowedGroups) {
-      token.attrs.push(["data-allowed-groups", info.attrs.allowedGroups]);
-    }
-
-    if (info.attrs.url) {
-      token.attrs.push(["data-url", info.attrs.url]);
-    }
-
-    if (info.attrs.reminders) {
-      token.attrs.push(["data-reminders", info.attrs.reminders]);
-    }
-
-    if (info.attrs.recurrence) {
-      token.attrs.push(["data-recurrence", info.attrs.recurrence]);
-    }
+      if (typeof value !== undefined) {
+        token.attrs.push([`data-${dasherize(key)}`, value]);
+      }
+    });
 
     return true;
   }
 };
+
+function dasherize(input) {
+  return input.replace(/[A-Z]/g, function(char, index) {
+    return (index !== 0 ? "-" : "") + char.toLowerCase();
+  });
+}
 
 export function setup(helper) {
   helper.whiteList(["div.discourse-post-event"]);

@@ -138,7 +138,6 @@
         }}
       {{/event-field}}
 
-      {{#if model.eventModel.custom_fields}}
       {{#if allowedCustomFields.length}}
         {{#event-field label="discourse_post_event.builder_modal.custom_fields.label"}}
           <p class="event-field-description">{{i18n "discourse_post_event.builder_modal.custom_fields.description"}}</p>
@@ -152,7 +151,6 @@
             }}
           {{/each}}
         {{/event-field}}
-      {{/if}}
       {{/if}}
     </form>
   {{/conditional-loading-section}}

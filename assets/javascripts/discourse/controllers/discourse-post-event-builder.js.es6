@@ -5,7 +5,6 @@ import Controller from "@ember/controller";
 import { set, action, computed } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
-import { Promise } from "rsvp";
 
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
@@ -163,7 +162,8 @@ export default Controller.extend(ModalFunctionality, {
     const eventParams = buildParams(
       this.startsAt,
       this.endsAt,
-      this.model.eventModel
+      this.model.eventModel,
+      this.siteSettings
     );
     const markdownParams = [];
     Object.keys(eventParams).forEach(key => {
@@ -178,41 +178,30 @@ export default Controller.extend(ModalFunctionality, {
   @action
   updateEvent() {
     return this.store.find("post", this.model.eventModel.id).then(post => {
-      const promises = [];
+      const raw = post.raw;
+      const eventParams = buildParams(
+        this.startsAt,
+        this.endsAt,
+        this.model.eventModel,
+        this.siteSettings
+      );
 
-      // custom_fields are not stored on the raw and are updated separately
-      const data = this.model.eventModel.getProperties("custom_fields");
-      promises.push(this.model.eventModel.update(data));
+      const newRaw = replaceRaw(eventParams, raw);
 
-      const updateRawPromise = new Promise(resolve => {
-        const raw = post.raw;
-        const eventParams = buildParams(
-          this.startsAt,
-          this.endsAt,
-          this.model.eventModel
-        );
-        const newRaw = replaceRaw(eventParams, raw);
+      if (newRaw) {
+        const props = {
+          raw: newRaw,
+          edit_reason: I18n.t("discourse_post_event.edit_reason")
+        };
 
-        if (newRaw) {
-          const props = {
-            raw: newRaw,
-            edit_reason: I18n.t("discourse_post_event.edit_reason")
-          };
-
-          return TextLib.cookAsync(newRaw).then(cooked => {
-            props.cooked = cooked.string;
-            return post
-              .save(props)
-              .catch(e => this.flash(extractError(e), "error"))
-              .then(result => result && this.send("closeModal"))
-              .finally(resolve);
-          });
-        } else {
-          resolve();
-        }
-      });
-
-      return Promise.all(promises.concat(updateRawPromise));
+        return TextLib.cookAsync(newRaw).then(cooked => {
+          props.cooked = cooked.string;
+          return post
+            .save(props)
+            .catch(e => this.flash(extractError(e), "error"))
+            .then(result => result && this.send("closeModal"));
+        });
+      }
     });
   },
 
