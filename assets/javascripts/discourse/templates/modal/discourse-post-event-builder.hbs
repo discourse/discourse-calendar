@@ -146,7 +146,7 @@
             {{input
               class="custom-field-input"
               value=(readonly (get model.eventModel.custom_fields allowedCustomField))
-              placeholderKey="discourse_post_event.builder_modal.name.placeholder"
+              placeholderKey="discourse_post_event.builder_modal.custom_fields.placeholder"
               input=(action "onChangeCustomField" allowedCustomField)
             }}
           {{/each}}

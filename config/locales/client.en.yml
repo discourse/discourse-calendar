@@ -333,6 +333,7 @@ en:
       builder_modal:
         custom_fields:
           label: Custom Fields
+          placeholder: Optional
           description: Allowed custom fields are defined in site settings. Custom fields are used to transmit data to other plugins.
         create_event_title: Create Event
         update_event_title: Edit Event
