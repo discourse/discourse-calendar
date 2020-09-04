@@ -11,7 +11,7 @@ const rule = {
     Object.keys(info.attrs).forEach((key) => {
       const value = info.attrs[key];
 
-      if (typeof value !== undefined) {
+      if (typeof value !== "undefined") {
         token.attrs.push([`data-${dasherize(key)}`, value]);
       }
     });

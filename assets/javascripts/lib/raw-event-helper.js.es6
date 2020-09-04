@@ -59,7 +59,7 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
     .filter(Boolean)
     .forEach((setting) => {
       const param = camelCase(setting);
-      if (typeof eventModel.custom_fields[setting] !== undefined) {
+      if (typeof eventModel.custom_fields[setting] !== "undefined") {
         params[param] = eventModel.custom_fields[setting];
       }
     });
