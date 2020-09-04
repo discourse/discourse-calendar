@@ -562,7 +562,7 @@ after_initialize do
         next if !post_revision.modifications.present?
 
         # do no notify recipients when only updating tags
-        next if post_revision.modifications.keys == 'tags'
+        next if post_revision.modifications.keys == ['tags']
 
         ids = []
         post = post_revision.post
