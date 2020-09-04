@@ -1,7 +1,7 @@
 const calendarRule = {
   tag: "calendar",
 
-  before: function(state, info) {
+  before: function (state, info) {
     let wrapperDivToken = state.push("div_calendar_wrap", "div", 1);
     wrapperDivToken.attrs = [["class", "discourse-calendar-wrap"]];
 
@@ -25,13 +25,13 @@ const calendarRule = {
     mainCalendarDivToken.attrs = [
       ["class", "calendar"],
       ["data-calendar-type", info.attrs.type || "dynamic"],
-      ["data-calendar-default-timezone", info.attrs.defaultTimezone]
+      ["data-calendar-default-timezone", info.attrs.defaultTimezone],
     ];
 
     if (info.attrs.defaultView) {
       mainCalendarDivToken.attrs.push([
         "data-calendar-default-view",
-        info.attrs.defaultView
+        info.attrs.defaultView,
       ]);
     }
 
@@ -42,39 +42,39 @@ const calendarRule = {
     if (info.attrs.showAddToCalendar) {
       mainCalendarDivToken.attrs.push([
         "data-calendar-show-add-to-calendar",
-        info.attrs.showAddToCalendar === "true"
+        info.attrs.showAddToCalendar === "true",
       ]);
     }
 
     if (info.attrs.hiddenDays) {
       mainCalendarDivToken.attrs.push([
         "data-hidden-days",
-        info.attrs.hiddenDays
+        info.attrs.hiddenDays,
       ]);
     }
   },
 
-  after: function(state) {
+  after: function (state) {
     state.push("div_calendar", "div", -1);
     state.push("div_calendar_wrap", "div", -1);
-  }
+  },
 };
 
 const groupTimezoneRule = {
   tag: "timezones",
 
-  before: function(state, info) {
+  before: function (state, info) {
     const wrapperDivToken = state.push("div_group_timezones", "div", 1);
     wrapperDivToken.attrs = [
       ["class", "group-timezones"],
       ["data-group", info.attrs.group],
-      ["data-size", info.attrs.size || "medium"]
+      ["data-size", info.attrs.size || "medium"],
     ];
   },
 
-  after: function(state) {
+  after: function (state) {
     state.push("div_group_timezones", "div", -1);
-  }
+  },
 };
 
 function _renderTimezonePicker(state) {
@@ -99,7 +99,7 @@ export function setup(helper) {
     "div[data-hidden-days]",
     "div.group-timezones",
     "div[data-group]",
-    "div[data-size]"
+    "div[data-size]",
   ]);
 
   helper.registerOptions((opts, siteSettings) => {
@@ -108,7 +108,7 @@ export function setup(helper) {
     ] = !!siteSettings.calendar_enabled;
   });
 
-  helper.registerPlugin(md => {
+  helper.registerPlugin((md) => {
     const features = md.options.discourse.features;
     if (features["discourse-calendar-enabled"]) {
       md.block.bbcode.ruler.push("discourse-calendar", calendarRule);

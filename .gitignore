@@ -2,3 +2,6 @@
 gems/
 /node_modules
 .on-save.json
+node_modules
+yarn-error.log
+.rubocop-https---raw-githubusercontent-com-discourse-*

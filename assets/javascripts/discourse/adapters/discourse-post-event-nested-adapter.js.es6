@@ -9,10 +9,10 @@ export default DiscoursePostEventAdapter.extend({
     return ajax(
       this.pathFor(store, type, {
         post_id: record.post_id,
-        id: record.id
+        id: record.id,
       }),
       {
-        type: "DELETE"
+        type: "DELETE",
       }
     );
   },
@@ -25,7 +25,7 @@ export default DiscoursePostEventAdapter.extend({
     return ajax(
       this.pathFor(store, type, { id, post_id: attrs.post_id }),
       this.getPayload("PUT", data)
-    ).then(function(json) {
+    ).then(function (json) {
       return new Result(json[typeField], json);
     });
   },
@@ -37,7 +37,7 @@ export default DiscoursePostEventAdapter.extend({
     return ajax(
       this.pathFor(store, type, attrs),
       this.getPayload("POST", data)
-    ).then(function(json) {
+    ).then(function (json) {
       return new Result(json[typeField], json);
     });
   },
@@ -61,5 +61,5 @@ export default DiscoursePostEventAdapter.extend({
     }
 
     return this.appendQueryParams(path, findArgs);
-  }
+  },
 });

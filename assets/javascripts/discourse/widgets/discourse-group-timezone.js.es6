@@ -20,7 +20,7 @@ export default createWidget("discourse-group-timezone", {
 
   transform(attrs) {
     return {
-      formatedTime: attrs.groupedTimezone.nowWithOffset.format("LT")
+      formatedTime: attrs.groupedTimezone.nowWithOffset.format("LT"),
     };
   },
 
@@ -44,5 +44,5 @@ export default createWidget("discourse-group-timezone", {
         }}
       {{/each}}
     </ul>
-  `
+  `,
 });

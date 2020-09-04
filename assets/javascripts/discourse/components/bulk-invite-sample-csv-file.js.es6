@@ -8,11 +8,11 @@ export default Component.extend({
       ["my_awesome_group", "going"],
       ["lucy", "interested"],
       ["mark", "not_going"],
-      ["sam", "unknown"]
+      ["sam", "unknown"],
     ];
 
     let csv = "";
-    sampleData.forEach(row => {
+    sampleData.forEach((row) => {
       csv += row.join(",");
       csv += "\n";
     });
@@ -23,5 +23,5 @@ export default Component.extend({
     btn.rel = "noopener noreferrer";
     btn.download = "bulk-invite-sample.csv";
     btn.click();
-  }
+  },
 });

@@ -20,13 +20,13 @@ export default createWidget("discourse-group-timezones-member", {
       {
         attributes: {
           class: "group-timezones-member-avatar",
-          "data-user-card": username
-        }
+          "data-user-card": username,
+        },
       },
       avatarImg("small", {
         template: avatar_template,
-        username: name || formatUsername(username)
+        username: name || formatUsername(username),
       })
     );
-  }
+  },
 });

@@ -24,5 +24,5 @@ createWidgetFrom(DefaultNotificationItem, "event-reminder-notification-item", {
 
   icon(notificationName, data) {
     return iconNode(`notification.${data.message}`);
-  }
+  },
 });

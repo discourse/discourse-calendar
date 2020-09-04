@@ -46,5 +46,5 @@ export default {
     if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.40", initializeDecorateTopicTitle);
     }
-  }
+  },
 };

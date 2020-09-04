@@ -19,26 +19,26 @@ export default Controller.extend(ModalFunctionality, {
     this.set("bulkInviteStatuses", [
       {
         label: I18n.t("discourse_post_event.models.invitee.status.unknown"),
-        name: "unknown"
+        name: "unknown",
       },
       {
         label: I18n.t("discourse_post_event.models.invitee.status.going"),
-        name: "going"
+        name: "going",
       },
       {
         label: I18n.t("discourse_post_event.models.invitee.status.not_going"),
-        name: "not_going"
+        name: "not_going",
       },
       {
         label: I18n.t("discourse_post_event.models.invitee.status.interested"),
-        name: "interested"
-      }
+        name: "interested",
+      },
     ]);
   },
 
   onShow() {
     this.set("bulkInvites", [
-      EmberObject.create({ identifier: null, attendance: "unknown" })
+      EmberObject.create({ identifier: null, attendance: "unknown" }),
     ]);
   },
 
@@ -53,7 +53,7 @@ export default Controller.extend(ModalFunctionality, {
   setBulkInviteDisabled() {
     this.set(
       "bulkInviteDisabled",
-      this.bulkInvites.filter(x => isPresent(x.identifier)).length === 0
+      this.bulkInvites.filter((x) => isPresent(x.identifier)).length === 0
     );
   },
 
@@ -66,16 +66,16 @@ export default Controller.extend(ModalFunctionality, {
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify({
-          invitees: this.bulkInvites.filter(x => isPresent(x.identifier))
-        })
+          invitees: this.bulkInvites.filter((x) => isPresent(x.identifier)),
+        }),
       }
     )
-      .then(data => {
+      .then((data) => {
         if (data.success) {
           this.send("closeModal");
         }
       })
-      .catch(e => this.flash(extractError(e), "error"));
+      .catch((e) => this.flash(extractError(e), "error"));
   },
 
   @action
@@ -84,7 +84,7 @@ export default Controller.extend(ModalFunctionality, {
 
     if (!this.bulkInvites.length) {
       this.set("bulkInvites", [
-        EmberObject.create({ identifier: null, attendance: "unknown" })
+        EmberObject.create({ identifier: null, attendance: "unknown" }),
       ]);
     }
   },
@@ -104,5 +104,5 @@ export default Controller.extend(ModalFunctionality, {
         this.send("closeModal");
       }
     );
-  }
+  },
 });

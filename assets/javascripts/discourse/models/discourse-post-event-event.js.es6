@@ -11,14 +11,14 @@ const ATTRIBUTES = {
   status: {
     transform(value) {
       return STATUSES[value];
-    }
-  }
+    },
+  },
 };
 
 const STATUSES = {
   standalone: 0,
   public: 1,
-  private: 2
+  private: 2,
 };
 
 const Event = RestModel.extend({
@@ -33,7 +33,7 @@ const Event = RestModel.extend({
       type: "PUT",
       dataType: "json",
       contentType: "application/json",
-      data: JSON.stringify({ event: data })
+      data: JSON.stringify({ event: data }),
     });
   },
 
@@ -49,7 +49,7 @@ const Event = RestModel.extend({
 
   _transformProps(props) {
     const attributesKeys = Object.keys(ATTRIBUTES);
-    attributesKeys.forEach(key => {
+    attributesKeys.forEach((key) => {
       const attribute = ATTRIBUTES[key];
       if (attribute.transform) {
         props[key] = attribute.transform(props[key]);
@@ -63,7 +63,7 @@ const Event = RestModel.extend({
 
   beforeCreate(props) {
     this._transformProps(props);
-  }
+  },
 });
 
 export default Event;

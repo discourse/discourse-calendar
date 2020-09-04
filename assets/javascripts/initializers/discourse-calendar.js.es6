@@ -53,12 +53,12 @@ function initializeDiscourseCalendar(api) {
       const settings = Discourse.SiteSettings.calendar_categories
         .split("|")
         .filter(Boolean)
-        .map(stringSetting => {
+        .map((stringSetting) => {
           const data = {};
           stringSetting
             .split(";")
             .filter(Boolean)
-            .forEach(s => {
+            .forEach((s) => {
               const parts = s.split("=");
               data[parts[0]] = parts[1];
             });
@@ -81,7 +81,7 @@ function initializeDiscourseCalendar(api) {
           const options = [`postId=${postId}`];
 
           const optionals = ["weekends", "tzPicker", "defaultView"];
-          optionals.forEach(optional => {
+          optionals.forEach((optional) => {
             if (isPresent(categorySetting[optional])) {
               options.push(
                 `${optional}=${escapeExpression(categorySetting[optional])}`
@@ -92,7 +92,7 @@ function initializeDiscourseCalendar(api) {
           const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
           const cookRaw = cookAsync(rawCalendar);
           const loadPost = ajax(`/posts/${postId}.json`);
-          Promise.all([cookRaw, loadPost]).then(results => {
+          Promise.all([cookRaw, loadPost]).then((results) => {
             const cooked = results[0];
             const post = results[1];
             const $cooked = $(cooked.string);
@@ -106,23 +106,26 @@ function initializeDiscourseCalendar(api) {
 
   api.decorateCooked(attachCalendar, {
     onlyStream: true,
-    id: "discourse-calendar"
+    id: "discourse-calendar",
   });
 
   api.cleanupStream(cleanUp);
 
-  api.registerCustomPostMessageCallback("calendar_change", topicController => {
-    const stream = topicController.get("model.postStream");
-    const post = stream.findLoadedPost(stream.get("firstPostId"));
-    const $op = $(".topic-post article#post_1");
-    const $calendar = $op.find(".calendar").first();
+  api.registerCustomPostMessageCallback(
+    "calendar_change",
+    (topicController) => {
+      const stream = topicController.get("model.postStream");
+      const post = stream.findLoadedPost(stream.get("firstPostId"));
+      const $op = $(".topic-post article#post_1");
+      const $calendar = $op.find(".calendar").first();
 
-    if (post && $calendar.length > 0) {
-      ajax(`/posts/${post.id}.json`).then(post =>
-        loadFullCalendar().then(() => render($calendar, post))
-      );
+      if (post && $calendar.length > 0) {
+        ajax(`/posts/${post.id}.json`).then((post) =>
+          loadFullCalendar().then(() => render($calendar, post))
+        );
+      }
     }
-  });
+  );
 
   function render($calendar, post) {
     $calendar = $calendar.empty();
@@ -189,21 +192,21 @@ function initializeDiscourseCalendar(api) {
             month: "long",
             year: "numeric",
             day: "numeric",
-            weekday: "long"
-          }
-        }
+            weekday: "long",
+          },
+        },
       },
       header: {
         left: "prev,next today",
         center: "title",
-        right: "month,basicWeek,listNextYear"
+        right: "month,basicWeek,listNextYear",
       },
-      datesRender: info => {
+      datesRender: (info) => {
         if (showAddToCalendar) {
           _insertAddToCalendarLinks(info);
           $calendarTitle.innerText = info.view.title;
         }
-      }
+      },
     });
   }
 
@@ -223,18 +226,18 @@ function initializeDiscourseCalendar(api) {
 
     return {
       weeklyRecurring: html.attr("data-recurring") === "1.weeks",
-      dateTime: moment.tz(dateTime, timezone || "Etc/UTC")
+      dateTime: moment.tz(dateTime, timezone || "Etc/UTC"),
     };
   }
 
   function _buildEventObject(from, to) {
-    const hasTimeSpecified = d => {
+    const hasTimeSpecified = (d) => {
       return d.hours() !== 0 || d.minutes() !== 0 || d.seconds() !== 0;
     };
 
     let event = {
       start: from.dateTime.toDate(),
-      allDay: false
+      allDay: false,
     };
 
     if (to) {
@@ -252,7 +255,7 @@ function initializeDiscourseCalendar(api) {
       event.startTime = {
         hours: from.dateTime.hours(),
         minutes: from.dateTime.minutes(),
-        seconds: from.dateTime.seconds()
+        seconds: from.dateTime.seconds(),
       };
       event.daysOfWeek = [from.dateTime.isoWeekday()];
     }
@@ -266,9 +269,9 @@ function initializeDiscourseCalendar(api) {
       .html()
       .trim()
       .split("<br>")
-      .forEach(line => {
+      .forEach((line) => {
         const html = $.parseHTML(line);
-        const htmlDates = html.filter(h =>
+        const htmlDates = html.filter((h) =>
           $(h).hasClass("discourse-local-date")
         );
 
@@ -292,7 +295,7 @@ function initializeDiscourseCalendar(api) {
     if (hiddenDays) {
       calendar.setOption(
         "hiddenDays",
-        hiddenDays.split(",").map(d => parseInt(d))
+        hiddenDays.split(",").map((d) => parseInt(d))
       );
     }
 
@@ -327,13 +330,13 @@ function initializeDiscourseCalendar(api) {
       detail.from
         ? {
             dateTime: moment(detail.from),
-            weeklyRecurring: detail.recurring === "1.weeks"
+            weeklyRecurring: detail.recurring === "1.weeks",
           }
         : null,
       detail.to
         ? {
             dateTime: moment(detail.to),
-            weeklyRecurring: detail.recurring === "1.weeks"
+            weeklyRecurring: detail.recurring === "1.weeks",
           }
         : null
     );
@@ -358,7 +361,7 @@ function initializeDiscourseCalendar(api) {
       10
     );
 
-    const text = detail.message.split("\n").filter(e => e);
+    const text = detail.message.split("\n").filter((e) => e);
     if (
       text.length &&
       post.topic_id &&
@@ -388,7 +391,7 @@ function initializeDiscourseCalendar(api) {
 
     Object.keys(detail.localEvents)
       .sort()
-      .forEach(key => {
+      .forEach((key) => {
         const localEvent = detail.localEvents[key];
         htmlContent += `<b>${key}</b>: ${localEvent.usernames
           .sort()
@@ -428,7 +431,7 @@ function initializeDiscourseCalendar(api) {
   function _setDynamicCalendarEvents(calendar, post) {
     const groupedEvents = [];
 
-    (post.calendar_details || []).forEach(detail => {
+    (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
         case "grouped":
           groupedEvents.push(detail);
@@ -440,7 +443,7 @@ function initializeDiscourseCalendar(api) {
     });
 
     const formatedGroupedEvents = {};
-    groupedEvents.forEach(groupedEvent => {
+    groupedEvents.forEach((groupedEvent) => {
       const minDate = moment(groupedEvent.from)
         .utc()
         .startOf("day")
@@ -454,13 +457,13 @@ function initializeDiscourseCalendar(api) {
       formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
         from: minDate,
         to: maxDate || minDate,
-        localEvents: {}
+        localEvents: {},
       };
 
       formatedGroupedEvents[identifier].localEvents[
         groupedEvent.name
       ] = formatedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
-        usernames: []
+        usernames: [],
       };
 
       formatedGroupedEvents[identifier].localEvents[
@@ -472,7 +475,7 @@ function initializeDiscourseCalendar(api) {
       );
     });
 
-    Object.keys(formatedGroupedEvents).forEach(key => {
+    Object.keys(formatedGroupedEvents).forEach((key) => {
       const formatedGroupedEvent = formatedGroupedEvents[key];
       _addGroupedEvent(calendar, post, formatedGroupedEvent);
     });
@@ -496,12 +499,12 @@ function initializeDiscourseCalendar(api) {
     let $timezonePicker = $(".discourse-calendar-timezone-picker");
 
     if ($timezonePicker.length) {
-      $timezonePicker.on("change", function(event) {
+      $timezonePicker.on("change", function (event) {
         calendar.setOption("timeZone", event.target.value);
         _insertAddToCalendarLinks(calendar);
       });
 
-      moment.tz.names().forEach(timezone => {
+      moment.tz.names().forEach((timezone) => {
         $timezonePicker.append(new Option(timezone, timezone));
       });
 
@@ -551,17 +554,13 @@ function initializeDiscourseCalendar(api) {
   function _formatDateForGoogleApi(date, allDay = false) {
     if (!allDay) return date.toISOString().replace(/-|:|\.\d\d\d/g, "");
 
-    return moment(date)
-      .utc()
-      .format("YYYYMMDD");
+    return moment(date).utc().format("YYYYMMDD");
   }
 
   function _endDateForAllDayEvent(startDate, allDay) {
     const unit = allDay ? "days" : "hours";
     return _formatDateForGoogleApi(
-      moment(startDate)
-        .add(1, unit)
-        .toDate(),
+      moment(startDate).add(1, unit).toDate(),
       allDay
     );
   }
@@ -584,5 +583,5 @@ export default {
     if (siteSettings.calendar_enabled) {
       withPluginApi("0.8.22", initializeDiscourseCalendar);
     }
-  }
+  },
 };

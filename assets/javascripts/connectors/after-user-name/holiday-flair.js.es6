@@ -14,7 +14,7 @@ export default {
   setupComponent(args, component) {
     component.setProperties({
       holidayEmojiName: `:${HOLIDAY_EMOJI_NAME}:`,
-      holidayEmoji: emojiUrlFor(HOLIDAY_EMOJI_NAME)
+      holidayEmoji: emojiUrlFor(HOLIDAY_EMOJI_NAME),
     });
-  }
+  },
 };

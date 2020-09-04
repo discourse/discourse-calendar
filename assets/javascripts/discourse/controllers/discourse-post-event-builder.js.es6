@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import TextLib from "discourse/lib/text";
 import Group from "discourse/models/group";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
@@ -23,7 +24,7 @@ export default Controller.extend(ModalFunctionality, {
       "every_day",
       "every_month",
       "every_weekday",
-      "every_week"
+      "every_week",
     ]);
   },
 
@@ -32,12 +33,12 @@ export default Controller.extend(ModalFunctionality, {
       return this.model.eventModel.isNew
         ? "create_event_title"
         : "update_event_title";
-    }
+    },
   }),
 
   allowedCustomFields: computed(
     "siteSettings.discourse_post_event_allowed_custom_fields",
-    function() {
+    function () {
       return this.siteSettings.discourse_post_event_allowed_custom_fields
         .split("|")
         .filter(Boolean);
@@ -65,7 +66,7 @@ export default Controller.extend(ModalFunctionality, {
     if (newStatus === "private") {
       this.setRawInvitees(
         null,
-        this.model.eventModel.raw_invitees.filter(x => x !== "trust_level_0")
+        this.model.eventModel.raw_invitees.filter((x) => x !== "trust_level_0")
       );
     }
     this.set("model.eventModel.status", newStatus);
@@ -97,7 +98,7 @@ export default Controller.extend(ModalFunctionality, {
       return this.model.eventModel.starts_at
         ? moment(this.model.eventModel.starts_at)
         : moment();
-    }
+    },
   }),
 
   endsAt: computed("model.eventModel.ends_at", {
@@ -105,7 +106,7 @@ export default Controller.extend(ModalFunctionality, {
       return (
         this.model.eventModel.ends_at && moment(this.model.eventModel.ends_at)
       );
-    }
+    },
   }),
 
   standaloneEvent: equal("model.eventModel.status", "standalone"),
@@ -116,7 +117,7 @@ export default Controller.extend(ModalFunctionality, {
   onChangeDates(changes) {
     this.model.eventModel.setProperties({
       starts_at: changes.from,
-      ends_at: changes.to
+      ends_at: changes.to,
     });
   },
 
@@ -126,27 +127,27 @@ export default Controller.extend(ModalFunctionality, {
       I18n.t("discourse_post_event.builder_modal.confirm_delete"),
       I18n.t("no_value"),
       I18n.t("yes_value"),
-      confirmed => {
+      (confirmed) => {
         if (confirmed) {
           return this.store
             .find("post", this.model.eventModel.id)
-            .then(post => {
+            .then((post) => {
               const raw = post.raw;
               const newRaw = this._removeRawEvent(raw);
               const props = {
                 raw: newRaw,
-                edit_reason: I18n.t("discourse_post_event.destroy_event")
+                edit_reason: I18n.t("discourse_post_event.destroy_event"),
               };
 
-              return TextLib.cookAsync(newRaw).then(cooked => {
+              return TextLib.cookAsync(newRaw).then((cooked) => {
                 props.cooked = cooked.string;
                 return post
                   .save(props)
-                  .catch(e => this.flash(extractError(e), "error"))
-                  .then(result => result && this.send("closeModal"));
+                  .catch((e) => this.flash(extractError(e), "error"))
+                  .then((result) => result && this.send("closeModal"));
               });
             })
-            .catch(e => this.flash(extractError(e), "error"));
+            .catch((e) => this.flash(extractError(e), "error"));
         }
       }
     );
@@ -166,7 +167,7 @@ export default Controller.extend(ModalFunctionality, {
       this.siteSettings
     );
     const markdownParams = [];
-    Object.keys(eventParams).forEach(key => {
+    Object.keys(eventParams).forEach((key) => {
       let value = eventParams[key];
       markdownParams.push(`${key}="${value}"`);
     });
@@ -177,7 +178,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   updateEvent() {
-    return this.store.find("post", this.model.eventModel.id).then(post => {
+    return this.store.find("post", this.model.eventModel.id).then((post) => {
       const raw = post.raw;
       const eventParams = buildParams(
         this.startsAt,
@@ -191,15 +192,15 @@ export default Controller.extend(ModalFunctionality, {
       if (newRaw) {
         const props = {
           raw: newRaw,
-          edit_reason: I18n.t("discourse_post_event.edit_reason")
+          edit_reason: I18n.t("discourse_post_event.edit_reason"),
         };
 
-        return TextLib.cookAsync(newRaw).then(cooked => {
+        return TextLib.cookAsync(newRaw).then((cooked) => {
           props.cooked = cooked.string;
           return post
             .save(props)
-            .catch(e => this.flash(extractError(e), "error"))
-            .then(result => result && this.send("closeModal"));
+            .catch((e) => this.flash(extractError(e), "error"))
+            .then((result) => result && this.send("closeModal"));
         });
       }
     });
@@ -208,5 +209,5 @@ export default Controller.extend(ModalFunctionality, {
   _removeRawEvent(raw) {
     const eventRegex = new RegExp(`\\[event\\s(.*?)\\]\\n\\[\\/event\\]`, "m");
     return raw.replace(eventRegex, "");
-  }
+  },
 });

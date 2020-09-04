@@ -4,7 +4,7 @@ import { htmlHelper } from "discourse-common/lib/helpers";
 import { htmlSafe } from "@ember/template";
 import { formatUsername } from "discourse/lib/utilities";
 
-export default htmlHelper(invitee => {
+export default htmlHelper((invitee) => {
   const path = userPath(invitee.user.username);
   const template = `
     <a href="${path}" data-user-card="${invitee.user.username}">

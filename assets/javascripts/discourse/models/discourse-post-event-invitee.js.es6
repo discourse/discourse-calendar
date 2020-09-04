@@ -5,5 +5,5 @@ export default RestModel.extend({
     this._super(...arguments);
 
     this.__type = "discourse-post-event-invitee";
-  }
+  },
 });

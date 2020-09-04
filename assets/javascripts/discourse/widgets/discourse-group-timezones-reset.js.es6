@@ -18,7 +18,7 @@ export default createWidget("discourse-group-timezones-reset", {
 
   transform(attrs) {
     return {
-      isDisabled: attrs.localTimeOffset === 0
+      isDisabled: attrs.localTimeOffset === 0,
     };
   },
 
@@ -31,5 +31,5 @@ export default createWidget("discourse-group-timezones-reset", {
         icon="undo"
       )
     }}
-  `
+  `,
 });

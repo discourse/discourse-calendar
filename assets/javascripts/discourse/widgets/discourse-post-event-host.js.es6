@@ -14,20 +14,20 @@ export default createWidget("discourse-post-event-creator", {
       {
         attributes: {
           class: "topic-invitee-avatar",
-          "data-user-card": username
-        }
+          "data-user-card": username,
+        },
       },
       [
         avatarImg("tiny", {
           template: avatar_template,
-          username: name || formatUsername(username)
+          username: name || formatUsername(username),
         }),
         h(
           "span",
           { attributes: { class: "username" } },
           name || formatUsername(username)
-        )
+        ),
       ]
     );
-  }
+  },
 });

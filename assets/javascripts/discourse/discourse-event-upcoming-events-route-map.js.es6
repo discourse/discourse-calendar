@@ -1,8 +1,8 @@
-export default function() {
+export default function () {
   this.route(
     "discourse-post-event-upcoming-events",
     { path: "/upcoming-events" },
-    function() {
+    function () {
       this.route("index", { path: "/" });
     }
   );

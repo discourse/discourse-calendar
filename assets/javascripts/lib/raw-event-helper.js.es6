@@ -2,13 +2,9 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
   const params = {};
 
   if (startsAt) {
-    params.start = moment(startsAt)
-      .utc()
-      .format("YYYY-MM-DD HH:mm");
+    params.start = moment(startsAt).utc().format("YYYY-MM-DD HH:mm");
   } else {
-    params.start = moment()
-      .utc()
-      .format("YYYY-MM-DD HH:mm");
+    params.start = moment().utc().format("YYYY-MM-DD HH:mm");
   }
 
   if (eventModel.status) {
@@ -28,9 +24,7 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
   }
 
   if (endsAt) {
-    params.end = moment(endsAt)
-      .utc()
-      .format("YYYY-MM-DD HH:mm");
+    params.end = moment(endsAt).utc().format("YYYY-MM-DD HH:mm");
   }
 
   if (eventModel.status === "private") {
@@ -43,7 +37,7 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
 
   if (eventModel.reminders && eventModel.reminders.length) {
     params.reminders = eventModel.reminders
-      .map(r => {
+      .map((r) => {
         // we create a new intermediate object to avoid changes in the UI while
         // we prepare the values for request
         const reminder = Object.assign({}, r);
@@ -63,7 +57,7 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
   siteSettings.discourse_post_event_allowed_custom_fields
     .split("|")
     .filter(Boolean)
-    .forEach(setting => {
+    .forEach((setting) => {
       const param = camelCase(setting);
       if (typeof eventModel.custom_fields[setting] !== undefined) {
         params[param] = eventModel.custom_fields[setting];
@@ -79,7 +73,7 @@ export function replaceRaw(params, raw) {
 
   if (eventMatches && eventMatches[1]) {
     const markdownParams = [];
-    Object.keys(params).forEach(param => {
+    Object.keys(params).forEach((param) => {
       const value = params[param];
       if (value && value.length) {
         markdownParams.push(`${param}="${params[param]}"`);
@@ -93,7 +87,7 @@ export function replaceRaw(params, raw) {
 }
 
 function camelCase(input) {
-  return input.toLowerCase().replace(/-(.)/g, function(match, group1) {
+  return input.toLowerCase().replace(/-(.)/g, function (match, group1) {
     return group1.toUpperCase();
   });
 }

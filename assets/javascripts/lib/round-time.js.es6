@@ -1,13 +1,13 @@
 // https://github.com/WebDevTmas/moment-round
 if (typeof moment.fn.round !== "function") {
-  moment.fn.round = function(precision, key, direction) {
+  moment.fn.round = function (precision, key, direction) {
     direction = direction || "round";
     var _this = this; //cache of this
     var methods = {
       hours: { name: "Hours", maxValue: 24 },
       minutes: { name: "Minutes", maxValue: 60 },
       seconds: { name: "Seconds", maxValue: 60 },
-      milliseconds: { name: "Milliseconds", maxValue: 1000 }
+      milliseconds: { name: "Milliseconds", maxValue: 1000 },
     };
     var keys = {
       mm: methods.milliseconds.name,
@@ -22,7 +22,7 @@ if (typeof moment.fn.round !== "function") {
       H: methods.hours.name,
       h: methods.hours.name,
       hours: methods.hours.name,
-      Hours: methods.hours.name
+      Hours: methods.hours.name,
     };
     var value = 0;
     var rounded = false;
@@ -66,13 +66,13 @@ if (typeof moment.fn.round !== "function") {
 }
 
 if (typeof moment.fn.ceil !== "function") {
-  moment.fn.ceil = function(precision, key) {
+  moment.fn.ceil = function (precision, key) {
     return this.round(precision, key, "ceil");
   };
 }
 
 if (typeof moment.fn.floor !== "function") {
-  moment.fn.floor = function(precision, key) {
+  moment.fn.floor = function (precision, key) {
     return this.round(precision, key, "floor");
   };
 }

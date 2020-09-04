@@ -3,5 +3,5 @@ import DiscoursePostEventNestedAdapter from "./discourse-post-event-nested-adapt
 export default DiscoursePostEventNestedAdapter.extend({
   apiNameFor() {
     return "reminder";
-  }
+  },
 });

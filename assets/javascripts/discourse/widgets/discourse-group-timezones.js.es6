@@ -5,7 +5,7 @@ import roundTime from "discourse/plugins/discourse-calendar/lib/round-time";
 export default createWidget("discourse-group-timezones", {
   tagName: "div.group-timezones",
 
-  buildKey: attrs => `group-timezones-${attrs.id}`,
+  buildKey: (attrs) => `group-timezones-${attrs.id}`,
 
   buildClasses(attrs) {
     return attrs.size;
@@ -13,13 +13,13 @@ export default createWidget("discourse-group-timezones", {
 
   buildAttributes(attrs) {
     return {
-      id: attrs.id
+      id: attrs.id,
     };
   },
 
   defaultState() {
     return {
-      localTimeOffset: 0
+      localTimeOffset: 0,
     };
   },
 
@@ -31,7 +31,7 @@ export default createWidget("discourse-group-timezones", {
     const members = attrs.members || [];
     let groupedTimezones = [];
 
-    members.filterBy("timezone").forEach(member => {
+    members.filterBy("timezone").forEach((member) => {
       if (this._shouldAddMemberToGroup(this.state.filter, member)) {
         const timezone = member.timezone;
         const identifier = parseInt(moment.tz(timezone).format("YYYYMDHm"), 10);
@@ -52,7 +52,7 @@ export default createWidget("discourse-group-timezones", {
             closeToWorkingHours: this._closeToWorkingHours(now, workingDays),
             inWorkingHours: this._inWorkingHours(now, workingDays),
             utcOffset: this._utcOffset(offset),
-            members: [member]
+            members: [member],
           };
           groupedTimezones.push(groupedTimezone);
         }
@@ -61,7 +61,7 @@ export default createWidget("discourse-group-timezones", {
 
     groupedTimezones = groupedTimezones
       .sortBy("offset")
-      .filter(g => g.members.length);
+      .filter((g) => g.members.length);
 
     let newDayIndex;
     groupedTimezones.forEach((groupedTimezone, index) => {
@@ -81,7 +81,7 @@ export default createWidget("discourse-group-timezones", {
         beforeDate: groupedTimezones[newDayIndex - 1].nowWithOffset.format(
           "dddd"
         ),
-        afterDate: groupedTimezones[newDayIndex].nowWithOffset.format("dddd")
+        afterDate: groupedTimezones[newDayIndex].nowWithOffset.format("dddd"),
       });
     }
 
@@ -175,11 +175,11 @@ export default createWidget("discourse-group-timezones", {
 
   _workingDays() {
     const enMoment = moment().locale("en");
-    const getIsoWeekday = day =>
+    const getIsoWeekday = (day) =>
       enMoment.localeData()._weekdays.indexOf(day) || 7;
     return this.siteSettings.working_days
       .split("|")
       .filter(Boolean)
-      .map(x => getIsoWeekday(x));
-  }
+      .map((x) => getIsoWeekday(x));
+  },
 });

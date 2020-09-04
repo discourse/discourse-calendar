@@ -13,7 +13,7 @@ export default createWidget("discourse-group-timezones-time-traveler", {
     }
 
     return {
-      localTimeWithOffset: date.format("HH:mm")
+      localTimeWithOffset: date.format("HH:mm"),
     };
   },
 
@@ -31,5 +31,5 @@ export default createWidget("discourse-group-timezones-time-traveler", {
         localTimeOffset=attrs.localTimeOffset
       )
     }}
-  `
+  `,
 });

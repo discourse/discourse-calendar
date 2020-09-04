@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import TextLib from "discourse/lib/text";
 import { exportEntity } from "discourse/lib/export-csv";
 import { emojiUnescape } from "discourse/lib/text";
@@ -14,7 +15,7 @@ import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
 
-  buildKey: attrs => `discourse-post-event-${attrs.id}`,
+  buildKey: (attrs) => `discourse-post-event-${attrs.id}`,
 
   buildClasses() {
     if (this.state.event) {
@@ -23,9 +24,9 @@ export default createWidget("discourse-post-event", {
   },
 
   inviteUserOrGroup(postId) {
-    this.store.find("discourse-post-event-event", postId).then(eventModel => {
+    this.store.find("discourse-post-event-event", postId).then((eventModel) => {
       showModal("discourse-post-event-invite-user-or-group", {
-        model: eventModel
+        model: eventModel,
       });
     });
   },
@@ -36,21 +37,21 @@ export default createWidget("discourse-post-event", {
     const extraClass = params.extraClass || "invited";
     const name = "discourse-post-event-invitees";
 
-    this.store.find("discourse-post-event-event", postId).then(eventModel => {
+    this.store.find("discourse-post-event-event", postId).then((eventModel) => {
       showModal(name, {
         model: eventModel,
         title: `discourse_post_event.invitees_modal.${title}`,
         modalClass: [`${dasherize(name).toLowerCase()}-modal`, extraClass].join(
           " "
-        )
+        ),
       });
     });
   },
 
   editPostEvent(postId) {
-    this.store.find("discourse-post-event-event", postId).then(eventModel => {
+    this.store.find("discourse-post-event-event", postId).then((eventModel) => {
       showModal("discourse-post-event-builder", {
-        model: { eventModel, topicId: eventModel.post.topic.id }
+        model: { eventModel, topicId: eventModel.post.topic.id },
       });
     });
   },
@@ -60,9 +61,9 @@ export default createWidget("discourse-post-event", {
       I18n.t("discourse_post_event.builder_modal.confirm_close"),
       I18n.t("no_value"),
       I18n.t("yes_value"),
-      confirmed => {
+      (confirmed) => {
         if (confirmed) {
-          return this.store.find("post", eventModel.id).then(post => {
+          return this.store.find("post", eventModel.id).then((post) => {
             const raw = post.raw;
             const startsAt = eventModel.starts_at
               ? moment(eventModel.starts_at)
@@ -80,10 +81,10 @@ export default createWidget("discourse-post-event", {
             if (newRaw) {
               const props = {
                 raw: newRaw,
-                edit_reason: I18n.t("discourse_post_event.edit_reason")
+                edit_reason: I18n.t("discourse_post_event.edit_reason"),
               };
 
-              return TextLib.cookAsync(newRaw).then(cooked => {
+              return TextLib.cookAsync(newRaw).then((cooked) => {
                 props.cooked = cooked.string;
                 return post.save(props);
               });
@@ -110,20 +111,20 @@ export default createWidget("discourse-post-event", {
 
   defaultState(attrs) {
     return {
-      eventModel: attrs.eventModel
+      eventModel: attrs.eventModel,
     };
   },
 
   exportPostEvent(postId) {
     exportEntity("post_event", {
       name: "post_event",
-      id: postId
+      id: postId,
     });
   },
 
   bulkInvite(eventModel) {
     showModal("discourse-post-event-bulk-invite", {
-      model: { eventModel }
+      model: { eventModel },
     });
   },
 
@@ -169,7 +170,7 @@ export default createWidget("discourse-post-event", {
       isStandaloneEvent: eventModel.status === "standalone",
       canActOnEvent:
         this.currentUser &&
-        this.state.eventModel.can_act_on_discourse_post_event
+        this.state.eventModel.can_act_on_discourse_post_event,
     };
   },
 
@@ -261,5 +262,5 @@ export default createWidget("discourse-post-event", {
     }
 
     return topicTitle;
-  }
+  },
 });

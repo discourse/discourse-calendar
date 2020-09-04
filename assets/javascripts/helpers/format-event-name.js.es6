@@ -4,4 +4,4 @@ export function formatEventName(event) {
   return event.name || event.post.topic.title;
 }
 
-export default htmlHelper(event => formatEventName(event));
+export default htmlHelper((event) => formatEventName(event));
