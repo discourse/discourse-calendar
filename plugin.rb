@@ -558,6 +558,12 @@ after_initialize do
 
     if respond_to?(:add_post_revision_notifier_recipients)
       add_post_revision_notifier_recipients do |post_revision|
+        # next if no modifications
+        next if !post_revision.modifications.present?
+
+        # do no notify recipients when only updating tags
+        next if post_revision.modifications.keys == 'tags'
+
         ids = []
         post = post_revision.post
 
