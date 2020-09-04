@@ -14,11 +14,11 @@ export default createWidget("discourse-post-event-url", {
           attributes: {
             href: attrs.url,
             target: "_blank",
-            rel: "noopener noreferrer"
-          }
+            rel: "noopener noreferrer",
+          },
         },
         attrs.url
-      )
+      ),
     ];
-  }
+  },
 });

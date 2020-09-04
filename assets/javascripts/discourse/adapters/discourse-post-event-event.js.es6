@@ -11,5 +11,5 @@ export default DiscoursePostEventAdapter.extend({
 
   apiNameFor() {
     return "event";
-  }
+  },
 });

@@ -4,7 +4,7 @@ import showModal from "discourse/lib/show-modal";
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
 
-  api.addToolbarPopupMenuOptionsCallback(composerController => {
+  api.addToolbarPopupMenuOptionsCallback((composerController) => {
     if (!currentUser || !currentUser.can_create_discourse_post_event) {
       return;
     }
@@ -24,7 +24,7 @@ function initializeEventBuilder(api) {
         id: "insertEvent",
         group: "insertions",
         icon: "calendar-day",
-        action: "insertEvent"
+        action: "insertEvent",
       };
     }
   });
@@ -40,10 +40,10 @@ function initializeEventBuilder(api) {
 
         showModal("discourse-post-event-builder").setProperties({
           toolbarEvent: this.toolbarEvent,
-          model: { eventModel }
+          model: { eventModel },
         });
-      }
-    }
+      },
+    },
   });
 }
 
@@ -55,5 +55,5 @@ export default {
     if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.7", initializeEventBuilder);
     }
-  }
+  },
 };

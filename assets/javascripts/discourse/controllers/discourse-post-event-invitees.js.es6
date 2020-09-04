@@ -28,9 +28,9 @@ export default Controller.extend(ModalFunctionality, {
     this.store
       .findAll("discourse-post-event-invitee", {
         filter,
-        post_id: this.model.id
+        post_id: this.model.id,
       })
-      .then(invitees => this.set("invitees", invitees))
+      .then((invitees) => this.set("invitees", invitees))
       .finally(() => this.set("isLoading", false));
-  }
+  },
 });

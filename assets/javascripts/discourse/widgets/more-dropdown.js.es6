@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import { createWidget } from "discourse/widgets/widget";
 import hbs from "discourse/widgets/hbs-compiler";
 
@@ -9,8 +10,8 @@ export default createWidget("more-dropdown", {
   transform(attrs) {
     return {
       content: this._buildContent(attrs),
-      onChange: item => this.sendWidgetAction(item.id, item.param),
-      options: {}
+      onChange: (item) => this.sendWidgetAction(item.id, item.param),
+      options: {},
     };
   },
 
@@ -42,7 +43,7 @@ export default createWidget("more-dropdown", {
       content.push({
         id: "addToCalendar",
         icon: "file",
-        label: "discourse_post_event.event_ui.add_to_calendar"
+        label: "discourse_post_event.event_ui.add_to_calendar",
       });
     }
 
@@ -53,7 +54,7 @@ export default createWidget("more-dropdown", {
         translatedLabel: I18n.t(
           "discourse_post_event.event_ui.send_pm_to_creator",
           { username: attrs.eventModel.creator.username }
-        )
+        ),
       });
     }
 
@@ -62,7 +63,7 @@ export default createWidget("more-dropdown", {
         id: "inviteUserOrGroup",
         icon: "user-plus",
         label: "discourse_post_event.event_ui.invite",
-        param: attrs.eventModel.id
+        param: attrs.eventModel.id,
       });
     }
 
@@ -73,7 +74,7 @@ export default createWidget("more-dropdown", {
         icon: "file-csv",
         id: "exportPostEvent",
         label: "discourse_post_event.event_ui.export_event",
-        param: attrs.eventModel.id
+        param: attrs.eventModel.id,
       });
 
       if (!attrs.eventModel.is_expired && !attrs.eventModel.is_standalone) {
@@ -81,7 +82,7 @@ export default createWidget("more-dropdown", {
           icon: "file-upload",
           id: "bulkInvite",
           label: "discourse_post_event.event_ui.bulk_invite",
-          param: attrs.eventModel
+          param: attrs.eventModel,
         });
       }
 
@@ -89,7 +90,7 @@ export default createWidget("more-dropdown", {
         icon: "pencil-alt",
         id: "editPostEvent",
         label: "discourse_post_event.event_ui.edit_event",
-        param: attrs.eventModel.id
+        param: attrs.eventModel.id,
       });
 
       if (!attrs.eventModel.is_expired) {
@@ -98,11 +99,11 @@ export default createWidget("more-dropdown", {
           id: "closeEvent",
           label: "discourse_post_event.event_ui.close_event",
           class: "danger",
-          param: attrs.eventModel
+          param: attrs.eventModel,
         });
       }
     }
 
     return content;
-  }
+  },
 });

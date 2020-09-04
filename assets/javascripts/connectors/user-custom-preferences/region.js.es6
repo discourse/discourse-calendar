@@ -15,11 +15,11 @@ export default {
           "custom_fields.holidays-region",
           TIME_ZONE_TO_REGION[moment.tz.guess()] || "us"
         );
-      }
+      },
     });
   },
 
   shouldRender(args, component) {
     return component.siteSettings.calendar_enabled;
-  }
+  },
 };

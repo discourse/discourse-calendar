@@ -15,7 +15,7 @@ export default createWidget("discourse-group-timezones-slider", {
   changeOffsetThrottler(offset) {
     throttle(
       this,
-      function() {
+      function () {
         this.sendWidgetAction("onChangeCurrentUserTimeOffset", offset);
       },
       75
@@ -28,7 +28,7 @@ export default createWidget("discourse-group-timezones-slider", {
       value: 0,
       min: -48,
       max: 48,
-      type: "range"
+      type: "range",
     };
   },
 
@@ -36,5 +36,5 @@ export default createWidget("discourse-group-timezones-slider", {
     const value = parseInt(event.target.value, 10);
     const offset = value * 15;
     this.changeOffsetThrottler(offset);
-  }
+  },
 });

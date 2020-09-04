@@ -20,9 +20,9 @@ export default Controller.extend(ModalFunctionality, {
   invite() {
     return ajax(`/discourse-post-event/events/${this.model.id}/invite.json`, {
       data: { invites: this.invitedNames || [] },
-      type: "POST"
+      type: "POST",
     })
       .then(() => this.send("closeModal"))
-      .catch(e => this.flash(extractError(e), "error"));
-  }
+      .catch((e) => this.flash(extractError(e), "error"));
+  },
 });

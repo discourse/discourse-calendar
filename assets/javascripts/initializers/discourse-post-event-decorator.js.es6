@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 import { cookAsync } from "discourse/lib/text";
 import WidgetGlue from "discourse/widgets/glue";
@@ -13,8 +14,9 @@ function _validEventPreview(eventContainer) {
   eventContainer.innerHTML = "";
   eventContainer.classList.add("discourse-post-event-preview");
 
-  const statusLocaleKey = `discourse_post_event.models.event.status.${eventContainer
-    .dataset.status || "public"}.title`;
+  const statusLocaleKey = `discourse_post_event.models.event.status.${
+    eventContainer.dataset.status || "public"
+  }.title`;
   if (I18n.lookup(statusLocaleKey, { locale: "en" })) {
     const statusContainer = document.createElement("div");
     statusContainer.classList.add("event-preview-status");
@@ -74,7 +76,7 @@ function _decorateEventPreview(api, cooked) {
 let _glued = [];
 
 function cleanUp() {
-  _glued.forEach(g => g.cleanUp());
+  _glued.forEach((g) => g.cleanUp());
   _glued = [];
 }
 
@@ -139,14 +141,14 @@ function _attachWidget(api, cooked, eventModel) {
         );
       }
 
-      cookAsync(dates.join("<span> → </span>")).then(result => {
+      cookAsync(dates.join("<span> → </span>")).then((result) => {
         eventContainer.classList.remove("is-loading");
         eventContainer.classList.add("is-loaded");
 
         const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
           eventModel,
           widgetHeight,
-          localDates: $(result.string).html()
+          localDates: $(result.string).html(),
         });
 
         glue.appendTo(glueContainer);
@@ -168,7 +170,7 @@ function _attachWidget(api, cooked, eventModel) {
       const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
         eventModel,
         widgetHeight,
-        localDates
+        localDates,
       });
 
       glue.appendTo(glueContainer);
@@ -199,7 +201,7 @@ function initializeDiscoursePostEventDecorator(api) {
       }
     },
     {
-      id: "discourse-post-event-decorator"
+      id: "discourse-post-event-decorator",
     }
   );
 
@@ -244,7 +246,7 @@ function initializeDiscoursePostEventDecorator(api) {
 
       this.messageBus.subscribe(
         "/discourse-post-event/" + this.get("model.id"),
-        msg => {
+        (msg) => {
           const postNode = document.querySelector(
             `.onscreen-post[data-post-id="${msg.id}"] .cooked`
           );
@@ -252,7 +254,7 @@ function initializeDiscoursePostEventDecorator(api) {
           if (postNode) {
             this.store
               .find("discourse-post-event-event", msg.id)
-              .then(eventModel => _decorateEvent(api, postNode, eventModel))
+              .then((eventModel) => _decorateEvent(api, postNode, eventModel))
               .catch(() => _decorateEvent(api, postNode));
           }
         }
@@ -261,7 +263,7 @@ function initializeDiscoursePostEventDecorator(api) {
     unsubscribe() {
       this.messageBus.unsubscribe("/discourse-post-event/*");
       this._super(...arguments);
-    }
+    },
   });
 }
 
@@ -273,5 +275,5 @@ export default {
     if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.7", initializeDiscoursePostEventDecorator);
     }
-  }
+  },
 };

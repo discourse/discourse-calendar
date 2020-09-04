@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import { isPresent } from "@ember/utils";
 import { h } from "virtual-dom";
 import { avatarImg } from "discourse/widgets/post";
@@ -43,8 +44,8 @@ export default createWidget("discourse-post-event-invitee", {
     const avatarContent = [
       avatarImg(this.site.mobileView ? "tiny" : "large", {
         template: avatar_template,
-        username: name || formatUsername(username)
-      })
+        username: name || formatUsername(username),
+      }),
     ];
 
     if (statusIcon) {
@@ -53,7 +54,7 @@ export default createWidget("discourse-post-event-invitee", {
           primary_group_name: I18n.t(
             `discourse_post_event.models.invitee.status.${attrs.invitee.status}`
           ),
-          primary_group_flair_url: statusIcon
+          primary_group_flair_url: statusIcon,
         })
       );
     }
@@ -62,10 +63,10 @@ export default createWidget("discourse-post-event-invitee", {
       {
         attributes: {
           class: "topic-invitee-avatar",
-          "data-user-card": username
-        }
+          "data-user-card": username,
+        },
       },
       avatarContent
     );
-  }
+  },
 });

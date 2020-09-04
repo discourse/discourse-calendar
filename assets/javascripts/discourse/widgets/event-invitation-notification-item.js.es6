@@ -27,6 +27,6 @@ createWidgetFrom(
 
     icon(notificationName, data) {
       return iconNode(`notification.${data.message}`);
-    }
+    },
   }
 );

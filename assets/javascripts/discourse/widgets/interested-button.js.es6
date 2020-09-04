@@ -13,5 +13,5 @@ export default createWidget("interested-button", {
     <span class="label">
       {{i18n "discourse_post_event.models.invitee.status.interested"}}
     </span>
-  `
+  `,
 });

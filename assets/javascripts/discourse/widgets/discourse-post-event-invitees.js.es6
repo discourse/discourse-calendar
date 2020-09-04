@@ -6,7 +6,7 @@ export default createWidget("discourse-post-event-invitees", {
 
   transform(attrs) {
     return {
-      isPrivateEvent: attrs.eventModel.status === "private"
+      isPrivateEvent: attrs.eventModel.status === "private",
     };
   },
 
@@ -39,5 +39,5 @@ export default createWidget("discourse-post-event-invitees", {
         }}
       {{/each}}
     </ul>
-  `
+  `,
 });

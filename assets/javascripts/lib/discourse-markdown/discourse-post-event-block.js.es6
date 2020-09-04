@@ -8,7 +8,7 @@ const rule = {
 
     token.attrs = [["class", "discourse-post-event"]];
 
-    Object.keys(info.attrs).forEach(key => {
+    Object.keys(info.attrs).forEach((key) => {
       const value = info.attrs[key];
 
       if (typeof value !== undefined) {
@@ -17,11 +17,11 @@ const rule = {
     });
 
     return true;
-  }
+  },
 };
 
 function dasherize(input) {
-  return input.replace(/[A-Z]/g, function(char, index) {
+  return input.replace(/[A-Z]/g, function (char, index) {
     return (index !== 0 ? "-" : "") + char.toLowerCase();
   });
 }
@@ -35,7 +35,7 @@ export function setup(helper) {
       siteSettings.discourse_post_event_enabled;
   });
 
-  helper.registerPlugin(md =>
+  helper.registerPlugin((md) =>
     md.block.bbcode.ruler.push("discourse-post-event", rule)
   );
 }

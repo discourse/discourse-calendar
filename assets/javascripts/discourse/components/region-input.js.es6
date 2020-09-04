@@ -9,20 +9,20 @@ export default ComboBoxComponent.extend({
 
   selectKitOptions: {
     filterable: true,
-    allowAny: false
+    allowAny: false,
   },
 
-  content: computed(function() {
+  content: computed(function () {
     const localeNames = {};
-    JSON.parse(this.siteSettings.available_locales).forEach(locale => {
+    JSON.parse(this.siteSettings.available_locales).forEach((locale) => {
       localeNames[locale.value] = locale.name;
     });
 
-    return HOLIDAY_REGIONS.map(region => {
+    return HOLIDAY_REGIONS.map((region) => {
       return {
         name: I18n.t(`discourse_calendar.region.names.${region}`),
-        id: region
+        id: region,
       };
     }).sort((a, b) => a.name.localeCompare(b.name));
-  })
+  }),
 });

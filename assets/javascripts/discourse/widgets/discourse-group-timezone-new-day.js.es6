@@ -13,5 +13,5 @@ export default createWidget("discourse-group-timezone-new-day", {
       {{this.attrs.groupedTimezone.afterDate}}
       {{d-icon "chevron-right"}}
     </span>
-  `
+  `,
 });

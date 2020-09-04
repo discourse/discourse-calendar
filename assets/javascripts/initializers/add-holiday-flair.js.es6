@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { iconHTML } from "discourse-common/lib/icon-library";
 import { later, cancel } from "@ember/runloop";
@@ -9,7 +10,7 @@ function applyFlairOnMention(element, username) {
   const href = getURL(`/u/${username.toLowerCase()}`);
   const mentions = element.querySelectorAll(`a.mention[href="${href}"]`);
 
-  mentions.forEach(mention => {
+  mentions.forEach((mention) => {
     if (!mention.querySelector(".d-icon-calendar-alt")) {
       mention.insertAdjacentHTML("beforeend", iconHTML("calendar-alt"));
     }
@@ -21,11 +22,11 @@ export default {
   name: "add-holiday-flair",
 
   initialize() {
-    withPluginApi("0.10.1", api => {
+    withPluginApi("0.10.1", (api) => {
       const usernames = api.container.lookup("site:main").users_on_holiday;
 
       if (usernames && usernames.length > 0) {
-        api.addUsernameSelectorDecorator(username => {
+        api.addUsernameSelectorDecorator((username) => {
           if (usernames.includes(username)) {
             return `<span class="on-holiday">${iconHTML(
               "calendar-alt"
@@ -35,7 +36,7 @@ export default {
       }
     });
 
-    withPluginApi("0.8", api => {
+    withPluginApi("0.8", (api) => {
       const usernames = api.container.lookup("site:main").users_on_holiday;
 
       if (usernames && usernames.length > 0) {
@@ -47,7 +48,7 @@ export default {
           ($el, helper) => {
             if (helper) {
               // decorating a post
-              usernames.forEach(username =>
+              usernames.forEach((username) =>
                 applyFlairOnMention($el[0], username)
               );
             } else {
@@ -55,7 +56,7 @@ export default {
               flairHandler && cancel(flairHandler);
               flairHandler = later(
                 () =>
-                  usernames.forEach(username =>
+                  usernames.forEach((username) =>
                     applyFlairOnMention($el[0], username)
                   ),
                 1000
@@ -65,16 +66,16 @@ export default {
           { id: "discourse-calendar-holiday-flair" }
         );
 
-        api.addPosterIcon(cfs => {
+        api.addPosterIcon((cfs) => {
           if (cfs.on_holiday) {
             return {
               emoji: "desert_island",
               className: "holiday",
-              title: I18n.t("discourse_calendar.on_holiday")
+              title: I18n.t("discourse_calendar.on_holiday"),
             };
           }
         });
       }
     });
-  }
+  },
 };

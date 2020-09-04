@@ -4,7 +4,7 @@ import hbs from "discourse/widgets/hbs-compiler";
 export default createWidget("discourse-post-event-status", {
   tagName: "div.event-status",
 
-  buildKey: attrs => `discourse-post-event-status-${attrs.id}`,
+  buildKey: (attrs) => `discourse-post-event-status-${attrs.id}`,
 
   buildClasses(attrs) {
     if (attrs.watchingInvitee) {
@@ -16,7 +16,7 @@ export default createWidget("discourse-post-event-status", {
     const status = attrs.watchingInvitee ? attrs.watchingInvitee.status : null;
 
     return {
-      onChange: data => {
+      onChange: (data) => {
         this.state.icon = null;
         this.state.label = data.label;
         this.state.options.headerClass = "disabled";
@@ -25,12 +25,12 @@ export default createWidget("discourse-post-event-status", {
       icon: this._headerIconForStatus(status),
       options: {
         caret: true,
-        headerClass: ""
+        headerClass: "",
       },
       label: status
         ? `discourse_post_event.models.invitee.status.${status}`
         : "discourse_post_event.models.invitee.status.unknown",
-      statuses: this._statusesForStatus(status)
+      statuses: this._statusesForStatus(status),
     };
   },
 
@@ -39,7 +39,7 @@ export default createWidget("discourse-post-event-status", {
       mightAttend:
         attrs.watchingInvitee &&
         (attrs.watchingInvitee.status === "going" ||
-          attrs.watchingInvitee.status === "interested")
+          attrs.watchingInvitee.status === "interested"),
     };
   },
 
@@ -68,49 +68,49 @@ export default createWidget("discourse-post-event-status", {
         return [
           {
             id: "going",
-            label: "discourse_post_event.models.invitee.status.going"
+            label: "discourse_post_event.models.invitee.status.going",
           },
           {
             id: "interested",
-            label: "discourse_post_event.models.invitee.status.interested"
+            label: "discourse_post_event.models.invitee.status.interested",
           },
           "separator",
           {
             id: "not_going",
-            label: "discourse_post_event.models.invitee.status.not_going"
-          }
+            label: "discourse_post_event.models.invitee.status.not_going",
+          },
         ];
       case "interested":
         return [
           {
             id: "going",
-            label: "discourse_post_event.models.invitee.status.going"
+            label: "discourse_post_event.models.invitee.status.going",
           },
           {
             id: "interested",
-            label: "discourse_post_event.models.invitee.status.interested"
+            label: "discourse_post_event.models.invitee.status.interested",
           },
           "separator",
           {
             id: "not_going",
-            label: "discourse_post_event.models.invitee.status.not_going"
-          }
+            label: "discourse_post_event.models.invitee.status.not_going",
+          },
         ];
       case "not_going":
         return [
           {
             id: "going",
-            label: "discourse_post_event.models.invitee.status.going"
+            label: "discourse_post_event.models.invitee.status.going",
           },
           {
             id: "not_going",
-            label: "discourse_post_event.models.invitee.status.not_going"
+            label: "discourse_post_event.models.invitee.status.not_going",
           },
           "separator",
           {
             id: "interested",
-            label: "discourse_post_event.models.invitee.status.interested"
-          }
+            label: "discourse_post_event.models.invitee.status.interested",
+          },
         ];
     }
   },
@@ -124,5 +124,5 @@ export default createWidget("discourse-post-event-status", {
       case "not_going":
         return "times";
     }
-  }
+  },
 });

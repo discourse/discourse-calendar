@@ -6,11 +6,11 @@ export default {
   name: "discourse-group-timezones",
 
   initialize() {
-    withPluginApi("0.8.7", api => {
+    withPluginApi("0.8.7", (api) => {
       let _glued = [];
 
       function cleanUp() {
-        _glued.forEach(g => g.cleanUp());
+        _glued.forEach((g) => g.cleanUp());
         _glued = [];
       }
 
@@ -45,7 +45,7 @@ export default {
             group,
             usersOnHoliday:
               api.container.lookup("site:main").users_on_holiday || [],
-            size: groupTimezone.getAttribute("data-size") || "medium"
+            size: groupTimezone.getAttribute("data-size") || "medium",
           });
         });
       }
@@ -59,10 +59,10 @@ export default {
       }
 
       api.decorateCooked(_attachPostWithGroupTimezones, {
-        id: "discourse-group-timezones"
+        id: "discourse-group-timezones",
       });
 
       api.cleanupStream(cleanUp);
     });
-  }
+  },
 };

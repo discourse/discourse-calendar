@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import RawHtml from "discourse/widgets/raw-html";
 import { iconNode } from "discourse-common/lib/icon-library";
 import { h } from "virtual-dom";
@@ -10,14 +11,14 @@ export default createWidget("discourse-post-event-dates", {
     this.sendWidgetAction("showAllInvitees", {
       postId,
       title: "title_participated",
-      extraClass: "participated"
+      extraClass: "participated",
     });
   },
 
   html(attrs) {
     const content = [
       iconNode("clock"),
-      h("span.date", new RawHtml({ html: `<span>${attrs.localDates}</span>` }))
+      h("span.date", new RawHtml({ html: `<span>${attrs.localDates}</span>` })),
     ];
 
     if (
@@ -26,13 +27,13 @@ export default createWidget("discourse-post-event-dates", {
     ) {
       let participants;
       const label = I18n.t("discourse_post_event.event_ui.participants", {
-        count: attrs.eventModel.stats.going
+        count: attrs.eventModel.stats.going,
       });
       if (attrs.eventModel.stats.going > 0) {
         participants = this.attach("link", {
           action: "showAllParticipatingInvitees",
           actionParam: attrs.eventModel.id,
-          contents: () => label
+          contents: () => label,
         });
       } else {
         participants = label;
@@ -42,5 +43,5 @@ export default createWidget("discourse-post-event-dates", {
     }
 
     return content;
-  }
+  },
 });

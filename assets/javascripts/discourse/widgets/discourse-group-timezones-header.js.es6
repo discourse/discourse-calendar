@@ -1,3 +1,4 @@
+import I18n from "I18n";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 
@@ -7,8 +8,8 @@ export default createWidget("discourse-group-timezones-header", {
   transform(attrs) {
     return {
       title: I18n.t("group_timezones.group_availability", {
-        group: attrs.group
-      })
+        group: attrs.group,
+      }),
     };
   },
 
@@ -24,5 +25,5 @@ export default createWidget("discourse-group-timezones-header", {
       {{transformed.title}}
     </span>
     {{attach widget="discourse-group-timezones-filter"}}
-  `
+  `,
 });

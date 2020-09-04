@@ -40,14 +40,14 @@ export default Component.extend({
     this._loadCalendar().then(() => {
       this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
 
-      (this.events || []).forEach(event => {
+      (this.events || []).forEach((event) => {
         const { starts_at, ends_at, post } = event;
         this._calendar.addEvent({
           title: formatEventName(event),
           start: starts_at,
           end: ends_at || starts_at,
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
-          url: getURL(`/t/-/${post.topic.id}/${post.post_number}`)
+          url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
         });
       });
 
@@ -56,7 +56,7 @@ export default Component.extend({
   },
 
   _loadCalendar() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       loadScript(
         "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
       ).then(() => {
@@ -69,5 +69,5 @@ export default Component.extend({
         });
       });
     });
-  }
+  },
 });
