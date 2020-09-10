@@ -8,6 +8,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
   let(:admin_1) { Fabricate(:user, admin: true) }
   let(:going_user) { Fabricate(:user) }
+  let(:interested_user) { Fabricate(:user) }
   let(:visited_going_user) { Fabricate(:user) }
   let(:not_going_user) { Fabricate(:user) }
   let(:going_user_unread_notification) { Fabricate(:user) }
@@ -17,6 +18,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
   def init_invitees
     Invitee.create_attendance!(going_user.id, event_1.id, :going)
+    Invitee.create_attendance!(interested_user.id, event_1.id, :interested)
     Invitee.create_attendance!(not_going_user.id, event_1.id, :not_going)
     Invitee.create_attendance!(going_user_unread_notification.id, event_1.id, :going)
     Invitee.create_attendance!(going_user_read_notification.id, event_1.id, :going)
@@ -24,6 +26,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
     [
       going_user,
+      interested_user,
       not_going_user,
       going_user_unread_notification,
       going_user_read_notification,
@@ -111,6 +114,14 @@ describe Jobs::DiscoursePostEventSendReminder do
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
           }.to change { going_user.reload.unread_notifications }.by(1)
+        end
+
+        it 'creates a new notification for interested user' do
+          expect(interested_user.reload.unread_notifications).to eq(0)
+
+          expect {
+            subject.execute(event_id: event_1.id, reminder: reminders)
+          }.to change { interested_user.reload.unread_notifications }.by(1)
         end
 
         it 'doesn’t create a new notification for not going user' do

@@ -9,7 +9,10 @@ module Jobs
       raise Discourse::InvalidParameters.new(:reminder) if args[:reminder].blank?
 
       event = DiscoursePostEvent::Event.includes(post: [:topic], invitees: [:user]).find(args[:event_id])
-      invitees = event.invitees.where(status: DiscoursePostEvent::Invitee.statuses[:going])
+      invitees = event.invitees.where(status: [
+        DiscoursePostEvent::Invitee.statuses[:going],
+        DiscoursePostEvent::Invitee.statuses[:interested]
+      ])
 
       already_notified_users = Notification.where(
         read: false,
