@@ -150,34 +150,14 @@
     .event-status {
       margin: 0;
 
-      &.status-going {
-        .widget-dropdown-header {
-          .d-icon-check {
-            color: var(--success, $success);
-          }
-        }
-
-        .item-going {
-          font-weight: 700;
-        }
+      &.status-going .going-button .d-icon {
+        color: var(--success, $success);
       }
-
-      &.status-interested {
-        .item-interested {
-          font-weight: 700;
-        }
-
-        .widget-dropdown-header {
-          .d-icon-star {
-            color: adjust-hue($danger, 25%);
-          }
-        }
+      &.status-interested .interested-button .d-icon {
+        color: adjust-hue($danger, 25%);
       }
-
-      &.status-not_going {
-        .item-not_going {
-          font-weight: 700;
-        }
+      &.status-not_going .not-going-button .d-icon {
+        color: var(--danger, $danger);
       }
     }
   }

@@ -217,12 +217,12 @@ export default createWidget("discourse-post-event", {
 
       {{#if state.eventModel.can_update_attendance}}
         <section class="event-actions">
-        {{attach
-          widget="discourse-post-event-status"
-          attrs=(hash
-            watchingInvitee=this.state.eventModel.watching_invitee
-          )
-        }}
+          {{attach
+            widget="discourse-post-event-status"
+            attrs=(hash
+              watchingInvitee=this.state.eventModel.watching_invitee
+            )
+          }}
         </section>
       {{/if}}
 
