@@ -21,10 +21,28 @@ export default Controller.extend(ModalFunctionality, {
     this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
     this.set("reminderPeriods", ["before", "after"]);
     this.set("availableRecurrences", [
-      "every_day",
-      "every_month",
-      "every_weekday",
-      "every_week",
+      {
+        id: "every_day",
+        name: I18n.t("discourse_post_event.builder_modal.recurrence.every_day"),
+      },
+      {
+        id: "every_month",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.recurrence.every_month"
+        ),
+      },
+      {
+        id: "every_weekday",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.recurrence.every_weekday"
+        ),
+      },
+      {
+        id: "every_week",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.recurrence.every_week"
+        ),
+      },
     ]);
   },
 

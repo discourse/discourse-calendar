@@ -348,6 +348,10 @@ en:
         recurrence:
           label: Recurrence
           none: No recurrence
+          every_day: Every day
+          every_month: Every month at this weekday
+          every_weekday: Every weekday
+          every_week: Every week at this weekday
         url:
           label: URL
           placeholder: Optional

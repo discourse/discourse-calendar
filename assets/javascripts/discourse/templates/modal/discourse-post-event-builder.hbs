@@ -130,8 +130,6 @@
         {{combo-box
           class="available-recurrences"
           value=(readonly model.eventModel.recurrence)
-          nameProperty=null
-          valueProperty=null
           content=availableRecurrences
           onChange=(action (mut model.eventModel.recurrence))
           options=(hash none="discourse_post_event.builder_modal.recurrence.none")
