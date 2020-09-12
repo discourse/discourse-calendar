@@ -600,7 +600,17 @@ after_initialize do
         when 'every_day'
           recurrence = 'FREQ=DAILY'
         when 'every_month'
-          recurrence = 'FREQ=MONTHLY'
+          start_date = event.starts_at.beginning_of_month.to_date
+          end_date = event.starts_at.end_of_month.to_date
+          weekday = event.starts_at.strftime('%A')
+
+          count = 0
+          (start_date..end_date).each do |date|
+            count += 1 if date.strftime('%A') == weekday
+            break if date.day == event.starts_at.day
+          end
+
+          recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
         when 'every_weekday'
           recurrence = 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
         else
@@ -609,7 +619,6 @@ after_initialize do
         end
 
         next_starts_at = RRuleGenerator.generate(recurrence, event.starts_at)
-
         difference = event.ends_at - event.starts_at
         next_ends_at = next_starts_at + difference.seconds
 
