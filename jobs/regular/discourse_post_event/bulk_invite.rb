@@ -84,6 +84,7 @@ module Jobs
       else
         status = DiscoursePostEvent::Invitee.statuses[attendance.to_sym]
         invitee = DiscoursePostEvent::Invitee.find_or_initialize_by(user_id: user_id, post_id: post_id)
+        invitee.notified = false
         invitee.status = status
         invitee.save!
       end
