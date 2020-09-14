@@ -89,8 +89,8 @@ export function replaceRaw(params, raw) {
 function camelCase(input) {
   return input
     .toLowerCase()
-    .replace(/_/g, "-")
-    .replace(/-(.)/g, function (match, group1) {
+    .replace(/-/g, "_")
+    .replace(/_(.)/g, function (match, group1) {
       return group1.toUpperCase();
     });
 }

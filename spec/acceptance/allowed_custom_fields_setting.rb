@@ -11,11 +11,12 @@ describe 'discourse_post_event_allowed_custom_fields' do
   let(:post_event_1) { Fabricate(:event, post: post_1) }
 
   before do
-    SiteSetting.discourse_post_event_allowed_custom_fields = 'foo|bar'
+    SiteSetting.discourse_post_event_allowed_custom_fields = 'foo|bar|foo-bar|foo_baz'
     post_event_1.update!(custom_fields: {})
 
     SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
+    Jobs.run_immediately!
   end
 
   it 'removes the key on the custom fields when removing a key from site setting' do
@@ -36,5 +37,19 @@ describe 'discourse_post_event_allowed_custom_fields' do
     expect {
       post_event_1.update!(custom_fields: { baz: 3 })
     }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it 'works with a setting containing dash' do
+    post = create_post_with_event(user_1, "fooBar='1'")
+    expect(post.event.custom_fields['foo-bar']).to eq('1')
+    expect(post.event.custom_fields['foo_bar']).to eq(nil)
+    expect(post.event.custom_fields['fooBar']).to eq(nil)
+  end
+
+  it 'works with a setting containing underscore' do
+    post = create_post_with_event(user_1, "fooBaz='1'")
+    expect(post.event.custom_fields['foo_baz']).to eq('1')
+    expect(post.event.custom_fields['foo-baz']).to eq(nil)
+    expect(post.event.custom_fields['fooBaz']).to eq(nil)
   end
 end

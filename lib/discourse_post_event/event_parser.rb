@@ -17,8 +17,12 @@ module DiscoursePostEvent
       cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
       valid_options = VALID_OPTIONS.map { |o| "data-#{o}" }
 
+      valid_custom_fields = []
       SiteSetting.discourse_post_event_allowed_custom_fields.split('|').each do |setting|
-        valid_options << "data-#{setting}"
+        valid_custom_fields << {
+          original: "data-#{setting}",
+          normalized: "data-#{setting.gsub(/_/, '-')}"
+        }
       end
 
       Nokogiri::HTML(cooked).css('div.discourse-post-event').map do |doc|
@@ -27,9 +31,16 @@ module DiscoursePostEvent
           name = attribute.name
           value = attribute.value
 
-          if valid_options.include?(name) && value
+          if value && valid_options.include?(name)
             event ||= {}
-            event[name['data-'.length..-1].to_sym] = CGI.escapeHTML(value)
+            event[name.sub('data-', '').to_sym] = CGI.escapeHTML(value)
+          end
+
+          valid_custom_fields.each do |valid_custom_field|
+            if value && valid_custom_field[:normalized] == name
+              event ||= {}
+              event[valid_custom_field[:original].sub('data-', '').to_sym] = CGI.escapeHTML(value)
+            end
           end
         end
         event
