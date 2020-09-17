@@ -1,0 +1,40 @@
+cs:
+  site_settings:
+    calendar_enabled: "Povolte plugin `discourse-calendar`. Přidá podporu pro značku `[calendar][/calendar]` v prvním příspěvku tématu."
+    discourse_post_event_enabled: "[experimentální] Umožní připojit událost k příspěvku. Poznámka: musí být zapnuto nastavení `calendar enabled`."
+    displayed_invitees_limit: "Omezuje, kolik pozvaných se u události zobrazí."
+    display_post_event_date_on_topic_title: "Zobrazí datum události za názvem tématu."
+    discourse_post_event_allowed_on_groups: "Skupiny, které smí vytvářet události."
+    holiday_calendar_topic_id: "Identifikátor tématu kalendáře pro dovolenou nebo nepřítomnost."
+    delete_expired_event_posts_after: "Příspěvky s uplynulými událostmi se automaticky smažou za (n) hodin. Nastavte na -1, aby se mazání vypnulo."
+    all_day_event_start_time: "Události, které nemají určený čas začátku, začnou v tento čas. Formát je HH:mm. Pro 6:00 zadejte 06:00"
+    all_day_event_end_time: "Události, které nemají určený čas konce, skončí v tento čas. Formát je HH:mm. Pro 18:00 zadejte 18:00"
+    all_day_event_time_error: "Neplatný čas. Formát musí být HH:mm (např. 08:00)."
+    calendar_categories: "Zobrazit kalendář nahoře kategorie. Povinné volby jsou `categoryId` a `postId`. Např.: `categoryId=6;postId=453`\n Další platné volby: `tzPicker`, `weekends` a `defaultView`."
+    calendar_categories_outlet: "Umožňuje změnit, ve které zásuvce se zobrazí kalendář kategorie."
+    # TODO: Not sure what the first sentence means here. Too ambiguous. I'm leaving it untranslated for now.
+    working_days: "Set working days to highlight the timezones in posts. You can add it by [timezones group=admins][timezones] tag."
+    working_day_start_hour: "Čas, kdy začíná pracovní doba."
+    working_day_end_hour: "Čas, kdy končí pracovní doba."
+    # TODO: Not sure what the sentence means here. Too ambiguous. I'm leaving it untranslated for now.
+    close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."
+  discourse_calendar:
+    invite_user_notification: "%{username} vás zve do kalendáře: %{description}"
+    calendar_must_be_in_first_post: "Značka pro kalendář se může vložit jen do prvního příspěvku tématu."
+    more_than_one_calendar: "V jednom příspěvku nemůže být více než jeden kalendář."
+    more_than_two_dates: "Příspěvek pod tématem kalendáře nemůže obsahovat více než dvě data."
+    event_expired: "Událost uplynula"
+  discourse_post_event:
+    errors:
+      models:
+        event:
+          only_one_event: "Příspěvek může obsahovat jen jednu událost."
+          must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
+          raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
+          ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
+          start_must_be_present_and_a_valid_date: "Událost vyžaduje platné datum začátku."
+          end_must_be_a_valid_date: "Datum konce musí být platné datum."
+          acting_user_not_allowed_to_create_event: "Současný uživatel nemůže vytvářet události."
+          acting_user_not_allowed_to_act_on_this_event: "Současný uživatel nemůže reagovat na tuto událost."
+          name:
+            length: "Název události musí být dlouhý %{minimum} až %{maximum} znaků."
