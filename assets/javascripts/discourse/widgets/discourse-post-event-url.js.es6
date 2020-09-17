@@ -2,6 +2,12 @@ import { iconNode } from "discourse-common/lib/icon-library";
 import { h } from "virtual-dom";
 import { createWidget } from "discourse/widgets/widget";
 
+function prefixProtocol(url) {
+  return url.indexOf("://") === -1 && url.indexOf("mailto:") === -1
+    ? "https://" + url
+    : url;
+}
+
 export default createWidget("discourse-post-event-url", {
   tagName: "section.event-url",
 
@@ -12,7 +18,7 @@ export default createWidget("discourse-post-event-url", {
         "a.url",
         {
           attributes: {
-            href: attrs.url,
+            href: prefixProtocol(attrs.url),
             target: "_blank",
             rel: "noopener noreferrer",
           },
