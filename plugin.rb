@@ -13,6 +13,7 @@ load File.expand_path('../lib/calendar_settings_validator.rb', __FILE__)
 
 enabled_site_setting :calendar_enabled
 
+register_asset "javascripts/initializers/future-relative-date.js.es6"
 register_asset 'stylesheets/vendor/fullcalendar.min.css'
 register_asset 'stylesheets/common/discourse-calendar.scss'
 register_asset 'stylesheets/common/upcoming-events-calendar.scss'
@@ -22,6 +23,7 @@ register_asset 'stylesheets/common/discourse-post-event-builder.scss'
 register_asset 'stylesheets/common/discourse-post-event-invitees.scss'
 register_asset 'stylesheets/common/discourse-post-event-upcoming-events.scss'
 register_asset 'stylesheets/common/discourse-post-event-core-ext.scss'
+register_asset 'stylesheets/mobile/discourse-post-event-core-ext.scss', :mobile
 register_asset 'stylesheets/common/discourse-post-event-bulk-invite-modal.scss'
 register_asset 'stylesheets/mobile/discourse-calendar.scss', :mobile
 register_asset 'stylesheets/mobile/discourse-post-event.scss', :mobile

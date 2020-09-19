@@ -9,17 +9,20 @@ function initializeDecorateTopicTitle(api) {
       const date = moment.utc(startsAt);
 
       if (topicTitleType === "topic-list-item-title") {
-        if (node.querySelector(".event-date")) {
+        if (node.querySelector(".event-date-container")) {
           return;
         }
 
-        const dateContainer = document.createElement("span");
-        dateContainer.classList.add("event-date");
-        dateContainer.innerText = date
-          .tz(moment.tz.guess())
-          .format(guessDateFormat(date));
+        const eventdateContainer = document.createElement("div");
+        eventdateContainer.classList.add("event-date-container");
 
-        node.appendChild(dateContainer);
+        const eventDate = document.createElement("span");
+        eventDate.classList.add("event-date", "relative-future-date");
+        eventDate.dataset.time = date.tz(moment.tz.guess()).valueOf();
+        eventDate.innerText = date.tz(moment.tz.guess()).from(moment());
+
+        eventdateContainer.appendChild(eventDate);
+        node.appendChild(eventdateContainer);
       }
 
       if (topicTitleType === "header-title") {
