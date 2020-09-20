@@ -15,14 +15,14 @@
 
 .header-title {
   .event-date {
-    font-size: $font-down-3;
+    font-size: $font-down-4;
     background: none;
     color: var(--primary-medium, $primary-medium);
     border: 1px solid var(--primary-medium, $primary-medium);
     padding: 0.25em;
     border-radius: 3px;
     vertical-align: middle;
-    margin-left: 0.25em;
+    margin-left: 0.5em;
     font-weight: 500;
   }
 }
