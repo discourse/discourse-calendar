@@ -1,6 +1,26 @@
 .discourse-post-event {
-  .event-dates .date {
-    max-width: 75vw;
+  .discourse-post-event-widget {
+    border-width: 1px;
+  }
+
+  .event-header,
+  .event-actions,
+  .event-dates {
+    padding: 0 0.5em;
+  }
+
+  .event-dates {
+    .date {
+      max-width: 75vw;
+    }
+  }
+
+  .event-actions {
+    .event-status {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   .event-invitees-status {
