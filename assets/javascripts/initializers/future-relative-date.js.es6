@@ -1,10 +1,13 @@
+import { isTesting } from "discourse-common/config/environment";
 import { later, cancel } from "@ember/runloop";
 
 export default {
   name: "relative-future-date",
 
   initialize() {
-    this._tick();
+    if (!isTesting) {
+      this._tick();
+    }
   },
 
   teardown() {
