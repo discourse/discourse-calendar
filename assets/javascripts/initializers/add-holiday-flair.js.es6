@@ -5,7 +5,9 @@ import { later, cancel } from "@ember/runloop";
 import getURL from "discourse-common/lib/get-url";
 
 function applyFlairOnMention(element, username) {
-  if (!element) return;
+  if (!element) {
+    return;
+  }
 
   const href = getURL(`/u/${username.toLowerCase()}`);
   const mentions = element.querySelectorAll(`a.mention[href="${href}"]`);
