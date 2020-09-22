@@ -15,7 +15,7 @@ const calendarRule = {
     let timezoneWrapToken = state.push("span_open", "span", 1);
     timezoneWrapToken.attrs = [["class", "discourse-calendar-timezone-wrap"]];
     if (info.attrs.tzPicker === "true") {
-      _renderTimezonePicker(state, info);
+      _renderTimezonePicker(state);
     }
     state.push("span_close", "span", -1);
 
