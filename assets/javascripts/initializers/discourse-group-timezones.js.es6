@@ -37,7 +37,7 @@ export default {
             throw "[group] attribute is necessary when using timezones.";
           }
 
-          const members = post.group_timezones[group] || [];
+          const members = (post.get("group_timezones") || {})[group] || [];
 
           _attachWidget(groupTimezone, {
             id: `${post.id}-${idx}`,
