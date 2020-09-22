@@ -384,7 +384,6 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _addGroupedEvent(calendar, post, detail) {
-    let peopleCount = 0;
     let htmlContent = "";
     let usernames = [];
     let localEventNames = [];
