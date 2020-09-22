@@ -463,7 +463,7 @@ describe DiscoursePostEvent::Event do
     end
   end
 
-  context '#missing_users' do
+  context '#missing_user_ids' do
     let!(:post_1) { Fabricate(:post) }
     let!(:user_1) { Fabricate(:user) }
     let!(:user_2) { Fabricate(:user) }
@@ -489,11 +489,15 @@ describe DiscoursePostEvent::Event do
     end
 
     it 'doesn’t return already attending user' do
-      expect(event_1.missing_users.pluck(:id)).to_not include(user_3.id)
+      expect(event_1.missing_user_ids).to_not include(user_3.id)
     end
 
     it 'return users from groups with no duplicates' do
-      expect(event_1.missing_users.pluck(:id)).to match_array([user_1.id, user_2.id])
+      expect(event_1.missing_user_ids).to match_array([user_1.id, user_2.id])
+    end
+
+    it 'excludes user_ids passed as param' do
+      expect(event_1.missing_user_ids([user_1.id])).to match_array([user_2.id])
     end
   end
 end

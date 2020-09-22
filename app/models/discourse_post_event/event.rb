@@ -161,7 +161,7 @@ module DiscoursePostEvent
 
     def notify_missing_invitees!
       if self.private?
-        self.missing_users.each do |user|
+        User.where(id: self.missing_user_ids).each do |user|
           create_notification!(user, self.post)
         end
       end
@@ -219,7 +219,7 @@ module DiscoursePostEvent
         # so we create a dummy invitee object with only what's needed for serializer
         going =
           going +
-          missing_users(going.pluck(:user_id))
+          User.where(id: missing_user_ids(going.pluck(:user_id)))
             .limit(limit - going.count)
             .map { |user| Invitee.new(user: user, post_id: self.id) }
       end
@@ -286,12 +286,34 @@ module DiscoursePostEvent
       end
     end
 
-    def missing_users(excluded_ids = self.invitees.select(:user_id))
-      User
-        .joins(:groups)
-        .where('groups.name' => self.raw_invitees)
-        .where.not(id: excluded_ids)
-        .distinct
+    def missing_user_ids(excluded_ids = self.invitees.pluck(:user_id))
+      missing_users_sql_query = <<-SQL
+        SELECT "group_users"."user_id"
+        FROM "group_users"
+        INNER JOIN "groups"
+          ON "groups"."id" = "group_users"."group_id"
+      SQL
+
+      if self.raw_invitees.present?
+        missing_users_sql_query += <<-SQL
+          AND "groups"."name" IN ('#{self.raw_invitees.join("', '")}')
+        SQL
+      end
+
+      if excluded_ids.present?
+        missing_users_sql_query += <<-SQL
+          AND "group_users"."user_id" NOT IN ('#{excluded_ids.join("', '")}')
+        SQL
+      end
+
+      missing_users_sql_query += <<-SQL
+        EXCEPT
+          SELECT user_id
+          FROM "discourse_post_event_invitees"
+          WHERE "discourse_post_event_invitees"."post_id" = :post_id
+      SQL
+
+      DB.query_single(missing_users_sql_query, post_id: self.id)
     end
 
     def update_with_params!(params)

@@ -96,7 +96,7 @@ module DiscoursePostEvent
       # when a group is private we know the list of possible users
       # even if an invitee has not been created yet
       if object.private?
-        unanswered += object.missing_users.count
+        unanswered += object.missing_user_ids.count
       end
 
       {
