@@ -5,7 +5,7 @@ export default {
   name: "relative-future-date",
 
   initialize() {
-    if (!isTesting) {
+    if (!isTesting()) {
       this._tick();
     }
   },
