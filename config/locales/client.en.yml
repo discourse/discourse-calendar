@@ -281,8 +281,8 @@ en:
         more_than_one_event: You can’t have more than one event.
       edit_reason: Event updated
       topic_title:
-        starts_at: Event will start at %{date}
-        ended_at: Event ended at %{date}
+        starts_at: "Event will start: %{date}"
+        ended_at: "Event ended: %{date}"
       models:
         invitee:
           status:
