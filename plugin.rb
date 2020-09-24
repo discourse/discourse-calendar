@@ -151,15 +151,13 @@ after_initialize do
     if defined?(@can_create_discourse_post_event)
       return @can_create_discourse_post_event
     end
-    @can_create_discourse_post_event =
-      begin
-        return true if staff?
-        allowed_groups =
-          SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
-        allowed_groups.present? && groups.where(id: allowed_groups).exists?
-      rescue StandardError
-        false
-      end
+    @can_create_discourse_post_event = begin
+      return true if staff?
+      allowed_groups = SiteSetting.discourse_post_event_allowed_on_groups.to_s.split('|').compact
+      allowed_groups.present? && groups.where(id: allowed_groups).exists?
+    rescue StandardError
+      false
+    end
   end
 
   add_to_class(:guardian, :can_act_on_invitee?) do |invitee|
@@ -178,13 +176,12 @@ after_initialize do
     if defined?(@can_act_on_discourse_post_event)
       return @can_act_on_discourse_post_event
     end
-    @can_act_on_discourse_post_event =
-      begin
-        return true if admin?
-        can_create_discourse_post_event? || event.post.user_id == id
-      rescue StandardError
-        false
-      end
+    @can_act_on_discourse_post_event = begin
+      return true if staff?
+      can_create_discourse_post_event? && event.post.user_id == id
+    rescue StandardError
+      false
+    end
   end
 
   add_to_class(:guardian, :can_act_on_discourse_post_event?) do |event|

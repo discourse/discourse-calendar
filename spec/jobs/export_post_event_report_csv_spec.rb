@@ -111,8 +111,18 @@ describe Jobs::ExportCsvFile do
       let(:topic) { Fabricate(:topic, user: user) }
       let(:post1) { Fabricate(:post, topic: topic, user: user) }
       let(:post_event) { Fabricate(:event, post: post1) }
+      let(:group_1) {
+        Fabricate(:group).tap do |g|
+          g.add(user)
+          g.save!
+        end
+      }
 
-      it 'doesn’t generate the upload' do
+      before do
+        SiteSetting.discourse_post_event_allowed_on_groups = group_1.id
+      end
+
+      it 'generates the upload' do
         begin
           expect do
             Jobs::ExportCsvFile.new.execute(
