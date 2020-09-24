@@ -18,6 +18,7 @@ discourse_calendar:
     validator: "CalendarSettingsValidator"
   calendar_categories:
     type: list
+    list_type: simple
     client: true
     default: ""
   calendar_categories_outlet:
@@ -29,6 +30,7 @@ discourse_calendar:
       - before-topic-list-body
   working_days:
     type: list
+    list_type: simple
     default: Monday|Tuesday|Wednesday|Thursday|Friday
     client: true
   working_day_start_hour:
@@ -67,5 +69,6 @@ discourse_post_event:
     min: 0
   discourse_post_event_allowed_custom_fields:
     type: list
+    list_type: simple
     client: true
     default: ""
