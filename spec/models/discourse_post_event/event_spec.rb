@@ -21,10 +21,10 @@ describe DiscoursePostEvent::Event do
     let(:topic) { Fabricate(:topic, user: user) }
     let!(:first_post) { Fabricate(:post, topic: topic) }
     let(:second_post) { Fabricate(:post, topic: topic) }
-    let!(:starts_at) {'2020-04-24 14:15:00' }
-    let!(:ends_at) {'2020-04-24 16:15:00' }
-    let!(:alt_starts_at) {'2020-04-25 17:15:25' }
-    let!(:alt_ends_at) {'2020-04-25 19:15:25' }
+    let!(:starts_at) { '2020-04-24 14:15:00' }
+    let!(:ends_at) { '2020-04-24 16:15:00' }
+    let!(:alt_starts_at) { '2020-04-25 17:15:25' }
+    let!(:alt_ends_at) { '2020-04-25 19:15:25' }
 
     describe '#after_commit[:create, :update]' do
       context 'a post event has been created' do
