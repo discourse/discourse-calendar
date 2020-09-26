@@ -1,10 +1,19 @@
 import { isTesting } from "discourse-common/config/environment";
 import { later, cancel } from "@ember/runloop";
+import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-relative-date";
+
+function computeRelativeEventDates() {
+  document
+    .querySelectorAll(".event-relative-date.topic-list")
+    .forEach((dateContainer) => eventRelativeDate(dateContainer));
+}
 
 export default {
-  name: "relative-future-date",
+  name: "event-future-date",
 
   initialize() {
+    computeRelativeEventDates();
+
     if (!isTesting()) {
       this._tick();
     }
@@ -21,13 +30,8 @@ export default {
     this._interval && cancel(this._interval);
 
     this._interval = later(() => {
-      document.querySelectorAll(".relative-future-date").forEach((date) => {
-        date.innerText = moment(parseInt(date.dataset.time, 10))
-          .tz(moment.tz.guess())
-          .from(moment());
-      });
-
+      computeRelativeEventDates();
       this._tick();
-    }, 30 * 1000);
+    }, 60 * 1000);
   },
 };

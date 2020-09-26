@@ -13,7 +13,7 @@ load File.expand_path('../lib/calendar_settings_validator.rb', __FILE__)
 
 enabled_site_setting :calendar_enabled
 
-register_asset "javascripts/initializers/future-relative-date.js.es6"
+register_asset "javascripts/initializers/event-relative-date.js.es6"
 register_asset 'stylesheets/vendor/fullcalendar.min.css'
 register_asset 'stylesheets/common/discourse-calendar.scss'
 register_asset 'stylesheets/common/upcoming-events-calendar.scss'
@@ -73,6 +73,7 @@ after_initialize do
 
     # Topic where op has a post event custom field
     TOPIC_POST_EVENT_STARTS_AT ||= 'TopicEventStartsAt'
+    TOPIC_POST_EVENT_ENDS_AT ||= 'TopicEventEndsAt'
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
@@ -222,8 +223,7 @@ after_initialize do
     end
   end
 
-  TopicList.preloaded_custom_fields <<
-    DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
 
   add_to_serializer(:topic_view, :event_starts_at, false) do
     object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
@@ -231,15 +231,14 @@ after_initialize do
 
   add_to_serializer(:topic_view, 'include_event_starts_at?') do
     SiteSetting.discourse_post_event_enabled &&
-      SiteSetting.display_post_event_date_on_topic_title &&
-      object.topic.custom_fields.keys.include?(
-        DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
-      )
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.topic.custom_fields.keys.include?(
+      DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+    )
   end
 
   add_to_class(:topic, :event_starts_at) do
-    @event_starts_at ||=
-      custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
+    @event_starts_at ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
   end
 
   add_to_serializer(:topic_list_item, :event_starts_at, false) do
@@ -248,8 +247,36 @@ after_initialize do
 
   add_to_serializer(:topic_list_item, 'include_event_starts_at?') do
     SiteSetting.discourse_post_event_enabled &&
-      SiteSetting.display_post_event_date_on_topic_title &&
-      object.event_starts_at
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.event_starts_at
+  end
+
+  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
+
+  add_to_serializer(:topic_view, :event_ends_at, false) do
+    object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT]
+  end
+
+  add_to_serializer(:topic_view, 'include_event_ends_at?') do
+    SiteSetting.discourse_post_event_enabled &&
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.topic.custom_fields.keys.include?(
+      DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
+    )
+  end
+
+  add_to_class(:topic, :event_ends_at) do
+    @event_ends_at ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT]
+  end
+
+  add_to_serializer(:topic_list_item, :event_ends_at, false) do
+    object.event_ends_at
+  end
+
+  add_to_serializer(:topic_list_item, 'include_event_ends_at?') do
+    SiteSetting.discourse_post_event_enabled &&
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.event_ends_at
   end
 
   # DISCOURSE CALENDAR
