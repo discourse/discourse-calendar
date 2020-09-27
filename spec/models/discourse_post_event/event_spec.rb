@@ -6,7 +6,8 @@ require_relative '../../fabricators/event_fabricator'
 describe DiscoursePostEvent::Event do
   Event ||= DiscoursePostEvent::Event
   Invitee ||= DiscoursePostEvent::Invitee
-  Field ||= DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+  StartsAtField ||= DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+  EndsAtField ||= DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
 
   before do
     freeze_time DateTime.parse('2020-04-24 14:10')
@@ -21,7 +22,9 @@ describe DiscoursePostEvent::Event do
     let!(:first_post) { Fabricate(:post, topic: topic) }
     let(:second_post) { Fabricate(:post, topic: topic) }
     let!(:starts_at) { '2020-04-24 14:15:00' }
-    let!(:alt_starts_at) { '2020-04-25 14:15:25' }
+    let!(:ends_at) { '2020-04-24 16:15:00' }
+    let!(:alt_starts_at) { '2020-04-25 17:15:25' }
+    let!(:alt_ends_at) { '2020-04-25 19:15:25' }
 
     describe '#after_commit[:create, :update]' do
       context 'a post event has been created' do
@@ -30,10 +33,11 @@ describe DiscoursePostEvent::Event do
             expect(first_post.is_first_post?).to be(true)
             expect(first_post.topic.custom_fields).to be_blank
 
-            Event.create!(id: first_post.id, starts_at: starts_at)
+            Event.create!(id: first_post.id, starts_at: starts_at, ends_at: ends_at)
             first_post.topic.reload
 
-            expect(first_post.topic.custom_fields[Field]).to eq(starts_at)
+            expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
+            expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
           end
         end
 
@@ -159,16 +163,18 @@ describe DiscoursePostEvent::Event do
 
       context 'a post event has been updated' do
         context 'the associated post is the OP' do
-          let!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at) }
+          let!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at, ends_at: ends_at) }
 
           it 'sets the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
-            expect(first_post.topic.custom_fields[Field]).to eq(starts_at)
+            expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
+            expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
 
-            post_event.update_with_params!(starts_at: alt_starts_at)
+            post_event.update_with_params!(starts_at: alt_starts_at, ends_at: alt_ends_at)
             first_post.topic.reload
 
-            expect(first_post.topic.custom_fields[Field]).to eq(alt_starts_at)
+            expect(first_post.topic.custom_fields[StartsAtField]).to eq(alt_starts_at)
+            expect(first_post.topic.custom_fields[EndsAtField]).to eq(alt_ends_at)
           end
         end
 
@@ -177,12 +183,12 @@ describe DiscoursePostEvent::Event do
 
           it 'doesn’t set the topic custom field' do
             expect(second_post.is_first_post?).to be(false)
-            expect(second_post.topic.custom_fields[Field]).to be_blank
+            expect(second_post.topic.custom_fields[StartsAtField]).to be_blank
 
             post_event.update_with_params!(starts_at: alt_starts_at)
             second_post.topic.reload
 
-            expect(second_post.topic.custom_fields[Field]).to be_blank
+            expect(second_post.topic.custom_fields[StartsAtField]).to be_blank
           end
         end
       end
@@ -191,32 +197,36 @@ describe DiscoursePostEvent::Event do
     describe '#after_commit[:destroy]' do
       context 'a post event has been destroyed' do
         context 'the associated post is the OP' do
-          let!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at) }
+          let!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at, ends_at: ends_at) }
 
           it 'sets the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
-            expect(first_post.topic.custom_fields[Field]).to eq(starts_at)
+            expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
+            expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
 
             post_event.destroy!
             first_post.topic.reload
 
-            expect(first_post.topic.custom_fields[Field]).to be_blank
+            expect(first_post.topic.custom_fields[StartsAtField]).to be_blank
+            expect(first_post.topic.custom_fields[EndsAtField]).to be_blank
           end
         end
 
         context 'the associated post is not the OP' do
-          let!(:first_post_event) { Fabricate(:event, post: first_post, starts_at: starts_at) }
-          let!(:second_post_event) { Fabricate(:event, post: second_post, starts_at: starts_at) }
+          let!(:first_post_event) { Fabricate(:event, post: first_post, starts_at: starts_at, ends_at: ends_at) }
+          let!(:second_post_event) { Fabricate(:event, post: second_post, starts_at: starts_at, ends_at: ends_at) }
 
           it 'doesn’t change the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
-            expect(second_post.topic.custom_fields[Field]).to eq(starts_at)
+            expect(second_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
+            expect(second_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
             expect(second_post.is_first_post?).to be(false)
 
             second_post_event.destroy!
             second_post.topic.reload
 
-            expect(second_post.topic.custom_fields[Field]).to eq(starts_at)
+            expect(second_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
+            expect(second_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
           end
         end
       end

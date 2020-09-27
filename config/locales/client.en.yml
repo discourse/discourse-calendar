@@ -283,6 +283,7 @@ en:
       topic_title:
         starts_at: "Event will start: %{date}"
         ended_at: "Event ended: %{date}"
+        ends_in_duration: "Ends %{duration}"
       models:
         invitee:
           status:

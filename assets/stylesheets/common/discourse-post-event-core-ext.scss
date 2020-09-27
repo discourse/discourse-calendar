@@ -1,14 +1,28 @@
-.raw-topic-link {
+.raw-topic-link,
+.header-title {
   .event-date-container {
     display: inline-block;
-    .event-date {
-      font-size: $font-down-2;
-      border: 1px solid var(--primary-medium, $primary-medium);
-      background: none;
-      padding: 0.25em;
+    box-sizing: border-box;
+  }
+
+  .event-date {
+    display: inline-flex;
+    align-items: center;
+    font-size: $font-down-2;
+    border: 1px solid var(--primary-medium, $primary-medium);
+    background: none;
+    padding: 0 0.25em;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 0.25em;
+
+    .indicator {
+      display: flex;
+      width: 6px;
+      height: 6px;
       border-radius: 3px;
-      vertical-align: middle;
-      margin-left: 0.25em;
+      background: var(--success, $success);
+      margin-right: 0.25em;
     }
   }
 }
@@ -16,13 +30,8 @@
 .header-title {
   .event-date {
     font-size: $font-down-4;
-    background: none;
     color: var(--primary-medium, $primary-medium);
-    border: 1px solid var(--primary-medium, $primary-medium);
+    font-weight: normal;
     padding: 0.25em;
-    border-radius: 3px;
-    vertical-align: middle;
-    margin-left: 0.5em;
-    font-weight: 500;
   }
 }

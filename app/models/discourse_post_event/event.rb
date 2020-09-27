@@ -16,6 +16,10 @@ module DiscoursePostEvent
         TopicCustomField.where(
           topic_id: self.post.topic_id, name: TOPIC_POST_EVENT_STARTS_AT
         ).delete_all
+
+        TopicCustomField.where(
+          topic_id: self.post.topic_id, name: TOPIC_POST_EVENT_ENDS_AT
+        ).delete_all
       end
     end
 
@@ -30,7 +34,18 @@ module DiscoursePostEvent
             created_at: Time.now,
             updated_at: Time.now
           },
-          unique_by: %i[name topic_id]
+          unique_by: 'idx_topic_custom_fields_topic_post_event_starts_at'
+        )
+
+        TopicCustomField.upsert(
+          {
+            topic_id: self.post.topic_id,
+            name: TOPIC_POST_EVENT_ENDS_AT,
+            value: self.ends_at,
+            created_at: Time.now,
+            updated_at: Time.now
+          },
+          unique_by: 'idx_topic_custom_fields_topic_post_event_ends_at'
         )
       end
     end
