@@ -257,7 +257,7 @@ function initializeDiscourseCalendar(api) {
         minutes: from.dateTime.minutes(),
         seconds: from.dateTime.seconds(),
       };
-      event.daysOfWeek = [from.dateTime.isoWeekday()];
+      event.daysOfWeek = [from.dateTime.day()];
     }
 
     return event;
