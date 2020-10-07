@@ -53,8 +53,11 @@ export default {
       function _attachPostWithGroupTimezones($elem, helper) {
         if (helper) {
           const post = helper.getModel();
-          api.preventCloak(post.id);
-          _attachGroupTimezones($elem, post);
+
+          if (post) {
+            api.preventCloak(post.id);
+            _attachGroupTimezones($elem, post);
+          }
         }
       }
 
