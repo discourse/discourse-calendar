@@ -195,7 +195,7 @@ function initializeDiscoursePostEventDecorator(api) {
       if (helper) {
         const post = helper.getModel();
 
-        if (post?.event) {
+        if (post && post.event) {
           _decorateEvent(api, cooked, post.event);
         }
       }
