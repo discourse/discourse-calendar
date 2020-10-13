@@ -2,14 +2,14 @@
 if (typeof moment.fn.round !== "function") {
   moment.fn.round = function (precision, key, direction) {
     direction = direction || "round";
-    var _this = this; //cache of this
-    var methods = {
+    let _this = this; //cache of this
+    let methods = {
       hours: { name: "Hours", maxValue: 24 },
       minutes: { name: "Minutes", maxValue: 60 },
       seconds: { name: "Seconds", maxValue: 60 },
       milliseconds: { name: "Milliseconds", maxValue: 1000 },
     };
-    var keys = {
+    let keys = {
       mm: methods.milliseconds.name,
       milliseconds: methods.milliseconds.name,
       Milliseconds: methods.milliseconds.name,
@@ -24,10 +24,10 @@ if (typeof moment.fn.round !== "function") {
       hours: methods.hours.name,
       Hours: methods.hours.name,
     };
-    var value = 0;
-    var rounded = false;
-    var subRatio = 1;
-    var maxValue;
+    let value = 0;
+    let rounded = false;
+    let subRatio = 1;
+    let maxValue;
 
     // make sure key is plural
     if (key.length > 1 && key !== "mm" && key.slice(-1) !== "s") {
@@ -42,10 +42,10 @@ if (typeof moment.fn.round !== "function") {
       );
     }
 
-    var get = "get" + methods[key].name;
-    var set = "set" + methods[key].name;
+    let get = "get" + methods[key].name;
+    let set = "set" + methods[key].name;
 
-    for (var k in methods) {
+    for (let k in methods) {
       if (k === key) {
         value = _this._d[get]();
         maxValue = methods[k].maxValue;

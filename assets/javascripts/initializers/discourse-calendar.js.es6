@@ -13,13 +13,13 @@ import Category from "discourse/models/category";
 /* eslint-disable */
 // prettier-ignore
 function stringToHexColor(str) {
-  var hash = 0;
-  for (var i = 0; i < str.length; i++) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  var hex = "#";
-  for (var i = 0; i < 3; i++) {
-    var value = (hash >> (i * 8)) & 0xff;
+  let hex = "#";
+  for (let i = 0; i < 3; i++) {
+    let value = (hash >> (i * 8)) & 0xff;
     hex += ("00" + value.toString(16)).substr(-2);
   }
   return hex;
