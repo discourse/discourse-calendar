@@ -48,6 +48,15 @@ describe DiscourseCalendar::DestroyPastEvents do
     expect(Post.find_by(id: post.id)).not_to eq(nil)
   end
 
+  it "will destroy expired standalone events" do
+    topic = Fabricate(:topic)
+    event = CalendarEvent.create!(topic: calendar_post.topic, start_date: 10.years.ago)
+
+    subject.execute(nil)
+
+    expect(CalendarEvent.find_by(id: event.id)).to eq(nil)
+  end
+
   it "will not destroy recurring events" do
     freeze_time Time.strptime("2018-06-03 09:21:00 UTC", "%Y-%m-%d %H:%M:%S %Z")
 
