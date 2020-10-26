@@ -7,12 +7,12 @@ module DiscoursePostEvent
       topics = listable_topics(guardian)
       pms = private_messages(user)
 
-      events = DiscoursePostEvent::Event.visible
-
       if params[:expired]
-        events = events.expired
+        event_ids = DiscoursePostEvent::EventDate.expired.order(starts_at: :asc).pluck(:event_id)
+        events = DiscoursePostEvent::Event.where.not(id: event_ids)
       else
-        events = events.not_expired
+        event_ids = DiscoursePostEvent::EventDate.not_expired.order(starts_at: :asc).pluck(:event_id)
+        events = DiscoursePostEvent::Event.where(id: event_ids)
       end
 
       if params[:post_id]
@@ -22,7 +22,7 @@ module DiscoursePostEvent
       events = events.joins(post: :topic)
         .merge(Post.secured(guardian))
         .merge(topics.or(pms).distinct)
-        .order(starts_at: :asc)
+        .joins("LEFT JOIN discourse_calendar_post_event_dates dcped ON dcped.event_id = discourse_post_event_events.id")
 
       if params[:category_id].present?
         if params[:include_subcategories].present?

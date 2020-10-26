@@ -10,6 +10,13 @@ Fabricator(:event, from: 'DiscoursePostEvent::Event') do
     DiscoursePostEvent::Event.statuses[attrs[:status]] :
     DiscoursePostEvent::Event.statuses[:public]
   }
+  original_starts_at { |attrs| attrs[:original_starts_at] || 1.day.from_now.iso8601 }
+  original_ends_at { |attrs| attrs[:original_ends_at] }
+end
+
+Fabricator(:event_date, from: 'DiscoursePostEvent::EventDate') do
+  event
+
   starts_at { |attrs| attrs[:starts_at] || 1.day.from_now.iso8601 }
   ends_at { |attrs| attrs[:ends_at] }
 end

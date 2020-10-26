@@ -9,7 +9,7 @@ describe 'discourse_post_event_recurrence' do
   let(:topic_1) { Fabricate(:topic, user: user_1) }
   let(:post_1) { Fabricate(:post, topic: topic_1) }
   let(:starts_at) { Time.zone.parse('2020-09-10 19:00') }
-  let(:post_event_1) { Fabricate(:event, post: post_1, starts_at: starts_at, ends_at: starts_at + 1.hour) }
+  let(:post_event_1) { Fabricate(:event, post: post_1, original_starts_at: starts_at, original_ends_at: starts_at + 1.hour) }
 
   before do
     freeze_time(starts_at)
@@ -24,7 +24,7 @@ describe 'discourse_post_event_recurrence' do
     end
 
     it 'sets the next month at the same weekday' do
-      DiscourseEvent.trigger(:discourse_post_event_event_ended, post_event_1)
+      post_event_1.set_next_date
 
       expect(post_event_1.starts_at).to eq_time(Time.zone.parse('2020-10-08 19:00'))
     end
@@ -36,7 +36,7 @@ describe 'discourse_post_event_recurrence' do
     end
 
     it 'sets the next week at the same weekday' do
-      DiscourseEvent.trigger(:discourse_post_event_event_ended, post_event_1)
+      post_event_1.set_next_date
 
       expect(post_event_1.starts_at).to eq_time(Time.zone.parse('2020-09-17 19:00'))
     end
@@ -48,7 +48,7 @@ describe 'discourse_post_event_recurrence' do
     end
 
     it 'sets the next day' do
-      DiscourseEvent.trigger(:discourse_post_event_event_ended, post_event_1)
+      post_event_1.set_next_date
 
       expect(post_event_1.starts_at).to eq_time(Time.zone.parse('2020-09-11 19:00'))
     end
@@ -57,14 +57,15 @@ describe 'discourse_post_event_recurrence' do
   context 'every_weekday' do
     before do
       post_event_1.update!(
-        starts_at: Time.zone.parse('2020-09-11 19:00'),
-        ends_at: Time.zone.parse('2020-09-11 19:00') + 1.hour,
+        original_starts_at: Time.zone.parse('2020-09-11 19:00'),
+        original_ends_at: Time.zone.parse('2020-09-11 19:00') + 1.hour,
         recurrence: 'every_weekday'
       )
     end
 
     it 'sets the next day' do
-      DiscourseEvent.trigger(:discourse_post_event_event_ended, post_event_1)
+      freeze_time(post_event_1.original_starts_at)
+      post_event_1.set_next_date
 
       expect(post_event_1.starts_at).to eq_time(Time.zone.parse('2020-09-14 19:00'))
     end

@@ -89,14 +89,12 @@ after_initialize do
     ../app/controllers/discourse_post_event/events_controller.rb
     ../app/controllers/discourse_post_event/upcoming_events_controller.rb
     ../app/models/discourse_post_event/event.rb
+    ../app/models/discourse_post_event/event_date.rb
     ../app/models/discourse_post_event/invitee.rb
     ../lib/discourse_post_event/event_parser.rb
     ../lib/discourse_post_event/event_validator.rb
     ../lib/discourse_post_event/rrule_generator.rb
     ../jobs/regular/discourse_post_event/bulk_invite.rb
-    ../jobs/regular/discourse_post_event/event_will_start.rb
-    ../jobs/regular/discourse_post_event/event_started.rb
-    ../jobs/regular/discourse_post_event/event_ended.rb
     ../jobs/regular/discourse_post_event/send_reminder.rb
     ../lib/discourse_post_event/event_finder.rb
     ../app/serializers/discourse_post_event/invitee_serializer.rb
@@ -287,6 +285,7 @@ after_initialize do
     ../jobs/scheduled/create_holiday_events.rb
     ../jobs/scheduled/destroy_past_events.rb
     ../jobs/scheduled/update_holiday_usernames.rb
+    ../jobs/scheduled/monitor_event_dates.rb
     ../lib/calendar_validator.rb
     ../lib/calendar.rb
     ../lib/event_validator.rb
@@ -602,43 +601,6 @@ after_initialize do
       DiscoursePostEvent::Event.all.find_each do |event|
         removed_fields.each { |field| event.custom_fields.delete(field) }
         event.save
-      end
-    end
-
-    on(:discourse_post_event_event_ended) do |event|
-      next if !event.ends_at
-
-      if event.recurrence.present?
-        recurrence = nil
-
-        case event.recurrence
-        when 'every_day'
-          recurrence = 'FREQ=DAILY'
-        when 'every_month'
-          start_date = event.starts_at.beginning_of_month.to_date
-          end_date = event.starts_at.end_of_month.to_date
-          weekday = event.starts_at.strftime('%A')
-
-          count = 0
-          (start_date..end_date).each do |date|
-            count += 1 if date.strftime('%A') == weekday
-            break if date.day == event.starts_at.day
-          end
-
-          recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
-        when 'every_weekday'
-          recurrence = 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
-        else
-          byday = event.starts_at.strftime('%A').upcase[0, 2]
-          recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
-        end
-
-        next_starts_at = RRuleGenerator.generate(recurrence, event.starts_at)
-        difference = event.ends_at - event.starts_at
-        next_ends_at = next_starts_at + difference.seconds
-
-        event.update!(starts_at: next_starts_at, ends_at: next_ends_at)
-        event.publish_update!
       end
     end
   end

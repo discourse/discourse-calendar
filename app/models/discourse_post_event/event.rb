@@ -6,6 +6,10 @@ module DiscoursePostEvent
 
     self.table_name = 'discourse_post_event_events'
 
+    self.ignored_columns = %w(starts_at ends_at)
+
+    has_many :event_dates, dependent: :destroy
+
     def self.attributes_protected_by_default
       super - %w[id]
     end
@@ -23,50 +27,31 @@ module DiscoursePostEvent
       end
     end
 
-    after_commit :upsert_topic_custom_field, on: %i[create update]
-    def upsert_topic_custom_field
-      if self.post && self.post.is_first_post?
-        TopicCustomField.upsert(
-          {
-            topic_id: self.post.topic_id,
-            name: TOPIC_POST_EVENT_STARTS_AT,
-            value: self.starts_at,
-            created_at: Time.now,
-            updated_at: Time.now
-          },
-          unique_by: 'idx_topic_custom_fields_topic_post_event_starts_at'
-        )
+    after_commit :create_or_update_event_date, on: %i(create update)
+    def create_or_update_event_date
+      starts_at_changed = saved_change_to_original_starts_at
+      ends_at_changed = saved_change_to_original_ends_at
 
-        TopicCustomField.upsert(
-          {
-            topic_id: self.post.topic_id,
-            name: TOPIC_POST_EVENT_ENDS_AT,
-            value: self.ends_at,
-            created_at: Time.now,
-            updated_at: Time.now
-          },
-          unique_by: 'idx_topic_custom_fields_topic_post_event_ends_at'
-        )
-      end
+      return if !starts_at_changed && !ends_at_changed
+
+      event_dates.update_all(finished_at: Time.current)
+      set_next_date
     end
 
-    after_commit :setup_handlers, on: %i[create update]
-    def setup_handlers
-      starts_at_changes = saved_change_to_starts_at
-      self.refresh_starts_at_handlers!(starts_at_changes) if starts_at_changes
+    def set_next_date
+      next_dates = calculate_next_date
+      return if !next_dates
 
-      if saved_change_to_starts_at || saved_change_to_reminders
-        self.refresh_reminders!
-      end
+      event_dates.create!(
+        starts_at: next_dates[:starts_at],
+        ends_at: next_dates[:ends_at],
+        finished_at: (next_dates[:starts_at] < Time.current) && next_dates[:starts_at]
+      )
 
-      ends_at_changes = saved_change_to_ends_at
-      self.refresh_ends_at_handlers!(ends_at_changes) if ends_at_changes
-
-      if starts_at_changes
-        self.invitees.update_all(status: nil, notified: false)
-        self.notify_invitees!
-        self.notify_missing_invitees!
-      end
+      publish_update!
+      invitees.update_all(status: nil, notified: false)
+      notify_invitees!
+      notify_missing_invitees!
     end
 
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
@@ -74,14 +59,21 @@ module DiscoursePostEvent
 
     scope :visible, -> { where(deleted_at: nil) }
 
-    scope :expired, -> { where('ends_at IS NOT NULL AND ends_at < ?', Time.now) }
-    scope :not_expired, -> { where('ends_at IS NULL OR ends_at > ?', Time.now) }
-
     def expired?
       !!(self.ends_at && Time.now > self.ends_at)
     end
 
-    validates :starts_at, presence: true
+    def starts_at
+      event_dates.pending.order(:starts_at).last&.starts_at ||
+        event_dates.order(:starts_at).last&.starts_at
+    end
+
+    def ends_at
+      event_dates.pending.order(:starts_at).last&.ends_at ||
+        event_dates.order(:starts_at).last&.ends_at
+    end
+
+    validates :original_starts_at, presence: true
 
     def on_going_event_invitees
       return [] if !self.ends_at && self.starts_at < Time.now
@@ -125,7 +117,7 @@ module DiscoursePostEvent
 
     validate :ends_before_start
     def ends_before_start
-      if self.starts_at && self.ends_at && self.starts_at >= self.ends_at
+      if self.original_starts_at && self.original_ends_at && self.original_starts_at >= self.original_ends_at
         errors.add(
           :base,
           I18n.t(
@@ -183,6 +175,8 @@ module DiscoursePostEvent
     end
 
     def create_notification!(user, post, predefined_attendance: false)
+      return if post.event.starts_at < Time.current
+
       message =
         if predefined_attendance
           'discourse_post_event.notifications.invite_user_predefined_attendance_notification'
@@ -279,8 +273,8 @@ module DiscoursePostEvent
         event = post.event || DiscoursePostEvent::Event.new(id: post.id)
         params = {
           name: event_params[:name],
-          starts_at: event_params[:start] || event.starts_at,
-          ends_at: event_params[:end],
+          original_starts_at: event_params[:start],
+          original_ends_at: event_params[:end],
           url: event_params[:url],
           recurrence: event_params[:recurrence],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
@@ -329,76 +323,38 @@ module DiscoursePostEvent
       self.publish_update!
     end
 
-    def refresh_ends_at_handlers!(ends_at_changes)
-      new_ends_at = ends_at_changes[1]
-      Jobs.cancel_scheduled_job(
-        :discourse_post_event_event_ended,
-        event_id: self.id
-      )
+    def calculate_next_date
+      return { starts_at: original_starts_at, ends_at: original_ends_at } if !original_ends_at || self.recurrence.blank? || original_starts_at > Time.current
 
-      if new_ends_at
-        if new_ends_at > Time.now
-          Jobs.enqueue_at(
-            new_ends_at,
-            :discourse_post_event_event_ended,
-            event_id: self.id
-          )
-        else
-          DiscourseEvent.trigger(:discourse_post_event_event_ended, self)
+      recurrence = nil
+
+      case self.recurrence
+      when 'every_day'
+        recurrence = 'FREQ=DAILY'
+      when 'every_month'
+        start_date = original_starts_at.beginning_of_month.to_date
+        end_date = original_starts_at.end_of_month.to_date
+        weekday = original_starts_at.strftime('%A')
+
+        count = 0
+        (start_date..end_date).each do |date|
+          count += 1 if date.strftime('%A') == weekday
+          break if date.day == original_starts_at.day
         end
+
+        recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
+      when 'every_weekday'
+        recurrence = 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
+      else
+        byday = original_starts_at.strftime('%A').upcase[0, 2]
+        recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
       end
-    end
 
-    def refresh_starts_at_handlers!(starts_at_changes)
-      new_starts_at = starts_at_changes[1]
+      next_starts_at = RRuleGenerator.generate(recurrence, original_starts_at)
+      difference = original_ends_at - original_starts_at
+      next_ends_at = next_starts_at + difference.seconds
 
-      Jobs.cancel_scheduled_job(
-        :discourse_post_event_event_started,
-        event_id: self.id
-      )
-      Jobs.cancel_scheduled_job(
-        :discourse_post_event_event_will_start,
-        event_id: self.id
-      )
-
-      if new_starts_at > Time.now
-        Jobs.enqueue_at(
-          new_starts_at,
-          :discourse_post_event_event_started,
-          event_id: self.id
-        )
-
-        will_start_at = new_starts_at - 1.hour
-        if will_start_at > Time.now
-          Jobs.enqueue_at(
-            will_start_at,
-            :discourse_post_event_event_will_start,
-            event_id: self.id
-          )
-        end
-      end
-    end
-
-    def refresh_reminders!
-      (self.reminders || '').split(',').map do |reminder|
-        value, unit = reminder.split('.')
-
-        if transaction_include_any_action?(%i[update])
-          Jobs.cancel_scheduled_job(
-            :discourse_post_event_send_reminder,
-            event_id: self.id, reminder: reminder
-          )
-        end
-
-        enqueue_at = self.starts_at - value.to_i.send(unit)
-        if enqueue_at > Time.now
-          Jobs.enqueue_at(
-            enqueue_at,
-            :discourse_post_event_send_reminder,
-            event_id: self.id, reminder: reminder
-          )
-        end
-      end
+      { starts_at: next_starts_at, ends_at: next_ends_at }
     end
   end
 end

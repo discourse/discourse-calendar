@@ -54,7 +54,7 @@ describe Post do
 
           context 'when in edit grace period' do
             before do
-              event_1.update_with_params!(
+              event_1.event_dates.first.update_columns(
                 starts_at: 3.hours.ago, ends_at: 2.hours.ago
               )
 
@@ -89,7 +89,7 @@ describe Post do
 
           context 'when not edit grace period' do
             before do
-              event_1.update_with_params!(starts_at: 5.hours.ago)
+              event_1.event_dates.first.update_columns(starts_at: 5.hours.ago)
             end
 
             it 'doesn’t send a post revision to anyone' do
@@ -119,8 +119,8 @@ describe Post do
 
               event_1.update_with_params!(
                 recurrence: 'FREQ=WEEKLY;BYDAY=MO',
-                starts_at: 3.hours.ago,
-                ends_at: nil
+                original_starts_at: 3.hours.ago,
+                original_ends_at: nil
               )
 
               Invitee.create_attendance!(going_user.id, event_1.id, :going)
@@ -139,7 +139,7 @@ describe Post do
 
             context 'when the event ends' do
               it 'sets the next dates' do
-                event_1.update_with_params!(ends_at: Time.now)
+                event_1.update_with_params!(original_ends_at: Time.now)
 
                 expect(event_1.starts_at.to_s).to eq('2020-08-19 13:32:00 UTC')
                 expect(event_1.ends_at.to_s).to eq('2020-08-19 16:32:00 UTC')
@@ -150,12 +150,13 @@ describe Post do
                   [Invitee.statuses[:going], Invitee.statuses[:interested]]
                 )
 
-                event_1.update_with_params!(ends_at: Time.now)
+                event_1.update_with_params!(original_ends_at: Time.now)
                 expect(event_1.invitees.pluck(:status).compact).to eq([])
               end
 
+              # that will be handled by new job, uncomment when finishedh
               it 'resends event creation notification to invitees' do
-                expect { event_1.update_with_params!(ends_at: Time.now) }.to change {
+                expect { event_1.update_with_params!(original_ends_at: Time.now) }.to change {
                   going_user.notifications.count
                 }.by(1)
               end
@@ -207,7 +208,7 @@ describe Post do
 
             expect(post.reload.persisted?).to eq(true)
             expect(post.event.persisted?).to eq(true)
-            expect(post.event.starts_at).to eq_time(Time.parse(start))
+            expect(post.event.original_starts_at).to eq_time(Time.parse(start))
           end
 
           it 'works with name attribute' do
@@ -341,7 +342,7 @@ describe Post do
 
             expect(post.reload.persisted?).to eq(true)
             expect(post.event.persisted?).to eq(true)
-            expect(post.event.starts_at).to eq_time(Time.parse(start))
+            expect(post.event.original_starts_at).to eq_time(Time.parse(start))
           end
         end
 
@@ -497,8 +498,8 @@ describe Post do
         post: post_1,
         status: Event.statuses[:private],
         raw_invitees: [group_1.name],
-        starts_at: 3.hours.ago,
-        ends_at: nil
+        original_starts_at: 3.hours.ago,
+        original_ends_at: nil
       )
     }
 
@@ -510,8 +511,8 @@ describe Post do
           status: Event.statuses[:private],
           raw_invitees: [group_1.name],
           recurrence: 'FREQ=WEEKLY;BYDAY=MO',
-          starts_at: 3.hours.ago,
-          ends_at: nil
+          original_starts_at: 3.hours.ago,
+          original_ends_at: nil
         )
       }
 
@@ -527,7 +528,7 @@ describe Post do
         it 'resends event creation notification to invitees and possible invitees' do
           expect(event_1.invitees.count).to eq(1)
 
-          expect { event_1.update_with_params!(ends_at: 2.hours.ago) }.to change {
+          expect { event_1.update_with_params!(original_ends_at: 2.hours.ago) }.to change {
             invitee_1.notifications.count + invitee_2.notifications.count
           }.by(2)
         end

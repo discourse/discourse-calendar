@@ -29,166 +29,78 @@ describe DiscoursePostEvent::Event do
     describe '#after_commit[:create, :update]' do
       context 'a post event has been created' do
         context 'the associated post is the OP' do
-          it 'sets the topic custom field' do
+          it 'sets the topic custom field and creates event date' do
             expect(first_post.is_first_post?).to be(true)
             expect(first_post.topic.custom_fields).to be_blank
 
-            Event.create!(id: first_post.id, starts_at: starts_at, ends_at: ends_at)
+            expect {
+              Event.create!(id: first_post.id, original_starts_at: starts_at, original_ends_at: ends_at)
+            }.to change { DiscoursePostEvent::EventDate.count }
             first_post.topic.reload
 
             expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
             expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
+            expect(DiscoursePostEvent::EventDate.last.starts_at).to eq_time(DateTime.parse(starts_at))
+            expect(DiscoursePostEvent::EventDate.last.ends_at).to eq_time(DateTime.parse(ends_at))
           end
         end
 
         context 'the associated post is not the OP' do
-          it 'doesn’t set the topic custom field' do
+          it 'doesn’t set the topic custom field but still creates event date' do
             expect(second_post.is_first_post?).to be(false)
             expect(second_post.topic.custom_fields).to be_blank
 
-            Event.create!(id: second_post.id, starts_at: starts_at)
+            expect {
+              Event.create!(id: second_post.id, original_starts_at: starts_at)
+            }.to change { DiscoursePostEvent::EventDate.count }
             second_post.topic.reload
 
             expect(second_post.topic.custom_fields).to be_blank
-          end
-        end
-
-        context 'setting dates enqueues future jobs at date' do
-          before do
-            Jobs.run_later!
-          end
-
-          context 'starts_at' do
-            context 'is after current time' do
-              it 'queues a future discourse event trigger' do
-                expect_enqueued_with(job: :discourse_post_event_event_started, args: {
-                  "event_id" => first_post.id
-                }) do
-                  Event.create!(id: first_post.id, starts_at: starts_at)
-                end
-              end
-            end
-
-            context 'is before current time' do
-              it 'doesn’t queues a future discourse event trigger' do
-                expect {
-                  Event.create!(id: first_post.id, starts_at: Time.now - 1.day)
-                }.to change {
-                  Jobs::DiscoursePostEventEventStarted.jobs.count +
-                  Jobs::DiscoursePostEventEventWillStart.jobs.count
-                }.by(0)
-              end
-            end
-
-            context 'an event started job was already scheduled' do
-              it 'queues a future discourse event trigger' do
-                Jobs
-                  .expects(:cancel_scheduled_job)
-                  .with(:discourse_post_event_event_ended, event_id: first_post.id)
-                  .never
-
-                Jobs
-                  .expects(:cancel_scheduled_job)
-                  .with(:discourse_post_event_event_started, event_id: first_post.id)
-                  .at_least_once
-
-                Jobs
-                  .expects(:cancel_scheduled_job)
-                  .with(:discourse_post_event_event_will_start, event_id: first_post.id)
-                  .at_least_once
-
-                Event.create!(id: first_post.id, starts_at: starts_at)
-
-                expect(Jobs::DiscoursePostEventEventStarted.jobs.count).to eq(1)
-                expect(Jobs::DiscoursePostEventEventWillStart.jobs.count).to eq(0)
-
-                Event.find(first_post.id).update!(starts_at: Time.now + 2.hours)
-
-                expect(Jobs::DiscoursePostEventEventStarted.jobs.count).to eq(2)
-                expect(Jobs::DiscoursePostEventEventWillStart.jobs.count).to eq(1)
-              end
-            end
-          end
-
-          context 'ends_at' do
-            context 'is after current time' do
-              it 'queues a future discourse event trigger' do
-                expect_enqueued_with(job: :discourse_post_event_event_ended, args: {
-                  "event_id" => first_post.id
-                }) do
-                  Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now + 12.hours)
-                end
-              end
-            end
-
-            context 'is before current time' do
-              it 'doesn’t queue a future discourse event trigger' do
-                expect {
-                  Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now - 12.hours)
-                }.to change {
-                  Jobs::DiscoursePostEventEventEnded.jobs.count
-                }.by(0)
-              end
-            end
-
-            context 'an event ended job was already scheduled' do
-              it 'queues a future discourse event trigger' do
-                Jobs
-                  .expects(:cancel_scheduled_job)
-                  .with(:discourse_post_event_event_ended, event_id: first_post.id)
-                  .at_least_once
-
-                Jobs
-                  .expects(:cancel_scheduled_job)
-                  .with(:discourse_post_event_event_started, event_id: first_post.id)
-                  .at_least_once
-
-                Jobs
-                  .expects(:cancel_scheduled_job)
-                  .with(:discourse_post_event_event_will_start, event_id: first_post.id)
-                  .at_least_once
-
-                Event.create!(id: first_post.id, starts_at: Time.now - 1.day, ends_at: Time.now + 12.hours)
-
-                expect(Jobs::DiscoursePostEventEventEnded.jobs.count).to eq(1)
-
-                Event.find(first_post.id).update!(starts_at: Time.now - 1.day, ends_at: Time.now + 13.hours)
-
-                expect(Jobs::DiscoursePostEventEventEnded.jobs.count).to eq(2)
-              end
-            end
           end
         end
       end
 
       context 'a post event has been updated' do
         context 'the associated post is the OP' do
-          let!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at, ends_at: ends_at) }
+          let!(:post_event) { Fabricate(:event, post: first_post, original_starts_at: starts_at,  original_ends_at: ends_at) }
 
           it 'sets the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
             expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
             expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
 
-            post_event.update_with_params!(starts_at: alt_starts_at, ends_at: alt_ends_at)
+            first_event_date = post_event.event_dates.last
+            expect(first_event_date.starts_at).to eq_time(DateTime.parse(starts_at))
+            expect(first_event_date.finished_at).to be nil
+
+            post_event.update_with_params!(original_starts_at: alt_starts_at, original_ends_at: alt_ends_at)
             first_post.topic.reload
+            first_event_date.reload
+
+            second_event_date = post_event.event_dates.last
 
             expect(first_post.topic.custom_fields[StartsAtField]).to eq(alt_starts_at)
             expect(first_post.topic.custom_fields[EndsAtField]).to eq(alt_ends_at)
+
+            expect(first_event_date.finished_at).not_to be nil
+            expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
           end
         end
 
         context 'the associated post is not the OP' do
-          let(:post_event) { Fabricate(:event, post: second_post, starts_at: starts_at) }
+          let(:post_event) { Fabricate(:event, post: second_post, original_starts_at: starts_at) }
 
           it 'doesn’t set the topic custom field' do
             expect(second_post.is_first_post?).to be(false)
             expect(second_post.topic.custom_fields[StartsAtField]).to be_blank
 
-            post_event.update_with_params!(starts_at: alt_starts_at)
+            post_event.update_with_params!(original_starts_at: alt_starts_at)
             second_post.topic.reload
 
             expect(second_post.topic.custom_fields[StartsAtField]).to be_blank
+
+            second_event_date = post_event.event_dates.last
+            expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
           end
         end
       end
@@ -197,7 +109,7 @@ describe DiscoursePostEvent::Event do
     describe '#after_commit[:destroy]' do
       context 'a post event has been destroyed' do
         context 'the associated post is the OP' do
-          let!(:post_event) { Fabricate(:event, post: first_post, starts_at: starts_at, ends_at: ends_at) }
+          let!(:post_event) { Fabricate(:event, post: first_post, original_starts_at: starts_at, original_ends_at: ends_at) }
 
           it 'sets the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
@@ -213,8 +125,8 @@ describe DiscoursePostEvent::Event do
         end
 
         context 'the associated post is not the OP' do
-          let!(:first_post_event) { Fabricate(:event, post: first_post, starts_at: starts_at, ends_at: ends_at) }
-          let!(:second_post_event) { Fabricate(:event, post: second_post, starts_at: starts_at, ends_at: ends_at) }
+          let!(:first_post_event) { Fabricate(:event, post: first_post, original_starts_at: starts_at, original_ends_at: ends_at) }
+          let!(:second_post_event) { Fabricate(:event, post: second_post, original_starts_at: starts_at, original_ends_at: ends_at) }
 
           it 'doesn’t change the topic custom field' do
             expect(first_post.is_first_post?).to be(true)
@@ -234,13 +146,18 @@ describe DiscoursePostEvent::Event do
   end
 
   describe '#ongoing?' do
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:topic) { Fabricate(:topic, user: user) }
+    let!(:first_post) { Fabricate(:post, topic: topic) }
+
     context 'has ends_at' do
       context '&& starts_at < current date' do
         context '&& ends_at < current date' do
           it 'is ongoing' do
-            post_event = Event.new(
-              starts_at: 2.hours.ago,
-              ends_at: 1.hours.ago
+            post_event = Event.create!(
+              original_starts_at: 2.hours.ago,
+              original_ends_at: 1.hours.ago,
+              post: first_post
             )
 
             expect(post_event.ongoing?).to be(false)
@@ -249,9 +166,10 @@ describe DiscoursePostEvent::Event do
 
         context '&& ends_at > current date' do
           it 'is not ongoing' do
-            post_event = Event.new(
-              starts_at: 2.hours.ago,
-              ends_at: 3.hours.from_now
+            post_event = Event.create!(
+              original_starts_at: 2.hours.ago,
+              original_ends_at: 3.hours.from_now,
+              post: first_post
             )
 
             expect(post_event.ongoing?).to be(true)
@@ -262,9 +180,10 @@ describe DiscoursePostEvent::Event do
       context '&& starts_at > current date' do
         context '&& ends_at > current date' do
           it 'is not ongoing' do
-            post_event = Event.new(
-              starts_at: 1.hour.from_now,
-              ends_at: 2.hours.from_now
+            post_event = Event.create!(
+              original_starts_at: 1.hour.from_now,
+              original_ends_at: 2.hours.from_now,
+              post: first_post
             )
 
             expect(post_event.ongoing?).to be(false)
@@ -276,8 +195,9 @@ describe DiscoursePostEvent::Event do
     context 'has not ends_at date' do
       context '&& starts_at < current date' do
         it 'is not ongoing' do
-          post_event = Event.new(
-            starts_at: 2.hours.ago
+          post_event = Event.create!(
+            original_starts_at: 2.hours.ago,
+            post: first_post
           )
 
           expect(post_event.ongoing?).to be(false)
@@ -286,8 +206,9 @@ describe DiscoursePostEvent::Event do
 
       context '&& starts_at == current date' do
         it 'is ongoing' do
-          post_event = Event.new(
-            starts_at: Time.now
+          post_event = Event.create!(
+            original_starts_at: Time.now,
+            post: first_post
           )
 
           expect(post_event.ongoing?).to be(true)
@@ -296,8 +217,9 @@ describe DiscoursePostEvent::Event do
 
       context '&& starts_at > current date' do
         it 'is ongoing' do
-          post_event = Event.new(
-            starts_at: 1.hours.from_now
+          post_event = Event.create!(
+            original_starts_at: 1.hours.from_now,
+            post: first_post
           )
 
           expect(post_event.ongoing?).to be(true)
@@ -307,13 +229,18 @@ describe DiscoursePostEvent::Event do
   end
 
   describe '#expired?' do
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:topic) { Fabricate(:topic, user: user) }
+    let!(:first_post) { Fabricate(:post, topic: topic) }
+
     context 'has ends_at' do
       context '&& starts_at < current date' do
         context '&& ends_at < current date' do
           it 'is expired' do
-            post_event = Event.new(
-              starts_at: DateTime.parse('2020-04-22 14:05'),
-              ends_at: DateTime.parse('2020-04-23 14:05')
+            post_event = Event.create!(
+              original_starts_at: DateTime.parse('2020-04-22 14:05'),
+              original_ends_at: DateTime.parse('2020-04-23 14:05'),
+              post: first_post
             )
 
             expect(post_event.expired?).to be(true)
@@ -322,9 +249,10 @@ describe DiscoursePostEvent::Event do
 
         context '&& ends_at > current date' do
           it 'is not expired' do
-            post_event = Event.new(
-              starts_at: DateTime.parse('2020-04-24 14:15'),
-              ends_at: DateTime.parse('2020-04-25 11:05')
+            post_event = Event.create!(
+              original_starts_at: DateTime.parse('2020-04-24 14:15'),
+              original_ends_at: DateTime.parse('2020-04-25 11:05'),
+              post: first_post
             )
 
             expect(post_event.expired?).to be(false)
@@ -334,9 +262,10 @@ describe DiscoursePostEvent::Event do
 
       context '&& starts_at > current date' do
         it 'is not expired' do
-          post_event = Event.new(
-            starts_at: DateTime.parse('2020-04-25 14:05'),
-            ends_at: DateTime.parse('2020-04-26 14:05')
+          post_event = Event.create!(
+            original_starts_at: DateTime.parse('2020-04-25 14:05'),
+            original_ends_at: DateTime.parse('2020-04-26 14:05'),
+            post: first_post
           )
 
           expect(post_event.expired?).to be(false)
@@ -347,8 +276,9 @@ describe DiscoursePostEvent::Event do
     context 'has not ends_at date' do
       context '&& starts_at < current date' do
         it 'is expired' do
-          post_event = Event.new(
-            starts_at: DateTime.parse('2020-04-24 14:05')
+          post_event = Event.create!(
+            original_starts_at: DateTime.parse('2020-04-24 14:05'),
+            post: first_post
           )
 
           expect(post_event.expired?).to be(false)
@@ -357,8 +287,9 @@ describe DiscoursePostEvent::Event do
 
       context '&& starts_at == current date' do
         it 'is expired' do
-          post_event = Event.new(
-            starts_at: DateTime.parse('2020-04-24 14:10')
+          post_event = Event.create!(
+            original_starts_at: DateTime.parse('2020-04-24 14:10'),
+            post: first_post
           )
 
           expect(post_event.expired?).to be(false)
@@ -367,8 +298,9 @@ describe DiscoursePostEvent::Event do
 
       context '&& starts_at > current date' do
         it 'is not expired' do
-          post_event = Event.new(
-            starts_at: DateTime.parse('2020-04-24 14:15')
+          post_event = Event.create!(
+            original_starts_at: DateTime.parse('2020-04-24 14:15'),
+            post: first_post
           )
 
           expect(post_event.expired?).to be(false)
@@ -413,61 +345,6 @@ describe DiscoursePostEvent::Event do
           }.to change {
             event_1.invitees.count
           }.by(0)
-        end
-      end
-    end
-  end
-
-  context 'reminders callbacks' do
-    let!(:post_1) { Fabricate(:post) }
-    let!(:event_1) { Fabricate(:event, post: post_1) }
-
-    before do
-      freeze_time
-    end
-
-    it 'does nothing with no reminders' do
-      Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id).never
-      event_1.save!
-    end
-
-    it 'creates jobs with reminders' do
-      Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
-      Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '-2.days').once
-      Jobs.expects(:enqueue_at).with(event_1.starts_at - 1.hour, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
-      Jobs.expects(:enqueue_at).with(event_1.starts_at + 2.days, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '-2.days').once
-
-      event_1.update!(reminders: '1.hours,-2.days')
-    end
-
-    context 'reminder is after current time' do
-      before do
-        event_1.update!(starts_at: 30.minutes.from_now)
-      end
-
-      it 'doesn’t create job' do
-        Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
-        Jobs.expects(:enqueue_at).with(event_1.starts_at - 1.hour, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').never
-
-        event_1.update!(reminders: '1.hours')
-      end
-    end
-
-    context 'starts at is changed' do
-      context 'event has reminders' do
-        before do
-          event_1.update!(reminders: '1.hours')
-        end
-
-        it 'creates jobs with reminders' do
-          Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_event_started, event_id: event_1.id).once
-          Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_event_will_start, event_id: event_1.id).once
-          Jobs.expects(:cancel_scheduled_job).with(:discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
-          Jobs.expects(:enqueue_at).with(2.hours.from_now - 1.hour, :discourse_post_event_send_reminder, event_id: event_1.id, reminder: '1.hours').once
-          Jobs.expects(:enqueue_at).with(2.hours.from_now - 1.hour, :discourse_post_event_event_will_start, event_id: event_1.id).once
-          Jobs.expects(:enqueue_at).with(2.hours.from_now, :discourse_post_event_event_started, event_id: event_1.id).once
-
-          event_1.update!(starts_at: 2.hours.from_now)
         end
       end
     end
