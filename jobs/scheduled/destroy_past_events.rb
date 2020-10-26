@@ -29,9 +29,10 @@ module Jobs
 
         end_date = event.end_date ? event.end_date : event.start_date + 24.hours
         next if end_date + delay.hour > Time.zone.now
-        next if event.post.blank?
 
         expired_event_ids << event.id
+
+        next if event.post.blank?
 
         # Delete the post and all replies that do not represent other events
         event.post.replies.each do |reply|
