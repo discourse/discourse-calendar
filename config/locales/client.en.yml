@@ -278,8 +278,8 @@ en:
         after_event_reminder: "An event has ended %{description}"
         ongoing_event_reminder: "An event is ongoing  %{description}"
       preview:
-        more_than_one_event: You can’t have more than one event.
-      edit_reason: Event updated
+        more_than_one_event: "You can’t have more than one event."
+      edit_reason: "Event updated"
       topic_title:
         starts_at: "Event will start: %{date}"
         ended_at: "Event ended: %{date}"
@@ -292,30 +292,30 @@ en:
             not_going: "Not Going"
             interested: "Interested"
         event:
-          expired: Expired
+          expired: "Expired"
           status:
             standalone:
-              title: Standalone
+              title: "Standalone"
               description: "A standalone event can't be joined."
             public:
-              title: Public
+              title: "Public"
               description: "A public event can be joined by anyone."
             private:
-              title: Private
+              title: "Private"
               description: "A private event can only be joined by invited users."
       event_ui:
-        show_all: Show all
+        show_all: "Show all"
         participants:
           one: "%{count} user participated."
           other: "%{count} users participated."
-        invite: Notify user
-        add_to_calendar: Add to calendar
-        send_pm_to_creator: Send PM to %{username}
-        edit_event: Edit event
-        export_event: Export event
-        created_by: Created by
-        bulk_invite: Bulk Invite
-        close_event: Close event
+        invite: "Notify user"
+        add_to_calendar: "Add to calendar"
+        send_pm_to_creator: "Send PM to %{username}"
+        edit_event: "Edit event"
+        export_event: "Export event"
+        created_by: "Created by"
+        bulk_invite: "Bulk Invite"
+        close_event: "Close event"
       invitees_modal:
         title_invited: "List of RSVPed users"
         title_participated: "List of users who participated"
@@ -326,9 +326,9 @@ en:
         success: "File uploaded successfully, you will be notified via message when the process is complete."
         error: "Sorry, file should be CSV format."
         confirmation_message: "You’re about to notify everyone in the uploaded file."
-        description_public: Public events only accept usernames for bulk invites.
-        description_private: Private events only accept group names for bulk invites.
-        download_sample_csv: Download a sample CSV file
+        description_public: "Public events only accept usernames for bulk invites."
+        description_private: "Private events only accept group names for bulk invites."
+        download_sample_csv: "Download a sample CSV file"
         send_bulk_invites: "Send invites"
         group_selector_placeholder: "Choose a group..."
         user_selector_placeholder: "Choose user..."
@@ -336,41 +336,41 @@ en:
         csv_title: "CSV bulk invite"
       builder_modal:
         custom_fields:
-          label: Custom Fields
-          placeholder: Optional
-          description: Allowed custom fields are defined in site settings. Custom fields are used to transmit data to other plugins.
-        create_event_title: Create Event
-        update_event_title: Edit Event
-        confirm_delete: Are you sure you want to delete this event?
-        confirm_close: Are you sure you want to close this event?
-        create: Create
-        update: Save
-        attach: Create event
-        add_reminder: Add reminder
+          label: "Custom Fields"
+          placeholder: "Optional"
+          description: "Allowed custom fields are defined in site settings. Custom fields are used to transmit data to other plugins."
+        create_event_title: "Create Event"
+        update_event_title: "Edit Event"
+        confirm_delete: "Are you sure you want to delete this event?"
+        confirm_close: "Are you sure you want to close this event?"
+        create: "Create"
+        update: "Save"
+        attach: "Create event"
+        add_reminder: "Add reminder"
         reminders:
-          label: Reminders
+          label: "Reminders"
         recurrence:
-          label: Recurrence
-          none: No recurrence
-          every_day: Every day
-          every_month: Every month at this weekday
-          every_weekday: Every weekday
-          every_week: Every week at this weekday
+          label: "Recurrence"
+          none: "No recurrence"
+          every_day: "Every day"
+          every_month: "Every month at this weekday"
+          every_weekday: "Every weekday"
+          every_week: "Every week at this weekday"
         url:
-          label: URL
-          placeholder: Optional
+          label: "URL"
+          placeholder: "Optional"
         name:
-          label: Event name
-          placeholder: Optional, defaults to topic title
+          label: "Event name"
+          placeholder: "Optional, defaults to topic title"
         invitees:
-          label: Invited groups
+          label: "Invited groups"
         status:
-          label: Status
+          label: "Status"
       invite_user_or_group:
-        title: Notify user(s) or group(s)
-        invite: Send
+        title: "Notify user(s) or group(s)"
+        invite: "Send"
       upcoming_events:
-        title: Upcoming events
-        creator: Creator
-        status: Status
-        starts_at: Starts at
+        title: "Upcoming events"
+        creator: "Creator"
+        status: "Status"
+        starts_at: "Starts at"
