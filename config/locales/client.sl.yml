@@ -350,7 +350,7 @@ sl:
         attach: "Ustvari dogodek"
         add_reminder: "Dodaj opomnik"
         reminders:
-          label: ""Opomniki
+          label: "Opomniki"
         recurrence:
           label: "Ponavljanje"
           none: "Brez"
