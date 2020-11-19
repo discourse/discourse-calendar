@@ -392,48 +392,37 @@ after_initialize do
   end
 
   add_to_serializer(:post, :calendar_details) do
-    result = []
-    grouped_events = {}
+    grouped = {}
+    standalones = []
 
-    CalendarEvent.where(topic_id: object.topic_id).each do |event|
+    CalendarEvent.where(topic_id: object.topic_id).order(:start_date, :end_date).find_each do |event|
       if event.post_id
-        # Events with no `post_id` are holidays
-
-        result <<
-          {
-            type: :standalone,
-            post_number: event.post_number,
-            message: event.description,
-            from: event.start_date,
-            to: event.end_date,
-            username: event.username,
-            recurring: event.recurrence,
-            post_url: Post.url('-', event.topic_id, event.post_number)
-          }
+        standalones << {
+          type: :standalone,
+          post_number: event.post_number,
+          message: event.description,
+          from: event.start_date,
+          to: event.end_date,
+          username: event.username,
+          recurring: event.recurrence,
+          post_url: Post.url("-", event.topic_id, event.post_number)
+        }
       else
-        identifier =
-          "#{event.region.split('_').first}-#{
-            event.start_date.strftime('%W')
-          }-#{(event.end_date || event.start_date).strftime('%W')}"
+        identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%W")}"
 
-        if grouped_events[identifier]
-          grouped_events[identifier][:to] = event.start_date
-        else
-          grouped_events[identifier] = {
-            type: :grouped,
-            name: event.description,
-            from: event.start_date,
-            usernames: [],
-            identifier: identifier
-          }
-        end
+        grouped[identifier] ||= {
+          type: :grouped,
+          name: event.description,
+          from: event.start_date,
+          usernames: []
+        }
 
-        grouped_events[identifier][:usernames] << event.username
-        grouped_events[identifier][:usernames].uniq!
+        grouped[identifier][:usernames] << event.username
+        grouped[identifier][:usernames].uniq!
       end
     end
 
-    result.concat(grouped_events.values)
+    standalones + grouped.values
   end
 
   add_to_serializer(:post, :include_calendar_details?) { object.is_first_post? }
