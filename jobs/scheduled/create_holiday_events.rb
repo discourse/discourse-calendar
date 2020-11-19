@@ -11,6 +11,7 @@ module Jobs
       require "holidays" unless defined?(Holidays)
 
       regions_and_user_ids = Hash.new { |h, k| h[k] = [] }
+
       UserCustomField
         .where(name: ::DiscourseCalendar::REGION_CUSTOM_FIELD)
         .pluck(:user_id, :value)
@@ -31,13 +32,13 @@ module Jobs
         .map { |user_id, timezone| [user_id, (TZInfo::Timezone.get(timezone) rescue nil)] }
         .to_h
 
-      regions_and_user_ids.keys.each do |region|
-        holidays = Holidays
+      regions_and_user_ids.each do |region, user_ids|
+        Holidays
           .between(Date.today, 6.months.from_now, [region], :observed)
           .filter { |holiday| (1..5) === holiday[:date].wday }
           .each do |holiday|
 
-          regions_and_user_ids[region].each do |user_id|
+          user_ids.each do |user_id|
             next unless usernames[user_id]
 
             date = if tz = user_ids_and_timezones[user_id]
@@ -65,7 +66,7 @@ module Jobs
       return if SiteSetting.all_day_event_start_time.empty? || SiteSetting.all_day_event_end_time.empty?
 
       @holiday_hour ||= begin
-        split = SiteSetting.all_day_event_start_time.split(':')
+        split = SiteSetting.all_day_event_start_time.split(":")
         { hour: split.first, min: split.second }
       end
     end
