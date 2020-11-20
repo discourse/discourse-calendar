@@ -69,6 +69,21 @@ describe DiscourseCalendar::CreateHolidayEvents do
     expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([])
   end
 
+  it "cleans up holidays from deactivated/silenced/suspended users" do
+    frenchy
+    freeze_time Time.zone.local(2019, 8, 1)
+    subject.execute(nil)
+
+    expect(CalendarEvent.exists?(username: frenchy.username)).to eq(true)
+
+    frenchy.active = false
+    frenchy.save!
+
+    subject.execute(nil)
+
+    expect(CalendarEvent.exists?(username: frenchy.username)).to eq(false)
+  end
+
   context "when user_options.timezone column exists" do
     it "uses the user TZ when available" do
       frenchy.user_option.update!(timezone: "Europe/Paris")

@@ -26,11 +26,18 @@ module Jobs
         .pluck(:id, :username)
         .to_h
 
-      user_ids_and_timezones = UserOption
+      timezones = UserOption
+        .where(user_id: usernames.keys)
         .where.not(timezone: nil)
         .pluck(:user_id, :timezone)
         .map { |user_id, timezone| [user_id, (TZInfo::Timezone.get(timezone) rescue nil)] }
         .to_h
+
+      # Remove holidays for deactivated/suspended/silenced users
+      CalendarEvent
+        .where(post_id: nil)
+        .where.not(user_id: usernames.keys)
+        .delete_all
 
       regions_and_user_ids.each do |region, user_ids|
         Holidays
@@ -41,7 +48,7 @@ module Jobs
           user_ids.each do |user_id|
             next unless usernames[user_id]
 
-            date = if tz = user_ids_and_timezones[user_id]
+            date = if tz = timezones[user_id]
               datetime = holiday[:date].in_time_zone(tz)
               datetime = datetime.change(hour_adjustment) if hour_adjustment
               datetime
