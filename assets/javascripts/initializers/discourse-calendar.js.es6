@@ -48,7 +48,8 @@ function initializeDiscourseCalendar(api) {
     if (!$calendarContainer.length) return;
     $calendarContainer.hide();
 
-    const browsedCategory = Category.findBySlugPathWithID(url);
+    const matches = url.match(/(?:\/c\/[a-zA-Z\-]+\/)([0-9]+)/);
+    const browsedCategory = matches && matches[1];
     if (browsedCategory) {
       const settings = Discourse.SiteSettings.calendar_categories
         .split("|")
@@ -67,7 +68,7 @@ function initializeDiscourseCalendar(api) {
 
       const categorySetting = settings.findBy(
         "categoryId",
-        browsedCategory.id.toString()
+        browsedCategory
       );
 
       if (categorySetting && categorySetting.postId) {
