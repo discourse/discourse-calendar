@@ -7,7 +7,6 @@ import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
 import { showPopover, hidePopover } from "discourse/lib/d-popover";
-import Category from "discourse/models/category";
 
 // https://stackoverflow.com/a/16348977
 /* eslint-disable */
