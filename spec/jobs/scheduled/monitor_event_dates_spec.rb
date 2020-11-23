@@ -13,7 +13,6 @@ describe DiscourseCalendar::MonitorEventDates do
   let(:future_date) { future_event.event_dates.first }
 
   context '#send_reminder' do
-    # Jobs.enqueue(:discourse_post_event_send_reminder, event_id: event_date.event.id, reminder: reminder)
     it 'lodge reminder jobs in correct times' do
       expect_not_enqueued_with(job: :discourse_post_event_send_reminder) do
         described_class.new.execute({})
