@@ -65,10 +65,7 @@ function initializeDiscourseCalendar(api) {
           return data;
         });
 
-      const categorySetting = settings.findBy(
-        "categoryId",
-        browsedCategory
-      );
+      const categorySetting = settings.findBy("categoryId", browsedCategory);
 
       if (categorySetting && categorySetting.postId) {
         $calendarContainer.show();
