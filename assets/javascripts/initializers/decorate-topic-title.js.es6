@@ -3,6 +3,9 @@ import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-re
 
 function initializeDecorateTopicTitle(api) {
   api.decorateTopicTitle((topic, node, topicTitleType) => {
+    const container = node.querySelector(".event-date-container");
+    container && container.remove();
+
     if (!topic.event_starts_at || !topic.event_ends_at) {
       return;
     }
@@ -11,11 +14,6 @@ function initializeDecorateTopicTitle(api) {
       topicTitleType === "topic-list-item-title" ||
       topicTitleType === "header-title"
     ) {
-      if (node.querySelector(".event-date-container")) {
-        // we already injected the event
-        return;
-      }
-
       const eventdateContainer = document.createElement("div");
       eventdateContainer.classList.add("event-date-container");
 
