@@ -67,7 +67,8 @@ describe Jobs::DiscoursePostEventSendReminder do
 
     context 'public event' do
       context 'event has not started' do
-        let(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, starts_at: 3.hours.from_now) }
+        let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
+        let!(:event_date_1) { Fabricate(:event_date, event: event_1, starts_at: 3.hours.from_now) }
 
         before do
           init_invitees
@@ -99,7 +100,8 @@ describe Jobs::DiscoursePostEventSendReminder do
       end
 
       context 'event has started' do
-        let(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, starts_at: 3.hours.ago) }
+        let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.ago) }
+        let!(:event_date_1) { Fabricate(:event_date, event: event_1, starts_at: 3.hours.ago) }
 
         before do
           init_invitees
