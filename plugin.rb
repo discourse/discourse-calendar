@@ -395,7 +395,7 @@ after_initialize do
     grouped = {}
     standalones = []
 
-    CalendarEvent.where(topic_id: object.topic_id).order(:start_date, :end_date).find_each do |event|
+    CalendarEvent.where(topic_id: object.topic_id).order(:start_date, :end_date).each do |event|
       if event.post_id
         standalones << {
           type: :standalone,
