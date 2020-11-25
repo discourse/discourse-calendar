@@ -13,7 +13,7 @@ class MoveDataToEventDates < ActiveRecord::Migration[6.0]
       extracted_event = DiscoursePostEvent::EventParser.extract_events(post).first
       next if !extracted_event
 
-      finished_at = (event.original_ends_at < Time.current) && event.original_ends_at
+      finished_at = event.original_ends_at && (event.original_ends_at < Time.current) && event.original_ends_at
       event_will_start_sent_at = event.original_starts_at - 1.hours
       event_started_sent_at = event.original_starts_at
 
