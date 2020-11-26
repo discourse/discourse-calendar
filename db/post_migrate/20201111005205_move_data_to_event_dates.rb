@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class MoveDataToEventDates < ActiveRecord::Migration[6.0]
-
   VALID_OPTIONS = [
     :start,
     :end,
@@ -14,18 +13,19 @@ class MoveDataToEventDates < ActiveRecord::Migration[6.0]
   ]
 
   def extract_events(post)
-    cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
     valid_options = VALID_OPTIONS.map { |o| "data-#{o}" }
 
     valid_custom_fields = []
-    SiteSetting.discourse_post_event_allowed_custom_fields.split('|').each do |setting|
+
+    allowed_custom_fields = DB.query("SELECT * FROM site_settings WHERE name = 'discourse_post_event_allowed_custom_fields' LIMIT 1").first&.value || ""
+    allowed_custom_fields.split('|').each do |setting|
       valid_custom_fields << {
         original: "data-#{setting}",
         normalized: "data-#{setting.gsub(/_/, '-')}"
       }
     end
 
-    Nokogiri::HTML(cooked).css('div.discourse-post-event').map do |doc|
+    Nokogiri::HTML(post.cooked).css('div.discourse-post-event').map do |doc|
       event = nil
       doc.attributes.values.each do |attribute|
         name = attribute.name
