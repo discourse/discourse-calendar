@@ -62,12 +62,13 @@ class MoveDataToEventDates < ActiveRecord::Migration[6.0]
 
     query = <<~SQL
       SELECT * FROM discourse_post_event_events
-      INNER JOIN posts ON posts.id = discourse_post_event_events.id
       WHERE original_ends_at IS NOT NULL
     SQL
 
     DB.query(query).each do |event|
-      extracted_event = extract_events(event).first
+      post = DB.query("SELECT * FROM posts WHERE id = #{event.id}").first
+      next if !post
+      extracted_event = extract_events(post).first
       next if !extracted_event
 
       finished_at = (event.original_ends_at < Time.current) && event.original_ends_at
