@@ -407,7 +407,7 @@ after_initialize do
           post_url: Post.url("-", event.topic_id, event.post_number)
         }
       else
-        identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%W")}"
+        identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
 
         grouped[identifier] ||= {
           type: :grouped,
@@ -417,9 +417,10 @@ after_initialize do
         }
 
         grouped[identifier][:usernames] << event.username
-        grouped[identifier][:usernames].uniq!
       end
     end
+
+    grouped.each { |_, v| v[:usernames].sort! }
 
     standalones + grouped.values
   end
@@ -441,8 +442,7 @@ after_initialize do
 
       users.each do |u|
         result[u.group_name] ||= []
-        result[u.group_name] <<
-          UserTimezoneSerializer.new(u, root: false).as_json
+        result[u.group_name] << UserTimezoneSerializer.new(u, root: false).as_json
       end
     end
 
