@@ -174,7 +174,7 @@ en:
           my: "Malaysia"
           ng: "Nigeria"
           nl: "Netherlands"
-          no: "Norway"
+          "no": "Norway"
           nz_ak: "New Zealand (nz_ak)"
           nz_ca: "New Zealand (nz_ca)"
           nz_ch: "New Zealand (nz_ch)"
