@@ -174,7 +174,7 @@ cs:
           my: "Malajsie"
           ng: "Nigérie"
           nl: "Nizozemsko"
-          no: "Norsko"
+          "no": "Norsko"
           nz_ak: "Nový Zéland (nz_ak)"
           nz_ca: "Nový Zéland (nz_ca)"
           nz_ch: "Nový Zéland (nz_ch)"
