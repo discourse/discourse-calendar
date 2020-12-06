@@ -159,7 +159,6 @@ export const HOLIDAY_REGIONS = [
   "nl",
   "lu",
   "no",
-  "nyse",
   "nz",
   "nz_sl",
   "nz_we",
