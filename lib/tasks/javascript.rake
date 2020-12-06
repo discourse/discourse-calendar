@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 TIMEZONES_DEFINITIONS = 'https://raw.githubusercontent.com/moment/moment-timezone/develop/data/meta/latest.json'
-UNUSED_REGIONS = ["ecbtarget", "federalreserve", "federalreservebanks", "fedex", "nerc", "unitednations", "ups"]
+UNUSED_REGIONS = ["ecbtarget", "federalreserve", "federalreservebanks", "fedex", "nerc", "unitednations", "ups", 'nyse']
 HOLIDAYS_COUNTRY_OVERRIDES = { "gr" => "el" }
 
 task 'javascript:update_constants' => :environment do
