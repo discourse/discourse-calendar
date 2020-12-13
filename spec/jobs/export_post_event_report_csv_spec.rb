@@ -23,10 +23,8 @@ describe Jobs::ExportCsvFile do
       context 'the event exists' do
         context 'the event has invitees' do
           before do
-            post_event.create_invitees([
-              { user_id: user_1.id, status: nil },
-              { user_id: user_2.id, status: 2 }
-            ])
+            post_event.create_invitees([{ user_id: user_1.id, status: nil }])
+            post_event.create_invitees([{ user_id: user_2.id, status: 2 }])
           end
 
           context 'the user requesting the upload is admin' do

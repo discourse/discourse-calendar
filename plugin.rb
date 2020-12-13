@@ -520,7 +520,7 @@ after_initialize do
 
         guardian.ensure_can_act_on_discourse_post_event!(event)
 
-        event.invitees.each do |invitee|
+        event.invitees.order(:created_at).each do |invitee|
           yield [
             invitee.user.username,
             DiscoursePostEvent::Invitee.statuses[invitee.status],
