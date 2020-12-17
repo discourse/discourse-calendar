@@ -7,7 +7,6 @@ import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
 import { showPopover, hidePopover } from "discourse/lib/d-popover";
-import Category from "discourse/models/category";
 
 // https://stackoverflow.com/a/16348977
 /* eslint-disable */
@@ -48,7 +47,8 @@ function initializeDiscourseCalendar(api) {
     if (!$calendarContainer.length) return;
     $calendarContainer.hide();
 
-    const browsedCategory = Category.findBySlugPathWithID(url);
+    const matches = url.match(/(?:\/c\/[a-zA-Z\-]+\/)([0-9]+)/);
+    const browsedCategory = matches && matches[1];
     if (browsedCategory) {
       const settings = Discourse.SiteSettings.calendar_categories
         .split("|")
@@ -65,10 +65,7 @@ function initializeDiscourseCalendar(api) {
           return data;
         });
 
-      const categorySetting = settings.findBy(
-        "categoryId",
-        browsedCategory.id.toString()
-      );
+      const categorySetting = settings.findBy("categoryId", browsedCategory);
 
       if (categorySetting && categorySetting.postId) {
         $calendarContainer.show();
