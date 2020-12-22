@@ -1,3 +1,9 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
 de:
   admin_js:
     admin:
@@ -11,17 +17,13 @@ de:
       on_holiday: "Im Urlaub"
       holiday: "Urlaub"
       add_to_calendar: "Zu Google Kalender hinzufügen"
-      timezone:
-        title: "Zeitzone"
-        instructions: "Deine aktuelle Zeitzone %{timezone}."
-        none: "Eine Zeitzone auswählen..."
     group_timezones:
       search: "Suche..."
       group_availability: "%{group} Verfügbarkeit"
     discourse_post_event:
       preview:
-        more_than_one_event: Du kannst nicht mehr als einen Termin haben.
-      edit_reason: Termin aktualisiert
+        more_than_one_event: "Du kannst nicht mehr als einen Termin haben."
+      edit_reason: "Termin aktualisiert"
       models:
         invitee:
           status:
@@ -30,51 +32,51 @@ de:
             not_going: "Nicht dabei"
             interested: "Interessiert"
         event:
-          expired: Ausgelaufen
+          expired: "Ausgelaufen"
           status:
             standalone:
-              title: Alleinstehend
+              title: "Alleinstehend"
               description: "Kein weiterer kann bei einen alleinstehenden Termin teilnehmen."
             public:
-              title: Öffentlich
+              title: "Öffentlich"
               description: "Bei einem öffentlichen Termin kann jeder teilnehmen."
             private:
-              title: Privat
+              title: "Privat"
               description: "Bei einem privaten Termin können nur eingeladene teilnehmen."
       event_ui:
-        show_all: Zeige alle
+        show_all: "Zeige alle"
         participants:
           one: "%{count} Benutzer nimmt teil."
           other: "%{count} Benutzer nehmen teil."
-        invite: Benutzer benachrichtigen
-        add_to_calendar: Zum Kalender hinzufügen
-        send_pm_to_creator: Sende Nachricht zu %{username}
-        edit_event: Termin editieren
-        export_event: Termin exportieren
-        created_by: Erstellt von
+        invite: "Benutzer benachrichtigen"
+        add_to_calendar: "Zum Kalender hinzufügen"
+        send_pm_to_creator: "Sende Nachricht zu %{username}"
+        edit_event: "Termin editieren"
+        export_event: "Termin exportieren"
+        created_by: "Erstellt von"
       invitees_modal:
         title_invited: "Liste von eingeladenen Benutzern"
         title_participated: "Liste von Benutzern die teilgenommen haben"
         filter_placeholder: "Filter Benutzer"
       builder_modal:
-        create_event_title: Termin erstellen
-        update_event_title: Termin editieren
-        confirm_delete: Sind Sie sicher, diesen Termin zu löschen?
-        create: Erstellen
-        update: Speichern
-        attach: Termin erstellen
+        create_event_title: "Termin erstellen"
+        update_event_title: "Termin editieren"
+        confirm_delete: "Sind Sie sicher, diesen Termin zu löschen?"
+        create: "Erstellen"
+        update: "Speichern"
+        attach: "Termin erstellen"
         name:
-          label: Bezeichnung des Termins
-          placeholder: Optional, standardmäßig Titel des Themas
+          label: "Bezeichnung des Termins"
+          placeholder: "Optional, standardmäßig Titel des Themas"
         invitees:
-          label: Eingeladene Gruppe
+          label: "Eingeladene Gruppe"
         status:
-          label: Status
+          label: "Status"
       invite_user_or_group:
-        title: Benachrichtige Benutzer oder Gruppe(n)
-        invite: Sendend
+        title: "Benachrichtige Benutzer oder Gruppe(n)"
+        invite: "Sendend"
       upcoming_events:
-        title: Anstehende Termine
-        creator: Ersteler
-        status: Status
-        starts_at: Startet um
+        title: "Anstehende Termine"
+        creator: "Ersteler"
+        status: "Status"
+        starts_at: "Startet um"
