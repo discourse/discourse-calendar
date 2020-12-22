@@ -1,3 +1,9 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
 de:
   site_settings:
     calendar_enabled: "Aktiviert das discourse-calendar Plugin. Dies aktiviert die Unterstützung des [calendar][/calendar] Schlagworts in der ersten Nachricht eines Themas."
@@ -26,8 +32,8 @@ de:
     errors:
       models:
         event:
-          only_one_event: Ein Beitrag kann nur einen Termin beinhalten.
-          must_be_in_first_post: Ein Termin kann nur im ersten Beitrag angegeben werden.
+          only_one_event: "Ein Beitrag kann nur einen Termin beinhalten."
+          must_be_in_first_post: "Ein Termin kann nur im ersten Beitrag angegeben werden."
           raw_invitees_length: "Ein Termin ist limitiert auf %{count} Benutzern/Gruppen."
           ends_at_before_starts_at: "Ein Termin kann nicht enden bevor er startet."
           start_must_be_present_and_a_valid_date: "Ein Termin benötigt einen gültigen Startzeitpunkt."

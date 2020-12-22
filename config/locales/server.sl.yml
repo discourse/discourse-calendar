@@ -1,3 +1,9 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
 sl:
   system_messages:
     discourse_post_event_bulk_invite_succeeded:
@@ -15,7 +21,6 @@ sl:
         ```text
         %{logs}
         ```
-
   site_settings:
     calendar_enabled: "Omogoči vtičnik discourse-calendar. To bo omogočilo dodajanje oznak [calendar][/calendar] v prvo objavo teme."
     discourse_post_event_enabled: "[eksperimetalno] Omogoča pripenjanje dogodka k objavi. Opomba: za delovanje potrebuje vklop nastavitve `calendar enabled`."
@@ -55,11 +60,6 @@ sl:
           only_one_event: "Objava lahko vsebuje samo en dogodek."
           only_group: "Dogodek sprejema samo grupe."
           must_be_in_first_post: "Dogodek sme biti samo v prvi objavi teme."
-          raw_invitees_length:
-            one: "Dogodek je omejen na %{count} uporabnika/grupo."
-            two: "Dogodek je omejen na %{count} uporabnika/grupi."
-            few: "Dogodek je omejen na %{count} uporabnike/grupe."
-            other: "Dogodek je omejen na %{count} uporabnikov/grup."
           ends_at_before_starts_at: "Dogodek se ne more končati preden se začne."
           start_must_be_present_and_a_valid_date: "Dogodek zahteva začetni datum veljavne oblike."
           end_must_be_a_valid_date: "Končni datum mora biti veljavne oblike."

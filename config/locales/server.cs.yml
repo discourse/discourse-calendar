@@ -1,3 +1,9 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
 cs:
   site_settings:
     calendar_enabled: "Povolte plugin `discourse-calendar`. Přidá podporu pro značku `[calendar][/calendar]` v prvním příspěvku tématu."
@@ -12,11 +18,9 @@ cs:
     all_day_event_time_error: "Neplatný čas. Formát musí být HH:mm (např. 08:00)."
     calendar_categories: "Zobrazit kalendář nahoře kategorie. Povinné volby jsou `categoryId` a `postId`. Např.: `categoryId=6;postId=453`\n Další platné volby: `tzPicker`, `weekends` a `defaultView`."
     calendar_categories_outlet: "Umožňuje změnit, ve které zásuvce se zobrazí kalendář kategorie."
-    # TODO: Not sure what the first sentence means here. Too ambiguous. I'm leaving it untranslated for now.
     working_days: "Set working days to highlight the timezones in posts. You can add it by [timezones group=admins][timezones] tag."
     working_day_start_hour: "Čas, kdy začíná pracovní doba."
     working_day_end_hour: "Čas, kdy končí pracovní doba."
-    # TODO: Not sure what the sentence means here. Too ambiguous. I'm leaving it untranslated for now.
     close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."
   discourse_calendar:
     invite_user_notification: "%{username} vás zve do kalendáře: %{description}"

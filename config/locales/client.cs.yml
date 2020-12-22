@@ -1,3 +1,9 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
 cs:
   admin_js:
     admin:
@@ -282,22 +288,19 @@ cs:
             not_going: "Nezúčastní se"
             interested: "Má zájem"
         event:
-          expired: Uplynulá
+          expired: "Uplynulá"
           status:
             standalone:
-              title: Samostatná
+              title: "Samostatná"
               description: "Samostatné události se nejde účastnit."
             public:
-              title: Veřejná
+              title: "Veřejná"
               description: "Veřejné události se může účastnit kdokoliv."
             private:
-              title: Soukromá
+              title: "Soukromá"
               description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
       event_ui:
         show_all: "Zobrazit vše"
-        participants:
-          one: "%{count} uživatel se zúčastnil."
-          other: "%{count} uživatelů se zúčastnilo."
         invite: "Oznámit uživateli"
         add_to_calendar: "Přidat do kalendáře"
         send_pm_to_creator: "Poslat uživateli %{username} soukromou zprávu"
