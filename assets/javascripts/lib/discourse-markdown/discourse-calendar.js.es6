@@ -85,7 +85,7 @@ function _renderTimezonePicker(state) {
 }
 
 export function setup(helper) {
-  helper.allowList([
+  helper.whiteList([
     "div.calendar",
     "div.discourse-calendar-header",
     "div.discourse-calendar-wrap",
