@@ -31,7 +31,7 @@ en:
     all_day_event_time_error: "Invalid time. Format needs to be HH:mm (ex: 08:00)."
     calendar_categories: "Display a calendar at the top of a category. Mandatory settings are categoryId and postId. eg: categoryId=6;postId=453\n Other valid settings: tzPicker, weekends and defaultView."
     calendar_categories_outlet: "Allows to change which outlet should show the category calendar."
-    working_days: "Set working days to highlight the timezones in posts. You can add it by [timezones group=admins][timezones] tag."
+    working_days: "Set working days. You can display the availability of a group using the `timezones` tag in a post, eg: `[timezones group=admins][timezones]`"
     working_day_start_hour: "Start time of the working day hours."
     working_day_end_hour: "End time of the working day hours."
     close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."
