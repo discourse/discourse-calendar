@@ -4,4 +4,178 @@
 # To work with us on translations, join this project:
 # https://translate.discourse.org/
 
-fr: 
+fr:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_post_event: "Discourse Événement"
+          discourse_calendar: "Discourse Agenda"
+  js:
+    discourse_calendar:
+      invite_user_notification: "%{username} vous a invité.e à: %{description}"
+      on_holiday: "En vacances"
+      holiday: "Vacances"
+      add_to_calendar: "Ajouter à Google Agenda"
+      region:
+        title: "Région"
+        none: "Choisir une région..."
+        use_current_region: "Utiliser la région actuelle"
+        names:
+          ar: "Argentine"
+          at: "Autriche"
+          au_act: "Australie (au_act)"
+          au_nsw: "Australie (au_nsw)"
+          au_nt: "Australie (au_nt)"
+          au_qld_brisbane: "Australie (au_qld_brisbane)"
+          au_qld_cairns: "Australie (au_qld_cairns)"
+          au_qld: "Australie (au_qld)"
+          au_sa: "Australie (au_sa)"
+          au_tas_north: "Australie (au_tas_north)"
+          au_tas_south: "Australie (au_tas_south)"
+          au_tas: "Australie (au_tas)"
+          au_vic_melbourne: "Australie (au_vic_melbourne)"
+          au_vic: "Australie (au_vic)"
+          au_wa: "Australie (au_wa)"
+          au: "Australie"
+          be_fr: "Belgique (be_fr)"
+          be_nl: "Belgique (be_nl)"
+          bg_bg: "Bulgarie (bg_bg)"
+          bg_en: "Bulgarie (bg_en)"
+          br: "Brésil"
+          ca_ab: "Canada (ca_ab)"
+          ca_bc: "Canada (ca_bc)"
+          ca_mb: "Canada (ca_mb)"
+          ca: "Canada"
+          ch_ag: "Suisse (ch_ag)"
+          ch_ai: "Suisse (ch_ai)"
+          ch_ar: "Suisse (ch_ar)"
+          ch_be: "Suisse (ch_be)"
+          ch_bl: "Suisse (ch_bl)"
+          ch_bs: "Suisse (ch_bs)"
+          ch: "Suisse"
+          cl: "Chili"
+          co: "Colombie"
+          cr: "Costa Rica"
+          cz: "République Tchèque"
+          de: "Allemagne"
+          dk: "Danemark"
+          ee: "Estonie"
+          el: "Grèce"
+          es: "Espagne"
+          fi: "Finlande"
+          fr: "France"
+          gb: "Royaume-Uni"
+          ge: "Géorgie"
+          gg: "Guernesey"
+          hk: "Hong Kong"
+          hr: "Croatie"
+          hu: "Hongrie"
+          ie: "Irlande"
+          im: "Île de Man"
+          is: "Islande"
+    group_timezones:
+      search: "Recherche..."
+      group_availability: "disponibilité de %{group}"
+    discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} vous a invité.e à %{description}"
+        invite_user_predefined_attendance_notification: "%{username} a automatiquement défini votre participation et vous a invité à %{description}"
+        before_event_reminder: "Un événement est sur le point de commencer %{description}"
+        after_event_reminder: "Un événement s'est terminé %{description}"
+        ongoing_event_reminder: "Un événement est en cours  %{description}"
+      preview:
+        more_than_one_event: "Vous ne pouvez pas avoir plus d'un événement."
+      edit_reason: "Événement mis à jour"
+      topic_title:
+        starts_at: "L'événement commencera : %{date}"
+        ended_at: "Événement terminé : %{date}"
+        ends_in_duration: "Se termine %{duration}"
+      models:
+        invitee:
+          status:
+            unknown: "Pas décidé.e"
+            going: "Participera"
+            not_going: "Ne participera pas"
+            interested: "Intéressé.e"
+        event:
+          expired: "Expiré"
+          status:
+            standalone:
+              title: "Indépendant"
+              description: "Un événement indépendant ne peut pas être rejoint."
+            public:
+              title: "Public"
+              description: "Un événement public peut être rejoint par n'importe qui."
+            private:
+              title: "Privé"
+              description: "Un événement privé ne peut être rejoint que par les utilisateurs invités."
+      event_ui:
+        show_all: "Tout afficher"
+        participants:
+          one: "%{count} utilisateur a participé."
+          other: "%{count} utilisateurs ont participé."
+        invite: "Notifier l'utilisateur"
+        add_to_calendar: "Ajouter au calendrier"
+        send_pm_to_creator: "Envoyer un message direct à %{username}"
+        edit_event: "Modifier l'événement"
+        export_event: "Exporter l'événement"
+        created_by: "Créé par "
+        bulk_invite: "Invitation en masse"
+        close_event: "Fermer l'événement"
+      invitees_modal:
+        title_invited: "Liste des utilisateurs invités"
+        title_participated: "Liste des utilisateurs ayant participé"
+        filter_placeholder: "Filtrer les utilisateurs"
+      bulk_invite_modal:
+        text: "Télécharger un fichier CSV"
+        title: "Invitation en masse"
+        success: "Le fichier a été correctement importé. Vous serez notifié par message direct lorsque le traitement sera terminé."
+        error: "Désolé, le fichier doit être au format CSV."
+        confirmation_message: "Vous êtes sur le point de notifier tous ceux figurant dans le fichier envoyé."
+        description_public: "Les événements publics n'acceptent que les noms d'utilisateur pour les invitations en masse."
+        description_private: "Les événements privés n'acceptent que les noms de groupes pour les invitations en masse."
+        download_sample_csv: "Télécharger un exemple de fichier CSV"
+        send_bulk_invites: "Envoyer les invitations"
+        group_selector_placeholder: "Choisir un groupe..."
+        user_selector_placeholder: "Choisir un utilisateur..."
+      builder_modal:
+        custom_fields:
+          label: "Champs personnalisés"
+          placeholder: "Facultatif"
+          description: "Les champs personnalisés autorisés sont définis dans les paramètres du site. Les champs personnalisés sont utilisés pour transmettre des données à d'autres plugins."
+        create_event_title: "Créer un évènement"
+        update_event_title: "Modifier l'événement"
+        confirm_delete: "Êtes-vous sûr de vouloir supprimer cet événement?"
+        confirm_close: "Êtes-vous sûr de vouloir fermer cet événement ?"
+        create: "Créer"
+        update: "Enregistrer"
+        attach: "Créer un évènement"
+        add_reminder: "Ajouter un rappel"
+        reminders:
+          label: "Rappels"
+        recurrence:
+          label: "Périodicité"
+          none: "Pas de périodicité"
+          every_day: "Tous les jours"
+          every_month: "Chaque mois en ce jour de la semaine"
+          every_weekday: "Chaque jour de semaine"
+          every_week: "Chaque semaine en ce jour de la semaine"
+        url:
+          label: "URL"
+          placeholder: "Facultatif"
+        name:
+          label: "Nom de l'événement"
+          placeholder: "Facultatif, par défaut le titre du sujet"
+        invitees:
+          label: "Groupes invités"
+        status:
+          label: "État"
+      invite_user_or_group:
+        title: "Notifier l'utilisateur(s) ou le(s) groupe(s)"
+        invite: "Envoyer"
+      upcoming_events:
+        title: "Événements à venir"
+        creator: "Créateur"
+        status: "État"
+        starts_at: "Commence à"
