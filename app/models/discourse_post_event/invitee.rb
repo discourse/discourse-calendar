@@ -24,18 +24,16 @@ module DiscoursePostEvent
     end
 
     def self.create_attendance!(user_id, post_id, status)
-      begin
-        invitee = Invitee.create!(
-          status: Invitee.statuses[status.to_sym],
-          post_id: post_id,
-          user_id: user_id,
-        )
-        invitee.event.publish_update!
-        invitee.update_topic_tracking!
-        invitee
-      rescue ActiveRecord::RecordNotUnique
-        # do nothing in case multiple new attendances would be created very fast
-      end
+      invitee = Invitee.create!(
+        status: Invitee.statuses[status.to_sym],
+        post_id: post_id,
+        user_id: user_id,
+      )
+      invitee.event.publish_update!
+      invitee.update_topic_tracking!
+      invitee
+    rescue ActiveRecord::RecordNotUnique
+      # do nothing in case multiple new attendances would be created very fast
     end
 
     def update_attendance!(status)
