@@ -14,7 +14,7 @@ sl:
   js:
     discourse_calendar:
       invite_user_notification: "%{username} vas vabi na: %{description}"
-      on_holiday: "Na praznik"
+      on_holiday: "Na počitnicah"
       holiday: "Praznik"
       add_to_calendar: "Dodaj v Googlov koledar"
       region:
@@ -151,7 +151,7 @@ sl:
           hr: "Hrvaška"
           hu: "Madžarska"
           ie: "Irska"
-          im: "Isle of Man"
+          im: "Otok Man"
           is: "Islandija"
           it_bl: "Italija (it_bl)"
           it_fi: "Italija (it_fi)"
@@ -213,7 +213,7 @@ sl:
           tn: "Tunizija"
           tr: "Turčija"
           ua: "Ukrajina"
-          unitednations: " (unitednations)"
+          unitednations: " (Združeni narodi)"
           ups: " (ups)"
           us_ak: "ZDA (us_ak)"
           us_al: "ZDA (us_al)"
@@ -316,7 +316,7 @@ sl:
           two: "%{count} udeleženca."
           few: "%{count} udeleženci."
           other: "%{count} udeležencev."
-        invite: "Opomni uporabnika"
+        invite: "Obvesti uporabnika"
         add_to_calendar: "Dodaj v koledar"
         send_pm_to_creator: "Pošlji ZS %{username}"
         edit_event: "Uredi dogodek"
@@ -330,9 +330,9 @@ sl:
         filter_placeholder: "Filtriraj uporabnike"
       bulk_invite_modal:
         text: "Uvozi iz CSV"
-        title: "Povabi več udeležencev"
-        success: "Datoteka upešno naložena, ko bo postopek uspešno dokončan vas bomo obvestili."
-        error: "Ni uspelo, datoteka mora biti oblike CSV."
+        title: "Skupinsko vabilo"
+        success: "Datoteka je uspešno naložena. Obveščeni boste, ko bo postopek zaključen."
+        error: "Datoteka mora biti v CSV obliki."
         confirmation_message: "Poslali boste obvestilo vsem osebam iz datoteke."
         description_public: "Skupinska vabila na javne dogodke lahko vsebujejo samo imena uporabnikov."
         description_private: "Skupinska vabila na zasebne dogodke lahko vsebujejo samo imena grup."
@@ -369,7 +369,7 @@ sl:
           placeholder: "Neobvezno"
         name:
           label: "Ime dogodka"
-          placeholder: "Neobvezno, enako imenu dogodka če prazno"
+          placeholder: "Neobvezno, privzeto enako imenu dogodka"
         invitees:
           label: "Povabljene grupe"
         status:

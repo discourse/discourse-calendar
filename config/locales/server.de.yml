@@ -5,12 +5,29 @@
 # https://translate.discourse.org/
 
 de:
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "Veranstaltung - Masseneinladung war erfolgreich"
+      subject_template: "Masseneinladung wurde erfolgreich verarbeitet"
+      text_body_template: "Ihre Masseneinladungsdatei wurde bearbeitet, %{processed} Einladung(en) erstellt."
+    discourse_post_event_bulk_invite_failed:
+      title: "Veranstaltung - Masseneinladung fehlgeschlagen"
+      subject_template: "Masseneinladung mit Fehlern verarbeitet"
+      text_body_template: |
+        Deine Masseneinladungsdatei wurde bearbeitet, %{processed} Einladung(en) mit %{failed} Fehler(en) erstellt.
+
+        Hier ist das Protokoll:
+
+        ```text
+        %{logs}
+        ```
   site_settings:
     calendar_enabled: "Aktiviert das discourse-calendar Plugin. Dies aktiviert die Unterstützung des [calendar][/calendar] Schlagworts in der ersten Nachricht eines Themas."
     discourse_post_event_enabled: "[Experimentell] Erlaubt ein Event zu einem Beitrag hinzuzufügen. Beachte, dass auch `calendar enabled` aktiviert sein muss."
     displayed_invitees_limit: "Limitiert die Anzahl an eingeladenen für einen Termin."
     display_post_event_date_on_topic_title: "Zeigt das Datum eines Termins nach dem Thementitel."
     discourse_post_event_allowed_on_groups: "Gruppen die einen Event erstellen dürfen."
+    discourse_post_event_allowed_custom_fields: "Erlaubt es jedem Termin den Wert von benutzerdefinierten Feldern zu setzen."
     holiday_calendar_topic_id: "Thema ID des Team Urlaub/Abwesenheitskalender."
     delete_expired_event_posts_after: "Beiträge eines abgelaufenen Termin werden automatisch nach (n) Stunden gelöscht. -1 deaktivert diese Funktion."
     all_day_event_start_time: "Termine ohne eine gesetzte Start Zeit starten um diese Zeit. Format ist HH:mm. Für 6:00 am, geben Sie 06:00 an"
@@ -29,10 +46,18 @@ de:
     more_than_two_dates: "Ein Kalenderbeitrag kann nicht mehr als zwei Datum-Angaben beinhalten."
     event_expired: "Termin abgelaufen"
   discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} fängt gleich an."
+      after_event_reminder: "%{title} ist beendet."
+      ongoing_event_reminder: "%{title} ist im Gange."
     errors:
+      bulk_invite:
+        max_invitees: "Die ersten %{max_invittes} Eingeladenen wurden erstellt. Versuchen Sie, die Datei in kleinere Teile zu teilen."
+        error: "Beim Hochladen dieser Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal."
       models:
         event:
           only_one_event: "Ein Beitrag kann nur einen Termin beinhalten."
+          only_group: "Ein Termin akzeptiert nur Gruppennamen."
           must_be_in_first_post: "Ein Termin kann nur im ersten Beitrag angegeben werden."
           raw_invitees_length: "Ein Termin ist limitiert auf %{count} Benutzern/Gruppen."
           ends_at_before_starts_at: "Ein Termin kann nicht enden bevor er startet."
@@ -40,5 +65,6 @@ de:
           end_must_be_a_valid_date: "Ein Termin benötigt einen gültigen Endzeitpunkt."
           acting_user_not_allowed_to_create_event: "Der aktuelle Benutzer kann keinen Termin erstellen."
           acting_user_not_allowed_to_act_on_this_event: "Der aktuelle Benutzer kann nicht bei diesem Termin teilhaben."
+          custom_field_is_invalid: "Das benutzerdefinierte Feld „%{field}“ ist nicht zulässig."
           name:
             length: "Die Länge des Namens des Termins muss zwischen %{minimum} und %{maximum} Zeichen haben."
