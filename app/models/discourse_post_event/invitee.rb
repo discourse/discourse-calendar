@@ -32,6 +32,8 @@ module DiscoursePostEvent
       invitee.event.publish_update!
       invitee.update_topic_tracking!
       invitee
+    rescue ActiveRecord::RecordNotUnique
+      # do nothing in case multiple new attendances would be created very fast
     end
 
     def update_attendance!(status)
