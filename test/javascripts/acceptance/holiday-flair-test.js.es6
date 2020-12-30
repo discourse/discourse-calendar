@@ -1,13 +1,13 @@
-import { acceptance } from "helpers/qunit-helpers";
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 
-acceptance("Discourse Calendar - Holiday Flair", {
-  loggedIn: true,
-  settings: { calendar_enabled: true },
-  site: {
+acceptance("Discourse Calendar - Holiday Flair", function (needs) {
+  needs.user();
+  needs.settings({ calendar_enabled: true });
+  needs.site({
     users_on_holiday: ["foo"],
-  },
+  });
 
-  pretend(server, helper) {
+  needs.pretender((server, helper) => {
     server.get("/directory_items", () => {
       return helper.response({
         directory_items: [
@@ -54,12 +54,12 @@ acceptance("Discourse Calendar - Holiday Flair", {
         },
       });
     });
-  },
-});
+  });
 
-QUnit.test("shows holiday emoji in directory", async (assert) => {
-  await visit("/u");
-  assert.equal(find(".holiday-flair").length, 1);
-  assert.equal(find("div[data-username='foo'] .holiday-flair").length, 1);
-  assert.equal(find("div[data-username='bar'] .holiday-flair").length, 0);
+  test("shows holiday emoji in directory", async (assert) => {
+    await visit("/u");
+    assert.equal(find(".holiday-flair").length, 1);
+    assert.equal(find("div[data-username='foo'] .holiday-flair").length, 1);
+    assert.equal(find("div[data-username='bar'] .holiday-flair").length, 0);
+  });
 });
