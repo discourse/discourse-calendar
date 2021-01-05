@@ -36,7 +36,6 @@ sv:
     all_day_event_time_error: "Ogiltig tid. Formatet måste vara HH:mm (t.ex: 08:00)."
     calendar_categories: "Visa en kalender högst upp i en kategori. Obligatoriska inställningar är categoryId och postId. t.ex.: categoryId=6; postId=453\n Andra giltiga inställningar: tzPicker, weekends och defaultView."
     calendar_categories_outlet: "Gör det möjligt att ändra vilken utgång som ska visa kategorins kalender."
-    working_days: "Ställ in arbetsdagar för att markera tidszonerna i inlägg. Du kan lägga till den med taggen [timezones group = admins][timezones]."
     working_day_start_hour: "Starttid för arbetsdagens timmar."
     working_day_end_hour: "Sluttid för arbetsdagens timmar."
     close_to_working_day_hours_extension: "Ställ in förlängningstid i arbetsdagstimmar för att markera tidszonerna."
