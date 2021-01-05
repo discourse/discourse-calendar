@@ -18,7 +18,6 @@ cs:
     all_day_event_time_error: "Neplatný čas. Formát musí být HH:mm (např. 08:00)."
     calendar_categories: "Zobrazit kalendář nahoře kategorie. Povinné volby jsou `categoryId` a `postId`. Např.: `categoryId=6;postId=453`\n Další platné volby: `tzPicker`, `weekends` a `defaultView`."
     calendar_categories_outlet: "Umožňuje změnit, ve které zásuvce se zobrazí kalendář kategorie."
-    working_days: "Set working days to highlight the timezones in posts. You can add it by [timezones group=admins][timezones] tag."
     working_day_start_hour: "Čas, kdy začíná pracovní doba."
     working_day_end_hour: "Čas, kdy končí pracovní doba."
     close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."

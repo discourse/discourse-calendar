@@ -35,7 +35,6 @@ de:
     all_day_event_time_error: "Ungültige Zeit. Format muss HH:mm sein (Beispiel: 08:00)."
     calendar_categories: "Zeigt den Kalender oben in der Kategorie an. Erforderliche Parameter sind categoryId und postId. Beispiel: categoryId=6;postId=453\n Weitere gültige Parameter: tzPicker, weekends und defaultView."
     calendar_categories_outlet: "Erlaubt das Setzen des 'outlets' welche die Kalender Kategorie anzeigen soll."
-    working_days: "Setzt die Arbeitstage in welcher die Zeitzone die in einem Beitrag hervorgehoben wird. Setze es per [timezones group=admins][timezones]."
     working_day_start_hour: "Start Zeit eines Arbeitstages."
     working_day_end_hour: "End Zeit eines Arbeitstages."
     close_to_working_day_hours_extension: "Setze Arbeitszeitverklärung in Stunden die zu einem hervorheben der Zeitzone führt."
