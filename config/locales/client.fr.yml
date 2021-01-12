@@ -10,7 +10,7 @@ fr:
       site_settings:
         categories:
           discourse_post_event: "Discourse Événement"
-          discourse_calendar: "Discourse Agenda"
+          discourse_calendar: "Discourse Calendar"
   js:
     discourse_calendar:
       invite_user_notification: "%{username} vous a invité.e à: %{description}"
