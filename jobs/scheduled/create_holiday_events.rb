@@ -15,7 +15,7 @@ module Jobs
       UserCustomField
         .where(name: ::DiscourseCalendar::REGION_CUSTOM_FIELD)
         .pluck(:user_id, :value)
-        .each { |user_id, region| regions_and_user_ids[region] << user_id }
+        .each { |user_id, region| regions_and_user_ids[region] << user_id if region.present? }
 
       usernames = User
         .real

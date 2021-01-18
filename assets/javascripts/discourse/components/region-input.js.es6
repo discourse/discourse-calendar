@@ -18,11 +18,13 @@ export default ComboBoxComponent.extend({
       localeNames[locale.value] = locale.name;
     });
 
-    return HOLIDAY_REGIONS.map((region) => {
-      return {
+    let values = [{ name: I18n.t("discourse_calendar.region.none"), id: null }];
+    values = values.concat(
+      HOLIDAY_REGIONS.map((region) => ({
         name: I18n.t(`discourse_calendar.region.names.${region}`),
         id: region,
-      };
-    }).sort((a, b) => a.name.localeCompare(b.name));
+      })).sort((a, b) => a.name.localeCompare(b.name))
+    );
+    return values;
   }),
 });
