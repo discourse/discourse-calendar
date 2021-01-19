@@ -19,7 +19,6 @@ cs:
       add_to_calendar: "Přidat do Kalendáře Google"
       region:
         title: "Region"
-        none: "Vyberte region…"
         use_current_region: "Použít současný region"
         names:
           ar: "Argentina"

@@ -19,7 +19,6 @@ fr:
       add_to_calendar: "Ajouter à Google Agenda"
       region:
         title: "Région"
-        none: "Choisir une région..."
         use_current_region: "Utiliser la région actuelle"
         names:
           ar: "Argentine"
