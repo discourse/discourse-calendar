@@ -13,7 +13,7 @@ en:
       add_to_calendar: "Add to Google Calendar"
       region:
         title: "Region"
-        none: "Select a region..."
+        none: "None"
         use_current_region: "Use Current Region"
         names:
           ar: "Argentina"
