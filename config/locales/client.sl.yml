@@ -19,7 +19,6 @@ sl:
       add_to_calendar: "Dodaj v Googlov koledar"
       region:
         title: "Regija"
-        none: "Izberi regijo..."
         use_current_region: "Uporabi trenutno regijo"
         names:
           ar: "Argentina"

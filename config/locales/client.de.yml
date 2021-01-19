@@ -19,7 +19,6 @@ de:
       add_to_calendar: "Zu Google Kalender hinzufügen"
       region:
         title: "Region"
-        none: "Region auswählen ..."
         use_current_region: "Aktuelle Region verwenden"
         names:
           ar: "Argentinien"
