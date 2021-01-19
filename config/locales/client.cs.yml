@@ -19,7 +19,7 @@ cs:
       add_to_calendar: "Přidat do Kalendáře Google"
       region:
         title: "Region"
-        none: "Vyberte region…"
+        none: "None"
         use_current_region: "Použít současný region"
         names:
           ar: "Argentina"
@@ -277,9 +277,19 @@ cs:
       search: "Hledat…"
       group_availability: "Dostupnost %{group}"
     discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} has invited you to %{description}"
+        invite_user_predefined_attendance_notification: "%{username} has automatically set your attendance and invited you to %{description}"
+        before_event_reminder: "An event is about to start %{description}"
+        after_event_reminder: "An event has ended %{description}"
+        ongoing_event_reminder: "An event is ongoing  %{description}"
       preview:
         more_than_one_event: "Nemůžete mít více než jednu událost."
       edit_reason: "Událost aktualizována"
+      topic_title:
+        starts_at: "Event will start: %{date}"
+        ended_at: "Event ended: %{date}"
+        ends_in_duration: "Ends %{duration}"
       models:
         invitee:
           status:
@@ -301,23 +311,62 @@ cs:
               description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
       event_ui:
         show_all: "Zobrazit vše"
+        participants:
+          one: "%{count} user participated."
+          few: "%{count} users participated."
+          many: "%{count} users participated."
+          other: "%{count} users participated."
         invite: "Oznámit uživateli"
         add_to_calendar: "Přidat do kalendáře"
         send_pm_to_creator: "Poslat uživateli %{username} soukromou zprávu"
         edit_event: "Upravit událost"
         export_event: "Exportovat událost"
         created_by: "Vytvořil/a"
+        bulk_invite: "Bulk Invite"
+        close_event: "Close event"
       invitees_modal:
         title_invited: "Seznam pozvaných uživatelů"
         title_participated: "Seznam uživatelů, kteří se zúčastnili"
         filter_placeholder: "Filtrovat uživatele"
+      bulk_invite_modal:
+        text: "Upload CSV file"
+        title: "Bulk Invite"
+        success: "File uploaded successfully, you will be notified via message when the process is complete."
+        error: "Sorry, file should be CSV format."
+        confirmation_message: "You’re about to notify everyone in the uploaded file."
+        description_public: "Public events only accept usernames for bulk invites."
+        description_private: "Private events only accept group names for bulk invites."
+        download_sample_csv: "Download a sample CSV file"
+        send_bulk_invites: "Send invites"
+        group_selector_placeholder: "Choose a group..."
+        user_selector_placeholder: "Choose user..."
+        inline_title: "Inline bulk invite"
+        csv_title: "CSV bulk invite"
       builder_modal:
+        custom_fields:
+          label: "Custom Fields"
+          placeholder: "Optional"
+          description: "Allowed custom fields are defined in site settings. Custom fields are used to transmit data to other plugins."
         create_event_title: "Vytvořit událost"
         update_event_title: "Upravit událost"
         confirm_delete: "Určitě chcete tuto událost smazat?"
+        confirm_close: "Are you sure you want to close this event?"
         create: "Vytvořit"
         update: "Uložit"
         attach: "Vytvořit událost"
+        add_reminder: "Add reminder"
+        reminders:
+          label: "Reminders"
+        recurrence:
+          label: "Recurrence"
+          none: "No recurrence"
+          every_day: "Every day"
+          every_month: "Every month at this weekday"
+          every_weekday: "Every weekday"
+          every_week: "Every week at this weekday"
+        url:
+          label: "URL"
+          placeholder: "Optional"
         name:
           label: "Název události"
           placeholder: "Volitelný, ve výchozím stavu název tématu"

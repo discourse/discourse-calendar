@@ -5,12 +5,30 @@
 # https://translate.discourse.org/
 
 cs:
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "Event - Bulk Invite Succeeded"
+      subject_template: "Bulk invite processed successfully"
+      text_body_template: "Your bulk invite file was processed, %{processed} invitee(s) created."
+    discourse_post_event_bulk_invite_failed:
+      title: "Event - Bulk Invite Failed"
+      subject_template: "Bulk invite processed with errors"
+      text_body_template: |
+        Your bulk invite file was processed, %{processed} invitee(s) created with %{failed} error(s).
+
+        Here's the log:
+
+        ```text
+        %{logs}
+        ```
   site_settings:
     calendar_enabled: "Povolte plugin `discourse-calendar`. Přidá podporu pro značku `[calendar][/calendar]` v prvním příspěvku tématu."
     discourse_post_event_enabled: "[experimentální] Umožní připojit událost k příspěvku. Poznámka: musí být zapnuto nastavení `calendar enabled`."
     displayed_invitees_limit: "Omezuje, kolik pozvaných se u události zobrazí."
     display_post_event_date_on_topic_title: "Zobrazí datum události za názvem tématu."
     discourse_post_event_allowed_on_groups: "Skupiny, které smí vytvářet události."
+    discourse_post_event_allowed_custom_fields: "Allows to let each each event to set the value of custom fields."
+    discourse_post_event_edit_notifications_time_extension: "Extends (in minutes) the period after the end of an event when `going` invitees are still being notified from edit in the original post."
     holiday_calendar_topic_id: "Identifikátor tématu kalendáře pro dovolenou nebo nepřítomnost."
     delete_expired_event_posts_after: "Příspěvky s uplynulými událostmi se automaticky smažou za (n) hodin. Nastavte na -1, aby se mazání vypnulo."
     all_day_event_start_time: "Události, které nemají určený čas začátku, začnou v tento čas. Formát je HH:mm. Pro 6:00 zadejte 06:00"
@@ -18,6 +36,7 @@ cs:
     all_day_event_time_error: "Neplatný čas. Formát musí být HH:mm (např. 08:00)."
     calendar_categories: "Zobrazit kalendář nahoře kategorie. Povinné volby jsou `categoryId` a `postId`. Např.: `categoryId=6;postId=453`\n Další platné volby: `tzPicker`, `weekends` a `defaultView`."
     calendar_categories_outlet: "Umožňuje změnit, ve které zásuvce se zobrazí kalendář kategorie."
+    working_days: "Set working days. You can display the availability of a group using the `timezones` tag in a post, eg: `[timezones group=admins][timezones]`"
     working_day_start_hour: "Čas, kdy začíná pracovní doba."
     working_day_end_hour: "Čas, kdy končí pracovní doba."
     close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."
@@ -28,10 +47,18 @@ cs:
     more_than_two_dates: "Příspěvek pod tématem kalendáře nemůže obsahovat více než dvě data."
     event_expired: "Událost uplynula"
   discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} is about to start."
+      after_event_reminder: "%{title} has ended."
+      ongoing_event_reminder: "%{title} is ongoing."
     errors:
+      bulk_invite:
+        max_invitees: "First %{max_invittes} invitees have been created. Try splitting the file in smaller parts."
+        error: "There was an error uploading that file. Please try again later."
       models:
         event:
           only_one_event: "Příspěvek může obsahovat jen jednu událost."
+          only_group: "An event accepts only group names."
           must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
           raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
           ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
@@ -39,5 +66,6 @@ cs:
           end_must_be_a_valid_date: "Datum konce musí být platné datum."
           acting_user_not_allowed_to_create_event: "Současný uživatel nemůže vytvářet události."
           acting_user_not_allowed_to_act_on_this_event: "Současný uživatel nemůže reagovat na tuto událost."
+          custom_field_is_invalid: "The custom field `%{field}` is not allowed."
           name:
             length: "Název události musí být dlouhý %{minimum} až %{maximum} znaků."
