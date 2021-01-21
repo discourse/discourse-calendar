@@ -46,6 +46,7 @@ module DiscoursePostEvent
     end
 
     def ended?
+      return false if ends_at.nil?
       ends_at <= Time.current
     end
   end
