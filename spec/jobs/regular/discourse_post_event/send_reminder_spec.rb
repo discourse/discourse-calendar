@@ -65,6 +65,18 @@ describe Jobs::DiscoursePostEventSendReminder do
       end
     end
 
+    context 'deleted post' do
+      let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
+
+      it 'is not erroring when post is already deleted' do
+        post_1.delete
+
+        expect {
+          subject.execute(event_id: event_1.id, reminder: reminders)
+        }.not_to raise_error
+      end
+    end
+
     context 'public event' do
       context 'event has not started' do
         let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
