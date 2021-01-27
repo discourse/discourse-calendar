@@ -1,7 +1,7 @@
 import I18n from "I18n";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { iconHTML } from "discourse-common/lib/icon-library";
-import { later, cancel } from "@ember/runloop";
+import { cancel, later } from "@ember/runloop";
 import getURL from "discourse-common/lib/get-url";
 
 function applyFlairOnMention(element, username) {

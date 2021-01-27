@@ -1,5 +1,5 @@
 import { isTesting } from "discourse-common/config/environment";
-import { later, cancel } from "@ember/runloop";
+import { cancel, later } from "@ember/runloop";
 import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-relative-date";
 
 function computeRelativeEventDates() {
