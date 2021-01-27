@@ -1,7 +1,6 @@
 import I18n from "I18n";
-import TextLib from "discourse/lib/text";
+import TextLib, { emojiUnescape } from "discourse/lib/text";
 import { exportEntity } from "discourse/lib/export-csv";
-import { emojiUnescape } from "discourse/lib/text";
 import cleanTitle from "discourse/plugins/discourse-calendar/lib/clean-title";
 import { dasherize } from "@ember/string";
 import EmberObject from "@ember/object";

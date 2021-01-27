@@ -3,7 +3,7 @@ import TextLib from "discourse/lib/text";
 import Group from "discourse/models/group";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
-import { set, action, computed } from "@ember/object";
+import { action, computed, set } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
 
