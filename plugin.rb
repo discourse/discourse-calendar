@@ -515,12 +515,11 @@ after_initialize do
 
         guardian = Guardian.new(current_user)
 
-        event =
-          DiscoursePostEvent::Event.includes(invitees: :user).find(@extra[:id])
+        event = DiscoursePostEvent::Event.includes(invitees: :user).find(@extra[:id])
 
         guardian.ensure_can_act_on_discourse_post_event!(event)
 
-        event.invitees.order(:created_at).each do |invitee|
+        event.invitees.order(:id).each do |invitee|
           yield [
             invitee.user.username,
             DiscoursePostEvent::Invitee.statuses[invitee.status],
