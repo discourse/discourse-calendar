@@ -19,6 +19,7 @@ sv:
       add_to_calendar: "Lägg till i Google Kalender"
       region:
         title: "Region"
+        none: "Ingen"
         use_current_region: "Använd nuvarande region"
         names:
           ar: "Argentina"
