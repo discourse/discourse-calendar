@@ -105,4 +105,9 @@ export default Controller.extend(ModalFunctionality, {
       }
     );
   },
+
+  @action
+  updateInviteIdentifier(bulkInvite, selected) {
+    bulkInvite.set("identifier", selected.firstObject);
+  },
 });
