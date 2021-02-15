@@ -7,11 +7,6 @@ import { ajax } from "discourse/lib/ajax";
 export default Controller.extend(ModalFunctionality, {
   invitedNames: null,
 
-  @action
-  setInvitedNames(_, invitedNames) {
-    this.set("invitedNames", invitedNames);
-  },
-
   onClose() {
     this.set("invitedNames", null);
   },

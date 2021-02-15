@@ -4,18 +4,16 @@
 }}
   <form>
     {{#event-field}}
-      {{user-selector
-        single=false
-        onChangeCallback=(action "setInvitedNames")
-        fullWidthWrap=true
-        allowAny=false
-        includeMessageableGroups=true
-        placeholderKey="composer.users_placeholder"
+      {{email-group-user-chooser
         tabindex="1"
-        usernames=invitedNames
-        hasGroups=true
-        autocomplete="discourse"
-        excludeCurrentUser=true
+        value=invitedNames
+        onChange=(action (mut invitedNames))
+        options=(hash
+          fullWidthWrap=true
+          includeMessageableGroups=true
+          filterPlaceholder="composer.users_placeholder"
+          excludeCurrentUser=true
+        )
       }}
     {{/event-field}}
   </form>

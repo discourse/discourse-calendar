@@ -19,12 +19,14 @@
             }}
           {{/if}}
           {{#if model.eventModel.is_public}}
-            {{user-selector
+            {{email-group-user-chooser
               class="bulk-invite-identifier"
-              single=true
-              placeholderKey="discourse_post_event.bulk_invite_modal.user_selector_placeholder"
-              usernames=bulkInvite.identifier
-              autocomplete="discourse"
+              value=bulkInvite.identifier
+              onChange=(action "updateInviteIdentifier" bulkInvite)
+              options=(hash
+                maximum=1
+                filterPlaceholder="discourse_post_event.bulk_invite_modal.user_selector_placeholder"
+              )
             }}
           {{/if}}
 
