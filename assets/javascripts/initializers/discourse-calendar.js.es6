@@ -33,7 +33,8 @@ function loadFullCalendar() {
 
 function initializeDiscourseCalendar(api) {
   let _topicController;
-  const outletName = Discourse.SiteSettings.calendar_categories_outlet;
+  const siteSettings = api.container.lookup("site-settings:main");
+  const outletName = siteSettings.calendar_categories_outlet;
 
   const site = api.container.lookup("site:main");
   const isMobileView = site && site.mobileView;
@@ -50,7 +51,7 @@ function initializeDiscourseCalendar(api) {
 
     const browsedCategory = Category.findBySlugPathWithID(url);
     if (browsedCategory) {
-      const settings = Discourse.SiteSettings.calendar_categories
+      const settings = siteSettings.calendar_categories
         .split("|")
         .filter(Boolean)
         .map((stringSetting) => {
@@ -97,17 +98,20 @@ function initializeDiscourseCalendar(api) {
             const post = results[1];
             const $cooked = $(cooked.string);
             $calendarContainer.html($cooked);
-            render($(".calendar", $cooked), post);
+            render($(".calendar", $cooked), post, siteSettings);
           });
         });
       }
     }
   });
 
-  api.decorateCooked(attachCalendar, {
-    onlyStream: true,
-    id: "discourse-calendar",
-  });
+  api.decorateCooked(
+    ($elem, helper) => attachCalendar($elem, helper, siteSettings),
+    {
+      onlyStream: true,
+      id: "discourse-calendar",
+    }
+  );
 
   api.cleanupStream(cleanUp);
 
@@ -121,13 +125,13 @@ function initializeDiscourseCalendar(api) {
 
       if (post && $calendar.length > 0) {
         ajax(`/posts/${post.id}.json`).then((post) =>
-          loadFullCalendar().then(() => render($calendar, post))
+          loadFullCalendar().then(() => render($calendar, post, siteSettings))
         );
       }
     }
   );
 
-  function render($calendar, post) {
+  function render($calendar, post, siteSettings) {
     $calendar = $calendar.empty();
 
     const timezone = _getTimeZone($calendar, api.getCurrentUser());
@@ -138,7 +142,7 @@ function initializeDiscourseCalendar(api) {
       calendar.render();
       _setStaticCalendarEvents(calendar, $calendar, post);
     } else {
-      _setDynamicCalendarEvents(calendar, post);
+      _setDynamicCalendarEvents(calendar, post, siteSettings);
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
     }
@@ -150,7 +154,7 @@ function initializeDiscourseCalendar(api) {
     window.removeEventListener("scroll", hidePopover);
   }
 
-  function attachCalendar($elem, helper) {
+  function attachCalendar($elem, helper, siteSettings) {
     window.addEventListener("scroll", hidePopover);
 
     const $calendar = $(".calendar", $elem);
@@ -159,7 +163,9 @@ function initializeDiscourseCalendar(api) {
       return;
     }
 
-    loadFullCalendar().then(() => render($calendar, helper.getModel()));
+    loadFullCalendar().then(() =>
+      render($calendar, helper.getModel(), siteSettings)
+    );
   }
 
   function _buildCalendar($calendar, timeZone) {
@@ -353,11 +359,11 @@ function initializeDiscourseCalendar(api) {
     return event;
   }
 
-  function _addStandaloneEvent(calendar, post, detail) {
+  function _addStandaloneEvent(calendar, post, detail, siteSettings) {
     const event = _buildEvent(detail);
 
     const holidayCalendarTopicId = parseInt(
-      Discourse.SiteSettings.holiday_calendar_topic_id,
+      siteSettings.holiday_calendar_topic_id,
       10
     );
 
@@ -427,7 +433,7 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _setDynamicCalendarEvents(calendar, post) {
+  function _setDynamicCalendarEvents(calendar, post, siteSettings) {
     const groupedEvents = [];
 
     (post.calendar_details || []).forEach((detail) => {
@@ -436,7 +442,7 @@ function initializeDiscourseCalendar(api) {
           groupedEvents.push(detail);
           break;
         case "standalone":
-          _addStandaloneEvent(calendar, post, detail);
+          _addStandaloneEvent(calendar, post, detail, siteSettings);
           break;
       }
     });
