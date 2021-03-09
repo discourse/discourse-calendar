@@ -5,3 +5,7 @@
 # https://translate.discourse.org/
 
 es:
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "Eventos - Invitación masiva realizada con éxito"
+      subject_template: "Invitación masiva procesada con éxito"
