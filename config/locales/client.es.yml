@@ -5,3 +5,91 @@
 # https://translate.discourse.org/
 
 es:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_post_event: "Evento de Discourse"
+          discourse_calendar: "Calendario de Discourse"
+  js:
+    discourse_calendar:
+      invite_user_notification: "%{username} te invitó a: %{description}"
+      on_holiday: "De vacaciones"
+      holiday: "Vacaciones"
+      add_to_calendar: "Agregar a Google Calendar"
+      region:
+        title: "Región"
+        none: "Ninguna"
+        use_current_region: "Usar zona horaria actual"
+        names:
+          ar: "Argentina"
+          at: "Austria"
+          au_act: "Australia (au_act)"
+    group_timezones:
+      group_availability: "%{group} disponibilidad"
+    discourse_post_event:
+      notifications:
+        invite_user_predefined_attendance_notification: "%{username} ha configurado automáticamente tu asistencia y te ha invitado a %{description}"
+        before_event_reminder: "Un evento está a punto de comenzar %{description}"
+        after_event_reminder: "Un evento ha finalizado %{description}"
+        ongoing_event_reminder: "Hay un evento en curso  %{description}"
+      preview:
+        more_than_one_event: "No puedes tener más de un evento."
+      edit_reason: "Evento actualizado"
+      topic_title:
+        starts_at: "El evento comenzará: %{date}"
+        ended_at: "Evento terminó: %{date}"
+        ends_in_duration: "Termina en %{duration}"
+      models:
+        invitee:
+          status:
+            unknown: "No estoy interesado"
+            going: "Confirmado"
+            not_going: "No asistiré"
+            interested: "Estoy interesado"
+        event:
+          expired: "Caducado"
+          status:
+            public:
+              title: "Público"
+              description: "Cualquier persona puede unirse a un evento público."
+            private:
+              title: "Privado"
+              description: "Solo los usuarios invitados pueden unirse a un evento privado."
+      event_ui:
+        show_all: "Mostrar todos"
+        participants:
+          one: "%{count} usuario participó."
+          other: "%{count} usuarios participaron."
+        invite: "Notificar al usuario"
+        add_to_calendar: "Añadir al calendario"
+        send_pm_to_creator: "Enviar MP a %{username}"
+        edit_event: "Editar evento"
+        export_event: "Exportar evento"
+        created_by: "Creado por"
+        bulk_invite: "Invitaciones masivas"
+        close_event: "Cerrar evento"
+      invitees_modal:
+        title_invited: "Lista de usuarios que han respondido"
+        title_participated: "Lista de usuarios que participaron"
+        filter_placeholder: "Filtrar usuarios"
+      bulk_invite_modal:
+        text: "Subir archivo CSV"
+        title: "Invitaciones masivas"
+        success: "Archivo subido correctamente, se te notificará mediante un mensaje cuando se complete el proceso."
+        error: "Lo sentimos, el formato del archivo debe ser CSV."
+        confirmation_message: "Está a punto de notificar a todos en el archivo subido."
+        description_public: "Los eventos públicos solo aceptan nombres de usuario para invitaciones masivas."
+        description_private: "Los eventos privados solo aceptan nombres de grupos para invitaciones masivas."
+        download_sample_csv: "Descarga un archivo CSV de muestra"
+        send_bulk_invites: "Enviar invitaciones"
+        group_selector_placeholder: "Elige un grupo ..."
+        user_selector_placeholder: "Elegir usuario ..."
+        inline_title: "Invitación masiva en línea"
+        csv_title: "Invitación masiva de CSV"
+      builder_modal:
+        custom_fields:
+          label: "Campos Personalizados"
+          placeholder: "Opcional"
+          description: "Los campos personalizados permitidos se definen en la configuración del sitio. Los campos personalizados se utilizan para transmitir datos a otros complementos."
+        create_event_title: "Crear evento"
