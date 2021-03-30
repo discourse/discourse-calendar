@@ -138,6 +138,8 @@ fr:
         send_bulk_invites: "Envoyer les invitations"
         group_selector_placeholder: "Choisir un groupe..."
         user_selector_placeholder: "Choisir un utilisateur..."
+        inline_title: "Invitation groupée en ligne"
+        csv_title: "Invitation groupée au format CSV"
       builder_modal:
         custom_fields:
           label: "Champs personnalisés"
