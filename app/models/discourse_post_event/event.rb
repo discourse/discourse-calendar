@@ -65,12 +65,12 @@ module DiscoursePostEvent
 
     def starts_at
       event_dates.pending.order(:starts_at).last&.starts_at ||
-        event_dates.order(:starts_at).last&.starts_at
+        event_dates.order(:updated_at, :id).last&.starts_at
     end
 
     def ends_at
       event_dates.pending.order(:starts_at).last&.ends_at ||
-        event_dates.order(:starts_at).last&.ends_at
+        event_dates.order(:updated_at, :id).last&.ends_at
     end
 
     validates :original_starts_at, presence: true
