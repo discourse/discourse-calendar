@@ -23,8 +23,8 @@ describe DiscoursePostEvent::Event do
     let(:second_post) { Fabricate(:post, topic: topic) }
     let!(:starts_at) { '2020-04-24 14:15:00' }
     let!(:ends_at) { '2020-04-24 16:15:00' }
-    let!(:alt_starts_at) { '2020-04-25 17:15:25' }
-    let!(:alt_ends_at) { '2020-04-25 19:15:25' }
+    let!(:alt_starts_at) { '2020-04-24 14:14:25' }
+    let!(:alt_ends_at) { '2020-04-24 19:15:25' }
 
     describe '#after_commit[:create, :update]' do
       context 'a post event has been created' do
@@ -84,6 +84,10 @@ describe DiscoursePostEvent::Event do
 
             expect(first_event_date.finished_at).not_to be nil
             expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
+
+            second_event_date.update_columns(finished_at: Time.current)
+            expect(post_event.starts_at).to eq_time(DateTime.parse(alt_starts_at))
+            expect(post_event.ends_at).to eq_time(DateTime.parse(alt_ends_at))
           end
         end
 
