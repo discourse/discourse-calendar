@@ -411,16 +411,21 @@ after_initialize do
 
         grouped[identifier] ||= {
           type: :grouped,
-          name: event.description,
           from: event.start_date,
+          name: [],
           usernames: []
         }
 
+        grouped[identifier][:name] << event.description
         grouped[identifier][:usernames] << event.username
       end
     end
 
-    grouped.each { |_, v| v[:usernames].sort! }
+    grouped.each do |_, v|
+      v[:name] = v[:name].sort.join(", ")
+      v[:usernames].sort!
+      v[:usernames].uniq!
+    end
 
     standalones + grouped.values
   end
