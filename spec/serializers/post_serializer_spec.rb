@@ -32,6 +32,9 @@ describe PostSerializer do
     user = Fabricate(:user)
     user.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => 'ar')
 
+    user2 = Fabricate(:user)
+    user2.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => 'ar')
+
     post = create_post(raw: "[calendar]\n[/calendar]")
     SiteSetting.holiday_calendar_topic_id = post.topic.id
 
@@ -45,6 +48,6 @@ describe PostSerializer do
       "Feriado puente turístico",
       "Día de la Independencia"
     )
-    expect(json[:post][:calendar_details].map { |x| x[:usernames] }).to all (contain_exactly(user.username))
+    expect(json[:post][:calendar_details].map { |x| x[:usernames] }).to all (contain_exactly(user.username, user2.username))
   end
 end

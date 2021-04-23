@@ -422,9 +422,9 @@ after_initialize do
     end
 
     grouped.each do |_, v|
-      v[:name] = v[:name].sort.join(", ")
-      v[:usernames].sort!
-      v[:usernames].uniq!
+      v[:name].sort!.uniq!
+      v[:name] = v[:name].join(", ")
+      v[:usernames].sort!.uniq!
     end
 
     standalones + grouped.values
