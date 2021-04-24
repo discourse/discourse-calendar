@@ -272,7 +272,7 @@ en:
       group_availability: "%{group} availability"
     discourse_post_event:
       notifications:
-        invite_user_notification: "%{username} has invited you to %{description}"
+        invite_user_notification: "%{username} %{description}"
         invite_user_predefined_attendance_notification: "%{username} has automatically set your attendance and invited you to %{description}"
         before_event_reminder: "An event is about to start %{description}"
         after_event_reminder: "An event has ended %{description}"
