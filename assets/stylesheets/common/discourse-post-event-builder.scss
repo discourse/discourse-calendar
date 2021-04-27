@@ -22,14 +22,6 @@
 
             &.to {
               margin-top: 0.5em;
-
-              .d-time-input {
-                order: 1;
-              }
-
-              .clear-date-time {
-                order: 2;
-              }
             }
           }
         }
@@ -48,12 +40,30 @@
 
     .d-date-time-input-range {
       margin-bottom: 2em;
+      flex-direction: column;
+
+      .d-date-time-input {
+        display: flex;
+        justify-content: flex-start;
+      }
 
       .select-kit-header {
         height: 100%;
       }
 
+      .d-date-input {
+        box-sizing: border-box;
+        flex: 0;
+
+        .date-picker {
+          width: 155px;
+        }
+      }
+
       .d-time-input {
+        .combo-box {
+          width: 130px;
+        }
         .selected-name {
           border: 0;
 
@@ -64,6 +74,19 @@
       }
 
       .to.d-date-time-input {
+        .d-time-input {
+          order: 1;
+        }
+
+        .d-date-input {
+          order: 0;
+        }
+
+        .clear-date-time {
+          order: 2;
+          margin-left: auto;
+        }
+
         .pika-single.is-bound {
           left: -2px !important;
         }
