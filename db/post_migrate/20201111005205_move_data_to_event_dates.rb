@@ -58,7 +58,7 @@ class MoveDataToEventDates < ActiveRecord::Migration[6.0]
       rescue NoMethodError
         nil
       end
-    end.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }
+    end.compact.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }
   end
 
   def up
