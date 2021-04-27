@@ -47,9 +47,7 @@ module Jobs
       event_date.event.reminders.split(",").map do |reminder|
         value, unit = reminder.split('.')
 
-        if !validate_reminder_unit(unit)
-          return nil
-        end
+        next if !validate_reminder_unit(unit)
 
         date = event_date.starts_at - value.to_i.public_send(unit)
         { description: reminder, date: date }

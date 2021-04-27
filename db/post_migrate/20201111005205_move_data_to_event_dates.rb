@@ -52,12 +52,10 @@ class MoveDataToEventDates < ActiveRecord::Migration[6.0]
     event.reminders.split(",").map do |reminder|
       value, unit = reminder.split('.')
 
-      begin
-        date = event.original_starts_at - value.to_i.public_send(unit)
-        { description: reminder, date: date }
-      rescue NoMethodError
-        nil
-      end
+      allowed = ["years", "months", "weeks", "days", "hours", "minutes", "seconds"]
+      next if allowed.include?(unit)
+      date = event.original_starts_at - value.to_i.public_send(unit)
+      { description: reminder, date: date }
     end.compact.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }
   end
 
