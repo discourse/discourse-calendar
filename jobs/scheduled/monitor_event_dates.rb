@@ -51,12 +51,8 @@ module Jobs
           return nil
         end
 
-        begin
-          date = event_date.starts_at - value.to_i.public_send(unit)
-          { description: reminder, date: date }
-        rescue NoMethodError
-          nil
-        end
+        date = event_date.starts_at - value.to_i.public_send(unit)
+        { description: reminder, date: date }
       end.compact.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }.drop(event_date.reminder_counter)
     end
 
