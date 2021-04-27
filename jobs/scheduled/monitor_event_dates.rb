@@ -47,6 +47,10 @@ module Jobs
       event_date.event.reminders.split(",").map do |reminder|
         value, unit = reminder.split('.')
 
+        if !validate_reminder_unit(unit)
+          return nil
+        end
+
         begin
           date = event_date.starts_at - value.to_i.public_send(unit)
           { description: reminder, date: date }
@@ -54,6 +58,12 @@ module Jobs
           nil
         end
       end.compact.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }.drop(event_date.reminder_counter)
+    end
+
+    private
+
+    def validate_reminder_unit(input)
+      ActiveSupport::Duration::PARTS.any? { |part| part.to_s == input }
     end
   end
 end
