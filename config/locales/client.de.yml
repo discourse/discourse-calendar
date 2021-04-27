@@ -192,7 +192,6 @@ de:
       group_availability: "%{group} Verfügbarkeit"
     discourse_post_event:
       notifications:
-        invite_user_notification: "%{username} hat Sie zu %{description} eingeladen"
         invite_user_predefined_attendance_notification: "%{username} hat automatisch Ihren Besuch festgelegt und Sie zu %{description} eingeladen"
         before_event_reminder: "Eine Termin beginnt in Kürze %{description}"
         after_event_reminder: "Ein Termin ist beendet %{description}"

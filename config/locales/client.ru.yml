@@ -5,3 +5,12 @@
 # https://translate.discourse.org/
 
 ru:
+  js:
+    discourse_calendar:
+      add_to_calendar: "Добавить в Календарь Google"
+      region:
+        title: "Регион"
+        use_current_region: "Использовать текущий регион"
+    discourse_post_event:
+      topic_title:
+        ended_at: "Событие завершится: %{date}"

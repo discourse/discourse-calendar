@@ -278,7 +278,6 @@ da:
       group_availability: "%{group} tilgængelighed"
     discourse_post_event:
       notifications:
-        invite_user_notification: "%{username} inviterede dig til: %{description}"
         invite_user_predefined_attendance_notification: "%{username} har automatisk indstillet din deltagelse og inviteret dig til %{description}"
         before_event_reminder: "En begivenhed er ved at starte %{description}"
         after_event_reminder: "En begivenhed er afsluttet %{description}"

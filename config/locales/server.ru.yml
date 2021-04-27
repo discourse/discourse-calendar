@@ -5,3 +5,32 @@
 # https://translate.discourse.org/
 
 ru:
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "Событие - Массовое приглашение успешно выполнено"
+      subject_template: "Массовое приглашение успешно обработано"
+      text_body_template: "Ваш файл для массового приглашения пользователей был успешно обработан, отправлено приглашений: %{processed}."
+    discourse_post_event_bulk_invite_failed:
+      title: "Событие - Не удалось выполнить массовое приглашение"
+      subject_template: "Массовое приглашение обработано с ошибками"
+      text_body_template: |
+        Ваш файл массового приглашения был обработан, %{processed} приглашенных. Ошибок: %{failed}.
+
+        Вот журнал приглашений:
+
+        ```text
+        %{logs}
+        ```
+  site_settings:
+    calendar_enabled: "Включить плагин discourse-calendar. Это добавит поддержку тега [calendar][/calendar] в первом сообщении темы."
+    discourse_post_event_enabled: "[experimental] Включить прикрепление событий к сообщению. Примечание: также необходимо, чтобы опция `calendar enabled` была включена."
+  discourse_post_event:
+    errors:
+      models:
+        event:
+          end_must_be_a_valid_date: "Дата окончания должна быть действительной."
+          acting_user_not_allowed_to_create_event: "Текущему пользователю не разрешено создавать события."
+          acting_user_not_allowed_to_act_on_this_event: "Текущий пользователь не имеет права действовать в отношении этого события."
+          custom_field_is_invalid: "Пользовательское поле `%{field}` не допускается."
+          name:
+            length: "Длина названия события должна содержать от %{minimum} до %{maximum} символов."
