@@ -13,8 +13,7 @@ createWidgetFrom(
     },
 
     text(notificationName, data) {
-      const username = formatUsername(data.display_username);
-
+      const username = `<span>${formatUsername(data.display_username)}</span>`;
       let description;
       if (data.topic_title) {
         description = `<span data-topic-id="${this.attrs.topic_id}">${data.topic_title}</span>`;
