@@ -97,4 +97,34 @@ describe DiscourseCalendar::MonitorEventDates do
       expect(events).to include(event_name: :discourse_post_event_event_ended, params: [past_event])
     end
   end
+
+  context '#due_reminders' do
+    fab!(:invalid_event) {
+      Fabricate(
+        :event,
+        post: Fabricate(:post),
+        original_starts_at: 7.days.after,
+        original_ends_at: 7.days.after + 1.hour,
+        reminders: "1.foo"
+      )
+    }
+
+    fab!(:valid_event) {
+      Fabricate(
+        :event,
+        post: Fabricate(:post),
+        original_starts_at: 7.days.after,
+        original_ends_at: 7.days.after + 1.hour,
+        reminders: "1.minutes"
+      )
+    }
+
+    it 'doesn’t list events with invalid reminders' do
+      freeze_time (7.days.after - 1.minutes)
+      event_dates_monitor = DiscourseCalendar::MonitorEventDates.new
+
+      expect(event_dates_monitor.due_reminders(invalid_event.event_dates.first)).to be_blank
+      expect(event_dates_monitor.due_reminders(valid_event.event_dates.first).length).to eq(1)
+    end
+  end
 end
