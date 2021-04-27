@@ -46,9 +46,14 @@ module Jobs
       return [] if event_date.event.reminders.blank?
       event_date.event.reminders.split(",").map do |reminder|
         value, unit = reminder.split('.')
-        date = event_date.starts_at - value.to_i.send(unit)
-        { description: reminder, date: date }
-      end.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }.drop(event_date.reminder_counter)
+
+        begin
+          date = event_date.starts_at - value.to_i.public_send(unit)
+          { description: reminder, date: date }
+        rescue NoMethodError
+          nil
+        end
+      end.compact.select { |reminder| reminder[:date] <= Time.current }.sort_by { |reminder| reminder[:date] }.drop(event_date.reminder_counter)
     end
   end
 end
