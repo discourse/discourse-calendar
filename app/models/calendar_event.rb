@@ -9,7 +9,7 @@ class CalendarEvent < ActiveRecord::Base
     CalendarEvent.where(post_id: post.id).destroy_all
 
     dates = post.local_dates
-    return if dates.size < 1 || dates.size > 2
+    return if !dates || dates.size < 1 || dates.size > 2
 
     first_post = post.topic&.first_post
     return if !first_post || !first_post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD]
