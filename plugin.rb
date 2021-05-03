@@ -434,7 +434,8 @@ after_initialize do
 
   add_to_serializer(:post, :group_timezones) do
     result = {}
-    group_names = object.group_timezones['groups'] || []
+    group_timezones = post_custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD] || {}
+    group_names = group_timezones['groups'] || []
 
     if group_names.present?
       users =
@@ -455,7 +456,7 @@ after_initialize do
   end
 
   add_to_serializer(:post, :include_group_timezones?) do
-    object.group_timezones.present?
+    post_custom_fields[DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD].present?
   end
 
   add_to_serializer(:site, :users_on_holiday) do
