@@ -11,7 +11,7 @@
     }
 
     .fc-bg td.fc-today {
-      background-color: var(--highlight-medium, $highlight-medium);
+      background-color: var(--highlight-medium);
       border-style: solid;
     }
 
@@ -49,22 +49,22 @@
     .fc-button {
       border-radius: 0;
       box-shadow: none;
-      background: var(--primary-low, $primary-low);
+      background: var(--primary-low);
       text-transform: capitalize;
-      color: var(--primary, $primary);
+      color: var(--primary);
       text-shadow: none;
       border: none;
 
       padding: 6px 12px;
 
       &:hover {
-        background: var(--primary-medium, $primary-medium);
-        color: var(--secondary, $secondary);
+        background: var(--primary-medium);
+        color: var(--secondary);
       }
 
       &.fc-state-active {
-        background: var(--tertiary, $tertiary);
-        color: var(--secondary, $secondary);
+        background: var(--tertiary);
+        color: var(--secondary);
       }
       margin: 0.3em 0 0.3em 0.5em;
     }
@@ -81,7 +81,7 @@
     .fc-list-empty,
     .fc-list-heading td,
     .fc-popover .fc-header {
-      background: var(--primary-low, $primary-low);
+      background: var(--primary-low);
     }
 
     .fc-content,
@@ -94,14 +94,14 @@
     td,
     th,
     thead {
-      border-color: var(--primary-low, $primary-low);
+      border-color: var(--primary-low);
     }
   }
 
   .fc-event,
   .fc-event-dot {
-    color: var(--secondary, $secondary);
-    background-color: var(--tertiary, $tertiary);
+    color: var(--secondary);
+    background-color: var(--tertiary);
     border: 1px solid transparent;
 
     .fc-time {
@@ -110,9 +110,9 @@
 
     &.grouped-event {
       background-color: none;
-      background: var(--secondary, $secondary);
-      border: 1px solid var(--primary-low-mid, $primary-low-mid);
-      color: var(--primary, $primary);
+      background: var(--secondary);
+      border: 1px solid var(--primary-low-mid);
+      color: var(--primary);
 
       .emoji {
         margin-right: 0.25em;
@@ -126,7 +126,7 @@
     }
   }
   .fc-list-item-add-to-calendar {
-    color: var(--tertiary, $tertiary);
+    color: var(--tertiary);
     font-size: $font-down-1;
   }
 }

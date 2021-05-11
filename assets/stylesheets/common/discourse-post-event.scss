@@ -2,9 +2,9 @@
   display: flex;
 
   .discourse-post-event-widget {
-    border: 5px solid var(--primary-low, $primary-low);
+    border: 5px solid var(--primary-low);
     display: flex;
-    background: var(--secondary, $secondary);
+    background: var(--secondary);
     margin: 5px 0;
     flex-direction: column;
     flex: 1 0 auto;
@@ -106,7 +106,7 @@
     .status-and-creators {
       display: flex;
       align-items: center;
-      color: var(--primary-medium, $primary-medium);
+      color: var(--primary-medium);
       font-size: $font-down-1;
       margin: 0.25em 0;
 
@@ -130,7 +130,7 @@
 
       .status {
         &.expired {
-          color: var(--danger-medium, $danger-medium);
+          color: var(--danger-medium);
         }
 
         .d-icon {
@@ -151,13 +151,13 @@
       margin: 0;
 
       &.status-going .going-button .d-icon {
-        color: var(--success, $success);
+        color: var(--success);
       }
       &.status-interested .interested-button .d-icon {
         color: adjust-hue($danger, 25%);
       }
       &.status-not_going .not-going-button .d-icon {
-        color: var(--danger, $danger);
+        color: var(--danger);
       }
     }
   }
@@ -193,7 +193,7 @@
 
         .invited {
           font-weight: 500;
-          color: var(--primary-medium, $primary-medium);
+          color: var(--primary-medium);
         }
       }
     }
@@ -218,11 +218,11 @@
         }
 
         &.status-going .avatar-flair {
-          color: var(--success, $success);
+          color: var(--success);
         }
 
         &.status-not_going .avatar-flair {
-          color: var(--danger, $danger);
+          color: var(--danger);
         }
 
         &.status-interested .avatar-flair {
@@ -238,15 +238,15 @@
           position: absolute;
           right: 0;
           bottom: 0;
-          background: var(--secondary, $secondary);
+          background: var(--secondary);
           border-radius: 50%;
           height: 16px;
           width: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--primary-medium, $primary-medium);
-          border: 1px solid var(--primary-low, $primary-low);
+          color: var(--primary-medium);
+          border: 1px solid var(--primary-low);
 
           .d-icon {
             font-size: $font-down-3;
@@ -269,7 +269,7 @@
     flex: 1;
 
     .d-icon {
-      color: var(--primary-high, $primary-high);
+      color: var(--primary-high);
     }
   }
 
@@ -284,11 +284,11 @@
   .event-dates {
     .participants {
       margin-left: 0.5em;
-      color: var(--primary-medium, $primary-medium);
+      color: var(--primary-medium);
     }
 
     .date {
-      color: var(--primary-high, $primary-high);
+      color: var(--primary-high);
       margin-left: 1em;
 
       .discourse-local-date {
@@ -299,7 +299,7 @@
     }
 
     .separator {
-      color: var(--primary-high, $primary-high);
+      color: var(--primary-high);
       margin: 0 0.5em;
       text-align: center;
     }
