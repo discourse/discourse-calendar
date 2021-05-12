@@ -9,7 +9,7 @@
     display: inline-flex;
     align-items: center;
     font-size: $font-down-2;
-    border: 1px solid var(--primary-medium, $primary-medium);
+    border: 1px solid var(--primary-medium);
     background: none;
     padding: 0 0.25em;
     border-radius: 3px;
@@ -21,7 +21,7 @@
       width: 6px;
       height: 6px;
       border-radius: 3px;
-      background: var(--success, $success);
+      background: var(--success);
       margin-right: 0.25em;
     }
   }
@@ -30,7 +30,7 @@
 .header-title {
   .event-date {
     font-size: $font-down-4;
-    color: var(--primary-medium, $primary-medium);
+    color: var(--primary-medium);
     font-weight: normal;
     padding: 0.25em;
   }
