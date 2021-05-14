@@ -7,7 +7,7 @@ discourse_calendar:
     client: true
   delete_expired_event_posts_after:
     min: -1
-    default: 1
+    default: -1
   all_day_event_start_time:
     default: ""
     client: true
