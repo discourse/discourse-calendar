@@ -9,6 +9,7 @@ describe DiscourseCalendar::DestroyPastEvents do
   before do
     Jobs.run_immediately!
     SiteSetting.calendar_enabled = true
+    SiteSetting.delete_expired_event_posts_after = 1
   end
 
   it "will correctly destroy the post" do
