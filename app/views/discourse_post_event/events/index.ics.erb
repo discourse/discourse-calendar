@@ -3,7 +3,6 @@ VERSION:2.0
 PRODID:-//Discourse//<%= Discourse.current_hostname %>//<%= Discourse.full_version %>//EN
 <% @events.each do |event| %>
 BEGIN:VEVENT
-ORGANIZER:MAILTO:<%= event.post.user.email %>
 UID:bookmark_reminder_#<%= event.id %>@<%= Discourse.current_hostname %>
 DTSTAMP:<%= Time.now.utc.strftime("%Y%m%dT%H%M%SZ") %>
 DTSTART:<%= event.starts_at.strftime("%Y%m%dT%H%M%SZ") %>
