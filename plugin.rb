@@ -35,6 +35,12 @@ register_svg_icon 'fas fa-file-csv'
 register_svg_icon 'fas fa-star'
 register_svg_icon 'fas fa-file-upload'
 
+if Sidekiq.server?
+  require "holidays"
+  path = "#{File.dirname(__FILE__)}/vendor/holidays/definitions/**"
+  Holidays.load_custom(*Dir[path])
+end
+
 after_initialize do
   module ::DiscourseCalendar
     PLUGIN_NAME ||= 'discourse-calendar'

@@ -14,6 +14,10 @@ Topic discussing the plugin itself can be found here: [https://meta.discourse.or
 - `discourse_post_event_event_started` this DiscourseEvent will be triggered when an event starts
 - `discourse_post_event_event_ended` this DiscourseEvent will be triggered when an event ends
 
+#### Holidays
+
+Custom holidays can be added for use by the [Holidays](https://github.com/holidays/holidays) gem. See [vendor/holidays/README.md](vendor/holidays/README.md) for more details.
+
 #### Custom Fields
 
 Custom fields can be set in plugin settings. Once added a new form will appear on event UI.
