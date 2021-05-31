@@ -210,8 +210,9 @@ function initializeDiscourseCalendar(api) {
       datesRender: (info) => {
         if (showAddToCalendar) {
           _insertAddToCalendarLinks(info);
-          $calendarTitle.innerText = info.view.title;
         }
+
+        $calendarTitle.innerText = info.view.title;
       },
     });
   }
