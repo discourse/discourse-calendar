@@ -5,7 +5,6 @@ UNUSED_REGIONS = ["ecbtarget", "federalreserve", "federalreservebanks", "fedex",
 HOLIDAYS_COUNTRY_OVERRIDES = { "gr" => "el" }
 
 task 'javascript:update_constants' => :environment do
-  require 'holidays'
   holiday_regions = Holidays.available_regions.map(&:to_s) - UNUSED_REGIONS
 
   time_zone_to_region = {}
