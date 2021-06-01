@@ -24,27 +24,28 @@ ru:
   site_settings:
     calendar_enabled: "Включить плагин discourse-calendar. Это добавит поддержку тега [calendar][/calendar] в первом сообщении темы."
     discourse_post_event_enabled: "[experimental] Включить прикрепление событий к сообщению. Примечание: также необходимо, чтобы опция `calendar enabled` была включена."
-    displayed_invitees_limit: "Ограничивать количество приглашений, отображаемых в событии."
-    display_post_event_date_on_topic_title: "Отображать дату события после названия темы."
-    discourse_post_event_allowed_on_groups: "Группы, которым разрешено создавать события."
-    discourse_post_event_allowed_custom_fields: "Позволять каждому событию устанавливать значение настраиваемых полей."
-    delete_expired_event_posts_after: "Сообщения с истекшими событиями будут автоматически удалены после указанного здесь количества часов. Установите значение -1 для отключения удаления."
-    all_day_event_start_time: "События, для которых не указано время начала, начнутся в это время. Формат времени - ЧЧ:мм. Например, для 6:00 утра введите 06:00"
-    all_day_event_end_time: "События, для которых не указано время окончания, завершатся в это время. Формат времени - ЧЧ:мм. Например, для 6:00 вечера введите 18:00"
+    displayed_invitees_limit: "Ограничивать количество приглашений, отображаемых в мероприятии ."
+    display_post_event_date_on_topic_title: "Отображать дату мероприятия после названия темы."
+    discourse_post_event_allowed_on_groups: "Группы, которым разрешено создавать мероприятия."
+    discourse_post_event_allowed_custom_fields: "Позволять каждому мероприятию устанавливать значение настраиваемых полей."
+    delete_expired_event_posts_after: "Сообщения с истекшими мероприятиями будут автоматически удалены после указанного здесь количества часов. Установите значение -1 для отключения удаления."
+    all_day_event_start_time: "События, для которых не указано время начала, начнутся в указанное здесь время. Формат времени - ЧЧ:мм. Например, для 6:00 утра введите 06:00"
+    all_day_event_end_time: "События, для которых не указано время окончания, завершатся в указанное здесь время. Формат времени - ЧЧ:мм. Например, для 6:00 вечера введите 18:00"
     all_day_event_time_error: "Неверное время. Формат должен быть ЧЧ: мм (например, 08:00)."
     calendar_categories: "Отображать календарь в верхней части раздела. Обязательные настройки - categoryId и postId. например: categoryId = 6; postId = 453\n Другие допустимые настройки: часовые пояса, выходные дни и формат отображения."
     working_days: "Установка рабочих дней. Вы можете отобразить доступность группы с помощью тега `timezones`, пометив им сообщение, например:` [timezones group = admins][timezones]`"
     working_day_start_hour: "Время начала рабочего дня."
     working_day_end_hour: "Время окончания рабочего дня."
+    close_to_working_day_hours_extension: "Продлевать время рабочего дня с учётом часовых поясов."
   discourse_calendar:
     invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
     calendar_must_be_in_first_post: "Тег календаря может быть использован только в первом сообщении темы."
-    event_expired: "Срок проведения мероапрриятия истек"
+    event_expired: "Срок проведения мероприятия истек"
   discourse_post_event:
     notifications:
-      before_event_reminder: "Мероприятие %{title} вот-вот начнется."
-      after_event_reminder: "Мероприятие %{title} закончилось."
-      ongoing_event_reminder: "Мероприятие %{title} продолжается."
+      before_event_reminder: "Мероприятие '%{title}' вот-вот начнется."
+      after_event_reminder: "Мероприятие '%{title}'закончилось."
+      ongoing_event_reminder: "Мероприятие '%{title}' продолжается."
     errors:
       bulk_invite:
         max_invitees: "Были созданы первые %{max_invittes} приглашений. Попробуйте разделить файл на более мелкие части."
@@ -60,6 +61,6 @@ ru:
           end_must_be_a_valid_date: "Дата окончания должна быть правильной."
           acting_user_not_allowed_to_create_event: "Текущему пользователю не разрешено создавать события."
           acting_user_not_allowed_to_act_on_this_event: "Текущий пользователь не имеет права работать с этим событием."
-          custom_field_is_invalid: "Настраиваемое поле «%{field} не допускается."
+          custom_field_is_invalid: "Настраиваемое поле `%{field}` не допускается."
           name:
             length: "Название мероприятия должно содержать от %{minimum} до %{maximum} символов."
