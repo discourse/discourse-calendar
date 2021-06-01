@@ -34,11 +34,33 @@ months:
   - name: Labour Day
     regions: [sg]
     mday: 1
+  - name: Hari Raya Puasa
+    regions: [sg]
+    mday: 13
+    year_ranges:
+      limited: [2021]
+  - name: Vesak Day
+    regions: [sg]
+    mday: 26
+    year_ranges:
+      limited: [2021]
+  7:
+  - name: Hari Raya Haji
+    regions: [sg]
+    mday: 20
+    year_ranges:
+      limited: [2021]
   8:
   - name: National Day
     regions: [sg]
     mday: 9
     observed: to_weekday_if_weekend(date)
+  11:
+  - name: Deepavali
+    regions: [sg]
+    mday: 4
+    year_ranges:
+      limited: [2021]
   12:
   - name: Christmas Day
     regions: [sg]
