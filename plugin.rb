@@ -6,7 +6,10 @@
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
-gem 'holidays', '8.4.1', require: false
+if !Rails.env.production? || Sidekiq.server?
+  require File.join(File.dirname(__FILE__), "vendor/holidays/lib/holidays")
+end
+
 gem 'rrule', '0.4.2', require: false
 
 load File.expand_path('../lib/calendar_settings_validator.rb', __FILE__)
