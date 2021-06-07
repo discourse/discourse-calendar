@@ -18,3 +18,8 @@ Topic discussing the plugin itself can be found here: [https://meta.discourse.or
 
 Custom fields can be set in plugin settings. Once added a new form will appear on event UI.
 These custom fields are available when a plugin event is triggered.
+
+#### Holidays
+
+To add/remove/correct a holiday, edit the relevant [definition files](vendor/holidays/definitions) and run `rake generate:definitions` in the `vendor/holidays`
+directory. Syntax of definition files can be found in [vendor/holidays/definitions/docks/SYNTAX.md](vendor/holidays/definitions/docks/SYNTAX.md).
