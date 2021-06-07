@@ -196,6 +196,13 @@ after_initialize do
     )
   end
 
+  # TODO: Switch to an official plugin API once support for it has landed.
+  TopicView.on_preload do |topic_view|
+    if SiteSetting.discourse_post_event_enabled
+      topic_view.instance_variable_set(:@posts, topic_view.posts.includes(:event))
+    end
+  end
+
   add_to_serializer(:post, :event) do
     DiscoursePostEvent::EventSerializer.new(
       object.event,
