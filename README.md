@@ -22,4 +22,4 @@ These custom fields are available when a plugin event is triggered.
 #### Holidays
 
 To add/remove/correct a holiday, edit the relevant [definition files](vendor/holidays/definitions) and run `rake generate:definitions` in the `vendor/holidays`
-directory. Syntax of definition files can be found in [vendor/holidays/definitions/docks/SYNTAX.md](vendor/holidays/definitions/docs/SYNTAX.md).
+directory. Syntax of definition files can be found in [vendor/holidays/definitions/doc/SYNTAX.md](vendor/holidays/definitions/doc/SYNTAX.md).
