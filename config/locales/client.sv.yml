@@ -278,6 +278,7 @@ sv:
       group_availability: "%{group}-tillgänglighet"
     discourse_post_event:
       notifications:
+        invite_user_notification: "%{username} %{description}"
         invite_user_predefined_attendance_notification: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till %{description}"
         before_event_reminder: "Ett evenemang börjar snart %{description}"
         after_event_reminder: "Ett evenemang har avslutats %{description}"
