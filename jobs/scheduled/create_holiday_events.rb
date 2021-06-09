@@ -8,6 +8,8 @@ module Jobs
       return unless SiteSetting.calendar_enabled
       return unless topic_id = SiteSetting.holiday_calendar_topic_id.presence
 
+      require 'holidays' if !defined?(Holidays)
+
       regions_and_user_ids = Hash.new { |h, k| h[k] = [] }
 
       UserCustomField

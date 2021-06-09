@@ -6,9 +6,8 @@
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
-if !Rails.env.production? || Sidekiq.server?
-  require File.join(File.dirname(__FILE__), "vendor/holidays/lib/holidays")
-end
+libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 gem 'rrule', '0.4.2', require: false
 
