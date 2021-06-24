@@ -16,7 +16,7 @@
   }
 
   &.alert-error {
-    border-color: lighten($danger, 25);
+    border-color: var(--danger-low-mid);
   }
 }
 
