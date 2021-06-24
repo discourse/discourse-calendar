@@ -202,17 +202,6 @@ a.holiday {
   font-size: 16px;
 }
 
-// TODO: remove fallbacks when colors CSS custom properties are in stable in core
-$bg-normal: dark-light-choose(lighten($tertiary, 55%), darken($tertiary, 25%));
-$bg-close-to-working-hours: dark-light-choose(
-  desaturate(lighten($tertiary, 45%), 15%),
-  darken($tertiary, 15%)
-);
-$bg-in-working-hours: dark-light-choose(
-  desaturate(lighten($tertiary, 40%), 20%),
-  darken($tertiary, 10%)
-);
-
 .group-timezones {
   display: flex;
   width: 100%;
@@ -261,6 +250,7 @@ $bg-in-working-hours: dark-light-choose(
   .time {
     font-weight: 700;
     margin-right: 0.5em;
+    min-width: 45px;
   }
 }
 
@@ -272,21 +262,27 @@ $bg-in-working-hours: dark-light-choose(
 .group-timezones-slider {
   width: 120px;
   margin: 0.25em 0;
+  margin-right: 0.5em;
   padding: 0.25em;
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
   font: inherit;
   outline: none;
-  color: #069;
-  opacity: 0.8;
-  background: svg-uri(
-      "<svg xmlns='http://www.w3.org/2000/svg' width='2' height='2'><rect fill='#{$tertiary}' x='0' y='0' width='2' height='2'/></svg>"
-    )
-    50% 50% repeat-x;
-
+  position: relative;
   box-sizing: border-box;
-  transition: opacity 0.2s;
+  background-color: transparent;
+  &::before {
+    background: var(--tertiary);
+    content: "";
+    display: block;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    margin-top: -1px;
+    width: 100%;
+    z-index: -1;
+  }
 }
 
 .group-timezones-body {
@@ -343,10 +339,7 @@ $bg-in-working-hours: dark-light-choose(
     }
 
     &.close-to-working-hours {
-      background-color: var(
-        --calendar-close-to-working-hours,
-        $bg-close-to-working-hours
-      );
+      background-color: var(--calendar-close-to-working-hours);
       opacity: 0.7;
     }
 

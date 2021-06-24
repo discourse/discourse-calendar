@@ -1,3 +1,5 @@
+$interested: #fb985d;
+
 .discourse-post-event {
   display: flex;
 
@@ -67,7 +69,7 @@
         .item-closeEvent {
           .d-icon,
           span {
-            color: $danger;
+            color: var(--danger);
           }
         }
       }
@@ -154,7 +156,7 @@
         color: var(--success);
       }
       &.status-interested .interested-button .d-icon {
-        color: adjust-hue($danger, 25%);
+        color: $interested;
       }
       &.status-not_going .not-going-button .d-icon {
         color: var(--danger);
@@ -226,7 +228,7 @@
         }
 
         &.status-interested .avatar-flair {
-          color: adjust-hue($danger, 25%);
+          color: $interested;
         }
       }
 
