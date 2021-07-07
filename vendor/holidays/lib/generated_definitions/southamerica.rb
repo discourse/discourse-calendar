@@ -7,7 +7,7 @@ module Holidays
   # All the definitions are available at https://github.com/holidays/holidays
   module SOUTHAMERICA # :nodoc:
     def self.defined_regions
-      [:ar, :br, :cl, :co, :pe, :ve]
+      [:ar, :br, :br_spcapital, :br_sp, :cl, :co, :pe, :ve]
     end
 
     def self.holidays_by_month
@@ -15,7 +15,8 @@ module Holidays
                 0 => [{:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :name => "Viernes Santo", :regions => [:ar]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -48, :name => "Carnaval Lunes", :regions => [:ar]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -47, :name => "Carnaval Martes", :regions => [:ar]},
-            {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -47, :type => :informal, :name => "Carnaval", :regions => [:br]},
+            {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -48, :name => "Segunda-Feira de Carnaval", :regions => [:br]},
+            {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -47, :name => "Terça-Feira de Carnaval", :regions => [:br]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :name => "Sexta-feira Santa", :regions => [:br]},
             {:function => "easter(year)", :function_arguments => [:year], :name => "Páscoa", :regions => [:br]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => 60, :name => "Corpus Christi", :regions => [:br]},
@@ -37,6 +38,7 @@ module Holidays
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :name => "Viernes Santo", :regions => [:ve]}],
       1 => [{:mday => 1, :name => "Año Nuevo", :regions => [:ar]},
             {:mday => 1, :name => "Dia da Confraternização Universal", :regions => [:br]},
+            {:mday => 25, :name => "Aniversário da cidade de São Paulo", :regions => [:br_spcapital]},
             {:mday => 1, :name => "Año Nuevo", :regions => [:cl]},
             {:mday => 1, :name => "Año Nuevo", :regions => [:co]},
             {:function => "epiphany(year)", :function_arguments => [:year], :name => "Día de los Reyes Magos", :regions => [:co]},
@@ -67,6 +69,7 @@ module Holidays
             {:mday => 24, :name => "Aniversario Batalla de Carabobo", :regions => [:ve]}],
       7 => [{:mday => 8, :name => "Feriado puente turístico", :regions => [:ar]},
             {:mday => 9, :name => "Día de la Independencia", :regions => [:ar]},
+            {:mday => 9, :name => "Revolução Constitucionalista", :regions => [:br_sp, :br_spcapital]},
             {:mday => 16, :name => "Día de la Virgen del Carmen", :regions => [:cl]},
             {:mday => 20, :name => "Día de la Independencia", :regions => [:co]},
             {:mday => 28, :name => "Primer Día de la Independencia", :regions => [:pe]},
@@ -88,6 +91,7 @@ module Holidays
       11 => [{:mday => 20, :name => "Día de la Soberanía Nacional", :regions => [:ar]},
             {:mday => 2, :name => "Dia de Finados", :regions => [:br]},
             {:mday => 15, :name => "Proclamação da República", :regions => [:br]},
+            {:mday => 20, :name => "Dia da Consciência Negra", :regions => [:br_spcapital]},
             {:mday => 1, :name => "Día de Todos los Santos", :regions => [:cl]},
             {:function => "all_saints_day(year)", :function_arguments => [:year], :name => "Día de Todos los Santos", :regions => [:co]},
             {:function => "independence_of_cartagena(year)", :function_arguments => [:year], :name => "Independencia de Cartagena", :regions => [:co]},
