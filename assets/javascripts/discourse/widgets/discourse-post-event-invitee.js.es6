@@ -51,10 +51,10 @@ export default createWidget("discourse-post-event-invitee", {
     if (statusIcon) {
       avatarContent.push(
         this.attach("avatar-flair", {
-          primary_group_name: I18n.t(
+          flair_name: I18n.t(
             `discourse_post_event.models.invitee.status.${attrs.invitee.status}`
           ),
-          primary_group_flair_url: statusIcon,
+          flair_url: statusIcon,
         })
       );
     }
