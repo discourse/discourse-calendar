@@ -5,3 +5,8 @@
 # https://translate.discourse.org/
 
 he:
+  js:
+    discourse_calendar:
+      region:
+        names:
+          sa: "ערב הסעודית"

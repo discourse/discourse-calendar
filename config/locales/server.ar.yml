@@ -5,3 +5,19 @@
 # https://translate.discourse.org/
 
 ar:
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "الحدث - نجحت الدعوة المجمعة"
+      subject_template: "تمت معالجة الدعوة الجماعية للمستخدمين بنجاح"
+      text_body_template: "تمت معالجة الدعوة الجماعية للمستخدمين، وتم إرسال %{processed} دعوة عبر البريد."
+    discourse_post_event_bulk_invite_failed:
+      title: "الحدث - نجحت الدعوة المجمعة"
+      subject_template: "تمت معالجة الدعوة الجماعية للمستخدمين مع وجود أخطاء"
+      text_body_template: |
+        تمت معالجة ملف الدعوة المجمع الخاص بك ، تم إنشاء %{processed} مدعو (مدعوون) مع وجود %{failed} (أخطاء).
+
+        هنا السجل:
+
+        '' نص
+        %{logs}
+        ``
