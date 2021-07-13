@@ -5,3 +5,7 @@
 # https://translate.discourse.org/
 
 ar:
+  js:
+    discourse_post_event:
+      upcoming_events:
+        title: "الأحداث القادمة"
