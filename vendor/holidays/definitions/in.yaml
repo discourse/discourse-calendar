@@ -1,0 +1,82 @@
+# India holiday definitions
+
+---
+months:
+  1:
+  - name: Republic Day
+    regions: [in]
+    mday: 26
+    observed: to_weekday_if_weekend(date)
+  3:
+  - name: Holi
+    regions: [in]
+    mday: 29
+    year_ranges:
+      limited: [2021]
+  4:
+  - name: Ambedkar Jayanti
+    regions: [in]
+    mday: 14
+  5:
+  - name: Eid al-Fitr
+    regions: [in]
+    mday: 14
+    year_ranges:
+      limited: [2021]
+  7:
+  - name: Eid al-Adha
+    regions: [in]
+    mday: 21
+    year_ranges:
+      limited: [2021]
+  8:
+  - name: Independence Day
+    regions: [in]
+    mday: 15
+    observed: to_weekday_if_weekend(date)
+  - name: Raksha Bandhan
+    regions: [in]
+    mday: 22
+    year_ranges:
+      limited: [2021]
+  - name: Janmashtami
+    regions: [in]
+    mday: 30
+    year_ranges:
+      limited: [2021]
+  9:
+  - name: Ganesh Chaturthi
+    regions: [in]
+    mday: 10
+    year_ranges:
+      limited: [2021]
+  10:
+  - name: Gandhi Jayanti
+    regions: [in]
+    mday: 2
+  - name: Dussehra
+    regions: [in]
+    mday: 15
+    year_ranges:
+      limited: [2021]
+  11:
+  - name: Diwali
+    regions: [in]
+    mday: 4
+    year_ranges:
+      limited: [2021]
+  - name: Govardhan Puja
+    regions: [in]
+    mday: 5
+    year_ranges:
+      limited: [2021]
+  - name: Guru Nanak Jayanti
+    regions: [in]
+    mday: 19
+    year_ranges:
+      limited: [2021]
+  12:
+  - name: Christmas Day
+    regions: [in]
+    mday: 25
+    observed: to_weekday_if_weekend(date)
