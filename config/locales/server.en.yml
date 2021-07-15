@@ -22,7 +22,7 @@ en:
     displayed_invitees_limit: "Limits the numbers of invitees displayed on an event."
     display_post_event_date_on_topic_title: "Displays the date of the event after the topic title."
     discourse_post_event_allowed_on_groups: "Groups that are allowed to create events."
-    discourse_post_event_allowed_custom_fields: "Allows to let each each event to set the value of custom fields."
+    discourse_post_event_allowed_custom_fields: "Allows to let each event to set the value of custom fields."
     discourse_post_event_edit_notifications_time_extension: "Extends (in minutes) the period after the end of an event when `going` invitees are still being notified from edit in the original post."
     holiday_calendar_topic_id: "Topic ID of staffs holiday / absence calendar."
     delete_expired_event_posts_after: "Posts with expired events will be automatically deleted after (n) hours. Set to -1 to disable deletion."
