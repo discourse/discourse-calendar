@@ -152,6 +152,7 @@ es:
           hu: "Hungría"
           ie: "Irlanda"
           im: "Isla del hombre"
+          in: "India"
           is: "Islandia"
           it_bl: "Italia (it_bl)"
           it_fi: "Italia (it_fi)"
@@ -279,6 +280,7 @@ es:
       group_availability: "%{group} disponibilidad"
     discourse_post_event:
       notifications:
+        invite_user_notification: "%{username} %{description}"
         invite_user_predefined_attendance_notification: "%{username} ha configurado automáticamente tu asistencia y te ha invitado a %{description}"
         before_event_reminder: "Un evento está a punto de comenzar %{description}"
         after_event_reminder: "Un evento ha finalizado %{description}"
