@@ -21,9 +21,11 @@ export default createWidget("discourse-group-timezones-time-traveler", {
     <span class="time">
       {{transformed.localTimeWithOffset}}
     </span>
-    {{attach
-      widget="discourse-group-timezones-slider"
-    }}
+    <span class="discourse-group-timezones-slider-wrapper">
+      {{attach
+        widget="discourse-group-timezones-slider"
+      }}
+    </span>
     {{attach
       widget="discourse-group-timezones-reset"
       attrs=(hash

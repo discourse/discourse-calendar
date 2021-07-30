@@ -259,31 +259,35 @@ a.holiday {
   display: none;
 }
 
-.group-timezones-slider {
-  width: 120px;
+.discourse-group-timezones-slider-wrapper {
+  // we need the wrapper because Firefox doesn't allow pseudo selectors on inputs
+  position: relative;
   margin: 0.25em 0;
   margin-right: 0.5em;
+  &::before {
+    display: block;
+    content: "";
+    position: absolute;
+    margin-top: -1px;
+    background: var(--tertiary);
+    height: 2px;
+    top: 50%;
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.group-timezones-slider {
+  display: flex;
+  width: 120px;
   padding: 0.25em;
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
   font: inherit;
   outline: none;
-  position: relative;
   box-sizing: border-box;
   background-color: transparent;
-  z-index: 1;
-  &::before {
-    background: var(--tertiary);
-    content: "";
-    display: block;
-    height: 2px;
-    position: absolute;
-    top: 50%;
-    margin-top: -1px;
-    width: 100%;
-    z-index: -1;
-  }
 }
 
 .group-timezones-body {
