@@ -272,6 +272,7 @@ a.holiday {
   position: relative;
   box-sizing: border-box;
   background-color: transparent;
+  z-index: 1;
   &::before {
     background: var(--tertiary);
     content: "";
