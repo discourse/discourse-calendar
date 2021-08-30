@@ -87,5 +87,32 @@ describe DiscoursePostEvent::EventFinder do
         expect(subject.search(current_user, { post_id: post2.id })).to match_array([event2])
       end
     end
+
+    context 'by expiration status' do
+      let(:post1) {
+        PostCreator.create!(
+          user,
+          title: 'We should buy a boat',
+          raw: 'The boat market is quite active lately.'
+        )
+      }
+      let(:post2) {
+        PostCreator.create!(
+          user,
+          title: 'We should buy another boat',
+          raw: 'The boat market is very active lately.'
+        )
+      }
+      let!(:event1) { Fabricate(:event, post: post1, original_starts_at: 2.hours.ago, original_ends_at: 1.hour.ago) }
+      let!(:event2) { Fabricate(:event, post: post2, original_starts_at: 1.hour.from_now, original_ends_at: 2.hours.from_now) }
+
+      it 'returns non-expired events when false' do
+        expect(subject.search(current_user, { expired: false })).to match_array([event2])
+      end
+
+      it 'returns expired events when true' do
+        expect(subject.search(current_user, { expired: true })).to match_array([event1])
+      end
+    end
   end
 end
