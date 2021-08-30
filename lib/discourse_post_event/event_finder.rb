@@ -9,11 +9,11 @@ module DiscoursePostEvent
 
       if params[:expired]
         event_ids = DiscoursePostEvent::EventDate.expired.order(starts_at: :asc).pluck(:event_id)
-        events = DiscoursePostEvent::Event.where.not(id: event_ids)
       else
         event_ids = DiscoursePostEvent::EventDate.not_expired.order(starts_at: :asc).pluck(:event_id)
-        events = DiscoursePostEvent::Event.where(id: event_ids)
       end
+
+      events = DiscoursePostEvent::Event.where(id: event_ids)
 
       if params[:post_id]
         events = events.where(id: Array(params[:post_id]))
