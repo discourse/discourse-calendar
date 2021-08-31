@@ -40,13 +40,19 @@ module DiscoursePostEvent
 
     def set_next_date
       next_dates = calculate_next_date
-      return if !next_dates
 
-      event_dates.create!(
+      if self.recurrence.present?
+        event_date = event_dates.build
+      else
+        event_date = event_dates.last || event_dates.build
+      end
+
+      event_date.assign_attributes(
         starts_at: next_dates[:starts_at],
         ends_at: next_dates[:ends_at],
         finished_at: (next_dates[:starts_at] < Time.current) && next_dates[:starts_at]
       )
+      event_date.save!
 
       publish_update!
       invitees.update_all(status: nil, notified: false)

@@ -387,4 +387,13 @@ describe DiscoursePostEvent::Event do
       expect(event_1.missing_users.pluck(:id)).to match_array([user_1.id, user_2.id])
     end
   end
+
+  context 'event_dates' do
+    it 'does not create extraneous EventDate records' do
+      event = Fabricate(:event)
+      event.update! original_starts_at: 5.minutes.ago
+
+      expect(DiscoursePostEvent::EventDate.count).to eq(1)
+    end
+  end
 end
