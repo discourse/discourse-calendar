@@ -8,7 +8,7 @@ module DiscoursePostEvent
       pms = private_messages(user)
 
       events = DiscoursePostEvent::Event
-        .select("#{DiscoursePostEvent::Event.table_name}.*, dcped.starts_at")
+        .select("discourse_post_event_events.*, dcped.starts_at")
         .joins(post: :topic)
         .merge(Post.secured(guardian))
         .merge(topics.or(pms).distinct)
@@ -16,7 +16,10 @@ module DiscoursePostEvent
         .order("dcped.starts_at ASC")
 
       if params[:expired]
-        events = events.where("dcped.finished_at IS NOT NULL AND (dcped.ends_at IS NOT NULL AND dcped.ends_at < ?)", Time.now)
+        # The second part below makes the query ignore events that have non-expired event-dates
+        events = events
+          .where("dcped.finished_at IS NOT NULL AND (dcped.ends_at IS NOT NULL AND dcped.ends_at < ?)", Time.now)
+          .where("discourse_post_event_events.id NOT IN (SELECT DISTINCT event_id FROM discourse_calendar_post_event_dates WHERE event_id = discourse_post_event_events.id AND finished_at IS NULL)")
       else
         events = events.where("dcped.finished_at IS NULL AND (dcped.ends_at IS NULL OR dcped.ends_at > ?)", Time.now)
       end
