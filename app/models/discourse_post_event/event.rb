@@ -45,7 +45,7 @@ module DiscoursePostEvent
       event_dates.create!(
         starts_at: next_dates[:starts_at],
         ends_at: next_dates[:ends_at],
-        finished_at: (next_dates[:starts_at] < Time.current) && next_dates[:starts_at]
+        finished_at: next_dates[:ends_at] && next_dates[:ends_at] < Time.current && next_dates[:ends_at]
       )
 
       publish_update!

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Fabricator(:event, from: 'DiscoursePostEvent::Event') do
-  post { |attrs| attrs[:post] }
+  post { |attrs| attrs[:post] || Fabricate(:post) }
 
   id { |attrs| attrs[:post].id }
 
