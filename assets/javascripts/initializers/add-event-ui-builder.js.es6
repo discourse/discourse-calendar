@@ -30,6 +30,8 @@ function initializeEventBuilder(api) {
   });
 
   api.modifyClass("controller:composer", {
+    pluginId: "discourse-calendar",
+
     actions: {
       insertEvent() {
         const eventModel = this.store.createRecord(

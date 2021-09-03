@@ -241,6 +241,8 @@ function initializeDiscoursePostEventDecorator(api) {
   );
 
   api.modifyClass("controller:topic", {
+    pluginId: "discourse-calendar",
+
     subscribe() {
       this._super(...arguments);
 
