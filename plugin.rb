@@ -291,6 +291,7 @@ after_initialize do
   # DISCOURSE CALENDAR
 
   %w[
+    ../app/controllers/discourse_calendar_controller.rb
     ../app/models/calendar_event.rb
     ../app/serializers/user_timezone_serializer.rb
     ../jobs/scheduled/create_holiday_events.rb
@@ -303,6 +304,15 @@ after_initialize do
     ../lib/group_timezones.rb
     ../lib/time_sniffer.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
+
+  Discourse::Application.routes.append do
+    mount ::DiscourseCalendar::Engine, at: '/'
+  end
+
+  DiscourseCalendar::Engine.routes.draw do
+    get '/calendar/topic/:id' => 'discourse_calendar#topic_calendar',
+        constraints: { format: /ics/ }
+  end
 
   register_post_custom_field_type(
     DiscourseCalendar::CALENDAR_CUSTOM_FIELD,
