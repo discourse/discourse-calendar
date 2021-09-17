@@ -299,6 +299,15 @@ after_initialize do
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
   register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
   TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
+  
+  DiscourseCalendar::Engine.routes.draw do
+    get '/calendar/topic-calendar/:id' => 'discourse_calendar#topic_calendar',
+        constraints: { format: /ics/ }
+    get '/calendar/topic/:id' => 'discourse_calendar#topic_dates',
+        constraints: { format: /ics/ }
+    get '/calendar/post/:id' => 'discourse_calendar#post_dates',
+        constraints: { format: /ics/ }
+  end
 
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
