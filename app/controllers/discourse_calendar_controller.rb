@@ -25,6 +25,43 @@ module DiscourseCalendar
       end
     end
 
+    def post_dates
+      @post = Post.find_by(id: params[:id])
+
+      if @post && guardian.can_see?(@post)
+        @events = LocalDatesExtractor.new(@post).extract_events
+        respond_to do |format|
+          format.ics do
+            filename = "post-#{@post.id}-dates"
+            response.headers['Content-Disposition'] = "attachment; filename=\"#{filename}.#{request.format.symbol}\""
+
+            render :post_dates
+          end
+        end
+      else
+        raise Discourse::NotFound
+      end
+    end
+
+    def topic_dates
+      @topic = Topic.find_by(id: params[:id])
+
+      if @topic && guardian.can_see?(@topic)
+        @events = @topic.posts.map{|p| LocalDatesExtractor.new(p).extract_events}.flatten
+
+        respond_to do |format|
+          format.ics do
+            filename = "topic-#{@topic.id}-dates"
+            response.headers['Content-Disposition'] = "attachment; filename=\"#{filename}.#{request.format.symbol}\""
+
+            render :post_dates
+          end
+        end
+      else
+        raise Discourse::NotFound
+      end
+    end
+
     private
 
     def ensure_discourse_calendar_enabled

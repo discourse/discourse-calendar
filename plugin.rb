@@ -302,6 +302,7 @@ after_initialize do
     ../lib/calendar.rb
     ../lib/event_validator.rb
     ../lib/group_timezones.rb
+    ../lib/local_dates_extractor.rb
     ../lib/time_sniffer.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
@@ -310,7 +311,11 @@ after_initialize do
   end
 
   DiscourseCalendar::Engine.routes.draw do
-    get '/calendar/topic/:id' => 'discourse_calendar#topic_calendar',
+    get '/calendar/topic-calendar/:id' => 'discourse_calendar#topic_calendar',
+        constraints: { format: /ics/ }
+    get '/calendar/topic/:id' => 'discourse_calendar#topic_dates',
+        constraints: { format: /ics/ }
+    get '/calendar/post/:id' => 'discourse_calendar#post_dates',
         constraints: { format: /ics/ }
   end
 
