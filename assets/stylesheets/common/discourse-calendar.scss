@@ -273,11 +273,12 @@ a.holiday {
     height: 2px;
     top: 50%;
     width: 100%;
-    z-index: -1;
   }
 }
 
 .group-timezones-slider {
+  position: relative;
+  z-index: 1; // need a positive z-index to appear above the ::before
   display: flex;
   width: 120px;
   padding: 0.25em;
