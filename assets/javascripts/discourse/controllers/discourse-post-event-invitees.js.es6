@@ -11,6 +11,10 @@ export default Controller.extend(ModalFunctionality, {
   onShow() {
     this._fetchInvitees();
   },
+  @action
+  toggleViewingFilter(type) {
+    console.log(type);
+  },
 
   @action
   onFilterChanged(filter) {

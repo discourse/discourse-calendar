@@ -1,0 +1,22 @@
+<div class="invitees-filter">
+  {{d-button
+    label="Going"
+    class=(concat "btn toggle-going" isGoing)
+    action=(action "toggleViewing" "going")
+    actionParam="going"
+  }}
+
+  {{d-button
+    label="Interested"
+    class=(concat "btn toggle-interested" isInterested)
+    action=(action "toggleViewing" "interested")
+    actionParam="interested"
+  }}
+
+  {{d-button
+    label="Not Going"
+    class=(concat "btn toggle-not-going" isNotGoing)
+    action=(action "toggleViewing" "not-going")
+    actionParam="not-going"
+  }}
+</div>
