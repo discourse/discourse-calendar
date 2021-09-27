@@ -93,7 +93,9 @@ export default Controller.extend(ModalFunctionality, {
   addBulkInvite() {
     const attendance =
       this.bulkInvites.get("lastObject.attendance") || "unknown";
-    this.bulkInvites.pushObject({ identifier: null, attendance });
+    this.bulkInvites.pushObject(
+      EmberObject.create({ identifier: null, attendance })
+    );
   },
 
   @action
