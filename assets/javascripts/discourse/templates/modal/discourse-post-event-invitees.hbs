@@ -7,7 +7,7 @@
   }}
 
   {{#conditional-loading-spinner condition=isLoading}}
-  {{toggle-invitees-modal modal=this toggle=(action "toggleViewingFilter")}}
+  {{toggle-invitees-modal modal=this toggle=(action "onFilterChanged")}}
     <ul class="invitees">
       {{#each invitees as |invitee|}}
         <li class="invitee">

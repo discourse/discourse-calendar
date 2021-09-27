@@ -11,13 +11,14 @@ export default Controller.extend(ModalFunctionality, {
   onShow() {
     this._fetchInvitees();
   },
-  @action
-  toggleViewingFilter(type) {
-    console.log(type);
-  },
+  // @action
+  // toggleViewingFilter(filter) {
+  //   this.onFilterChanged(filter);
+  // },
 
   @action
   onFilterChanged(filter) {
+    console.log(filter);
     // TODO: Use discouseDebounce after the 2.7 release.
     let debounceFunc = debounce;
 
@@ -41,7 +42,10 @@ export default Controller.extend(ModalFunctionality, {
         filter,
         post_id: this.model.id,
       })
-      .then((invitees) => this.set("invitees", invitees))
+      .then((invitees) => {
+        console.log(invitees);
+        this.set("invitees", invitees)
+      })
       .finally(() => this.set("isLoading", false));
   },
 });

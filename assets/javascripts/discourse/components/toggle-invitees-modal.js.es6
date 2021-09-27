@@ -18,8 +18,7 @@ export default Component.extend({
   }),
 
   @action
-  toggleViewing(type) {
-    console.log("clicked");
-    this.toggle(type);
+  toggleViewing(filter) {
+    this.toggle(filter);
   },
 });
