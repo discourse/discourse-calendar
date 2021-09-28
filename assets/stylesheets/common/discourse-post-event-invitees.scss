@@ -1,10 +1,35 @@
 .discourse-post-event-invitees-modal {
+  .modal-body {
+    padding: 0;
+  }
+  .modal-inner-container {
+    min-width: 350px;
+  }
+  .loading-container {
+    height: 40vh;
+    overflow-y: scroll;
+    padding: 0 1em 9px 1em;
+    .no-users {
+      text-align: center;
+      font-size: var(--font-up-1);
+    }
+  }
+  .invitees-type-filter {
+    margin-bottom: 9px;
+    display: flex;
+    .btn {
+      width: calc(100% / 3);
+      margin: 0;
+      border-radius: 0px;
+      padding: 0.75em 0em;
+    }
+  }
   .filter {
-    width: 100%;
+    width: calc(100% - 2em);
+    margin: 1em;
   }
   .invitees {
     display: flex;
-    padding: 0;
     margin: 0;
     flex-direction: column;
 

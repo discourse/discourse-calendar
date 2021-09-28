@@ -1,22 +1,22 @@
-<div class="invitees-filter">
+<div class="invitees-type-filter">
   {{d-button
-    label="Going"
+    label="discourse_post_event.models.invitee.status.going"
     class=(concat "btn toggle-going" isGoing)
-    action=(action "toggleViewing")
+    action=(action "toggleType")
     actionParam="going"
   }}
 
   {{d-button
-    label="Interested"
+    label="discourse_post_event.models.invitee.status.interested"
     class=(concat "btn toggle-interested" isInterested)
-    action=(action "toggleViewing")
+    action=(action "toggleType")
     actionParam="interested"
   }}
 
   {{d-button
-    label="Not Going"
+    label="discourse_post_event.models.invitee.status.not_going"
     class=(concat "btn toggle-not-going" isNotGoing)
-    action=(action "toggleViewing")
+    action=(action "toggleType")
     actionParam="not_going"
   }}
 </div>

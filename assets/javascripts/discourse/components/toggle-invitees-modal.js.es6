@@ -4,21 +4,19 @@ import { computed, action } from "@ember/object";
 
 export default Component.extend({
   tagName: "",
-  viewingGoing: readOnly("modal.viewingGoing"),
-  viewingInterested: readOnly("modal.viewingInterested"),
-  viewingNotGoing: readOnly("modal.viewingNotGoing"),
-  isGoing: computed("viewingGoing", function () {
-    return this.viewingGoing ? " btn-danger" : " btn-default";
+  viewingType: readOnly("modal.type"),
+  isGoing: computed("viewingType", function () {
+    return this.viewingType === "going" ? " btn-danger" : " btn-default";
   }),
-  isInterested: computed("viewingInterested", function () {
-    return this.viewingInterested ? " btn-danger" : " btn-default";
+  isInterested: computed("viewingType", function () {
+    return this.viewingType === "interested" ? " btn-danger" : " btn-default";
   }),
-  isNotGoing: computed("viewingNotGoing", function () {
-    return this.viewingNotGoing ? " btn-danger" : " btn-default";
+  isNotGoing: computed("viewingType", function () {
+    return this.viewingType === "not_going" ? " btn-danger" : " btn-default";
   }),
 
   @action
-  toggleViewing(filter) {
-    this.toggle(filter);
+  toggleType(type) {
+    this.toggle(type);
   },
 });

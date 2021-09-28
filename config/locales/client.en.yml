@@ -288,6 +288,7 @@ en:
         ends_in_duration: "Ends %{duration}"
       models:
         invitee:
+          no_users: "There are no users of this type."
           status:
             unknown: "Not interested"
             going: "Going"
