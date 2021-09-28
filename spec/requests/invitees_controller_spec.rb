@@ -45,15 +45,13 @@ module DiscoursePostEvent
         }
 
         context 'when the filter param is included' do
-          
+          get "/discourse-post-event/events/#{post_event_1.id}/invitees.json", params: {
+            filter: "franc"
+          }
+          filteredInvitees = response.parsed_body["invitees"]
+          expect(filteredInvitees.count).to eq(3)
         end
 
-        get "/discourse-post-event/events/#{post_event_1.id}/invitees.json", params: {
-          filter: "franc"
-        }
-
-        filteredInvitees = response.parsed_body["invitees"]
-        expect(filteredInvitees.count).to eq(3)
       end
 
     end
