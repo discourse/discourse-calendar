@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { readOnly } from "@ember/object/computed";
-import { computed, action } from "@ember/object";
+import { action, computed } from "@ember/object";
 
 export default Component.extend({
   tagName: "",
