@@ -1,6 +1,5 @@
 import Component from "@ember/component";
 import { readOnly } from "@ember/object/computed";
-import { action } from "@ember/object";
 import discourseComputed from "discourse-common/utils/decorators";
 
 export default Component.extend({
@@ -20,10 +19,5 @@ export default Component.extend({
   @discourseComputed("viewingType")
   isNotGoing(viewingType) {
     return viewingType === "not_going" ? " btn-danger" : " btn-default";
-  },
-
-  @action
-  toggleType(type) {
-    this.toggle(type);
   },
 });

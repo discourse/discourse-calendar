@@ -2,21 +2,21 @@
   {{d-button
     label="discourse_post_event.models.invitee.status.going"
     class=(concat "btn toggle-going" isGoing)
-    action=(action "toggleType")
+    action=toggle
     actionParam="going"
   }}
 
   {{d-button
     label="discourse_post_event.models.invitee.status.interested"
     class=(concat "btn toggle-interested" isInterested)
-    action=(action "toggleType")
+    action=toggle
     actionParam="interested"
   }}
 
   {{d-button
     label="discourse_post_event.models.invitee.status.not_going"
     class=(concat "btn toggle-not-going" isNotGoing)
-    action=(action "toggleType")
+    action=toggle
     actionParam="not_going"
   }}
 </div>
