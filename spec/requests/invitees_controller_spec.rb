@@ -20,29 +20,29 @@ module DiscoursePostEvent
 
       context 'when params are included' do
         let(:invitee1) { Fabricate(:user, username: "Francis", name: "Francis") }
-          let(:invitee2) { Fabricate(:user, username: "Francisco", name: "Francisco") }
-          let(:invitee3) { Fabricate(:user, username: "Frank", name: "Frank") }
-          let(:invitee4) { Fabricate(:user, username: "Franchesca", name: "Franchesca") }
-          let(:post_event_1) {
-            pe = Fabricate(:event, post: post_1)
-            pe.create_invitees([{
-              user_id: invitee1.id,
-              status: Invitee.statuses[:going]
-            },
-            {
-              user_id: invitee2.id,
-              status: Invitee.statuses[:interested]
-            },
-            {
-              user_id: invitee3.id,
-              status: Invitee.statuses[:not_going]
-            },
-            {
-              user_id: invitee4.id,
-              status: Invitee.statuses[:going]
-            }])
-            pe
-          }
+        let(:invitee2) { Fabricate(:user, username: "Francisco", name: "Francisco") }
+        let(:invitee3) { Fabricate(:user, username: "Frank", name: "Frank") }
+        let(:invitee4) { Fabricate(:user, username: "Franchesca", name: "Franchesca") }
+        let(:post_event_1) {
+          pe = Fabricate(:event, post: post_1)
+          pe.create_invitees([{
+            user_id: invitee1.id,
+            status: Invitee.statuses[:going]
+          },
+          {
+            user_id: invitee2.id,
+            status: Invitee.statuses[:interested]
+          },
+          {
+            user_id: invitee3.id,
+            status: Invitee.statuses[:not_going]
+          },
+          {
+            user_id: invitee4.id,
+            status: Invitee.statuses[:going]
+          }])
+          pe
+        }
 
         it 'returns the correct amount of users when filtering the invitees by name' do
           get "/discourse-post-event/events/#{post_event_1.id}/invitees.json", params: {
