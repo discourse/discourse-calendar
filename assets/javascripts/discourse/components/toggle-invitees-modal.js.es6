@@ -1,6 +1,7 @@
 import Component from "@ember/component";
 import { readOnly } from "@ember/object/computed";
-import { action, computed } from "@ember/object";
+import { action } from "@ember/object";
+import discourseComputed from "discourse-common/utils/decorators";
 
 export default Component.extend({
   tagName: "",
