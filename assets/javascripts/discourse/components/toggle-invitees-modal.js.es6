@@ -5,15 +5,21 @@ import { action, computed } from "@ember/object";
 export default Component.extend({
   tagName: "",
   viewingType: readOnly("modal.type"),
-  isGoing: computed("viewingType", function () {
-    return this.viewingType === "going" ? " btn-danger" : " btn-default";
-  }),
-  isInterested: computed("viewingType", function () {
-    return this.viewingType === "interested" ? " btn-danger" : " btn-default";
-  }),
-  isNotGoing: computed("viewingType", function () {
-    return this.viewingType === "not_going" ? " btn-danger" : " btn-default";
-  }),
+
+  @discourseComputed("viewingType")
+  isGoing(viewingType) {
+    return viewingType === "going" ? " btn-danger" : " btn-default";
+  },
+
+  @discourseComputed("viewingType")
+  isInterested(viewingType) {
+    return viewingType === "interested" ? " btn-danger" : " btn-default";
+  },
+
+  @discourseComputed("viewingType")
+  isNotGoing(viewingType) {
+    return viewingType === "not_going" ? " btn-danger" : " btn-default";
+  },
 
   @action
   toggleType(type) {
