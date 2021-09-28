@@ -16,6 +16,48 @@ module DiscoursePostEvent
     let(:topic_1) { Fabricate(:topic, user: user) }
     let(:post_1) { Fabricate(:post, user: user, topic: topic_1) }
 
+    describe "#index" do
+      
+      context 'when params are included' do
+        let(:invitee1) { Fabricate(:user, name: "Francis")}
+        let(:invitee2) { Fabricate(:user, name: "Francisco")}
+        let(:invitee3) { Fabricate(:user, name: "Frank")}
+        let(:invitee4) { Fabricate(:user, name: "Franchesca")}
+        let(:post_event_1) {
+          pe = Fabricate(:event, post: post_1)
+          pe.create_invitees([{
+            user_id: invitee1.id,
+            status: Invitee.statuses[:going]
+          },
+          {
+            user_id: invitee2.id,
+            status: Invitee.statuses[:going]
+          },
+          {
+            user_id: invitee3.id,
+            status: Invitee.statuses[:going]
+          },
+          {
+            user_id: invitee4.id,
+            status: Invitee.statuses[:going]
+          }])
+          pe
+        }
+
+        context 'when the filter param is included' do
+          
+        end
+
+        get "/discourse-post-event/events/#{post_event_1.id}/invitees.json", params: {
+          filter: "franc"
+        }
+
+        filteredInvitees = response.parsed_body["invitees"]
+        expect(filteredInvitees.count).to eq(3)
+      end
+
+    end
+
     context 'when a post event exists' do
       context 'when an invitee exists' do
         let(:invitee1) { Fabricate(:user) }
