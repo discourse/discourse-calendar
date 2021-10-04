@@ -149,6 +149,7 @@ function _attachWidget(api, cooked, eventModel) {
           eventModel,
           widgetHeight,
           localDates: $(result.string).html(),
+          apiVersion: api.version,
         });
 
         glue.appendTo(glueContainer);

@@ -138,11 +138,28 @@ export default createWidget("discourse-post-event", {
   },
 
   addToCalendar() {
-    const link = getURL(
-      `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
-    );
+    const event = this.state.eventModel;
+    // TODO with Discourse 2.8
+    // * Remove _checkVersion function
+    // * Use import instead of require
+    // * Remove old ics logic and corresponding backend logic
+    // * Remove apiVersion from passed attributes
+    if (this._checkVersion("0.8.8", this.attrs.apiVersion)) {
+      const downloadCalendar = require("discourse/lib/download-calendar")
+        .downloadCalendar;
+      downloadCalendar(event.name || event.post.topic.title, [
+        {
+          startsAt: event.starts_at,
+          endsAt: event.ends_at,
+        },
+      ]);
+    } else {
+      const link = getURL(
+        `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
+      );
 
-    window.open(link, "_blank", "noopener");
+      window.open(link, "_blank", "noopener");
+    }
   },
 
   transform() {
@@ -261,5 +278,28 @@ export default createWidget("discourse-post-event", {
     }
 
     return topicTitle;
+  },
+
+  _checkVersion(requiredVersion, currentVersion) {
+    const [majorRequired, minorRequired, patchRequired] = requiredVersion
+      .split(".")
+      .map((digit) => parseInt(digit, 10));
+    const [majorCurrent, minorCurrent, patchCurrent] = currentVersion
+      .split(".")
+      .map((digit) => parseInt(digit, 10));
+    if (majorCurrent > majorRequired) {
+      return true;
+    }
+    if (majorCurrent === majorRequired && minorCurrent > minorRequired) {
+      return true;
+    }
+    if (
+      majorCurrent === majorRequired &&
+      minorCurrent === minorRequired &&
+      patchCurrent >= patchRequired
+    ) {
+      return true;
+    }
+    return false;
   },
 });
