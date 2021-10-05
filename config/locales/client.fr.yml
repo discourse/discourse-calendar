@@ -292,6 +292,7 @@ fr:
         ends_in_duration: "Se termine %{duration}"
       models:
         invitee:
+          no_users: "Il n'y a pas d'utilisateurs de ce type."
           status:
             unknown: "Pas décidé.e"
             going: "Participera"

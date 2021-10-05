@@ -294,6 +294,7 @@ sv:
         ends_in_duration: "Slutar %{duration}"
       models:
         invitee:
+          no_users: "Det finns inga användare av den här typen."
           status:
             unknown: "Inte intresserad"
             going: "Kommer"
