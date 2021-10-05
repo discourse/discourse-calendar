@@ -11,3 +11,7 @@ he:
         names:
           in: "הודו"
           sa: "ערב הסעודית"
+    discourse_post_event:
+      models:
+        invitee:
+          no_users: "אין משתמשים מהסוג הזה."

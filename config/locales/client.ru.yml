@@ -30,6 +30,7 @@ ru:
         ended_at: "Событие завершится: %{date}"
       models:
         invitee:
+          no_users: "Пользователи этого типа отсутствуют."
           status:
             unknown: "Не интересует"
             going: "Участвую"
