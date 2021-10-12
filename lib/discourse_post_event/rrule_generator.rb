@@ -3,7 +3,7 @@
 require 'rrule'
 
 class RRuleGenerator
-  def self.generate(base_rrule, starts_at)
+  def self.generate(base_rrule, starts_at, interval = nil)
     rrule = generate_hash(base_rrule)
     rrule = set_mandatory_options(rrule, starts_at)
 
@@ -28,7 +28,7 @@ class RRuleGenerator
   def self.set_mandatory_options(rrule, time)
     rrule['BYHOUR'] = time.strftime('%H')
     rrule['BYMINUTE'] = time.strftime('%M')
-    rrule['INTERVAL'] = 1
+    rrule['INTERVAL'] ||= 1
     rrule['WKST'] = 'MO' # considers Monday as the first day of the week
     rrule
   end

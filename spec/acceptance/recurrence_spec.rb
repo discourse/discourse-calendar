@@ -42,6 +42,18 @@ describe 'discourse_post_event_recurrence' do
     end
   end
 
+  context 'every_two_weeks' do
+    before do
+      post_event_1.update!(recurrence: 'every_two_weeks')
+    end
+
+    it 'sets in two weeks at the same weekday' do
+      post_event_1.set_next_date
+
+      expect(post_event_1.starts_at).to eq_time(Time.zone.parse('2020-09-24 19:00'))
+    end
+  end
+
   context 'every_day' do
     before do
       post_event_1.update!(recurrence: 'every_day')

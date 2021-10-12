@@ -348,6 +348,8 @@ module DiscoursePostEvent
         recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
       when 'every_weekday'
         recurrence = 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
+      when 'every_two_weeks'
+        recurrence = "FREQ=WEEKLY;INTERVAL=2;"
       else
         byday = original_starts_at.strftime('%A').upcase[0, 2]
         recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
