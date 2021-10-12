@@ -54,6 +54,7 @@
       .d-date-input {
         box-sizing: border-box;
         flex: 0;
+        min-width: unset;
 
         .date-picker {
           width: 155px;
@@ -159,7 +160,6 @@
 
         input[type="radio"] {
           width: auto;
-          margin-right: 0.5em;
         }
 
         .message {
