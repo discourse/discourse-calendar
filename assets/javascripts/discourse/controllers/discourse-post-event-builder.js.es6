@@ -43,6 +43,12 @@ export default Controller.extend(ModalFunctionality, {
           "discourse_post_event.builder_modal.recurrence.every_week"
         ),
       },
+      {
+        id: "every_two_weeks",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.recurrence.every_two_weeks"
+        ),
+      },
     ]);
   },
 
