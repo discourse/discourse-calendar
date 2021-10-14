@@ -138,11 +138,23 @@ export default createWidget("discourse-post-event", {
   },
 
   addToCalendar() {
-    const link = getURL(
-      `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
-    );
+    const event = this.state.eventModel;
+    // TODO with Discourse 2.8
+    // * Remove old ics logic and corresponding backend logic
+    if (this.attrs.api.downloadCalendar) {
+      this.attrs.api.downloadCalendar(event.name || event.post.topic.title, [
+        {
+          startsAt: event.starts_at,
+          endsAt: event.ends_at,
+        },
+      ]);
+    } else {
+      const link = getURL(
+        `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
+      );
 
-    window.open(link, "_blank", "noopener");
+      window.open(link, "_blank", "noopener");
+    }
   },
 
   transform() {
