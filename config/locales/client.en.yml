@@ -359,6 +359,7 @@ en:
           every_month: "Every month at this weekday"
           every_weekday: "Every weekday"
           every_week: "Every week at this weekday"
+          every_two_weeks: "Every two weeks at this weekday"
         url:
           label: "URL"
           placeholder: "Optional"
