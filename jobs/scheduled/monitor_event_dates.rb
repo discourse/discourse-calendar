@@ -2,7 +2,7 @@
 
 module Jobs
   class ::DiscourseCalendar::MonitorEventDates < ::Jobs::Scheduled
-    every 10.minutes
+    every 1.minute
 
     def execute(args)
       DiscoursePostEvent::EventDate.pending.find_each do |event_date|
