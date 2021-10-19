@@ -103,6 +103,7 @@ ru:
           every_month: "Каждый месяц в этот будний день"
           every_weekday: "Каждый будний день"
           every_week: "Каждую неделю в этот будний день"
+          every_two_weeks: "Каждые две недели в этот будний день"
         url:
           label: "URL"
           placeholder: "Необязательно"

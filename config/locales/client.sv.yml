@@ -365,6 +365,7 @@ sv:
           every_month: "Varje månad på denna veckodag"
           every_weekday: "Varje veckodag"
           every_week: "Varje vecka på denna veckodag"
+          every_two_weeks: "Varannan vecka på denna veckodag"
         url:
           label: "URL"
           placeholder: "Valfritt"
