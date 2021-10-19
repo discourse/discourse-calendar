@@ -15,3 +15,6 @@ he:
       models:
         invitee:
           no_users: "אין משתמשים מהסוג הזה."
+      builder_modal:
+        recurrence:
+          every_two_weeks: "כל שבועיים ביום הזה בשבוע"

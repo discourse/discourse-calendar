@@ -363,6 +363,7 @@ fr:
           every_month: "Chaque mois en ce jour de la semaine"
           every_weekday: "Chaque jour de semaine"
           every_week: "Chaque semaine en ce jour de la semaine"
+          every_two_weeks: "Toutes les deux semaines en ce jour de la semaine"
         url:
           label: "URL"
           placeholder: "Facultatif"
