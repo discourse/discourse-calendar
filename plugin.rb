@@ -330,12 +330,7 @@ after_initialize do
 
   register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
 
-  # TODO Drop after Discourse 2.6.0 release
-  if respond_to?(:allow_staff_user_custom_field)
-    allow_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
-  else
-    whitelist_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
-  end
+  allow_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
 
   on(:site_setting_changed) do |name, old_value, new_value|
     unless %i[all_day_event_start_time all_day_event_end_time].include? name

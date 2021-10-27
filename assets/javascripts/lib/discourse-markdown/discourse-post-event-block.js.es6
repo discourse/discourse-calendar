@@ -27,7 +27,7 @@ function dasherize(input) {
 }
 
 export function setup(helper) {
-  helper.whiteList(["div.discourse-post-event"]);
+  helper.allowList(["div.discourse-post-event"]);
 
   helper.registerOptions((opts, siteSettings) => {
     opts.features.discourse_post_event =
