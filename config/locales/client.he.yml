@@ -6,6 +6,9 @@
 
 he:
   js:
+    notifications:
+      popup:
+        event_reminder: תזכורת לאירוע
     discourse_calendar:
       region:
         names:

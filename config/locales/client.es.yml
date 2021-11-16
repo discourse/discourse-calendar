@@ -12,6 +12,9 @@ es:
           discourse_post_event: "Evento de Discourse"
           discourse_calendar: "Calendario de Discourse"
   js:
+    notifications:
+      popup:
+        event_reminder: Recordatorio de evento
     discourse_calendar:
       invite_user_notification: "%{username} te invitó a: %{description}"
       on_holiday: "De vacaciones"
