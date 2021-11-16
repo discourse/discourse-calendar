@@ -12,6 +12,9 @@ sv:
           discourse_post_event: "Discourse-evenemang"
           discourse_calendar: "Discourse-kalender"
   js:
+    notifications:
+      popup:
+        event_reminder: Händelsepåminnelse
     discourse_calendar:
       invite_user_notification: "%{username} har bjudit in dig till: %{description}"
       on_holiday: "På semester"

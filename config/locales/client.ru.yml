@@ -6,6 +6,9 @@
 
 ru:
   js:
+    notifications:
+      popup:
+        event_reminder: Напоминание о мероприятии
     discourse_calendar:
       invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
       add_to_calendar: "Добавить в Календарь Google"
