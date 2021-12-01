@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "open-uri"
+
 TIMEZONES_DEFINITIONS = 'https://raw.githubusercontent.com/moment/moment-timezone/develop/data/meta/latest.json'
 UNUSED_REGIONS = ["ecbtarget", "federalreserve", "federalreservebanks", "fedex", "nerc", "unitednations", "ups", 'nyse']
 HOLIDAYS_COUNTRY_OVERRIDES = { "gr" => "el" }
@@ -10,7 +12,7 @@ task 'javascript:update_constants' => :environment do
   holiday_regions = Holidays.available_regions.map(&:to_s) - UNUSED_REGIONS
 
   time_zone_to_region = {}
-  data = JSON.parse(URI.open(TIMEZONES_DEFINITIONS).read)
+  data = JSON.parse(URI.parse(TIMEZONES_DEFINITIONS).open.read)
   data['zones'].each do |timezone, timezone_data|
     country_code = timezone_data['countries'].first.downcase
     if HOLIDAYS_COUNTRY_OVERRIDES.include?(country_code)
