@@ -109,6 +109,15 @@ describe Jobs::DiscoursePostEventSendReminder do
             subject.execute(event_id: event_1.id, reminder: reminders)
           }.to change { going_user_unread_notification.reload.unread_notifications }.by(0)
         end
+
+        it 'delete previous notifications before creating a new one' do
+          subject.execute(event_id: event_1.id, reminder: reminders)
+          going_user.notifications.update_all(read: true)
+
+          subject.execute(event_id: event_1.id, reminder: reminders)
+
+          expect(going_user.notifications.where(notification_type: Notification.types[:event_reminder]).count).to eq(1)
+        end
       end
 
       context 'event has started' do
@@ -154,6 +163,39 @@ describe Jobs::DiscoursePostEventSendReminder do
           }.to change {
             going_user_unread_notification.reload.unread_notifications
           }.by(0)
+        end
+
+        it 'deletes previous notifications when creating a new one' do
+          subject.execute(event_id: event_1.id, reminder: reminders)
+          going_user.notifications.update_all(read: true)
+
+          subject.execute(event_id: event_1.id, reminder: reminders)
+
+          expect(going_user.notifications.where(notification_type: Notification.types[:event_reminder]).count).to eq(1)
+        end
+
+        it "doesn't delete previous notifications if reminder type is different" do
+          going_user.notifications.consolidate_or_create!(
+            notification_type: Notification.types[:event_reminder],
+            topic_id: post_1.topic_id,
+            post_number: 1,
+            read: true,
+            data: {
+              topic_title: event_1.name || post_1.topic.title,
+              display_username: going_user.username,
+              message: 'discourse_post_event.notifications.before_event_reminder'
+            }.to_json
+          )
+
+          subject.execute(event_id: event_1.id, reminder: reminders)
+          messages = Notification.where(
+            user: going_user, notification_type: Notification.types[:event_reminder]
+          ).pluck("data::json ->> 'message'")
+
+          expect(messages).to contain_exactly(
+            'discourse_post_event.notifications.before_event_reminder',
+            'discourse_post_event.notifications.ongoing_event_reminder'
+          )
         end
 
         it 'doesn’t create a new notification for visiting user' do
