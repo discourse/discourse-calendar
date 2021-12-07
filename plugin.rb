@@ -621,17 +621,17 @@ after_initialize do
         DiscourseAutomation::Automation
           .where(enabled: true, trigger: 'event_started')
           .each do |automation|
-            fields = automation.serialized_fields
-            topic_id = fields.dig('topic_id', 'value')
+          fields = automation.serialized_fields
+          topic_id = fields.dig('topic_id', 'value')
 
-            unless event.post.topic.id.to_s == topic_id
-              next
-            end
+          unless event.post.topic.id.to_s == topic_id
+            next
+          end
 
-            automation.trigger!(
-              'kind' => 'event_started',
-              'event' => event,
-            )
+          automation.trigger!(
+            'kind' => 'event_started',
+            'event' => event,
+          )
         end
       end
 
