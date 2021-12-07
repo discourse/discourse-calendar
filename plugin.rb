@@ -615,5 +615,31 @@ after_initialize do
         event.save
       end
     end
+
+    if defined?(DiscourseAutomation)
+      on(:discourse_post_event_event_started) do |event|
+        DiscourseAutomation::Automation
+          .where(enabled: true, trigger: 'event_started')
+          .each do |automation|
+          fields = automation.serialized_fields
+          topic_id = fields.dig('topic_id', 'value')
+
+          unless event.post.topic.id.to_s == topic_id
+            next
+          end
+
+          automation.trigger!(
+            'kind' => 'event_started',
+            'event' => event,
+          )
+        end
+      end
+
+      add_triggerable_to_scriptable('event_started', 'send_chat_message')
+
+      add_automation_triggerable('event_started') do
+        field :topic_id, component: :text
+      end
+    end
   end
 end
