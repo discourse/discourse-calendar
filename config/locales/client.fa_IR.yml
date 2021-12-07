@@ -290,3 +290,17 @@ fa_IR:
               title: "عمومی"
             private:
               title: "خصوصی"
+      event_ui:
+        show_all: "نمایش همه"
+      builder_modal:
+        create_event_title: "ایجاد رویداد"
+        update_event_title: "ویرایش رویداد"
+        create: "ایجاد"
+        update: "ذخیره"
+        attach: "ایجاد رویداد"
+        status:
+          label: "وضعیت"
+      invite_user_or_group:
+        invite: "ارسال"
+      upcoming_events:
+        status: "وضعیت"
