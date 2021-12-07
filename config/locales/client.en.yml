@@ -9,6 +9,13 @@ en:
     notifications:
       popup:
         event_reminder: Event reminder
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: Event started
+          fields:
+            topic_id:
+              label: Topic ID
     discourse_calendar:
       invite_user_notification: "%{username} invited you to: %{description}"
       on_holiday: "On Holiday"
