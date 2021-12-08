@@ -71,6 +71,7 @@ function initializeDiscourseCalendar(api) {
         browsedCategory.id.toString()
       );
 
+      // Manage calendar with postId in categorySetting (extension setting)
       if (categorySetting && categorySetting.postId) {
         $calendarContainer.show();
         const postId = categorySetting.postId;
@@ -79,16 +80,7 @@ function initializeDiscourseCalendar(api) {
         );
         $calendarContainer.html($spinner);
         loadFullCalendar().then(() => {
-          const options = [`postId=${postId}`];
-
-          const optionals = ["weekends", "tzPicker", "defaultView"];
-          optionals.forEach((optional) => {
-            if (isPresent(categorySetting[optional])) {
-              options.push(
-                `${optional}=${escapeExpression(categorySetting[optional])}`
-              );
-            }
-          });
+          const options = extractOptionalsCategorySettingOptions([`postId=${postId}`], categorySetting);
 
           const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
           const cookRaw = cookAsync(rawCalendar);
@@ -100,6 +92,41 @@ function initializeDiscourseCalendar(api) {
             $calendarContainer.html($cooked);
             render($(".calendar", $cooked), post, siteSettings);
           });
+        });
+      }
+
+      // Manage calendar with eventsFromCategory in categorySetting (extension setting)
+      if (categorySetting && categorySetting.eventsFromCategory) {
+        const { eventsFromCategory } = categorySetting;
+        // Show container
+        $calendarContainer.show();
+
+        // Add a loader
+        const $spinner = $(
+          '<div class="calendar"><div class="spinner medium"></div></div>'
+        );
+        $calendarContainer.html($spinner);
+
+        // Load fullcalendar.io script
+        loadFullCalendar().then(() => {
+            const options = extractOptionalsCategorySettingOptions([`eventsFromCategory=${eventsFromCategory}`], categorySetting);
+
+            const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
+            // Cooking calendar
+            const cookRaw = cookAsync(rawCalendar);
+            // Fetch event from category id
+            const fetchEvents = ajax(`/discourse-post-event/events.json?category_id=${eventsFromCategory}&include_subcategories=true`);
+
+            // Execute cooking and fetch events
+            Promise.all([cookRaw, fetchEvents]).then((results) => {
+              const cooked = results[0];
+              const { events } = results[1];
+              const $cooked = $(cooked.string);
+
+              // Add calendar to DOM
+              $calendarContainer.html($cooked);
+              renderCalendarFromCategoryEvents($(".calendar", $cooked), events);
+            })
         });
       }
     }
@@ -130,6 +157,62 @@ function initializeDiscourseCalendar(api) {
       }
     }
   );
+
+
+  /**
+   * Extract optionals options from categorySetting ("calendar categories" in extension settings)
+   *
+   * @return array
+  */
+  function extractOptionalsCategorySettingOptions(options, categorySetting) {
+    const optionals = ["weekends", "tzPicker", "defaultView"];
+
+    optionals.forEach((optional) => {
+      if (isPresent(categorySetting[optional])) {
+        options.push(
+          `${optional}=${escapeExpression(categorySetting[optional])}`
+        );
+      }
+    });
+
+    return options;
+  }
+
+  /**
+   * Render a calendar with event from a category
+   *
+   * @returns Void
+   */
+  function renderCalendarFromCategoryEvents($calendar, events) {
+
+      $calendar = $calendar.empty();
+      const timezone = _getTimeZone($calendar, api.getCurrentUser());
+      // Instantiate fullcalendar.io
+      const calendar = _buildCalendar($calendar, timezone);
+
+      calendar.render();
+      _setupTimezonePicker(calendar, timezone);
+
+      // Iterate events
+      events.forEach(rawEvent => {
+        const event = {
+          title: rawEvent.name || rawEvent.post.topic.title,
+          start: rawEvent.starts_at,
+          end: rawEvent.ends_at,
+          extendedProps: {
+            postNumber: rawEvent.post.post_number,
+            postUrl: rawEvent.post.url,
+          }
+        };
+
+        // Add a events
+        calendar.addEvent(event);
+
+        // Bind click, mouse over...
+        bindMouseEvents(calendar, event);
+
+      });
+  }
 
   function render($calendar, post, siteSettings) {
     $calendar = $calendar.empty();
@@ -306,7 +389,16 @@ function initializeDiscourseCalendar(api) {
       );
     }
 
-    calendar.setOption("eventClick", ({ event, jsEvent }) => {
+    bindMouseEvents(calendar, event);
+  }
+
+  /**
+   * Bind mouseEvents (HTML DOM)
+   *
+   * @returns Void
+   */
+  function bindMouseEvents(calendar, event) {
+      calendar.setOption("eventClick", ({ event, jsEvent }) => {
       hidePopover(jsEvent);
       const { htmlContent, postNumber, postUrl } = event.extendedProps;
 
