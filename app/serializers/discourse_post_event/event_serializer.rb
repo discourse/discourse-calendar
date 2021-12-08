@@ -71,7 +71,8 @@ module DiscoursePostEvent
         url: object.post.url,
         topic: {
           id: object.post.topic.id,
-          title: object.post.topic.title
+          title: object.post.topic.title,
+          category_id: object.post.topic.category_id
         }
       }
     end
