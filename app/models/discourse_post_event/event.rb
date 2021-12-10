@@ -187,7 +187,7 @@ module DiscoursePostEvent
           'discourse_post_event.notifications.invite_user_notification'
         end
 
-      user.notifications.create!(
+      attrs = {
         notification_type: Notification.types[:event_invitation] || Notification.types[:custom],
         topic_id: post.topic_id,
         post_number: post.post_number,
@@ -196,7 +196,11 @@ module DiscoursePostEvent
           display_username: post.user.username,
           message: message
         }.to_json
-      )
+      }
+
+      # TODO(Roman): Use #consolidate_or_create! after the 2.8 release.
+      method = Notification.respond_to?(:consolidate_or_create!) ? :consolidate_or_create! : :create!
+      user.notifications.public_send(method, attrs)
     end
 
     def ongoing?

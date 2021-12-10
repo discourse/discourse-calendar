@@ -18,6 +18,17 @@ describe 'discourse_post_event_recurrence' do
     SiteSetting.discourse_post_event_enabled = true
   end
 
+  it 'delete previous notifications before creating a new one for invites' do
+    going_user = Fabricate(:user)
+    Invitee.create_attendance!(going_user.id, post_event_1.id, :going)
+    post_event_1.update!(recurrence: 'every_month')
+
+    post_event_1.set_next_date
+    post_event_1.set_next_date
+
+    expect(going_user.notifications.where(notification_type: Notification.types[:event_invitation]).count).to eq(1)
+  end
+
   context 'every_month' do
     before do
       post_event_1.update!(recurrence: 'every_month')
