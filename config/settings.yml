@@ -2,6 +2,9 @@ discourse_calendar:
   calendar_enabled:
     default: false
     client: true
+  show_past_events:
+    default: false
+    client: true
   holiday_calendar_topic_id:
     default: ""
     client: true
