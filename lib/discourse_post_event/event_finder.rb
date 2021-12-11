@@ -21,7 +21,11 @@ module DiscoursePostEvent
           .where("dcped.finished_at IS NOT NULL AND (dcped.ends_at IS NOT NULL AND dcped.ends_at < ?)", Time.now)
           .where("discourse_post_event_events.id NOT IN (SELECT DISTINCT event_id FROM discourse_calendar_post_event_dates WHERE event_id = discourse_post_event_events.id AND finished_at IS NULL)")
       else
-        events = events.where("dcped.finished_at IS NULL AND (dcped.ends_at IS NULL OR dcped.ends_at > ?)", Time.now)
+        if SiteSetting.show_past_events
+          events = events.where("dcped.delete_at IS NULL")
+        else
+          events = events.where("dcped.delete_at IS NULL AND ((dcped.ends_at IS NOT NULL AND dcped.ends_at > ?) OR (dcped.ends_at IS NULL AND dcped.starts_at > ?))", Time.now,  Time.now)
+        end
       end
 
       if params[:post_id]
