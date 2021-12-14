@@ -631,6 +631,9 @@ after_initialize do
           automation.trigger!(
             'kind' => 'event_started',
             'event' => event,
+            'placeholders' => {
+              'event_url' => event.url
+            }
           )
         end
       end
@@ -638,6 +641,8 @@ after_initialize do
       add_triggerable_to_scriptable('event_started', 'send_chat_message')
 
       add_automation_triggerable('event_started') do
+        placeholder :event_url
+
         field :topic_id, component: :text
       end
     end
