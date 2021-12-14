@@ -15,6 +15,13 @@ fa_IR:
     notifications:
       popup:
         event_reminder: یادآوری رویداد
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: رویداد شروع شد
+          fields:
+            topic_id:
+              label: شناسه موضوع
     discourse_calendar:
       invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
       on_holiday: "در تعطیلات"

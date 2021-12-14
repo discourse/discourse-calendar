@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 he:
+  discourse_automation:
+    triggerables:
+      event_started:
+        title: האירוע התחיל
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "אירוע - הזמנה קבוצתית הצליחה"
+      subject_template: "ההזמנה המרוכזת עובדה בהצלחה"

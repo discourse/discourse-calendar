@@ -5,3 +5,34 @@
 # https://translate.discourse.org/
 
 hu:
+  discourse_automation:
+    triggerables:
+      event_started:
+        title: Az esemény elkezdődött
+  system_messages:
+    discourse_post_event_bulk_invite_succeeded:
+      title: "Esemény – A csoportos meghívás sikeres"
+      subject_template: "A csoportos meghívás feldolgozása sikeres"
+      text_body_template: "A csoportos meghívás feldolgozása sikeres, %{processed} meghívott létrehozva."
+  discourse_calendar:
+    event_expired: "Az esemény lejárt"
+  discourse_post_event:
+    notifications:
+      before_event_reminder: "A(z) %{title} mindjárt kezdődik."
+      after_event_reminder: "A(z) %{title} véget ért."
+      ongoing_event_reminder: "A(z) %{title} folyamatban van."
+    errors:
+      models:
+        event:
+          only_one_event: "Egy bejegyzésnek csak egy eseménye lehet."
+          only_group: "Egy esemény csak csoportneveket fogad el."
+          must_be_in_first_post: "Esemény csak a téma első bejegyzésében lehet."
+          raw_invitees_length: "Egy esemény %{count} felhasználóra/csoportra korlátozódik."
+          ends_at_before_starts_at: "Egy esemény nem érhet véget, mielőtt elkezdődne."
+          start_must_be_present_and_a_valid_date: "Az eseményhez érvényes kezdési dátum szükséges."
+          end_must_be_a_valid_date: "A befejezés dátumának érvényes dátumnak kell lennie."
+          acting_user_not_allowed_to_create_event: "A jelenlegi felhasználó nem hozhat létre eseményeket."
+          acting_user_not_allowed_to_act_on_this_event: "A jelenlegi felhasználó nem tehet semmit ennél az eseménynél."
+          custom_field_is_invalid: "A(z) „%{field}” egyéni mező nem engedélyezett."
+          name:
+            length: "Az eseménynév hosszának %{minimum} és %{maximum} karakter között kell lennie."
