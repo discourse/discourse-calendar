@@ -15,6 +15,13 @@ sv:
     notifications:
       popup:
         event_reminder: Händelsepåminnelse
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: Händelsen startad
+          fields:
+            topic_id:
+              label: Ämnes-ID
     discourse_calendar:
       invite_user_notification: "%{username} har bjudit in dig till: %{description}"
       on_holiday: "På semester"

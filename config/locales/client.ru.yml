@@ -9,6 +9,13 @@ ru:
     notifications:
       popup:
         event_reminder: Напоминание о мероприятии
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: Мероприятие началось
+          fields:
+            topic_id:
+              label: ID темы
     discourse_calendar:
       invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
       add_to_calendar: "Добавить в Календарь Google"
@@ -22,6 +29,7 @@ ru:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification: "Пользователь %{username} автоматически определил ваше присутствие и пригласил вас в %{description}"
         before_event_reminder: "Мероприятие вот-вот начнется: %{description}"
         after_event_reminder: "Мероприятие закончилось: %{description}"
         ongoing_event_reminder: "Мероприятие продолжается:  %{description}"
@@ -31,6 +39,7 @@ ru:
       topic_title:
         starts_at: "Мероприятие начнется %{date}"
         ended_at: "Событие завершится: %{date}"
+        ends_in_duration: "Окончание %{duration}"
       models:
         invitee:
           no_users: "Пользователи этого типа отсутствуют."
