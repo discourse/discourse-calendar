@@ -26,10 +26,17 @@ function stringToHexColor(str) {
 }
 
 function loadFullCalendar() {
-  return loadScript(
-    "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-  );
+  return new Promise((resolve) => {
+    loadScript(
+    "/plugins/discourse-calendar/javascripts/fullcalendar-v5.min.js",
+    ).then(() => {
+      loadScript("/plugins/discourse-calendar/javascripts/popper.min.js").then(() => {
+        resolve();
+      });
+    });
+  });
 }
+
 
 function initializeDiscourseCalendar(api) {
   let _topicController;
@@ -44,8 +51,12 @@ function initializeDiscourseCalendar(api) {
     selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
   }
 
+  // selector = '.dismiss-container-top';
+  selector = '.before-topic-list-body-outlet.category-calendar';
+
   api.onPageChange((url, title) => {
-    const $calendarContainer = $(`${selector}.category-calendar`);
+    // const $calendarContainer = $(`${selector}.category-calendar`);
+    const $calendarContainer = $(selector);
     if (!$calendarContainer.length) return;
     $calendarContainer.hide();
 
@@ -208,9 +219,6 @@ function initializeDiscourseCalendar(api) {
         // Add a events
         calendar.addEvent(event);
 
-        // Bind click, mouse over...
-        bindMouseEvents(calendar, event);
-
       });
   }
 
@@ -219,12 +227,14 @@ function initializeDiscourseCalendar(api) {
 
     const timezone = _getTimeZone($calendar, api.getCurrentUser());
     const calendar = _buildCalendar($calendar, timezone);
-    const isStatic = $calendar.attr("data-calendar-type") === "static";
+    const staticLines = getStaticLines(post);
+    const isStatic = staticLines.length > 0;
 
     if (isStatic) {
       calendar.render();
-      _setStaticCalendarEvents(calendar, $calendar, post);
+      _setStaticCalendarEvents(calendar, $calendar, staticLines);
     } else {
+      // Get events from post of the topic
       _setDynamicCalendarEvents(calendar, post, siteSettings);
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
@@ -264,40 +274,75 @@ function initializeDiscourseCalendar(api) {
     const showAddToCalendar =
       $calendar.attr("data-calendar-show-add-to-calendar") !== "false";
 
-    return new window.FullCalendar.Calendar($calendar[0], {
-      timeZone,
-      timeZoneImpl: "moment-timezone",
-      nextDayThreshold: "06:00:00",
-      displayEventEnd: true,
-      height: 650,
-      firstDay: 1,
-      defaultView,
-      views: {
-        listNextYear: {
-          type: "list",
-          duration: { days: 365 },
-          buttonText: "list",
-          listDayFormat: {
-            month: "long",
-            year: "numeric",
-            day: "numeric",
-            weekday: "long",
-          },
-        },
-      },
-      header: {
-        left: "prev,next today",
-        center: "title",
-        right: "month,basicWeek,listNextYear",
-      },
-      datesRender: (info) => {
-        if (showAddToCalendar) {
-          _insertAddToCalendarLinks(info);
-        }
+    const $tooltip        = $('.calendar-tooltip');
+    const $tooltipContent = $('.tooltip-content');
+    const tooltipNode     = $tooltip[0];
 
-        $calendarTitle.innerText = info.view.title;
-      },
-    });
+    return new window.FullCalendar.Calendar($calendar[0], {
+        timeZone: 'local',
+        locale: 'fr',
+        displayEventEnd: false,
+        height: 725,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+         },
+        weekNumbers: true,
+        navLinks: true, // can click day/week names to navigate views
+        dayMaxEvents: true, // allow "more" link when too many events
+        /*
+        datesRender: (info) => {
+          if (showAddToCalendar) {
+            _insertAddToCalendarLinks(info);
+          }
+
+          $calendarTitle.innerText = info.view.title;
+        },
+        */
+        eventMouseEnter: function({event, el}) {
+            const { start, end, title } = event;
+            const $title                = $('.title', $tooltipContent);
+            const $ends                 = $('.ends', $tooltipContent);
+            const $endsDate             = $('.date', $ends);
+            const $endsTime             = $('.time', $ends);
+            const $starts               = $('.starts', $tooltipContent);
+            const $startsDate           = $('.date', $starts);
+            const $startsTime           = $('.time', $starts);
+
+            const eventnode             = $('.fc-event-title', el)[0];
+
+            $title.html(title);
+            $tooltipContent.toggleClass('no-title', !title);
+
+            $startsDate.html(start.toLocaleDateString());
+            $startsTime.html(start.toLocaleTimeString());
+
+            $endsDate.html(end ? end.toLocaleDateString() : "");
+            $endsTime.html(end ? start.toLocaleTimeString() : "");
+
+            $startsTime.toggle(!event.allDay);
+
+            $tooltipContent.toggleClass('only-first-date', !end);
+
+            $tooltip.show();
+            this.tooltip = new window.Popper.createPopper(eventnode, tooltipNode, {
+                placement: 'top',
+                modifiers: [
+                    {
+                    name: 'offset',
+                    options: {
+                        offset: [0, 8],
+                    },
+                    },
+                ],
+            });
+        },
+        eventMouseLeave: function({el}) {
+            $tooltip.hide();
+            this.tooltip = null;
+        },
+      });
   }
 
   function _convertHtmlToDate(html) {
@@ -310,6 +355,7 @@ function initializeDiscourseCalendar(api) {
     const time = html.attr("data-time");
     const timezone = html.attr("data-timezone");
     let dateTime = date;
+
     if (time) {
       dateTime = `${dateTime} ${time}`;
     }
@@ -317,6 +363,7 @@ function initializeDiscourseCalendar(api) {
     return {
       weeklyRecurring: html.attr("data-recurring") === "1.weeks",
       dateTime: moment.tz(dateTime, timezone || "Etc/UTC"),
+      timeString: time
     };
   }
 
@@ -327,17 +374,14 @@ function initializeDiscourseCalendar(api) {
 
     let event = {
       start: from.dateTime.toDate(),
-      allDay: false,
     };
 
     if (to) {
       if (hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime)) {
         event.end = to.dateTime.toDate();
-      } else {
-        event.end = to.dateTime.add(1, "days").toDate();
-        event.allDay = true;
       }
-    } else {
+    }
+    if (!from.timeString){
       event.allDay = true;
     }
 
@@ -353,23 +397,38 @@ function initializeDiscourseCalendar(api) {
     return event;
   }
 
-  function _setStaticCalendarEvents(calendar, $calendar, post) {
-    $(`<div>${post.cooked}</div>`)
-      .find('.calendar[data-calendar-type="static"] p')
-      .html()
-      .trim()
-      .split("<br>")
-      .forEach((line) => {
+  function getStaticLines(post) {
+    const html = $(`<div>${post.cooked}</div>`)
+        .find('.calendar p')
+        .html();
+
+    if (!html) {
+        return [];
+    }
+
+    return html.trim().split("<br>");
+  }
+
+
+  function _setStaticCalendarEvents(calendar, $calendar, staticLines) {
+
+    let lastLine = {};
+    staticLines.forEach((line, index) => {
         const html = $.parseHTML(line);
         const htmlDates = html.filter((h) =>
           $(h).hasClass("discourse-local-date")
         );
+        if (htmlDates.length === 0) {
+            lastLine = { line, index };
+            return;
+        }
 
         const from = _convertHtmlToDate($(htmlDates[0]));
         const to = _convertHtmlToDate($(htmlDates[1]));
 
         let event = _buildEventObject(from, to);
-        event.title = html[0].textContent.trim();
+        // Add previous line
+        event.title = lastLine.index === index -1 ? lastLine.line : "";
         calendar.addEvent(event);
       });
   }
@@ -389,40 +448,8 @@ function initializeDiscourseCalendar(api) {
       );
     }
 
-    bindMouseEvents(calendar, event);
   }
 
-  /**
-   * Bind mouseEvents (HTML DOM)
-   *
-   * @returns Void
-   */
-  function bindMouseEvents(calendar, event) {
-      calendar.setOption("eventClick", ({ event, jsEvent }) => {
-      hidePopover(jsEvent);
-      const { htmlContent, postNumber, postUrl } = event.extendedProps;
-
-      if (postUrl) {
-        DiscourseURL.routeTo(postUrl);
-      } else if (postNumber) {
-        _topicController =
-          _topicController || api.container.lookup("controller:topic");
-        _topicController.send("jumpToPost", postNumber);
-      } else if (isMobileView && htmlContent) {
-        showPopover(jsEvent, { htmlContent });
-      }
-    });
-
-    calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
-      const { htmlContent } = event.extendedProps;
-      if (!htmlContent) return;
-      showPopover(jsEvent, { htmlContent });
-    });
-
-    calendar.setOption("eventMouseLeave", ({ jsEvent }) => {
-      hidePopover(jsEvent);
-    });
-  }
 
   function _buildEvent(detail) {
     const event = _buildEventObject(
@@ -430,12 +457,14 @@ function initializeDiscourseCalendar(api) {
         ? {
             dateTime: moment(detail.from),
             weeklyRecurring: detail.recurring === "1.weeks",
+            timeString: detail.from
           }
         : null,
       detail.to
         ? {
             dateTime: moment(detail.to),
             weeklyRecurring: detail.recurring === "1.weeks",
+            timeString: detail.to
           }
         : null
     );
@@ -526,9 +555,10 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
+  // Get event from post of the topic
   function _setDynamicCalendarEvents(calendar, post, siteSettings) {
     const groupedEvents = [];
-
+    // TODO: fix calendar_details detail.from with time 00:00 for a no time defined event in a post
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
         case "grouped":
