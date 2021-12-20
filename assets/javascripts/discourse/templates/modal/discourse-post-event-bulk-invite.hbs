@@ -62,6 +62,7 @@
       {{bulk-invite-sample-csv-file}}
 
       {{csv-uploader
+        id="discourse-post-event-csv-uploader"
         uploadUrl=(concat "/discourse-post-event/events/" model.eventModel.id "/csv-bulk-invite")
         i18nPrefix="discourse_post_event.bulk_invite_modal"
         uploading=uploading

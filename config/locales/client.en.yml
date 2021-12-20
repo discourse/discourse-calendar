@@ -334,6 +334,7 @@ en:
         title_participated: "List of users who participated"
         filter_placeholder: "Filter users"
       bulk_invite_modal:
+        confirm: "confirm"
         text: "Upload CSV file"
         title: "Bulk Invite"
         success: "File uploaded successfully, you will be notified via message when the process is complete."
