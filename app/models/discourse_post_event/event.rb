@@ -36,7 +36,7 @@ module DiscoursePostEvent
       return if !starts_at_changed && !ends_at_changed
 
       # One of date changed => Must delete the event_date and create new event_date on this event
-      event_dates.update_all(delete_at: Time.current)
+      event_dates.update_all(deleted_at: Time.current)
       set_next_date
     end
 

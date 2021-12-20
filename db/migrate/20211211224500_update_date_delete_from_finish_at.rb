@@ -2,8 +2,8 @@
 
 class UpdateDateDeleteFromFinishAt < ActiveRecord::Migration[6.0]
   def up
-    execute "update discourse_calendar_post_event_dates SET delete_at = now() WHERE finished_at is not NULL;
-UPDATE discourse_calendar_post_event_dates SET delete_at = NULL
+    execute "update discourse_calendar_post_event_dates SET deleted_at = now() WHERE finished_at is not NULL;
+UPDATE discourse_calendar_post_event_dates SET deleted_at = NULL
 FROM  (
 	SELECT DISTINCT ON (event_id)
 		   id

@@ -5,9 +5,9 @@ module DiscoursePostEvent
     self.table_name = 'discourse_calendar_post_event_dates'
     belongs_to :event
 
-    scope :pending, -> { where('delete_at IS NULL AND finished_at IS NULL') }
-    scope :expired, -> { where('delete_at IS NULL AND ends_at IS NOT NULL AND ends_at < ?', Time.now) }
-    scope :not_expired, -> { where('delete_at IS NULL AND (ends_at IS NULL OR ends_at > ?)', Time.now) }
+    scope :pending, -> { where('deleted_at IS NULL AND finished_at IS NULL') }
+    scope :expired, -> { where('deleted_at IS NULL AND ends_at IS NOT NULL AND ends_at < ?', Time.now) }
+    scope :not_expired, -> { where('deleted_at IS NULL AND (ends_at IS NULL OR ends_at > ?)', Time.now) }
 
     after_commit :upsert_topic_custom_field, on: %i[create]
     def upsert_topic_custom_field
@@ -60,6 +60,7 @@ end
 #  event_id                 :integer
 #  starts_at                :datetime
 #  ends_at                  :datetime
+#  deleted_at                :datetime
 #  reminder_counter         :integer          default(0)
 #  event_will_start_sent_at :datetime
 #  event_started_sent_at    :datetime
