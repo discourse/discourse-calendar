@@ -340,6 +340,7 @@ sv:
         title_participated: "Lista över användare som deltog"
         filter_placeholder: "Filtrera användare"
       bulk_invite_modal:
+        confirm: "bekräfta"
         text: "Ladda upp CSV-fil"
         title: "Massinbjudan"
         success: "Filen laddades upp och du underrättas via meddelande när processen är klar"
