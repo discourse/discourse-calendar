@@ -650,7 +650,7 @@ after_initialize do
 
   # TODO(Roman): Remove #respond_to? after the 2.8 release.
   if respond_to?(:register_notification_consolidation_plan)
-    query = ->(notifications, data) do
+    query = Proc.new do |notifications, data|
       notifications
         .where("data::json ->> 'topic_title' = ?", data[:topic_title].to_s)
         .where("data::json ->> 'message' = ?", data[:message].to_s)
