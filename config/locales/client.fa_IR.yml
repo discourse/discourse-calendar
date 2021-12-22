@@ -299,6 +299,8 @@ fa_IR:
               title: "خصوصی"
       event_ui:
         show_all: "نمایش همه"
+      bulk_invite_modal:
+        confirm: "تایید"
       builder_modal:
         create_event_title: "ایجاد رویداد"
         update_event_title: "ویرایش رویداد"
