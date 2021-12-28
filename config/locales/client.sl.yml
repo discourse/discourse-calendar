@@ -327,6 +327,7 @@ sl:
         title_participated: "Seznam udeležencev"
         filter_placeholder: "Filtriraj uporabnike"
       bulk_invite_modal:
+        confirm: "potrdi"
         text: "Uvozi iz CSV"
         title: "Skupinsko vabilo"
         success: "Datoteka je uspešno naložena. Obveščeni boste, ko bo postopek zaključen."
