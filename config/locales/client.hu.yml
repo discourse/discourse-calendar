@@ -126,6 +126,7 @@ hu:
         title_participated: "A részt vett felhasználók listája"
         filter_placeholder: "Felhasználók szűrése"
       bulk_invite_modal:
+        confirm: "megerősítés"
         text: "CSV-fájl feltöltése"
         title: "Csoportos meghívás"
         success: "A fájl sikeresen feltöltve, értesítést fog kapni, ha a folyamat befejeződött."
