@@ -12,16 +12,18 @@ module Holidays
 
     def self.holidays_by_month
       {
-                0 => [{:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :name => "Good Friday", :regions => [:sg]}],
-      1 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "New Year's Day", :regions => [:sg]}],
-      2 => [{:mday => 14, :type => :informal, :name => "Valentine's Day", :regions => [:sg]},
+                1 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "New Year's Day", :regions => [:sg]}],
+      2 => [{:mday => 1, :year_ranges => { :limited => [2022] },:name => "Chinese New Year", :regions => [:sg]},
+            {:mday => 2, :year_ranges => { :limited => [2022] },:name => "Chinese New Year Holiday", :regions => [:sg]},
+            {:mday => 14, :type => :informal, :name => "Valentine's Day", :regions => [:sg]},
             {:mday => 15, :type => :informal, :name => "Total Defence Day", :regions => [:sg]}],
-      5 => [{:mday => 1, :name => "Labour Day", :regions => [:sg]},
-            {:mday => 13, :year_ranges => { :limited => [2021] },:name => "Hari Raya Puasa", :regions => [:sg]},
-            {:mday => 26, :year_ranges => { :limited => [2021] },:name => "Vesak Day", :regions => [:sg]}],
-      7 => [{:mday => 20, :year_ranges => { :limited => [2021] },:name => "Hari Raya Haji", :regions => [:sg]}],
+      4 => [{:mday => 15, :year_ranges => { :limited => [2022] },:name => "Good Friday", :regions => [:sg]}],
+      5 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Labour Day", :regions => [:sg]},
+            {:mday => 3, :year_ranges => { :limited => [2022] },:name => "Hari Raya Puasa", :regions => [:sg]},
+            {:mday => 16, :year_ranges => { :limited => [2022] },:name => "Vesak Day Holiday", :regions => [:sg]}],
+      7 => [{:mday => 11, :year_ranges => { :limited => [2022] },:name => "Hari Raya Haji Holiday", :regions => [:sg]}],
       8 => [{:mday => 9, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "National Day", :regions => [:sg]}],
-      11 => [{:mday => 4, :year_ranges => { :limited => [2021] },:name => "Deepavali", :regions => [:sg]}],
+      10 => [{:mday => 24, :year_ranges => { :limited => [2022] },:name => "Deepavali", :regions => [:sg]}],
       12 => [{:mday => 25, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Christmas Day", :regions => [:sg]}]
       }
     end

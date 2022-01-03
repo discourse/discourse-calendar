@@ -10,17 +10,22 @@
 # http://publicholidays.sg/
 
 months:
-  0:
-  - name: Good Friday
-    regions: [sg]
-    function: easter(year)
-    function_modifier: -2
   1:
   - name: New Year's Day
     regions: [sg]
     mday: 1
     observed: to_weekday_if_weekend(date)
   2:
+  - name: Chinese New Year
+    regions: [sg]
+    mday: 1
+    year_ranges:
+      limited: [2022]
+  - name: Chinese New Year Holiday
+    regions: [sg]
+    mday: 2
+    year_ranges:
+      limited: [2022]
   - name: Valentine's Day
     regions: [sg]
     mday: 14
@@ -29,38 +34,44 @@ months:
     regions: [sg]
     mday: 15
     type: informal
-
+  4:
+  - name: Good Friday
+    regions: [sg]
+    mday: 15
+    year_ranges:
+      limited: [2022]
   5:
   - name: Labour Day
     regions: [sg]
     mday: 1
+    observed: to_weekday_if_weekend(date)
   - name: Hari Raya Puasa
     regions: [sg]
-    mday: 13
+    mday: 3
     year_ranges:
-      limited: [2021]
-  - name: Vesak Day
+      limited: [2022]
+  - name: Vesak Day Holiday
     regions: [sg]
-    mday: 26
+    mday: 16
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   7:
-  - name: Hari Raya Haji
+  - name: Hari Raya Haji Holiday
     regions: [sg]
-    mday: 20
+    mday: 11
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   8:
   - name: National Day
     regions: [sg]
     mday: 9
     observed: to_weekday_if_weekend(date)
-  11:
+  10:
   - name: Deepavali
     regions: [sg]
-    mday: 4
+    mday: 24
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   12:
   - name: Christmas Day
     regions: [sg]
