@@ -15,3 +15,29 @@ he:
       subject_template: "ההזמנה המרוכזת עובדה בהצלחה"
     discourse_post_event_bulk_invite_failed:
       subject_template: "ההזמנה המרוכזת עובדה עם שגיאות"
+  site_settings:
+    all_day_event_time_error: "שעה שגויה. התבנית צריכה להיות HH:mm (למשל: 08:00)."
+    working_day_start_hour: "שעת תחילת יום העבודה."
+    working_day_end_hour: "שעת סיום יום העבודה."
+  discourse_calendar:
+    invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
+    event_expired: "תוקף האירוע פג"
+  discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} עומד להתחיל."
+      after_event_reminder: "%{title} הסתיים."
+      ongoing_event_reminder: "%{title} מתרחש כרגע."
+    errors:
+      bulk_invite:
+        error: "אירעה שגיאה בשליחת הקובץ. נא לנסות שוב מאוחר יותר."
+      models:
+        event:
+          only_one_event: "לפוסט יכול להיות רק אירוע אחד."
+          raw_invitees_length: "אירוע מוגבל ל־%{count} משתמשים/קבוצות."
+          ends_at_before_starts_at: "אירוע לא יכול להסתיים לפני שהתחיל."
+          start_must_be_present_and_a_valid_date: "לאירוע נחוץ תאריך התחלה תקף."
+          end_must_be_a_valid_date: "תאריך הסיום חייב להיות תאריך תקף."
+          acting_user_not_allowed_to_act_on_this_event: "אסור למשתמש הנוכחי לפעול כנגד האירוע הזה."
+          custom_field_is_invalid: "השדה המותאם אישית `%{field}` אסור לשימוש."
+          name:
+            length: "אורך שם האירוע חייב להיות בין %{minimum} ל־%{maximum} תווים."
