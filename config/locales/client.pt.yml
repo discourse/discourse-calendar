@@ -5,3 +5,14 @@
 # https://translate.discourse.org/
 
 pt:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: Evento iniciado
+          fields:
+            topic_id:
+              label: ID do Tópico
+    discourse_post_event:
+      bulk_invite_modal:
+        confirm: "confirmar"

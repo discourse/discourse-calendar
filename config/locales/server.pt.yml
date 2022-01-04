@@ -5,3 +5,7 @@
 # https://translate.discourse.org/
 
 pt:
+  discourse_automation:
+    triggerables:
+      event_started:
+        title: Evento iniciado
