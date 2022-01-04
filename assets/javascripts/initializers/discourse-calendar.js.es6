@@ -142,7 +142,7 @@ function initializeDiscourseCalendar(api) {
       calendar.render();
       _setStaticCalendarEvents(calendar, $calendar, post);
     } else {
-      _setDynamicCalendarEvents(calendar, post, siteSettings);
+      _setDynamicCalendarEvents(calendar, $calendar, post, siteSettings);
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
     }
@@ -434,8 +434,10 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _setDynamicCalendarEvents(calendar, post, siteSettings) {
+  function _setDynamicCalendarEvents(calendar, $calendar, post, siteSettings) {
     const groupedEvents = [];
+
+    const fullDay = $calendar.attr("data-calendar-full-day") === "true";
 
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
@@ -443,6 +445,14 @@ function initializeDiscourseCalendar(api) {
           groupedEvents.push(detail);
           break;
         case "standalone":
+          if (fullDay && detail.timezone) {
+            detail.from = moment
+              .tz(detail.from, detail.timezone)
+              .format("YYYY-MM-DD");
+            detail.to = moment
+              .tz(detail.to, detail.timezone)
+              .format("YYYY-MM-DD");
+          }
           _addStandaloneEvent(calendar, post, detail, siteSettings);
           break;
       }
@@ -450,14 +460,17 @@ function initializeDiscourseCalendar(api) {
 
     const formatedGroupedEvents = {};
     groupedEvents.forEach((groupedEvent) => {
-      const minDate = moment(groupedEvent.from)
+      const fromStartOfDay = moment(groupedEvent.from).utc().startOf("day");
+      const toEndOfDay = moment(groupedEvent.to || groupedEvent.from)
         .utc()
-        .startOf("day")
-        .toISOString();
-      const maxDate = moment(groupedEvent.to || groupedEvent.from)
-        .utc()
-        .endOf("day")
-        .toISOString();
+        .endOf("day");
+
+      const minDate = fullDay
+        ? fromStartOfDay.format("YYYY-MM-DD")
+        : fromStartOfDay.toISOString();
+      let maxDate = fullDay
+        ? toEndOfDay.format("YYYY-MM-DD")
+        : toEndOfDay.toISOString();
 
       const identifier = `${minDate}-${maxDate}`;
       formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
