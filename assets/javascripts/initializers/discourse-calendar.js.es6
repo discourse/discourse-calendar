@@ -137,12 +137,13 @@ function initializeDiscourseCalendar(api) {
     const timezone = _getTimeZone($calendar, api.getCurrentUser());
     const calendar = _buildCalendar($calendar, timezone);
     const isStatic = $calendar.attr("data-calendar-type") === "static";
+    const fullDay = $calendar.attr("data-calendar-full-day") === "true";
 
     if (isStatic) {
       calendar.render();
       _setStaticCalendarEvents(calendar, $calendar, post);
     } else {
-      _setDynamicCalendarEvents(calendar, $calendar, post, siteSettings);
+      _setDynamicCalendarEvents(calendar, post, siteSettings, fullDay);
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
     }
@@ -434,10 +435,8 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _setDynamicCalendarEvents(calendar, $calendar, post, siteSettings) {
+  function _setDynamicCalendarEvents(calendar, post, siteSettings, fullDay) {
     const groupedEvents = [];
-
-    const fullDay = $calendar.attr("data-calendar-full-day") === "true";
 
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
