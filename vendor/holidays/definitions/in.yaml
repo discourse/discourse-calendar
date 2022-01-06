@@ -7,12 +7,22 @@ months:
     regions: [in]
     mday: 26
     observed: to_weekday_if_weekend(date)
+  - name: Pongal
+    regions: [in]
+    mday: 14
+    year_ranges:
+      limited: [2022]
   3:
+  - name: Maha Shivaratri
+    regions: [in]
+    mday: 1
+    year_ranges:
+      limited: [2022]
   - name: Holi
     regions: [in]
-    mday: 29
+    mday: 18
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   4:
   - name: Ambedkar Jayanti
     regions: [in]
@@ -20,61 +30,66 @@ months:
   5:
   - name: Eid al-Fitr
     regions: [in]
-    mday: 14
+    mday: 3
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   7:
   - name: Eid al-Adha
     regions: [in]
-    mday: 21
+    mday: 10
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   8:
+  - name: Muharram
+    regions: [in]
+    mday: 9
+    year_ranges:
+      limited: [2022]
+  - name: Raksha Bandhan
+    regions: [in]
+    mday: 11
+    year_ranges:
+      limited: [2022]
   - name: Independence Day
     regions: [in]
     mday: 15
     observed: to_weekday_if_weekend(date)
-  - name: Raksha Bandhan
-    regions: [in]
-    mday: 22
-    year_ranges:
-      limited: [2021]
   - name: Janmashtami
     regions: [in]
-    mday: 30
+    mday: 19
     year_ranges:
-      limited: [2021]
-  9:
+      limited: [2022]
   - name: Ganesh Chaturthi
     regions: [in]
-    mday: 10
+    mday: 31
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   10:
   - name: Gandhi Jayanti
     regions: [in]
     mday: 2
+    observed: to_weekday_if_weekend(date)
   - name: Dussehra
-    regions: [in]
-    mday: 15
-    year_ranges:
-      limited: [2021]
-  11:
-  - name: Diwali
-    regions: [in]
-    mday: 4
-    year_ranges:
-      limited: [2021]
-  - name: Govardhan Puja
     regions: [in]
     mday: 5
     year_ranges:
-      limited: [2021]
+      limited: [2022]
+  - name: Diwali
+    regions: [in]
+    mday: 24
+    year_ranges:
+      limited: [2022]
+  - name: Govardhan Puja
+    regions: [in]
+    mday: 25
+    year_ranges:
+      limited: [2022]
+  11:
   - name: Guru Nanak Jayanti
     regions: [in]
-    mday: 19
+    mday: 8
     year_ranges:
-      limited: [2021]
+      limited: [2022]
   12:
   - name: Christmas Day
     regions: [in]
