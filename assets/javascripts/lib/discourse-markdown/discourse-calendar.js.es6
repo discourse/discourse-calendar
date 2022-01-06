@@ -46,6 +46,13 @@ const calendarRule = {
       ]);
     }
 
+    if (info.attrs.fullDay) {
+      mainCalendarDivToken.attrs.push([
+        "data-calendar-full-day",
+        info.attrs.fullDay === "true",
+      ]);
+    }
+
     if (info.attrs.hiddenDays) {
       mainCalendarDivToken.attrs.push([
         "data-hidden-days",

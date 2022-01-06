@@ -411,7 +411,8 @@ after_initialize do
           to: event.end_date,
           username: event.username,
           recurring: event.recurrence,
-          post_url: Post.url("-", event.topic_id, event.post_number)
+          post_url: Post.url("-", event.topic_id, event.post_number),
+          timezone: event.timezone
         }
       else
         identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
