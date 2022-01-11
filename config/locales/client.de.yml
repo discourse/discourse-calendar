@@ -9,9 +9,19 @@ de:
     admin:
       site_settings:
         categories:
-          discourse_post_event: "Discourse Termin"
-          discourse_calendar: "Discourse Kalender"
+          discourse_post_event: "Discourse-Ereignis"
+          discourse_calendar: "Discourse-Kalender"
   js:
+    notifications:
+      popup:
+        event_reminder: Ereigniserinnerung
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: Ereignis hat begonnen
+          fields:
+            topic_id:
+              label: Themen-ID
     discourse_calendar:
       invite_user_notification: "%{username} lädt dich ein zu: %{description}"
       on_holiday: "Im Urlaub"
@@ -19,7 +29,7 @@ de:
       add_to_calendar: "Zu Google Kalender hinzufügen"
       region:
         title: "Region"
-        none: "keine"
+        none: "Keine"
         use_current_region: "Aktuelle Region verwenden"
         names:
           ar: "Argentinien"
@@ -30,10 +40,10 @@ de:
           au_qld_brisbane: "Australien (au_qld_brisbane)"
           au_qld_cairns: "Australien (au_qld_cairns)"
           au_qld: "Australien (au_qld)"
-          au_sa: "Australia (au_sa)"
-          au_tas_north: "Australia (au_tas_north)"
-          au_tas_south: "Australia (au_tas_south)"
-          au_tas: "Australia (au_tas)"
+          au_sa: "Australien (au_sa)"
+          au_tas_north: "Australien (au_tas_north)"
+          au_tas_south: "Australien (au_tas_south)"
+          au_tas: "Australien (au_tas)"
           au_vic_melbourne: "Australien (au_vic_melbourne)"
           au_vic: "Australien (au_vic)"
           au_wa: "Australien (au_wa)"
@@ -116,7 +126,7 @@ de:
           es_ar: "Spanien (es_ar)"
           es_ce: "Spanien (es_ce)"
           es_cl: "Spanien (es_cl)"
-          es_cm: "Spain (es_cm)"
+          es_cm: "Spanien (es_cm)"
           es_cn: "Spanien (es_cn)"
           es_ct: "Spanien (es_ct)"
           es_ex: "Spanien (es_ex)"
@@ -152,6 +162,7 @@ de:
           hu: "Ungarn"
           ie: "Irland"
           im: "Isle of Man"
+          in: "Indien"
           is: "Island"
           it_bl: "Italien (it_bl)"
           it_fi: "Italien (it_fi)"
@@ -167,7 +178,7 @@ de:
           it: "Italien"
           je: "Jersey"
           jp: "Japan"
-          kr: "Südkorea"
+          kr: "Korea (Republik)"
           li: "Liechtenstein"
           lt: "Litauen"
           lu: "Luxemburg"
@@ -206,6 +217,7 @@ de:
           rs_la: "Serbien (rs_la)"
           ru: "Russland"
           se: "Schweden"
+          sa: "Saudi-Arabien"
           sg: "Singapur"
           si: "Slowenien"
           sk: "Slowakei"
@@ -213,7 +225,7 @@ de:
           tn: "Tunesien"
           tr: "Türkei"
           ua: "Ukraine"
-          unitednations: " (vereinigtenationen)"
+          unitednations: " (unitednations)"
           ups: " (ups)"
           us_ak: "Vereinigte Staaten (us_ak)"
           us_al: "Vereinigte Staaten (us_al)"
@@ -253,7 +265,7 @@ de:
           us_ny: "Vereinigte Staaten (us_ny)"
           us_oh: "Vereinigte Staaten (us_oh)"
           us_ok: "Vereinigte Staaten (us_ok)"
-          us_or: "Vereinigte Staaten (us_oder)"
+          us_or: "Vereinigte Staaten (us_or)"
           us_pa: "Vereinigte Staaten (us_pa)"
           us_pr: "Vereinigte Staaten (us_pr)"
           us_ri: "Vereinigte Staaten (us_ri)"
@@ -274,24 +286,25 @@ de:
           vi: "Jungferninseln (USA)"
           za: "Südafrika"
     group_timezones:
-      search: "Suche..."
+      search: "Suche …"
       group_availability: "%{group} Verfügbarkeit"
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} hat automatisch Ihren Besuch festgelegt und Sie zu %{description} eingeladen"
-        before_event_reminder: "Ein Termin beginnt in Kürze %{description}"
-        after_event_reminder: "Ein Termin ist beendet %{description}"
-        ongoing_event_reminder: "Ein Termin läuft  %{description}"
+        invite_user_predefined_attendance_notification: "%{username} hat automatisch deine Teilnahme festgelegt und dich zu %{description} eingeladen"
+        before_event_reminder: "Ein Ereignis beginnt in Kürze %{description}"
+        after_event_reminder: "Ein Ereignis wurde beendet %{description}"
+        ongoing_event_reminder: "Ein Ereignis läuft  %{description}"
       preview:
-        more_than_one_event: "Du kannst nicht mehr als einen Termin haben."
-      edit_reason: "Termin aktualisiert"
+        more_than_one_event: "Du kannst nicht mehr als ein Ereignis haben."
+      edit_reason: "Ereignis aktualisiert"
       topic_title:
-        starts_at: "Termin wird beginnen: %{date}"
-        ended_at: "Termin beendet: %{date}"
+        starts_at: "Ereignisbeginn: %{date}"
+        ended_at: "Ereignisende: %{date}"
         ends_in_duration: "Endet %{duration}"
       models:
         invitee:
+          no_users: "Es gibt keine Benutzer dieses Typs."
           status:
             unknown: "Nicht interessiert"
             going: "Dabei"
@@ -301,57 +314,58 @@ de:
           expired: "Ausgelaufen"
           status:
             standalone:
-              title: "Alleinstehend"
-              description: "Kein weiterer kann bei einen alleinstehenden Termin teilnehmen."
+              title: "Einzeln"
+              description: "An einem Einzelereignis kann nicht teilgenommen werden."
             public:
               title: "Öffentlich"
-              description: "Bei einem öffentlichen Termin kann jeder teilnehmen."
+              description: "An einem öffentlichen Ereignis kann jeder teilnehmen."
             private:
               title: "Privat"
-              description: "Bei einem privaten Termin können nur eingeladene teilnehmen."
+              description: "An einem privaten Ereignis können nur eingeladene Benutzer teilnehmen."
       event_ui:
-        show_all: "Zeige alle"
+        show_all: "Alle anzeigen"
         participants:
           one: "%{count} Benutzer nimmt teil."
           other: "%{count} Benutzer nehmen teil."
         invite: "Benutzer benachrichtigen"
         add_to_calendar: "Zum Kalender hinzufügen"
-        send_pm_to_creator: "Sende Nachricht zu %{username}"
-        edit_event: "Termin editieren"
-        export_event: "Termin exportieren"
+        send_pm_to_creator: "PN senden an %{username}"
+        edit_event: "Ereignis bearbeiten"
+        export_event: "Ereignis exportieren"
         created_by: "Erstellt von"
-        bulk_invite: "Massen-Einladung"
-        close_event: "Termin beenden"
+        bulk_invite: "Masseneinladung"
+        close_event: "Ereignis beenden"
       invitees_modal:
-        title_invited: "Liste von eingeladenen Benutzern"
-        title_participated: "Liste von Benutzern die teilgenommen haben"
-        filter_placeholder: "Filter Benutzer"
+        title_invited: "Liste der Benutzer, die zugesagt haben"
+        title_participated: "Liste von Benutzern, die teilgenommen haben"
+        filter_placeholder: "Benutzer filtern"
       bulk_invite_modal:
+        confirm: "bestätigen"
         text: "CSV-Datei hochladen"
         title: "Massen-Einladung"
-        success: "Datei erfolgreich hochgeladen. Sie werden per Nachricht benachrichtigt, wenn der Prozess abgeschlossen ist."
-        error: "Entschuldigung, Datei sollte CSV-Format sein."
-        confirmation_message: "Sie sind dabei alle in der hochgeladenen Datei zu benachrichtigen."
-        description_public: "Öffentliche Termine akzeptieren nur Benutzernamen für Massen-Einladungen."
-        description_private: "Private Termine akzeptieren nur Gruppennamen für Massen-Einladungen."
+        success: "Die Datei wurde erfolgreich hochgeladen. Du wirst per Nachricht benachrichtigt, wenn der Vorgang abgeschlossen ist."
+        error: "Die Datei sollte im CSV-Format vorliegen."
+        confirmation_message: "Du bist dabei, alle in der hochgeladenen Datei zu benachrichtigen."
+        description_public: "Öffentliche Ereignisse akzeptieren nur Benutzernamen für Massen-Einladungen."
+        description_private: "Private Ereignisse akzeptieren nur Gruppennamen für Massen-Einladungen."
         download_sample_csv: "Eine Beispiel-CSV-Datei herunterladen"
         send_bulk_invites: "Einladungen senden"
-        group_selector_placeholder: "Wähle eine Gruppe..."
-        user_selector_placeholder: "Benutzer auswählen..."
-        inline_title: "Masseneinladung"
-        csv_title: "CSV-Massen-Einladung"
+        group_selector_placeholder: "Gruppe auswählen …"
+        user_selector_placeholder: "Benutzer auswählen …"
+        inline_title: "Inline-Masseneinladung"
+        csv_title: "CSV-Masseneinladung"
       builder_modal:
         custom_fields:
-          label: "Individuelle Felder"
+          label: "Benutzerdefinierte Felder"
           placeholder: "Optional"
-          description: "Erlaubte benutzerdefinierte Felder werden in den Site-Einstellungen definiert. Benutzerdefinierte Felder werden verwendet, um Daten an andere Plugins zu übertragen."
-        create_event_title: "Termin erstellen"
-        update_event_title: "Termin editieren"
-        confirm_delete: "Sind Sie sicher, diesen Termin zu löschen?"
-        confirm_close: "Bist du sicher, dass du diesen Termin beenden möchtest?"
+          description: "Erlaubte benutzerdefinierte Felder werden in den Website-Einstellungen definiert. Benutzerdefinierte Felder werden verwendet, um Daten an andere Plug-ins zu übermitteln."
+        create_event_title: "Ereignis erstellen"
+        update_event_title: "Ereignis bearbeiten"
+        confirm_delete: "Bist du sicher, dass du dieses Ereignis löschen möchtest?"
+        confirm_close: "Bist du sicher, dass du dieses Ereignis beenden möchtest?"
         create: "Erstellen"
         update: "Speichern"
-        attach: "Termin erstellen"
+        attach: "Ereignis erstellen"
         add_reminder: "Erinnerung hinzufügen"
         reminders:
           label: "Erinnerungen"
@@ -362,21 +376,22 @@ de:
           every_month: "Jeden Monat an diesem Wochentag"
           every_weekday: "Jeden Wochentag"
           every_week: "Jede Woche an diesem Wochentag"
+          every_two_weeks: "Alle zwei Wochen an diesem Wochentag"
         url:
           label: "URL"
           placeholder: "Optional"
         name:
-          label: "Bezeichnung des Termins"
+          label: "Name des Ereignisses"
           placeholder: "Optional, standardmäßig Titel des Themas"
         invitees:
-          label: "Eingeladene Gruppe"
+          label: "Eingeladene Gruppen"
         status:
           label: "Status"
       invite_user_or_group:
         title: "Benachrichtige Benutzer oder Gruppe(n)"
-        invite: "Sendend"
+        invite: "Senden"
       upcoming_events:
-        title: "Anstehende Termine"
-        creator: "Ersteler"
+        title: "Anstehende Ereignisse"
+        creator: "Ersteller"
         status: "Status"
-        starts_at: "Startet um"
+        starts_at: "Beginnt um"

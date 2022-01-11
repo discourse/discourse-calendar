@@ -15,15 +15,22 @@ es:
     notifications:
       popup:
         event_reminder: Recordatorio de evento
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: Evento iniciado
+          fields:
+            topic_id:
+              label: ID del tema
     discourse_calendar:
       invite_user_notification: "%{username} te invitó a: %{description}"
       on_holiday: "De vacaciones"
       holiday: "Vacaciones"
-      add_to_calendar: "Agregar a Google Calendar"
+      add_to_calendar: "Añadir a Google Calendar"
       region:
         title: "Región"
         none: "Ninguna"
-        use_current_region: "Usar zona horaria actual"
+        use_current_region: "Usar región actual"
         names:
           ar: "Argentina"
           at: "Austria"
@@ -154,7 +161,7 @@ es:
           hr: "Croacia"
           hu: "Hungría"
           ie: "Irlanda"
-          im: "Isla del hombre"
+          im: "Isla de Man"
           in: "India"
           is: "Islandia"
           it_bl: "Italia (it_bl)"
@@ -280,14 +287,14 @@ es:
           za: "Sudáfrica"
     group_timezones:
       search: "Buscar..."
-      group_availability: "%{group} disponibilidad"
+      group_availability: "Disponibilidad de %{group}"
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
         invite_user_predefined_attendance_notification: "%{username} ha configurado automáticamente tu asistencia y te ha invitado a %{description}"
         before_event_reminder: "Un evento está a punto de comenzar %{description}"
         after_event_reminder: "Un evento ha finalizado %{description}"
-        ongoing_event_reminder: "Hay un evento en curso  %{description}"
+        ongoing_event_reminder: "Hay un evento en curso %{description}"
       preview:
         more_than_one_event: "No puedes tener más de un evento."
       edit_reason: "Evento actualizado"
@@ -297,9 +304,10 @@ es:
         ends_in_duration: "Termina en %{duration}"
       models:
         invitee:
+          no_users: "No hay usuarios de este tipo."
           status:
             unknown: "No estoy interesado"
-            going: "Confirmado"
+            going: "Asistiré"
             not_going: "No asistiré"
             interested: "Estoy interesado"
         event:
@@ -332,6 +340,7 @@ es:
         title_participated: "Lista de usuarios que participaron"
         filter_placeholder: "Filtrar usuarios"
       bulk_invite_modal:
+        confirm: "confirmar"
         text: "Subir archivo CSV"
         title: "Invitaciones masivas"
         success: "Archivo subido correctamente, se te notificará mediante un mensaje cuando se complete el proceso."
@@ -341,23 +350,23 @@ es:
         description_private: "Los eventos privados solo aceptan nombres de grupos para invitaciones masivas."
         download_sample_csv: "Descarga un archivo CSV de muestra"
         send_bulk_invites: "Enviar invitaciones"
-        group_selector_placeholder: "Elige un grupo ..."
-        user_selector_placeholder: "Elegir usuario ..."
+        group_selector_placeholder: "Elige un grupo..."
+        user_selector_placeholder: "Elegir usuario..."
         inline_title: "Invitación masiva en línea"
-        csv_title: "Invitación masiva de CSV"
+        csv_title: "Invitación masiva en CSV"
       builder_modal:
         custom_fields:
-          label: "Campos Personalizados"
+          label: "Campos personalizados"
           placeholder: "Opcional"
-          description: "Los campos personalizados permitidos se definen en la configuración del sitio. Los campos personalizados se utilizan para transmitir datos a otros complementos."
+          description: "Los campos personalizados permitidos se definen en la configuración del sitio. Los campos personalizados se utilizan para transmitir datos a otros plugins."
         create_event_title: "Crear evento"
         update_event_title: "Editar evento"
-        confirm_delete: "¿Estás seguro que quieres eliminar ese evento?"
-        confirm_close: "¿Estás seguro que quieres cerrar ese evento?"
+        confirm_delete: "¿Seguro que quieres eliminar este evento?"
+        confirm_close: "¿Seguro que quieres cerrar ese evento?"
         create: "Crear"
         update: "Guardar"
         attach: "Crear evento"
-        add_reminder: "Agregar recordatorio"
+        add_reminder: "Añadir recordatorio"
         reminders:
           label: "Recordatorios"
         recurrence:
@@ -367,6 +376,7 @@ es:
           every_month: "Todos los meses en este día de la semana"
           every_weekday: "Todos los días de la semana"
           every_week: "Todas las semanas en este día de la semana"
+          every_two_weeks: "Cada dos semanas en este día de la semana"
         url:
           label: "URL"
           placeholder: "Opcional"
@@ -378,10 +388,10 @@ es:
         status:
           label: "Estado"
       invite_user_or_group:
-        title: "Notificar al usuario(s) o grupo(s)"
+        title: "Notificar a usuario(s) o grupo(s)"
         invite: "Enviar"
       upcoming_events:
-        title: "Próximos Eventos"
+        title: "Próximos eventos"
         creator: "Creador"
         status: "Estado"
         starts_at: "Comienza el"

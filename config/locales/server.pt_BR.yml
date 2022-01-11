@@ -5,13 +5,17 @@
 # https://translate.discourse.org/
 
 pt_BR:
+  discourse_automation:
+    triggerables:
+      event_started:
+        title: Evento iniciado
   system_messages:
     discourse_post_event_bulk_invite_succeeded:
-      title: "Evento - Convite em massa bem-sucedido"
-      subject_template: "Seus convites foram enviados com êxito."
+      title: "Evento - Convites em massa bem-sucedidos"
+      subject_template: "Convites em massa processados"
       text_body_template: "Seu arquivo de convites em massa para usuários(as) foi processado: %{processed} convites enviados por e-mail."
     discourse_post_event_bulk_invite_failed:
-      title: "Evento - Convite em massa bem-sucedido"
+      title: "Evento - Convites em massa fracassaram"
       subject_template: "Seus convites em massa não foram enviados, entre em contato com os(as) moderadores(as)."
       text_body_template: |
         Seu arquivo de convites em massa para usuários(as) foi processado, %{processed} convites foram enviados por e-mail com %{failed} erro(s).
@@ -22,13 +26,13 @@ pt_BR:
         %{logs}
         ```
   site_settings:
-    calendar_enabled: "Habilite o plugin do calendário discursivo. Isto adicionará suporte para um [calendar][/calendar] tag no primeiro post de um tópico."
-    discourse_post_event_enabled: "[experimental] Permite anexar um evento a um post. Nota: também precisa do `calendário habilitado` para ser habilitado."
-    displayed_invitees_limit: "Limita o número de convidados exibidos em um evento."
+    calendar_enabled: "Ative o plugin do calendário discursivo. Isso adicionará suporte para uma etiqueta de [calendar][/calendar] na primeira postagem de um tópico."
+    discourse_post_event_enabled: "[experimental] Permite anexar um evento a uma postagem. Observação: é necessário ativar o calendário para ativar."
+    displayed_invitees_limit: "Limita o número de convidados(as) exibidos(as) em um evento."
     display_post_event_date_on_topic_title: "Exibe a data do evento após o título do tópico."
     discourse_post_event_allowed_on_groups: "Grupos que têm permissão para criar eventos."
     discourse_post_event_allowed_custom_fields: "Permite que cada evento defina o valor dos campos personalizados."
-    discourse_post_event_edit_notifications_time_extension: "Prolonga (em minutos) o período após o final de um evento quando os convidados 'de saída' ainda estão sendo notificados da edição no post original."
+    discourse_post_event_edit_notifications_time_extension: "Prolonga (em minutos) o período após o final de um evento quando os(as) convidados(as) \"de saída' ainda estão sendo notificados da edição na postagem original."
     holiday_calendar_topic_id: "ID do tópico do calendário de feriados/ausências da equipe."
     delete_expired_event_posts_after: "As mensagens com eventos vencidos serão automaticamente apagadas após (n) horas. Defina para -1 para desativar a exclusão."
     all_day_event_start_time: "Os eventos que não têm uma hora de início especificada começarão neste momento. O formato é HH:mm. Para 6:00 da manhã, digite 06:00"
@@ -36,7 +40,7 @@ pt_BR:
     all_day_event_time_error: "Hora inválida. O formato precisa ser HH:mm (ex: 08:00)."
     calendar_categories: "Mostrar um calendário no topo de uma categoria. As configurações obrigatórias são categoryId e postId. eg: categoryId=6;postId=453\n Outras configurações válidas: tzPicker, fins de semana e defaultView."
     calendar_categories_outlet: "Permite mudar qual saída deve mostrar o calendário da categoria."
-    working_days: "Dias úteis definidos. Você pode exibir a disponibilidade de um grupo utilizando a tag 'timezones' em um post, por exemplo: `[timezones group=admins][timezones]`"
+    working_days: "Dias úteis definidos. Você pode exibir a disponibilidade de um grupo utilizando a etiqueta \"timezones\" em uma postagem, por exemplo: `[timezones group=admins][timezones]`"
     working_day_start_hour: "Hora de início das horas do dia útil."
     working_day_end_hour: "Hora de término das horas do dia útil."
     close_to_working_day_hours_extension: "Defina o tempo de extensão nas horas do dia útil para destacar os fusos horários."
@@ -60,12 +64,12 @@ pt_BR:
           only_one_event: "Uma postagem só pode ter um evento."
           only_group: "Um evento aceita apenas nomes de grupos."
           must_be_in_first_post: "Um evento só pode estar na primeira postagem de um tópico."
-          raw_invitees_length: "Um evento é limitado a %{count} usuários/grupos."
+          raw_invitees_length: "Um evento é limitado a %{count} usuários(as)/grupos."
           ends_at_before_starts_at: "Um evento não pode terminar antes de começar."
           start_must_be_present_and_a_valid_date: "Um evento requer uma data de início válida."
           end_must_be_a_valid_date: "A data final deve ser uma data válida."
-          acting_user_not_allowed_to_create_event: "O usuário atual não tem permissão para criar eventos."
-          acting_user_not_allowed_to_act_on_this_event: "O usuário atual não tem permissão para criar eventos."
+          acting_user_not_allowed_to_create_event: "O(a) usuário(a) atual não tem permissão para criar eventos."
+          acting_user_not_allowed_to_act_on_this_event: "O(a) usuário(a) atual não tem permissão para agir neste evento."
           custom_field_is_invalid: "O campo personalizado `%{field}` não é permitido."
           name:
             length: "A duração do nome do evento deve estar entre %{minimum} e %{maximum} caracteres."
