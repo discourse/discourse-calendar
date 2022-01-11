@@ -9,14 +9,24 @@ fr:
     admin:
       site_settings:
         categories:
-          discourse_post_event: "Discourse Événement"
+          discourse_post_event: "Discourse Event"
           discourse_calendar: "Discourse Calendar"
   js:
+    notifications:
+      popup:
+        event_reminder: Rappel d'événement
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: L'événement a commencé
+          fields:
+            topic_id:
+              label: Identifiant du sujet
     discourse_calendar:
-      invite_user_notification: "%{username} vous a invité.e à: %{description}"
+      invite_user_notification: "%{username} vous a invité(e) à rejoindre : %{description}"
       on_holiday: "En vacances"
       holiday: "Vacances"
-      add_to_calendar: "Ajouter à Google Agenda"
+      add_to_calendar: "Ajouter à Google Calendar"
       region:
         title: "Région"
         none: "Aucune"
@@ -116,7 +126,7 @@ fr:
           es_ar: "Espagne (es_ar)"
           es_ce: "Espagne (es_ce)"
           es_cl: "Espagne (es_cl)"
-          es_cm: "Spain (es_cm)"
+          es_cm: "Espagne (es_cm)"
           es_cn: "Espagne (es_cn)"
           es_ct: "Espagne (es_ct)"
           es_ex: "Espagne (es_ex)"
@@ -215,6 +225,8 @@ fr:
           tn: "Tunisie"
           tr: "Turquie"
           ua: "Ukraine"
+          unitednations: " (unitednations)"
+          ups: " (ups)"
           us_ak: "États-Unis (us_ak)"
           us_al: "États-Unis (us_al)"
           us_ar: "États-Unis (us_ar)"
@@ -270,34 +282,34 @@ fr:
           us_wv: "États-Unis (us_wv)"
           us_wy: "États-Unis (us_wy)"
           us: "États-Unis"
-          ve: "Vénézuéla"
+          ve: "Venezuela"
           vi: "Îles Vierges (États-Unis)"
           za: "Afrique du Sud"
     group_timezones:
-      search: "Recherche..."
+      search: "Recherche…"
       group_availability: "disponibilité de %{group}"
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} a automatiquement défini votre participation et vous a invité à %{description}"
+        invite_user_predefined_attendance_notification: "%{username} a automatiquement défini votre participation et vous a invité(e) à rejoindre %{description}"
         before_event_reminder: "Un événement est sur le point de commencer %{description}"
         after_event_reminder: "Un événement s'est terminé %{description}"
-        ongoing_event_reminder: "Un événement est en cours  %{description}"
+        ongoing_event_reminder: "Un événement est en cours %{description}"
       preview:
         more_than_one_event: "Vous ne pouvez pas avoir plus d'un événement."
       edit_reason: "Événement mis à jour"
       topic_title:
-        starts_at: "L'événement commencera : %{date}"
+        starts_at: "Début de l'événement : %{date}"
         ended_at: "Événement terminé : %{date}"
         ends_in_duration: "Se termine %{duration}"
       models:
         invitee:
-          no_users: "Il n'y a pas d'utilisateurs de ce type."
+          no_users: "Il n'y a aucun utilisateur de ce type."
           status:
-            unknown: "Pas décidé.e"
+            unknown: "Pas intéressé(e)"
             going: "Participera"
             not_going: "Ne participera pas"
-            interested: "Intéressé.e"
+            interested: "Intéressé(e)"
         event:
           expired: "Expiré"
           status:
@@ -321,38 +333,39 @@ fr:
         edit_event: "Modifier l'événement"
         export_event: "Exporter l'événement"
         created_by: "Créé par "
-        bulk_invite: "Invitation en masse"
+        bulk_invite: "Invitation groupée"
         close_event: "Fermer l'événement"
       invitees_modal:
         title_invited: "Liste des utilisateurs invités"
         title_participated: "Liste des utilisateurs ayant participé"
         filter_placeholder: "Filtrer les utilisateurs"
       bulk_invite_modal:
-        text: "Télécharger un fichier CSV"
-        title: "Invitation en masse"
-        success: "Le fichier a été correctement importé. Vous serez notifié par message direct lorsque le traitement sera terminé."
-        error: "Désolé, le fichier doit être au format CSV."
-        confirmation_message: "Vous êtes sur le point de notifier tous ceux figurant dans le fichier envoyé."
-        description_public: "Les événements publics n'acceptent que les noms d'utilisateur pour les invitations en masse."
-        description_private: "Les événements privés n'acceptent que les noms de groupes pour les invitations en masse."
+        confirm: "confirmer"
+        text: "Téléverser un fichier CSV"
+        title: "Invitation groupée"
+        success: "Le téléversement du fichier est effectué. Vous recevrez un message de notification lorsque le processus sera terminé."
+        error: "Nous sommes désolés, le fichier doit être au format CSV."
+        confirmation_message: "Vous êtes sur le point d'informer tous ceux qui figurent dans le fichier téléversé."
+        description_public: "Les événements publics n'acceptent que les noms d'utilisateur pour les invitations groupées."
+        description_private: "Les événements privés n'acceptent que les noms de groupes pour les invitations groupées."
         download_sample_csv: "Télécharger un exemple de fichier CSV"
         send_bulk_invites: "Envoyer les invitations"
-        group_selector_placeholder: "Choisir un groupe..."
-        user_selector_placeholder: "Choisir un utilisateur..."
+        group_selector_placeholder: "Choisir un groupe…"
+        user_selector_placeholder: "Choisir un utilisateur…"
         inline_title: "Invitation groupée en ligne"
         csv_title: "Invitation groupée au format CSV"
       builder_modal:
         custom_fields:
           label: "Champs personnalisés"
           placeholder: "Facultatif"
-          description: "Les champs personnalisés autorisés sont définis dans les paramètres du site. Les champs personnalisés sont utilisés pour transmettre des données à d'autres plugins."
-        create_event_title: "Créer un évènement"
+          description: "Les champs personnalisés autorisés sont définis dans les paramètres du site. Les champs personnalisés sont utilisés pour transmettre des données à d'autres extensions."
+        create_event_title: "Créer un événement"
         update_event_title: "Modifier l'événement"
-        confirm_delete: "Êtes-vous sûr de vouloir supprimer cet événement?"
-        confirm_close: "Êtes-vous sûr de vouloir fermer cet événement ?"
+        confirm_delete: "Voulez-vous vraiment supprimer cet événement ?"
+        confirm_close: "Voulez-vous vraiment fermer cet événement ?"
         create: "Créer"
         update: "Enregistrer"
-        attach: "Créer un évènement"
+        attach: "Créer un événement"
         add_reminder: "Ajouter un rappel"
         reminders:
           label: "Rappels"
@@ -361,7 +374,7 @@ fr:
           none: "Pas de périodicité"
           every_day: "Tous les jours"
           every_month: "Chaque mois en ce jour de la semaine"
-          every_weekday: "Chaque jour de semaine"
+          every_weekday: "Chaque jour de la semaine"
           every_week: "Chaque semaine en ce jour de la semaine"
           every_two_weeks: "Toutes les deux semaines en ce jour de la semaine"
         url:
@@ -373,12 +386,12 @@ fr:
         invitees:
           label: "Groupes invités"
         status:
-          label: "État"
+          label: "Statut"
       invite_user_or_group:
-        title: "Notifier l'utilisateur(s) ou le(s) groupe(s)"
+        title: "Avertir les utilisateurs ou les groupes"
         invite: "Envoyer"
       upcoming_events:
         title: "Événements à venir"
         creator: "Créateur"
-        status: "État"
+        status: "Statut"
         starts_at: "Commence à"
