@@ -5,3 +5,121 @@
 # https://translate.discourse.org/
 
 ko:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_post_event: "Discourse 이벤트"
+          discourse_calendar: "Discourse 캘린더"
+  js:
+    notifications:
+      popup:
+        event_reminder: 이벤트 알림
+    discourse_automation:
+      triggerables:
+        event_started:
+          title: 이벤트 시작됨
+          fields:
+            topic_id:
+              label: 글 ID
+    discourse_calendar:
+      invite_user_notification: "%{username}님이 사용자님을 초대했습니다: %{description}"
+      on_holiday: "휴일"
+      holiday: "휴일"
+      add_to_calendar: "구글 캘린더에 추가"
+      region:
+        title: "지역"
+        none: "없음"
+        use_current_region: "현재 지역 사용"
+        names:
+          ar: "아르헨티나"
+          at: "오스트리아"
+          au_act: "오스트레일리아 (au_act)"
+          au_nsw: "오스트레일리아 (au_nsw)"
+          au_nt: "오스트레일리아 (au_nt)"
+          au_qld_brisbane: "오스트레일리아 (au_qld_brisbane)"
+          au_qld_cairns: "오스트레일리아 (au_qld_cairns)"
+          au_qld: "오스트레일리아 (au_qld)"
+          au_sa: "오스트레일리아 (au_sa)"
+          au_tas_north: "오스트레일리아 (au_tas_north)"
+          au_tas_south: "오스트레일리아 (au_tas_south)"
+          au_tas: "오스트레일리아 (au_tas)"
+          au_vic_melbourne: "오스트레일리아 (au_vic_melbourne)"
+          au_vic: "오스트레일리아 (au_vic)"
+          au_wa: "오스트레일리아 (au_wa)"
+          au: "오스트레일리아"
+          be_fr: "벨기에 (be_fr)"
+          be_nl: "벨기에 (be_nl)"
+          bg_bg: "불가리아 (bg_bg)"
+          bg_en: "불가리아 (bg_en)"
+          br: "브라질"
+          ca_ab: "캐나다 (ca_ab)"
+          ca_bc: "캐나다 (ca_bc)"
+          ca_mb: "캐나다 (ca_mb)"
+          ca_nb: "캐나다 (ca_nb)"
+          ca_nl: "캐나다 (ca_nl)"
+          ca_ns: "캐나다 (ca_ns)"
+          ca_nt: "캐나다 (ca_nt)"
+          ca_nu: "캐나다 (ca_nu)"
+          ca_on: "캐나다 (ca_on)"
+          ca_pe: "캐나다 (ca_pe)"
+          ca_qc: "캐나다 (ca_qc)"
+          ca_sk: "캐나다 (ca_sk)"
+          ca_yt: "캐나다 (ca_yt)"
+          ca: "캐나다"
+          ch_ag: "스위스 (ch_ag)"
+          ch_ai: "스위스 (ch_ai)"
+          ch_ar: "스위스 (ch_ar)"
+          hk: "홍콩"
+          hr: "크로아티아"
+          in: "인도"
+          is: "아이슬란드"
+          kr: "한국 (대한민국)"
+    group_timezones:
+      search: "검색..."
+    discourse_post_event:
+      edit_reason: "이벤트 업데이트됨"
+      models:
+        event:
+          expired: "만료됨"
+          status:
+            public:
+              title: "공개"
+            private:
+              title: "비공개"
+      event_ui:
+        show_all: "모두 보기"
+        add_to_calendar: "캘린더에 추가"
+        edit_event: "이벤트 편집"
+        export_event: "이벤트 내보내기"
+        close_event: "이벤트 닫기"
+      bulk_invite_modal:
+        confirm: "확인"
+        user_selector_placeholder: "사용자 선택..."
+      builder_modal:
+        custom_fields:
+          placeholder: "선택 사항"
+        create_event_title: "이벤트 만들기"
+        update_event_title: "이벤트 편집"
+        create: "만들기"
+        update: "저장"
+        attach: "이벤트 만들기"
+        add_reminder: "알림 추가"
+        reminders:
+          label: "미리 알림"
+        recurrence:
+          label: "반복"
+          none: "반복 없음"
+          every_day: "매일"
+        url:
+          label: "URL"
+          placeholder: "선택 사항"
+        name:
+          label: "이벤트 이름"
+        status:
+          label: "상태"
+      invite_user_or_group:
+        invite: "보내기"
+      upcoming_events:
+        creator: "만든이"
+        status: "상태"
