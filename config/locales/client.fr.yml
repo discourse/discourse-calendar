@@ -9,8 +9,8 @@ fr:
     admin:
       site_settings:
         categories:
-          discourse_post_event: "Discourse Event"
-          discourse_calendar: "Discourse Calendar"
+          discourse_post_event: "Événement Discourse"
+          discourse_calendar: "Calendrier Discourse"
   js:
     notifications:
       popup:
@@ -225,8 +225,6 @@ fr:
           tn: "Tunisie"
           tr: "Turquie"
           ua: "Ukraine"
-          unitednations: " (unitednations)"
-          ups: " (ups)"
           us_ak: "États-Unis (us_ak)"
           us_al: "États-Unis (us_al)"
           us_ar: "États-Unis (us_ar)"

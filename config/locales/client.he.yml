@@ -176,6 +176,7 @@ he:
           it_vi: "איטליה (it_vi)"
           it_vr: "איטליה (it_vr)"
           it: "איטליה"
+          je: "ג׳רזי"
           jp: "יפן"
           kr: "קוריאה (הרפובליקה של)"
           li: "ליכטנשטיין"
@@ -190,6 +191,7 @@ he:
           my: "מלזיה"
           ng: "ניגריה"
           nl: "הולנד"
+          "no": "נורווגיה"
           nz_ak: "ניו זילנד (nz_ak)"
           nz_ca: "ניו זילנד (nz_ca)"
           nz_ch: "ניו זילנד (nz_ch)"
@@ -223,7 +225,6 @@ he:
           tn: "תוניסיה"
           tr: "טורקיה"
           ua: "אוקראינה"
-          unitednations: " (האומות המאוחדות)"
           us_ak: "ארצות הברית (us_ak)"
           us_al: "ארצות הברית (us_al)"
           us_ar: "ארצות הברית (us_ar)"
@@ -288,6 +289,10 @@ he:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification: "הנוכחות שלך הוגדרה על ידי %{username} שגם הזמין או הזמינה אותך אל %{description}"
+        before_event_reminder: "אירוע עומד להתחיל %{description}"
+        after_event_reminder: "אירוע הסתיים %{description}"
+        ongoing_event_reminder: "אירוע מתקיים %{description}"
       preview:
         more_than_one_event: "לא יכול להיות לך יותר מאירוע אחד."
       edit_reason: "האירוע עודכן"

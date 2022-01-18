@@ -20,7 +20,7 @@ it:
       text_body_template: "Il tuo file di invito collettivo è stato elaborato, %{processed} inviti creati con %{failed} errori. \n\nEcco il log:\n\n``` text\n%{logs}\n```\n"
   site_settings:
     calendar_enabled: "Abilita il plugin del calendario di discourse. Questo permetterà di supportare un tag [calendar][/calendar] nel primo messaggio di un argomento."
-    discourse_post_event_enabled: "[sperimentale] Consente di allegare un evento a un messaggio. Nota: per abilitare questa opzione, occorre attivare anche l'impostazione 'calendar enabled'."
+    discourse_post_event_enabled: "[experimental] Consente di allegare un evento a un messaggio. Nota: per abilitare questa opzione, occorre attivare anche l'impostazione 'calendar enabled'."
     displayed_invitees_limit: "Limita il numero di invitati visualizzati in un evento."
     display_post_event_date_on_topic_title: "Visualizza la data dell'evento dopo il titolo dell'argomento."
     discourse_post_event_allowed_on_groups: "Gruppi che sono autorizzati a creare eventi."
@@ -32,7 +32,7 @@ it:
     all_day_event_end_time: "Gli eventi che non hanno un orario finale indicato termineranno a questo orario. Il formato è HH:mm. Per le 18:00, inserire 18:00"
     all_day_event_time_error: "Orario non valido. Il formato deve essere HH:mm (Ad es.: 08:00)."
     calendar_categories: "Visualizza un calendario all'inizio di una categoria. Le impostazioni obbligatorie sono categoryId e postId. Ad es.: categoryId=6;postId=453\n Altre impostazioni valide: tzPicker, weekends e defaultView."
-    calendar_categories_outlet: "Consente di modificare quale origine deve mostrare il calendario della categoria."
+    calendar_categories_outlet: "Consente di modificare la posizione (outlet) in cui il calendario della categoria.deve essere visualizzato."
     working_days: "Imposta giorni lavorativi. Puoi visualizzare la disponibilità di un gruppo utilizzando il tag `timezones` in un messaggio, ad esempio: `[timezones group=admins][timezones]`"
     working_day_start_hour: "Orario iniziale della giornata lavorativa."
     working_day_end_hour: "Orario finale della giornata lavorativa."

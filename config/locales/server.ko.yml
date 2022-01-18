@@ -5,3 +5,7 @@
 # https://translate.discourse.org/
 
 ko:
+  discourse_automation:
+    triggerables:
+      event_started:
+        title: 이벤트 시작됨
