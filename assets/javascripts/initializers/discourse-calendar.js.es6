@@ -459,17 +459,15 @@ function initializeDiscourseCalendar(api) {
 
     const formatedGroupedEvents = {};
     groupedEvents.forEach((groupedEvent) => {
-      const fromStartOfDay = moment(groupedEvent.from).utc().startOf("day");
-      const toEndOfDay = moment(groupedEvent.to || groupedEvent.from)
-        .utc()
-        .endOf("day");
-
       const minDate = fullDay
-        ? fromStartOfDay.format("YYYY-MM-DD")
-        : fromStartOfDay.toISOString();
-      let maxDate = fullDay
-        ? toEndOfDay.format("YYYY-MM-DD")
-        : toEndOfDay.toISOString();
+        ? moment(groupedEvent.from).format("YYYY-MM-DD")
+        : moment(groupedEvent.from).utc().startOf("day").toISOString();
+      const maxDate = fullDay
+        ? moment(groupedEvent.to || groupedEvent.from).format("YYYY-MM-DD")
+        : moment(groupedEvent.to || groupedEvent.from)
+            .utc()
+            .endOf("day")
+            .toISOString();
 
       const identifier = `${minDate}-${maxDate}`;
       formatedGroupedEvents[identifier] = formatedGroupedEvents[identifier] || {
