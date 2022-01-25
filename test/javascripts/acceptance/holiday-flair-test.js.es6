@@ -1,5 +1,6 @@
 import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
+import { visit } from "@ember/test-helpers";
 
 acceptance("Discourse Calendar - Holiday Flair", function (needs) {
   needs.user();
