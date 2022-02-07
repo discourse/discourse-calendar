@@ -77,6 +77,10 @@ months:
     regions: [us_la]
     function: easter(year)
     function_modifier: -47
+  - name: Lundi Gras # most businesses closed in southern louisiana
+    regions: [us_la]
+    function: easter(year)
+    function_modifier: -48
   - name: Good Friday # informal in general
     regions: [us]
     function: easter(year)
