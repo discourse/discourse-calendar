@@ -23,7 +23,7 @@ task 'javascript:update_constants' => :environment do
     time_zone_to_region[timezone] = country_code
   end
 
-  write_template("../../../plugins/discourse-calendar/assets/javascripts/lib/regions.js.es6", 'update_constants', <<~JS)
+  write_template("../../../plugins/discourse-calendar/assets/javascripts/lib/regions.js", 'update_constants', <<~JS)
     export const HOLIDAY_REGIONS = #{holiday_regions.to_json};
 
     export const TIME_ZONE_TO_REGION = #{time_zone_to_region.to_json};
