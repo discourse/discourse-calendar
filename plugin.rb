@@ -16,7 +16,6 @@ load File.expand_path('../lib/calendar_settings_validator.rb', __FILE__)
 
 enabled_site_setting :calendar_enabled
 
-register_asset "javascripts/initializers/event-relative-date.js.es6"
 register_asset 'stylesheets/vendor/fullcalendar.min.css'
 register_asset 'stylesheets/common/discourse-calendar.scss'
 register_asset 'stylesheets/common/upcoming-events-calendar.scss'
