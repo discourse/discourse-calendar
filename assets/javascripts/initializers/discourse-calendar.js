@@ -9,22 +9,11 @@ import { ajax } from "discourse/lib/ajax";
 import { hidePopover, showPopover } from "discourse/lib/d-popover";
 import Category from "discourse/models/category";
 import I18n from "I18n";
-
-// https://stackoverflow.com/a/16348977
-function stringToHexColor(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    // eslint-disable-next-line no-bitwise
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  let hex = "#";
-  for (let i = 0; i < 3; i++) {
-    // eslint-disable-next-line no-bitwise
-    let value = (hash >> (i * 8)) & 0xff;
-    hex += ("00" + value.toString(16)).slice(-2);
-  }
-  return hex;
-}
+import {
+  colorToHex,
+  contrastColor,
+  stringToColor,
+} from "discourse/plugins/discourse-calendar/lib/colors";
 
 function loadFullCalendar() {
   return loadScript(
@@ -379,8 +368,11 @@ function initializeDiscourseCalendar(api) {
       event.title = text[0];
       event.extendedProps.description = text.slice(1).join(" ");
     } else {
+      const color = stringToColor(detail.username);
+
       event.title = detail.username;
-      event.backgroundColor = stringToHexColor(detail.username);
+      event.backgroundColor = colorToHex(color);
+      event.textColor = colorToHex(contrastColor(color));
     }
 
     let popupText = detail.message.substr(0, 50);
