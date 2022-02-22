@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-require_relative '../../fabricators/event_fabricator'
+
 
 describe DiscourseCalendar::MonitorEventDates do
   fab!(:post_1) { Fabricate(:post) }
