@@ -162,14 +162,6 @@ describe Post do
             end
           end
 
-          context 'an event with invalid recurrence' do
-            it 'raises an error' do
-              expect {
-                create_post_with_event(user, 'recurrence="foo"')
-              }.to raise_error(I18n.t("discourse_post_event.errors.models.event.invalid_recurrence"))
-            end
-          end
-
           context 'updating raw_invitees' do
             let(:lurker_1) { Fabricate(:user) }
             let(:group_1) { Fabricate(:group) }
@@ -396,6 +388,14 @@ describe Post do
                 )
               )
             )
+          end
+        end
+
+        context 'where recurrence is invalid' do
+          it 'raises an error' do
+            expect {
+              create_post_with_event(user, 'recurrence="foo"')
+            }.to raise_error(I18n.t("discourse_post_event.errors.models.event.invalid_recurrence"))
           end
         end
 
