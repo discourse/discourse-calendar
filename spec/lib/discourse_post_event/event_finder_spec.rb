@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-
 require "rails_helper"
-require_relative '../../fabricators/event_fabricator'
 
 describe DiscoursePostEvent::EventFinder do
   let(:current_user) { Fabricate(:user) }

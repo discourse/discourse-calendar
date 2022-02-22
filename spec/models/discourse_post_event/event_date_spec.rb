@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-
 require 'rails_helper'
-require_relative '../../fabricators/event_fabricator'
 
 describe DiscoursePostEvent::EventDate do
   let(:user) { Fabricate(:user, admin: true) }
