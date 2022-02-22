@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 require 'securerandom'
-require_relative '../fabricators/event_fabricator'
 
 describe Post do
   Event ||= DiscoursePostEvent::Event
@@ -160,6 +159,14 @@ describe Post do
                   going_user.notifications.count
                 }.by(1)
               end
+            end
+          end
+
+          context 'an event with invalid recurrence' do
+            it 'raises an error' do
+              expect {
+                create_post_with_event(user, 'recurrence="foo"')
+              }.to raise_error(I18n.t("discourse_post_event.errors.models.event.invalid_recurrence"))
             end
           end
 
