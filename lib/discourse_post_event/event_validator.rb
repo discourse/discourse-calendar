@@ -2,6 +2,14 @@
 
 module DiscoursePostEvent
   class EventValidator
+    VALID_RECURRENCES = %w[
+      every_month
+      every_week
+      every_two_weeks
+      every_day
+      every_weekday
+    ]
+
     def initialize(post)
       @post = post
     end
@@ -58,6 +66,12 @@ module DiscoursePostEvent
         if !(Event::MIN_NAME_LENGTH..Event::MAX_NAME_LENGTH).cover?(extracted_event[:name].length)
           @post.errors.add(:base, I18n.t('discourse_post_event.errors.models.event.name.length', minimum: Event::MIN_NAME_LENGTH, maximum: Event::MAX_NAME_LENGTH))
           return false
+        end
+      end
+
+      if extracted_event[:recurrence].present?
+        if !VALID_RECURRENCES.include?(extracted_event[:recurrence].to_s)
+          @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.invalid_recurrence"))
         end
       end
 
