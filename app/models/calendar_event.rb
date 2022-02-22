@@ -30,7 +30,7 @@ class CalendarEvent < ActiveRecord::Base
 
     doc = Nokogiri::HTML5.fragment(post.cooked)
     doc.css('.discourse-local-date').each(&:remove)
-    html = doc.to_html.sub(' → ', '')
+    html = doc.to_html.sub(/\s*→\s*/, '')
 
     description = PrettyText.excerpt(html, 1000, strip_links: true, text_entities: true, keep_emoji_images: true)
     recurrence = dates[0]['recurring'].presence
