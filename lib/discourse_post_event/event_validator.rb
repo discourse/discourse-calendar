@@ -2,6 +2,14 @@
 
 module DiscoursePostEvent
   class EventValidator
+    VALID_RECURRENCES = %w[
+      every_month
+      every_week
+      every_two_weeks
+      every_day
+      every_weekday
+    ]
+
     def initialize(post)
       @post = post
     end
@@ -62,15 +70,7 @@ module DiscoursePostEvent
       end
 
       if extracted_event[:recurrence].present?
-        valid_recurrences = %w[
-          every_month
-          every_week
-          every_two_weeks
-          every_day
-          every_weekday
-        ]
-
-        if !valid_recurrences.include?(extracted_event[:recurrence].to_s)
+        if !VALID_RECURRENCES.include?(extracted_event[:recurrence].to_s)
           @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.invalid_recurrence"))
         end
       end
