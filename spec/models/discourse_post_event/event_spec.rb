@@ -387,4 +387,24 @@ describe DiscoursePostEvent::Event do
       expect(event_1.missing_users.pluck(:id)).to match_array([user_1.id, user_2.id])
     end
   end
+
+  context 'setting recurrence' do
+    fab!(:post_1) { Fabricate(:post) }
+    fab!(:event_1) { Fabricate(:event, post: post_1, recurrence: 'every_week') }
+
+    it 'forces the value of an invalid recurrence' do
+      event_1.update!(recurrence: 'foo')
+      expect(event_1.recurrence).to eq('every_week')
+    end
+
+    it 'doesn’t force the value of an empty recurrence' do
+      event_1.update!(recurrence: nil)
+      expect(event_1.recurrence).to eq(nil)
+    end
+
+    it 'doesn’t force the value of a valid recurrence' do
+      event_1.update!(recurrence: 'every_two_weeks')
+      expect(event_1.recurrence).to eq('every_two_weeks')
+    end
+  end
 end

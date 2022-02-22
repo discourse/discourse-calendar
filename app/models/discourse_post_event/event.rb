@@ -10,6 +10,8 @@ module DiscoursePostEvent
 
     has_many :event_dates, dependent: :destroy
 
+    before_validation :enforce_recurrence
+
     def self.attributes_protected_by_default
       super - %w[id]
     end
@@ -364,6 +366,22 @@ module DiscoursePostEvent
       next_ends_at = next_starts_at + difference.seconds
 
       { starts_at: next_starts_at, ends_at: next_ends_at }
+    end
+
+    private
+
+    def enforce_recurrence
+      valid_recurrences = %w[
+        every_month
+        every_week
+        every_two_weeks
+        every_day
+        every_weekday
+      ]
+
+      if self.recurrence.present? && !valid_recurrences.include?(self.recurrence)
+        self.recurrence = 'every_week'
+      end
     end
   end
 end
