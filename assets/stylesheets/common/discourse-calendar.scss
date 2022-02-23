@@ -62,11 +62,7 @@
     }
 
     .fc-title {
-      // TODO: use @include ellipsis after stable is 2.4+
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-
+      @include ellipsis;
       display: block;
     }
 

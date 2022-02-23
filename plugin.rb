@@ -196,12 +196,9 @@ after_initialize do
     )
   end
 
-  # TODO: Switch to an official plugin API once support for it has landed.
-  if TopicView.respond_to?(:on_preload)
-    TopicView.on_preload do |topic_view|
-      if SiteSetting.discourse_post_event_enabled
-        topic_view.instance_variable_set(:@posts, topic_view.posts.includes(:event))
-      end
+  TopicView.on_preload do |topic_view|
+    if SiteSetting.discourse_post_event_enabled
+      topic_view.instance_variable_set(:@posts, topic_view.posts.includes(:event))
     end
   end
 
@@ -321,16 +318,9 @@ after_initialize do
     :boolean
   )
 
-  # TODO Drop after Discourse 2.6.0 release
-  if respond_to?(:allow_staff_user_custom_field)
-    allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
-  else
-    whitelist_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
-  end
-
-  register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
-
+  allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
   allow_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
+  register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
 
   on(:site_setting_changed) do |name, old_value, new_value|
     unless %i[all_day_event_start_time all_day_event_end_time].include? name
@@ -649,25 +639,22 @@ after_initialize do
     end
   end
 
-  # TODO(Roman): Remove #respond_to? after the 2.8 release.
-  if respond_to?(:register_notification_consolidation_plan)
-    query = Proc.new do |notifications, data|
-      notifications
-        .where("data::json ->> 'topic_title' = ?", data[:topic_title].to_s)
-        .where("data::json ->> 'message' = ?", data[:message].to_s)
-    end
-
-    reminders_consolidation_plan = Notifications::DeletePreviousNotifications.new(
-      type: Notification.types[:event_reminder],
-      previous_query_blk: query
-    )
-
-    invitation_consolidation_plan = Notifications::DeletePreviousNotifications.new(
-      type: Notification.types[:event_invitation],
-      previous_query_blk: query
-    )
-
-    register_notification_consolidation_plan(reminders_consolidation_plan)
-    register_notification_consolidation_plan(invitation_consolidation_plan)
+  query = Proc.new do |notifications, data|
+    notifications
+      .where("data::json ->> 'topic_title' = ?", data[:topic_title].to_s)
+      .where("data::json ->> 'message' = ?", data[:message].to_s)
   end
+
+  reminders_consolidation_plan = Notifications::DeletePreviousNotifications.new(
+    type: Notification.types[:event_reminder],
+    previous_query_blk: query
+  )
+
+  invitation_consolidation_plan = Notifications::DeletePreviousNotifications.new(
+    type: Notification.types[:event_invitation],
+    previous_query_blk: query
+  )
+
+  register_notification_consolidation_plan(reminders_consolidation_plan)
+  register_notification_consolidation_plan(invitation_consolidation_plan)
 end

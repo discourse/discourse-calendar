@@ -58,9 +58,7 @@ module Jobs
           }.to_json
         }
 
-        # TODO(Roman): Use #consolidate_or_create! after the 2.8 release.
-        method = Notification.respond_to?(:consolidate_or_create!) ? :consolidate_or_create! : :create!
-        invitee.user.notifications.public_send(method, attrs)
+        invitee.user.notifications.consolidate_or_create!(attrs)
 
         PostAlerter.new(event.post).create_notification_alert(
           user: invitee.user,
