@@ -2,8 +2,6 @@
 
 require 'rails_helper'
 
-require_relative '../fabricators/event_fabricator'
-
 describe 'discourse_post_event_allowed_custom_fields' do
   let(:user_1) { Fabricate(:user, admin: true) }
   let(:topic_1) { Fabricate(:topic, user: user_1) }
