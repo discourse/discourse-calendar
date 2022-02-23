@@ -2,24 +2,14 @@
 
 module DiscoursePostEvent
   class EventsController < DiscoursePostEventController
-    skip_before_action :check_xhr, only: [ :index ], if: :ics_request?
-
     def index
       @events = DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params)
 
-      respond_to do |format|
-        format.ics do
-          filename = "events-#{@events.map(&:id).join('-')}"
-          response.headers['Content-Disposition'] = "attachment; filename=\"#{filename}.#{request.format.symbol}\""
-        end
-
-        format.json do
-          render json: ActiveModel::ArraySerializer.new(
-            @events,
-            each_serializer: EventSerializer,
-            scope: guardian).as_json
-        end
-      end
+      render json: ActiveModel::ArraySerializer.new(
+        @events,
+        each_serializer: EventSerializer,
+        scope: guardian
+      ).as_json
     end
 
     def invite
@@ -109,10 +99,6 @@ module DiscoursePostEvent
     end
 
     private
-
-    def ics_request?
-      request.format.symbol == :ics
-    end
 
     def filtered_events_params
       params.permit(:post_id)
