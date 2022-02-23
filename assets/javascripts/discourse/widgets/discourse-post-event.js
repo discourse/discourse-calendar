@@ -8,7 +8,6 @@ import showModal from "discourse/lib/show-modal";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
-import getURL from "discourse-common/lib/get-url";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default createWidget("discourse-post-event", {
@@ -139,22 +138,12 @@ export default createWidget("discourse-post-event", {
 
   addToCalendar() {
     const event = this.state.eventModel;
-    // TODO with Discourse 2.8
-    // * Remove old ics logic and corresponding backend logic
-    if (this.attrs.api.downloadCalendar) {
-      this.attrs.api.downloadCalendar(event.name || event.post.topic.title, [
-        {
-          startsAt: event.starts_at,
-          endsAt: event.ends_at,
-        },
-      ]);
-    } else {
-      const link = getURL(
-        `/discourse-post-event/events.ics?post_id=${this.state.eventModel.id}`
-      );
-
-      window.open(link, "_blank", "noopener");
-    }
+    this.attrs.api.downloadCalendar(event.name || event.post.topic.title, [
+      {
+        startsAt: event.starts_at,
+        endsAt: event.ends_at,
+      },
+    ]);
   },
 
   transform() {

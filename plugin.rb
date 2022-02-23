@@ -115,7 +115,7 @@ after_initialize do
 
   DiscoursePostEvent::Engine.routes.draw do
     get '/discourse-post-event/events' => 'events#index',
-        constraints: { format: /(json|ics)/ }
+        format: :json
     get '/discourse-post-event/events/:id' => 'events#show'
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
