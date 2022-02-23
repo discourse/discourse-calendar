@@ -2,8 +2,6 @@
 
 require 'rails_helper'
 
-require_relative '../fabricators/event_fabricator'
-
 describe DiscoursePostEvent::Invitee do
   before do
     freeze_time
