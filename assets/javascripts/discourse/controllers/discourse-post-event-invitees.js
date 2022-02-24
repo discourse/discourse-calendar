@@ -1,7 +1,7 @@
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
 import { action } from "@ember/object";
-import { debounce } from "@ember/runloop";
+import discourseDebounce from "discourse-common/lib/debounce";
 
 export default Controller.extend(ModalFunctionality, {
   invitees: null,
@@ -12,10 +12,12 @@ export default Controller.extend(ModalFunctionality, {
   onShow() {
     this._fetchInvitees();
   },
+
   @action
   toggleViewingFilter(filter) {
     this.onFilterChanged(filter);
   },
+
   @action
   toggleType(type) {
     this.set("type", type);
@@ -24,14 +26,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   onFilterChanged(filter) {
-    // TODO: Use discouseDebounce after the 2.7 release.
-    let debounceFunc = debounce;
-
-    try {
-      debounceFunc = require("discourse-common/lib/debounce").default;
-    } catch (_) {}
-
-    debounceFunc(this, this._fetchInvitees, filter, this.type, 250);
+    discourseDebounce(this, this._fetchInvitees, filter, this.type, 250);
   },
 
   @action

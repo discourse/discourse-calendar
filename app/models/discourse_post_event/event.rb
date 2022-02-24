@@ -198,9 +198,7 @@ module DiscoursePostEvent
         }.to_json
       }
 
-      # TODO(Roman): Use #consolidate_or_create! after the 2.8 release.
-      method = Notification.respond_to?(:consolidate_or_create!) ? :consolidate_or_create! : :create!
-      user.notifications.public_send(method, attrs)
+      user.notifications.consolidate_or_create!(attrs)
     end
 
     def ongoing?
