@@ -10,7 +10,7 @@
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-gem 'rrule', '0.4.2', require: false
+gem 'rrule', '0.4.3', require: false
 
 load File.expand_path('../lib/calendar_settings_validator.rb', __FILE__)
 
