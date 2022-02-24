@@ -54,7 +54,7 @@ namespace :generate do
     # create a dir for the generated tests
     FileUtils.mkdir_p(DEFINITION_TESTS_PATH)
 
-    #TODO This entire section should be moved into '/lib/holidays/definition'. I don't think such an
+    # TODO: This entire section should be moved into '/lib/holidays/definition'. I don't think such an
     # important part of the gem should be left in the Rakefile and without unit tests. There's no
     # reason we can't move it.
     all_regions = {}
@@ -92,7 +92,7 @@ namespace :generate do
   desc 'Build the definition manifest'
   task :manifest do
     File.open("lib/#{Holidays::DEFINITIONS_PATH}/MANIFEST","w") do |file|
-      #TODO Generating the file source should be done interally, in the /lib dir, not in the Rakefile
+      # TODO: Generating the file source should be done internally, in the /lib dir, not in the Rakefile
       file.puts <<-EOH
 ==== Regional definitions
 The following definition files are included in this installation:

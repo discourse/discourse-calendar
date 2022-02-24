@@ -1,9 +1,9 @@
 module Holidays
-  #TODO This file should be renamed. It's no longer about definitions, really.
+  # TODO: This file should be renamed. It's no longer about definitions, really.
   class LoadAllDefinitions
     class << self
       def call
-        #FIXME I need a better way to do this. I'm thinking of putting these 'common' methods
+        # FIXME: I need a better way to do this. I'm thinking of putting these 'common' methods
         # into some kind of definition file so it can be loaded automatically but I'm afraid
         # of making that big of a breaking API change since these are public. For the time
         # being I'll load them manually like this.
@@ -21,7 +21,7 @@ module Holidays
           "calculate_day_of_month(year, month, day, wday)" => day_of_month_calculator.method(:call).to_proc,
           "to_weekday_if_boxing_weekend_from_year_or_to_tuesday_if_monday(year)" => weekend_modifier.method(:to_weekday_if_boxing_weekend_from_year_or_to_tuesday_if_monday).to_proc,
           "to_tuesday_if_sunday_or_monday_if_saturday(date)" => weekend_modifier.method(:to_tuesday_if_sunday_or_monday_if_saturday).to_proc,
-          "lunar_to_solar(year, month, day, region)" => lunar_date.method(:to_solar).to_proc, 
+          "lunar_to_solar(year, month, day, region)" => lunar_date.method(:to_solar).to_proc,
         }
 
         Factory::Definition.custom_methods_repository.add(global_methods)
