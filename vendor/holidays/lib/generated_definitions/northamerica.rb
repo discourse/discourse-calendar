@@ -17,6 +17,7 @@ module Holidays
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => 1, :type => :informal, :name => "Easter Monday", :regions => [:ca]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -47, :name => "Shrove Tuesday", :regions => [:us_fl]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -47, :name => "Mardi Gras Day", :regions => [:us_la]},
+            {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -48, :name => "Lundi Gras", :regions => [:us_la]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :type => :informal, :name => "Good Friday", :regions => [:us]},
             {:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :name => "Good Friday", :regions => [:us_ct, :us_de, :us_gu, :us_hi, :us_in, :us_ky, :us_la, :us_nj, :us_nc, :us_nd, :us_pr, :us_tn]},
             {:function => "easter(year)", :function_arguments => [:year], :type => :informal, :name => "Easter Sunday", :regions => [:us]}],
