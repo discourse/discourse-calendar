@@ -657,4 +657,23 @@ after_initialize do
 
   register_notification_consolidation_plan(reminders_consolidation_plan)
   register_notification_consolidation_plan(invitation_consolidation_plan)
+
+  Report.add_report('currently_away') do |report|
+    group_filter = report.filters.dig(:group) || Group::AUTO_GROUPS[:staff]
+    report.add_filter('group', type: 'group', default: group_filter)
+
+    return unless group = Group.find_by(id: group_filter)
+
+    report.labels = [
+      {
+        property: :username,
+        title: I18n.t('reports.currently_away.labels.username')
+      },
+    ]
+
+    group_usernames = group.users.pluck(:username)
+    on_holiday_usernames = DiscourseCalendar.users_on_holiday
+    report.data = (group_usernames & on_holiday_usernames).map { |username| { username: username } }
+    report.total = report.data.count
+  end
 end
