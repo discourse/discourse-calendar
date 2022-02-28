@@ -1,4 +1,8 @@
 en:
+  reports:
+    currently_away:
+      title: Users currently away
+
   discourse_automation:
     triggerables:
       event_started:
