@@ -2,12 +2,13 @@ import RestModel from "discourse/models/rest";
 import { ajax } from "discourse/lib/ajax";
 
 const ATTRIBUTES = {
-  id: {},
-  name: {},
-  starts_at: {},
-  ends_at: {},
-  raw_invitees: {},
-  url: {},
+  id: null,
+  name: null,
+  starts_at: null,
+  ends_at: null,
+  raw_invitees: null,
+  url: null,
+  timezone: null,
   status: {
     transform(value) {
       return STATUSES[value];
@@ -51,7 +52,7 @@ const Event = RestModel.extend({
     const attributesKeys = Object.keys(ATTRIBUTES);
     attributesKeys.forEach((key) => {
       const attribute = ATTRIBUTES[key];
-      if (attribute.transform) {
+      if (attribute?.transform) {
         props[key] = attribute.transform(props[key]);
       }
     });

@@ -27,6 +27,25 @@ describe RRuleGenerator do
     end
   end
 
+  context 'tzid given' do
+    let(:sample_rrule) { 'FREQ=WEEKLY;BYDAY=MO' }
+
+    it 'it correctly computes the next date using the timezone' do
+      tzid = 'Europe/Paris'
+      time = Time.utc(2020, 1, 25, 15, 36)
+
+      freeze_time DateTime.parse('2020-02-25 15:36')
+
+      rrule = RRuleGenerator.generate(sample_rrule, time, tzid: tzid)
+      expect(rrule.to_s).to eq('2020-03-02 15:36:00 +0100')
+
+      freeze_time DateTime.parse('2020-09-25 15:36')
+
+      rrule = RRuleGenerator.generate(sample_rrule, time, tzid: tzid)
+      expect(rrule.to_s).to eq('2020-09-28 15:36:00 +0200')
+    end
+  end
+
   context 'every day' do
     let(:sample_rrule) { 'FREQ=DAILY' }
 

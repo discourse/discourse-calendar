@@ -115,6 +115,7 @@ function _attachWidget(api, cooked, eventModel) {
     eventContainer.appendChild(glueContainer);
 
     const startsAt = moment(eventModel.starts_at);
+    const timezone = eventModel.timezone || "UTC";
     const format = guessDateFormat(
       startsAt,
       eventModel.ends_at && moment(eventModel.ends_at)
@@ -129,7 +130,7 @@ function _attachWidget(api, cooked, eventModel) {
           .utc(eventModel.starts_at)
           .format("YYYY-MM-DD")} time=${moment
           .utc(eventModel.starts_at)
-          .format("HH:mm")} format=${format}]`
+          .format("HH:mm")} format=${format} timezone=${timezone}]`
       );
 
       if (eventModel.ends_at) {
@@ -137,7 +138,7 @@ function _attachWidget(api, cooked, eventModel) {
         dates.push(
           `[date=${endsAt.format("YYYY-MM-DD")} time=${endsAt.format(
             "HH:mm"
-          )} format=${format}]`
+          )} format=${format} timezone=${timezone}]`
         );
       }
 

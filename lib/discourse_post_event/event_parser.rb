@@ -8,7 +8,8 @@ VALID_OPTIONS = [
   :url,
   :name,
   :reminders,
-  :recurrence
+  :recurrence,
+  :timezone
 ]
 
 module DiscoursePostEvent

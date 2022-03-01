@@ -19,6 +19,10 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
     params.url = eventModel.url;
   }
 
+  if (eventModel.timezone) {
+    params.timezone = eventModel.timezone;
+  }
+
   if (eventModel.recurrence) {
     params.recurrence = eventModel.recurrence;
   }

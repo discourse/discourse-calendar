@@ -8,6 +8,7 @@ module DiscoursePostEvent
     attributes :watching_invitee
     attributes :starts_at
     attributes :ends_at
+    attributes :timezone
     attributes :stats
     attributes :status
     attributes :raw_invitees
