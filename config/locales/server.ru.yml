@@ -5,6 +5,10 @@
 # https://translate.discourse.org/
 
 ru:
+  reports:
+    currently_away:
+      labels:
+        username: Псевдоним
   discourse_automation:
     triggerables:
       event_started:
@@ -68,6 +72,7 @@ ru:
           ends_at_before_starts_at: "Событие не может закончиться раньше, чем оно начнётся."
           start_must_be_present_and_a_valid_date: "В событии должна быть установлена правильная дата начала."
           end_must_be_a_valid_date: "Дата окончания должна быть правильной."
+          invalid_recurrence: "Повторение должно быть одним из следующих значений: каждый_месяц, каждую_неделю, каждые_две_недели, каждый_день, каждый_будний день."
           acting_user_not_allowed_to_create_event: "Текущему пользователю не разрешено создавать события."
           acting_user_not_allowed_to_act_on_this_event: "Текущий пользователь не имеет права работать с этим событием."
           custom_field_is_invalid: "Настраиваемое поле `%{field}` не допускается."
