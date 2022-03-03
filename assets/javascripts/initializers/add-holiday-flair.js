@@ -41,25 +41,33 @@ export default {
     withPluginApi("0.8", (api) => {
       const usernames = api.container.lookup("site:main").users_on_holiday;
 
-      if (usernames && usernames.length > 0) {
+      if (usernames?.length > 0) {
         let flairHandler;
 
-        api.cleanupStream(() => flairHandler && cancel(flairHandler));
+        api.cleanupStream(() => cancel(flairHandler));
 
-        api.decorateCooked(
-          ($el, helper) => {
+        if (api.decorateChatMessage) {
+          api.decorateChatMessage((message) => {
+            usernames.forEach((username) =>
+              applyFlairOnMention(message, username)
+            );
+          });
+        }
+
+        api.decorateCookedElement(
+          (element, helper) => {
             if (helper) {
               // decorating a post
               usernames.forEach((username) =>
-                applyFlairOnMention($el[0], username)
+                applyFlairOnMention(element, username)
               );
             } else {
               // decorating preview
-              flairHandler && cancel(flairHandler);
+              cancel(flairHandler);
               flairHandler = later(
                 () =>
                   usernames.forEach((username) =>
-                    applyFlairOnMention($el[0], username)
+                    applyFlairOnMention(element, username)
                   ),
                 1000
               );
