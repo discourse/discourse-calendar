@@ -46,11 +46,13 @@ export default {
 
         api.cleanupStream(() => cancel(flairHandler));
 
-        api.decorateChatMessage((message) => {
-          usernames.forEach((username) =>
-            applyFlairOnMention(message, username)
-          );
-        });
+        if (api.decorateChatMessage) {
+          api.decorateChatMessage((message) => {
+            usernames.forEach((username) =>
+              applyFlairOnMention(message, username)
+            );
+          });
+        }
 
         api.decorateCookedElement(
           (element, helper) => {
