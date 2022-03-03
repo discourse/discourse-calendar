@@ -120,15 +120,16 @@ export default Controller.extend(ModalFunctionality, {
   startsAt: computed("model.eventModel.starts_at", {
     get() {
       return this.model.eventModel.starts_at
-        ? moment(this.model.eventModel.starts_at)
-        : moment();
+        ? moment.utc(this.model.eventModel.starts_at)
+        : moment().utcOffset(0, true);
     },
   }),
 
   endsAt: computed("model.eventModel.ends_at", {
     get() {
       return (
-        this.model.eventModel.ends_at && moment(this.model.eventModel.ends_at)
+        this.model.eventModel.ends_at &&
+        moment.utc(this.model.eventModel.ends_at)
       );
     },
   }),
@@ -140,8 +141,8 @@ export default Controller.extend(ModalFunctionality, {
   @action
   onChangeDates(changes) {
     this.model.eventModel.setProperties({
-      starts_at: changes.from,
-      ends_at: changes.to,
+      starts_at: changes.from?.tz("utc", true),
+      ends_at: changes.to?.tz("utc", true),
     });
   },
 
