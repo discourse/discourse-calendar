@@ -333,7 +333,8 @@ module DiscoursePostEvent
       if !original_ends_at || self.recurrence.blank? || original_starts_at > Time.current
         return {
           starts_at: original_starts_at,
-          ends_at: original_ends_at }
+          ends_at: original_ends_at
+        }
       end
 
       recurrence = nil
