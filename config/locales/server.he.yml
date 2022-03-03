@@ -5,6 +5,10 @@
 # https://translate.discourse.org/
 
 he:
+  reports:
+    currently_away:
+      labels:
+        username: שם משתמש
   discourse_automation:
     triggerables:
       event_started:
@@ -14,13 +18,31 @@ he:
       title: "אירוע - הזמנה קבוצתית הצליחה"
       subject_template: "ההזמנה המרוכזת עובדה בהצלחה"
     discourse_post_event_bulk_invite_failed:
+      title: "אירוע - הזמנה מרוכזת נכשלה"
       subject_template: "ההזמנה המרוכזת עובדה עם שגיאות"
+      text_body_template: |
+        קובץ ההזמנה המרוכזת שלך עבר עיבוד, %{processed} המוזמנים נוצרו על אף %{failed} השגיאות שארעו:
+
+        הנה התיעוד:
+
+        ```text
+        %{logs}
+        ```
   site_settings:
+    calendar_enabled: "נא להפעיל את התוסף discourse-calendar. כך תתווסף תמיכה בתגית ‎[calendar][/calendar] בפוסט ראשון בנושא."
+    discourse_post_event_enabled: "[experimental] מאפשר לצרף אירוע לפוסט. הערה: צריך גם את האפשרות `calendar enabled` כדי שיהיה פעיל."
+    display_post_event_date_on_topic_title: "מציג את תאריך האירוע אחרי כותרת הנושא."
+    discourse_post_event_allowed_on_groups: "קבוצות שמורשות ליצור אירועים."
+    all_day_event_end_time: "אירועים שלא צוינה להם שעת סיום יסתיימו בשעה הזאת. התבנית היא HH:mm. ל־6:00 בערב יש להקליד 18:00"
     all_day_event_time_error: "שעה שגויה. התבנית צריכה להיות HH:mm (למשל: 08:00)."
+    calendar_categories: "הצג לוח שנה בראש קטגוריה. הגדרות חובה הן categoryId ו־postId. למשל: categoryId=6;postId=453\n הגדרות תקפות נוספות: tzPicker,‏ weekends ו־defaultView."
+    working_days: "הגדרת ימי עבודה. ניתן להציג את זמינות הקבוצה באמצעות תגית `timezones` (אזורי זמן) בפוסט, למשל: `‎[timezones group=admins][timezones]‎`"
     working_day_start_hour: "שעת תחילת יום העבודה."
     working_day_end_hour: "שעת סיום יום העבודה."
+    close_to_working_day_hours_extension: "הגדרת זמן הארכה בשעות כדי להדגיש את אזורי הזמן."
   discourse_calendar:
     invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
+    more_than_one_calendar: "לא יכול להיות יותר מלוח שנה אחד בפוסט."
     event_expired: "תוקף האירוע פג"
   discourse_post_event:
     notifications:
@@ -33,10 +55,14 @@ he:
       models:
         event:
           only_one_event: "לפוסט יכול להיות רק אירוע אחד."
+          only_group: "אירוע מקבל רק שמות קבוצות."
+          must_be_in_first_post: "אירוע יכול להיות רק בפוסט הראשון של נושא."
           raw_invitees_length: "אירוע מוגבל ל־%{count} משתמשים/קבוצות."
           ends_at_before_starts_at: "אירוע לא יכול להסתיים לפני שהתחיל."
           start_must_be_present_and_a_valid_date: "לאירוע נחוץ תאריך התחלה תקף."
           end_must_be_a_valid_date: "תאריך הסיום חייב להיות תאריך תקף."
+          invalid_recurrence: "חזרה חייבת להיות אחת מבין: every_month,‏ every_week,‏ every_two_weeks,‏ every_day,‏ every_weekday."
+          acting_user_not_allowed_to_create_event: "למשתמש הנוכחי אסור ליצור אירועים."
           acting_user_not_allowed_to_act_on_this_event: "אסור למשתמש הנוכחי לפעול כנגד האירוע הזה."
           custom_field_is_invalid: "השדה המותאם אישית `%{field}` אסור לשימוש."
           name:

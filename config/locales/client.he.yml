@@ -340,6 +340,9 @@ he:
         title: "הזמנה מרוכזת"
         success: "העלאת הקובץ החלה בהצלחה, תישלח הודעה כאשר התהליך יושלם."
         error: "הקובץ אמור להיות בתצורת CSV, עמך הסליחה."
+        confirmation_message: "פעולה זו תשלח הודעה לכל מי שבקובץ שהועלה."
+        description_public: "אירועים ציבוריים מקבלים רק שמות משתמשים עבור הזמנות מרוכזות."
+        description_private: "אירועים פרטיים מקבלים רק שמות קבוצות עבור הזמנות מרוכזות."
         download_sample_csv: "הורדת קובץ CSV לדוגמה"
         send_bulk_invites: "משלוח הזמנות"
         group_selector_placeholder: "בחירת קבוצה…"
@@ -372,11 +375,13 @@ he:
           placeholder: "רשות"
         name:
           label: "שם האירוע"
+          placeholder: "רשות, ברירת המחדל היא כותרת הנושא"
         invitees:
           label: "קבוצות שהוזמנו"
         status:
           label: "מצב"
       invite_user_or_group:
+        title: "להודיע למשתמשים או לקבוצות"
         invite: "שליחה"
       upcoming_events:
         title: "אירועים קרובים"
