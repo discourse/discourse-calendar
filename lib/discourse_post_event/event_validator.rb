@@ -75,6 +75,12 @@ module DiscoursePostEvent
         end
       end
 
+      if extracted_event[:timezone].present?
+        if !ActiveSupport::TimeZone[extracted_event[:timezone]].present?
+          @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.invalid_timezone", timezone: extracted_event[:timezone]))
+        end
+      end
+
       true
     end
   end

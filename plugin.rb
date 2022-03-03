@@ -551,8 +551,8 @@ after_initialize do
         fragment.css('.discourse-post-event').each do |event_node|
           starts_at = event_node['data-start']
           ends_at = event_node['data-end']
-          dates = "#{starts_at} (UTC)"
-          dates = "#{dates} → #{ends_at} (UTC)" if ends_at
+          dates = "#{starts_at} (#{event_node['data-timezone'] || 'UTC'})"
+          dates = "#{dates} → #{ends_at} (#{event_node['data-timezone'] || 'UTC'})" if ends_at
 
           event_name = event_node['data-name'] || post.topic.title
           event_node.replace <<~TXT

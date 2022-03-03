@@ -359,6 +359,9 @@ en:
         update: "Save"
         attach: "Create event"
         add_reminder: "Add reminder"
+        timezone:
+          label: Timezone
+          remove_timezone: No timezone (UTC)
         reminders:
           label: "Reminders"
         recurrence:

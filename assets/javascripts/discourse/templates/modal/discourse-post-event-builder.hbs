@@ -28,6 +28,15 @@
         }}
       {{/event-field}}
 
+      {{#event-field class="timezone" label="discourse_post_event.builder_modal.timezone.label"}}
+        {{timezone-input
+          value=model.eventModel.timezone
+          onChange=(action (mut model.eventModel.timezone))
+          class="input-xxlarge"
+          none="discourse_post_event.builder_modal.timezone.remove_timezone"
+        }}
+      {{/event-field}}
+
       {{#event-field label="discourse_post_event.builder_modal.status.label"}}
         <label class="radio-label">
           {{radio-button
