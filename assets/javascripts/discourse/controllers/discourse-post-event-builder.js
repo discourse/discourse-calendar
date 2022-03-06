@@ -6,7 +6,7 @@ import Controller from "@ember/controller";
 import { action, computed, set } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
-
+import bootbox from "bootbox";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 const DEFAULT_REMINDER = { value: 15, unit: "minutes", period: "before" };

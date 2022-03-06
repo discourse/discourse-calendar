@@ -7,6 +7,7 @@ import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
 import Group from "discourse/models/group";
 import I18n from "I18n";
+import bootbox from "bootbox";
 
 export default Controller.extend(ModalFunctionality, {
   bulkInvites: null,
