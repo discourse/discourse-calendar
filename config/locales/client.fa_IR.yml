@@ -305,6 +305,9 @@ fa_IR:
         create: "ایجاد"
         update: "ذخیره"
         attach: "ایجاد رویداد"
+        timezone:
+          label: منطقه زمانی
+          remove_timezone: بدون منطقه زمانی (UTC)
         status:
           label: "وضعیت"
       invite_user_or_group:

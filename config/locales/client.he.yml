@@ -360,6 +360,9 @@ he:
         update: "שמירה"
         attach: "יצירת אירוע"
         add_reminder: "הוספת תזכורת"
+        timezone:
+          label: אזור זמן
+          remove_timezone: אין אזור זמן (UTC)
         reminders:
           label: "תזכורות"
         recurrence:
