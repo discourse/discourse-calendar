@@ -364,6 +364,9 @@ hu:
         update: "Mentés"
         attach: "Esemény létrehozása"
         add_reminder: "Emlékeztető hozzáadása"
+        timezone:
+          label: Időzóna
+          remove_timezone: Nincs időzóna (UTC)
         reminders:
           label: "Emlékeztetők"
         recurrence:

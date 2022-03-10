@@ -7,6 +7,7 @@
 hu:
   reports:
     currently_away:
+      title: Jelenleg távol lévő felhasználók
       labels:
         username: Felhasználónév
   discourse_automation:
@@ -18,6 +19,17 @@ hu:
       title: "Esemény – A csoportos meghívás sikeres"
       subject_template: "A csoportos meghívás feldolgozása sikeres"
       text_body_template: "A csoportos meghívás feldolgozása sikeres, %{processed} meghívott létrehozva."
+    discourse_post_event_bulk_invite_failed:
+      title: "Esemény – A csoportos meghívás sikertelen"
+      subject_template: "Hiba a csoportos meghívás feldolgozása során"
+      text_body_template: |
+        A csoportos meghívási fájl feldolgozása megtörtént, %{processed} meghívott jött létre %{failed} hibával.
+
+        Ez a napló:
+
+        ```text
+        %{logs}
+        ```
   site_settings:
     working_day_start_hour: "A munkanapok kezdési időpontja."
     working_day_end_hour: "A munkanapok befejezési időpontja."
@@ -33,6 +45,9 @@ hu:
       after_event_reminder: "A(z) %{title} véget ért."
       ongoing_event_reminder: "A(z) %{title} folyamatban van."
     errors:
+      bulk_invite:
+        max_invitees: "Az első %{max_invittes} meghívott lett létrehozva. Próbálja meg a fájlt kisebb részekre osztani."
+        error: "Hiba történt a fájl feltöltése során. Próbálja újra később."
       models:
         event:
           only_one_event: "Egy bejegyzésnek csak egy eseménye lehet."
