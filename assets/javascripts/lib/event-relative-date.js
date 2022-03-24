@@ -1,4 +1,5 @@
 import I18n from "I18n";
+import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 
 function _computeCurrentEvent(container, endsAt) {
   const indicator = document.createElement("div");
@@ -29,6 +30,13 @@ export default function eventRelativeDate(container) {
     .utc(container.dataset.starts_at)
     .tz(moment.tz.guess());
   const endsAt = moment.utc(container.dataset.ends_at).tz(moment.tz.guess());
+
+  const format = guessDateFormat(startsAt);
+  let title = startsAt.format(format);
+  if (endsAt) {
+    title += ` → ${endsAt.format(format)}`;
+  }
+  container.setAttribute("title", title);
 
   if (startsAt.isAfter(moment()) && endsAt.isAfter(moment())) {
     container.classList.add("future");
