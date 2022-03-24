@@ -36,6 +36,11 @@ acceptance("Discourse Calendar - Event Title Decorator", function (needs) {
     assert.ok(
       firstTopic.querySelector(".event-date").getAttribute("data-ends_at")
     );
-    assert.ok(firstTopic.querySelector(".event-date").getAttribute("title"));
+    assert.ok(
+      firstTopic
+        .querySelector(".event-date")
+        .getAttribute("title")
+        .startsWith("January 10, 2022")
+    );
   });
 });
