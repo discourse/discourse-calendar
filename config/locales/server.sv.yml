@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 sv:
+  reports:
+    currently_away:
+      title: Användare som för närvarande är borta
+      labels:
+        username: Användarnamn
   discourse_automation:
     triggerables:
       event_started:
