@@ -365,6 +365,9 @@ sv:
         update: "Spara"
         attach: "Skapa händelse"
         add_reminder: "Lägg till påminnelse"
+        timezone:
+          label: Tidszon
+          remove_timezone: Ingen tidszon (UTC)
         reminders:
           label: "Påminnelser"
         recurrence:
