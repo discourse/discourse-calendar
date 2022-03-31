@@ -5,6 +5,7 @@ import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { schedule } from "@ember/runloop";
+import { applyLocalDates } from "discourse/lib/local-dates";
 
 function _decorateEvent(api, cooked, post) {
   _attachWidget(api, cooked, post);
@@ -155,12 +156,13 @@ function _attachWidget(api, cooked, eventModel) {
 
         glue.appendTo(glueContainer);
         _glued.push(glue);
-
         schedule("afterRender", () =>
-          $(
-            ".discourse-local-date",
-            $(`[data-post-id="${eventModel.id}"]`)
-          ).applyLocalDates()
+          applyLocalDates(
+            document.querySelectorAll(
+              `[data-post-id="${eventModel.id}"] .discourse-local-date`
+            ),
+            siteSettings
+          )
         );
       });
     } else {
