@@ -399,3 +399,31 @@ a.holiday {
   width: 15px;
   height: 15px;
 }
+
+#event-popover {
+  background-color: var(--tertiary-very-low);
+  z-index: z("modal", "tooltip");
+  box-shadow: shadow("dropdown");
+  border-radius: 4px;
+  padding: 0.5em;
+  max-width: unquote("min(75vw, 400px)");
+
+  [data-popper-arrow],
+  [data-popper-arrow]::before {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: inherit;
+    top: -2px;
+  }
+
+  [data-popper-arrow] {
+    visibility: hidden;
+  }
+
+  [data-popper-arrow]::before {
+    visibility: visible;
+    content: "";
+    transform: rotate(45deg);
+  }
+}
