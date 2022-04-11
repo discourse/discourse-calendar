@@ -72,3 +72,7 @@ discourse_post_event:
     list_type: simple
     client: true
     default: ""
+  events_calendar_category:
+    type: category_list
+    client: true
+    default: ""

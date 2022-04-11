@@ -14,6 +14,9 @@ import {
   stringToColor,
 } from "discourse/plugins/discourse-calendar/lib/colors";
 import { createPopper } from "@popperjs/core";
+import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
+import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
+import getURL from "discourse-common/lib/get-url";
 
 function loadFullCalendar() {
   return loadScript(
@@ -39,14 +42,21 @@ function initializeDiscourseCalendar(api) {
 
   api.onPageChange((url) => {
     const $calendarContainer = $(`${selector}.category-calendar`);
-    if (!$calendarContainer.length) {
-      return;
+    if ($calendarContainer.length) {
+      $calendarContainer.hide();
     }
 
-    $calendarContainer.hide();
+    const calendarNode = document.getElementById("upcoming-events-calendar");
+    if (calendarNode) {
+      calendarNode.innerHTML = "";
+    }
 
     const browsedCategory = Category.findBySlugPathWithID(url);
     if (browsedCategory) {
+      if (!$calendarContainer.length) {
+        return;
+      }
+
       const settings = siteSettings.calendar_categories
         .split("|")
         .filter(Boolean)
@@ -97,6 +107,45 @@ function initializeDiscourseCalendar(api) {
             render($(".calendar", $cooked), post);
           });
         });
+      } else {
+        // category events calendar
+        if (!calendarNode) {
+          return;
+        }
+
+        const eventSettings = siteSettings.events_calendar_category.split("|");
+        const foundCategory = eventSettings.find(
+          (k) => k === browsedCategory.id.toString()
+        );
+
+        if (foundCategory) {
+          loadFullCalendar().then(() => {
+            let calendar = new window.FullCalendar.Calendar(calendarNode, {});
+            const loadEvents = ajax(
+              `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
+            );
+
+            Promise.all([loadEvents]).then((results) => {
+              const events = results[0];
+
+              events[Object.keys(events)[0]].forEach((event) => {
+                const { starts_at, ends_at, post } = event;
+                calendar.addEvent({
+                  title: formatEventName(event),
+                  start: starts_at,
+                  end: ends_at || starts_at,
+                  allDay: !isNotFullDayEvent(
+                    moment(starts_at),
+                    moment(ends_at)
+                  ),
+                  url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+                });
+              });
+
+              calendar.render();
+            });
+          });
+        }
       }
     }
   });
