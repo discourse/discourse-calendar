@@ -405,7 +405,7 @@ function initializeDiscourseCalendar(api) {
 
     let popupText = detail.message.slice(0, 100);
     if (detail.message.length > 100) {
-      popupText = popupText + "...";
+      popupText += "…";
     }
     event.extendedProps.htmlContent = popupText;
     event.title = event.title.replace(/<img[^>]*>/g, "");
