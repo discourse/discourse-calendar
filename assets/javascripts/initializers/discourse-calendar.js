@@ -6,7 +6,6 @@ import { escapeExpression } from "discourse/lib/utilities";
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
-import { hidePopover, showPopover } from "discourse/lib/d-popover";
 import Category from "discourse/models/category";
 import I18n from "I18n";
 import {
@@ -14,12 +13,16 @@ import {
   contrastColor,
   stringToColor,
 } from "discourse/plugins/discourse-calendar/lib/colors";
+import { createPopper } from "@popperjs/core";
 
 function loadFullCalendar() {
   return loadScript(
     "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
   );
 }
+
+let eventPopper;
+const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
   let _topicController;
@@ -103,8 +106,6 @@ function initializeDiscourseCalendar(api) {
     id: "discourse-calendar",
   });
 
-  api.cleanupStream(cleanUp);
-
   api.registerCustomPostMessageCallback(
     "calendar_change",
     (topicController) => {
@@ -141,13 +142,7 @@ function initializeDiscourseCalendar(api) {
     _setupTimezonePicker(calendar, timezone);
   }
 
-  function cleanUp() {
-    window.removeEventListener("scroll", hidePopover);
-  }
-
   function attachCalendar($elem, helper) {
-    window.addEventListener("scroll", hidePopover);
-
     const $calendar = $(".calendar", $elem);
 
     if ($calendar.length === 0) {
@@ -280,6 +275,41 @@ function initializeDiscourseCalendar(api) {
       });
   }
 
+  function _buildPopover(jsEvent, htmlContent) {
+    const node = document.createElement("div");
+    node.setAttribute("id", EVENT_POPOVER_ID);
+    node.innerHTML = htmlContent;
+
+    const arrow = document.createElement("span");
+    arrow.dataset.popperArrow = true;
+    node.appendChild(arrow);
+    document.body.appendChild(node);
+
+    eventPopper = createPopper(
+      jsEvent.target,
+      document.getElementById(EVENT_POPOVER_ID),
+      {
+        placement: "bottom",
+        modifiers: [
+          {
+            name: "arrow",
+          },
+          {
+            name: "offset",
+            options: {
+              offset: [20, 10],
+            },
+          },
+        ],
+      }
+    );
+  }
+
+  function _destroyPopover() {
+    eventPopper?.destroy();
+    document.getElementById(EVENT_POPOVER_ID)?.remove();
+  }
+
   function _setDynamicCalendarOptions(calendar, $calendar) {
     const skipWeekends = $calendar.attr("data-weekends") === "false";
     const hiddenDays = $calendar.attr("data-hidden-days");
@@ -296,7 +326,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     calendar.setOption("eventClick", ({ event, jsEvent }) => {
-      hidePopover(jsEvent);
+      _destroyPopover();
       const { htmlContent, postNumber, postUrl } = event.extendedProps;
 
       if (postUrl) {
@@ -306,20 +336,18 @@ function initializeDiscourseCalendar(api) {
           _topicController || api.container.lookup("controller:topic");
         _topicController.send("jumpToPost", postNumber);
       } else if (isMobileView && htmlContent) {
-        showPopover(jsEvent, { htmlContent });
+        _buildPopover(jsEvent, htmlContent);
       }
     });
 
     calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
+      _destroyPopover();
       const { htmlContent } = event.extendedProps;
-      if (!htmlContent) {
-        return;
-      }
-      showPopover(jsEvent, { htmlContent });
+      _buildPopover(jsEvent, htmlContent);
     });
 
-    calendar.setOption("eventMouseLeave", ({ jsEvent }) => {
-      hidePopover(jsEvent);
+    calendar.setOption("eventMouseLeave", () => {
+      _destroyPopover();
     });
   }
 
@@ -375,9 +403,9 @@ function initializeDiscourseCalendar(api) {
       event.textColor = colorToHex(contrastColor(color));
     }
 
-    let popupText = detail.message.substr(0, 50);
-    if (detail.message.length > 50) {
-      popupText = popupText + "...";
+    let popupText = detail.message.slice(0, 100);
+    if (detail.message.length > 100) {
+      popupText += "…";
     }
     event.extendedProps.htmlContent = popupText;
     event.title = event.title.replace(/<img[^>]*>/g, "");
@@ -404,14 +432,12 @@ function initializeDiscourseCalendar(api) {
     event.classNames = ["grouped-event"];
 
     if (usernames.length > 3) {
-      event.title = isMobileView
-        ? usernames.length
-        : `(${usernames.length}) ` + I18n.t("discourse_calendar.holiday");
+      event.title = `(${usernames.length}) ${localEventNames[0]}`;
     } else if (usernames.length === 1) {
       event.title = usernames[0];
     } else {
       event.title = isMobileView
-        ? usernames.length
+        ? `(${usernames.length}) ${localEventNames[0]}`
         : `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
     }
 
