@@ -403,7 +403,7 @@ function initializeDiscourseCalendar(api) {
       event.textColor = colorToHex(contrastColor(color));
     }
 
-    let popupText = detail.message.substr(0, 100);
+    let popupText = detail.message.slice(0, 100);
     if (detail.message.length > 100) {
       popupText = popupText + "...";
     }
