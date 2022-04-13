@@ -41,19 +41,23 @@ function initializeDiscourseCalendar(api) {
   }
 
   api.onPageChange((url) => {
-    const $calendarContainer = $(`${selector}.category-calendar`);
-    if ($calendarContainer.length) {
-      $calendarContainer.hide();
+    const categoryCalendarNode = document.querySelector(
+      `${selector}.category-calendar`
+    );
+    if (categoryCalendarNode) {
+      categoryCalendarNode.innerHTML = "";
     }
 
-    const calendarNode = document.getElementById("upcoming-events-calendar");
-    if (calendarNode) {
-      calendarNode.innerHTML = "";
+    const categoryEventNode = document.getElementById(
+      "upcoming-events-calendar"
+    );
+    if (categoryEventNode) {
+      categoryEventNode.innerHTML = "";
     }
 
     const browsedCategory = Category.findBySlugPathWithID(url);
     if (browsedCategory) {
-      if (!$calendarContainer.length) {
+      if (!categoryCalendarNode) {
         return;
       }
 
@@ -78,12 +82,10 @@ function initializeDiscourseCalendar(api) {
       );
 
       if (categorySetting && categorySetting.postId) {
-        $calendarContainer.show();
         const postId = categorySetting.postId;
-        const $spinner = $(
-          '<div class="calendar"><div class="spinner medium"></div></div>'
-        );
-        $calendarContainer.html($spinner);
+        categoryCalendarNode.innerHTML =
+          '<div class="calendar"><div class="spinner medium"></div></div>';
+
         loadFullCalendar().then(() => {
           const options = [`postId=${postId}`];
 
@@ -102,14 +104,13 @@ function initializeDiscourseCalendar(api) {
           Promise.all([cookRaw, loadPost]).then((results) => {
             const cooked = results[0];
             const post = results[1];
-            const $cooked = $(cooked.string);
-            $calendarContainer.html($cooked);
-            render($(".calendar", $cooked), post);
+            categoryCalendarNode.innerHTML = cooked.string;
+            render($(".calendar"), post);
           });
         });
       } else {
         // category events calendar
-        if (!calendarNode) {
+        if (!categoryEventNode) {
           return;
         }
 
@@ -120,7 +121,10 @@ function initializeDiscourseCalendar(api) {
 
         if (foundCategory) {
           loadFullCalendar().then(() => {
-            let calendar = new window.FullCalendar.Calendar(calendarNode, {});
+            let calendar = new window.FullCalendar.Calendar(
+              categoryEventNode,
+              {}
+            );
             const loadEvents = ajax(
               `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
             );
