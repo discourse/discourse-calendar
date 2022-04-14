@@ -114,7 +114,9 @@ function initializeDiscourseCalendar(api) {
           return;
         }
 
-        const eventSettings = siteSettings.events_calendar_category.split("|");
+        const eventSettings = siteSettings.events_calendar_categories.split(
+          "|"
+        );
         const foundCategory = eventSettings.find(
           (k) => k === browsedCategory.id.toString()
         );
