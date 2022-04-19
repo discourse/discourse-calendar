@@ -207,6 +207,21 @@ module DiscoursePostEvent
             end
           end
         end
+
+        context 'when filtering by category' do
+          it 'can filter the event by category' do
+            category = Fabricate(:category)
+            topic = Fabricate(:topic, category: category)
+            event_2 = Fabricate(:event, post: Fabricate(:post, post_number: 1, topic: topic))
+
+            get "/discourse-post-event/events.json?category_id=#{category.id}"
+
+            expect(response.status).to eq(200)
+            events = response.parsed_body["events"]
+            expect(events.length).to eq(1)
+            expect(events[0]["id"]).to eq(event_2.id)
+          end
+        end
       end
     end
   end
