@@ -40,6 +40,8 @@ function initializeDiscourseCalendar(api) {
     selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
   }
 
+  console.log("initializeDiscourseCalendar");
+
   api.onPageChange((url) => {
     const categoryCalendarNode = document.querySelector(
       `${selector}.category-calendar`
@@ -55,11 +57,13 @@ function initializeDiscourseCalendar(api) {
       categoryEventNode.innerHTML = "";
     }
 
+    console.log("onPageChange 1");
     const browsedCategory = Category.findBySlugPathWithID(url);
     if (!browsedCategory) {
       return;
     }
 
+    console.log("onPageChange 2");
     const settings = siteSettings.calendar_categories
       .split("|")
       .filter(Boolean)
@@ -79,12 +83,15 @@ function initializeDiscourseCalendar(api) {
       browsedCategory.id.toString()
     );
 
+    console.log("onPageChange 3");
     if (categoryCalendarNode && categorySetting?.postId) {
       const postId = categorySetting.postId;
       categoryCalendarNode.innerHTML =
         '<div class="calendar"><div class="spinner medium"></div></div>';
 
+      console.log("onPageChange 4");
       loadFullCalendar().then(() => {
+        console.log("onPageChange 5");
         const options = [`postId=${postId}`];
 
         const optionals = ["weekends", "tzPicker", "defaultView"];
@@ -96,38 +103,49 @@ function initializeDiscourseCalendar(api) {
           }
         });
 
+        console.log("onPageChange 6");
         const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
         const cookRaw = cookAsync(rawCalendar);
         const loadPost = ajax(`/posts/${postId}.json`);
 
         Promise.all([cookRaw, loadPost]).then(([cooked, post]) => {
+          console.log("onPageChange 7");
           categoryCalendarNode.innerHTML = cooked.string;
           render($(".calendar"), post);
+          console.log("onPageChange 7b");
         });
       });
     } else {
+      console.log("onPageChange 8");
       if (!categoryEventNode) {
         return;
       }
 
+      console.log("onPageChange 9");
       const eventSettings = siteSettings.events_calendar_categories.split("|");
       const foundCategory = eventSettings.find(
         (k) => k === browsedCategory.id.toString()
       );
 
+      console.log("onPageChange 10");
       if (foundCategory) {
+        console.log("onPageChange 11");
         loadFullCalendar().then(() => {
+          console.log("onPageChange 12");
           let calendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {}
           );
+          console.log("onPageChange 13");
           const loadEvents = ajax(
             `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
           );
 
+          console.log("onPageChange 14");
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
 
+            console.log("onPageChange 15");
             events[Object.keys(events)[0]].forEach((event) => {
               const { starts_at, ends_at, post } = event;
               calendar.addEvent({
@@ -140,6 +158,7 @@ function initializeDiscourseCalendar(api) {
             });
 
             calendar.render();
+            console.log("onPageChange 16");
           });
         });
       }
