@@ -407,11 +407,22 @@ after_initialize do
       else
         identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
 
+        timezone = begin
+                     ActiveSupport::TimeZone.country_zones(event.region).last.tzinfo.identifier
+                   rescue TZInfo::InvalidCountryCode
+                     begin
+                       ActiveSupport::TimeZone.country_zones(Holidays::PARENT_REGION_LOOKUP[event.region.to_sym]).last.tzinfo.identifier
+                     rescue TZInfo::InvalidCountryCode
+                       ActiveSupport::TimeZone.country_zones(Holidays::PARENT_REGION_LOOKUP[event.region.to_sym].to_s.split("_").first).last.tzinfo.identifier
+                     end
+                   end
+
         grouped[identifier] ||= {
           type: :grouped,
           from: event.start_date,
           name: [],
-          usernames: []
+          usernames: [],
+          timezone: timezone
         }
 
         grouped[identifier][:name] << event.description

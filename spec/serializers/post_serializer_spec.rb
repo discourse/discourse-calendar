@@ -49,5 +49,23 @@ describe PostSerializer do
       "Día de la Independencia"
     )
     expect(json[:post][:calendar_details].map { |x| x[:usernames] }).to all (contain_exactly(user.username, user2.username))
+    expect(json[:post][:calendar_details].last[:timezone]).to eq("America/Argentina/Buenos_Aires")
+  end
+
+  it 'fallbacks to parent timezone' do
+    user = Fabricate(:user)
+    user.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => 'nz_ak')
+    user2 = Fabricate(:user)
+    user2.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => 'be_nl')
+
+    post = create_post(raw: "[calendar]\n[/calendar]")
+    SiteSetting.holiday_calendar_topic_id = post.topic.id
+
+    freeze_time Date.new(2021, 4, 1)
+    ::DiscourseCalendar::CreateHolidayEvents.new.execute({})
+
+    json = PostSerializer.new(post.reload, scope: Guardian.new).as_json
+    expect(json[:post][:calendar_details].first[:timezone]).to eq("Pacific/Chatham")
+    expect(json[:post][:calendar_details].last[:timezone]).to eq("Europe/Brussels")
   end
 end
