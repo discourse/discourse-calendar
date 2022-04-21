@@ -79,7 +79,7 @@ function initializeDiscourseCalendar(api) {
       browsedCategory.id.toString()
     );
 
-    if (categoryCalendarNode && categorySetting && categorySetting.postId) {
+    if (categoryCalendarNode && categorySetting?.postId) {
       const postId = categorySetting.postId;
       categoryCalendarNode.innerHTML =
         '<div class="calendar"><div class="spinner medium"></div></div>';
@@ -99,9 +99,8 @@ function initializeDiscourseCalendar(api) {
         const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
         const cookRaw = cookAsync(rawCalendar);
         const loadPost = ajax(`/posts/${postId}.json`);
-        Promise.all([cookRaw, loadPost]).then((results) => {
-          const cooked = results[0];
-          const post = results[1];
+
+        Promise.all([cookRaw, loadPost]).then(([cooked, post]) => {
           categoryCalendarNode.innerHTML = cooked.string;
           render($(".calendar"), post);
         });

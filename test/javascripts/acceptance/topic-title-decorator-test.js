@@ -25,7 +25,7 @@ acceptance("Discourse Calendar - Event Title Decorator", function (needs) {
     });
   });
 
-  test("shows event date with attributes in topic list", async (assert) => {
+  test("shows event date with attributes in topic list", async function (assert) {
     await visit("/latest");
 
     const firstTopic = query(".topic-list-item:first-child .raw-topic-link");

@@ -71,7 +71,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     });
   });
 
-  test("shows event calendar on category page", async (assert) => {
+  test("shows event calendar on category page", async function (assert) {
     await visit("/c/bug/1");
 
     assert.ok(
