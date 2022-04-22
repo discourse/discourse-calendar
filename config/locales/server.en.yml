@@ -45,6 +45,7 @@ en:
     working_day_start_hour: "Start time of the working day hours."
     working_day_end_hour: "End time of the working day hours."
     close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."
+    events_calendar_categories: "Display an events calendar at the top of a category."
   discourse_calendar:
     invite_user_notification: "%{username} invited you to: %{description}"
     calendar_must_be_in_first_post: "Calendar tag can only be used in first post of a topic."

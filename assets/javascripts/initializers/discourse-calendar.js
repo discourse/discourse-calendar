@@ -14,6 +14,9 @@ import {
   stringToColor,
 } from "discourse/plugins/discourse-calendar/lib/colors";
 import { createPopper } from "@popperjs/core";
+import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
+import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
+import getURL from "discourse-common/lib/get-url";
 
 function loadFullCalendar() {
   return loadScript(
@@ -38,63 +41,106 @@ function initializeDiscourseCalendar(api) {
   }
 
   api.onPageChange((url) => {
-    const $calendarContainer = $(`${selector}.category-calendar`);
-    if (!$calendarContainer.length) {
+    const categoryCalendarNode = document.querySelector(
+      `${selector}.category-calendar`
+    );
+    if (categoryCalendarNode) {
+      categoryCalendarNode.innerHTML = "";
+    }
+
+    const categoryEventNode = document.getElementById(
+      "upcoming-events-calendar"
+    );
+    if (categoryEventNode) {
+      categoryEventNode.innerHTML = "";
+    }
+
+    const browsedCategory = Category.findBySlugPathWithID(url);
+    if (!browsedCategory) {
       return;
     }
 
-    $calendarContainer.hide();
+    const settings = siteSettings.calendar_categories
+      .split("|")
+      .filter(Boolean)
+      .map((stringSetting) => {
+        const data = {};
+        stringSetting
+          .split(";")
+          .filter(Boolean)
+          .forEach((s) => {
+            const parts = s.split("=");
+            data[parts[0]] = parts[1];
+          });
+        return data;
+      });
+    const categorySetting = settings.findBy(
+      "categoryId",
+      browsedCategory.id.toString()
+    );
 
-    const browsedCategory = Category.findBySlugPathWithID(url);
-    if (browsedCategory) {
-      const settings = siteSettings.calendar_categories
-        .split("|")
-        .filter(Boolean)
-        .map((stringSetting) => {
-          const data = {};
-          stringSetting
-            .split(";")
-            .filter(Boolean)
-            .forEach((s) => {
-              const parts = s.split("=");
-              data[parts[0]] = parts[1];
-            });
-          return data;
+    if (categoryCalendarNode && categorySetting && categorySetting.postId) {
+      const postId = categorySetting.postId;
+      categoryCalendarNode.innerHTML =
+        '<div class="calendar"><div class="spinner medium"></div></div>';
+
+      loadFullCalendar().then(() => {
+        const options = [`postId=${postId}`];
+
+        const optionals = ["weekends", "tzPicker", "defaultView"];
+        optionals.forEach((optional) => {
+          if (isPresent(categorySetting[optional])) {
+            options.push(
+              `${optional}=${escapeExpression(categorySetting[optional])}`
+            );
+          }
         });
 
-      const categorySetting = settings.findBy(
-        "categoryId",
-        browsedCategory.id.toString()
+        const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
+        const cookRaw = cookAsync(rawCalendar);
+        const loadPost = ajax(`/posts/${postId}.json`);
+        Promise.all([cookRaw, loadPost]).then((results) => {
+          const cooked = results[0];
+          const post = results[1];
+          categoryCalendarNode.innerHTML = cooked.string;
+          render($(".calendar"), post);
+        });
+      });
+    } else {
+      if (!categoryEventNode) {
+        return;
+      }
+
+      const eventSettings = siteSettings.events_calendar_categories.split("|");
+      const foundCategory = eventSettings.find(
+        (k) => k === browsedCategory.id.toString()
       );
 
-      if (categorySetting && categorySetting.postId) {
-        $calendarContainer.show();
-        const postId = categorySetting.postId;
-        const $spinner = $(
-          '<div class="calendar"><div class="spinner medium"></div></div>'
-        );
-        $calendarContainer.html($spinner);
+      if (foundCategory) {
         loadFullCalendar().then(() => {
-          const options = [`postId=${postId}`];
+          let calendar = new window.FullCalendar.Calendar(
+            categoryEventNode,
+            {}
+          );
+          const loadEvents = ajax(
+            `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
+          );
 
-          const optionals = ["weekends", "tzPicker", "defaultView"];
-          optionals.forEach((optional) => {
-            if (isPresent(categorySetting[optional])) {
-              options.push(
-                `${optional}=${escapeExpression(categorySetting[optional])}`
-              );
-            }
-          });
+          Promise.all([loadEvents]).then((results) => {
+            const events = results[0];
 
-          const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
-          const cookRaw = cookAsync(rawCalendar);
-          const loadPost = ajax(`/posts/${postId}.json`);
-          Promise.all([cookRaw, loadPost]).then((results) => {
-            const cooked = results[0];
-            const post = results[1];
-            const $cooked = $(cooked.string);
-            $calendarContainer.html($cooked);
-            render($(".calendar", $cooked), post);
+            events[Object.keys(events)[0]].forEach((event) => {
+              const { starts_at, ends_at, post } = event;
+              calendar.addEvent({
+                title: formatEventName(event),
+                start: starts_at,
+                end: ends_at || starts_at,
+                allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
+                url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+              });
+            });
+
+            calendar.render();
           });
         });
       }
