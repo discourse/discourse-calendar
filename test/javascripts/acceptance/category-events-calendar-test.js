@@ -75,7 +75,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     await visit("/c/bug/1");
 
     assert.ok(
-      exists("#upcoming-events-calendar"),
+      exists("#category-events-calendar"),
       "Events calendar div exists."
     );
     assert.strictEqual(
