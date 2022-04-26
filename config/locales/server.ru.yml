@@ -48,6 +48,7 @@ ru:
     working_day_start_hour: "Время начала рабочего дня."
     working_day_end_hour: "Время окончания рабочего дня."
     close_to_working_day_hours_extension: "Продлевать время рабочего дня с учётом часовых поясов."
+    events_calendar_categories: "Отображать события календаря в верхней части раздела."
   discourse_calendar:
     invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
     calendar_must_be_in_first_post: "Тег календаря может быть использован только в первом сообщении темы."
