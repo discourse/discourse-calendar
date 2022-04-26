@@ -13,3 +13,5 @@ fa_IR:
     triggerables:
       event_started:
         title: رویداد شروع شد
+  site_settings:
+    events_calendar_categories: "نمایش رویدادهای تقویم در بالای دسته‌بندی"

@@ -40,6 +40,7 @@ he:
     working_day_start_hour: "שעת תחילת יום העבודה."
     working_day_end_hour: "שעת סיום יום העבודה."
     close_to_working_day_hours_extension: "הגדרת זמן הארכה בשעות כדי להדגיש את אזורי הזמן."
+    events_calendar_categories: "הצגת לוח אירועים בראש קטגוריה."
   discourse_calendar:
     invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
     more_than_one_calendar: "לא יכול להיות יותר מלוח שנה אחד בפוסט."
