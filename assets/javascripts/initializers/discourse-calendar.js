@@ -49,7 +49,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     const categoryEventNode = document.getElementById(
-      "upcoming-events-calendar"
+      "category-events-calendar"
     );
     if (categoryEventNode) {
       categoryEventNode.innerHTML = "";
