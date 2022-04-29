@@ -477,14 +477,14 @@ function initializeDiscourseCalendar(api) {
     const event = _buildEvent(detail);
     event.classNames = ["grouped-event"];
 
-    if (usernames.length > 3) {
+    if (usernames.length > 2) {
       event.title = `(${usernames.length}) ${localEventNames[0]}`;
     } else if (usernames.length === 1) {
       event.title = usernames[0];
     } else {
       event.title = isMobileView
         ? `(${usernames.length}) ${localEventNames[0]}`
-        : `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
+        : `(${usernames.length}) ` + usernames.join(", ");
     }
 
     if (localEventNames.length > 1) {
@@ -575,21 +575,24 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _setupTimezonePicker(calendar, timezone) {
-    let $timezonePicker = $(".discourse-calendar-timezone-picker");
-
-    if ($timezonePicker.length) {
-      $timezonePicker.on("change", function (event) {
+    const tzPicker = document.querySelector(
+      ".discourse-calendar-timezone-picker"
+    );
+    if (tzPicker) {
+      tzPicker.addEventListener("change", function (event) {
         calendar.setOption("timeZone", event.target.value);
         _insertAddToCalendarLinks(calendar);
       });
 
       moment.tz.names().forEach((tz) => {
-        $timezonePicker.append(new Option(tz, timezone));
+        tzPicker.appendChild(new Option(tz, tz));
       });
 
-      $timezonePicker.val(timezone);
+      tzPicker.value = timezone;
     } else {
-      $(".discourse-calendar-timezone-wrap").text(timezone);
+      document.querySelector(
+        ".discourse-calendar-timezone-wrap"
+      ).innerText = timezone;
     }
   }
 
