@@ -484,7 +484,7 @@ function initializeDiscourseCalendar(api) {
     } else {
       event.title = isMobileView
         ? `(${usernames.length}) ${localEventNames[0]}`
-        : `(${usernames.length}) ` + usernames.slice(0, 3).join(", ");
+        : `(${usernames.length}) ` + usernames.join(", ");
     }
 
     if (localEventNames.length > 1) {
