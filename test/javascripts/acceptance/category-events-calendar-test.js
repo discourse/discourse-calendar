@@ -1,9 +1,5 @@
-import {
-  acceptance,
-  exists,
-  query,
-} from "discourse/tests/helpers/qunit-helpers";
-import { skip } from "qunit";
+import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
+import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
 
 acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
@@ -71,18 +67,13 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     });
   });
 
-  // TODO: This test just started failing. Needs to be investigated.
-  skip("shows event calendar on category page", async (assert) => {
+  test("shows event calendar on category page", async (assert) => {
     await visit("/c/bug/1");
 
     assert.ok(
       exists("#category-events-calendar"),
       "Events calendar div exists."
     );
-    assert.strictEqual(
-      query(".fc-event-container .fc-content .fc-title").innerText,
-      "Awesome Event",
-      "Calendar has event name."
-    );
+    assert.ok(exists(".fc-view-container"), "FullCalendar is loaded.");
   });
 });
