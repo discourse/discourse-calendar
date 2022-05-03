@@ -49,6 +49,7 @@ sv:
     working_day_start_hour: "Starttid för arbetsdagens timmar."
     working_day_end_hour: "Sluttid för arbetsdagens timmar."
     close_to_working_day_hours_extension: "Ställ in förlängningstid i arbetsdagstimmar för att markera tidszonerna."
+    events_calendar_categories: "Visa en evenemangskalender högst upp i en kategori."
   discourse_calendar:
     invite_user_notification: "%{username} har bjudit in dig till: %{description}"
     calendar_must_be_in_first_post: "Kalendertaggen kan endast användas i första inlägget i ett ämne."
@@ -73,7 +74,7 @@ sv:
           ends_at_before_starts_at: "Ett evenemang kan inte avslutas innan det börjar."
           start_must_be_present_and_a_valid_date: "Ett evenemang kräver ett giltigt startdatum."
           end_must_be_a_valid_date: "Slutdatumet måste vara ett giltigt datum."
-          invalid_recurrence: "Återkommande måste vara en utav: varje månad, varje vecka, varannan vecka, varje dag, varje veckodag."
+          invalid_recurrence: "Återkommande måste vara en av följande: varje månad, varje vecka, varannan vecka, varje dag, varje veckodag."
           acting_user_not_allowed_to_create_event: "Nuvarande användare får inte skapa evenemang."
           acting_user_not_allowed_to_act_on_this_event: "Nuvarande användare får inte agera på detta evenemang."
           custom_field_is_invalid: "Det anpassade fältet `%{field}` är inte tillåtet."
