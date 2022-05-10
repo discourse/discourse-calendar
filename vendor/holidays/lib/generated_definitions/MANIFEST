@@ -34,6 +34,7 @@ The following definition files are included in this installation:
 * generated_definitions/hr
 * generated_definitions/hu
 * generated_definitions/ie
+* generated_definitions/in
 * generated_definitions/is
 * generated_definitions/it
 * generated_definitions/jp
@@ -63,6 +64,7 @@ The following definition files are included in this installation:
 * generated_definitions/rs_cyrl
 * generated_definitions/rs_la
 * generated_definitions/ru
+* generated_definitions/sa
 * generated_definitions/scandinavia
 * generated_definitions/se
 * generated_definitions/sg
