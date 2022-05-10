@@ -300,6 +300,8 @@ fa_IR:
       bulk_invite_modal:
         confirm: "تایید"
       builder_modal:
+        custom_fields:
+          placeholder: "اختیاری"
         create_event_title: "ایجاد رویداد"
         update_event_title: "ویرایش رویداد"
         create: "ایجاد"
@@ -308,9 +310,22 @@ fa_IR:
         timezone:
           label: منطقه زمانی
           remove_timezone: بدون منطقه زمانی (UTC)
+        recurrence:
+          every_day: "هر روز"
+          every_weekday: "هر هفته"
+        url:
+          label: "نشانی اینترنتی"
+          placeholder: "اختیاری"
+        name:
+          label: "نام رویداد"
+          placeholder: "اختیاری، پیش‌فرض عنوان موضوع است"
+        invitees:
+          label: "گروه‌های دعوت شده"
         status:
           label: "وضعیت"
       invite_user_or_group:
         invite: "ارسال"
       upcoming_events:
+        title: "رویدادهای آینده"
+        creator: "ایجاد کننده"
         status: "وضعیت"
