@@ -319,7 +319,7 @@ after_initialize do
   )
 
   allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
-  allow_staff_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
+  DiscoursePluginRegistry.serialized_current_user_fields << DiscourseCalendar::REGION_CUSTOM_FIELD
   register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
 
   on(:site_setting_changed) do |name, old_value, new_value|
