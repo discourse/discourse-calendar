@@ -84,6 +84,19 @@ after_initialize do
     end
   end
 
+  # DISCOURSE CALENDAR
+
+  %w[
+    ../app/controllers/admin/admin_discourse_calendar_controller.rb
+    ../app/controllers/admin/discourse_calendar/admin_holiday_regions_controller.rb
+  ].each { |path| load File.expand_path(path, __FILE__) }
+
+  Discourse::Application.routes.append do
+    mount ::DiscourseCalendar::Engine, at: '/'
+
+    get '/admin/discourse-calendar/holiday-regions' => 'admin/discourse_calendar/admin_holiday_regions#index', constraints: StaffConstraint.new
+  end
+
   # DISCOURSE POST EVENT
 
   %w[
