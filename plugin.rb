@@ -89,12 +89,14 @@ after_initialize do
   %w[
     ../app/controllers/admin/admin_discourse_calendar_controller.rb
     ../app/controllers/admin/discourse_calendar/admin_holiday_regions_controller.rb
+    ../app/controllers/admin/discourse_calendar/admin_holidays_controller.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   Discourse::Application.routes.append do
     mount ::DiscourseCalendar::Engine, at: '/'
 
     get '/admin/discourse-calendar/holiday-regions' => 'admin/discourse_calendar/admin_holiday_regions#index', constraints: StaffConstraint.new
+    get '/admin/discourse-calendar/holiday-regions/:region_code/holidays' => 'admin/discourse_calendar/admin_holidays#index', constraints: StaffConstraint.new
   end
 
   # DISCOURSE POST EVENT
