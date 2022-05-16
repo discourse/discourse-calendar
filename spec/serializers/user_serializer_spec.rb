@@ -12,7 +12,7 @@ describe UserSerializer do
     user.upsert_custom_fields(DiscourseCalendar::REGION_CUSTOM_FIELD => "uk")
   end
 
-  context "as user" do
+  context "as another user" do
     fab!(:guardian) { Fabricate(:user).guardian }
 
     it "does not return user region" do
