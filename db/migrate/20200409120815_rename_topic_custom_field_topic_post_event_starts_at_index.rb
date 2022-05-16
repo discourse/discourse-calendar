@@ -8,6 +8,6 @@ class RenameTopicCustomFieldTopicPostEventStartsAtIndex < ActiveRecord::Migratio
       %i[name topic_id],
       name: :idx_topic_custom_fields_topic_post_event_starts_at,
       unique: true,
-      where: "name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'"
+      where: "name = 'TopicEventStartsAt'"
   end
 end

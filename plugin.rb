@@ -76,7 +76,8 @@ after_initialize do
 
     # Topic where op has a post event custom field
     TOPIC_POST_EVENT_STARTS_AT ||= 'TopicEventStartsAt'
-    TOPIC_POST_EVENT_ENDS_AT ||= 'TopicEventEndsAt'
+    TOPIC_POST_EVENT_ENDS_AT   ||= 'TopicEventEndsAt'
+    TOPIC_POST_EVENT_TIMEZONE  ||= 'TopicEventTimezone'
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
@@ -104,55 +105,43 @@ after_initialize do
     ../app/serializers/discourse_post_event/event_serializer.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
-  ::ActionController::Base.prepend_view_path File.expand_path(
-                                               '../app/views',
-                                               __FILE__
-                                             )
+  ::ActionController::Base.prepend_view_path File.expand_path('../app/views', __FILE__)
 
   Discourse::Application.routes.append do
     mount ::DiscoursePostEvent::Engine, at: '/'
   end
 
   DiscoursePostEvent::Engine.routes.draw do
-    get '/discourse-post-event/events' => 'events#index',
-        format: :json
+    get '/discourse-post-event/events' => 'events#index', format: :json
     get '/discourse-post-event/events/:id' => 'events#show'
     delete '/discourse-post-event/events/:id' => 'events#destroy'
     post '/discourse-post-event/events' => 'events#create'
-    post '/discourse-post-event/events/:id/csv-bulk-invite' =>
-           'events#csv_bulk_invite'
-    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite',
-         format: :json
+    post '/discourse-post-event/events/:id/csv-bulk-invite' => 'events#csv_bulk_invite'
+    post '/discourse-post-event/events/:id/bulk-invite' => 'events#bulk_invite', format: :json
     post '/discourse-post-event/events/:id/invite' => 'events#invite'
-    put '/discourse-post-event/events/:post_id/invitees/:id' =>
-          'invitees#update'
+    put '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#update'
     post '/discourse-post-event/events/:post_id/invitees' => 'invitees#create'
     get '/discourse-post-event/events/:post_id/invitees' => 'invitees#index'
-    delete '/discourse-post-event/events/:post_id/invitees/:id' =>
-             'invitees#destroy'
+    delete '/discourse-post-event/events/:post_id/invitees/:id' => 'invitees#destroy'
     get '/upcoming-events' => 'upcoming_events#index'
   end
 
   reloadable_patch do
     Post.class_eval do
-      has_one :event,
-              dependent: :destroy,
-              class_name: 'DiscoursePostEvent::Event',
-              foreign_key: :id
+      has_one :event, dependent: :destroy, class_name: 'DiscoursePostEvent::Event', foreign_key: :id
 
       validate :valid_event
+
       def valid_event
         return unless self.raw_changed?
-        validator = DiscoursePostEvent::EventValidator.new(self)
-        validator.validate_event
+        DiscoursePostEvent::EventValidator.new(self).validate_event
       end
     end
   end
 
   add_to_class(:user, :can_create_discourse_post_event?) do
-    if defined?(@can_create_discourse_post_event)
-      return @can_create_discourse_post_event
-    end
+    return @can_create_discourse_post_event if defined? @can_create_discourse_post_event
+
     @can_create_discourse_post_event = begin
       return true if staff?
       allowed_groups = SiteSetting.discourse_post_event_allowed_on_groups.to_s.split('|').compact
@@ -163,11 +152,11 @@ after_initialize do
   end
 
   add_to_class(:guardian, :can_act_on_invitee?) do |invitee|
-    user && (user.staff? || user.id == invitee.user_id)
+    user&.staff? || user&.id == invitee.user_id
   end
 
   add_to_class(:guardian, :can_create_discourse_post_event?) do
-    user && user.can_create_discourse_post_event?
+    user&.can_create_discourse_post_event?
   end
 
   add_to_serializer(:current_user, :can_create_discourse_post_event) do
@@ -175,9 +164,8 @@ after_initialize do
   end
 
   add_to_class(:user, :can_act_on_discourse_post_event?) do |event|
-    if defined?(@can_act_on_discourse_post_event)
-      return @can_act_on_discourse_post_event
-    end
+    return @can_act_on_discourse_post_event if defined? @can_act_on_discourse_post_event
+
     @can_act_on_discourse_post_event = begin
       return true if staff?
       can_create_discourse_post_event? && event.post.user_id == id
@@ -187,13 +175,11 @@ after_initialize do
   end
 
   add_to_class(:guardian, :can_act_on_discourse_post_event?) do |event|
-    user && user.can_act_on_discourse_post_event?(event)
+    user&.can_act_on_discourse_post_event?(event)
   end
 
   add_class_method(:group, :discourse_post_event_allowed_groups) do
-    where(
-      id: SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact
-    )
+    where(id: SiteSetting.discourse_post_event_allowed_on_groups.split('|').compact)
   end
 
   TopicView.on_preload do |topic_view|
@@ -203,15 +189,11 @@ after_initialize do
   end
 
   add_to_serializer(:post, :event) do
-    DiscoursePostEvent::EventSerializer.new(
-      object.event,
-      scope: scope, root: false
-    )
+    DiscoursePostEvent::EventSerializer.new(object.event, scope: scope, root: false)
   end
 
   add_to_serializer(:post, :include_event?) do
-    SiteSetting.discourse_post_event_enabled && !object.nil? &&
-      !object.deleted_at.present?
+    SiteSetting.discourse_post_event_enabled && object&.event
   end
 
   on(:post_process_cooked) do |doc, post|
@@ -231,25 +213,61 @@ after_initialize do
   end
 
   TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
+  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_TIMEZONE
 
   add_to_serializer(:topic_view, :event_starts_at, false) do
     object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
   end
 
+  add_to_serializer(:topic_view, :event_ends_at, false) do
+    object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT]
+  end
+
+  add_to_serializer(:topic_view, :event_timezone, false) do
+    object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_TIMEZONE]
+  end
+
   add_to_serializer(:topic_view, 'include_event_starts_at?') do
     SiteSetting.discourse_post_event_enabled &&
     SiteSetting.display_post_event_date_on_topic_title &&
-    object.topic.custom_fields.keys.include?(
-      DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
-    )
+    object.topic.custom_fields.keys.include?(DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT)
+  end
+
+  add_to_serializer(:topic_view, 'include_event_ends_at?') do
+    SiteSetting.discourse_post_event_enabled &&
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.topic.custom_fields.keys.include?(DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT)
+  end
+
+  add_to_serializer(:topic_view, 'include_event_timezone?') do
+    SiteSetting.discourse_post_event_enabled &&
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.topic.custom_fields.keys.include?(DiscoursePostEvent::TOPIC_POST_EVENT_TIMEZONE)
   end
 
   add_to_class(:topic, :event_starts_at) do
     @event_starts_at ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
   end
 
+  add_to_class(:topic, :event_ends_at) do
+    @event_ends_at ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT]
+  end
+
+  add_to_class(:topic, :event_timezone) do
+    @event_timezone ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_TIMEZONE]
+  end
+
   add_to_serializer(:topic_list_item, :event_starts_at, false) do
     object.event_starts_at
+  end
+
+  add_to_serializer(:topic_list_item, :event_ends_at, false) do
+    object.event_ends_at
+  end
+
+  add_to_serializer(:topic_list_item, :event_timezone, false) do
+    object.event_timezone
   end
 
   add_to_serializer(:topic_list_item, 'include_event_starts_at?') do
@@ -258,32 +276,16 @@ after_initialize do
     object.event_starts_at
   end
 
-  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
-
-  add_to_serializer(:topic_view, :event_ends_at, false) do
-    object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT]
-  end
-
-  add_to_serializer(:topic_view, 'include_event_ends_at?') do
-    SiteSetting.discourse_post_event_enabled &&
-    SiteSetting.display_post_event_date_on_topic_title &&
-    object.topic.custom_fields.keys.include?(
-      DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
-    )
-  end
-
-  add_to_class(:topic, :event_ends_at) do
-    @event_ends_at ||= custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT]
-  end
-
-  add_to_serializer(:topic_list_item, :event_ends_at, false) do
-    object.event_ends_at
-  end
-
   add_to_serializer(:topic_list_item, 'include_event_ends_at?') do
     SiteSetting.discourse_post_event_enabled &&
     SiteSetting.display_post_event_date_on_topic_title &&
     object.event_ends_at
+  end
+
+  add_to_serializer(:topic_list_item, 'include_event_timezone?') do
+    SiteSetting.discourse_post_event_enabled &&
+    SiteSetting.display_post_event_date_on_topic_title &&
+    object.event_timezone
   end
 
   # DISCOURSE CALENDAR
@@ -302,30 +304,19 @@ after_initialize do
     ../lib/time_sniffer.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
-  register_post_custom_field_type(
-    DiscourseCalendar::CALENDAR_CUSTOM_FIELD,
-    :string
-  )
-  register_post_custom_field_type(
-    DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD,
-    :json
-  )
-  TopicView.default_post_custom_fields <<
-    DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
+  register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
+  register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
+  register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
-  register_user_custom_field_type(
-    DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
-    :boolean
-  )
-
-  allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
   DiscoursePluginRegistry.serialized_current_user_fields << DiscourseCalendar::REGION_CUSTOM_FIELD
   register_editable_user_custom_field(DiscourseCalendar::REGION_CUSTOM_FIELD)
 
+  TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
+
+  allow_staff_user_custom_field(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD)
+
   on(:site_setting_changed) do |name, old_value, new_value|
-    unless %i[all_day_event_start_time all_day_event_end_time].include? name
-      next
-    end
+    next unless %i[all_day_event_start_time all_day_event_end_time].include? name
 
     Post.where(id: CalendarEvent.select(:post_id).distinct).each do |post|
       CalendarEvent.update(post)
@@ -361,11 +352,7 @@ after_initialize do
     return if self.is_first_post?
 
     # Skip if not a calendar topic
-    if !self&.topic&.first_post&.custom_fields&.[](
-         DiscourseCalendar::CALENDAR_CUSTOM_FIELD
-       )
-      return
-    end
+    return if !self&.topic&.first_post&.custom_fields&.[](DiscourseCalendar::CALENDAR_CUSTOM_FIELD)
 
     validator = DiscourseCalendar::EventValidator.new(self)
     validator.validate_event

@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+# TODO: ensure checks are taking the timezone into account
+
 module DiscoursePostEvent
   class EventDate < ActiveRecord::Base
     self.table_name = 'discourse_calendar_post_event_dates'
+
     belongs_to :event
 
     scope :pending, -> { where(finished_at: nil) }
@@ -10,6 +13,8 @@ module DiscoursePostEvent
     scope :not_expired, -> { where('ends_at IS NULL OR ends_at > ?', Time.now) }
 
     after_commit :upsert_topic_custom_field, on: %i[create]
+    after_commit :reset_invitees_status, on: %i[create]
+
     def upsert_topic_custom_field
       if self.event.post && self.event.post.is_first_post?
         TopicCustomField.upsert(
@@ -33,10 +38,20 @@ module DiscoursePostEvent
           },
           unique_by: 'idx_topic_custom_fields_topic_post_event_ends_at'
         )
+
+        TopicCustomField.upsert(
+          {
+            topic_id: self.event.post.topic_id,
+            name: TOPIC_POST_EVENT_TIMEZONE,
+            value: self.event.timezone,
+            created_at: Time.now,
+            updated_at: Time.now
+          },
+          unique_by: 'idx_topic_custom_fields_topic_post_event_timezone'
+        )
       end
     end
 
-    after_commit :reset_invitees_status, on: %i[create]
     def reset_invitees_status
       self.event.invitees.update_all(status: nil)
     end
@@ -46,8 +61,7 @@ module DiscoursePostEvent
     end
 
     def ended?
-      return false if ends_at.nil?
-      ends_at <= Time.current
+      ends_at && ends_at <= Time.current
     end
   end
 end

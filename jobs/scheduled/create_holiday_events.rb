@@ -23,7 +23,7 @@ module Jobs
         .not_suspended
         .not_silenced
         .where(id: regions_and_user_ids.values.flatten)
-        .pluck(:id, :username)
+        .pluck(:id, :username_lower)
         .to_h
 
       timezones = UserOption

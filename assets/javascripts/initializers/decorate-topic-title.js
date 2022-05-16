@@ -4,9 +4,12 @@ import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-re
 function initializeDecorateTopicTitle(api) {
   api.decorateTopicTitle((topic, node, topicTitleType) => {
     const container = node.querySelector(".event-date-container");
-    container && container.remove();
 
-    if (!topic.event_starts_at || !topic.event_ends_at) {
+    if (container) {
+      container.remove();
+    }
+
+    if (!topic.event_starts_at) {
       return;
     }
 
@@ -19,8 +22,16 @@ function initializeDecorateTopicTitle(api) {
 
       const eventDate = document.createElement("span");
       eventDate.classList.add("event-date", "event-relative-date");
+
       eventDate.dataset.starts_at = topic.event_starts_at;
-      eventDate.dataset.ends_at = topic.event_ends_at;
+
+      if (topic.event_ends_at) {
+        eventDate.dataset.ends_at = topic.event_ends_at;
+      }
+
+      if (topic.event_timezone) {
+        eventDate.dataset.timezone = topic.event_timezone;
+      }
 
       eventdateContainer.appendChild(eventDate);
       node.appendChild(eventdateContainer);
