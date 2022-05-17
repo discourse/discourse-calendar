@@ -24,8 +24,8 @@ module Admin::DiscourseCalendar
             get "/admin/discourse-calendar/holiday-regions/mx/holidays.json"
 
             expect(response.parsed_body["holidays"]).to include(
-              {"date"=>"2022-01-01", "name"=>"Año nuevo", "regions"=>["mx"]},
-              {"date"=>"2022-09-16", "name"=>"Día de la Independencia", "regions"=>["mx"]}
+              { "date" => "2022-01-01", "name" => "Año nuevo", "regions" => ["mx"] },
+              { "date" => "2022-09-16", "name" => "Día de la Independencia", "regions" => ["mx"] }
             )
           end
 
