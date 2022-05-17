@@ -23,16 +23,10 @@ module Admin::DiscourseCalendar
           it "returns a list of holidays for a given region" do
             get "/admin/discourse-calendar/holiday-regions/mx/holidays.json"
 
-            expect(response.parsed_body["holidays"]).to eq([
-              { "date" => "2022-01-01", "name" => "Año nuevo", "regions" => ["mx"] },
-              { "date" => "2022-02-07", "name" => "Día de la Constitución", "regions" => ["mx"] },
-              { "date" => "2022-03-21", "name" => "Natalicio de Benito Juárez", "regions" => ["mx"] },
-              { "date" => "2022-05-01", "name" => "Día del Trabajo", "regions" => ["mx"] },
-              { "date" => "2022-09-15", "name" => "Grito de Dolores", "regions" => ["mx"] },
-              { "date" => "2022-09-16", "name" => "Día de la Independencia", "regions" => ["mx"] },
-              { "date" => "2022-11-21", "name" => "Día de la Revolución", "regions" => ["mx"] },
-              { "date" => "2022-12-25", "name" => "Navidad", "regions" => ["mx"] }
-            ])
+            expect(response.parsed_body["holidays"]).to include(
+              {"date"=>"2022-01-01", "name"=>"Año nuevo", "regions"=>["mx"]},
+              {"date"=>"2022-09-16", "name"=>"Día de la Independencia", "regions"=>["mx"]}
+            )
           end
 
           it "returns a 422 and an error message for an invalid region" do
