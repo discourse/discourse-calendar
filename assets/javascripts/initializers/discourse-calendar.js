@@ -28,8 +28,13 @@ let eventPopper;
 const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
-  let _topicController;
   const siteSettings = api.container.lookup("site-settings:main");
+
+  if (siteSettings.login_required && !api.getCurrentUser()) {
+    return;
+  }
+
+  let _topicController;
   const outletName = siteSettings.calendar_categories_outlet;
 
   const site = api.container.lookup("site:main");
