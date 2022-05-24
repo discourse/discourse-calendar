@@ -12,14 +12,6 @@
         onChange=(action "onChangeDates")
       }}
 
-      {{#event-field class="timezone" label="discourse_post_event.builder_modal.timezone.label"}}
-        {{timezone-input
-          value=model.eventModel.timezone
-          onChange=(action (mut model.eventModel.timezone))
-          none="discourse_post_event.builder_modal.timezone.remove_timezone"
-        }}
-      {{/event-field}}
-
       {{#event-field class="name" label="discourse_post_event.builder_modal.name.label"}}
         {{input
           value=(readonly model.eventModel.name)
@@ -33,6 +25,15 @@
           value=(readonly model.eventModel.url)
           placeholderKey="discourse_post_event.builder_modal.url.placeholder"
           input=(action (mut model.eventModel.url) value="target.value")
+        }}
+      {{/event-field}}
+
+      {{#event-field class="timezone" label="discourse_post_event.builder_modal.timezone.label"}}
+        {{timezone-input
+          value=model.eventModel.timezone
+          onChange=(action (mut model.eventModel.timezone))
+          class="input-xxlarge"
+          none="discourse_post_event.builder_modal.timezone.remove_timezone"
         }}
       {{/event-field}}
 

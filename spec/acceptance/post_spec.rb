@@ -301,13 +301,6 @@ describe Post do
             expect(post.event.reminders).to eq('1.hours,-3.days')
           end
 
-          it 'works with timezone attribute' do
-            post = create_post_with_event(user).reload
-            expect(post.event.timezone).to eq(nil)
-            post = create_post_with_event(user, 'timezone="America/New_York"').reload
-            expect(post.event.timezone).to eq('America/New_York')
-          end
-
           context 'with custom fields' do
             before do
               SiteSetting.discourse_post_event_allowed_custom_fields = 'foo-bar|bar'

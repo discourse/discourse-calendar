@@ -1,37 +1,5 @@
-.mobile-view {
-  .discourse-post-event-builder-modal {
-    .modal-inner-container {
-      width: 100%;
-
-      .modal-body {
-        .d-date-time-input-range {
-          flex-direction: column;
-          width: 100%;
-          border: 0;
-
-          .timezone-input {
-            width: 100%;
-          }
-
-          .d-date-time-input {
-            .d-date-input {
-              width: 100%;
-            }
-
-            .name {
-              font-size: $font-down-1;
-            }
-
-            &.from {
-              margin-right: 2.65em;
-            }
-
-            &.to {
-              margin-top: 0.5em;
-            }
-          }
-        }
-      }
-    }
+.discourse-post-event-builder-modal {
+  .modal-inner-container {
+    width: 100%;
   }
 }
