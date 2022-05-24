@@ -14,6 +14,7 @@ he:
       event_started:
         title: האירוע התחיל
   system_messages:
+    discourse_calendar_holiday_region_invalid: "אזור הנופש שסיפקת לא קיים."
     discourse_post_event_bulk_invite_succeeded:
       title: "אירוע - הזמנה קבוצתית הצליחה"
       subject_template: "ההזמנה המרוכזת עובדה בהצלחה"
