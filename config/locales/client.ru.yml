@@ -367,6 +367,9 @@ ru:
         update: "Сохранить"
         attach: "Создать событие"
         add_reminder: "Добавить напоминание"
+        timezone:
+          label: Часовой пояс
+          remove_timezone: Без часового пояса (UTC)
         reminders:
           label: "Напоминания"
         recurrence:

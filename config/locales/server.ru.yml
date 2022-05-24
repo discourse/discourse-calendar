@@ -7,6 +7,7 @@
 ru:
   reports:
     currently_away:
+      title: Пользователи в настоящее время отсутствуют
       labels:
         username: Псевдоним
   discourse_automation:
@@ -14,6 +15,7 @@ ru:
       event_started:
         title: Мероприятие началось
   system_messages:
+    discourse_calendar_holiday_region_invalid: "Указанное вами место отдыха не существует."
     discourse_post_event_bulk_invite_succeeded:
       title: "Событие - Массовое приглашение успешно выполнено"
       subject_template: "Массовое приглашение успешно обработано"
@@ -52,7 +54,7 @@ ru:
   discourse_calendar:
     invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
     calendar_must_be_in_first_post: "Тег календаря может быть использован только в первом сообщении темы."
-    more_than_one_calendar: "В публикации не может быть больше одного календаря."
+    more_than_one_calendar: "В сообщении не может быть более одного календаря."
     more_than_two_dates: "Сообщение в теме календаря не может содержать более двух дат."
     event_expired: "Срок проведения мероприятия истек"
   discourse_post_event:
