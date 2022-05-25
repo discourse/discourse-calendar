@@ -5,7 +5,8 @@ import ComboBoxComponent from "select-kit/components/combo-box";
 
 export default ComboBoxComponent.extend({
   pluginApiIdentifiers: ["timezone-input"],
-  classNames: ["timezone-input"],
+  classNames: ["timezone-input", "region-input"],
+  allowNoneRegion: false,
 
   selectKitOptions: {
     filterable: true,

@@ -1,6 +1,7 @@
 en:
   admin_js:
     admin:
+      calendar: "Calendar"
       site_settings:
         categories:
           discourse_post_event: "Discourse Event"
@@ -20,6 +21,8 @@ en:
       invite_user_notification: "%{username} invited you to: %{description}"
       on_holiday: "On Holiday"
       holiday: "Holiday"
+      holidays: "Holidays"
+      date: "Date"
       add_to_calendar: "Add to Google Calendar"
       region:
         title: "Region"
