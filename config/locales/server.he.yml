@@ -7,6 +7,7 @@
 he:
   reports:
     currently_away:
+      title: משתמשים שאינם נמצאים כרגע
       labels:
         username: שם משתמש
   discourse_automation:
@@ -18,6 +19,7 @@ he:
     discourse_post_event_bulk_invite_succeeded:
       title: "אירוע - הזמנה קבוצתית הצליחה"
       subject_template: "ההזמנה המרוכזת עובדה בהצלחה"
+      text_body_template: "קובץ ההזמנה המרוכזת שלך עובד, נוצרו %{processed} מוזמנים."
     discourse_post_event_bulk_invite_failed:
       title: "אירוע - הזמנה מרוכזת נכשלה"
       subject_template: "ההזמנה המרוכזת עובדה עם שגיאות"
@@ -32,8 +34,14 @@ he:
   site_settings:
     calendar_enabled: "נא להפעיל את התוסף discourse-calendar. כך תתווסף תמיכה בתגית ‎[calendar][/calendar] בפוסט ראשון בנושא."
     discourse_post_event_enabled: "[experimental] מאפשר לצרף אירוע לפוסט. הערה: צריך גם את האפשרות `calendar enabled` כדי שיהיה פעיל."
+    displayed_invitees_limit: "מגביל את מספר המוזמנים שמוצגים לאירוע."
     display_post_event_date_on_topic_title: "מציג את תאריך האירוע אחרי כותרת הנושא."
     discourse_post_event_allowed_on_groups: "קבוצות שמורשות ליצור אירועים."
+    discourse_post_event_allowed_custom_fields: "מאפשר לכל אירוע להגדיר את ערכי השדות המותאמים אישית לעצמו."
+    discourse_post_event_edit_notifications_time_extension: "מאריך (בדקות) את הזמן שלאחר סוף אירוע כאשר מוזמנים ש‚הולכים’ עדיין מקבלים התראות על עריכה בפרסום המקורי"
+    holiday_calendar_topic_id: "מזהה נושא של לוח שנה עם חופשות / היעדרות הסגל."
+    delete_expired_event_posts_after: "פוסטים עם אירועים שתוקפם פג יימחקו אוטומטית לאחר (n) שעות. יש להגדיר ל־‎-1 כדי להשבית מחיקה."
+    all_day_event_start_time: "אירועים שלא צוינה להם שעת התחלה יתחילו בשעה הזאת. התבנית היא HH:mm. ל־6:00 בבוקר יש להקליד 06:00"
     all_day_event_end_time: "אירועים שלא צוינה להם שעת סיום יסתיימו בשעה הזאת. התבנית היא HH:mm. ל־6:00 בערב יש להקליד 18:00"
     all_day_event_time_error: "שעה שגויה. התבנית צריכה להיות HH:mm (למשל: 08:00)."
     calendar_categories: "הצג לוח שנה בראש קטגוריה. הגדרות חובה הן categoryId ו־postId. למשל: categoryId=6;postId=453\n הגדרות תקפות נוספות: tzPicker,‏ weekends ו־defaultView."
@@ -55,6 +63,7 @@ he:
       ongoing_event_reminder: "%{title} מתרחש כרגע."
     errors:
       bulk_invite:
+        max_invitees: "%{max_invittes} המוזמנים הראשונים נוצרו. עדיף לנסות לפצל את הקובץ לחלקים קטנים יותר."
         error: "אירעה שגיאה בשליחת הקובץ. נא לנסות שוב מאוחר יותר."
       models:
         event:
