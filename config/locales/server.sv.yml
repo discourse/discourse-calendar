@@ -15,6 +15,7 @@ sv:
       event_started:
         title: Händelsen startad
   system_messages:
+    discourse_calendar_holiday_region_invalid: "Den semesterregion som du angav finns inte."
     discourse_post_event_bulk_invite_succeeded:
       title: "Evenemang - Massinbjudan lyckades"
       subject_template: "Massinbjudan har bearbetats framgångsrikt"

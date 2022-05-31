@@ -347,11 +347,13 @@ he:
         send_bulk_invites: "משלוח הזמנות"
         group_selector_placeholder: "בחירת קבוצה…"
         user_selector_placeholder: "בחירת משתמש…"
+        inline_title: "הזמנה מרוכזת בשורה"
         csv_title: "הזמנה מרוכזת עם CSV"
       builder_modal:
         custom_fields:
           label: "שדות משלך"
           placeholder: "רשות"
+          description: "השדות המותאמים אישית המורשים מוגדרים בהגדרות האתר. שדות מותאומים אישית משמשים להעביר נתונים לתוספים אחרים."
         create_event_title: "יצירת אירוע"
         update_event_title: "עריכת אירוע"
         confirm_delete: "למחוק את האירוע הזה?"
