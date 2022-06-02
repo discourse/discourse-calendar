@@ -200,6 +200,10 @@ months:
   - name: Emancipation Day in Texas # fixed
     regions: [us_tx]
     mday: 19
+  - name: Juneteenth # fixed
+    regions: [us]
+    mday: 19
+    observed: to_weekday_if_weekend(date)
   - name: West Virginia Day
     regions: [us_wv]
     mday: 20

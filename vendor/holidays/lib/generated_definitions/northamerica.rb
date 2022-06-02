@@ -76,6 +76,7 @@ module Holidays
             {:mday => 3, :name => "Birthday of Jefferson Davis", :regions => [:us_fl]},
             {:mday => 11, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "King Kamehameha I Day", :regions => [:us_hi]},
             {:mday => 19, :name => "Emancipation Day in Texas", :regions => [:us_tx]},
+            {:mday => 19, :function => "to_weekday_if_weekend(date)", :function_arguments => [:date], :name => "Juneteenth", :regions => [:us]},
             {:mday => 20, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "West Virginia Day", :regions => [:us_wv]},
             {:wday => 0, :week => 3, :type => :informal, :name => "Father's Day", :regions => [:us, :ca]}],
       7 => [{:mday => 1, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Canada Day", :regions => [:ca]},
