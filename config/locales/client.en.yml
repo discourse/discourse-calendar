@@ -1,6 +1,7 @@
 en:
   admin_js:
     admin:
+      calendar: "Calendar"
       site_settings:
         categories:
           discourse_post_event: "Discourse Event"
@@ -20,6 +21,8 @@ en:
       invite_user_notification: "%{username} invited you to: %{description}"
       on_holiday: "On Holiday"
       holiday: "Holiday"
+      holidays: "Holidays"
+      date: "Date"
       add_to_calendar: "Add to Google Calendar"
       region:
         title: "Region"
@@ -47,6 +50,8 @@ en:
           bg_bg: "Bulgaria (bg_bg)"
           bg_en: "Bulgaria (bg_en)"
           br: "Brazil"
+          br_sp: "Brazil (br_sp)"
+          br_spcapital: "Brazil (br_spcapital)"
           ca_ab: "Canada (ca_ab)"
           ca_bc: "Canada (ca_bc)"
           ca_mb: "Canada (ca_mb)"
@@ -173,6 +178,7 @@ en:
           je: "Jersey"
           jp: "Japan"
           kr: "Korea (Republic of)"
+          kz: "Kazakhstan (Republic of)"
           li: "Liechtenstein"
           lt: "Lithuania"
           lu: "Luxembourg"

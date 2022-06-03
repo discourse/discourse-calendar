@@ -18,6 +18,7 @@ enabled_site_setting :calendar_enabled
 
 register_asset 'stylesheets/vendor/fullcalendar.min.css'
 register_asset 'stylesheets/common/discourse-calendar.scss'
+register_asset 'stylesheets/common/discourse-calendar-holidays.scss'
 register_asset 'stylesheets/common/upcoming-events-calendar.scss'
 register_asset 'stylesheets/common/discourse-post-event.scss'
 register_asset 'stylesheets/common/discourse-post-event-preview.scss'
@@ -86,16 +87,17 @@ after_initialize do
 
   # DISCOURSE CALENDAR
 
+  add_admin_route 'admin.calendar', 'calendar'
+
   %w[
     ../app/controllers/admin/admin_discourse_calendar_controller.rb
-    ../app/controllers/admin/discourse_calendar/admin_holiday_regions_controller.rb
     ../app/controllers/admin/discourse_calendar/admin_holidays_controller.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   Discourse::Application.routes.append do
     mount ::DiscourseCalendar::Engine, at: '/'
 
-    get '/admin/discourse-calendar/holiday-regions' => 'admin/discourse_calendar/admin_holiday_regions#index', constraints: StaffConstraint.new
+    get '/admin/plugins/calendar' => 'admin/plugins#index', constraints: StaffConstraint.new
     get '/admin/discourse-calendar/holiday-regions/:region_code/holidays' => 'admin/discourse_calendar/admin_holidays#index', constraints: StaffConstraint.new
   end
 

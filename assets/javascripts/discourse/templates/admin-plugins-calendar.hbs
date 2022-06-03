@@ -1,0 +1,12 @@
+<h3>{{i18n "discourse_calendar.holidays"}}</h3>
+
+{{region-input
+  value=this.selectedRegion
+  onChange=(action "getHolidays")
+}}
+
+{{conditional-loading-spinner condition=loading}}
+
+{{#if model.holidays}}
+  {{admin-holidays-list holidays=model.holidays}}
+{{/if}}
