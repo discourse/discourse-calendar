@@ -7,6 +7,7 @@
 he:
   admin_js:
     admin:
+      calendar: "לוח שנה"
       site_settings:
         categories:
           discourse_post_event: "אירוע Discourse"
@@ -24,8 +25,10 @@ he:
               label: מזהה נושא
     discourse_calendar:
       invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
-      on_holiday: "בחופשה"
-      holiday: "חופשה"
+      on_holiday: "בחג"
+      holiday: "חג"
+      holidays: "חגים"
+      date: "תאריך"
       add_to_calendar: "הוספה ללוח השנה של Google"
       region:
         title: "אזור"
@@ -53,6 +56,8 @@ he:
           bg_bg: "בולגריה (bg_bg)"
           bg_en: "בולגריה (bg_en)"
           br: "ברזיל"
+          br_sp: "ברזיל (br_sp)"
+          br_spcapital: "ברזיל (br_spcapital)"
           ca_ab: "קנדה (ca_ab)"
           ca_bc: "קנדה (ca_bc)"
           ca_mb: "קנדה (ca_mb)"
@@ -179,6 +184,7 @@ he:
           je: "ג׳רזי"
           jp: "יפן"
           kr: "קוריאה (הרפובליקה של)"
+          kz: "קזחסטן (הרפובליקה של)"
           li: "ליכטנשטיין"
           lt: "ליטא"
           lu: "לוקסמבורג"

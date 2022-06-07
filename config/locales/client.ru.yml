@@ -7,6 +7,7 @@
 ru:
   admin_js:
     admin:
+      calendar: "Календарь"
       site_settings:
         categories:
           discourse_post_event: "Мероприятие Discourse"
@@ -26,6 +27,8 @@ ru:
       invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
       on_holiday: "На празднике"
       holiday: "Праздник"
+      holidays: "Праздники"
+      date: "Дата"
       add_to_calendar: "Добавить в Календарь Google"
       region:
         title: "Регион"
