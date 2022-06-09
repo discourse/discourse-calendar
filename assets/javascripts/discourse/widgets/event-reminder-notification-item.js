@@ -4,6 +4,9 @@ import { DefaultNotificationItem } from "discourse/widgets/default-notification-
 import { escapeExpression, formatUsername } from "discourse/lib/utilities";
 import { iconNode } from "discourse-common/lib/icon-library";
 
+// TODO: delete the strings marked with TODO in translation files when
+// this file is removed
+
 createWidgetFrom(DefaultNotificationItem, "event-reminder-notification-item", {
   notificationTitle(notificationName, data) {
     return data.title ? I18n.t(data.title) : "";
@@ -21,7 +24,7 @@ createWidgetFrom(DefaultNotificationItem, "event-reminder-notification-item", {
       description = this.description(data);
     }
 
-    return I18n.t(data.message, { description, username });
+    return I18n.t(`${data.message}_html`, { description, username });
   },
 
   icon(notificationName, data) {

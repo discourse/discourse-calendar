@@ -173,6 +173,61 @@ function initializeDiscourseCalendar(api) {
     }
   );
 
+  if (api.registerNotificationTypeRenderer) {
+    api.registerNotificationTypeRenderer(
+      "event_reminder",
+      (NotificationTypeBase) => {
+        return class extends NotificationTypeBase {
+          get linkTitle() {
+            if (this.notification.data.title) {
+              return I18n.t(this.notification.data.title);
+            } else {
+              return super.linkTitle;
+            }
+          }
+
+          get icon() {
+            return "calendar-day";
+          }
+
+          get label() {
+            return I18n.t(this.notification.data.message);
+          }
+
+          get description() {
+            return this.notification.data.topic_title;
+          }
+        };
+      }
+    );
+    api.registerNotificationTypeRenderer(
+      "event_invitation",
+      (NotificationTypeBase) => {
+        return class extends NotificationTypeBase {
+          get icon() {
+            return "calendar-day";
+          }
+
+          get label() {
+            if (
+              this.notification.data.message ===
+              "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+            ) {
+              return I18n.t(this.notification.data.message, {
+                username: this.username,
+              });
+            }
+            return super.label;
+          }
+
+          get description() {
+            return this.notification.data.topic_title;
+          }
+        };
+      }
+    );
+  }
+
   function render($calendar, post) {
     $calendar = $calendar.empty();
 
@@ -548,11 +603,10 @@ function initializeDiscourseCalendar(api) {
         localEvents: {},
       };
 
-      formattedGroupedEvents[identifier].localEvents[
-        groupedEvent.name
-      ] = formattedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
-        usernames: [],
-      };
+      formattedGroupedEvents[identifier].localEvents[groupedEvent.name] =
+        formattedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
+          usernames: [],
+        };
 
       formattedGroupedEvents[identifier].localEvents[
         groupedEvent.name
@@ -595,9 +649,8 @@ function initializeDiscourseCalendar(api) {
 
       tzPicker.value = timezone;
     } else {
-      document.querySelector(
-        ".discourse-calendar-timezone-wrap"
-      ).innerText = timezone;
+      document.querySelector(".discourse-calendar-timezone-wrap").innerText =
+        timezone;
     }
   }
 
