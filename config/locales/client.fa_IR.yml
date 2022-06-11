@@ -7,6 +7,7 @@
 fa_IR:
   admin_js:
     admin:
+      calendar: "تقویم"
       site_settings:
         categories:
           discourse_post_event: "رویداد دیسکورس"
@@ -26,6 +27,8 @@ fa_IR:
       invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
       on_holiday: "در تعطیلات"
       holiday: "تعطیلات"
+      holidays: "تعطیلات"
+      date: "تاریخ"
       add_to_calendar: "افزودن به تقویم گوگل"
       region:
         title: "منطقه"
@@ -53,6 +56,8 @@ fa_IR:
           bg_bg: "بلغارستان (bg_bg)"
           bg_en: "بلغارستان (bg_en)"
           br: "برزیل"
+          br_sp: "برزیل (br_sp)"
+          br_spcapital: "برزیل (br_spcapital)"
           ca_ab: "کانادا (ca_ab)"
           ca_bc: "کانادا (ca_bc)"
           ca_mb: "کانادا (ca_mb)"
@@ -179,6 +184,7 @@ fa_IR:
           je: "جرزی"
           jp: "ژاپن"
           kr: "کره جنوبی"
+          kz: "جمهوری قزاقستان"
           li: "لیختن‌اشتاین"
           lt: "لیتوانی"
           lu: "لوکزامبورگ"

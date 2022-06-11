@@ -7,6 +7,7 @@
 sv:
   admin_js:
     admin:
+      calendar: "Kalender"
       site_settings:
         categories:
           discourse_post_event: "Discourse-evenemang"
@@ -26,6 +27,8 @@ sv:
       invite_user_notification: "%{username} har bjudit in dig till: %{description}"
       on_holiday: "På semester"
       holiday: "Semester"
+      holidays: "Semester"
+      date: "Datum"
       add_to_calendar: "Lägg till i Google Kalender"
       region:
         title: "Region"
@@ -53,6 +56,8 @@ sv:
           bg_bg: "Bulgarien (bg_bg)"
           bg_en: "Bulgarien (bg_en)"
           br: "Brasilien"
+          br_sp: "Brasilien (br_sp)"
+          br_spcapital: "Brasilien (br_spcapital)"
           ca_ab: "Kanada (ca_ab)"
           ca_bc: "Kanada (ca_bc)"
           ca_mb: "Kanada (ca_mb)"
@@ -179,6 +184,7 @@ sv:
           je: "Jersey"
           jp: "Japan"
           kr: "Korea (Republiken)"
+          kz: "Kazakstan (Republiken Kazakstan)"
           li: "Liechtenstein"
           lt: "Litauen"
           lu: "Luxemburg"
