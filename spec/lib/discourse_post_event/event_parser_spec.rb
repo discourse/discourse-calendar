@@ -80,6 +80,11 @@ describe DiscoursePostEvent::EventParser do
     expect(events).to eq([])
   end
 
+  it 'doesn’t escape event name' do
+    events = subject.extract_events(build_post(user, '[event start="foo" name="bar <script> baz"]\n[/event]'))
+    expect(events[0][:name]).to eq("bar <script> baz")
+  end
+
   context 'with custom fields' do
     before do
       SiteSetting.discourse_post_event_allowed_custom_fields = 'foo-bar|bar'

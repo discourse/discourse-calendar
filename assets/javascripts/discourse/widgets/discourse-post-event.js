@@ -10,6 +10,7 @@ import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 import bootbox from "bootbox";
+import { escapeExpression } from "discourse/lib/utilities";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -160,7 +161,7 @@ export default createWidget("discourse-post-event", {
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
       eventName: emojiUnescape(
-        eventModel.name ||
+        escapeExpression(eventModel.name) ||
           this._cleanTopicTitle(
             eventModel.post.topic.title,
             eventModel.starts_at
@@ -257,6 +258,7 @@ export default createWidget("discourse-post-event", {
   `,
 
   _cleanTopicTitle(topicTitle, startsAt) {
+    topicTitle = escapeExpression(topicTitle);
     const cleaned = cleanTitle(topicTitle, startsAt);
     if (cleaned) {
       return topicTitle.replace(cleaned, "");
