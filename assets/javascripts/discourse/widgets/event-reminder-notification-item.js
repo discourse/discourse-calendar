@@ -1,7 +1,7 @@
 import I18n from "I18n";
 import { createWidgetFrom } from "discourse/widgets/widget";
 import { DefaultNotificationItem } from "discourse/widgets/default-notification-item";
-import { formatUsername } from "discourse/lib/utilities";
+import { escapeExpression, formatUsername } from "discourse/lib/utilities";
 import { iconNode } from "discourse-common/lib/icon-library";
 
 createWidgetFrom(DefaultNotificationItem, "event-reminder-notification-item", {
@@ -14,7 +14,9 @@ createWidgetFrom(DefaultNotificationItem, "event-reminder-notification-item", {
 
     let description;
     if (data.topic_title) {
-      description = `<span data-topic-id="${this.attrs.topic_id}">${data.topic_title}</span>`;
+      description = `<span data-topic-id="${
+        this.attrs.topic_id
+      }">${escapeExpression(data.topic_title)}</span>`;
     } else {
       description = this.description(data);
     }

@@ -34,7 +34,11 @@ module DiscoursePostEvent
 
           if value && valid_options.include?(name)
             event ||= {}
-            event[name.sub('data-', '').to_sym] = CGI.escapeHTML(value)
+            event[name.sub('data-', '').to_sym] = if name == "data-name"
+              value
+            else
+              CGI.escapeHTML(value)
+            end
           end
 
           valid_custom_fields.each do |valid_custom_field|
