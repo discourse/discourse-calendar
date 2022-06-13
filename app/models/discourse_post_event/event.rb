@@ -371,3 +371,21 @@ module DiscoursePostEvent
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: discourse_post_event_events
+#
+#  id                 :bigint           not null, primary key
+#  status             :integer          default(0), not null
+#  original_starts_at :datetime         not null
+#  original_ends_at   :datetime
+#  deleted_at         :datetime
+#  raw_invitees       :string           is an Array
+#  name               :string
+#  url                :string(1000)
+#  custom_fields      :jsonb            not null
+#  reminders          :string
+#  recurrence         :string
+#  timezone           :string
+#

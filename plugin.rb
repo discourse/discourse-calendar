@@ -85,13 +85,15 @@ after_initialize do
     end
   end
 
-  # DISCOURSE CALENDAR
+  # DISCOURSE CALENDAR HOLIDAYS
 
   add_admin_route 'admin.calendar', 'calendar'
 
   %w[
     ../app/controllers/admin/admin_discourse_calendar_controller.rb
     ../app/controllers/admin/discourse_calendar/admin_holidays_controller.rb
+    ../app/models/discourse_calendar/disabled_holiday.rb
+    ../app/services/discourse_calendar/holiday.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   Discourse::Application.routes.append do
@@ -99,6 +101,8 @@ after_initialize do
 
     get '/admin/plugins/calendar' => 'admin/plugins#index', constraints: StaffConstraint.new
     get '/admin/discourse-calendar/holiday-regions/:region_code/holidays' => 'admin/discourse_calendar/admin_holidays#index', constraints: StaffConstraint.new
+    post '/admin/discourse-calendar/holidays/disable' => 'admin/discourse_calendar/admin_holidays#disable', constraints: StaffConstraint.new
+    delete '/admin/discourse-calendar/holidays/enable' => 'admin/discourse_calendar/admin_holidays#enable', constraints: StaffConstraint.new
   end
 
   # DISCOURSE POST EVENT
