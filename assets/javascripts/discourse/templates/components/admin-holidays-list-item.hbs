@@ -1,0 +1,15 @@
+<td>{{holiday.date}}</td>
+<td>{{holiday.name}}</td>
+<td>
+  {{#if isHolidayDisabled}}
+    {{d-button
+      action=(action "enableHoliday" holiday region_code)
+      label="discourse_calendar.enable_holiday"
+    }}
+  {{else}}
+    {{d-button
+      action=(action "disableHoliday" holiday region_code)
+      label="discourse_calendar.disable_holiday"
+    }}
+  {{/if}}
+</td>

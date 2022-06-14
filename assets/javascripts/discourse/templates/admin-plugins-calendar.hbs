@@ -1,12 +1,23 @@
-<h3>{{i18n "discourse_calendar.holidays"}}</h3>
+<h3>
+  {{i18n "discourse_calendar.holidays.header_title"}}
+</h3>
 
 {{region-input
   value=this.selectedRegion
   onChange=(action "getHolidays")
 }}
 
+<p class="desc">
+  {{i18n "discourse_calendar.holidays.pick_region_description"}}
+  <br><br>
+  {{i18n "discourse_calendar.holidays.disabled_holidays_description"}}
+</p>
+
 {{conditional-loading-spinner condition=loading}}
 
 {{#if model.holidays}}
-  {{admin-holidays-list holidays=model.holidays}}
+  {{admin-holidays-list
+    holidays=model.holidays
+    region_code=this.selectedRegion
+  }}
 {{/if}}
