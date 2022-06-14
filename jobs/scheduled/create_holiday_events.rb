@@ -40,9 +40,13 @@ module Jobs
         .delete_all
 
       regions_and_user_ids.each do |region, user_ids|
-        Holidays
-          .between(Date.today, 6.months.from_now, [region], :observed)
-          .filter { |holiday| (1..5) === holiday[:date].wday }
+        DiscourseCalendar::Holiday.find_holidays_for(
+          region_code: region,
+          start_date: Date.today,
+          end_date: 6.months.from_now,
+          show_holiday_observed_on_dates: true
+        )
+          .filter { |holiday| (1..5) === holiday[:date].wday && holiday[:disabled] === false }
           .each do |holiday|
 
           user_ids.each do |user_id|
