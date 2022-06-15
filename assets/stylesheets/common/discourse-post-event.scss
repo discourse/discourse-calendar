@@ -43,14 +43,11 @@ $interested: #fb985d;
 
   .event-header {
     display: flex;
-    align-items: center;
-    padding: 0 1em;
-    height: 75px;
+    align-items: flex-start;
+    padding: 1em;
 
     .more-dropdown {
       margin-left: auto;
-      align-self: flex-start;
-      margin-top: 1em;
 
       &.has-no-actions {
         display: none;
@@ -102,7 +99,6 @@ $interested: #fb985d;
 
     .name {
       font-weight: 700;
-      @include ellipsis;
       max-width: 45vw;
     }
     .status-and-creators {
