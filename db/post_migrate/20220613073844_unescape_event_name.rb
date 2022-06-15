@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UnescapeEventName < ActiveRecord::Migration[7.0]
+class UnescapeEventName < ActiveRecord::Migration[6.1]
   disable_ddl_transaction!
 
   def up
