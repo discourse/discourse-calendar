@@ -99,6 +99,8 @@ $interested: #fb985d;
   .event-info {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    margin-right: 0.5rem;
 
     .name {
       font-weight: 700;
