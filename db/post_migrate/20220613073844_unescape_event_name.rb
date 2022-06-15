@@ -3,10 +3,14 @@
 class UnescapeEventName < ActiveRecord::Migration[7.0]
   disable_ddl_transaction!
 
+  TEMP_INDEX_NAME = "_temp_discourse_calendar_unescape_event_name_migration"
+
   def up
     # event notifications
-    start = 1
-    limit = DB.query_single("SELECT MAX(id) FROM notifications WHERE notification_type IN (27, 28)").first.to_i
+    DB.exec("CREATE INDEX CONCURRENTLY #{TEMP_INDEX_NAME} ON notifications(id) WHERE notification_type IN (27, 28)")
+    start, limit = DB.query_single("SELECT MIN(id), MAX(id) FROM notifications WHERE notification_type IN (27, 28)")
+
+    return if !start
 
     notifications_query = <<~SQL
       SELECT id, data
@@ -16,27 +20,35 @@ class UnescapeEventName < ActiveRecord::Migration[7.0]
         notification_type IN (27, 28) AND
         data::json ->> 'topic_title' LIKE '%&%'
       ORDER BY id ASC
-      LIMIT 1000
+      LIMIT 10000
     SQL
+
     while true
       if start > limit
         break
       end
+
       max_seen = -1
+
       DB.query(notifications_query, start: start).each do |record|
         id = record.id
+
         if id > max_seen
           max_seen = id
         end
+
         data = JSON.parse(record.data)
         unescaped = CGI.unescapeHTML(data["topic_title"])
         next if unescaped == data["topic_title"]
         data["topic_title"] = unescaped
+
         DB.exec(<<~SQL, data: data.to_json, id: id)
           UPDATE notifications SET data = :data WHERE id = :id
         SQL
       end
-      start += 1000
+
+      start += 10000
+
       if max_seen > start
         start = max_seen + 1
       end
@@ -57,6 +69,8 @@ class UnescapeEventName < ActiveRecord::Migration[7.0]
         UPDATE discourse_post_event_events SET name = :unescaped_name WHERE id = :id
       SQL
     end
+  ensure
+    DB.exec("DROP INDEX IF EXISTS #{TEMP_INDEX_NAME}")
   end
 
   def down
