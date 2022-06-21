@@ -328,6 +328,11 @@ he:
               description: "לאירוע פרטי יכולים להצטרף רק משתמשים שהוזמנו."
       event_ui:
         show_all: "להציג הכול"
+        participants:
+          one: "משתמש %{count} השתתף."
+          two: "%{count} משתמשים השתתפו."
+          many: "%{count} משתמשים השתתפו."
+          other: "%{count} משתמשים השתתפו."
         invite: "הודעה למשתמש"
         add_to_calendar: "הוספה ללוח השנה"
         send_pm_to_creator: "שליחת הודעה פרטית על %{username}"
