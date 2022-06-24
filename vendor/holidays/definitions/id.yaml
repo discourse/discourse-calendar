@@ -1,0 +1,108 @@
+# Indonesia holiday definitions for the Ruby Holiday gem
+#
+# Updated: 2022-06-24 by nat
+# Sources:
+# - https://kemenkopmk.go.id/sites/default/files/pengumuman/2022-04/Perubahan%20SKB%20Libnas%20%26%20Cuti%20Bersama%20tahun%202022.pdf
+# - https://publicholidays.co.id/2022-dates/
+
+---
+months:
+  0:
+  - name: Good Friday
+    regions: [id]
+    function: easter(year)
+    function_modifier: -2
+  1:
+  - name: New Year’s Day
+    regions: [id]
+    mday: 1
+  2:
+  - name: Chinese New Year
+    regions: [id]
+    mday: 1
+    year_ranges:
+      limited: [2022]
+  - name: Prophet's Ascension
+    regions: [id]
+    mday: 28
+  3:
+  - name: Bali Hindu New Year
+    regions: [id]
+    mday: 3
+  4:
+  - name: Lebaran Holiday
+    regions: [id]
+    mday: 29
+  5:
+  - name: Labour Day
+    regions: [id]
+    mday: 1
+  - name: Eid Al-Fitr
+    regions: [id]
+    mday: 2
+    year_ranges:
+      limited: [2022]
+  - name: Lebaran Holiday
+    regions: [id]
+    mday: 3
+    year_ranges:
+      limited: [2022]
+  - name: Lebaran Holiday
+    regions: [id]
+    mday: 4
+    year_ranges:
+      limited: [2022]
+  - name: Lebaran Holiday
+    regions: [id]
+    mday: 5
+    year_ranges:
+      limited: [2022]
+  - name: Lebaran Holiday
+    regions: [id]
+    mday: 6
+    year_ranges:
+      limited: [2022]
+  - name: Waisak Day
+    regions: [id]
+    mday: 16
+    year_ranges:
+      limited: [2022]
+  - name: Ascension Day of Christ
+    regions: [id]
+    mday: 26
+    year_ranges:
+      limited: [2022]
+  6:
+  - name: Pancasila Day
+    regions: [id]
+    mday: 1
+  7:
+  - name: Eid Al-Adha
+    regions: [id]
+    mday: 9
+    year_ranges:
+      limited: [2022]
+  - name: Islamic New Year
+    regions: [id]
+    mday: 30
+    year_ranges:
+      limited: [2022]
+  8:
+  - name: Independence Day
+    regions: [id]
+    mday: 17
+  10:
+  - name: Prophet's Birthday
+    regions: [id]
+    mday: 8
+  12:
+  - name: Christmas Day
+    regions: [id]
+    mday: 25
+
+tests:
+  - given:
+      date: '2022-04-15'
+      regions: ["id"]
+    expect:
+      name: "Good Friday"
