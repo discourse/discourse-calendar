@@ -69,3 +69,20 @@ module DiscoursePostEvent
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: discourse_post_event_invitees
+#
+#  id         :bigint           not null, primary key
+#  post_id    :integer          not null
+#  user_id    :integer          not null
+#  status     :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  notified   :boolean          default(FALSE), not null
+#
+# Indexes
+#
+#  discourse_post_event_invitees_post_id_user_id_idx  (post_id,user_id) UNIQUE
+#

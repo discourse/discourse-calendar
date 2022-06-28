@@ -20,8 +20,13 @@ en:
     discourse_calendar:
       invite_user_notification: "%{username} invited you to: %{description}"
       on_holiday: "On Holiday"
+      disable_holiday: "Disable"
+      enable_holiday: "Enable"
       holiday: "Holiday"
-      holidays: "Holidays"
+      holidays:
+        header_title: "Holidays"
+        pick_region_description: "Pick a region to see the holidays for that region."
+        disabled_holidays_description: "Disabled holidays will be excluded from the staff holiday calendar."
       date: "Date"
       add_to_calendar: "Add to Google Calendar"
       region:

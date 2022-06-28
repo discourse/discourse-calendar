@@ -1,9 +1,9 @@
 import { acceptance, query } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
-import { visit } from "@ember/test-helpers";
+import { click, visit } from "@ember/test-helpers";
 import selectKit from "discourse/tests/helpers/select-kit-helper";
 
-acceptance("Admin - Calendar", function (needs) {
+acceptance("Admin - Discourse Calendar - Holidays", function (needs) {
   needs.user();
   needs.settings({
     calendar_enabled: true,
@@ -18,6 +18,14 @@ acceptance("Admin - Calendar", function (needs) {
           { date: "2022-04-15", name: "Good Friday" },
         ],
       });
+    });
+
+    server.post("/admin/discourse-calendar/holidays/disable", () => {
+      return helper.response({ success: "OK" });
+    });
+
+    server.delete("/admin/discourse-calendar/holidays/enable", () => {
+      return helper.response({ success: "OK" });
     });
   });
 
@@ -44,6 +52,26 @@ acceptance("Admin - Calendar", function (needs) {
     assert.ok(
       query(".holidays-list").innerText.includes("2022-04-15"),
       "it displays holiday dates"
+    );
+  });
+
+  test("disabling and enabling a holiday", async (assert) => {
+    const regions = selectKit(".region-input");
+
+    await visit("/admin/plugins/calendar");
+    await regions.expand();
+    await regions.selectRowByValue("ca");
+
+    await click("table tr:first-child button");
+    assert.ok(
+      query("table tr.disabled:first-child"),
+      "after clicking the disable button, it adds a .disabled CSS class"
+    );
+
+    await click("table tr.disabled:first-child button");
+    assert.ok(
+      query("table tr:first-child"),
+      "after clicking the enable button, it removes the .disabled CSS class"
     );
   });
 });

@@ -84,6 +84,37 @@ describe DiscourseCalendar::CreateHolidayEvents do
     expect(CalendarEvent.exists?(username: frenchy.username)).to eq(false)
   end
 
+  context "when there are disabled holidays" do
+    let(:france_assomption) { { holiday_name: "Assomption", region_code: "fr" } }
+    let(:france_toussaint) { { holiday_name: "Toussaint", region_code: "fr" } }
+
+    before do
+      DiscourseCalendar::DisabledHoliday.create!(france_assomption)
+      DiscourseCalendar::DisabledHoliday.create!(france_toussaint)
+    end
+
+    it "only adds enabled holidays to the calendar" do
+      frenchy
+      freeze_time Time.zone.local(2019, 7, 1)
+      subject.execute(nil)
+
+      expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([
+        ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
+        ["fr", "Noël", "2019-12-25", frenchy.username],
+        ["fr", "Jour de l'an", "2020-01-01", frenchy.username]
+      ])
+    end
+
+    it "doesn't add disabled holidays to the calendar" do
+      frenchy
+      freeze_time Time.zone.local(2019, 7, 1)
+      subject.execute(nil)
+
+      expect(CalendarEvent.pluck(:description)).not_to include(france_assomption[:holiday_name])
+      expect(CalendarEvent.pluck(:description)).not_to include(france_toussaint[:holiday_name])
+    end
+  end
+
   context "when user_options.timezone column exists" do
     it "uses the user TZ when available" do
       frenchy.user_option.update!(timezone: "Europe/Paris")
