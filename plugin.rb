@@ -309,7 +309,7 @@ after_initialize do
     ../app/models/calendar_event.rb
     ../app/serializers/user_timezone_serializer.rb
     ../jobs/scheduled/create_holiday_events.rb
-    ../jobs/scheduled/destroy_past_events.rb
+    ../jobs/scheduled/delete_expired_event_posts.rb
     ../jobs/scheduled/update_holiday_usernames.rb
     ../jobs/scheduled/monitor_event_dates.rb
     ../lib/calendar_validator.rb
