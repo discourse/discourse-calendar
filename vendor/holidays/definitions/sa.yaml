@@ -39,6 +39,26 @@ months:
     mday: 22
     year_ranges:
       limited: [2021]
+  - name: Day of Arafah
+    regions: [sa]
+    mday: 8
+    year_ranges:
+      limited: [2022]
+  - name: Day 1 of Eid Al Adha
+    regions: [sa]
+    mday: 9
+    year_ranges:
+      limited: [2022]
+  - name: Day 2 of Eid Al Adha
+    regions: [sa]
+    mday: 10
+    year_ranges:
+      limited: [2022]
+  - name: Day 3 of Eid Al Adha
+    regions: [sa]
+    mday: 11
+    year_ranges:
+      limited: [2022]
   9:
   - name: Saudi National Day
     regions: [sa]
