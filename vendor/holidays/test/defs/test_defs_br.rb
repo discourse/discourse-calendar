@@ -9,13 +9,13 @@ class BrDefinitionTests < Test::Unit::TestCase  # :nodoc:
   def test_br
     assert_equal "Dia da Confraternização Universal", (Holidays.on(Date.civil(2008, 1, 1), [:br], [:informal])[0] || {})[:name]
 
-    assert_equal "Carnaval", (Holidays.on(Date.civil(2005, 2, 8), [:br], [:informal])[0] || {})[:name]
+    assert_equal "Terça-Feira de Carnaval", (Holidays.on(Date.civil(2005, 2, 8), [:br], [:informal])[0] || {})[:name]
 
-    assert_equal "Carnaval", (Holidays.on(Date.civil(2006, 2, 28), [:br], [:informal])[0] || {})[:name]
+    assert_equal "Terça-Feira de Carnaval", (Holidays.on(Date.civil(2006, 2, 28), [:br], [:informal])[0] || {})[:name]
 
-    assert_equal "Carnaval", (Holidays.on(Date.civil(2007, 2, 20), [:br], [:informal])[0] || {})[:name]
+    assert_equal "Terça-Feira de Carnaval", (Holidays.on(Date.civil(2007, 2, 20), [:br], [:informal])[0] || {})[:name]
 
-    assert_equal "Carnaval", (Holidays.on(Date.civil(2008, 2, 5), [:br], [:informal])[0] || {})[:name]
+    assert_equal "Terça-Feira de Carnaval", (Holidays.on(Date.civil(2008, 2, 5), [:br], [:informal])[0] || {})[:name]
 
     assert_equal "Sexta-feira Santa", (Holidays.on(Date.civil(2008, 3, 21), [:br], [:informal])[0] || {})[:name]
 
