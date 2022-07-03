@@ -18,7 +18,11 @@ module Holidays
       7 => [{:mday => 19, :year_ranges => { :limited => [2021] },:name => "Day of Arafah", :regions => [:sa]},
             {:mday => 20, :year_ranges => { :limited => [2021] },:name => "Day 1 of Eid Al Adha", :regions => [:sa]},
             {:mday => 21, :year_ranges => { :limited => [2021] },:name => "Day 2 of Eid Al Adha", :regions => [:sa]},
-            {:mday => 22, :year_ranges => { :limited => [2021] },:name => "Day 3 of Eid Al Adha", :regions => [:sa]}],
+            {:mday => 22, :year_ranges => { :limited => [2021] },:name => "Day 3 of Eid Al Adha", :regions => [:sa]},
+            {:mday => 8, :year_ranges => { :limited => [2022] },:name => "Day of Arafah", :regions => [:sa]},
+            {:mday => 9, :year_ranges => { :limited => [2022] },:name => "Day 1 of Eid Al Adha", :regions => [:sa]},
+            {:mday => 10, :year_ranges => { :limited => [2022] },:name => "Day 2 of Eid Al Adha", :regions => [:sa]},
+            {:mday => 11, :year_ranges => { :limited => [2022] },:name => "Day 3 of Eid Al Adha", :regions => [:sa]}],
       9 => [{:mday => 23, :name => "Saudi National Day", :regions => [:sa]}]
       }
     end
