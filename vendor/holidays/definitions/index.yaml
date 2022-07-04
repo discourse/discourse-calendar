@@ -30,6 +30,7 @@ defs:
   HR: ['hr.yaml']
   HK: ['hk.yaml']
   HU: ['hu.yaml']
+  ID: ['id.yaml']
   IE: ['ie.yaml']
   IN: ['in.yaml']
   IS: ['is.yaml']
