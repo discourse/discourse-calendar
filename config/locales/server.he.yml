@@ -16,6 +16,7 @@ he:
         title: האירוע התחיל
   system_messages:
     discourse_calendar_holiday_region_invalid: "אזור החג שסיפקת לא קיים."
+    discourse_calendar_enable_holiday_failed: "לא ניתן היה לאפשר את החג הזה, הוא כבר מאופשר או שהוא לא מושבת."
     discourse_post_event_bulk_invite_succeeded:
       title: "אירוע - הזמנה קבוצתית הצליחה"
       subject_template: "ההזמנה המרוכזת עובדה בהצלחה"

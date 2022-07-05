@@ -26,8 +26,13 @@ ru:
     discourse_calendar:
       invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
       on_holiday: "На празднике"
+      disable_holiday: "Отключить"
+      enable_holiday: "Включить"
       holiday: "Праздник"
-      holidays: "Праздники"
+      holidays:
+        header_title: "Праздники"
+        pick_region_description: "Выберите регион, чтобы увидеть праздники, которые там отмечают."
+        disabled_holidays_description: "При отключении праздников они будут исключены из рабочего календаря."
       date: "Дата"
       add_to_calendar: "Добавить в Календарь Google"
       region:

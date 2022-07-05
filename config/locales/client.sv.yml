@@ -26,8 +26,13 @@ sv:
     discourse_calendar:
       invite_user_notification: "%{username} har bjudit in dig till: %{description}"
       on_holiday: "På semester"
+      disable_holiday: "Inaktivera"
+      enable_holiday: "Aktivera"
       holiday: "Semester"
-      holidays: "Semester"
+      holidays:
+        header_title: "Helgdagar"
+        pick_region_description: "Välj en region för att se helgdagarna för den regionen."
+        disabled_holidays_description: "Inaktiverade helgdagar kommer att exkluderas från personalens helgdagskalender."
       date: "Datum"
       add_to_calendar: "Lägg till i Google Kalender"
       region:

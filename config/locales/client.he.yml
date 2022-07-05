@@ -26,8 +26,13 @@ he:
     discourse_calendar:
       invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
       on_holiday: "בחג"
+      disable_holiday: "השבתה"
+      enable_holiday: "הפעלה"
       holiday: "חג"
-      holidays: "חגים"
+      holidays:
+        header_title: "חגים"
+        pick_region_description: "נא לבחור אזור כדי לראות את החגים לאותו האזור."
+        disabled_holidays_description: "חגים מושבתים יוחרגו מלוח השנה של חגי הסגל."
       date: "תאריך"
       add_to_calendar: "הוספה ללוח השנה של Google"
       region:
