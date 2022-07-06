@@ -16,6 +16,7 @@ ru:
         title: Мероприятие началось
   system_messages:
     discourse_calendar_holiday_region_invalid: "Указанное вами место отдыха не существует."
+    discourse_calendar_enable_holiday_failed: "Этот праздник нельзя включить, он уже включён или не был отключен."
     discourse_post_event_bulk_invite_succeeded:
       title: "Событие - Массовое приглашение успешно выполнено"
       subject_template: "Массовое приглашение успешно обработано"

@@ -27,7 +27,6 @@ fa_IR:
       invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
       on_holiday: "در تعطیلات"
       holiday: "تعطیلات"
-      holidays: "تعطیلات"
       date: "تاریخ"
       add_to_calendar: "افزودن به تقویم گوگل"
       region:
