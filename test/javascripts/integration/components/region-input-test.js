@@ -21,7 +21,9 @@ discourseModule("Integration | Component | region-input", function (hooks) {
       await selectKit().expand();
 
       assert.equal(
-        query(".region-input ul li.select-kit-row:first-child").innerText,
+        query(
+          ".region-input ul li.select-kit-row:first-child"
+        ).innerText.trim(),
         "None",
         "it displays the 'None' option when allowNoneRegion is set to true"
       );
@@ -41,7 +43,9 @@ discourseModule("Integration | Component | region-input", function (hooks) {
       await selectKit().expand();
 
       assert.notEqual(
-        query(".region-input ul li.select-kit-row:first-child").innerText,
+        query(
+          ".region-input ul li.select-kit-row:first-child"
+        ).innerText.trim(),
         "None",
         "it does not display the 'None' option when allowNoneRegion is set to false"
       );
