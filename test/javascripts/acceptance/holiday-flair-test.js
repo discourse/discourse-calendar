@@ -1,4 +1,4 @@
-import { acceptance } from "discourse/tests/helpers/qunit-helpers";
+import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
 
@@ -58,10 +58,11 @@ acceptance("Discourse Calendar - Holiday Flair", function (needs) {
     });
   });
 
-  test("shows holiday emoji in directory", async (assert) => {
+  test("shows holiday emoji in directory", async function (assert) {
     await visit("/u");
-    assert.equal(find(".holiday-flair").length, 1);
-    assert.equal(find("div[data-username='foo'] .holiday-flair").length, 1);
-    assert.equal(find("div[data-username='bar'] .holiday-flair").length, 0);
+
+    assert.ok(exists(".holiday-flair"));
+    assert.ok(exists("div[data-username='foo'] .holiday-flair"));
+    assert.ok(!exists("div[data-username='bar'] .holiday-flair"));
   });
 });
