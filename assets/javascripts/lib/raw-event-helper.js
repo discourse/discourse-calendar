@@ -1,11 +1,9 @@
 export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
   const params = {};
 
-  if (startsAt) {
-    params.start = moment(startsAt).utc().format("YYYY-MM-DD HH:mm");
-  } else {
-    params.start = moment().utc().format("YYYY-MM-DD HH:mm");
-  }
+  const eventTz = eventModel.timezone || "UTC";
+
+  params.start = moment(startsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
 
   if (eventModel.status) {
     params.status = eventModel.status;
@@ -28,7 +26,7 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
   }
 
   if (endsAt) {
-    params.end = moment(endsAt).utc().format("YYYY-MM-DD HH:mm");
+    params.end = moment(endsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
   }
 
   if (eventModel.status === "private") {

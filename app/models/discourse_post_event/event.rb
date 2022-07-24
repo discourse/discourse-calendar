@@ -276,10 +276,15 @@ module DiscoursePostEvent
       if events.present?
         event_params = events.first
         event = post.event || DiscoursePostEvent::Event.new(id: post.id)
+
+        tz = ActiveSupport::TimeZone[event_params[:timezone] || "UTC"]
+        parsed_starts_at = tz.parse(event_params[:start])
+        parsed_ends_at = event_params[:end] ? tz.parse(event_params[:end]) : nil
+
         params = {
           name: event_params[:name],
-          original_starts_at: event_params[:start],
-          original_ends_at: event_params[:end],
+          original_starts_at: parsed_starts_at,
+          original_ends_at: parsed_ends_at,
           url: event_params[:url],
           recurrence: event_params[:recurrence],
           timezone: event_params[:timezone],
@@ -337,20 +342,22 @@ module DiscoursePostEvent
         }
       end
 
+      localized_start = original_starts_at.in_time_zone(timezone)
+
       recurrence = nil
 
       case self.recurrence
       when 'every_day'
         recurrence = 'FREQ=DAILY'
       when 'every_month'
-        start_date = original_starts_at.beginning_of_month.to_date
-        end_date = original_starts_at.end_of_month.to_date
-        weekday = original_starts_at.strftime('%A')
+        start_date = localized_start.beginning_of_month.to_date
+        end_date = localized_start.end_of_month.to_date
+        weekday = localized_start.strftime('%A')
 
         count = 0
         (start_date..end_date).each do |date|
           count += 1 if date.strftime('%A') == weekday
-          break if date.day == original_starts_at.day
+          break if date.day == localized_start.day
         end
 
         recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
@@ -359,11 +366,11 @@ module DiscoursePostEvent
       when 'every_two_weeks'
         recurrence = "FREQ=WEEKLY;INTERVAL=2;"
       else
-        byday = original_starts_at.strftime('%A').upcase[0, 2]
+        byday = localized_start.strftime('%A').upcase[0, 2]
         recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
       end
 
-      next_starts_at = RRuleGenerator.generate(recurrence, original_starts_at, tzid: self.timezone)
+      next_starts_at = RRuleGenerator.generate(recurrence, localized_start, tzid: self.timezone)
       difference = original_ends_at - original_starts_at
       next_ends_at = next_starts_at + difference.seconds
 

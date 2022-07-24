@@ -28,20 +28,25 @@ function _validEventPreview(eventContainer) {
   const datesContainer = document.createElement("div");
   datesContainer.classList.add("event-preview-dates");
 
-  const startsAt = moment
-    .utc(eventContainer.dataset.start)
-    .tz(moment.tz.guess());
-
-  const endsAtValue = eventContainer.dataset.end;
-  const format = guessDateFormat(
-    startsAt,
-    endsAtValue && moment.utc(endsAtValue).tz(moment.tz.guess())
+  const startsAt = moment.tz(
+    eventContainer.dataset.start,
+    eventContainer.dataset.timezone || "UTC"
   );
 
-  let datesString = `<span class='start'>${startsAt.format(format)}</span>`;
-  if (endsAtValue) {
-    datesString += ` → <span class='end'>${moment
-      .utc(endsAtValue)
+  const endsAt =
+    eventContainer.dataset.end &&
+    moment.tz(
+      eventContainer.dataset.end,
+      eventContainer.dataset.timezone || "UTC"
+    );
+
+  const format = guessDateFormat(startsAt, endsAt);
+
+  let datesString = `<span class='start'>${startsAt
+    .tz(moment.tz.guess())
+    .format(format)}</span>`;
+  if (endsAt) {
+    datesString += ` → <span class='end'>${endsAt
       .tz(moment.tz.guess())
       .format(format)}</span>`;
   }
@@ -115,27 +120,22 @@ function _attachWidget(api, cooked, eventModel) {
     glueContainer.innerHTML = '<div class="spinner medium"></div>';
     eventContainer.appendChild(glueContainer);
 
-    const startsAt = moment(eventModel.starts_at);
     const timezone = eventModel.timezone || "UTC";
-    const format = guessDateFormat(
-      startsAt,
-      eventModel.ends_at && moment(eventModel.ends_at)
-    );
+    const startsAt = moment(eventModel.starts_at).tz(timezone);
+    const endsAt =
+      eventModel.ends_at && moment(eventModel.ends_at).tz(timezone);
+    const format = guessDateFormat(startsAt, endsAt);
 
     const siteSettings = api.container.lookup("site-settings:main");
     if (siteSettings.discourse_local_dates_enabled) {
       const dates = [];
-
       dates.push(
-        `[date=${moment
-          .utc(eventModel.starts_at)
-          .format("YYYY-MM-DD")} time=${moment
-          .utc(eventModel.starts_at)
-          .format("HH:mm")} format=${format} timezone=${timezone}]`
+        `[date=${startsAt.format("YYYY-MM-DD")} time=${startsAt.format(
+          "HH:mm"
+        )} format=${format} timezone=${timezone}]`
       );
 
-      if (eventModel.ends_at) {
-        const endsAt = moment.utc(eventModel.ends_at);
+      if (endsAt) {
         dates.push(
           `[date=${endsAt.format("YYYY-MM-DD")} time=${endsAt.format(
             "HH:mm"
