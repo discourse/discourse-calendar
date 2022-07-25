@@ -160,10 +160,8 @@ export default Controller.extend(ModalFunctionality, {
   onChangeTimezone(newTz) {
     this.model.eventModel.setProperties({
       timezone: newTz,
-      starts_at: replaceTimezone(this.model.eventModel.starts_at, newTz),
-      ends_at:
-        this.model.eventModel.ends_at &&
-        replaceTimezone(this.model.eventModel.ends_at, newTz),
+      starts_at: replaceTimezone(this.startsAt, newTz),
+      ends_at: this.endsAt && replaceTimezone(this.endsAt, newTz),
     });
   },
 
