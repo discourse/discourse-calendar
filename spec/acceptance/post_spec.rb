@@ -579,16 +579,16 @@ describe Post do
     it "stores the correct information in the database" do
       expected_datetime = ActiveSupport::TimeZone["Australia/Sydney"].parse("2022-07-24 14:01")
 
-      p = PostCreator.create!(
+      post = PostCreator.create!(
         user,
         title: 'Beach party',
         raw: "[event start='2022-07-24 14:01' timezone='Australia/Sydney']\n[/event]"
       ).reload
 
-      expect(p.event.timezone).to eq("Australia/Sydney")
-      expect(p.event.original_starts_at).to eq_time(expected_datetime)
-      expect(p.event.starts_at).to eq_time(expected_datetime)
-      expect(p.event.event_dates.first.starts_at).to eq_time(expected_datetime)
+      expect(post.event.timezone).to eq("Australia/Sydney")
+      expect(post.event.original_starts_at).to eq_time(expected_datetime)
+      expect(post.event.starts_at).to eq_time(expected_datetime)
+      expect(post.event.event_dates.first.starts_at).to eq_time(expected_datetime)
     end
 
     it "raises an error for invalid timezone" do
@@ -606,15 +606,15 @@ describe Post do
       expected_original_datetime = ActiveSupport::TimeZone["Australia/Sydney"].parse("2022-07-01 09:01")
       expected_next_datetime = ActiveSupport::TimeZone["Australia/Sydney"].parse("2022-07-29 09:01")
 
-      p = PostCreator.create!(
+      post = PostCreator.create!(
         user,
         title: 'Friday beach party',
         raw: "[event start='2022-07-01 09:01' end='2022-07-01 10:01' timezone='Australia/Sydney' recurrence='every_week']\n[/event]"
       ).reload
 
-      expect(p.event.timezone).to eq("Australia/Sydney")
-      expect(p.event.original_starts_at).to eq_time(expected_original_datetime)
-      expect(p.event.starts_at).to eq_time(expected_next_datetime)
+      expect(post.event.timezone).to eq("Australia/Sydney")
+      expect(post.event.original_starts_at).to eq_time(expected_original_datetime)
+      expect(post.event.starts_at).to eq_time(expected_next_datetime)
     end
 
     it "handles recurrence across daylight saving" do
@@ -623,15 +623,15 @@ describe Post do
       expected_original_datetime = ActiveSupport::TimeZone["Europe/Paris"].parse("2022-03-20 09:01")
       expected_next_datetime = ActiveSupport::TimeZone["Europe/Paris"].parse("2022-07-25 09:01")
 
-      p = PostCreator.create!(
+      post = PostCreator.create!(
         user,
         title: 'Friday beach party',
         raw: "[event start='2022-03-20 09:01' end='2022-03-20 10:01' timezone='Europe/Paris' recurrence='every_day']\n[/event]"
       ).reload
 
-      expect(p.event.timezone).to eq("Europe/Paris")
-      expect(p.event.original_starts_at).to eq_time(expected_original_datetime)
-      expect(p.event.starts_at).to eq_time(expected_next_datetime)
+      expect(post.event.timezone).to eq("Europe/Paris")
+      expect(post.event.original_starts_at).to eq_time(expected_original_datetime)
+      expect(post.event.starts_at).to eq_time(expected_next_datetime)
     end
   end
 end

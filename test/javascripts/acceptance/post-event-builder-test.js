@@ -19,9 +19,9 @@ acceptance("Post event - composer", function (needs) {
     await click(".toolbar-popup-menu-options .dropdown-select-box-header");
     await click(".toolbar-popup-menu-options *[data-value='insertEvent']");
 
-    const m = ".discourse-post-event-builder-modal";
+    const modal = ".discourse-post-event-builder-modal";
 
-    const timezoneInput = selectKit(`${m} .event-field.timezone`);
+    const timezoneInput = selectKit(`${modal} .event-field.timezone`);
     await timezoneInput.expand();
     await timezoneInput.selectRowByValue("Europe/London");
     assert.equal(
@@ -30,16 +30,16 @@ acceptance("Post event - composer", function (needs) {
       "Timezone can be changed"
     );
 
-    const fromDate = query(`${m} .from input[type=date]`);
+    const fromDate = query(`${modal} .from input[type=date]`);
     fromDate.value = "2022-07-25";
 
-    const fromTime = selectKit(`${m} .from .d-time-input`);
+    const fromTime = selectKit(`${modal} .from .d-time-input`);
     await fromTime.expand();
     await fromTime.selectRowByName("12:00");
 
-    const toDate = query(`${m} .to input[type=date]`);
+    const toDate = query(`${modal} .to input[type=date]`);
     toDate.value = "2022-07-25";
-    const toTime = selectKit(`${m} .to .d-time-input`);
+    const toTime = selectKit(`${modal} .to .d-time-input`);
     await toTime.expand();
     await toTime.selectRowByName("13:00");
 
@@ -49,7 +49,7 @@ acceptance("Post event - composer", function (needs) {
     assert.strictEqual(fromTime.header().name(), "12:00");
     assert.strictEqual(toTime.header().name(), "13:00");
 
-    await click(`${m} .modal-footer .btn-primary`);
+    await click(`${modal} .modal-footer .btn-primary`);
 
     const composerContent = query(".d-editor-input").value;
 
