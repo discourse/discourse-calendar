@@ -1,6 +1,6 @@
 import { acceptance, query } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
-import { click, visit } from "@ember/test-helpers";
+import { click, fillIn, visit } from "@ember/test-helpers";
 import selectKit from "discourse/tests/helpers/select-kit-helper";
 
 acceptance("Post event - composer", function (needs) {
@@ -21,7 +21,9 @@ acceptance("Post event - composer", function (needs) {
 
     const modal = ".discourse-post-event-builder-modal";
 
-    const timezoneInput = selectKit(`${modal} .event-field.timezone`);
+    const timezoneInput = selectKit(
+      `${modal} .event-field.timezone .timezone-input`
+    );
     await timezoneInput.expand();
     await timezoneInput.selectRowByValue("Europe/London");
     assert.equal(
@@ -31,15 +33,15 @@ acceptance("Post event - composer", function (needs) {
     );
 
     const fromDate = query(`${modal} .from input[type=date]`);
-    fromDate.value = "2022-07-25";
+    fillIn(fromDate, "2022-07-01");
 
-    const fromTime = selectKit(`${modal} .from .d-time-input`);
+    const fromTime = selectKit(`${modal} .from .d-time-input .select-kit`);
     await fromTime.expand();
     await fromTime.selectRowByName("12:00");
 
     const toDate = query(`${modal} .to input[type=date]`);
-    toDate.value = "2022-07-25";
-    const toTime = selectKit(`${modal} .to .d-time-input`);
+    fillIn(toDate, "2022-07-01");
+    const toTime = selectKit(`${modal} .to .d-time-input .select-kit`);
     await toTime.expand();
     await toTime.selectRowByName("13:00");
 
@@ -54,11 +56,11 @@ acceptance("Post event - composer", function (needs) {
     const composerContent = query(".d-editor-input").value;
 
     assert.true(
-      composerContent.includes('start="2022-07-24 12:00"'),
+      composerContent.includes('start="2022-07-01 12:00"'),
       "bbcode has correct start time"
     );
     assert.true(
-      composerContent.includes('end="2022-07-24 13:00"'),
+      composerContent.includes('end="2022-07-01 13:00"'),
       "bbcode has correct end time"
     );
     assert.true(
