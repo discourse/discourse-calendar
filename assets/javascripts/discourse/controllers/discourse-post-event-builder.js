@@ -146,13 +146,9 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   onChangeDates(changes) {
-    // from/to are in the browser's local timezone. Ideally the DateTimeInputRange
-    // component would support a timezone parameter. For now, let's just ignore the timezone
-    // and replace with the event timezone
-    const eventTz = this.model.eventModel.timezone || "UTC";
     this.model.eventModel.setProperties({
-      starts_at: replaceTimezone(changes.from, eventTz),
-      ends_at: changes.to && replaceTimezone(changes.to, eventTz),
+      starts_at: changes.from,
+      ends_at: changes.to,
     });
   },
 
