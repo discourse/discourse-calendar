@@ -11,6 +11,10 @@ import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 const DEFAULT_REMINDER = { value: 15, unit: "minutes", period: "before" };
 
+function replaceTimezone(val, newTimezone) {
+  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
+}
+
 export default Controller.extend(ModalFunctionality, {
   reminders: null,
   isLoadingReminders: false,
@@ -119,16 +123,19 @@ export default Controller.extend(ModalFunctionality, {
 
   startsAt: computed("model.eventModel.starts_at", {
     get() {
-      return this.model.eventModel.starts_at
-        ? moment(this.model.eventModel.starts_at)
-        : moment();
+      return moment(this.model.eventModel.starts_at).tz(
+        this.model.eventModel.timezone || "UTC"
+      );
     },
   }),
 
   endsAt: computed("model.eventModel.ends_at", {
     get() {
       return (
-        this.model.eventModel.ends_at && moment(this.model.eventModel.ends_at)
+        this.model.eventModel.ends_at &&
+        moment(this.model.eventModel.ends_at).tz(
+          this.model.eventModel.timezone || "UTC"
+        )
       );
     },
   }),
@@ -139,9 +146,24 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   onChangeDates(changes) {
+    // from/to are in the browser's local timezone. Ideally the DateTimeInputRange
+    // component would support a timezone parameter. For now, let's just ignore the timezone
+    // and replace with the event timezone
+    const eventTz = this.model.eventModel.timezone || "UTC";
     this.model.eventModel.setProperties({
-      starts_at: changes.from,
-      ends_at: changes.to,
+      starts_at: replaceTimezone(changes.from, eventTz),
+      ends_at: changes.to && replaceTimezone(changes.to, eventTz),
+    });
+  },
+
+  @action
+  onChangeTimezone(newTz) {
+    this.model.eventModel.setProperties({
+      timezone: newTz,
+      starts_at: replaceTimezone(this.model.eventModel.starts_at, newTz),
+      ends_at:
+        this.model.eventModel.ends_at &&
+        replaceTimezone(this.model.eventModel.ends_at, newTz),
     });
   },
 

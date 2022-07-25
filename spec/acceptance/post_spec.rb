@@ -570,4 +570,68 @@ describe Post do
       end
     end
   end
+
+  describe "timezone handling" do
+    before do
+      freeze_time Time.utc(2022, 7, 24, 13, 00)
+    end
+
+    it "stores the correct information in the database" do
+      expected_datetime = ActiveSupport::TimeZone["Australia/Sydney"].parse("2022-07-24 14:01")
+
+      post = PostCreator.create!(
+        user,
+        title: 'Beach party',
+        raw: "[event start='2022-07-24 14:01' timezone='Australia/Sydney']\n[/event]"
+      ).reload
+
+      expect(post.event.timezone).to eq("Australia/Sydney")
+      expect(post.event.original_starts_at).to eq_time(expected_datetime)
+      expect(post.event.starts_at).to eq_time(expected_datetime)
+      expect(post.event.event_dates.first.starts_at).to eq_time(expected_datetime)
+    end
+
+    it "raises an error for invalid timezone" do
+      expect {
+        PostCreator.create!(
+          user,
+          title: 'Beach party',
+          raw: "[event start='2022-07-24 14:01' timezone='Westeros/Winterfell']\n[/event]"
+        )
+      }.to raise_error(I18n.t("discourse_post_event.errors.models.event.invalid_timezone"))
+    end
+
+    it "handles simple weekly recurrence correctly" do
+      # Friday in Aus, Thursday in UTC
+      expected_original_datetime = ActiveSupport::TimeZone["Australia/Sydney"].parse("2022-07-01 09:01")
+      expected_next_datetime = ActiveSupport::TimeZone["Australia/Sydney"].parse("2022-07-29 09:01")
+
+      post = PostCreator.create!(
+        user,
+        title: 'Friday beach party',
+        raw: "[event start='2022-07-01 09:01' end='2022-07-01 10:01' timezone='Australia/Sydney' recurrence='every_week']\n[/event]"
+      ).reload
+
+      expect(post.event.timezone).to eq("Australia/Sydney")
+      expect(post.event.original_starts_at).to eq_time(expected_original_datetime)
+      expect(post.event.starts_at).to eq_time(expected_next_datetime)
+    end
+
+    it "handles recurrence across daylight saving" do
+      # DST starts on 27th March. Original datetime is before that. Expecting
+      # local time to be correct after the DST change
+      expected_original_datetime = ActiveSupport::TimeZone["Europe/Paris"].parse("2022-03-20 09:01")
+      expected_next_datetime = ActiveSupport::TimeZone["Europe/Paris"].parse("2022-07-25 09:01")
+
+      post = PostCreator.create!(
+        user,
+        title: 'Friday beach party',
+        raw: "[event start='2022-03-20 09:01' end='2022-03-20 10:01' timezone='Europe/Paris' recurrence='every_day']\n[/event]"
+      ).reload
+
+      expect(post.event.timezone).to eq("Europe/Paris")
+      expect(post.event.original_starts_at).to eq_time(expected_original_datetime)
+      expect(post.event.starts_at).to eq_time(expected_next_datetime)
+    end
+  end
 end

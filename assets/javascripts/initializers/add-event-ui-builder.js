@@ -39,6 +39,8 @@ function initializeEventBuilder(api) {
         );
         eventModel.set("status", "public");
         eventModel.set("custom_fields", {});
+        eventModel.set("starts_at", moment());
+        eventModel.set("timezone", moment.tz.guess());
 
         showModal("discourse-post-event-builder").setProperties({
           toolbarEvent: this.toolbarEvent,

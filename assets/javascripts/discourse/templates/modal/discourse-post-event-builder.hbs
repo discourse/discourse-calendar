@@ -31,7 +31,7 @@
       {{#event-field class="timezone" label="discourse_post_event.builder_modal.timezone.label"}}
         {{timezone-input
           value=model.eventModel.timezone
-          onChange=(action (mut model.eventModel.timezone))
+          onChange=(action "onChangeTimezone")
           class="input-xxlarge"
           none="discourse_post_event.builder_modal.timezone.remove_timezone"
         }}
