@@ -59,6 +59,18 @@ describe User do
             expect(user_1.can_act_on_discourse_post_event?(post_event_1)).to eq(false)
           end
         end
+
+        context 'user didn’t create the event, but is allowed to edit the post' do
+          let(:user_2) { Fabricate(:user) }
+          let(:topic_1) { Fabricate(:topic, user: user_2) }
+          let(:post_1) { Fabricate(:post, topic: topic_1, user: user_2) }
+          let(:post_event_1) { Fabricate(:event, post: post_1) }
+          before { user_1.update(trust_level: 4) }
+
+          it 'can act on the event' do
+            expect(user_1.can_act_on_discourse_post_event?(post_event_1)).to eq(true)
+          end
+        end
       end
 
       context 'user is not in list of allowed groups' do

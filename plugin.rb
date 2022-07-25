@@ -201,7 +201,7 @@ after_initialize do
     end
     @can_act_on_discourse_post_event = begin
       return true if staff?
-      can_create_discourse_post_event? && event.post.user_id == id
+      can_create_discourse_post_event? && Guardian.new(self).can_edit_post?(event.post)
     rescue StandardError
       false
     end
