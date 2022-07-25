@@ -1,8 +1,8 @@
 import I18n from "I18n";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { iconHTML } from "discourse-common/lib/icon-library";
 import { cancel, later } from "@ember/runloop";
 import getURL from "discourse-common/lib/get-url";
+import { emojiUnescape } from "discourse/lib/text";
 
 function applyFlairOnMention(element, username) {
   if (!element) {
@@ -14,7 +14,7 @@ function applyFlairOnMention(element, username) {
 
   mentions.forEach((mention) => {
     if (!mention.querySelector(".d-icon-calendar-alt")) {
-      mention.insertAdjacentHTML("beforeend", iconHTML("calendar-alt"));
+      mention.insertAdjacentHTML("beforeend", emojiUnescape(":desert_island:"));
     }
     mention.classList.add("on-holiday");
   });
@@ -30,8 +30,8 @@ export default {
       if (usernames && usernames.length > 0) {
         api.addUsernameSelectorDecorator((username) => {
           if (usernames.includes(username)) {
-            return `<span class="on-holiday">${iconHTML(
-              "calendar-alt"
+            return `<span class="on-holiday">${emojiUnescape(
+              ":desert_island:"
             )}</span>`;
           }
         });
