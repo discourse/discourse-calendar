@@ -73,6 +73,9 @@ acceptance("Discourse Calendar - Holiday Flair", function (needs) {
   test("shows holiday emoji on mention", async function (assert) {
     await visit("/t/1-3-0beta9-no-rate-limit-popups/28830");
     assert.ok(exists(".mention.on-holiday img.on-holiday"));
-    assert.strictEqual(query(".mention.on-holiday").innerText.trim(), "@eviltrout");
+    assert.strictEqual(
+      query(".mention.on-holiday").innerText.trim(),
+      "@eviltrout"
+    );
   });
 });
