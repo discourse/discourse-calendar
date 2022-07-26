@@ -13,8 +13,11 @@ function applyFlairOnMention(element, username) {
   const mentions = element.querySelectorAll(`a.mention[href="${href}"]`);
 
   mentions.forEach((mention) => {
-    if (!mention.querySelector(".d-icon-calendar-alt")) {
-      mention.insertAdjacentHTML("beforeend", emojiUnescape(":desert_island:"));
+    if (!mention.querySelector(".on-holiday")) {
+      mention.insertAdjacentHTML(
+        "beforeend",
+        emojiUnescape(":desert_island:", { class: "on-holiday" })
+      );
     }
     mention.classList.add("on-holiday");
   });
@@ -31,7 +34,8 @@ export default {
         api.addUsernameSelectorDecorator((username) => {
           if (usernames.includes(username)) {
             return `<span class="on-holiday">${emojiUnescape(
-              ":desert_island:"
+              ":desert_island:",
+              { class: "on-holiday" }
             )}</span>`;
           }
         });
