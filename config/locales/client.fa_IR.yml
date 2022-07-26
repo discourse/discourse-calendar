@@ -26,7 +26,11 @@ fa_IR:
     discourse_calendar:
       invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
       on_holiday: "در تعطیلات"
+      disable_holiday: "غیرفعال کردن"
+      enable_holiday: "فعال کردن"
       holiday: "تعطیلات"
+      holidays:
+        header_title: "تعطیلات"
       date: "تاریخ"
       add_to_calendar: "افزودن به تقویم گوگل"
       region:
