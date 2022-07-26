@@ -1,4 +1,8 @@
-import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
+import {
+  acceptance,
+  exists,
+  query,
+} from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
 
@@ -6,7 +10,7 @@ acceptance("Discourse Calendar - Holiday Flair", function (needs) {
   needs.user();
   needs.settings({ calendar_enabled: true });
   needs.site({
-    users_on_holiday: ["foo"],
+    users_on_holiday: ["foo", "eviltrout"],
   });
 
   needs.pretender((server, helper) => {
@@ -64,5 +68,14 @@ acceptance("Discourse Calendar - Holiday Flair", function (needs) {
     assert.ok(exists(".holiday-flair"));
     assert.ok(exists("div[data-username='foo'] .holiday-flair"));
     assert.ok(!exists("div[data-username='bar'] .holiday-flair"));
+  });
+
+  test("shows holiday emoji on mention", async function (assert) {
+    await visit("/t/1-3-0beta9-no-rate-limit-popups/28830");
+    assert.ok(exists(".mention.on-holiday img.on-holiday"));
+    assert.strictEqual(
+      query(".mention.on-holiday").innerText.trim(),
+      "@eviltrout"
+    );
   });
 });
