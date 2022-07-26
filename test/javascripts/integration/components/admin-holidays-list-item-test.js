@@ -31,7 +31,7 @@ discourseModule(
 
         async test(assert) {
           assert.equal(
-            query("button").innerText,
+            query("button").innerText.trim(),
             "Enable",
             "it displays an enable button"
           );
@@ -56,7 +56,7 @@ discourseModule(
 
         async test(assert) {
           assert.equal(
-            query("button").innerText,
+            query("button").innerText.trim(),
             "Disable",
             "it displays a disable button"
           );

@@ -20,24 +20,24 @@ discourseModule(
       },
 
       async test(assert) {
-        assert.equal(
-          query("table tbody tr:nth-child(1) td:nth-child(1)").innerText,
+        assert.strictEqual(
+          query("table tbody tr:nth-child(1) td:nth-child(1)").innerText.trim(),
           "2022-01-01",
           "it displays the first holiday date"
         );
-        assert.equal(
-          query("table tbody tr:nth-child(1) td:nth-child(2)").innerText,
+        assert.strictEqual(
+          query("table tbody tr:nth-child(1) td:nth-child(2)").innerText.trim(),
           "New Year's Day",
           "it displays the first holiday name"
         );
 
-        assert.equal(
-          query("table tbody tr:nth-child(2) td:nth-child(1)").innerText,
+        assert.strictEqual(
+          query("table tbody tr:nth-child(2) td:nth-child(1)").innerText.trim(),
           "2022-01-17",
           "it displays the second holiday date"
         );
-        assert.equal(
-          query("table tbody tr:nth-child(2) td:nth-child(2)").innerText,
+        assert.strictEqual(
+          query("table tbody tr:nth-child(2) td:nth-child(2)").innerText.trim(),
           "Martin Luther King, Jr. Day",
           "it displays the second holiday name"
         );

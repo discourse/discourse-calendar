@@ -26,21 +26,21 @@ acceptance("Post event - composer", function (needs) {
     );
     await timezoneInput.expand();
     await timezoneInput.selectRowByValue("Europe/London");
-    assert.equal(
+    assert.strictEqual(
       timezoneInput.header().value(),
       "Europe/London",
       "Timezone can be changed"
     );
 
     const fromDate = query(`${modal} .from input[type=date]`);
-    fillIn(fromDate, "2022-07-01");
+    await fillIn(fromDate, "2022-07-01");
 
     const fromTime = selectKit(`${modal} .from .d-time-input .select-kit`);
     await fromTime.expand();
     await fromTime.selectRowByName("12:00");
 
     const toDate = query(`${modal} .to input[type=date]`);
-    fillIn(toDate, "2022-07-01");
+    await fillIn(toDate, "2022-07-01");
     const toTime = selectKit(`${modal} .to .d-time-input .select-kit`);
     await toTime.expand();
     await toTime.selectRowByName("13:00");
