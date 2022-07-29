@@ -92,7 +92,7 @@ module DiscoursePostEvent
     end
 
     MIN_NAME_LENGTH = 5
-    MAX_NAME_LENGTH = 30
+    MAX_NAME_LENGTH = 255
     validates :name,
               length: { in: MIN_NAME_LENGTH..MAX_NAME_LENGTH },
               unless: ->(event) { event.name.blank? }
