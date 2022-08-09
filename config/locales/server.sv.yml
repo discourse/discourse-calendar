@@ -77,6 +77,7 @@ sv:
           start_must_be_present_and_a_valid_date: "Ett evenemang kräver ett giltigt startdatum."
           end_must_be_a_valid_date: "Slutdatumet måste vara ett giltigt datum."
           invalid_recurrence: "Återkommande måste vara en av följande: varje månad, varje vecka, varannan vecka, varje dag, varje veckodag."
+          invalid_timezone: "Tidszonen känns inte igen."
           acting_user_not_allowed_to_create_event: "Nuvarande användare får inte skapa evenemang."
           acting_user_not_allowed_to_act_on_this_event: "Nuvarande användare får inte agera på detta evenemang."
           custom_field_is_invalid: "Det anpassade fältet `%{field}` är inte tillåtet."
