@@ -1,6 +1,7 @@
 import { isTesting } from "discourse-common/config/environment";
-import { cancel, later } from "@ember/runloop";
+import { cancel } from "@ember/runloop";
 import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-relative-date";
+import discourseLater from "discourse-common/lib/later";
 
 function computeRelativeEventDates() {
   document
@@ -29,7 +30,7 @@ export default {
   _tick() {
     this._interval && cancel(this._interval);
 
-    this._interval = later(() => {
+    this._interval = discourseLater(() => {
       computeRelativeEventDates();
       this._tick();
     }, 60 * 1000);
