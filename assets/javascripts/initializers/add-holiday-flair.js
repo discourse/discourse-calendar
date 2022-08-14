@@ -1,8 +1,9 @@
 import I18n from "I18n";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { cancel, later } from "@ember/runloop";
+import { cancel } from "@ember/runloop";
 import getURL from "discourse-common/lib/get-url";
 import { emojiUnescape } from "discourse/lib/text";
+import discourseLater from "discourse-common/lib/later";
 
 function applyFlairOnMention(element, username) {
   if (!element) {
@@ -68,7 +69,7 @@ export default {
             } else {
               // decorating preview
               cancel(flairHandler);
-              flairHandler = later(
+              flairHandler = discourseLater(
                 () =>
                   usernames.forEach((username) =>
                     applyFlairOnMention(element, username)
