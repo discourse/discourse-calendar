@@ -126,7 +126,7 @@ function _attachWidget(api, cooked, eventModel) {
       eventModel.ends_at && moment(eventModel.ends_at).tz(timezone);
     const format = guessDateFormat(startsAt, endsAt);
 
-    const siteSettings = api.container.lookup("site-settings:main");
+    const siteSettings = api.container.lookup("service:site-settings");
     if (siteSettings.discourse_local_dates_enabled) {
       const dates = [];
       dates.push(
@@ -278,7 +278,7 @@ export default {
   name: "discourse-post-event-decorator",
 
   initialize(container) {
-    const siteSettings = container.lookup("site-settings:main");
+    const siteSettings = container.lookup("service:site-settings");
     if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.7", initializeDiscoursePostEventDecorator);
     }

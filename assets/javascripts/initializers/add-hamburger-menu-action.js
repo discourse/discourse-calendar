@@ -14,7 +14,7 @@ export default {
   name: "add-hamburger-menu-action",
 
   initialize(container) {
-    const siteSettings = container.lookup("site-settings:main");
+    const siteSettings = container.lookup("service:site-settings");
     if (siteSettings.discourse_post_event_enabled) {
       withPluginApi("0.8.7", initializeHamburgerMenu);
     }
