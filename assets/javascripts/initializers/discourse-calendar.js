@@ -28,7 +28,7 @@ let eventPopper;
 const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
-  const siteSettings = api.container.lookup("site-settings:main");
+  const siteSettings = api.container.lookup("service:site-settings");
 
   if (siteSettings.login_required && !api.getCurrentUser()) {
     return;
@@ -37,7 +37,7 @@ function initializeDiscourseCalendar(api) {
   let _topicController;
   const outletName = siteSettings.calendar_categories_outlet;
 
-  const site = api.container.lookup("site:main");
+  const site = api.container.lookup("service:site");
   const isMobileView = site && site.mobileView;
 
   let selector = `.${outletName}-outlet`;
@@ -670,7 +670,7 @@ export default {
   name: "discourse-calendar",
 
   initialize(container) {
-    const siteSettings = container.lookup("site-settings:main");
+    const siteSettings = container.lookup("service:site-settings");
     if (siteSettings.calendar_enabled) {
       withPluginApi("0.8.22", initializeDiscourseCalendar);
     }

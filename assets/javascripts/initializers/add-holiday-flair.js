@@ -29,7 +29,7 @@ export default {
 
   initialize() {
     withPluginApi("0.10.1", (api) => {
-      const usernames = api.container.lookup("site:main").users_on_holiday;
+      const usernames = api.container.lookup("service:site").users_on_holiday;
 
       if (usernames && usernames.length > 0) {
         api.addUsernameSelectorDecorator((username) => {
@@ -44,7 +44,7 @@ export default {
     });
 
     withPluginApi("0.8", (api) => {
-      const usernames = api.container.lookup("site:main").users_on_holiday;
+      const usernames = api.container.lookup("service:site").users_on_holiday;
 
       if (usernames?.length > 0) {
         let flairHandler;

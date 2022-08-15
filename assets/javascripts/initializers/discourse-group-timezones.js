@@ -44,7 +44,7 @@ export default {
             members,
             group,
             usersOnHoliday:
-              api.container.lookup("site:main").users_on_holiday || [],
+              api.container.lookup("service:site").users_on_holiday || [],
             size: groupTimezone.getAttribute("data-size") || "medium",
           });
         });
