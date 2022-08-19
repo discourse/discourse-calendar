@@ -603,10 +603,11 @@ function initializeDiscourseCalendar(api) {
         localEvents: {},
       };
 
-      formattedGroupedEvents[identifier].localEvents[groupedEvent.name] =
-        formattedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
-          usernames: [],
-        };
+      formattedGroupedEvents[identifier].localEvents[
+        groupedEvent.name
+      ] = formattedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
+        usernames: [],
+      };
 
       formattedGroupedEvents[identifier].localEvents[
         groupedEvent.name
@@ -649,8 +650,9 @@ function initializeDiscourseCalendar(api) {
 
       tzPicker.value = timezone;
     } else {
-      document.querySelector(".discourse-calendar-timezone-wrap").innerText =
-        timezone;
+      document.querySelector(
+        ".discourse-calendar-timezone-wrap"
+      ).innerText = timezone;
     }
   }
 
