@@ -8,6 +8,9 @@ en:
           discourse_calendar: "Discourse Calendar"
   js:
     notifications:
+      titles:
+        event_reminder: "event reminder"
+        event_invitation: "event invitation"
       popup:
         event_reminder: Event reminder
     discourse_automation:
@@ -294,11 +297,18 @@ en:
       group_availability: "%{group} availability"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} has automatically set your attendance and invited you to"
+        before_event_reminder: "An event is about to start"
+        after_event_reminder: "An event has ended"
+        ongoing_event_reminder: "An event is ongoing"
+        # TODO: delete the following keys (until ongoing_event_reminder_html)
+        # when event-invitation and event-reminder notification item widgets
+        # are removed
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} has automatically set your attendance and invited you to %{description}"
-        before_event_reminder: "An event is about to start %{description}"
-        after_event_reminder: "An event has ended %{description}"
-        ongoing_event_reminder: "An event is ongoing  %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} has automatically set your attendance and invited you to %{description}"
+        before_event_reminder_html: "An event is about to start %{description}"
+        after_event_reminder_html: "An event has ended %{description}"
+        ongoing_event_reminder_html: "An event is ongoing  %{description}"
       preview:
         more_than_one_event: "You can’t have more than one event."
       edit_reason: "Event updated"

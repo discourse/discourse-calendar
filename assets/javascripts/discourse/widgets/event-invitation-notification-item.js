@@ -4,6 +4,9 @@ import { DefaultNotificationItem } from "discourse/widgets/default-notification-
 import { escapeExpression, formatUsername } from "discourse/lib/utilities";
 import { iconNode } from "discourse-common/lib/icon-library";
 
+// TODO(osama): delete the strings marked with TODO in translation files when
+// this file is removed
+
 createWidgetFrom(
   DefaultNotificationItem,
   "event-invitation-notification-item",
@@ -23,7 +26,14 @@ createWidgetFrom(
         description = this.description(data);
       }
 
-      return I18n.t(data.message, { description, username });
+      let translationKey = data.message;
+      if (
+        translationKey ===
+        "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+      ) {
+        translationKey += "_html";
+      }
+      return I18n.t(translationKey, { description, username });
     },
 
     icon(notificationName, data) {
