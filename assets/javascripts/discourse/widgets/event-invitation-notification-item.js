@@ -4,7 +4,7 @@ import { DefaultNotificationItem } from "discourse/widgets/default-notification-
 import { escapeExpression, formatUsername } from "discourse/lib/utilities";
 import { iconNode } from "discourse-common/lib/icon-library";
 
-// TODO: delete the strings marked with TODO in translation files when
+// TODO(osama): delete the strings marked with TODO in translation files when
 // this file is removed
 
 createWidgetFrom(
