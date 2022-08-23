@@ -289,10 +289,6 @@ fi:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} on asettanut osallistumisesi automaattisesti ja kutsunut sinut tapahtumaan %{description}"
-        before_event_reminder: "Tapahtuma on alkamassa %{description}"
-        after_event_reminder: "Tapahtuma on päättynyt %{description}"
-        ongoing_event_reminder: "Tapahtuma on käynnissä  %{description}"
       preview:
         more_than_one_event: "Sinulla ei voi olla enempää kuin yksi tapahtuma."
       edit_reason: "Tapahtuma päivitetty"

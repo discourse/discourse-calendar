@@ -289,10 +289,6 @@ fr:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} a automatiquement défini votre participation et vous a invité(e) à rejoindre %{description}"
-        before_event_reminder: "Un événement est sur le point de commencer %{description}"
-        after_event_reminder: "Un événement s'est terminé %{description}"
-        ongoing_event_reminder: "Un événement est en cours %{description}"
       preview:
         more_than_one_event: "Vous ne pouvez pas avoir plus d'un événement."
       edit_reason: "Événement mis à jour"

@@ -277,11 +277,6 @@ da:
       search: "Søg..."
       group_availability: "%{group} tilgængelighed"
     discourse_post_event:
-      notifications:
-        invite_user_predefined_attendance_notification: "%{username} har automatisk indstillet din deltagelse og inviteret dig til %{description}"
-        before_event_reminder: "En begivenhed er ved at starte %{description}"
-        after_event_reminder: "En begivenhed er afsluttet %{description}"
-        ongoing_event_reminder: "En begivenhed er i gang  %{description}"
       preview:
         more_than_one_event: "Du kan ikke have mere end én begivenhed."
       edit_reason: "Begivenhed opdateret"

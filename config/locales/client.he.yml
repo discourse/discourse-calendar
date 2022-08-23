@@ -14,6 +14,9 @@ he:
           discourse_calendar: "לוח שנה Discourse"
   js:
     notifications:
+      titles:
+        event_reminder: "תזכורת לאירוע"
+        event_invitation: "הזמנה לאירוע"
       popup:
         event_reminder: תזכורת לאירוע
     discourse_automation:
@@ -167,6 +170,7 @@ he:
           gb: "אנגליה"
           ge: "גאורגיה"
           gg: "גרנזי"
+          gh: "גאנה"
           hk: "הונג קונג"
           hr: "קרואטיה"
           hu: "הונגריה"
@@ -299,11 +303,15 @@ he:
       group_availability: "זמינות %{group}"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "הנוכחות שלך הוגדרה על ידי %{username} שגם הזמין או הזמינה אותך אל"
+        before_event_reminder: "אירוע עומד להתחיל"
+        after_event_reminder: "אירוע הסתיים"
+        ongoing_event_reminder: "אירוע מתקיים"
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "הנוכחות שלך הוגדרה על ידי %{username} שגם הזמין או הזמינה אותך אל %{description}"
-        before_event_reminder: "אירוע עומד להתחיל %{description}"
-        after_event_reminder: "אירוע הסתיים %{description}"
-        ongoing_event_reminder: "אירוע מתקיים %{description}"
+        invite_user_predefined_attendance_notification_html: "הנוכחות שלך הוגדרה על ידי %{username} שגם הזמין או הזמינה אותך אל %{description}"
+        before_event_reminder_html: "אירוע עומד להתחיל %{description}"
+        after_event_reminder_html: "אירוע הסתיים %{description}"
+        ongoing_event_reminder_html: "אירוע מתקיים %{description}"
       preview:
         more_than_one_event: "לא יכול להיות לך יותר מאירוע אחד."
       edit_reason: "האירוע עודכן"
