@@ -14,6 +14,9 @@ ru:
           discourse_calendar: "Календарь Discourse"
   js:
     notifications:
+      titles:
+        event_reminder: "Напоминание о мероприятии"
+        event_invitation: "Приглашение на мероприятие"
       popup:
         event_reminder: Напоминание о мероприятии
     discourse_automation:
@@ -296,11 +299,15 @@ ru:
       group_availability: "доступность %{group}"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "Пользователь %{username} автоматически определил ваше присутствие и пригласил вас в"
+        before_event_reminder: "Мероприятие вот-вот начнется"
+        after_event_reminder: "Мероприятие закончилось"
+        ongoing_event_reminder: "Мероприятие продолжается"
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "Пользователь %{username} автоматически определил ваше присутствие и пригласил вас в %{description}"
-        before_event_reminder: "Мероприятие вот-вот начнется: %{description}"
-        after_event_reminder: "Мероприятие закончилось: %{description}"
-        ongoing_event_reminder: "Мероприятие продолжается:  %{description}"
+        invite_user_predefined_attendance_notification_html: "Пользователь %{username} автоматически определил ваше присутствие и пригласил вас в %{description}"
+        before_event_reminder_html: "Мероприятие вот-вот начнется: %{description}"
+        after_event_reminder_html: "Мероприятие закончилось: %{description}"
+        ongoing_event_reminder_html: "Мероприятие продолжается:  %{description}"
       preview:
         more_than_one_event: "У вас не может быть более одного мероприятия."
       edit_reason: "Мероприятие обновлено"

@@ -289,10 +289,6 @@ ar:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "حدَّد %{username} حضورك تلقائيًا ودعاك إلى %{description}"
-        before_event_reminder: "هناك حدث على وشك البدء %{description}"
-        after_event_reminder: "انتهى حدث %{description}"
-        ongoing_event_reminder: "هناك حدث جارٍ %{description}"
       preview:
         more_than_one_event: "لا يمكن أن يكون لديك أكثر من حدثٍ واحد."
       edit_reason: "تم تحديث الحدث"

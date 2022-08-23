@@ -289,10 +289,6 @@ zh_CN:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} 已自动设置您的出席并邀请您加入 %{description}"
-        before_event_reminder: "活动即将开始 %{description}"
-        after_event_reminder: "活动已结束 %{description}"
-        ongoing_event_reminder: "活动正在进行  %{description}"
       preview:
         more_than_one_event: "您不能有多个活动。"
       edit_reason: "活动已更新"

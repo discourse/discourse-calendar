@@ -274,11 +274,6 @@ sl:
       search: "Išči..."
       group_availability: "Razpoložljivost %{group}"
     discourse_post_event:
-      notifications:
-        invite_user_predefined_attendance_notification: "%{username} vas je povabil na %{description} in vam določil udeležbo"
-        before_event_reminder: "Dogodek se bo kmalu pričel %{description}"
-        after_event_reminder: "Dogodek je zaključen %{description}"
-        ongoing_event_reminder: "Dogodek je v teku  %{description}"
       preview:
         more_than_one_event: "Dodaš lahko največ en dogodek."
       edit_reason: "Dogodek posodobljen"

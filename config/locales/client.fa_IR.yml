@@ -14,6 +14,9 @@ fa_IR:
           discourse_calendar: "تقویم دیسکورس"
   js:
     notifications:
+      titles:
+        event_reminder: "یادآوری رویداد"
+        event_invitation: "دعوت‌نامه رویداد"
       popup:
         event_reminder: یادآوری رویداد
     discourse_automation:
@@ -165,6 +168,7 @@ fa_IR:
           gb: "بریتانیا"
           ge: "گرجستان"
           gg: "گرنزی"
+          gh: "غنا"
           hk: "هنگ کنگ"
           hr: "کرواسی"
           hu: "مجارستان"
@@ -296,7 +300,15 @@ fa_IR:
       search: "جستجو..."
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} به طور خودکار حضور شما را تنظیم کرده و از شما دعوت کرده است"
+        before_event_reminder: "یک رویداد در حال شروع است"
+        after_event_reminder: "یک رویداد به پایان رسیده است"
+        ongoing_event_reminder: "یک رویداد در حال انجام است"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} به طور خودکار حضور شما را تنظیم کرده و شما را به %{description} دعوت کرده است"
+        before_event_reminder_html: "یک رویداد در حال شروع %{description} است"
+        after_event_reminder_html: "یک رویداد %{description} به پایان رسیده است"
+        ongoing_event_reminder_html: "یک رویداد در حال انجام است %{description}"
       models:
         event:
           status:

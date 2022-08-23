@@ -289,10 +289,6 @@ tr_TR:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
-        invite_user_predefined_attendance_notification: "%{username} , katılımınızı otomatik olarak belirledi ve sizi %{description} davet etti"
-        before_event_reminder: "Bir etkinlik başlamak üzere %{description}"
-        after_event_reminder: "Bir etkinlik sona erdi %{description}"
-        ongoing_event_reminder: "Bir etkinlik devam ediyor  %{description}"
       preview:
         more_than_one_event: "Birden fazla etkinliğiniz olamaz."
       edit_reason: "Etkinlik güncellendi"
