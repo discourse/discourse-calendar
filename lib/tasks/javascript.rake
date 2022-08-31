@@ -13,7 +13,7 @@ task 'javascript:update_constants' => :environment do
 
   time_zone_to_region = {}
   data = JSON.parse(URI.parse(TIMEZONES_DEFINITIONS).open.read)
-  data['zones'].each do |timezone, timezone_data|
+  data['zones'].sort.each do |timezone, timezone_data|
     country_code = timezone_data['countries'].first.downcase
     if HOLIDAYS_COUNTRY_OVERRIDES.include?(country_code)
       country_code = HOLIDAYS_COUNTRY_OVERRIDES[country_code]
