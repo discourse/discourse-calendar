@@ -248,7 +248,7 @@ months:
     function: yom_kippur(year)
   10:
   - name: Indigenous Peoples Day
-    regions: [us]
+    regions: [us, us_az, us_co, us_oh, us_or, us_sd, us_wy] # NOTE: Consolidating the extra sub-regions removes them from the generated REGIONS list.
     week: 2
     wday: 1
   - name: Alaska Day # fixed

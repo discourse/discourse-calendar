@@ -7,7 +7,7 @@ module Holidays
   # All the definitions are available at https://github.com/holidays/holidays
   module US # :nodoc:
     def self.defined_regions
-      [:us_fl, :us_la, :us, :us_ct, :us_de, :us_gu, :us_hi, :us_in, :us_ky, :us_nj, :us_nc, :us_nd, :us_pr, :us_tn, :us_ms, :us_id, :us_ar, :us_tx, :us_dc, :us_md, :us_va, :us_vt, :us_ak, :us_ca, :us_me, :us_ma, :us_al, :us_ga, :us_ne, :us_mo, :us_sc, :us_wv, :us_vi, :us_ut, :us_ri, :us_nv, :us_mt, :us_ny, :us_pa, :us_nm, :us_ia, :us_il, :us_ks, :us_mi, :us_mn, :us_nh, :us_ok, :us_wa, :us_wi, :ca]
+      [:us_fl, :us_la, :us, :us_ct, :us_de, :us_gu, :us_hi, :us_in, :us_ky, :us_nj, :us_nc, :us_nd, :us_pr, :us_tn, :us_ms, :us_id, :us_ar, :us_tx, :us_dc, :us_md, :us_va, :us_vt, :us_ak, :us_ca, :us_me, :us_ma, :us_al, :us_ga, :us_ne, :us_mo, :us_sc, :us_wv, :us_vi, :us_ut, :us_ri, :us_az, :us_co, :us_oh, :us_or, :us_sd, :us_wy, :us_nv, :us_mt, :us_ny, :us_pa, :us_nm, :us_ia, :us_il, :us_ks, :us_mi, :us_mn, :us_nh, :us_ok, :us_wa, :us_wi, :ca]
     end
 
     def self.holidays_by_month
@@ -66,7 +66,7 @@ module Holidays
       9 => [{:wday => 1, :week => 1, :name => "Labor Day", :regions => [:us]},
             {:function => "rosh_hashanah(year)", :function_arguments => [:year], :name => "Rosh Hashanah", :regions => [:us_tx]},
             {:function => "yom_kippur(year)", :function_arguments => [:year], :name => "Yom Kippur", :regions => [:us_tx]}],
-      10 => [{:wday => 1, :week => 2, :name => "Indigenous Peoples Day", :regions => [:us]},
+      10 => [{:wday => 1, :week => 2, :name => "Indigenous Peoples Day", :regions => [:us, :us_az, :us_co, :us_oh, :us_or, :us_sd, :us_wy]},
             {:mday => 18, :name => "Alaska Day", :regions => [:us_ak]},
             {:wday => 5, :week => -1, :name => "Nevada Day", :regions => [:us_nv]},
             {:mday => 31, :type => :informal, :name => "Halloween", :regions => [:us, :ca]}],
