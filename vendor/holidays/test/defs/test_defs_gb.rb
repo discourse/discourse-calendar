@@ -137,5 +137,9 @@ class GbDefinitionTests < Test::Unit::TestCase  # :nodoc:
 
     assert_equal "Bank Holiday", (Holidays.on(Date.civil(2023, 5, 29), [:gb])[0] || {})[:name]
 
+    assert_equal "State Funeral of Queen Elizabeth II", (Holidays.on(Date.civil(2022, 9, 19), [:gb])[0] || {})[:name]
+
+    assert_nil (Holidays.on(Date.civil(2023, 9, 19), [:gb])[0] || {})[:name]
+
   end
 end
