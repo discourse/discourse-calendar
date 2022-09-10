@@ -512,6 +512,7 @@ module Holidays
             {:mday => 8, :name => "Día de Extremadura", :regions => [:es_ex]},
             {:mday => 11, :observed => "to_monday_if_sunday(date)", :observed_arguments => [:date], :name => "Fiesta Nacional de Cataluña", :regions => [:es_ct]},
             {:mday => 24, :name => "La Mercè", :regions => [:es_ct]},
+            {:mday => 19, :year_ranges => { :limited => [2022] },:name => "State Funeral of Queen Elizabeth II", :regions => [:gb]},
             {:mday => 8, :name => "Festa della Madonna di Monte Berico", :regions => [:it_vi]},
             {:mday => 8, :name => "Maria Geburt", :regions => [:li]},
             {:mday => 24, :year_ranges => { :limited => [2018] },:name => "Viņa Svētības pāvesta Franciska pastorālās vizītes Latvijā diena", :regions => [:lv]},
