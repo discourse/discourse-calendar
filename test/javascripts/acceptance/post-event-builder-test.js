@@ -53,19 +53,10 @@ acceptance("Post event - composer", function (needs) {
 
     await click(`${modal} .modal-footer .btn-primary`);
 
-    const composerContent = query(".d-editor-input").value;
-
-    assert.true(
-      composerContent.includes('start="2022-07-01 12:00"'),
-      "bbcode has correct start time"
-    );
-    assert.true(
-      composerContent.includes('end="2022-07-01 13:00"'),
-      "bbcode has correct end time"
-    );
-    assert.true(
-      composerContent.includes('timezone="Europe/Paris"'),
-      "bbcode has correct end time"
+    assert.strictEqual(
+      query(".d-editor-input").value,
+      `[event start="2022-07-01 12:00" status="public" timezone="Europe/Paris" end="2022-07-01 13:00" allowedGroups="trust_level_0"]\n[/event]`,
+      "bbcode is correct"
     );
   });
 });
