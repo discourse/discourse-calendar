@@ -21,5 +21,18 @@ These custom fields are available when a plugin event is triggered.
 
 #### Holidays
 
-To add/remove/correct a holiday, edit the relevant [definition files](vendor/holidays/definitions) and run `rake generate:definitions` in the `vendor/holidays`
-directory. Syntax of definition files can be found in [vendor/holidays/definitions/doc/SYNTAX.md](vendor/holidays/definitions/doc/SYNTAX.md).
+See an incorrect or missing holiday? Familiarize yourself with the [holiday definition Syntax](vendor/holidays/definitions/doc/SYNTAX.md). Then make your updates in the `vendor/holiday/definitions` directory.
+
+Generate updated holidays as follows.
+```sh
+cd vendor/holidays
+
+# Generate holiday definitions
+bundle exec rake generate:definitions
+```
+
+Install the plugin and switch to the discourse root(not the plugin directory).
+```sh
+# Collect all holiday regions into assets/javascripts/lib/regions.js
+bundle exec rake javascript:update_constants
+```
