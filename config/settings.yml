@@ -79,3 +79,10 @@ discourse_post_event:
     type: category_list
     client: true
     default: ""
+  sort_categories_by_event_start_date_enabled:
+    default: false
+    client: true
+  disable_resorting_on_categories_enabled:
+    default: false
+    client: true
+
