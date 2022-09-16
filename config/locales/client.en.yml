@@ -412,3 +412,6 @@ en:
         creator: "Creator"
         status: "Status"
         starts_at: "Starts at"
+    category:
+      sort_topics_by_event_start_date: "Sort topics by event start date."
+      disable_topic_resorting: "Disable topic resorting."

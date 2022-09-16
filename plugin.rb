@@ -33,6 +33,7 @@ register_asset 'stylesheets/mobile/discourse-post-event.scss', :mobile
 register_asset 'stylesheets/desktop/discourse-calendar.scss', :desktop
 register_asset 'stylesheets/colors.scss', :color_definitions
 register_asset 'stylesheets/common/user-preferences.scss'
+# register_asset "javascripts/discourse/templates/connectors/category-custom-settings/show-event-category-sorting-settings.hbs"
 register_svg_icon 'fas fa-calendar-day'
 register_svg_icon 'fas fa-clock'
 register_svg_icon 'fas fa-file-csv'
@@ -40,6 +41,18 @@ register_svg_icon 'fas fa-star'
 register_svg_icon 'fas fa-file-upload'
 
 after_initialize do
+  Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
+  Category.register_custom_field_type("disable_topic_resorting", :boolean)
+  Site.preloaded_category_custom_fields << 'sort_topics_by_event_start_date'
+  Site.preloaded_category_custom_fields << 'disable_topic_resorting'
+
+  add_to_serializer :basic_category, :sort_topics_by_event_start_date do
+    object.custom_fields["sort_topics_by_event_start_date"]
+  end
+  add_to_serializer :basic_category, :disable_topic_resorting do
+    object.custom_fields["disable_topic_resorting"]
+  end
+
   module ::DiscourseCalendar
     PLUGIN_NAME ||= 'discourse-calendar'
 
