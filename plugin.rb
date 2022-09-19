@@ -57,9 +57,9 @@ after_initialize do
     if topic_query.options[:category_id]
       category = Category.find_by(id: topic_query.options[:category_id])
       if category && category.custom_fields && category.custom_fields["sort_topics_by_event_start_date"]
-        results = results.joins("LEFT JOIN posts AS post on post.topic_id = topics.id
-          LEFT JOIN discourse_post_event_events AS events ON events.id = post.id
-          ").reorder("topics.pinned_at ASC, events.original_starts_at ASC")
+        results = results.joins("LEFT JOIN topic_custom_fields AS custom_fields on custom_fields.topic_id = topics.id 
+          AND custom_fields.name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'
+          ").reorder("topics.pinned_at ASC, custom_fields.value ASC")
       end
     end
     results
