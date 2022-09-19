@@ -8,7 +8,7 @@ export default {
       api.modifyClass("component:topic-list", {
         @discourseComputed("category")
         sortable(category) {
-          var disableSort = true;
+          let disableSort = true;
           if (category && category.custom_fields) {
             disableSort = !!category.custom_fields["disable_topic_resorting"];
           }
