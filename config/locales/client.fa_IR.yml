@@ -172,6 +172,7 @@ fa_IR:
           hk: "هنگ کنگ"
           hr: "کرواسی"
           hu: "مجارستان"
+          id: "اندونزی"
           ie: "ایرلند"
           im: "جزیره من"
           in: "هند"
@@ -309,6 +310,7 @@ fa_IR:
         before_event_reminder_html: "یک رویداد در حال شروع %{description} است"
         after_event_reminder_html: "یک رویداد %{description} به پایان رسیده است"
         ongoing_event_reminder_html: "یک رویداد در حال انجام است %{description}"
+      edit_reason: "رویداد به‌روز شد"
       models:
         event:
           status:
