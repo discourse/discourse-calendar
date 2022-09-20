@@ -40,7 +40,7 @@ module Holidays
       8 => [{:wday => 3, :week => -3, :name => "Ekka", :regions => [:au_qld_brisbane]}],
       9 => [{:wday => 1, :week => -1, :name => "Queen's Birthday", :regions => [:au_wa]},
             {:wday => 1, :week => -1, :name => "Family & Community Day", :regions => [:au_act]},
-            {:function => "national_day_of_morning_2022(year)", :function_arguments => [:year], :name => "National Day of Morning", :regions => [:au]}],
+            {:function => "national_day_of_mourning_2022(year)", :function_arguments => [:year], :name => "National Day of Mourning", :regions => [:au]}],
       10 => [{:function => "afl_grand_final(year)", :function_arguments => [:year], :name => "Friday before the AFL Grand Final", :regions => [:au_vic]},
             {:wday => 1, :week => 1, :name => "Labour Day", :regions => [:au_act, :au_nsw, :au_sa]},
             {:function => "qld_labour_day_october(year)", :function_arguments => [:year], :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Labour Day", :regions => [:au_qld]},
@@ -129,7 +129,7 @@ else
 end
 },
 
-"national_day_of_morning_2022(year)" => Proc.new { |year|
+"national_day_of_mourning_2022(year)" => Proc.new { |year|
 year == 2022 ? 22 : nil
 },
 

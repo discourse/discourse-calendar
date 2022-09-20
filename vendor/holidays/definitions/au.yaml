@@ -124,9 +124,9 @@ months:
     regions: [au_act]
     week: -1
     wday: 1
-  - name: National Day of Morning
+  - name: National Day of Mourning
     regions: [au]
-    function: national_day_of_morning_2022(year)
+    function: national_day_of_mourning_2022(year)
   10:
   - name: Friday before the AFL Grand Final
     regions: [au_vic]
@@ -266,9 +266,9 @@ methods:
       else
         Date.civil(year, 5, Holidays::Factory::DateCalculator.day_of_month_calculator.call(year, 5, :third, :monday))
       end
-  national_day_of_morning_2022:
+  national_day_of_mourning_2022:
     # https://www.pm.gov.au/media/commemorating-her-majesty-queen-elizabeth-ii
-    # 22 / 2022 - National day of Morning for the Queen
+    # 22 / 2022 - National day of Mourning for the Queen
     arguments: year
     ruby: |
       year == 2022 ? 22 : nil
