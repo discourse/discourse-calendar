@@ -15,8 +15,10 @@ acceptance("Calendar - Disable sorting headers", function (needs) {
   test("visiting a category page", async function (assert) {
     await visit("/c/bug");
     assert.ok(exists(".topic-list"), "The list of topics was rendered");
-    assert.ok(exists(".topic-list .topic-list-data"), "The headers were rendered");
+    assert.ok(
+      exists(".topic-list .topic-list-data"),
+      "The headers were rendered"
+    );
     assert.ok(!exists(".topic-list .sortable"), "The headers are not sortable");
   });
-
 });
