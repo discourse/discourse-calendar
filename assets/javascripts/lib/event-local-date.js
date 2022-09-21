@@ -20,4 +20,3 @@ export default function eventLocalDate(container) {
 
   container.innerText = startsAt.format(format);
 }
-

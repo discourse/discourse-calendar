@@ -27,12 +27,11 @@ function initializeDecorateTopicTitle(api) {
       node.appendChild(eventdateContainer);
 
       if (topic.siteSettings.use_local_event_date) {
-        eventLocalDate(eventDate);        
+        eventLocalDate(eventDate);
       } else {
         // we force a first computation, as waiting for the auto update might take time
         eventRelativeDate(eventDate);
       }
-
     }
   });
 }
