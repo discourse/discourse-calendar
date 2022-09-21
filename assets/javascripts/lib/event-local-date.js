@@ -1,7 +1,6 @@
 import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 
 export default function eventLocalDate(container) {
-  console.log("eventLocalDate INSIDE");
   container.classList.remove("past", "current", "future");
   container.innerHTML = "";
 
