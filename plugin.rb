@@ -33,7 +33,6 @@ register_asset 'stylesheets/mobile/discourse-post-event.scss', :mobile
 register_asset 'stylesheets/desktop/discourse-calendar.scss', :desktop
 register_asset 'stylesheets/colors.scss', :color_definitions
 register_asset 'stylesheets/common/user-preferences.scss'
-# register_asset "javascripts/discourse/templates/connectors/category-custom-settings/show-event-category-sorting-settings.hbs"
 register_svg_icon 'fas fa-calendar-day'
 register_svg_icon 'fas fa-clock'
 register_svg_icon 'fas fa-file-csv'
@@ -54,7 +53,7 @@ after_initialize do
   end
 
   TopicQuery.add_custom_filter(:order_by_event_date) do |results, topic_query|
-    if topic_query.options[:category_id]
+    if SiteSetting.sort_categories_by_event_start_date_enabled && topic_query.options[:category_id]
       category = Category.find_by(id: topic_query.options[:category_id])
       if category && category.custom_fields && category.custom_fields["sort_topics_by_event_start_date"]
         results = results.joins("LEFT JOIN topic_custom_fields AS custom_fields on custom_fields.topic_id = topics.id
