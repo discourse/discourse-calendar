@@ -7,9 +7,9 @@ import CategoryFixtures from "discourse/tests/fixtures/category-fixtures";
 acceptance("Calendar - Disable sorting headers", function (needs) {
   needs.user();
   needs.pretender((server, helper) => {
-    const cardResponse = cloneJSON(CategoryFixtures["/c/1/show.json"]);
-    cardResponse.category.custom_fields["disable_topic_resorting"] = true;
-    server.get("/c/1/show.json", () => helper.response(cardResponse));
+    const categoryResponse = cloneJSON(CategoryFixtures["/c/1/show.json"]);
+    categoryResponse.category.custom_fields["disable_topic_resorting"] = true;
+    server.get("/c/1/show.json", () => helper.response(categoryResponse));
   });
 
   test("visiting a category page", async function (assert) {
