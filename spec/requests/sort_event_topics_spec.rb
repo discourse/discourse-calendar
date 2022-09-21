@@ -20,9 +20,6 @@ RSpec.describe ListController do
     SiteSetting.sort_categories_by_event_start_date_enabled = true
   end
 
-  let(:raw) { "[calendar]\n[/calendar]" }
-  let(:calendar_post) { create_post(raw: raw) }
-
   context '#sort_event_topics' do
     it 'gets topics in order of event_date if sort_topics_by_event_start_date is true' do
       category.custom_fields["sort_topics_by_event_start_date"] = true
