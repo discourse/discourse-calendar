@@ -251,7 +251,7 @@ after_initialize do
     end
   end
 
-  TopicList.preloaded_custom_fields << DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
+  add_preloaded_topic_list_custom_field DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
 
   add_to_serializer(:topic_view, :event_starts_at, false) do
     object.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT]
