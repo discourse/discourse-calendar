@@ -1,5 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-relative-date";
+import eventLocalDate from "discourse/plugins/discourse-calendar/lib/event-local-date";
 
 function initializeDecorateTopicTitle(api) {
   api.decorateTopicTitle((topic, node, topicTitleType) => {
@@ -25,8 +26,12 @@ function initializeDecorateTopicTitle(api) {
       eventdateContainer.appendChild(eventDate);
       node.appendChild(eventdateContainer);
 
-      // we force a first computation, as waiting for the auto update might take time
-      eventRelativeDate(eventDate);
+      if (topic.siteSettings.use_local_event_date) {
+        eventLocalDate(eventDate);
+      } else {
+        // we force a first computation, as waiting for the auto update might take time
+        eventRelativeDate(eventDate);
+      }
     }
   });
 }

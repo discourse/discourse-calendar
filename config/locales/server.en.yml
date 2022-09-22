@@ -33,6 +33,7 @@ en:
     discourse_post_event_enabled: "[experimental] Enables to attach an event to a post. Note: also needs `calendar enabled` to be enabled."
     displayed_invitees_limit: "Limits the numbers of invitees displayed on an event."
     display_post_event_date_on_topic_title: "Displays the date of the event after the topic title."
+    use_local_event_date: "Use local date after topic title instead of relative time."
     discourse_post_event_allowed_on_groups: "Groups that are allowed to create events."
     discourse_post_event_allowed_custom_fields: "Allows to let each event to set the value of custom fields."
     discourse_post_event_edit_notifications_time_extension: "Extends (in minutes) the period after the end of an event when `going` invitees are still being notified from edit in the original post."
@@ -48,6 +49,8 @@ en:
     working_day_end_hour: "End time of the working day hours."
     close_to_working_day_hours_extension: "Set extension time in working day hours to highlight the timezones."
     events_calendar_categories: "Display an events calendar at the top of a category."
+    sort_categories_by_event_start_date_enabled: "Enable the sorting of category topics by event start date."
+    disable_resorting_on_categories_enabled: "Allow categories to disable the ability for users to sort on the event category."
   discourse_calendar:
     invite_user_notification: "%{username} invited you to: %{description}"
     calendar_must_be_in_first_post: "Calendar tag can only be used in first post of a topic."

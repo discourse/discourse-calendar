@@ -1,0 +1,21 @@
+<section>
+  <h3>{{i18n "category.settings_sections.event_sorting"}}</h3>
+
+  {{#if siteSettings.sort_categories_by_event_start_date_enabled}}
+    <section class="field show-subcategory-list-field">
+      <label>
+        <Input @type="checkbox" @checked={{this.category.custom_fields.sort_topics_by_event_start_date}} />
+        {{i18n "category.sort_topics_by_event_start_date"}}
+      </label>
+    </section>
+  {{/if}}
+
+  {{#if siteSettings.disable_resorting_on_categories_enabled}}
+    <section class="field show-subcategory-list-field">
+      <label>
+        <Input @type="checkbox" @checked={{this.category.custom_fields.disable_topic_resorting}} />
+        {{i18n "category.disable_topic_resorting"}}
+      </label>
+    </section>
+  {{/if}}
+</section>

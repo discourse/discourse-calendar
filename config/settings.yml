@@ -64,6 +64,9 @@ discourse_post_event:
   display_post_event_date_on_topic_title:
     default: true
     client: true
+  use_local_event_date:
+    default: false
+    client: true
   discourse_post_event_max_bulk_invitees:
     default: 500
     hidden: true
@@ -79,3 +82,10 @@ discourse_post_event:
     type: category_list
     client: true
     default: ""
+  sort_categories_by_event_start_date_enabled:
+    default: false
+    client: true
+  disable_resorting_on_categories_enabled:
+    default: false
+    client: true
+
