@@ -6,6 +6,8 @@ export default {
   initialize() {
     withPluginApi("0.8", (api) => {
       api.modifyClass("component:topic-list", {
+        pluginId: "discourse-calendar",
+
         @discourseComputed("category")
         sortable(category) {
           let disableSort = true;
