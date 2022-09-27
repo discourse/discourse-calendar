@@ -37,6 +37,7 @@ ru:
     discourse_post_event_enabled: "[experimental] Включить прикрепление событий к сообщению. Примечание: также необходимо, чтобы опция `calendar enabled` была включена."
     displayed_invitees_limit: "Ограничивать количество приглашений, отображаемых в мероприятии ."
     display_post_event_date_on_topic_title: "Отображать дату мероприятия после названия темы."
+    use_local_event_date: "Использовать локальную дату после заголовка темы вместо прошедшего времени."
     discourse_post_event_allowed_on_groups: "Группы, которым разрешено создавать мероприятия."
     discourse_post_event_allowed_custom_fields: "Позволять каждому мероприятию устанавливать значение настраиваемых полей."
     discourse_post_event_edit_notifications_time_extension: "Продлить на указанное здесь количество минут период после окончания мероприятия, когда приглашённые всё ещё получают уведомление об изменении исходного сообщения."
@@ -52,6 +53,8 @@ ru:
     working_day_end_hour: "Время окончания рабочего дня."
     close_to_working_day_hours_extension: "Продлевать время рабочего дня с учётом часовых поясов."
     events_calendar_categories: "Отображать события календаря в верхней части раздела."
+    sort_categories_by_event_start_date_enabled: "Включить сортировку тем раздела по дате начала мероприятия."
+    disable_resorting_on_categories_enabled: "Разрешить разделам скрывать возможность сортировать мероприятия по разделам."
   discourse_calendar:
     invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
     calendar_must_be_in_first_post: "Тег календаря может быть использован только в первом сообщении темы."
