@@ -413,3 +413,8 @@ ru:
         creator: "Создатель"
         status: "Статус"
         starts_at: "Начинается в"
+    category:
+      sort_topics_by_event_start_date: "Сортировать темы по дате начала мероприятия."
+      disable_topic_resorting: "Отключить возможность сортировки тем."
+      settings_sections:
+        event_sorting: "Сортировка мероприятий"
