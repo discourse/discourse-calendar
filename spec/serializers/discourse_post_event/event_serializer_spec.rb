@@ -24,8 +24,8 @@ describe DiscoursePostEvent::EventSerializer do
     end
   }
 
-  context 'private event' do
-    context 'some invited users didnt rsvped yet' do
+  context 'with a private event' do
+    context 'when some invited users have not rsvp-ed yet' do
       before do
         event_1.update_with_params!(raw_invitees: [group_1.name])
         Invitee.create_attendance!(invitee_1.id, event_1.id, :going)

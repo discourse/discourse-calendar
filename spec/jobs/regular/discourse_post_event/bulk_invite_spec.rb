@@ -15,9 +15,9 @@ describe Jobs::DiscoursePostEventBulkInvite do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context '#execute' do
-    context 'invalid params' do
-      context 'no invitees given' do
+  describe '#execute' do
+    context 'with invalid params' do
+      context 'with no invitees given' do
         it 'raises an invalid parameters errors' do
           expect {
             subject.execute(current_user_id: 1, event_id: 1)
@@ -25,7 +25,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
         end
       end
 
-      context 'no current_user_id given' do
+      context 'with no current_user_id given' do
         it 'raises an invalid parameters errors' do
           expect {
             subject.execute(invitees: [{ identifier: 'bob', attendance: 'going' }], event_id: 1)
@@ -33,7 +33,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
         end
       end
 
-      context 'no event_id given' do
+      context 'with no event_id given' do
         it 'raises an invalid parameters errors' do
           expect {
             subject.execute(invitees: [{ identifier: 'bob', attendance: 'going' }], current_user_id: 1)
@@ -42,8 +42,8 @@ describe Jobs::DiscoursePostEventBulkInvite do
       end
     end
 
-    context 'valid params' do
-      context 'current user can’t act on event' do
+    context 'with valid params' do
+      context 'when current user can’t act on event' do
         let(:lurker) { Fabricate(:user) }
 
         it 'raises an error' do
@@ -53,7 +53,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
         end
       end
 
-      context 'current user can act on event' do
+      context 'when current user can act on event' do
         let(:invitee_1) { Fabricate(:user) }
         let(:invitee_2) { Fabricate(:user) }
         let(:invitee_3) { Fabricate(:user) }
@@ -78,7 +78,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
           }
         }
 
-        context 'the event is private' do
+        context 'when the event is private' do
           it 'creates the invitees' do
             SystemMessage.expects(:create_from_system_user).with(user_1, :discourse_post_event_bulk_invite_failed, {
               processed: 1,
@@ -140,7 +140,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
           end
         end
 
-        context 'the event is public' do
+        context 'when the event is public' do
           before do
             post_event_1.update_with_params!(status: 1)
           end

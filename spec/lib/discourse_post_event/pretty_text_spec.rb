@@ -9,11 +9,11 @@ describe PrettyText do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context 'public event' do
+  context 'with a public event' do
     describe 'An event is displayed in an email' do
       let(:user_1) { Fabricate(:user, admin: true) }
 
-      context 'The event has no name' do
+      context 'when the event has no name' do
         let(:post_1) { create_post_with_event(user_1) }
 
         it 'displays the topic title' do
@@ -28,7 +28,7 @@ describe PrettyText do
         end
       end
 
-      context 'The event has a name' do
+      context 'when the event has a name' do
         let(:post_1) { create_post_with_event(user_1, 'name="Pancakes event"') }
 
         it 'displays the event name' do
@@ -43,7 +43,7 @@ describe PrettyText do
         end
       end
 
-      context 'The event has an end date' do
+      context 'when the event has an end date' do
         let(:post_1) { create_post_with_event(user_1, 'end="2018-06-22"') }
 
         it 'displays the end date' do
@@ -58,7 +58,7 @@ describe PrettyText do
         end
       end
 
-      context 'The event has a timezone' do
+      context 'when the event has a timezone' do
         let(:post_1) { create_post_with_event(user_1, 'timezone="America/New_York"') }
 
         it 'uses the timezone' do

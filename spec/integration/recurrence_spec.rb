@@ -27,7 +27,7 @@ describe 'discourse_post_event_recurrence' do
     expect(going_user.notifications.where(notification_type: Notification.types[:event_invitation]).count).to eq(1)
   end
 
-  context 'every_month' do
+  describe 'every_month' do
     before do
       post_event_1.update!(recurrence: 'every_month')
     end
@@ -39,7 +39,7 @@ describe 'discourse_post_event_recurrence' do
     end
   end
 
-  context 'every_week' do
+  describe 'every_week' do
     before do
       post_event_1.update!(recurrence: 'every_week')
     end
@@ -51,7 +51,7 @@ describe 'discourse_post_event_recurrence' do
     end
   end
 
-  context 'every_two_weeks' do
+  describe 'every_two_weeks' do
     before do
       post_event_1.update!(recurrence: 'every_two_weeks')
     end
@@ -63,7 +63,7 @@ describe 'discourse_post_event_recurrence' do
     end
   end
 
-  context 'every_day' do
+  describe 'every_day' do
     before do
       post_event_1.update!(recurrence: 'every_day')
     end
@@ -75,7 +75,7 @@ describe 'discourse_post_event_recurrence' do
     end
   end
 
-  context 'every_weekday' do
+  describe 'every_weekday' do
     before do
       post_event_1.update!(
         original_starts_at: Time.zone.parse('2020-09-11 19:00'),
@@ -92,8 +92,8 @@ describe 'discourse_post_event_recurrence' do
     end
   end
 
-  context 'the event has a timezone' do
-    context 'every_month' do
+  context 'when the event has a timezone' do
+    describe 'every_month' do
       before do
         post_event_1.update!(recurrence: 'every_month', timezone: 'America/New_York')
       end

@@ -51,8 +51,8 @@ describe Jobs::DiscoursePostEventSendReminder do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context '#execute' do
-    context 'invalid params' do
+  describe '#execute' do
+    context 'with invalid params' do
       it 'raises an invalid parameters errors' do
         expect {
           subject.execute(event_id: 1)
@@ -64,7 +64,7 @@ describe Jobs::DiscoursePostEventSendReminder do
       end
     end
 
-    context 'deleted post' do
+    context 'with deleted post' do
       let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
 
       it 'is not erroring when post is already deleted' do
@@ -76,8 +76,8 @@ describe Jobs::DiscoursePostEventSendReminder do
       end
     end
 
-    context 'public event' do
-      context 'event has not started' do
+    context 'with public event' do
+      context 'when event has not started' do
         let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
         let!(:event_date_1) { Fabricate(:event_date, event: event_1, starts_at: 3.hours.from_now) }
 
@@ -98,7 +98,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { not_going_user.reload.unread_notifications }.by(0)
+          }.not_to change { not_going_user.reload.unread_notifications }
         end
 
         it 'doesn’t create a new notification if there’s already one' do
@@ -106,7 +106,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { going_user_unread_notification.reload.unread_notifications }.by(0)
+          }.not_to change { going_user_unread_notification.reload.unread_notifications }
         end
 
         it 'delete previous notifications before creating a new one' do
@@ -119,7 +119,7 @@ describe Jobs::DiscoursePostEventSendReminder do
         end
       end
 
-      context 'event has started' do
+      context 'when event has started' do
         let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.ago) }
         let!(:event_date_1) { Fabricate(:event_date, event: event_1, starts_at: 3.hours.ago) }
 
@@ -151,7 +151,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { not_going_user.reload.unread_notifications }.by(0)
+          }.not_to change { not_going_user.reload.unread_notifications }
         end
 
         it 'doesn’t create a new notification if there’s already one' do
@@ -159,9 +159,9 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change {
+          }.not_to change {
             going_user_unread_notification.reload.unread_notifications
-          }.by(0)
+          }
         end
 
         it 'deletes previous notifications when creating a new one' do
@@ -202,9 +202,9 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change {
+          }.not_to change {
             visited_going_user.reload.unread_notifications
-          }.by(0)
+          }
         end
       end
     end

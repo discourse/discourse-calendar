@@ -16,8 +16,8 @@ describe DiscoursePostEvent::Invitee do
   let(:post1) { Fabricate(:post, topic: topic) }
   let(:post_event) { Fabricate(:event, post: post1) }
 
-  context 'A user is destroyed' do
-    context 'The user is an invitee to an event' do
+  context 'when a user is destroyed' do
+    context 'when the user is an invitee to an event' do
       before do
         post_event.create_invitees([
           { user_id: user_1.id, status: nil }

@@ -83,7 +83,7 @@ module DiscoursePostEvent
           pe
         }
 
-        context "updating invitee" do
+        describe "updating invitee" do
           it 'updates its status' do
             invitee = post_event_2.invitees.first
 
@@ -102,8 +102,8 @@ module DiscoursePostEvent
           end
         end
 
-        context 'destroying invitee' do
-          context 'acting user can act on discourse event' do
+        describe 'destroying invitee' do
+          context 'when acting user can act on discourse event' do
             it 'destroys the invitee' do
               invitee = post_event_2.invitees.first
               delete "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json"
@@ -112,7 +112,7 @@ module DiscoursePostEvent
             end
           end
 
-          context 'acting user can’t act on discourse event' do
+          context 'when acting user can’t act on discourse event' do
             let(:lurker) { Fabricate(:user) }
 
             before do

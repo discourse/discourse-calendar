@@ -10,8 +10,8 @@ describe Jobs::ExportCsvFile do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context '#execute' do
-    context 'the requesting user is admin' do
+  describe '#execute' do
+    context 'when the requesting user is admin' do
       let(:user) { Fabricate(:user, admin: true) }
       let(:user_1) { Fabricate(:user) }
       let(:user_2) { Fabricate(:user) }
@@ -19,14 +19,14 @@ describe Jobs::ExportCsvFile do
       let(:post1) { Fabricate(:post, topic: topic) }
       let(:post_event) { Fabricate(:event, post: post1) }
 
-      context 'the event exists' do
-        context 'the event has invitees' do
+      context 'when the event exists' do
+        context 'when the event has invitees' do
           before do
             post_event.create_invitees([{ user_id: user_1.id, status: nil }])
             post_event.create_invitees([{ user_id: user_2.id, status: 2 }])
           end
 
-          context 'the user requesting the upload is admin' do
+          context 'when the user requesting the upload is admin' do
             it 'generates the upload and notify the user' do
               begin
                 expect do
@@ -81,7 +81,7 @@ describe Jobs::ExportCsvFile do
       end
     end
 
-    context 'the requesting user is not admin' do
+    context 'when the requesting user is not admin' do
       let(:user) { Fabricate(:user) }
       let(:requesting_user) { Fabricate(:user, admin: false) }
       let(:user_1) { Fabricate(:user) }
@@ -101,7 +101,7 @@ describe Jobs::ExportCsvFile do
       end
     end
 
-    context 'the requesting user is not admin but can act on this event' do
+    context 'when the requesting user is not admin but can act on this event' do
       let(:user) { Fabricate(:user, admin: false) }
       let(:user_1) { Fabricate(:user) }
       let(:user_2) { Fabricate(:user) }

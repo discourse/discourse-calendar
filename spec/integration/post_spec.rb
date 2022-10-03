@@ -16,7 +16,7 @@ describe Post do
 
   let(:user) { Fabricate(:user, admin: true) }
 
-  context 'public event' do
+  context 'with a public event' do
     let(:post_1) { Fabricate(:post) }
     let(:event_1) { Fabricate(:event, post: post_1, raw_invitees: ['trust_level_0']) }
 
@@ -112,7 +112,7 @@ describe Post do
             end
           end
 
-          context 'an event with recurrence' do
+          context 'with an event with recurrence' do
             before do
               freeze_time Time.utc(2020, 8, 12, 16, 32)
 
@@ -162,7 +162,7 @@ describe Post do
             end
           end
 
-          context 'updating raw_invitees' do
+          context 'when updating raw_invitees' do
             let(:lurker_1) { Fabricate(:user) }
             let(:group_1) { Fabricate(:group) }
 
@@ -177,7 +177,7 @@ describe Post do
             end
           end
 
-          context 'updating status to private' do
+          context 'when updating status to private' do
             it 'it changes the status and force invitees' do
               expect(event_1.raw_invitees).to eq(['trust_level_0'])
               expect(event_1.status).to eq(Event.statuses[:public])
@@ -391,7 +391,7 @@ describe Post do
           end
         end
 
-        context 'where recurrence is invalid' do
+        context 'when recurrence is invalid' do
           it 'raises an error' do
             expect {
               create_post_with_event(user, 'recurrence="foo"')
@@ -484,7 +484,7 @@ describe Post do
     end
   end
 
-  context 'private event' do
+  context 'with a private event' do
     before do
       freeze_time Time.utc(2020, 8, 12, 16, 32)
     end
@@ -510,7 +510,7 @@ describe Post do
       )
     }
 
-    context 'an event with recurrence' do
+    context 'with an event with recurrence' do
       let(:event_1) {
         Fabricate(
           :event,
@@ -531,7 +531,7 @@ describe Post do
         Jobs.run_later!
       end
 
-      context 'updating the end' do
+      context 'when updating the end' do
         it 'resends event creation notification to invitees and possible invitees' do
           expect(event_1.invitees.count).to eq(1)
 
@@ -542,7 +542,7 @@ describe Post do
       end
     end
 
-    context 'updating raw_invitees' do
+    context 'when updating raw_invitees' do
       let(:lurker_1) { Fabricate(:user) }
       let(:group_2) { Fabricate(:group) }
 
@@ -558,7 +558,7 @@ describe Post do
       end
     end
 
-    context 'updating status to public' do
+    context 'when updating status to public' do
       it 'it changes the status and force invitees' do
         expect(event_1.raw_invitees).to eq([group_1.name])
         expect(event_1.status).to eq(Event.statuses[:private])

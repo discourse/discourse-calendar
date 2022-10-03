@@ -16,8 +16,8 @@ module DiscoursePostEvent
     let(:invitee1) { Fabricate(:user) }
     let(:invitee2) { Fabricate(:user) }
 
-    context 'Existing post' do
-      context 'Existing event' do
+    context 'with an existing post' do
+      context 'with an existing event' do
         let(:event_1) { Fabricate(:event, post: post1) }
 
         before do
@@ -41,22 +41,22 @@ module DiscoursePostEvent
               file
             }
 
-            context 'current user can manage the event' do
-              context 'no file is given' do
+            context 'when current user can manage the event' do
+              context 'when no file is given' do
                 it 'returns an error' do
                   post "/discourse-post-event/events/#{event_1.id}/csv-bulk-invite.json"
                   expect(response.parsed_body['error_type']).to eq('invalid_parameters')
                 end
               end
 
-              context 'empty file is given' do
+              context 'when an empty file is given' do
                 it 'returns an error' do
                   post "/discourse-post-event/events/#{event_1.id}/csv-bulk-invite.json", { params: { file: fixture_file_upload(empty_file) } }
                   expect(response.status).to eq(422)
                 end
               end
 
-              context 'a valid file is given' do
+              context 'when a valid file is given' do
                 before do
                   Jobs.run_later!
                 end
@@ -79,7 +79,7 @@ module DiscoursePostEvent
               end
             end
 
-            context 'current user can’t manage the event' do
+            context 'when current user can’t manage the event' do
               let(:lurker) { Fabricate(:user) }
 
               before do
@@ -94,22 +94,22 @@ module DiscoursePostEvent
           end
 
           context 'when doing bulk invite' do
-            context 'current user can manage the event' do
-              context 'no invitees is given' do
+            context 'when current user can manage the event' do
+              context 'when no invitees are given' do
                 it 'returns an error' do
                   post "/discourse-post-event/events/#{event_1.id}/bulk-invite.json"
                   expect(response.parsed_body['error_type']).to eq('invalid_parameters')
                 end
               end
 
-              context 'empty invitees are given' do
+              context 'when empty invitees are given' do
                 it 'returns an error' do
                   post "/discourse-post-event/events/#{event_1.id}/bulk-invite.json", { params: { invitees: [] } }
                   expect(response.status).to eq(400)
                 end
               end
 
-              context 'valid invitees are given' do
+              context 'when valid invitees are given' do
                 before do
                   Jobs.run_later!
                 end
@@ -136,7 +136,7 @@ module DiscoursePostEvent
               end
             end
 
-            context 'current user can’t manage the event' do
+            context 'when current user can’t manage the event' do
               let(:lurker) { Fabricate(:user) }
 
               before do
@@ -151,7 +151,7 @@ module DiscoursePostEvent
           end
         end
 
-        context 'acting user has created the event' do
+        context 'when acting user has created the event' do
           it 'destroys a event' do
             expect(event_1.persisted?).to be(true)
 
@@ -167,7 +167,7 @@ module DiscoursePostEvent
           end
         end
 
-        context 'acting user has not created the event' do
+        context 'when acting user has not created the event' do
           let(:lurker) { Fabricate(:user) }
 
           before do

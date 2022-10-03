@@ -26,8 +26,8 @@ describe DiscoursePostEvent::Event do
     let!(:alt_ends_at) { '2020-04-24 19:15:25' }
 
     describe '#after_commit[:create, :update]' do
-      context 'a post event has been created' do
-        context 'the associated post is the OP' do
+      context 'when a post event has been created' do
+        context 'when the associated post is the OP' do
           it 'sets the topic custom field and creates event date' do
             expect(first_post.is_first_post?).to be(true)
             expect(first_post.topic.custom_fields).to be_blank
@@ -44,7 +44,7 @@ describe DiscoursePostEvent::Event do
           end
         end
 
-        context 'the associated post is not the OP' do
+        context 'when the associated post is not the OP' do
           it 'doesn’t set the topic custom field but still creates event date' do
             expect(second_post.is_first_post?).to be(false)
             expect(second_post.topic.custom_fields).to be_blank
@@ -59,8 +59,8 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context 'a post event has been updated' do
-        context 'the associated post is the OP' do
+      context 'when a post event has been updated' do
+        context 'when the associated post is the OP' do
           let!(:post_event) { Fabricate(:event, post: first_post, original_starts_at: starts_at,  original_ends_at: ends_at) }
 
           it 'sets the topic custom field' do
@@ -92,7 +92,7 @@ describe DiscoursePostEvent::Event do
           end
         end
 
-        context 'the associated post is not the OP' do
+        context 'when the associated post is not the OP' do
           let(:post_event) { Fabricate(:event, post: second_post, original_starts_at: starts_at) }
 
           it 'doesn’t set the topic custom field' do
@@ -112,8 +112,8 @@ describe DiscoursePostEvent::Event do
     end
 
     describe '#after_commit[:destroy]' do
-      context 'a post event has been destroyed' do
-        context 'the associated post is the OP' do
+      context 'when a post event has been destroyed' do
+        context 'when the associated post is the OP' do
           let!(:post_event) { Fabricate(:event, post: first_post, original_starts_at: starts_at, original_ends_at: ends_at) }
 
           it 'sets the topic custom field' do
@@ -131,7 +131,7 @@ describe DiscoursePostEvent::Event do
           end
         end
 
-        context 'the associated post is not the OP' do
+        context 'when the associated post is not the OP' do
           let!(:first_post_event) { Fabricate(:event, post: first_post, original_starts_at: starts_at, original_ends_at: ends_at) }
           let!(:second_post_event) { Fabricate(:event, post: second_post, original_starts_at: starts_at, original_ends_at: ends_at) }
 
@@ -159,9 +159,9 @@ describe DiscoursePostEvent::Event do
     let(:topic) { Fabricate(:topic, user: user) }
     let!(:first_post) { Fabricate(:post, topic: topic) }
 
-    context 'has ends_at' do
-      context '&& starts_at < current date' do
-        context '&& ends_at < current date' do
+    context 'with ends_at' do
+      context 'with starts_at < current date' do
+        context 'with ends_at < current date' do
           it 'is ongoing' do
             post_event = Event.create!(
               original_starts_at: 2.hours.ago,
@@ -173,7 +173,7 @@ describe DiscoursePostEvent::Event do
           end
         end
 
-        context '&& ends_at > current date' do
+        context 'with ends_at > current date' do
           it 'is not ongoing' do
             post_event = Event.create!(
               original_starts_at: 2.hours.ago,
@@ -186,8 +186,8 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context '&& starts_at > current date' do
-        context '&& ends_at > current date' do
+      context 'when starts_at > current date' do
+        context 'when ends_at > current date' do
           it 'is not ongoing' do
             post_event = Event.create!(
               original_starts_at: 1.hour.from_now,
@@ -201,8 +201,8 @@ describe DiscoursePostEvent::Event do
       end
     end
 
-    context 'has not ends_at date' do
-      context '&& starts_at < current date' do
+    context 'without ends_at date' do
+      context 'when starts_at < current date' do
         it 'is not ongoing' do
           post_event = Event.create!(
             original_starts_at: 2.hours.ago,
@@ -213,7 +213,7 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context '&& starts_at == current date' do
+      context 'when starts_at == current date' do
         it 'is ongoing' do
           post_event = Event.create!(
             original_starts_at: Time.now,
@@ -224,7 +224,7 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context '&& starts_at > current date' do
+      context 'when starts_at > current date' do
         it 'is ongoing' do
           post_event = Event.create!(
             original_starts_at: 1.hours.from_now,
@@ -242,9 +242,9 @@ describe DiscoursePostEvent::Event do
     let(:topic) { Fabricate(:topic, user: user) }
     let!(:first_post) { Fabricate(:post, topic: topic) }
 
-    context 'has ends_at' do
-      context '&& starts_at < current date' do
-        context '&& ends_at < current date' do
+    context 'with ends_at' do
+      context 'when starts_at < current date' do
+        context 'when ends_at < current date' do
           it 'is expired' do
             post_event = Event.create!(
               original_starts_at: DateTime.parse('2020-04-22 14:05'),
@@ -256,7 +256,7 @@ describe DiscoursePostEvent::Event do
           end
         end
 
-        context '&& ends_at > current date' do
+        context 'when ends_at > current date' do
           it 'is not expired' do
             post_event = Event.create!(
               original_starts_at: DateTime.parse('2020-04-24 14:15'),
@@ -269,7 +269,7 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context '&& starts_at > current date' do
+      context 'when starts_at > current date' do
         it 'is not expired' do
           post_event = Event.create!(
             original_starts_at: DateTime.parse('2020-04-25 14:05'),
@@ -282,8 +282,8 @@ describe DiscoursePostEvent::Event do
       end
     end
 
-    context 'has not ends_at date' do
-      context '&& starts_at < current date' do
+    context 'without ends_at date' do
+      context 'when starts_at < current date' do
         it 'is expired' do
           post_event = Event.create!(
             original_starts_at: DateTime.parse('2020-04-24 14:05'),
@@ -294,7 +294,7 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context '&& starts_at == current date' do
+      context 'when starts_at == current date' do
         it 'is expired' do
           post_event = Event.create!(
             original_starts_at: DateTime.parse('2020-04-24 14:10'),
@@ -305,7 +305,7 @@ describe DiscoursePostEvent::Event do
         end
       end
 
-      context '&& starts_at > current date' do
+      context 'when starts_at > current date' do
         it 'is not expired' do
           post_event = Event.create!(
             original_starts_at: DateTime.parse('2020-04-24 14:15'),
@@ -318,7 +318,7 @@ describe DiscoursePostEvent::Event do
     end
   end
 
-  context '#update_with_params!' do
+  describe '#update_with_params!' do
     let!(:post_1) { Fabricate(:post) }
     let!(:user_1) { Fabricate(:user) }
     let(:group_1) {
@@ -332,7 +332,7 @@ describe DiscoursePostEvent::Event do
       freeze_time
     end
 
-    context 'private event' do
+    context 'with a private event' do
       let!(:event_1) {
         Fabricate(:event, post: post_1, status: Event.statuses[:private], raw_invitees: [group_1.name])
       }
@@ -345,21 +345,21 @@ describe DiscoursePostEvent::Event do
         ])
       end
 
-      context 'updating the name' do
+      context 'when updating the name' do
         it 'doesn’t clear existing invitees' do
           expect(event_1.invitees.count).to eq(1)
 
           expect {
             event_1.update_with_params!(name: 'The event')
-          }.to change {
+          }.not_to change {
             event_1.invitees.count
-          }.by(0)
+          }
         end
       end
     end
   end
 
-  context '#missing_users' do
+  describe '#missing_users' do
     let!(:post_1) { Fabricate(:post) }
     let!(:user_1) { Fabricate(:user) }
     let!(:user_2) { Fabricate(:user) }
