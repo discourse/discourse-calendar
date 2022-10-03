@@ -15,7 +15,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context '#execute' do
+  describe '#execute' do
     context 'invalid params' do
       context 'no invitees given' do
         it 'raises an invalid parameters errors' do

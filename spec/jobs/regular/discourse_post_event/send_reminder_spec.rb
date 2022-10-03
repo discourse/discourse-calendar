@@ -51,7 +51,7 @@ describe Jobs::DiscoursePostEventSendReminder do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context '#execute' do
+  describe '#execute' do
     context 'invalid params' do
       it 'raises an invalid parameters errors' do
         expect {
@@ -98,7 +98,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { not_going_user.reload.unread_notifications }.by(0)
+          }.not_to change { not_going_user.reload.unread_notifications }
         end
 
         it 'doesn’t create a new notification if there’s already one' do
@@ -106,7 +106,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { going_user_unread_notification.reload.unread_notifications }.by(0)
+          }.not_to change { going_user_unread_notification.reload.unread_notifications }
         end
 
         it 'delete previous notifications before creating a new one' do
@@ -151,7 +151,7 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { not_going_user.reload.unread_notifications }.by(0)
+          }.not_to change { not_going_user.reload.unread_notifications }
         end
 
         it 'doesn’t create a new notification if there’s already one' do
@@ -159,9 +159,9 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change {
+          }.not_to change {
             going_user_unread_notification.reload.unread_notifications
-          }.by(0)
+          }
         end
 
         it 'deletes previous notifications when creating a new one' do
@@ -202,9 +202,9 @@ describe Jobs::DiscoursePostEventSendReminder do
 
           expect {
             subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change {
+          }.not_to change {
             visited_going_user.reload.unread_notifications
-          }.by(0)
+          }
         end
       end
     end

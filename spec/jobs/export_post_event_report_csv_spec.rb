@@ -10,7 +10,7 @@ describe Jobs::ExportCsvFile do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context '#execute' do
+  describe '#execute' do
     context 'the requesting user is admin' do
       let(:user) { Fabricate(:user, admin: true) }
       let(:user_1) { Fabricate(:user) }

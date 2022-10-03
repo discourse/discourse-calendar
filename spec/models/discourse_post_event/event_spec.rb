@@ -318,7 +318,7 @@ describe DiscoursePostEvent::Event do
     end
   end
 
-  context '#update_with_params!' do
+  describe '#update_with_params!' do
     let!(:post_1) { Fabricate(:post) }
     let!(:user_1) { Fabricate(:user) }
     let(:group_1) {
@@ -351,15 +351,15 @@ describe DiscoursePostEvent::Event do
 
           expect {
             event_1.update_with_params!(name: 'The event')
-          }.to change {
+          }.not_to change {
             event_1.invitees.count
-          }.by(0)
+          }
         end
       end
     end
   end
 
-  context '#missing_users' do
+  describe '#missing_users' do
     let!(:post_1) { Fabricate(:post) }
     let!(:user_1) { Fabricate(:user) }
     let!(:user_2) { Fabricate(:user) }

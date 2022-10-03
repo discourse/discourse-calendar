@@ -9,7 +9,7 @@ describe DiscourseCalendar::MonitorEventDates do
   fab!(:future_event) { Fabricate(:event, post: post_2, original_starts_at: 14.days.after, original_ends_at: 14.days.after + 1.hour) }
   let(:future_date) { future_event.event_dates.first }
 
-  context '#send_reminder' do
+  describe '#send_reminder' do
     it 'lodge reminder jobs in correct times' do
       expect_not_enqueued_with(job: :discourse_post_event_send_reminder) do
         described_class.new.execute({})
@@ -32,7 +32,7 @@ describe DiscourseCalendar::MonitorEventDates do
     end
   end
 
-  context '#trigger_events' do
+  describe '#trigger_events' do
     it 'sends singe event 1 hours before and when due' do
       events = DiscourseEvent.track_events do
         described_class.new.execute({})
@@ -66,7 +66,7 @@ describe DiscourseCalendar::MonitorEventDates do
     end
   end
 
-  context '#finish' do
+  describe '#finish' do
     it 'finishes past event' do
       described_class.new.execute({})
       expect(future_date.finished_at).to eq(nil)
@@ -95,7 +95,7 @@ describe DiscourseCalendar::MonitorEventDates do
     end
   end
 
-  context '#due_reminders' do
+  describe '#due_reminders' do
     fab!(:invalid_event) {
       Fabricate(
         :event,
