@@ -7,16 +7,16 @@ describe RRuleGenerator do
 
   before { freeze_time Time.utc(2020, 8, 12, 16, 32) }
 
-  context 'every week' do
+  describe 'every week' do
     let(:sample_rrule) { 'FREQ=WEEKLY;BYDAY=MO' }
 
-    context 'a rule and time are given' do
+    context 'when a rule and time are given' do
       it 'generates the rule' do
         rrule = RRuleGenerator.generate(sample_rrule, time)
         expect(rrule.to_s).to eq('2020-08-17 16:32:00 UTC')
       end
 
-      context 'the given time is a valid next' do
+      context 'when the given time is a valid next' do
         let(:time) { Time.utc(2020, 8, 10, 16, 32) }
 
         it 'returns the next valid after given time' do
@@ -27,7 +27,7 @@ describe RRuleGenerator do
     end
   end
 
-  context 'tzid given' do
+  context 'when tzid given' do
     let(:sample_rrule) { 'FREQ=WEEKLY;BYDAY=MO' }
 
     it 'it correctly computes the next date using the timezone' do
@@ -46,16 +46,16 @@ describe RRuleGenerator do
     end
   end
 
-  context 'every day' do
+  describe 'every day' do
     let(:sample_rrule) { 'FREQ=DAILY' }
 
-    context 'a rule and time are given' do
+    context 'when a rule and time are given' do
       it 'generates the rule' do
         rrule = RRuleGenerator.generate(sample_rrule, time)
         expect(rrule.to_s).to eq('2020-08-13 16:32:00 UTC')
       end
 
-      context 'the given time is a valid next' do
+      context 'when the given time is a valid next' do
         let(:time) { Time.utc(2020, 8, 10, 16, 32) }
 
         it 'returns the next valid after given time and in the future' do

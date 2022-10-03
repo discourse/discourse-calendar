@@ -12,7 +12,7 @@ describe DiscoursePostEvent::EventFinder do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context 'the event is associated to a visible post' do
+  context 'when the event is associated to a visible post' do
     let(:post1) {
       PostCreator.create!(
         user,
@@ -27,7 +27,7 @@ describe DiscoursePostEvent::EventFinder do
     end
   end
 
-  context 'the event is associated to a visible PM' do
+  context 'when the event is associated to a visible PM' do
     let(:post1) {
       PostCreator.create!(
         user,
@@ -44,7 +44,7 @@ describe DiscoursePostEvent::EventFinder do
     end
   end
 
-  context 'the event is associated to a not visible PM' do
+  context 'when the event is associated to a not visible PM' do
     let(:another_user) { Fabricate(:user) }
     let(:post1) {
       PostCreator.create!(
@@ -62,8 +62,8 @@ describe DiscoursePostEvent::EventFinder do
     end
   end
 
-  context 'events are filtered' do
-    context 'by post_id' do
+  context 'when events are filtered' do
+    describe 'by post_id' do
       let(:post1) {
         PostCreator.create!(
           user,
@@ -86,7 +86,7 @@ describe DiscoursePostEvent::EventFinder do
       end
     end
 
-    context 'by expiration status' do
+    describe 'by expiration status' do
       let!(:old_event) { Fabricate(:event, name: 'old_event', original_starts_at: 2.hours.ago, original_ends_at: 1.hour.ago) }
       let!(:future_event) { Fabricate(:event, name: 'future_event', original_starts_at: 1.hour.from_now, original_ends_at: 2.hours.from_now) }
       let!(:current_event) { Fabricate(:event, name: 'current_event', original_starts_at: 5.minutes.ago, original_ends_at: 5.minutes.from_now) }

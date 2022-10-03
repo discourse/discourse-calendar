@@ -8,7 +8,7 @@ describe PostSerializer do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context 'post has an event' do
+  context 'when post has an event' do
     let(:user) { Fabricate(:user, admin: true) }
     let(:topic_1) { Fabricate(:topic, user: user) }
     let(:post_1) { Fabricate(:post, topic: topic_1) }
@@ -19,7 +19,7 @@ describe PostSerializer do
       expect(json[:post][:event]).to be_present
     end
 
-    context 'the post has been destroyed' do
+    context 'when the post has been destroyed' do
       before do
         PostDestroyer.new(Discourse.system_user, post_1).destroy
       end

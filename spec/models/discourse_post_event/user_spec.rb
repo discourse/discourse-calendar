@@ -12,7 +12,7 @@ describe User do
   end
 
   describe '#can_act_on_discourse_post_event?' do
-    context 'user is staff' do
+    context 'when user is staff' do
       let(:user_1) { Fabricate(:user, admin: true) }
       let(:user_2) { Fabricate(:user, admin: true) }
       let(:topic_1) { Fabricate(:topic, user: user_2) }
@@ -24,10 +24,10 @@ describe User do
       end
     end
 
-    context 'user is not staff' do
+    context 'when user is not staff' do
       let(:user_1) { Fabricate(:user) }
 
-      context 'user is in list of allowed groups' do
+      context 'when user is in list of allowed groups' do
         let(:group_1) {
           Fabricate(:group).tap do |g|
             g.add(user_1)
@@ -39,7 +39,7 @@ describe User do
           SiteSetting.discourse_post_event_allowed_on_groups = group_1.id
         end
 
-        context 'user created the event' do
+        context 'when user created the event' do
           let(:topic_1) { Fabricate(:topic, user: user_1) }
           let(:post_1) { Fabricate(:post, topic: topic_1, user: user_1) }
           let(:post_event_1) { Fabricate(:event, post: post_1) }
@@ -49,7 +49,7 @@ describe User do
           end
         end
 
-        context 'user didn’t create the event' do
+        context 'when user didn’t create the event' do
           let(:user_2) { Fabricate(:user) }
           let(:topic_1) { Fabricate(:topic, user: user_2) }
           let(:post_1) { Fabricate(:post, topic: topic_1, user: user_2) }
@@ -60,7 +60,7 @@ describe User do
           end
         end
 
-        context 'user didn’t create the event, but is allowed to edit the post' do
+        context 'when user didn’t create the event, but is allowed to edit the post' do
           let(:user_2) { Fabricate(:user) }
           let(:topic_1) { Fabricate(:topic, user: user_2) }
           let(:post_1) { Fabricate(:post, topic: topic_1, user: user_2) }
@@ -73,7 +73,7 @@ describe User do
         end
       end
 
-      context 'user is not in list of allowed groups' do
+      context 'when user is not in list of allowed groups' do
         let(:topic_1) { Fabricate(:topic, user: user_1) }
         let(:post_1) { Fabricate(:post, topic: topic_1, user: user_1) }
         let(:post_event_1) { Fabricate(:event, post: post_1) }
