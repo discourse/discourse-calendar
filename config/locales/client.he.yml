@@ -418,3 +418,8 @@ he:
         creator: "יוצר"
         status: "מצב"
         starts_at: "מועד התחלה"
+    category:
+      sort_topics_by_event_start_date: "מיון נושאים לפי תאריך תחילת האירוע."
+      disable_topic_resorting: "השבתת מיון נושאים מחדש."
+      settings_sections:
+        event_sorting: "מיון אירועים"
