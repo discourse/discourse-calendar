@@ -2,14 +2,15 @@
 require "rails_helper"
 
 describe DiscoursePostEvent::EventFinder do
-  let(:current_user) { Fabricate(:user) }
-  let(:user) { Fabricate(:user) }
+  fab!(:current_user) { Fabricate(:user) }
+  fab!(:user) { Fabricate(:user) }
 
   subject { DiscoursePostEvent::EventFinder }
 
   before do
     Jobs.run_immediately!
     SiteSetting.discourse_post_event_enabled = true
+    Group.refresh_automatic_groups!
   end
 
   context 'when the event is associated to a visible post' do
