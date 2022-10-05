@@ -37,6 +37,7 @@ he:
     discourse_post_event_enabled: "[experimental] מאפשר לצרף אירוע לפוסט. הערה: צריך גם את האפשרות `calendar enabled` כדי שיהיה פעיל."
     displayed_invitees_limit: "מגביל את מספר המוזמנים שמוצגים לאירוע."
     display_post_event_date_on_topic_title: "מציג את תאריך האירוע אחרי כותרת הנושא."
+    use_local_event_date: "להשתמש בתאריך המקומי אחרי כותרת הנושא במקום בזמן יחסי."
     discourse_post_event_allowed_on_groups: "קבוצות שמורשות ליצור אירועים."
     discourse_post_event_allowed_custom_fields: "מאפשר לכל אירוע להגדיר את ערכי השדות המותאמים אישית לעצמו."
     discourse_post_event_edit_notifications_time_extension: "מאריך (בדקות) את הזמן שלאחר סוף אירוע כאשר מוזמנים ש‚הולכים’ עדיין מקבלים התראות על עריכה בפרסום המקורי"
@@ -52,6 +53,8 @@ he:
     working_day_end_hour: "שעת סיום יום העבודה."
     close_to_working_day_hours_extension: "הגדרת זמן הארכה בשעות כדי להדגיש את אזורי הזמן."
     events_calendar_categories: "הצגת לוח אירועים בראש קטגוריה."
+    sort_categories_by_event_start_date_enabled: "לאפשר מיון של נושאי קטגוריות לפי תאריך תחילת האירוע."
+    disable_resorting_on_categories_enabled: "לאפשר לקטגוריות להשבית את היכולת של משתמשים למיין לפי קטגוריית האירוע."
   discourse_calendar:
     invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
     calendar_must_be_in_first_post: "ניתן להשתמש בתגית יומן רק בפוסט הראשון של נושא."
