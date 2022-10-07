@@ -9,7 +9,6 @@ import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
-import bootbox from "bootbox";
 import { escapeExpression } from "discourse/lib/utilities";
 
 export default createWidget("discourse-post-event", {
