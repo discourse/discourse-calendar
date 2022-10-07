@@ -6,7 +6,7 @@ import Controller from "@ember/controller";
 import { action, computed, set } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
-import bootbox from "bootbox";
+import { inject as service } from "@ember/service";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 const DEFAULT_REMINDER = { value: 15, unit: "minutes", period: "before" };
@@ -16,6 +16,7 @@ function replaceTimezone(val, newTimezone) {
 }
 
 export default Controller.extend(ModalFunctionality, {
+  dialog: service(),
   reminders: null,
   isLoadingReminders: false,
 
@@ -163,34 +164,30 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   destroyPostEvent() {
-    bootbox.confirm(
-      I18n.t("discourse_post_event.builder_modal.confirm_delete"),
-      I18n.t("no_value"),
-      I18n.t("yes_value"),
-      (confirmed) => {
-        if (confirmed) {
-          return this.store
-            .find("post", this.model.eventModel.id)
-            .then((post) => {
-              const raw = post.raw;
-              const newRaw = this._removeRawEvent(raw);
-              const props = {
-                raw: newRaw,
-                edit_reason: I18n.t("discourse_post_event.destroy_event"),
-              };
+    this.dialog.yesNoConfirm({
+      message: I18n.t("discourse_post_event.builder_modal.confirm_delete"),
+      didConfirm: () => {
+        return this.store
+          .find("post", this.model.eventModel.id)
+          .then((post) => {
+            const raw = post.raw;
+            const newRaw = this._removeRawEvent(raw);
+            const props = {
+              raw: newRaw,
+              edit_reason: I18n.t("discourse_post_event.destroy_event"),
+            };
 
-              return TextLib.cookAsync(newRaw).then((cooked) => {
-                props.cooked = cooked.string;
-                return post
-                  .save(props)
-                  .catch((e) => this.flash(extractError(e), "error"))
-                  .then((result) => result && this.send("closeModal"));
-              });
-            })
-            .catch((e) => this.flash(extractError(e), "error"));
-        }
-      }
-    );
+            return TextLib.cookAsync(newRaw).then((cooked) => {
+              props.cooked = cooked.string;
+              return post
+                .save(props)
+                .catch((e) => this.flash(extractError(e), "error"))
+                .then((result) => result && this.send("closeModal"));
+            });
+          })
+          .catch((e) => this.flash(extractError(e), "error"));
+      },
+    });
   },
 
   @action
