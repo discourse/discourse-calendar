@@ -16,6 +16,9 @@ acceptance("Post event - composer", function (needs) {
   test("composer event builder", async function (assert) {
     await visit("/");
     await click("#create-topic");
+    const categoryChooser = selectKit(".category-chooser");
+    await categoryChooser.expand();
+    await categoryChooser.selectRowByValue(2);
     await click(".toolbar-popup-menu-options .dropdown-select-box-header");
     await click(".toolbar-popup-menu-options *[data-value='insertEvent']");
 
