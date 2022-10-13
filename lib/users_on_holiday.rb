@@ -6,13 +6,14 @@ module DiscourseCalendar
       calendar_events
         .filter { |e| e.user_id.present? && e.username.present? }
         .filter { |e| e.start_date < Time.zone.now && Time.zone.now < e.ends_at}
+        .group_by(&:user_id)
+        .map { |_, events| events.sort_by { |e| e.ends_at }.last }
         .map { |e| {
             id: e.user_id,
             username: e.username,
             ends_at: e.ends_at
           }
         }
-        .uniq { |u| u[:id] }
     end
   end
 end

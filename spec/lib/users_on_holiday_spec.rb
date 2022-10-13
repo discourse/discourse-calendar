@@ -39,4 +39,18 @@ describe DiscourseCalendar::UsersOnHoliday do
     usernames = users_on_holiday.map { |u| u[:username] }
     expect(usernames).to contain_exactly(event1.username, event2.username)
   end
+
+  it "chooses the holiday with the biggest end date if user has several holidays" do
+    user = Fabricate(:user)
+    biggest_end_date = "2000-01-04"
+    event1 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-02")
+    event2 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-03")
+    event3 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: biggest_end_date)
+
+    freeze_time Time.utc(2000, 1, 1, 8, 0)
+    users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3])
+
+    expect(users_on_holiday.length).to be(1)
+    expect(users_on_holiday[0][:ends_at]).to eq(biggest_end_date)
+  end
 end
