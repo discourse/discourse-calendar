@@ -5,6 +5,10 @@ class CalendarEvent < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
 
+  def ends_at
+    end_date ? end_date : start_date + 24.hours
+  end
+
   def self.update(post)
     CalendarEvent.where(post_id: post.id).destroy_all
 

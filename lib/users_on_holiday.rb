@@ -3,21 +3,16 @@
 module DiscourseCalendar
   class UsersOnHoliday
     def self.from(calendar_events)
-      users_on_holiday = []
-      calendar_events.each do |event|
-        next if event.user_id.blank? || event.username.blank?
-        end_date = event.end_date ? event.end_date : event.start_date + 24.hours
-        if event.start_date < Time.zone.now && Time.zone.now < end_date
-          users_on_holiday << {
-            id: event.user_id,
-            username: event.username,
-            ends_at: end_date
+      calendar_events
+        .filter { |e| e.user_id.present? && e.username.present? }
+        .filter { |e| e.start_date < Time.zone.now && Time.zone.now < e.ends_at}
+        .map { |e| {
+            id: e.user_id,
+            username: e.username,
+            ends_at: e.ends_at
           }
-        end
-      end
-
-      users_on_holiday.uniq! { |u| u[:id] }
-      users_on_holiday
+        }
+        .uniq { |u| u[:id] }
     end
   end
 end
