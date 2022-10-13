@@ -9,6 +9,11 @@ class CalendarEvent < ActiveRecord::Base
     end_date ? end_date : start_date + 24.hours
   end
 
+  def underway?
+    now = Time.zone.now
+    start_date < now && now < ends_at
+  end
+
   def self.update(post)
     CalendarEvent.where(post_id: post.id).destroy_all
 

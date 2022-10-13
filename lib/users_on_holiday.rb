@@ -5,7 +5,7 @@ module DiscourseCalendar
     def self.from(calendar_events)
       calendar_events
         .filter { |e| e.user_id.present? && e.username.present? }
-        .filter { |e| e.start_date < Time.zone.now && Time.zone.now < e.ends_at}
+        .filter { |e| e.underway? }
         .group_by(&:user_id)
         .map { |_, events| events.sort_by { |e| e.ends_at }.last }
         .map { |e| {
