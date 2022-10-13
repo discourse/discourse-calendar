@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe DiscourseCalendar::UsersOnHoliday do
-  it "returns users that are currently on holiday" do
+  it "returns users on holiday" do
     event1 = Fabricate(:calendar_event, start_date: "2000-01-01")
     event2 = Fabricate(:calendar_event, start_date: "2000-01-01")
     event3 = Fabricate(:calendar_event, start_date: "2000-01-01")
@@ -16,11 +16,11 @@ describe DiscourseCalendar::UsersOnHoliday do
     expect(usernames).to contain_exactly(event1.username, event2.username, event3.username)
   end
 
-  it "returns empty list if no one is currently on holiday" do
+  it "returns empty list if no one is on holiday" do
     event1 = Fabricate(:calendar_event, start_date: "2000-01-02")
-    event2 = Fabricate(:calendar_event, start_date: "2000-01-02")
-    event3 = Fabricate(:calendar_event, start_date: "2000-01-02")
-    event4 = Fabricate(:calendar_event, start_date: "2000-01-02")
+    event2 = Fabricate(:calendar_event, start_date: "2000-01-03")
+    event3 = Fabricate(:calendar_event, start_date: "2000-01-04")
+    event4 = Fabricate(:calendar_event, start_date: "2000-01-05")
 
     freeze_time Time.utc(2000, 1, 1, 8, 0)
     users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3, event4])

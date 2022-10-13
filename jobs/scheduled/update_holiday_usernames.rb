@@ -13,6 +13,7 @@ module Jobs
 
       DiscourseCalendar.users_on_holiday = users_on_holiday.map { |u| u[:username] }
       synchronize_user_custom_fields(users_on_holiday)
+      set_holiday_statuses(users_on_holiday)
     end
 
     private
@@ -38,6 +39,21 @@ module Jobs
       else
         DB.exec("DELETE FROM user_custom_fields WHERE name = ?", custom_field_name)
       end
+    end
+
+    def set_holiday_statuses(users_on_holiday)
+      return if !SiteSetting.enable_user_status
+      users_on_holiday.each { |u| set_holiday_status(u) }
+    end
+
+    def set_holiday_status(user_on_holiday)
+      User
+        .where(id: user_on_holiday[:id])
+        .each { |user| user.set_status!(
+          I18n.t("discourse_calendar.holiday_status.description"),
+          DiscourseCalendar::HOLIDAY_STATUS_EMOJI,
+          user_on_holiday[:ends_at])
+        }
     end
   end
 end

@@ -48,4 +48,31 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_falsey
     expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_falsey
   end
+
+  it "sets status of users on holiday" do
+    SiteSetting.enable_user_status = true
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    status = User.where(id: post.user.id).first!.user_status
+    expect(status).to be_present
+    expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+    expect(status.emoji).to eq(DiscourseCalendar::HolidayUserStatus::EMOJI)
+    expect(status.ends_at).to eq("2018-06-06 10:20:00")
+  end
+
+  it "doesn't set status of users on holiday if user status is disabled in site settings" do
+    SiteSetting.enable_user_status = false
+    raw1 = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post1 = create_post(raw: raw1, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    status1 = User.where(id: post1.user.id).first!.user_status
+    expect(status1).to be_nil
+  end
 end

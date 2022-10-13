@@ -82,6 +82,8 @@ after_initialize do
     # List of groups
     GROUP_TIMEZONES_CUSTOM_FIELD ||= 'group-timezones'
 
+    HOLIDAY_STATUS_EMOJI ||= 'desert_island'
+
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end

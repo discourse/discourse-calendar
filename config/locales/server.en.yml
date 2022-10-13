@@ -57,6 +57,8 @@ en:
     more_than_one_calendar: "You can’t have more than one calendar in a post."
     more_than_two_dates: "A post of a calendar topic can’t contain more than two dates."
     event_expired: "Event expired"
+    holiday_status:
+      description: "On holiday"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} is about to start."
