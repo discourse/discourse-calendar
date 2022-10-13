@@ -7,9 +7,10 @@ import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
 import Group from "discourse/models/group";
 import I18n from "I18n";
-import bootbox from "bootbox";
+import { inject as service } from "@ember/service";
 
 export default Controller.extend(ModalFunctionality, {
+  dialog: service(),
   bulkInvites: null,
   bulkInviteStatuses: null,
   bulkInviteDisabled: true,
@@ -101,12 +102,8 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   uploadDone() {
-    bootbox.alert(
-      I18n.t("discourse_post_event.bulk_invite_modal.success"),
-      () => {
-        this.send("closeModal");
-      }
-    );
+    this.send("closeModal");
+    this.dialog.alert(I18n.t("discourse_post_event.bulk_invite_modal.success"));
   },
 
   @action

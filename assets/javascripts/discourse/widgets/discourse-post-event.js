@@ -9,11 +9,11 @@ import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
-import bootbox from "bootbox";
 import { escapeExpression } from "discourse/lib/utilities";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
+  services: ["dialog"],
 
   buildKey: (attrs) => `discourse-post-event-${attrs.id}`,
 
@@ -57,42 +57,36 @@ export default createWidget("discourse-post-event", {
   },
 
   closeEvent(eventModel) {
-    bootbox.confirm(
-      I18n.t("discourse_post_event.builder_modal.confirm_close"),
-      I18n.t("no_value"),
-      I18n.t("yes_value"),
-      (confirmed) => {
-        if (confirmed) {
-          return this.store.find("post", eventModel.id).then((post) => {
-            const raw = post.raw;
-            const startsAt = eventModel.starts_at
-              ? moment(eventModel.starts_at)
-              : moment();
-            const eventParams = buildParams(
-              moment().isBefore(startsAt) ? moment() : startsAt,
-              moment().isBefore(startsAt)
-                ? moment().add(1, "minute")
-                : moment(),
-              eventModel,
-              this.siteSettings
-            );
-            const newRaw = replaceRaw(eventParams, raw);
+    this.dialog.yesNoConfirm({
+      message: I18n.t("discourse_post_event.builder_modal.confirm_close"),
+      didConfirm: () => {
+        return this.store.find("post", eventModel.id).then((post) => {
+          const raw = post.raw;
+          const startsAt = eventModel.starts_at
+            ? moment(eventModel.starts_at)
+            : moment();
+          const eventParams = buildParams(
+            moment().isBefore(startsAt) ? moment() : startsAt,
+            moment().isBefore(startsAt) ? moment().add(1, "minute") : moment(),
+            eventModel,
+            this.siteSettings
+          );
+          const newRaw = replaceRaw(eventParams, raw);
 
-            if (newRaw) {
-              const props = {
-                raw: newRaw,
-                edit_reason: I18n.t("discourse_post_event.edit_reason"),
-              };
+          if (newRaw) {
+            const props = {
+              raw: newRaw,
+              edit_reason: I18n.t("discourse_post_event.edit_reason"),
+            };
 
-              return TextLib.cookAsync(newRaw).then((cooked) => {
-                props.cooked = cooked.string;
-                return post.save(props);
-              });
-            }
-          });
-        }
-      }
-    );
+            return TextLib.cookAsync(newRaw).then((cooked) => {
+              props.cooked = cooked.string;
+              return post.save(props);
+            });
+          }
+        });
+      },
+    });
   },
 
   changeWatchingInviteeStatus(status) {

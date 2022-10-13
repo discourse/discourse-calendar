@@ -1,12 +1,13 @@
 import Component from "@ember/component";
 import I18n from "I18n";
 import UppyUploadMixin from "discourse/mixins/uppy-upload";
-import bootbox from "bootbox";
+import { inject as service } from "@ember/service";
 import discourseComputed from "discourse-common/utils/decorators";
 
 export default Component.extend(UppyUploadMixin, {
   type: "csv",
   tagName: "span",
+  dialog: service(),
   uploadUrl: null,
   i18nPrefix: null,
   autoStartUploads: false,
@@ -27,17 +28,16 @@ export default Component.extend(UppyUploadMixin, {
   },
 
   uploadDone() {
-    bootbox.alert(I18n.t(`${this.i18nPrefix}.success`));
+    this.dialog.alert(I18n.t(`${this.i18nPrefix}.success`));
   },
 
   _uppyReady() {
     this._uppyInstance.on("file-added", () => {
-      bootbox.confirm(
-        I18n.t(`${this.i18nPrefix}.confirmation_message`),
-        I18n.t("cancel"),
-        I18n.t(`${this.i18nPrefix}.confirm`),
-        (result) => (result ? this._startUpload() : this._reset())
-      );
+      this.dialog.confirm({
+        message: I18n.t(`${this.i18nPrefix}.confirmation_message`),
+        didConfirm: () => this._startUpload(),
+        didCancel: () => this._reset(),
+      });
     });
   },
 });
