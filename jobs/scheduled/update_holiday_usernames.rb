@@ -8,26 +8,15 @@ module Jobs
       return unless SiteSetting.calendar_enabled
       return unless topic_id = SiteSetting.holiday_calendar_topic_id.presence
 
-      user_ids = []
-      usernames = []
+      events = CalendarEvent.where(topic_id: topic_id)
+      users_on_holiday = DiscourseCalendar::UsersOnHoliday.from(events)
 
-      CalendarEvent.where(topic_id: topic_id).each do |event|
-        next if event.user_id.blank? || event.username.blank?
-        end_date = event.end_date ? event.end_date : event.start_date + 24.hours
-        if event.start_date < Time.zone.now && Time.zone.now < end_date
-          user_ids << event.user_id
-          usernames << event.username
-        end
-      end
-
-      user_ids.uniq!
-      usernames.uniq!
-
-      DiscourseCalendar.users_on_holiday = usernames
+      DiscourseCalendar.users_on_holiday = users_on_holiday.map{ |u| u[:username] }
 
       custom_field_name = DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
 
-      if user_ids.present?
+      if users_on_holiday.present?
+        user_ids = users_on_holiday.map{ |u| u[:id] }
         values = user_ids.map { |id| "(#{id}, '#{custom_field_name}', 't', now(), now())" }
 
         DB.exec <<~SQL, custom_field_name
