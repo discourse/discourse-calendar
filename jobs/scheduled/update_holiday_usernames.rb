@@ -11,12 +11,17 @@ module Jobs
       events = CalendarEvent.where(topic_id: topic_id)
       users_on_holiday = DiscourseCalendar::UsersOnHoliday.from(events)
 
-      DiscourseCalendar.users_on_holiday = users_on_holiday.map{ |u| u[:username] }
+      DiscourseCalendar.users_on_holiday = users_on_holiday.map { |u| u[:username] }
+      synchronize_user_custom_fields(users_on_holiday)
+    end
 
+    private
+
+    def synchronize_user_custom_fields(users_on_holiday)
       custom_field_name = DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
 
       if users_on_holiday.present?
-        user_ids = users_on_holiday.map{ |u| u[:id] }
+        user_ids = users_on_holiday.map { |u| u[:id] }
         values = user_ids.map { |id| "(#{id}, '#{custom_field_name}', 't', now(), now())" }
 
         DB.exec <<~SQL, custom_field_name
@@ -27,8 +32,8 @@ module Jobs
 
         DB.exec <<~SQL, custom_field_name, user_ids
           DELETE FROM user_custom_fields
-           WHERE name = ?
-             AND user_id NOT IN (?)
+          WHERE name = ?
+            AND user_id NOT IN (?)
         SQL
       else
         DB.exec("DELETE FROM user_custom_fields WHERE name = ?", custom_field_name)
