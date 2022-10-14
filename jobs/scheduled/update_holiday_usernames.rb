@@ -11,7 +11,7 @@ module Jobs
       events = CalendarEvent.where(topic_id: topic_id)
       users_on_holiday = DiscourseCalendar::UsersOnHoliday.from(events)
 
-      DiscourseCalendar.users_on_holiday = users_on_holiday.map { |u| u[:username] }
+      DiscourseCalendar.users_on_holiday = users_on_holiday.values.map { |u| u[:username] }
       synchronize_user_custom_fields(users_on_holiday)
       set_holiday_statuses(users_on_holiday)
     end
@@ -22,7 +22,7 @@ module Jobs
       custom_field_name = DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
 
       if users_on_holiday.present?
-        user_ids = users_on_holiday.map { |u| u[:id] }
+        user_ids = users_on_holiday.keys
         values = user_ids.map { |id| "(#{id}, '#{custom_field_name}', 't', now(), now())" }
 
         DB.exec <<~SQL, custom_field_name
@@ -44,10 +44,10 @@ module Jobs
     def set_holiday_statuses(users_on_holiday)
       return if !SiteSetting.enable_user_status
 
-      users_on_holiday.each do |u|
-        user = User.where(id: u[:id]).first
-        set_holiday_status(user, u[:ends_at])
-      end
+      User
+        .where(id: users_on_holiday.keys)
+        .includes(:user_status)
+        .each { |u| set_holiday_status(u, users_on_holiday[u.id][:ends_at]) }
     end
 
     def set_holiday_status(user, ends_at)

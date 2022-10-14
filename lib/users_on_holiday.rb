@@ -8,11 +8,13 @@ module DiscourseCalendar
         .filter { |e| e.underway? }
         .group_by(&:user_id)
         .map { |_, events| events.sort_by { |e| e.ends_at }.last }
-        .map { |e| {
-            id: e.user_id,
+        .to_h { |e| [
+          e.user_id,
+          {
             username: e.username,
             ends_at: e.ends_at
           }
+        ]
         }
     end
   end

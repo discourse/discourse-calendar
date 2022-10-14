@@ -12,7 +12,7 @@ describe DiscourseCalendar::UsersOnHoliday do
     freeze_time Time.utc(2000, 1, 1, 8, 0)
     users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3, event4])
 
-    usernames = users_on_holiday.map { |u| u[:username] }
+    usernames = users_on_holiday.values.map { |u| u[:username] }
     expect(usernames).to contain_exactly(event1.username, event2.username, event3.username)
   end
 
@@ -36,7 +36,7 @@ describe DiscourseCalendar::UsersOnHoliday do
     freeze_time Time.utc(2000, 1, 1, 8, 0)
     users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3])
 
-    usernames = users_on_holiday.map { |u| u[:username] }
+    usernames = users_on_holiday.values.map { |u| u[:username] }
     expect(usernames).to contain_exactly(event1.username, event2.username)
   end
 
@@ -51,6 +51,6 @@ describe DiscourseCalendar::UsersOnHoliday do
     users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3])
 
     expect(users_on_holiday.length).to be(1)
-    expect(users_on_holiday[0][:ends_at]).to eq(biggest_end_date)
+    expect(users_on_holiday.values[0][:ends_at]).to eq(biggest_end_date)
   end
 end
