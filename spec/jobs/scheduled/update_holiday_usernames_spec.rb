@@ -97,4 +97,29 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     expect(status.description).to eq(custom_status[:description])
     expect(status.emoji).to eq(custom_status[:emoji])
   end
+
+  it "updates status' ends_at date when user edit a holiday post" do
+    SiteSetting.enable_user_status = true
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    post.user.reload
+    expect(post.user.user_status).to be_present
+    expect(post.user.user_status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+
+    revisor = PostRevisor.new(post)
+    revisor.revise!(
+      post.user,
+      { raw: 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-12-10" time="10:20:00"]' },
+      revised_at: Time.now
+    )
+    subject.execute(nil)
+
+    post.user.reload
+    expect(post.user.user_status).to be_present
+    expect(post.user.user_status.ends_at).to eq_time(Time.utc(2018, 12, 10, 10, 20))
+  end
 end
