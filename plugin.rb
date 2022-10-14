@@ -82,8 +82,6 @@ after_initialize do
     # List of groups
     GROUP_TIMEZONES_CUSTOM_FIELD ||= 'group-timezones'
 
-    HOLIDAY_STATUS_EMOJI ||= 'desert_island'
-
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
     end
@@ -348,6 +346,7 @@ after_initialize do
     ../lib/group_timezones.rb
     ../lib/time_sniffer.rb
     ../lib/users_on_holiday.rb
+    ../lib/holiday_user_status.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   register_post_custom_field_type(
