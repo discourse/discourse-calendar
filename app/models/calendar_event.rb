@@ -68,7 +68,7 @@ class CalendarEvent < ActiveRecord::Base
   def clear_holiday_user_status
     return if user.blank? || user.user_status.blank?
 
-    if DiscourseCalendar::HolidayUserStatus.is_holiday_status?(user.user_status)
+    if DiscourseCalendar::HolidayStatus.is_holiday_status?(user.user_status)
       user.clear_status!
     end
   end

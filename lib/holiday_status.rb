@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module DiscourseCalendar
-  class HolidayUserStatus
+  class HolidayStatus
     EMOJI ||= 'desert_island'
 
     def self.is_holiday_status?(status)

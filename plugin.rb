@@ -346,7 +346,7 @@ after_initialize do
     ../lib/group_timezones.rb
     ../lib/time_sniffer.rb
     ../lib/users_on_holiday.rb
-    ../lib/holiday_user_status.rb
+    ../lib/holiday_status.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   register_post_custom_field_type(

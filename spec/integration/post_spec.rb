@@ -590,7 +590,7 @@ describe Post do
         status = post.user.user_status
         expect(status).to be_present
         expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
-        expect(status.emoji).to eq(DiscourseCalendar::HolidayUserStatus::EMOJI)
+        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
 
         # after destroying the post the holiday status disappears:
@@ -611,7 +611,7 @@ describe Post do
         status = post.user.user_status
         expect(status).to be_present
         expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
-        expect(status.emoji).to eq(DiscourseCalendar::HolidayUserStatus::EMOJI)
+        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
 
         # user set their own status
