@@ -43,17 +43,23 @@ module Jobs
 
     def set_holiday_statuses(users_on_holiday)
       return if !SiteSetting.enable_user_status
-      users_on_holiday.each { |u| set_holiday_status(u) }
+
+      users_on_holiday.each do |u|
+        user = User.where(id: u[:id]).first
+        set_holiday_status(user, u[:ends_at])
+      end
     end
 
-    def set_holiday_status(user_on_holiday)
-      user = User.where(id: user_on_holiday[:id]).first
+    def set_holiday_status(user, ends_at)
+      status = user.user_status
 
-      if user.user_status.blank? || DiscourseCalendar::HolidayUserStatus.is_holiday_status?(user.user_status)
+      if status.blank? ||
+        (DiscourseCalendar::HolidayStatus.is_holiday_status?(status) && status.ends_at != ends_at)
+
         user.set_status!(
           I18n.t("discourse_calendar.holiday_status.description"),
-          DiscourseCalendar::HolidayUserStatus::EMOJI,
-          user_on_holiday[:ends_at])
+          DiscourseCalendar::HolidayStatus::EMOJI,
+          ends_at)
       end
     end
   end
