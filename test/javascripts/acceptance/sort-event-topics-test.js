@@ -1,18 +1,20 @@
 import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
-import { cloneJSON } from "discourse-common/lib/object";
-import CategoryFixtures from "discourse/tests/fixtures/category-fixtures";
+import Site from "discourse/models/site";
 
 acceptance("Calendar - Disable sorting headers", function (needs) {
   needs.user();
-  needs.pretender((server, helper) => {
-    const categoryResponse = cloneJSON(CategoryFixtures["/c/1/show.json"]);
-    categoryResponse.category.custom_fields["disable_topic_resorting"] = true;
-    server.get("/c/1/show.json", () => helper.response(categoryResponse));
+  needs.settings({
+    calendar_enabled: true,
+    discourse_post_event_enabled: true,
+    disable_resorting_on_categories_enabled: true,
   });
 
   test("visiting a category page", async function (assert) {
+    const site = Site.current();
+    site.categories[15].custom_fields = { disable_topic_resorting: true };
+
     await visit("/c/bug");
     assert.ok(exists(".topic-list"), "The list of topics was rendered");
     assert.ok(
