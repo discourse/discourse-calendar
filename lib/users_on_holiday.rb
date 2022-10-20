@@ -7,7 +7,7 @@ module DiscourseCalendar
         .filter { |e| e.user_id.present? && e.username.present? }
         .filter { |e| e.underway? }
         .group_by(&:user_id)
-        .map { |_, events| events.sort_by { |e| e.ends_at }.last }
+        .map { |_, events| events.sort_by(&:ends_at).last }
         .to_h { |e| [
           e.user_id,
           {
