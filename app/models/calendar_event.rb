@@ -8,7 +8,7 @@ class CalendarEvent < ActiveRecord::Base
   after_destroy :clear_holiday_user_status
 
   def ends_at
-    end_date ? end_date : start_date + 24.hours
+    end_date || (start_date + 24.hours)
   end
 
   def underway?
