@@ -77,7 +77,7 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     expect(post.user.user_status).to be_nil
   end
 
-  it "holiday status doesn't override status that was set buy a user themselves" do
+  it "holiday status doesn't override status that was set by a user themselves" do
     SiteSetting.enable_user_status = true
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
@@ -98,7 +98,7 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     expect(status.emoji).to eq(custom_status[:emoji])
   end
 
-  it "updates status' ends_at date when user edit a holiday post" do
+  it "updates status' ends_at date when user edits a holiday post" do
     SiteSetting.enable_user_status = true
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
