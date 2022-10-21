@@ -16,7 +16,7 @@ export default {
           let disableSort = false;
           if (
             disable_resorting_on_categories_enabled &&
-           category?.custom_fields
+            category?.custom_fields
           ) {
             disableSort = !!category.custom_fields["disable_topic_resorting"];
           }
