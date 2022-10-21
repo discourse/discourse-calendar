@@ -8,10 +8,16 @@ export default {
       api.modifyClass("component:topic-list", {
         pluginId: "discourse-calendar",
 
-        @discourseComputed("category")
-        sortable(category) {
-          let disableSort = true;
-          if (category && category.custom_fields) {
+        @discourseComputed(
+          "category",
+          "siteSettings.disable_resorting_on_categories_enabled"
+        )
+        sortable(category, disable_resorting_on_categories_enabled) {
+          let disableSort = false;
+          if (
+            disable_resorting_on_categories_enabled &&
+            category?.custom_fields
+          ) {
             disableSort = !!category.custom_fields["disable_topic_resorting"];
           }
           return !!this.changeSort && !disableSort;
