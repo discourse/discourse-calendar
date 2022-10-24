@@ -5,6 +5,17 @@ class CalendarEvent < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
 
+  after_destroy :clear_holiday_user_status
+
+  def ends_at
+    end_date || (start_date + 24.hours)
+  end
+
+  def underway?
+    now = Time.zone.now
+    start_date < now && now < ends_at
+  end
+
   def self.update(post)
     CalendarEvent.where(post_id: post.id).destroy_all
 
@@ -53,6 +64,14 @@ class CalendarEvent < ActiveRecord::Base
   end
 
   private
+
+  def clear_holiday_user_status
+    return if user.blank? || user.user_status.blank?
+
+    if DiscourseCalendar::HolidayStatus.is_holiday_status?(user.user_status)
+      user.clear_status!
+    end
+  end
 
   def self.convert_to_date_time(value)
     return if value.blank?

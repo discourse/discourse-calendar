@@ -11,7 +11,7 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     SiteSetting.holiday_calendar_topic_id = calendar_post.topic_id
   end
 
-  it "works" do
+  it "adds users on holiday to the users_on_holiday list" do
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
 
@@ -24,5 +24,102 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     subject.execute(nil)
 
     expect(DiscourseCalendar.users_on_holiday).to eq([])
+  end
+
+  it "adds custom field to users on holiday" do
+    raw1 = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post1 = create_post(raw: raw1, topic: calendar_post.topic)
+
+    raw2 = 'Rome [date="2018-06-05"]' # the whole day
+    post2 = create_post(raw: raw2, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_truthy
+    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_truthy
+
+    freeze_time Time.utc(2018, 6, 6, 10, 00)
+    subject.execute(nil)
+    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_truthy
+    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_falsey
+
+    freeze_time Time.utc(2018, 6, 7, 10, 00)
+    subject.execute(nil)
+    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_falsey
+    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_falsey
+  end
+
+  it "sets status of users on holiday" do
+    SiteSetting.enable_user_status = true
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    post.user.reload
+    status = post.user.user_status
+    expect(status).to be_present
+    expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+    expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+    expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+  end
+
+  it "doesn't set status of users on holiday if user status is disabled in site settings" do
+    SiteSetting.enable_user_status = false
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    post.user.reload
+    expect(post.user.user_status).to be_nil
+  end
+
+  it "holiday status doesn't override status that was set by a user themselves" do
+    SiteSetting.enable_user_status = true
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    custom_status = {
+      description: "I am working on holiday",
+      emoji: "construction_worker_man"
+    }
+    post.user.set_status!(custom_status[:description], custom_status[:emoji])
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    post.user.reload
+    status = post.user.user_status
+    expect(status).to be_present
+    expect(status.description).to eq(custom_status[:description])
+    expect(status.emoji).to eq(custom_status[:emoji])
+  end
+
+  it "updates status' ends_at date when user edits a holiday post" do
+    SiteSetting.enable_user_status = true
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+    subject.execute(nil)
+
+    post.user.reload
+    expect(post.user.user_status).to be_present
+    expect(post.user.user_status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+
+    revisor = PostRevisor.new(post)
+    revisor.revise!(
+      post.user,
+      { raw: 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-12-10" time="10:20:00"]' },
+      revised_at: Time.now
+    )
+    subject.execute(nil)
+
+    post.user.reload
+    expect(post.user.user_status).to be_present
+    expect(post.user.user_status.ends_at).to eq_time(Time.utc(2018, 12, 10, 10, 20))
   end
 end

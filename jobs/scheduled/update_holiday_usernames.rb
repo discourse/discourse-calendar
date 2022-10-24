@@ -8,26 +8,21 @@ module Jobs
       return unless SiteSetting.calendar_enabled
       return unless topic_id = SiteSetting.holiday_calendar_topic_id.presence
 
-      user_ids = []
-      usernames = []
+      events = CalendarEvent.where(topic_id: topic_id)
+      users_on_holiday = DiscourseCalendar::UsersOnHoliday.from(events)
 
-      CalendarEvent.where(topic_id: topic_id).each do |event|
-        next if event.user_id.blank? || event.username.blank?
-        end_date = event.end_date ? event.end_date : event.start_date + 24.hours
-        if event.start_date < Time.zone.now && Time.zone.now < end_date
-          user_ids << event.user_id
-          usernames << event.username
-        end
-      end
+      DiscourseCalendar.users_on_holiday = users_on_holiday.values.map { |u| u[:username] }
+      synchronize_user_custom_fields(users_on_holiday)
+      set_holiday_statuses(users_on_holiday)
+    end
 
-      user_ids.uniq!
-      usernames.uniq!
+    private
 
-      DiscourseCalendar.users_on_holiday = usernames
-
+    def synchronize_user_custom_fields(users_on_holiday)
       custom_field_name = DiscourseCalendar::HOLIDAY_CUSTOM_FIELD
 
-      if user_ids.present?
+      if users_on_holiday.present?
+        user_ids = users_on_holiday.keys
         values = user_ids.map { |id| "(#{id}, '#{custom_field_name}', 't', now(), now())" }
 
         DB.exec <<~SQL, custom_field_name
@@ -38,11 +33,33 @@ module Jobs
 
         DB.exec <<~SQL, custom_field_name, user_ids
           DELETE FROM user_custom_fields
-           WHERE name = ?
-             AND user_id NOT IN (?)
+          WHERE name = ?
+            AND user_id NOT IN (?)
         SQL
       else
         DB.exec("DELETE FROM user_custom_fields WHERE name = ?", custom_field_name)
+      end
+    end
+
+    def set_holiday_statuses(users_on_holiday)
+      return if !SiteSetting.enable_user_status
+
+      User
+        .where(id: users_on_holiday.keys)
+        .includes(:user_status)
+        .each { |u| set_holiday_status(u, users_on_holiday[u.id][:ends_at]) }
+    end
+
+    def set_holiday_status(user, ends_at)
+      status = user.user_status
+
+      if status.blank? ||
+        (DiscourseCalendar::HolidayStatus.is_holiday_status?(status) && status.ends_at != ends_at)
+
+        user.set_status!(
+          I18n.t("discourse_calendar.holiday_status.description"),
+          DiscourseCalendar::HolidayStatus::EMOJI,
+          ends_at)
       end
     end
   end

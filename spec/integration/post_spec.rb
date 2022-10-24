@@ -571,6 +571,68 @@ describe Post do
     end
   end
 
+  context "with holiday events" do
+    let(:calendar_post) { create_post(raw: "[calendar]\n[/calendar]") }
+
+    before do
+      SiteSetting.holiday_calendar_topic_id = calendar_post.topic_id
+    end
+
+    context "when deleting a post with an event" do
+      it "clears user status that was previously set by the calendar plugin" do
+        SiteSetting.enable_user_status = true
+        raw = 'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+        post = create_post(raw: raw, topic: calendar_post.topic)
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+        DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
+
+        # the job has set the holiday status:
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+
+        # after destroying the post the holiday status disappears:
+        PostDestroyer.new(user, post).destroy
+        post.user.reload
+
+        expect(post.user.user_status).to be_nil
+      end
+
+      it "doesn't clear user status that wasn't set by the calendar plugin" do
+        SiteSetting.enable_user_status = true
+        raw = 'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+        post = create_post(raw: raw, topic: calendar_post.topic)
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+        DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
+
+        # the job has set the holiday status:
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+
+        # user set their own status
+        custom_status = {
+          description: "I am working on holiday",
+          emoji: "construction_worker_man"
+        }
+        post.user.set_status!(custom_status[:description], custom_status[:emoji])
+
+        # the status that was set by user doesn't disappear after destroying the post:
+        PostDestroyer.new(user, post).destroy
+        post.user.reload
+
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(custom_status[:description])
+        expect(status.emoji).to eq(custom_status[:emoji])
+      end
+    end
+  end
+
   describe "timezone handling" do
     before do
       freeze_time Time.utc(2022, 7, 24, 13, 00)
