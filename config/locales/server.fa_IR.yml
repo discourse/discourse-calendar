@@ -15,6 +15,9 @@ fa_IR:
         title: رویداد شروع شد
   site_settings:
     events_calendar_categories: "نمایش رویدادهای تقویم در بالای دسته‌بندی"
+  discourse_calendar:
+    holiday_status:
+      description: "در تعطیلات"
   discourse_post_event:
     errors:
       models:
