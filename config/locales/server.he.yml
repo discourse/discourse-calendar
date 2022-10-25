@@ -61,6 +61,8 @@ he:
     more_than_one_calendar: "לא יכול להיות יותר מלוח שנה אחד בפוסט."
     more_than_two_dates: "פוסט של נושא יומן לא יכול להכיל יותר משני תאריכים."
     event_expired: "תוקף האירוע פג"
+    holiday_status:
+      description: "בחג"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} עומד להתחיל."
