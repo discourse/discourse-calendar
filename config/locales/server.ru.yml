@@ -61,6 +61,8 @@ ru:
     more_than_one_calendar: "В сообщении не может быть более одного календаря."
     more_than_two_dates: "Сообщение в теме календаря не может содержать более двух дат."
     event_expired: "Срок проведения мероприятия истек"
+    holiday_status:
+      description: "В отпуске"
   discourse_post_event:
     notifications:
       before_event_reminder: "Мероприятие '%{title}' вот-вот начнется."
