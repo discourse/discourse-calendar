@@ -5,7 +5,9 @@ class CalendarEvent < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
 
-  after_destroy :clear_holiday_user_status
+  after_destroy do
+    DiscourseCalendar::HolidayStatus.clear!(user)
+  end
 
   def ends_at
     end_date || (start_date + 24.hours)
@@ -64,14 +66,6 @@ class CalendarEvent < ActiveRecord::Base
   end
 
   private
-
-  def clear_holiday_user_status
-    return if user.blank? || user.user_status.blank?
-
-    if DiscourseCalendar::HolidayStatus.is_holiday_status?(user.user_status)
-      user.clear_status!
-    end
-  end
 
   def self.convert_to_date_time(value)
     return if value.blank?
