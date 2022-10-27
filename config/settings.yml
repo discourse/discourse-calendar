@@ -5,9 +5,6 @@ discourse_calendar:
   holiday_calendar_topic_id:
     default: ""
     client: true
-  holiday_calendar_users_public:
-    default: false
-    hidden: true
   delete_expired_event_posts_after:
     min: -1
     default: -1
