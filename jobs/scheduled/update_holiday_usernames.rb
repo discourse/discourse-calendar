@@ -54,6 +54,7 @@ module Jobs
       status = user.user_status
 
       if status.blank? ||
+        status.expired? ||
         (DiscourseCalendar::HolidayStatus.is_holiday_status?(status) && status.ends_at != ends_at)
 
         user.set_status!(

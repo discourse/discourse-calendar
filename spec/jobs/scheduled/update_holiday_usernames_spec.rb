@@ -98,6 +98,34 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     expect(status.emoji).to eq(custom_status[:emoji])
   end
 
+  it "holiday status overrides status that was set by a user themselves if that status is expired" do
+    SiteSetting.enable_user_status = true
+
+    today = Time.utc(2018, 6, 5, 10, 00)
+    freeze_time today
+
+    raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-08" time="10:20:00"]'
+    post = create_post(raw: raw, topic: calendar_post.topic)
+
+    tomorrow = today + 1.day
+    custom_status = {
+      description: "I am working on holiday",
+      emoji: "construction_worker_man",
+      ends_at: tomorrow
+    }
+    post.user.set_status!(custom_status[:description], custom_status[:emoji], custom_status[:ends_at])
+
+    freeze_time tomorrow + 2.day
+    subject.execute(nil)
+
+    post.user.reload
+    status = post.user.user_status
+    expect(status).to be_present
+    expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+    expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+    expect(status.ends_at).to eq_time(Time.utc(2018, 6, 8, 10, 20))
+  end
+
   it "updates status' ends_at date when user edits a holiday post" do
     SiteSetting.enable_user_status = true
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
