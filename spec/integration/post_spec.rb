@@ -576,14 +576,97 @@ describe Post do
 
     before do
       SiteSetting.holiday_calendar_topic_id = calendar_post.topic_id
+      SiteSetting.enable_user_status = true
+    end
+
+    context "when adding a post with an event" do
+      it "sets holiday user status" do
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+
+        raw = 'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+        post = create_post(raw: raw, topic: calendar_post.topic)
+
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+      end
+
+      it "doesn't set holiday user status if user already has custom user status" do
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+
+        # user sets a custom status
+        custom_status = {
+          description: "I am working on holiday",
+          emoji: "construction_worker_man"
+        }
+        user.set_status!(custom_status[:description], custom_status[:emoji])
+
+        raw = 'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+        post = create_post(raw: raw, topic: calendar_post.topic, user: user)
+
+        # a holiday status wasn't set:
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(custom_status[:description])
+        expect(status.emoji).to eq(custom_status[:emoji])
+      end
+    end
+
+    context "when updating event dates" do
+      it "sets holiday user status" do
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+        today = "2018-06-05"
+        tomorrow = "2018-06-06"
+
+        raw = "Vacation [date='#{tomorrow}']"
+        post = create_post(raw: raw, topic: calendar_post.topic)
+        expect(post.user.user_status).to be_blank
+
+        PostRevisor.new(post).revise!(post.user, { raw: "Vacation [date='#{today}']" })
+        post.reload
+
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 0, 0))
+      end
+
+      it "doesn't set holiday user status if user already has custom user status" do
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+        today = "2018-06-05"
+        tomorrow = "2018-06-06"
+
+        raw = "Vacation [date='#{tomorrow}']"
+        post = create_post(raw: raw, topic: calendar_post.topic)
+        expect(post.user.user_status).to be_blank
+
+        # user sets a custom status
+        custom_status = {
+          description: "I am working on holiday",
+          emoji: "construction_worker_man"
+        }
+        post.user.set_status!(custom_status[:description], custom_status[:emoji])
+
+        PostRevisor.new(post).revise!(post.user, { raw: "Vacation [date='#{today}']" })
+        post.reload
+
+        # a holiday status wasn't set:
+        status = post.user.user_status
+        expect(status).to be_present
+        expect(status.description).to eq(custom_status[:description])
+        expect(status.emoji).to eq(custom_status[:emoji])
+      end
     end
 
     context "when deleting a post with an event" do
       it "clears user status that was previously set by the calendar plugin" do
-        SiteSetting.enable_user_status = true
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+
         raw = 'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
         post = create_post(raw: raw, topic: calendar_post.topic)
-        freeze_time Time.utc(2018, 6, 5, 10, 30)
         DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
         # the job has set the holiday status:
@@ -601,10 +684,10 @@ describe Post do
       end
 
       it "doesn't clear user status that wasn't set by the calendar plugin" do
-        SiteSetting.enable_user_status = true
+        freeze_time Time.utc(2018, 6, 5, 10, 30)
+
         raw = 'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
         post = create_post(raw: raw, topic: calendar_post.topic)
-        freeze_time Time.utc(2018, 6, 5, 10, 30)
         DiscourseCalendar::UpdateHolidayUsernames.new.execute(nil)
 
         # the job has set the holiday status:
@@ -614,7 +697,7 @@ describe Post do
         expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
 
-        # user set their own status
+        # user sets a custom status
         custom_status = {
           description: "I am working on holiday",
           emoji: "construction_worker_man"

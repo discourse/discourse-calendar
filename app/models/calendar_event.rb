@@ -5,8 +5,14 @@ class CalendarEvent < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
 
+  after_save do
+    if SiteSetting.enable_user_status && underway?
+      DiscourseCalendar::HolidayStatus.set!(user, ends_at)
+    end
+  end
+
   after_destroy do
-    DiscourseCalendar::HolidayStatus.clear!(user)
+    DiscourseCalendar::HolidayStatus.clear!(user) if SiteSetting.enable_user_status
   end
 
   def ends_at
