@@ -508,7 +508,7 @@ after_initialize do
     DiscourseCalendar.users_on_holiday
   end
 
-  add_to_serializer(:site, :include_users_on_holiday?) { SiteSetting.holiday_calendar_users_public || scope.is_staff? }
+  add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
 
   reloadable_patch do
     module DiscoursePostEvent::ExportCsvControllerExtension
