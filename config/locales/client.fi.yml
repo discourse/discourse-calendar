@@ -7,12 +7,16 @@
 fi:
   admin_js:
     admin:
+      calendar: "Kalenteri"
       site_settings:
         categories:
           discourse_post_event: "Discourse Event"
           discourse_calendar: "Discourse Calendar"
   js:
     notifications:
+      titles:
+        event_reminder: "tapahtumamuistutus"
+        event_invitation: "tapahtumakutsu"
       popup:
         event_reminder: Tapahtumamuistutus
     discourse_automation:
@@ -25,7 +29,14 @@ fi:
     discourse_calendar:
       invite_user_notification: "%{username} kutsui sinut: %{description}"
       on_holiday: "Lomalla"
+      disable_holiday: "Poista käytöstä"
+      enable_holiday: "Ota käyttöön"
       holiday: "Loma"
+      holidays:
+        header_title: "Pyhäpäivät"
+        pick_region_description: "Valitse alue nähdäksesi kyseisen alueen pyhäpäivät."
+        disabled_holidays_description: "Käytöstä poistetut pyhäpäivät jätetään pois henkilökunnan lomakalenterista."
+      date: "Päivämäärä"
       add_to_calendar: "Lisää Google-kalenteriin"
       region:
         title: "Alue"
@@ -53,6 +64,8 @@ fi:
           bg_bg: "Bulgaria (bg_bg)"
           bg_en: "Bulgaria (bg_en)"
           br: "Brasilia"
+          br_sp: "Brasilia (br_sp)"
+          br_spcapital: "Brasilia (br_spcapital)"
           ca_ab: "Kanada (ca_ab)"
           ca_bc: "Kanada (ca_bc)"
           ca_mb: "Kanada (ca_mb)"
@@ -157,9 +170,11 @@ fi:
           gb: "Yhdistynyt kuningaskunta"
           ge: "Georgia"
           gg: "Guernsey"
+          gh: "Ghana"
           hk: "Hongkong"
           hr: "Kroatia"
           hu: "Unkari"
+          id: "Indonesia"
           ie: "Irlanti"
           im: "Mansaari"
           in: "Intia"
@@ -179,6 +194,7 @@ fi:
           je: "Jersey"
           jp: "Japani"
           kr: "Korean tasavalta"
+          kz: "Kazakstanin tasavalta"
           li: "Liechtenstein"
           lt: "Liettua"
           lu: "Luxemburg"
@@ -288,7 +304,15 @@ fi:
       group_availability: "%{group} – saatavuus"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} on asettanut osallistumisesi automaattisesti ja kutsunut sinut tapahtumaan"
+        before_event_reminder: "Tapahtuma on alkamassa"
+        after_event_reminder: "Tapahtuma on päättynyt"
+        ongoing_event_reminder: "Tapahtuma on käynnissä"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} on asettanut osallistumisesi automaattisesti ja kutsunut sinut tapahtumaan %{description}"
+        before_event_reminder_html: "Tapahtuma on alkamassa %{description}"
+        after_event_reminder_html: "Tapahtuma on päättynyt %{description}"
+        ongoing_event_reminder_html: "Tapahtuma on käynnissä  %{description}"
       preview:
         more_than_one_event: "Sinulla ei voi olla enempää kuin yksi tapahtuma."
       edit_reason: "Tapahtuma päivitetty"
@@ -361,6 +385,9 @@ fi:
         update: "Tallenna"
         attach: "Luo tapahtuma"
         add_reminder: "Lisää muistutus"
+        timezone:
+          label: Aikavyöhyke
+          remove_timezone: Ei aikavyöhykettä (UTC)
         reminders:
           label: "Muistutukset"
         recurrence:
@@ -389,3 +416,8 @@ fi:
         creator: "Luoja"
         status: "Tila"
         starts_at: "Alkaa"
+    category:
+      sort_topics_by_event_start_date: "Lajittele ketjun tapahtuman alkamispäivän mukaan."
+      disable_topic_resorting: "Poista ketjujen lajittelu uudelleen käytöstä."
+      settings_sections:
+        event_sorting: "Tapahtuman lajittelu"

@@ -7,12 +7,16 @@
 zh_CN:
   admin_js:
     admin:
+      calendar: "日历"
       site_settings:
         categories:
           discourse_post_event: "Discourse 活动"
           discourse_calendar: "Discourse 日历"
   js:
     notifications:
+      titles:
+        event_reminder: "活动提醒"
+        event_invitation: "活动邀请"
       popup:
         event_reminder: 活动提醒
     discourse_automation:
@@ -25,7 +29,14 @@ zh_CN:
     discourse_calendar:
       invite_user_notification: "%{username} 邀请您加入：%{description}"
       on_holiday: "休假"
+      disable_holiday: "禁用"
+      enable_holiday: "启用"
       holiday: "假期"
+      holidays:
+        header_title: "假期"
+        pick_region_description: "选择一个区域以查看该区域的假期。"
+        disabled_holidays_description: "已禁用的假期将被排除在管理人员假期日历之外。"
+      date: "日期"
       add_to_calendar: "添加到 Google 日历"
       region:
         title: "区域"
@@ -53,6 +64,8 @@ zh_CN:
           bg_bg: "保加利亚 (bg_bg)"
           bg_en: "保加利亚 (bg_en)"
           br: "巴西"
+          br_sp: "巴西 (br_sp)"
+          br_spcapital: "巴西 (br_spcapital)"
           ca_ab: "加拿大 (ca_ab)"
           ca_bc: "加拿大 (ca_bc)"
           ca_mb: "加拿大 (ca_mb)"
@@ -157,9 +170,11 @@ zh_CN:
           gb: "英国"
           ge: "格鲁吉亚"
           gg: "根西岛"
+          gh: "加纳"
           hk: "中国香港"
           hr: "克罗地亚"
           hu: "匈牙利"
+          id: "印度尼西亚"
           ie: "爱尔兰"
           im: "马恩岛"
           in: "印度"
@@ -179,6 +194,7 @@ zh_CN:
           je: "泽西岛"
           jp: "日本"
           kr: "韩国"
+          kz: "哈萨克斯坦"
           li: "列支敦士登"
           lt: "立陶宛"
           lu: "卢森堡"
@@ -288,7 +304,15 @@ zh_CN:
       group_availability: "%{group} 可用性"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} 已自动设置您的出席并邀请您加入"
+        before_event_reminder: "活动即将开始"
+        after_event_reminder: "活动已结束"
+        ongoing_event_reminder: "活动正在进行"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} 已自动设置您的出席并邀请您加入 %{description}"
+        before_event_reminder_html: "活动即将开始 %{description}"
+        after_event_reminder_html: "活动已结束 %{description}"
+        ongoing_event_reminder_html: "活动正在进行 %{description}"
       preview:
         more_than_one_event: "您不能有多个活动。"
       edit_reason: "活动已更新"
@@ -360,6 +384,9 @@ zh_CN:
         update: "保存"
         attach: "创建活动"
         add_reminder: "添加提醒"
+        timezone:
+          label: 时区
+          remove_timezone: 无时区 (UTC)
         reminders:
           label: "提醒"
         recurrence:
@@ -388,3 +415,8 @@ zh_CN:
         creator: "创建者"
         status: "状态"
         starts_at: "开始时间"
+    category:
+      sort_topics_by_event_start_date: "按活动开始日期对话题进行排序。"
+      disable_topic_resorting: "禁用话题重新排序。"
+      settings_sections:
+        event_sorting: "活动排序"
