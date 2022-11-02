@@ -5,11 +5,18 @@
 # https://translate.discourse.org/
 
 zh_CN:
+  reports:
+    currently_away:
+      title: 用户目前离开
+      labels:
+        username: 用户名
   discourse_automation:
     triggerables:
       event_started:
         title: 活动已开始
   system_messages:
+    discourse_calendar_holiday_region_invalid: "您提供的假期区域不存在。"
+    discourse_calendar_enable_holiday_failed: "无法启用此假期，它已被启用或未被禁用。"
     discourse_post_event_bulk_invite_succeeded:
       title: "活动 - 批量邀请成功"
       subject_template: "批量邀请处理成功"
@@ -30,6 +37,7 @@ zh_CN:
     discourse_post_event_enabled: "[experimental] 允许将活动附加到帖子。注意：还需要启用 `calendar enabled`。"
     displayed_invitees_limit: "限制活动中显示的受邀者数量。"
     display_post_event_date_on_topic_title: "在话题标题之后显示活动日期。"
+    use_local_event_date: "在话题标题后使用本地日期而不是相对时间。"
     discourse_post_event_allowed_on_groups: "允许创建活动的群组。"
     discourse_post_event_allowed_custom_fields: "允许让每个活动设置自定义字段的值。"
     discourse_post_event_edit_notifications_time_extension: "活动结束后延长一段时间（以分钟为单位），让“参加”的受邀者仍可以收到原始帖子的编辑通知。"
@@ -44,12 +52,17 @@ zh_CN:
     working_day_start_hour: "工作日的开始时间。"
     working_day_end_hour: "工作日的结束时间。"
     close_to_working_day_hours_extension: "以工作日小时为单位设置延长时间，突出显示时区。"
+    events_calendar_categories: "在类别顶部显示活动日历。"
+    sort_categories_by_event_start_date_enabled: "启用按活动开始日期对类别话题进行排序。"
+    disable_resorting_on_categories_enabled: "允许类别禁用用户对活动类别进行排序的功能。"
   discourse_calendar:
     invite_user_notification: "%{username} 邀请您加入：%{description}"
     calendar_must_be_in_first_post: "日历标签仅可用于话题的第一个帖子。"
     more_than_one_calendar: "一个帖子中不能有多个日历。"
     more_than_two_dates: "日历话题的帖子不能包含两个以上的日期。"
     event_expired: "活动已过期"
+    holiday_status:
+      description: "休假"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} 即将开始。"
@@ -68,6 +81,8 @@ zh_CN:
           ends_at_before_starts_at: "活动不能在开始之前结束。"
           start_must_be_present_and_a_valid_date: "活动需要有效的开始日期。"
           end_must_be_a_valid_date: "结束日期必须是有效日期。"
+          invalid_recurrence: "重复必须是以下之一：every_month、every_week、every_two_weeks、every_day、every_weekday。"
+          invalid_timezone: "无法识别时区。"
           acting_user_not_allowed_to_create_event: "当前用户不能创建活动。"
           acting_user_not_allowed_to_act_on_this_event: "当前用户不能在此活动上操作。"
           custom_field_is_invalid: "不允许自定义字段 `%{field}`。"

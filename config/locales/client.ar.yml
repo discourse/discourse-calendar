@@ -7,12 +7,16 @@
 ar:
   admin_js:
     admin:
+      calendar: "التقويم"
       site_settings:
         categories:
           discourse_post_event: "حدث Discourse"
           discourse_calendar: "تقويم Discourse"
   js:
     notifications:
+      titles:
+        event_reminder: "تذكير بالحدث"
+        event_invitation: "دعوة إلى حدث"
       popup:
         event_reminder: تذكير بالحدث
     discourse_automation:
@@ -25,7 +29,14 @@ ar:
     discourse_calendar:
       invite_user_notification: "دعاك %{username} للانضمام إلى: %{description}"
       on_holiday: "في عطلة"
+      disable_holiday: "إيقاف"
+      enable_holiday: "تفعيل"
       holiday: "عطلة"
+      holidays:
+        header_title: "العطلات"
+        pick_region_description: "اختر منطقة لعرض العطلات لتلك المنطقة."
+        disabled_holidays_description: "سيتم استبعاد العطلات المتوقفة من تقويم عطلات فريق العمل."
+      date: "التاريخ"
       add_to_calendar: "الإضافة إلى تقويم Google"
       region:
         title: "المنطقة"
@@ -53,6 +64,8 @@ ar:
           bg_bg: "بلغاريا (bg_bg)"
           bg_en: "بلغاريا (bg_en)"
           br: "البرازيل"
+          br_sp: "البرازيل (br_sp)"
+          br_spcapital: "البرازيل (br_spcapital)"
           ca_ab: "كندا (ca_ab)"
           ca_bc: "كندا (ca_bc)"
           ca_mb: "كندا (ca_mb)"
@@ -157,9 +170,11 @@ ar:
           gb: "المملكة المتحدة"
           ge: "جورجيا"
           gg: "غيرنزي"
+          gh: "غانا"
           hk: "هونغ كونغ"
           hr: "كرواتيا"
           hu: "المجر"
+          id: "إندونيسيا"
           ie: "أيرلندا"
           im: "جزيرة مان"
           in: "الهند"
@@ -179,6 +194,7 @@ ar:
           je: "جيرسي"
           jp: "اليابان"
           kr: "جمهورية كوريا"
+          kz: "جمهورية كازاخستان"
           li: "ليختنشتاين"
           lt: "ليتوانيا"
           lu: "لوكسمبورغ"
@@ -288,7 +304,15 @@ ar:
       group_availability: "توافر %{group}"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "حدَّد %{username} حضورك تلقائيًا ودعاك إلى"
+        before_event_reminder: "هناك حدث على وشك البدء"
+        after_event_reminder: "هناك حدث انتهى"
+        ongoing_event_reminder: "هناك حدث جارٍ"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "حدَّد %{username} حضورك تلقائيًا ودعاك إلى %{description}"
+        before_event_reminder_html: "هناك حدث على وشك البدء %{description}"
+        after_event_reminder_html: "انتهى حدث %{description}"
+        ongoing_event_reminder_html: "هناك حدث جارٍ %{description}"
       preview:
         more_than_one_event: "لا يمكن أن يكون لديك أكثر من حدثٍ واحد."
       edit_reason: "تم تحديث الحدث"
@@ -365,6 +389,9 @@ ar:
         update: "حفظ"
         attach: "إنشاء حدث"
         add_reminder: "إضافة تذكير"
+        timezone:
+          label: المنطقة الزمنية
+          remove_timezone: لا توجد منطقة زمنية (UTC)
         reminders:
           label: "التذكيرات"
         recurrence:
@@ -393,3 +420,8 @@ ar:
         creator: "المنشئ"
         status: "الحالة"
         starts_at: "يبدأ في"
+    category:
+      sort_topics_by_event_start_date: "ترتيب الموضوعات حسب تاريخ بدء الحدث."
+      disable_topic_resorting: "إيقاف الرجوع إلى الموضوع."
+      settings_sections:
+        event_sorting: "ترتيب الأحداث"
