@@ -252,6 +252,9 @@ describe Post do
           end
 
           it 'works with allowedGroups attribute' do
+            Fabricate(:group, name: "euro")
+            Fabricate(:group, name: "america")
+
             post = create_post_with_event(user, 'allowedGroups="euro"').reload
             expect(post.event.raw_invitees).to eq([])
 
@@ -568,6 +571,37 @@ describe Post do
         expect(event_1.raw_invitees).to eq(['trust_level_0'])
         expect(event_1.status).to eq(Event.statuses[:public])
       end
+    end
+
+    it "rejects private groups in allowedGroups" do
+      moderator = Fabricate(:user, moderator: true)
+      private_group = Fabricate(
+        :group,
+        visibility_level: Group.visibility_levels[:owners])
+
+      expect {
+        create_post_with_event(moderator, "allowedGroups='#{private_group.name}'")
+      }.to raise_error(ActiveRecord::RecordNotSaved)
+    end
+
+    it "rejects non-existent groups in allowedGroups" do
+      moderator = Fabricate(:user, moderator: true)
+
+      expect {
+        create_post_with_event(moderator, "allowedGroups='non-existent_group_name'")
+      }.to raise_error(ActiveRecord::RecordNotSaved)
+    end
+
+    it "rejects public groups with private members in allowedGroups" do
+      moderator = Fabricate(:user, moderator: true)
+      public_group_with_private_members = Fabricate(
+        :group,
+        visibility_level: Group.visibility_levels[:public],
+        members_visibility_level: Group.visibility_levels[:owners])
+
+      expect {
+        create_post_with_event(moderator, "allowedGroups='#{public_group_with_private_members.name}'")
+      }.to raise_error(ActiveRecord::RecordNotSaved)
     end
   end
 
