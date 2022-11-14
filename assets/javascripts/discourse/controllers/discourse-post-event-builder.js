@@ -18,6 +18,7 @@ function replaceTimezone(val, newTimezone) {
 export default Controller.extend(ModalFunctionality, {
   dialog: service(),
   reminders: null,
+  bump_topic: null,
   isLoadingReminders: false,
 
   init() {
@@ -81,6 +82,7 @@ export default Controller.extend(ModalFunctionality, {
   allowsInvitees: equal("model.eventModel.status", "private"),
 
   addReminderDisabled: gte("model.eventModel.reminders.length", 5),
+  addBumpTopicHidden: equal("model.eventModel.bump_topic", null),
 
   @action
   onChangeCustomField(field, event) {
@@ -120,6 +122,16 @@ export default Controller.extend(ModalFunctionality, {
     this.model.eventModel.reminders.pushObject(
       Object.assign({}, DEFAULT_REMINDER)
     );
+  },
+
+  @action
+  removeBumpTopic() {
+    this.model.eventModel.set("bump_topic", null);
+  },
+
+  @action
+  addBumpTopic() {
+    this.model.eventModel.set("bump_topic", DEFAULT_REMINDER);
   },
 
   startsAt: computed("model.eventModel.starts_at", {

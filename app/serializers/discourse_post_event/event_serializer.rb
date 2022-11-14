@@ -24,6 +24,7 @@ module DiscoursePostEvent
     attributes :is_public
     attributes :is_private
     attributes :is_standalone
+    attributes :bump_topic
     attributes :reminders
     attributes :recurrence
 
@@ -37,6 +38,12 @@ module DiscoursePostEvent
         value = value.to_i
         { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after' }
       end
+    end
+
+    def bump_topic
+      value, unit = (object.bump_topic || '').split('.')
+      value = value.to_i
+      { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after' }
     end
 
     def is_expired

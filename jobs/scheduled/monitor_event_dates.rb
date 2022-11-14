@@ -6,6 +6,7 @@ module Jobs
     def execute(args)
       DiscoursePostEvent::EventDate.pending.find_each do |event_date|
         send_reminder(event_date)
+        bump_topic(event_date)
         trigger_events(event_date)
         finish(event_date)
       end
@@ -16,6 +17,15 @@ module Jobs
         ::Jobs.enqueue(:discourse_post_event_send_reminder, event_id: event_date.event.id, reminder: reminder[:description])
         event_date.update!(reminder_counter: event_date.reminder_counter + 1)
       end
+    end
+
+    def bump_topic(event_date)
+      return if event_date.event.bump_topic.blank?
+      value, unit = event_date.event.bump_topic.split('.')
+
+      return if !validate_reminder_unit(unit)
+      date = event_date.starts_at - value.to_i.public_send(unit)
+      ::Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: event_date.event.post.topic.id, date: date)
     end
 
     def trigger_events(event_date)

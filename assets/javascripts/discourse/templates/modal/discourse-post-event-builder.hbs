@@ -136,6 +136,54 @@
         }}
       {{/event-field}}
 
+      {{#event-field class="reminders" label="discourse_post_event.builder_modal.bump_topic.label"}}
+        <div class="reminders-list">
+          {{#unless addBumpTopicHidden}}
+            <div class="reminder-item">
+              {{input
+                class="reminder-value"
+                min=0
+                value=(readonly model.eventModel.bump_topic.value)
+                placeholderKey="discourse_post_event.builder_modal.name.placeholder"
+                input=(action (mut model.eventModel.bump_topic.value) value="target.value")
+              }}
+
+              {{combo-box
+                class="reminder-unit"
+                value=model.eventModel.bump_topic.unit
+                nameProperty=null
+                valueProperty=null
+                content=reminderUnits
+                onChange=(action (mut model.eventModel.bump_topic.unit))
+              }}
+
+              {{combo-box
+                class="reminder-period"
+                value=model.eventModel.bump_topic.period
+                nameProperty=null
+                valueProperty=null
+                content=reminderPeriods
+                onChange=(action (mut model.eventModel.bump_topic.period))
+              }}
+
+              {{d-button
+                class="remove-reminder"
+                icon="times"
+                action=removeBumpTopic
+              }}
+            </div>
+          {{/unless}}
+        </div>
+        {{#if addBumpTopicHidden}}
+          {{d-button
+            class="add-reminder"
+            icon="plus"
+            label="discourse_post_event.builder_modal.add_bump_topic"
+            action=addBumpTopic
+          }}
+        {{/if}}
+      {{/event-field}}
+
       {{#event-field class="recurrence" label="discourse_post_event.builder_modal.recurrence.label"}}
         {{combo-box
           class="available-recurrences"

@@ -56,6 +56,17 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
       .join(",");
   }
 
+  if (eventModel.bump_topic && Object.keys(eventModel.bump_topic).length) {
+    const bump = Object.assign({}, eventModel.bump_topic);
+    if (bump.period === "after") {
+      bump.value = `-${Math.abs(parseInt(bump.value, 10))}`;
+    }
+    if (bump.period === "before") {
+      bump.value = Math.abs(parseInt(`${bump.value}`, 10));
+    }
+    params.bumpTopic = `${bump.value}.${bump.unit}`;
+  }
+
   siteSettings.discourse_post_event_allowed_custom_fields
     .split("|")
     .filter(Boolean)
