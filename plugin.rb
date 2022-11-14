@@ -2,7 +2,7 @@
 
 # name: discourse-calendar
 # about: Display a calendar in the first post of a topic
-# version: 0.2
+# version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 # transpile_js: true
