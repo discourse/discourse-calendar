@@ -33,6 +33,8 @@ module Jobs
     private
 
     def process_invitees(invitees)
+      invitees = filter_out_unavailable_groups(invitees)
+
       max_bulk_invitees = SiteSetting.discourse_post_event_max_bulk_invitees
 
       invitees.each do |invitee|
@@ -111,6 +113,19 @@ module Jobs
             logs: @logs.join("\n")
           )
         end
+      end
+    end
+
+    def invitee_groups(invitees)
+      Group.where(name: invitees.map { |i| i[:identifier] })
+    end
+
+    def filter_out_unavailable_groups(invitees)
+      groups = invitee_groups(invitees)
+      invitees.filter do |i|
+        group = groups.find { |g| g.name === i[:identifier] }
+
+        !group || (@guardian.can_see_group?(group) && @guardian.can_see_group_members?(group))
       end
     end
   end
