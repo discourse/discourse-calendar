@@ -23,3 +23,5 @@ fa_IR:
       models:
         event:
           invalid_timezone: "منطقه‌زمانی شناسایی نشد."
+          invalid_allowed_groups: "گروه‌های مجاز نامعتبر."
+          acting_user_not_allowed_to_invite_these_groups: "کاربر فعلی اجازه دعوت از این گروه‌ها را ندارد."
