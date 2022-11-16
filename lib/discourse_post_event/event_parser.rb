@@ -8,7 +8,6 @@ VALID_OPTIONS = [
   :url,
   :name,
   :reminders,
-  :"bump-topic",
   :recurrence,
   :timezone
 ]

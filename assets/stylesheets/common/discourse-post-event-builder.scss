@@ -201,6 +201,11 @@
           height: 100%;
         }
 
+        .reminder-type {
+          width: 320px;
+          margin-right: 0.5em;
+        }
+
         .reminder-value {
           width: 60px;
           margin-right: 0.5em;
@@ -212,7 +217,6 @@
         }
 
         .reminder-period {
-          width: 100%;
           margin-right: 0.5em;
         }
 

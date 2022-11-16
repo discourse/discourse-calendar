@@ -9,7 +9,12 @@ import { extractError } from "discourse/lib/ajax-error";
 import { inject as service } from "@ember/service";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
-const DEFAULT_REMINDER = { value: 15, unit: "minutes", period: "before" };
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
+};
 
 function replaceTimezone(val, newTimezone) {
   return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
@@ -18,12 +23,15 @@ function replaceTimezone(val, newTimezone) {
 export default Controller.extend(ModalFunctionality, {
   dialog: service(),
   reminders: null,
-  bump_topic: null,
   isLoadingReminders: false,
 
   init() {
     this._super(...arguments);
 
+    this.set("reminderTypes", [
+      { name: "notify participants", value: "notification" },
+      { name: "auto-bump topic", value: "bumpTopic" },
+    ]);
     this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
     this.set("reminderPeriods", ["before", "after"]);
     this.set("availableRecurrences", [
@@ -82,7 +90,6 @@ export default Controller.extend(ModalFunctionality, {
   allowsInvitees: equal("model.eventModel.status", "private"),
 
   addReminderDisabled: gte("model.eventModel.reminders.length", 5),
-  addBumpTopicHidden: equal("model.eventModel.bump_topic", null),
 
   @action
   onChangeCustomField(field, event) {
@@ -122,16 +129,6 @@ export default Controller.extend(ModalFunctionality, {
     this.model.eventModel.reminders.pushObject(
       Object.assign({}, DEFAULT_REMINDER)
     );
-  },
-
-  @action
-  removeBumpTopic() {
-    this.model.eventModel.set("bump_topic", null);
-  },
-
-  @action
-  addBumpTopic() {
-    this.model.eventModel.set("bump_topic", DEFAULT_REMINDER);
   },
 
   startsAt: computed("model.eventModel.starts_at", {

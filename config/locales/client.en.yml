@@ -382,14 +382,11 @@ en:
         update: "Save"
         attach: "Create event"
         add_reminder: "Add reminder"
-        add_bump_topic: "Add Topic Bump"
         timezone:
           label: Timezone
           remove_timezone: No timezone (UTC)
         reminders:
           label: "Reminders"
-        bump_topic:
-          label: "Bump event topic"
         recurrence:
           label: "Recurrence"
           none: "No recurrence"

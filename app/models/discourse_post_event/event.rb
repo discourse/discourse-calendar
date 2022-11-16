@@ -290,7 +290,6 @@ module DiscoursePostEvent
           timezone: event_params[:timezone],
           status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
           reminders: event_params[:reminders],
-          bump_topic: event_params[:"bump-topic"],
           raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
         }
 
@@ -394,7 +393,6 @@ end
 #  url                :string(1000)
 #  custom_fields      :jsonb            not null
 #  reminders          :string
-#  bump_topic         :string
 #  recurrence         :string
 #  timezone           :string
 #

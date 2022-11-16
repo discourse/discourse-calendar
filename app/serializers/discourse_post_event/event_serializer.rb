@@ -24,7 +24,6 @@ module DiscoursePostEvent
     attributes :is_public
     attributes :is_private
     attributes :is_standalone
-    attributes :bump_topic
     attributes :reminders
     attributes :recurrence
 
@@ -34,16 +33,17 @@ module DiscoursePostEvent
 
     def reminders
       (object.reminders || '').split(',').map do |reminder|
-        value, unit = reminder.split('.')
-        value = value.to_i
-        { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after' }
-      end
-    end
 
-    def bump_topic
-      value, unit = (object.bump_topic || '').split('.')
-      value = value.to_i
-      { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after' }
+        reminder_array = reminder.split('.')
+        if reminder_array.length() === 3
+          type, value, unit = reminder_array
+        else
+          value, unit = reminder_array
+        end
+
+        value = value.to_i
+        { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after', type: type || 'notification' }
+      end
     end
 
     def is_expired
