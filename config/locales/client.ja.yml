@@ -7,12 +7,16 @@
 ja:
   admin_js:
     admin:
+      calendar: "カレンダー"
       site_settings:
         categories:
           discourse_post_event: "Discourse イベント"
           discourse_calendar: "Discourse カレンダー"
   js:
     notifications:
+      titles:
+        event_reminder: "イベントリマインダー"
+        event_invitation: "イベントの招待"
       popup:
         event_reminder: イベントリマインダー
     discourse_automation:
@@ -25,7 +29,14 @@ ja:
     discourse_calendar:
       invite_user_notification: "%{username} があなたを招待しました: %{description}"
       on_holiday: "休暇中"
+      disable_holiday: "無効化"
+      enable_holiday: "有効化"
       holiday: "休祝日"
+      holidays:
+        header_title: "祝祭日"
+        pick_region_description: "地域を選択すると、その地域の祝祭日が表示されます。"
+        disabled_holidays_description: "無効化された祝祭日は、スタッフの祝祭日カレンダーから除外されます。"
+      date: "日付"
       add_to_calendar: "Google カレンダーに追加"
       region:
         title: "地域"
@@ -53,6 +64,8 @@ ja:
           bg_bg: "ブルガリア（bg_bg）"
           bg_en: "ブルガリア（bg_en）"
           br: "ブラジル"
+          br_sp: "ブラジル (br_sp)"
+          br_spcapital: "ブラジル (br_spcapital)"
           ca_ab: "カナダ（ca_ab）"
           ca_bc: "カナダ（ca_bc）"
           ca_mb: "カナダ（ca_mb）"
@@ -157,9 +170,11 @@ ja:
           gb: "英国"
           ge: "ジョージア"
           gg: "ガーンジー"
+          gh: "ガーナ"
           hk: "香港"
           hr: "クロアチア"
           hu: "ハンガリー"
+          id: "インドネシア"
           ie: "アイルランド"
           im: "マン島"
           in: "インド"
@@ -179,6 +194,7 @@ ja:
           je: "ジャージー"
           jp: "日本"
           kr: "韓国"
+          kz: "カザフスタン共和国"
           li: "リヒテンシュタイン"
           lt: "リトアニア"
           lu: "ルクセンブルク"
@@ -288,7 +304,15 @@ ja:
       group_availability: "%{group} の空き状況"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} はあなたの出席を自動的に設定して次に招待しました:"
+        before_event_reminder: "イベントが間もなく開始します"
+        after_event_reminder: "イベントは終了しました"
+        ongoing_event_reminder: "イベントは進行中です"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} はあなたの出席を自動的に設定して %{description} に招待しました"
+        before_event_reminder_html: "イベントが間もなく開始します: %{description}"
+        after_event_reminder_html: "イベントは終了しました: %{description}"
+        ongoing_event_reminder_html: "イベントは進行中です: %{description}"
       preview:
         more_than_one_event: "複数のイベントを指定できません。"
       edit_reason: "イベントが更新されました"
@@ -360,6 +384,9 @@ ja:
         update: "保存"
         attach: "イベントを作成"
         add_reminder: "リマインダーを追加"
+        timezone:
+          label: タイムゾーン
+          remove_timezone: タイムゾーンなし (UTC)
         reminders:
           label: "リマインダー"
         recurrence:
@@ -388,3 +415,8 @@ ja:
         creator: "作成者"
         status: "ステータス"
         starts_at: "開始時刻"
+    category:
+      sort_topics_by_event_start_date: "イベント開始日順にトピックを並べ替えます。"
+      disable_topic_resorting: "トピックの並べ替え直しを無効にします。"
+      settings_sections:
+        event_sorting: "イベントの並べ替え"

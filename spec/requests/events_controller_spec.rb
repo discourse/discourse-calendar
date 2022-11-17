@@ -10,13 +10,13 @@ module DiscoursePostEvent
       SiteSetting.displayed_invitees_limit = 3
     end
 
-    let(:user) { Fabricate(:user, admin: true) }
-    let(:topic) { Fabricate(:topic, user: user) }
-    let(:post1) { Fabricate(:post, user: user, topic: topic) }
-    let(:invitee1) { Fabricate(:user) }
-    let(:invitee2) { Fabricate(:user) }
-
     context 'with an existing post' do
+      let(:user) { Fabricate(:user, admin: true) }
+      let(:topic) { Fabricate(:topic, user: user) }
+      let(:post1) { Fabricate(:post, user: user, topic: topic) }
+      let(:invitee1) { Fabricate(:user) }
+      let(:invitee2) { Fabricate(:user) }
+
       context 'with an existing event' do
         let(:event_1) { Fabricate(:event, post: post1) }
 
@@ -221,6 +221,101 @@ module DiscoursePostEvent
             expect(events.length).to eq(1)
             expect(events[0]["id"]).to eq(event_2.id)
           end
+        end
+      end
+    end
+
+    context 'with a private event' do
+      let(:moderator) { Fabricate(:user, moderator: true) }
+      let(:topic) { Fabricate(:topic, user: moderator) }
+      let(:first_post) { Fabricate(:post, user: moderator, topic: topic) }
+      let(:private_event) { Fabricate(:event, post: first_post, status: Event.statuses[:private]) }
+
+      before do
+        sign_in(moderator)
+      end
+
+      context 'when bulk inviting via CSV file' do
+        def csv_file(content)
+          file = Tempfile.new("invites.csv")
+          file.write(content)
+          file.rewind
+          file
+        end
+
+        it "doesn't invite a private group" do
+          private_group = Fabricate(:group, visibility_level: Group.visibility_levels[:owners])
+
+          file = csv_file("#{private_group.name},going\n")
+          params = { file: fixture_file_upload(file) }
+          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", { params: params }
+
+          expect(response.status).to eq(200)
+          private_event.reload
+          expect(private_event.raw_invitees).to be_nil
+        end
+
+        it "returns 200 when inviting a non-existent group" do
+          file = csv_file("non-existent group name,going\n")
+          params = { file: fixture_file_upload(file) }
+          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", { params: params }
+
+          expect(response.status).to eq(200)
+        end
+
+        it "doesn't invite a public group with private members" do
+          public_group_with_private_members = Fabricate(
+            :group,
+            visibility_level: Group.visibility_levels[:public],
+            members_visibility_level: Group.visibility_levels[:owners])
+
+          file = csv_file("#{public_group_with_private_members.name},going\n")
+          params = { file: fixture_file_upload(file) }
+          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", { params: params }
+
+          expect(response.status).to eq(200)
+          private_event.reload
+          expect(private_event.raw_invitees).to be_nil
+        end
+      end
+
+      context 'when doing bulk inviting via UI' do
+        it "doesn't invite a private group" do
+          private_group = Fabricate(:group, visibility_level: Group.visibility_levels[:owners])
+
+          params = { invitees: [
+            { 'identifier' => private_group.name, 'attendance' => 'going' }
+          ] }
+          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", { params: params }
+
+          expect(response.status).to eq(200)
+          private_event.reload
+          expect(private_event.raw_invitees).to be_nil
+        end
+
+        it "returns 200 when inviting a non-existent group" do
+          params = { invitees: [
+            { 'identifier' => 'non-existent group name', 'attendance' => 'going' }
+          ] }
+          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", { params: params }
+
+          expect(response.status).to eq(200)
+        end
+
+        it "doesn't invite a public group with private members" do
+          public_group_with_private_members = Fabricate(
+            :group,
+            visibility_level: Group.visibility_levels[:public],
+            members_visibility_level: Group.visibility_levels[:owners])
+
+          params = { invitees: [
+            { 'identifier' => public_group_with_private_members.name, 'attendance' => 'going' }
+          ] }
+          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", { params: params }
+
+          expect(response.status).to eq(200)
+          private_event.reload
+          expect(private_event.raw_invitees).to be_nil
         end
       end
     end

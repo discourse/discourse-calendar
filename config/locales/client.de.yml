@@ -7,12 +7,16 @@
 de:
   admin_js:
     admin:
+      calendar: "Kalender"
       site_settings:
         categories:
           discourse_post_event: "Discourse-Ereignis"
           discourse_calendar: "Discourse-Kalender"
   js:
     notifications:
+      titles:
+        event_reminder: "Ereigniserinnerung"
+        event_invitation: "Ereigniseinladung"
       popup:
         event_reminder: Ereigniserinnerung
     discourse_automation:
@@ -25,7 +29,14 @@ de:
     discourse_calendar:
       invite_user_notification: "%{username} lädt dich ein zu: %{description}"
       on_holiday: "Im Urlaub"
+      disable_holiday: "Deaktivieren"
+      enable_holiday: "Aktivieren"
       holiday: "Urlaub"
+      holidays:
+        header_title: "Feiertage"
+        pick_region_description: "Wähle eine Region aus, um die Feiertage für diese Region zu sehen."
+        disabled_holidays_description: "Deaktivierte Feiertage werden aus dem Team-Feiertagskalender ausgeschlossen."
+      date: "Datum"
       add_to_calendar: "Zu Google Kalender hinzufügen"
       region:
         title: "Region"
@@ -53,6 +64,8 @@ de:
           bg_bg: "Bulgarien (bg_bg)"
           bg_en: "Bulgarien (bg_en)"
           br: "Brasilien"
+          br_sp: "Brasilien (br_sp)"
+          br_spcapital: "Brasilien (br_scapital)"
           ca_ab: "Kanada (ca_ab)"
           ca_bc: "Kanada (ca_bc)"
           ca_mb: "Kanada (ca_mb)"
@@ -157,9 +170,11 @@ de:
           gb: "Vereinigtes Königreich"
           ge: "Georgia"
           gg: "Guernsey"
+          gh: "Ghana"
           hk: "Hongkong"
           hr: "Kroatien"
           hu: "Ungarn"
+          id: "Indonesien"
           ie: "Irland"
           im: "Isle of Man"
           in: "Indien"
@@ -179,6 +194,7 @@ de:
           je: "Jersey"
           jp: "Japan"
           kr: "Korea (Republik)"
+          kz: "Kasachstan (Republik)"
           li: "Liechtenstein"
           lt: "Litauen"
           lu: "Luxemburg"
@@ -288,7 +304,15 @@ de:
       group_availability: "%{group} Verfügbarkeit"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} hat automatisch deine Teilnahme festgelegt und dich eingeladen zu"
+        before_event_reminder: "Ein Ereignis beginnt in Kürze"
+        after_event_reminder: "Ein Ereignis wurde beendet"
+        ongoing_event_reminder: "Ein Ereignis läuft"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} hat automatisch deine Teilnahme festgelegt und dich zu %{description} eingeladen"
+        before_event_reminder_html: "Ein Ereignis beginnt in Kürze %{description}"
+        after_event_reminder_html: "Ein Ereignis wurde beendet %{description}"
+        ongoing_event_reminder_html: "Ein Ereignis läuft  %{description}"
       preview:
         more_than_one_event: "Du kannst nicht mehr als ein Ereignis haben."
       edit_reason: "Ereignis aktualisiert"
@@ -361,6 +385,9 @@ de:
         update: "Speichern"
         attach: "Ereignis erstellen"
         add_reminder: "Erinnerung hinzufügen"
+        timezone:
+          label: Zeitzone
+          remove_timezone: Keine Zeitzone (UTC)
         reminders:
           label: "Erinnerungen"
         recurrence:
@@ -389,3 +416,8 @@ de:
         creator: "Ersteller"
         status: "Status"
         starts_at: "Beginnt um"
+    category:
+      sort_topics_by_event_start_date: "Themen nach Startdatum des Ereignisses sortieren."
+      disable_topic_resorting: "Themensortierung deaktivieren."
+      settings_sections:
+        event_sorting: "Ereignissortierung"

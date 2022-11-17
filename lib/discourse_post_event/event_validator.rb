@@ -33,6 +33,8 @@ module DiscoursePostEvent
 
       extracted_event = extracted_events.first
 
+      return false unless can_invite_groups?(extracted_event)
+
       if @post.acting_user && @post.event
         if !@post.acting_user.can_act_on_discourse_post_event?(@post.event)
           @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.acting_user_not_allowed_to_act_on_this_event"))
@@ -78,6 +80,29 @@ module DiscoursePostEvent
       if extracted_event[:timezone].present?
         if !ActiveSupport::TimeZone[extracted_event[:timezone]].present?
           @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.invalid_timezone", timezone: extracted_event[:timezone]))
+        end
+      end
+
+      true
+    end
+
+    private
+
+    def can_invite_groups?(event)
+      guardian = Guardian.new(@post.acting_user)
+      return true unless event[:"allowed-groups"]
+
+      event[:"allowed-groups"].split(',').each do |group_name|
+        group = Group.find_by(name: group_name)
+
+        if !group || !guardian.can_see_group?(group)
+          @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.invalid_allowed_groups"))
+          return false
+        end
+
+        if !guardian.can_see_group_members?(group)
+          @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.acting_user_not_allowed_to_invite_these_groups"))
+          return false
         end
       end
 
