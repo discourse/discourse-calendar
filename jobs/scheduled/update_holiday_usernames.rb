@@ -47,21 +47,7 @@ module Jobs
       User
         .where(id: users_on_holiday.keys)
         .includes(:user_status)
-        .each { |u| set_holiday_status(u, users_on_holiday[u.id][:ends_at]) }
-    end
-
-    def set_holiday_status(user, ends_at)
-      status = user.user_status
-
-      if status.blank? ||
-        status.expired? ||
-        (DiscourseCalendar::HolidayStatus.is_holiday_status?(status) && status.ends_at != ends_at)
-
-        user.set_status!(
-          I18n.t("discourse_calendar.holiday_status.description"),
-          DiscourseCalendar::HolidayStatus::EMOJI,
-          ends_at)
-      end
+        .each { |u| DiscourseCalendar::HolidayStatus.set!(u, users_on_holiday[u.id][:ends_at]) }
     end
   end
 end

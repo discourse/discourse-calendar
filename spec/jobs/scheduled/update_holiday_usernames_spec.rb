@@ -12,10 +12,11 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
   end
 
   it "adds users on holiday to the users_on_holiday list" do
+    freeze_time Time.utc(2018, 6, 5, 18, 40)
+
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
 
-    freeze_time Time.utc(2018, 6, 5, 18, 40)
     subject.execute(nil)
 
     expect(DiscourseCalendar.users_on_holiday).to eq([post.user.username])
@@ -27,13 +28,14 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
   end
 
   it "adds custom field to users on holiday" do
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+
     raw1 = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post1 = create_post(raw: raw1, topic: calendar_post.topic)
 
     raw2 = 'Rome [date="2018-06-05"]' # the whole day
     post2 = create_post(raw: raw2, topic: calendar_post.topic)
 
-    freeze_time Time.utc(2018, 6, 5, 10, 30)
     subject.execute(nil)
     expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_truthy
     expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_truthy
@@ -51,10 +53,11 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
 
   it "sets status of users on holiday" do
     SiteSetting.enable_user_status = true
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
 
-    freeze_time Time.utc(2018, 6, 5, 10, 30)
     subject.execute(nil)
 
     post.user.reload
@@ -67,10 +70,11 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
 
   it "doesn't set status of users on holiday if user status is disabled in site settings" do
     SiteSetting.enable_user_status = false
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
 
-    freeze_time Time.utc(2018, 6, 5, 10, 30)
     subject.execute(nil)
 
     post.user.reload
@@ -79,16 +83,16 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
 
   it "holiday status doesn't override status that was set by a user themselves" do
     SiteSetting.enable_user_status = true
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
-
     custom_status = {
       description: "I am working on holiday",
       emoji: "construction_worker_man"
     }
     post.user.set_status!(custom_status[:description], custom_status[:emoji])
 
-    freeze_time Time.utc(2018, 6, 5, 10, 30)
     subject.execute(nil)
 
     post.user.reload
@@ -128,10 +132,11 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
 
   it "updates status' ends_at date when user edits a holiday post" do
     SiteSetting.enable_user_status = true
+    freeze_time Time.utc(2018, 6, 5, 10, 30)
+
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
 
-    freeze_time Time.utc(2018, 6, 5, 10, 30)
     subject.execute(nil)
 
     post.user.reload
