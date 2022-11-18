@@ -29,11 +29,57 @@ export default Controller.extend(ModalFunctionality, {
     this._super(...arguments);
 
     this.set("reminderTypes", [
-      { name: "notify participants", value: "notification" },
-      { name: "auto-bump topic", value: "bumpTopic" },
+      {
+        value: "notification",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.types.bump_topic"
+        ),
+      },
+      {
+        value: "bumpTopic",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.types.notification"
+        ),
+      },
     ]);
-    this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
-    this.set("reminderPeriods", ["before", "after"]);
+    this.set("reminderUnits", [
+      {
+        value: "minutes",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.units.minutes"
+        ),
+      },
+      {
+        value: "hours",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.units.hours"
+        ),
+      },
+      {
+        value: "days",
+        name: I18n.t("discourse_post_event.builder_modal.reminders.units.days"),
+      },
+      {
+        value: "weeks",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.units.weeks"
+        ),
+      },
+    ]);
+    this.set("reminderPeriods", [
+      {
+        value: "before",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.periods.before"
+        ),
+      },
+      {
+        value: "after",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.periods.after"
+        ),
+      },
+    ]);
     this.set("availableRecurrences", [
       {
         id: "every_day",

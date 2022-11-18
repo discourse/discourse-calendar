@@ -387,6 +387,17 @@ en:
           remove_timezone: No timezone (UTC)
         reminders:
           label: "Reminders"
+          types:
+            bump_topic: "auto-bump topic"
+            notification: "notify participants"
+          units:
+            minutes: "minutes"
+            hours: "hours"
+            days: "days"
+            weeks: "weeks"
+          periods:
+            before: "before"
+            after: "after"
         recurrence:
           label: "Recurrence"
           none: "No recurrence"
