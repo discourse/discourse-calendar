@@ -6,7 +6,6 @@ module Jobs
     def execute(args)
       DiscoursePostEvent::EventDate.pending.find_each do |event_date|
         send_reminder(event_date)
-        bump_topic(event_date)
         trigger_events(event_date)
         finish(event_date)
       end
@@ -16,22 +15,6 @@ module Jobs
       due_reminders(event_date).each do |reminder|
         ::Jobs.enqueue(:discourse_post_event_send_reminder, event_id: event_date.event.id, reminder: reminder[:description])
         event_date.update!(reminder_counter: event_date.reminder_counter + 1)
-      end
-    end
-
-    def bump_topic(event_date)
-      return if event_date.event.reminders.blank?
-      event_date.event.reminders.split(',').map do |reminder|
-
-        reminder_array = reminder.split('.')
-        next if reminder_array.length() != 3
-        type, value, unit = reminder_array
-
-        next if type != 'bumpTopic' || !validate_reminder_unit(unit)
-
-        date = event_date.starts_at - value.to_i.public_send(unit)
-        ::Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: event_date.event.post.topic.id, date: date)
-        break
       end
     end
 
@@ -56,6 +39,7 @@ module Jobs
 
       return if event_date.event.recurrence.blank?
       event_date.event.set_next_date
+      event_date.event.set_topic_bump
     end
 
     def due_reminders(event_date)
