@@ -32,13 +32,13 @@ export default Controller.extend(ModalFunctionality, {
       {
         value: "notification",
         name: I18n.t(
-          "discourse_post_event.builder_modal.reminders.types.bump_topic"
+          "discourse_post_event.builder_modal.reminders.types.notification"
         ),
       },
       {
         value: "bumpTopic",
         name: I18n.t(
-          "discourse_post_event.builder_modal.reminders.types.notification"
+          "discourse_post_event.builder_modal.reminders.types.bump_topic"
         ),
       },
     ]);
