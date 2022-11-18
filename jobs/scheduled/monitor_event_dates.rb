@@ -20,12 +20,19 @@ module Jobs
     end
 
     def bump_topic(event_date)
-      return if event_date.event.bump_topic.blank?
-      value, unit = event_date.event.bump_topic.split('.')
+      return if event_date.event.reminders.blank?
+      event_date.event.reminders.split(',').map do |reminder|
 
-      return if !validate_reminder_unit(unit)
-      date = event_date.starts_at - value.to_i.public_send(unit)
-      ::Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: event_date.event.post.topic.id, date: date)
+        reminder_array = reminder.split('.')
+        next if reminder_array.length() != 3
+        type, value, unit = reminder_array
+
+        next if type != 'bumpTopic' || !validate_reminder_unit(unit)
+
+        date = event_date.starts_at - value.to_i.public_send(unit)
+        ::Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: event_date.event.post.topic.id, date: date)
+        break
+      end
     end
 
     def trigger_events(event_date)
