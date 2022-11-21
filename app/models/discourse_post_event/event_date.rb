@@ -5,7 +5,7 @@ module DiscoursePostEvent
     self.table_name = 'discourse_calendar_post_event_dates'
     belongs_to :event
 
-    scope :pending, -> { where(finished_at: nil) }
+    scope :pending, -> { where(finished_at: nil).joins(:event).where("discourse_post_event_events.deleted_at is NULL") }
     scope :expired, -> { where('ends_at IS NOT NULL AND ends_at < ?', Time.now) }
     scope :not_expired, -> { where('ends_at IS NULL OR ends_at > ?', Time.now) }
 

@@ -30,6 +30,14 @@ describe DiscourseCalendar::MonitorEventDates do
         described_class.new.execute({})
       end
     end
+
+    it 'does not lodge reminder jobs when event is deleted' do
+      freeze_time (7.days.after - 59.minutes)
+      past_event.update!(deleted_at: Time.now)
+      expect_not_enqueued_with(job: :discourse_post_event_send_reminder) do
+        described_class.new.execute({})
+      end
+    end
   end
 
   describe '#trigger_events' do
