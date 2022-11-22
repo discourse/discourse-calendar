@@ -40,10 +40,12 @@ register_svg_icon 'fas fa-star'
 register_svg_icon 'fas fa-file-upload'
 
 after_initialize do
-  Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
-  Category.register_custom_field_type("disable_topic_resorting", :boolean)
-  Site.preloaded_category_custom_fields << 'sort_topics_by_event_start_date'
-  Site.preloaded_category_custom_fields << 'disable_topic_resorting'
+  reloadable_patch do
+    Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
+    Category.register_custom_field_type("disable_topic_resorting", :boolean)
+    Site.preloaded_category_custom_fields << 'sort_topics_by_event_start_date'
+    Site.preloaded_category_custom_fields << 'disable_topic_resorting'
+  end
 
   add_to_serializer :basic_category, :sort_topics_by_event_start_date do
     object.custom_fields["sort_topics_by_event_start_date"]
@@ -52,16 +54,18 @@ after_initialize do
     object.custom_fields["disable_topic_resorting"]
   end
 
-  TopicQuery.add_custom_filter(:order_by_event_date) do |results, topic_query|
-    if SiteSetting.sort_categories_by_event_start_date_enabled && topic_query.options[:category_id]
-      category = Category.find_by(id: topic_query.options[:category_id])
-      if category && category.custom_fields && category.custom_fields["sort_topics_by_event_start_date"]
-        results = results.joins("LEFT JOIN topic_custom_fields AS custom_fields on custom_fields.topic_id = topics.id
-          AND custom_fields.name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'
-          ").reorder("topics.pinned_at ASC, custom_fields.value ASC")
+  reloadable_patch do
+    TopicQuery.add_custom_filter(:order_by_event_date) do |results, topic_query|
+      if SiteSetting.sort_categories_by_event_start_date_enabled && topic_query.options[:category_id]
+        category = Category.find_by(id: topic_query.options[:category_id])
+        if category && category.custom_fields && category.custom_fields["sort_topics_by_event_start_date"]
+          results = results.joins("LEFT JOIN topic_custom_fields AS custom_fields on custom_fields.topic_id = topics.id
+            AND custom_fields.name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'
+            ").reorder("topics.pinned_at ASC, custom_fields.value ASC")
+        end
       end
+      results
     end
-    results
   end
 
   module ::DiscourseCalendar
