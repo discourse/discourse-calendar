@@ -85,6 +85,8 @@ he:
           invalid_timezone: "אזור הזמן לא מזוהה."
           acting_user_not_allowed_to_create_event: "למשתמש הנוכחי אסור ליצור אירועים."
           acting_user_not_allowed_to_act_on_this_event: "אסור למשתמש הנוכחי לפעול כנגד האירוע הזה."
+          invalid_allowed_groups: "קבוצות מותרות שגויות."
+          acting_user_not_allowed_to_invite_these_groups: "למשתמש הנוכחי אסור להזמין את הקבוצות האלו."
           custom_field_is_invalid: "השדה המותאם אישית `%{field}` אסור לשימוש."
           name:
             length: "אורך שם האירוע חייב להיות בין %{minimum} ל־%{maximum} תווים."
