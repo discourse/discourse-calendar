@@ -59,11 +59,8 @@ module DiscoursePostEvent
 
     def set_topic_bump
       return if self.post.event.reminders.blank?
-
       self.post.event.reminders.split(',').map do |reminder|
-        reminder_array = reminder.split('.')
-        next if reminder_array.length() != 3
-        type, value, unit = reminder_array
+        type, value, unit = reminder.split('.')
 
         next if type != 'bumpTopic' || !ActiveSupport::Duration::PARTS.any? { |part| part.to_s == unit }
 

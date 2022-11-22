@@ -44,14 +44,8 @@ module Jobs
 
     def due_reminders(event_date)
       return [] if event_date.event.reminders.blank?
-      event_date.event.reminders.split(',').map do |reminder|
-
-        reminder_array = reminder.split('.')
-        if reminder_array.length() === 3
-          type, value, unit = reminder_array
-        else
-          value, unit = reminder_array
-        end
+      event_date.event.reminders.split(",").map do |reminder|
+        type, value, unit = reminder.split('.')
 
         next if type === 'bumpTopic' || !validate_reminder_unit(unit)
 
