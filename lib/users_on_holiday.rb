@@ -15,14 +15,14 @@ module DiscourseCalendar
     private
 
     def self.current_holiday(user_events)
-      holiday_ends_at = holiday_ends_at(user_events)
-      return nil unless holiday_ends_at
+      ends_at = holiday_ends_at(user_events)
+      return nil unless ends_at
 
       [
         user_events[0].user_id,
         {
           username: user_events[0].username,
-          ends_at: holiday_ends_at
+          ends_at: ends_at
         }
       ]
     end
@@ -59,14 +59,14 @@ module DiscourseCalendar
     def self.holiday_ends_at(events)
       sorted_events = events.sort_by(&:start_date)
       return nil if sorted_events.first.in_future?
-      return sorted_events.first.ends_at if events.count === 1
+      return sorted_events.first.ends_at if events.count == 1
 
       result = sorted_events.first.ends_at
       sorted_events.each_cons(2) do |pair|
         if pair[0].ends_at < pair[1].start_date
           return result
-        else
-          result = pair[1].ends_at if pair[1].ends_at > result
+        elsif pair[1].ends_at > result
+          result = pair[1].ends_at
         end
       end
 
