@@ -58,13 +58,13 @@ module DiscoursePostEvent
     end
 
     def set_topic_bump
-      return if self.post.event.reminders.blank?
-      self.post.event.reminders.split(',').map do |reminder|
+      return if reminders.blank?
+      reminders.split(',').map do |reminder|
         type, value, unit = reminder.split('.')
 
         next if type != 'bumpTopic' || !ActiveSupport::Duration::PARTS.any? { |part| part.to_s == unit }
 
-        date = self.post.event.starts_at - value.to_i.public_send(unit)
+        date = starts_at - value.to_i.public_send(unit)
         ::Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: self.post.topic_id, date: date)
         break
       end
