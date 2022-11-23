@@ -33,16 +33,9 @@ module DiscoursePostEvent
 
     def reminders
       (object.reminders || '').split(',').map do |reminder|
-
-        reminder_array = reminder.split('.')
-        if reminder_array.length() === 3
-          type, value, unit = reminder_array
-        else
-          value, unit = reminder_array
-        end
-
+        type, value, unit = reminder.split('.')
         value = value.to_i
-        { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after', type: type || 'notification' }
+        { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after', type: type }
       end
     end
 
