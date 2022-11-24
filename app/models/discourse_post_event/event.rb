@@ -58,16 +58,22 @@ module DiscoursePostEvent
     end
 
     def set_topic_bump
-      return if reminders.blank?
-      reminders.split(',').map do |reminder|
-        type, value, unit = reminder.split('.')
+      date = nil
+      if reminders.present?
+        reminders.split(',').each do |reminder|
+          type, value, unit = reminder.split('.')
+          next if type != 'bumpTopic' || !validate_reminder_unit(unit)
 
-        next if type != 'bumpTopic' || !ActiveSupport::Duration::PARTS.any? { |part| part.to_s == unit }
-
-        date = starts_at - value.to_i.public_send(unit)
-        ::Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: self.post.topic_id, date: date)
-        break
+          date = starts_at - value.to_i.public_send(unit)
+          break
+        end
       end
+
+      Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: self.post.topic_id, date: date)
+    end
+
+    def validate_reminder_unit(input)
+      ActiveSupport::Duration::PARTS.any? { |part| part.to_s == input }
     end
 
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
