@@ -93,7 +93,11 @@ module DiscoursePostEvent
       return true unless event[:"allowed-groups"]
 
       event[:"allowed-groups"].split(',').each do |group_name|
-        group = Group.find_by(name: group_name)
+        group = begin
+          Group.lookup_group(group_name.to_sym)
+        rescue ArgumentError
+          nil
+        end
 
         if !group || !guardian.can_see_group?(group)
           @post.errors.add(:base, I18n.t("discourse_post_event.errors.models.event.invalid_allowed_groups"))

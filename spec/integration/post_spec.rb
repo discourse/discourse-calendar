@@ -295,6 +295,18 @@ describe Post do
             expect(post.event.raw_invitees).to eq([])
           end
 
+          it "works with localised automatic group names" do
+            I18n.locale = SiteSetting.default_locale = 'fr'
+
+            group = Group.find(Group::AUTO_GROUPS[:trust_level_0])
+            group.update!(name: I18n.t("groups.default_names.trust_level_0"))
+
+            post =
+              create_post_with_event(user, 'status="public" allowedGroups="trust_level_0"')
+                .reload
+            expect(post.event.raw_invitees).to eq(%w[trust_level_0])
+          end
+
           it 'works with reminders attribute' do
             post = create_post_with_event(user).reload
             expect(post.event.reminders).to eq(nil)
