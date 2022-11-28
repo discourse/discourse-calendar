@@ -21,7 +21,11 @@ class CalendarEvent < ActiveRecord::Base
 
   def underway?
     now = Time.zone.now
-    start_date < now && now < ends_at
+    start_date <= now && now < ends_at
+  end
+
+  def in_future?
+    start_date > Time.zone.now
   end
 
   def self.update(post)
