@@ -4,7 +4,7 @@ require 'rails_helper'
 describe DiscourseCalendar::MonitorEventDates do
   fab!(:post_1) { Fabricate(:post) }
   fab!(:post_2) { Fabricate(:post) }
-  fab!(:past_event) { Fabricate(:event, post: post_1, original_starts_at: 7.days.after, original_ends_at: 7.days.after + 1.hour, reminders: '15.minutes,1.hours') }
+  fab!(:past_event) { Fabricate(:event, post: post_1, original_starts_at: 7.days.after, original_ends_at: 7.days.after + 1.hour, reminders: 'notification.15.minutes,notification.1.hours,bumpTopic.10.minutes') }
   let(:past_date) { past_event.event_dates.first }
   fab!(:future_event) { Fabricate(:event, post: post_2, original_starts_at: 14.days.after, original_ends_at: 14.days.after + 1.hour) }
   let(:future_date) { future_event.event_dates.first }
@@ -16,12 +16,17 @@ describe DiscourseCalendar::MonitorEventDates do
       end
 
       freeze_time (7.days.after - 59.minutes)
-      expect_enqueued_with(job: :discourse_post_event_send_reminder, args: { event_id: past_event.id, reminder: '1.hours' }) do
+      expect_enqueued_with(job: :discourse_post_event_send_reminder, args: { event_id: past_event.id, reminder: 'notification.1.hours' }) do
         described_class.new.execute({})
       end
 
       freeze_time (7.days.after - 14.minutes)
-      expect_enqueued_with(job: :discourse_post_event_send_reminder, args: { event_id: past_event.id, reminder: '15.minutes' }) do
+      expect_enqueued_with(job: :discourse_post_event_send_reminder, args: { event_id: past_event.id, reminder: 'notification.15.minutes' }) do
+        described_class.new.execute({})
+      end
+
+      freeze_time (7.days.after - 9.minutes)
+      expect_not_enqueued_with(job: :discourse_post_event_send_reminder, args: { event_id: past_event.id, reminder: 'notification.10.minutes' }) do
         described_class.new.execute({})
       end
 
@@ -102,7 +107,7 @@ describe DiscourseCalendar::MonitorEventDates do
         post: Fabricate(:post),
         original_starts_at: 7.days.after,
         original_ends_at: 7.days.after + 1.hour,
-        reminders: "1.foo"
+        reminders: "notification.1.foo"
       )
     }
 
@@ -112,7 +117,7 @@ describe DiscourseCalendar::MonitorEventDates do
         post: Fabricate(:post),
         original_starts_at: 7.days.after,
         original_ends_at: 7.days.after + 1.hour,
-        reminders: "1.minutes"
+        reminders: "notification.1.minutes"
       )
     }
 
