@@ -30,49 +30,13 @@ describe Jobs::DiscoursePostEventBumpTopic do
     end
 
     context 'when the topic_id param is missing' do
-      it 'ddoes not throw an error if the date param is present' do
+      it 'does not throw an error if the date param is present' do
         expect {
           subject.execute(date: '2019-12-10 5:00')
         }.not_to raise_error
       end
       it 'does not throw an error if the date param is missing' do
         expect { subject.execute({}) }.not_to raise_error
-      end
-    end
-
-    context 'when the date param is missing' do
-      before do
-        Fabricate(:topic_timer,
-        status_type: TopicTimer.types[:bump],
-        execute_at: 3.days.from_now,
-        topic: topic_1,
-        user: admin_1
-       )
-      end
-
-      it 'deletes the timer if type is bump' do
-        expect do
-          subject.execute(topic_id: topic_1.id)
-        end.to change { TopicTimer.exists?(topic: topic_1) }.from(true).to(false)
-      end
-    end
-
-    context 'when the date param is missing' do
-      before do
-        Fabricate(:topic_timer,
-        status_type: TopicTimer.types[:close],
-        execute_at: 2.days.from_now,
-        topic: topic_1,
-        user: admin_1
-       )
-      end
-
-      it 'does not delete the timer if type is not bump' do
-        subject.execute(topic_id: topic_1.id)
-
-        timer = TopicTimer.find_by(topic: topic_1)
-        expect(timer.status_type).to eq(TopicTimer.types[:close])
-        expect(timer.execute_at).to eq_time(2.days.from_now)
       end
     end
   end
