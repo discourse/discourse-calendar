@@ -148,6 +148,7 @@ after_initialize do
     ../lib/discourse_post_event/rrule_generator.rb
     ../jobs/regular/discourse_post_event/bulk_invite.rb
     ../jobs/regular/discourse_post_event/send_reminder.rb
+    ../jobs/regular/discourse_post_event/bump_topic.rb
     ../lib/discourse_post_event/event_finder.rb
     ../app/serializers/discourse_post_event/invitee_serializer.rb
     ../app/serializers/discourse_post_event/event_serializer.rb

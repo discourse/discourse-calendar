@@ -312,8 +312,8 @@ describe Post do
             expect(post.event.reminders).to eq(nil)
 
             post =
-              create_post_with_event(user, 'reminders="1.hours,-3.days"').reload
-            expect(post.event.reminders).to eq('1.hours,-3.days')
+              create_post_with_event(user, 'reminders="notification.1.hours,bumpTopic.-3.days"').reload
+            expect(post.event.reminders).to eq('notification.1.hours,bumpTopic.-3.days')
           end
 
           context 'with custom fields' do

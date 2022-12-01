@@ -91,6 +91,15 @@
         <div class="reminders-list">
           {{#each model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
+              {{combo-box
+                class="reminder-type"
+                value=reminder.type
+                nameProperty="name"
+                valueProperty="value"
+                content=reminderTypes
+                onChange=(action (mut reminder.type))
+              }}
+
               {{input
                 class="reminder-value"
                 min=0
@@ -102,8 +111,8 @@
               {{combo-box
                 class="reminder-unit"
                 value=reminder.unit
-                nameProperty=null
-                valueProperty=null
+                nameProperty="name"
+                valueProperty="value"
                 content=reminderUnits
                 onChange=(action (mut reminder.unit))
               }}
@@ -111,8 +120,8 @@
               {{combo-box
                 class="reminder-period"
                 value=reminder.period
-                nameProperty=null
-                valueProperty=null
+                nameProperty="name"
+                valueProperty="value"
                 content=reminderPeriods
                 onChange=(action (mut reminder.period))
               }}

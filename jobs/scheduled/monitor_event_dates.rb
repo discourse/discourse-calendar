@@ -39,14 +39,15 @@ module Jobs
 
       return if event_date.event.recurrence.blank?
       event_date.event.set_next_date
+      event_date.event.set_topic_bump
     end
 
     def due_reminders(event_date)
       return [] if event_date.event.reminders.blank?
       event_date.event.reminders.split(",").map do |reminder|
-        value, unit = reminder.split('.')
+        type, value, unit = reminder.split('.')
 
-        next if !validate_reminder_unit(unit)
+        next if type === 'bumpTopic' || !validate_reminder_unit(unit)
 
         date = event_date.starts_at - value.to_i.public_send(unit)
         { description: reminder, date: date }

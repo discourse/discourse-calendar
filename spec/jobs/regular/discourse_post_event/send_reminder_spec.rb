@@ -13,7 +13,7 @@ describe Jobs::DiscoursePostEventSendReminder do
   let(:going_user_unread_notification) { Fabricate(:user) }
   let(:going_user_read_notification) { Fabricate(:user) }
   let(:post_1) { Fabricate(:post) }
-  let(:reminders) { '-5.minutes' }
+  let(:reminders) { 'notification.5.minutes' }
 
   def init_invitees
     Invitee.create_attendance!(going_user.id, event_1.id, :going)

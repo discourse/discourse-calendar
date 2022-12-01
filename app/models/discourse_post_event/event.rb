@@ -57,6 +57,25 @@ module DiscoursePostEvent
       notify_missing_invitees!
     end
 
+    def set_topic_bump
+      date = nil
+
+      return if reminders.blank?
+      reminders.split(',').each do |reminder|
+        type, value, unit = reminder.split('.')
+        next if type != 'bumpTopic' || !validate_reminder_unit(unit)
+        date = starts_at - value.to_i.public_send(unit)
+        break
+      end
+
+      return if date.blank?
+      Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: self.post.topic_id, date: date)
+    end
+
+    def validate_reminder_unit(input)
+      ActiveSupport::Duration::PARTS.any? { |part| part.to_s == input }
+    end
+
     has_many :invitees, foreign_key: :post_id, dependent: :delete_all
     belongs_to :post, foreign_key: :id
 
@@ -301,6 +320,7 @@ module DiscoursePostEvent
         end
 
         event.update_with_params!(params)
+        event.set_topic_bump
       elsif post.event
         post.event.destroy!
       end

@@ -9,7 +9,12 @@ import { extractError } from "discourse/lib/ajax-error";
 import { inject as service } from "@ember/service";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
-const DEFAULT_REMINDER = { value: 15, unit: "minutes", period: "before" };
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
+};
 
 function replaceTimezone(val, newTimezone) {
   return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
@@ -23,8 +28,58 @@ export default Controller.extend(ModalFunctionality, {
   init() {
     this._super(...arguments);
 
-    this.set("reminderUnits", ["minutes", "hours", "days", "weeks"]);
-    this.set("reminderPeriods", ["before", "after"]);
+    this.set("reminderTypes", [
+      {
+        value: "notification",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.types.notification"
+        ),
+      },
+      {
+        value: "bumpTopic",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.types.bump_topic"
+        ),
+      },
+    ]);
+    this.set("reminderUnits", [
+      {
+        value: "minutes",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.units.minutes"
+        ),
+      },
+      {
+        value: "hours",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.units.hours"
+        ),
+      },
+      {
+        value: "days",
+        name: I18n.t("discourse_post_event.builder_modal.reminders.units.days"),
+      },
+      {
+        value: "weeks",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.units.weeks"
+        ),
+      },
+    ]);
+    this.set("reminderPeriods", [
+      {
+        value: "before",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.periods.before"
+        ),
+      },
+      {
+        value: "after",
+        name: I18n.t(
+          "discourse_post_event.builder_modal.reminders.periods.after"
+        ),
+      },
+    ]);
     this.set("availableRecurrences", [
       {
         id: "every_day",

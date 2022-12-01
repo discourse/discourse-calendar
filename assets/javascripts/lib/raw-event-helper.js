@@ -51,7 +51,7 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
           reminder.value = Math.abs(parseInt(`${reminder.value}`, 10));
         }
 
-        return `${reminder.value}.${reminder.unit}`;
+        return `${reminder.type}.${reminder.value}.${reminder.unit}`;
       })
       .join(",");
   }
