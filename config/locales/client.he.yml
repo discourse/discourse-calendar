@@ -392,6 +392,17 @@ he:
           remove_timezone: אין אזור זמן (UTC)
         reminders:
           label: "תזכורות"
+          types:
+            bump_topic: "הקפצת נושא אוטומטית"
+            notification: "הודעה למשתתפים"
+          units:
+            minutes: "דקות"
+            hours: "שעות"
+            days: "ימים"
+            weeks: "שבועות"
+          periods:
+            before: "לפני"
+            after: "אחרי"
         recurrence:
           label: "חזרה"
           none: "ללא חזרה"

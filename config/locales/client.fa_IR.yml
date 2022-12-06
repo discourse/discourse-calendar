@@ -333,6 +333,15 @@ fa_IR:
         timezone:
           label: منطقه زمانی
           remove_timezone: بدون منطقه زمانی (UTC)
+        reminders:
+          units:
+            minutes: "دقیقه"
+            hours: "ساعت"
+            days: "روز"
+            weeks: "هفته"
+          periods:
+            before: "قبل از"
+            after: "بعد از"
         recurrence:
           every_day: "هر روز"
           every_weekday: "هر هفته"
