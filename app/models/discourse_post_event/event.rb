@@ -60,15 +60,18 @@ module DiscoursePostEvent
     def set_topic_bump
       date = nil
 
-      return if reminders.blank?
-      reminders.split(',').each do |reminder|
-        type, value, unit = reminder.split('.')
-        next if type != 'bumpTopic' || !validate_reminder_unit(unit)
-        date = starts_at - value.to_i.public_send(unit)
-        break
+      if reminders.present?
+        reminders.split(',').each do |reminder|
+          type, value, unit = reminder.split('.')
+          next if type != 'bumpTopic' || !validate_reminder_unit(unit)
+          date = starts_at - value.to_i.public_send(unit)
+          break
+        end
       end
 
-      return if date.blank?
+      timer = TopicTimer.find_by(topic_id: self.post.topic_id)
+      return if date.blank? && (timer.blank? || timer.status_type == !TopicTimer.types[:bump])
+
       Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: self.post.topic_id, date: date)
     end
 
