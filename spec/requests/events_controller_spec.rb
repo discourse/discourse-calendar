@@ -51,7 +51,7 @@ module DiscoursePostEvent
 
               context 'when an empty file is given' do
                 it 'returns an error' do
-                  post "/discourse-post-event/events/#{event_1.id}/csv-bulk-invite.json", { params: { file: fixture_file_upload(empty_file) } }
+                  post "/discourse-post-event/events/#{event_1.id}/csv-bulk-invite.json", params: { file: fixture_file_upload(empty_file) }
                   expect(response.status).to eq(422)
                 end
               end
@@ -71,7 +71,7 @@ module DiscoursePostEvent
                     ],
                     "current_user_id" => user.id
                   }) do
-                    post "/discourse-post-event/events/#{event_1.id}/csv-bulk-invite.json", { params: { file: fixture_file_upload(valid_file) } }
+                    post "/discourse-post-event/events/#{event_1.id}/csv-bulk-invite.json", params: { file: fixture_file_upload(valid_file) }
                   end
 
                   expect(response.status).to eq(200)
@@ -104,7 +104,7 @@ module DiscoursePostEvent
 
               context 'when empty invitees are given' do
                 it 'returns an error' do
-                  post "/discourse-post-event/events/#{event_1.id}/bulk-invite.json", { params: { invitees: [] } }
+                  post "/discourse-post-event/events/#{event_1.id}/bulk-invite.json", params: { invitees: [] }
                   expect(response.status).to eq(400)
                 end
               end
@@ -124,11 +124,11 @@ module DiscoursePostEvent
                     ],
                     "current_user_id" => user.id
                   }) do
-                    post "/discourse-post-event/events/#{event_1.id}/bulk-invite.json", { params: { invitees: [
+                    post "/discourse-post-event/events/#{event_1.id}/bulk-invite.json", params: { invitees: [
                       { 'identifier' => 'bob', 'attendance' => 'going' },
                       { 'identifier' => 'sam', 'attendance' => 'interested' },
                       { 'identifier' => 'the_foo_bar_group', 'attendance' => 'not_going' }
-                    ] } }
+                    ] }
                   end
 
                   expect(response.status).to eq(200)
@@ -248,7 +248,7 @@ module DiscoursePostEvent
 
           file = csv_file("#{private_group.name},going\n")
           params = { file: fixture_file_upload(file) }
-          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", { params: params }
+          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", params: params
 
           expect(response.status).to eq(200)
           private_event.reload
@@ -258,7 +258,7 @@ module DiscoursePostEvent
         it "returns 200 when inviting a non-existent group" do
           file = csv_file("non-existent group name,going\n")
           params = { file: fixture_file_upload(file) }
-          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", { params: params }
+          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", params: params
 
           expect(response.status).to eq(200)
         end
@@ -271,7 +271,7 @@ module DiscoursePostEvent
 
           file = csv_file("#{public_group_with_private_members.name},going\n")
           params = { file: fixture_file_upload(file) }
-          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", { params: params }
+          post "/discourse-post-event/events/#{private_event.id}/csv-bulk-invite.json", params: params
 
           expect(response.status).to eq(200)
           private_event.reload
@@ -286,7 +286,7 @@ module DiscoursePostEvent
           params = { invitees: [
             { 'identifier' => private_group.name, 'attendance' => 'going' }
           ] }
-          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", { params: params }
+          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", params: params
 
           expect(response.status).to eq(200)
           private_event.reload
@@ -297,7 +297,7 @@ module DiscoursePostEvent
           params = { invitees: [
             { 'identifier' => 'non-existent group name', 'attendance' => 'going' }
           ] }
-          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", { params: params }
+          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", params: params
 
           expect(response.status).to eq(200)
         end
@@ -311,7 +311,7 @@ module DiscoursePostEvent
           params = { invitees: [
             { 'identifier' => public_group_with_private_members.name, 'attendance' => 'going' }
           ] }
-          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", { params: params }
+          post "/discourse-post-event/events/#{private_event.id}/bulk-invite.json", params: params
 
           expect(response.status).to eq(200)
           private_event.reload
