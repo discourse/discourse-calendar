@@ -57,8 +57,7 @@ module Holidays
             {:mday => 31, :type => :informal, :name => "Halloween", :regions => [:us, :ca]}],
       11 => [{:mday => 11, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Remembrance Day", :regions => [:ca_ab, :ca_sk, :ca_bc, :ca_pe, :ca_nl, :ca_nt, :ca_nu, :ca_nb, :ca_yt]}],
       12 => [{:mday => 25, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Christmas Day", :regions => [:ca]},
-            {:mday => 26, :observed => "to_weekday_if_boxing_weekend(date)", :observed_arguments => [:date], :name => "Boxing Day", :regions => [:ca_on]},
-            {:mday => 26, :observed => "to_weekday_if_boxing_weekend(date)", :observed_arguments => [:date], :type => :informal, :name => "Boxing Day", :regions => [:ca_ab, :ca_bc, :ca_mb, :ca_nb, :ca_nl, :ca_nt, :ca_ns, :ca_nu, :ca_pe, :ca_sk, :ca_yt]}],
+            {:mday => 26, :observed => "to_weekday_if_boxing_weekend(date)", :observed_arguments => [:date], :name => "Boxing Day", :regions => [:ca]}],
       4 => [{:mday => 1, :type => :informal, :name => "April Fool's Day", :regions => [:us, :ca]},
             {:mday => 22, :type => :informal, :name => "Earth Day", :regions => [:us, :ca]}]
       }

@@ -193,14 +193,9 @@ months:
     mday: 25
     observed: to_weekday_if_weekend(date)
   - name: Boxing Day
-    regions: [ca_on]
+    regions: [ca]
     mday: 26
     observed: to_weekday_if_boxing_weekend(date)
-  - name: Boxing Day
-    regions: [ca_ab, ca_bc, ca_mb, ca_nb, ca_nl, ca_nt, ca_ns, ca_nu, ca_pe, ca_sk, ca_yt]
-    mday: 26
-    observed: to_weekday_if_boxing_weekend(date)
-    type: informal
 
 methods:
   ca_victoria_day:
