@@ -91,16 +91,36 @@ export default createWidget("discourse-post-event", {
 
   changeWatchingInviteeStatus(status) {
     if (this.state.eventModel.watching_invitee) {
-      this.store.update(
-        "discourse-post-event-invitee",
-        this.state.eventModel.watching_invitee.id,
-        { status, post_id: this.state.eventModel.id }
-      );
+      const currentStatus = this.state.eventModel.watching_invitee.status;
+      if (currentStatus === status && status === "interested") {
+        this.removeWatchingInvitee();
+      } else {
+        this.store.update(
+          "discourse-post-event-invitee",
+          this.state.eventModel.watching_invitee.id,
+          { status, post_id: this.state.eventModel.id }
+        );
+      }
     } else {
       this.store
         .createRecord("discourse-post-event-invitee")
         .save({ post_id: this.state.eventModel.id, status });
     }
+  },
+
+  removeWatchingInvitee() {
+    this.store
+      .findAll("discourse-post-event-invitee", {
+        post_id: this.state.eventModel.id,
+      })
+      .then((invitees) => {
+        invitees
+          .find(
+            (invitee) =>
+              invitee.id === this.state.eventModel.watching_invitee.id
+          )
+          .destroyRecord();
+      });
   },
 
   defaultState(attrs) {
