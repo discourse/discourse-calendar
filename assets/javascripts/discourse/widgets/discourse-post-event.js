@@ -217,6 +217,7 @@ export default createWidget("discourse-post-event", {
             widget="discourse-post-event-status"
             attrs=(hash
               watchingInvitee=this.state.eventModel.watching_invitee
+              minimal=this.state.eventModel.minimal
             )
           }}
         </section>
@@ -241,13 +242,15 @@ export default createWidget("discourse-post-event", {
         )
       }}
 
-      {{#if state.eventModel.should_display_invitees}}
-        <hr />
+      {{#unless state.eventModel.minimal}}
+        {{#if state.eventModel.should_display_invitees}}
+          <hr />
 
-        {{attach widget="discourse-post-event-invitees"
-          attrs=(hash eventModel=state.eventModel)
-        }}
-      {{/if}}
+          {{attach widget="discourse-post-event-invitees"
+            attrs=(hash eventModel=state.eventModel)
+          }}
+        {{/if}}
+      {{/unless}}
     {{/if}}
   `,
 

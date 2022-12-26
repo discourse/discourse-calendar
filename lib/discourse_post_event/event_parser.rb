@@ -9,7 +9,8 @@ VALID_OPTIONS = [
   :name,
   :reminders,
   :recurrence,
-  :timezone
+  :timezone,
+  :minimal
 ]
 
 module DiscoursePostEvent

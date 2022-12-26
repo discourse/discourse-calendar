@@ -101,7 +101,7 @@ function _attachWidget(api, cooked, eventModel) {
     let widgetHeight =
       datesHeight + headerHeight + bordersHeight + separatorsHeight + margins;
 
-    if (eventModel.should_display_invitees) {
+    if (eventModel.should_display_invitees && !eventModel.minimal) {
       widgetHeight += 110;
     }
 

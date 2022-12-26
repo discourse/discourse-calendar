@@ -155,6 +155,15 @@
         }}
       {{/event-field}}
 
+      {{#event-field class="minimal-event" label="discourse_post_event.builder_modal.minimal.label"}}
+        <label class="checkbox-label">
+          <Input @type="checkbox" @checked={{model.eventModel.minimal}} />
+          <span class="message">
+            {{i18n "discourse_post_event.builder_modal.minimal.checkbox_label"}}
+          </span>
+        </label>
+      {{/event-field}}
+
       {{#if allowedCustomFields.length}}
         {{#event-field label="discourse_post_event.builder_modal.custom_fields.label"}}
           <p class="event-field-description">{{i18n "discourse_post_event.builder_modal.custom_fields.description"}}</p>

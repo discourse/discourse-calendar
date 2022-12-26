@@ -26,6 +26,7 @@ module DiscoursePostEvent
     attributes :is_standalone
     attributes :reminders
     attributes :recurrence
+    attributes :minimal
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)
