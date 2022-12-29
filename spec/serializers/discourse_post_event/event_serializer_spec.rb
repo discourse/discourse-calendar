@@ -16,23 +16,23 @@ describe DiscoursePostEvent::EventSerializer do
   let(:event_1) { Fabricate(:event, post: post_1, status: Event.statuses[:private]) }
   let(:invitee_1) { Fabricate(:user) }
   let(:invitee_2) { Fabricate(:user) }
-  let(:group_1) {
+  let(:group_1) do
     Fabricate(:group).tap do |g|
       g.add(invitee_1)
       g.add(invitee_2)
       g.save!
     end
-  }
+  end
 
-  context 'with a private event' do
-    context 'when some invited users have not rsvp-ed yet' do
+  context "with a private event" do
+    context "when some invited users have not rsvp-ed yet" do
       before do
         event_1.update_with_params!(raw_invitees: [group_1.name])
         Invitee.create_attendance!(invitee_1.id, event_1.id, :going)
         event_1.reload
       end
 
-      it 'returns the correct stats' do
+      it "returns the correct stats" do
         json = EventSerializer.new(event_1, scope: Guardian.new).as_json
         expect(json[:event][:stats]).to eq(going: 1, interested: 0, invited: 2, not_going: 0)
       end

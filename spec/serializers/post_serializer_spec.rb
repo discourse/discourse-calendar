@@ -21,7 +21,11 @@ describe PostSerializer do
     Fabricate(:admin)
     Group.refresh_automatic_groups!(:admins)
 
-    calendar_post = create_post(raw: "[timezones group=\"admins\"]\n[/timezones]\n\n[timezones group=\"trust_level_0\"]\n[/timezones]")
+    calendar_post =
+      create_post(
+        raw:
+          "[timezones group=\"admins\"]\n[/timezones]\n\n[timezones group=\"trust_level_0\"]\n[/timezones]",
+      )
 
     json = PostSerializer.new(calendar_post.reload, scope: Guardian.new).as_json
     expect(json[:post][:group_timezones]["admins"].count).to eq(1)
@@ -30,10 +34,10 @@ describe PostSerializer do
 
   it "groups calendar events correctly" do
     user = Fabricate(:user)
-    user.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => 'ar')
+    user.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => "ar")
 
     user2 = Fabricate(:user)
-    user2.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => 'ar')
+    user2.upsert_custom_fields(::DiscourseCalendar::REGION_CUSTOM_FIELD => "ar")
 
     post = create_post(raw: "[calendar]\n[/calendar]")
     SiteSetting.holiday_calendar_topic_id = post.topic.id
@@ -46,8 +50,10 @@ describe PostSerializer do
       "Día del Veterano y de los Caídos en la Guerra de Malvinas, Viernes Santo",
       "Día de la Revolución de Mayo",
       "Feriado puente turístico",
-      "Día de la Independencia"
+      "Día de la Independencia",
     )
-    expect(json[:post][:calendar_details].map { |x| x[:usernames] }).to all (contain_exactly(user.username, user2.username))
+    expect(json[:post][:calendar_details].map { |x| x[:usernames] }).to all (
+          contain_exactly(user.username, user2.username)
+        )
   end
 end

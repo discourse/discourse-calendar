@@ -8,20 +8,22 @@ class AddTypeFieldToEventsReminders < ActiveRecord::Migration[7.0]
       WHERE reminders IS NOT NULL
     SQL
 
-    DB.query(reminders_query).each do |event|
-      refactored_reminders = []
-      event.reminders.split(',') do |reminder|
-        refactored_reminders.push(reminder.prepend("notification."))
-      end
+    DB
+      .query(reminders_query)
+      .each do |event|
+        refactored_reminders = []
+        event
+          .reminders
+          .split(",") { |reminder| refactored_reminders.push(reminder.prepend("notification.")) }
 
-      event_reminders = refactored_reminders.join(',')
+        event_reminders = refactored_reminders.join(",")
 
-      DB.exec(<<~SQL, id: event.id, reminders: event_reminders)
+        DB.exec(<<~SQL, id: event.id, reminders: event_reminders)
         UPDATE discourse_post_event_events
         SET reminders = :reminders
         WHERE id = :id
       SQL
-    end
+      end
   end
 
   def down
