@@ -7,17 +7,22 @@ module DiscourseCalendar
     def self.extract(post)
       cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
 
-      Nokogiri::HTML(cooked).css('div.calendar').map do |cooked_calendar|
-        calendar = {}
+      Nokogiri
+        .HTML(cooked)
+        .css("div.calendar")
+        .map do |cooked_calendar|
+          calendar = {}
 
-        cooked_calendar.attributes.values.each do |attribute|
-          if attribute.name.start_with?(DATA_PREFIX)
-            calendar[attribute.name[DATA_PREFIX.length..-1]] = CGI.escapeHTML(attribute.value || "")
+          cooked_calendar.attributes.values.each do |attribute|
+            if attribute.name.start_with?(DATA_PREFIX)
+              calendar[attribute.name[DATA_PREFIX.length..-1]] = CGI.escapeHTML(
+                attribute.value || "",
+              )
+            end
           end
-        end
 
-        calendar
-      end
+          calendar
+        end
     end
 
     def self.update(post)
@@ -25,7 +30,8 @@ module DiscourseCalendar
       return destroy(post) if calendar.size != 1
       calendar = calendar.first
 
-      post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] = calendar.delete("type") || "dynamic"
+      post.custom_fields[DiscourseCalendar::CALENDAR_CUSTOM_FIELD] = calendar.delete("type") ||
+        "dynamic"
       post.save_custom_fields
 
       Post.where(topic_id: post.topic_id).each { |p| CalendarEvent.update(p) }

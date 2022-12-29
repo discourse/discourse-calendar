@@ -1,5 +1,6 @@
 inherit_gem:
-  rubocop-discourse: default.yml
+  rubocop-discourse: stree-compat.yml
 AllCops:
   Exclude:
     - vendor/**/*
+    - gems/**/*

@@ -61,9 +61,12 @@ describe DiscourseCalendar::UsersOnHoliday do
       # event2  ▭▭▭▭▭▭▭▭
       # event3  ▭▭▭▭▭▭▭▭▭▭▭▭
       #                     ↑
-      event1 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-02")
-      event2 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-03")
-      event3 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: biggest_end_date)
+      event1 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-02")
+      event2 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-03")
+      event3 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: biggest_end_date)
 
       freeze_time Time.utc(2000, 1, 1, 8, 0)
       users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3])
@@ -79,8 +82,10 @@ describe DiscourseCalendar::UsersOnHoliday do
       # event1  ▭▭▭▭▭▭▭▭
       # event2     ▭    ↑
       #
-      event1 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: biggest_end_date)
-      event2 = Fabricate(:calendar_event, user: user, start_date: "2000-01-04", end_date: "2000-01-05")
+      event1 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: biggest_end_date)
+      event2 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-04", end_date: "2000-01-05")
 
       freeze_time Time.utc(2000, 1, 1, 8, 0)
       users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2])
@@ -98,11 +103,20 @@ describe DiscourseCalendar::UsersOnHoliday do
       # event3          ▭▭▭▭
       # event4              ↑        ▭▭▭▭
       #
-      event1 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-02")
-      event2 = Fabricate(:calendar_event, user: user, start_date: "2000-01-02", end_date: "2000-01-03")
-      event3 = Fabricate(:calendar_event, user: user, start_date: "2000-01-03", end_date: farthest_end_date)
+      event1 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-01", end_date: "2000-01-02")
+      event2 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-02", end_date: "2000-01-03")
+      event3 =
+        Fabricate(
+          :calendar_event,
+          user: user,
+          start_date: "2000-01-03",
+          end_date: farthest_end_date,
+        )
       # this event isn't a part of the chain of subsequent holidays
-      event4 = Fabricate(:calendar_event, user: user, start_date: "2000-01-08", end_date: "2000-01-10")
+      event4 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-08", end_date: "2000-01-10")
 
       freeze_time Time.utc(2000, 1, 1, 8, 0)
       users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3, event4])
@@ -120,11 +134,30 @@ describe DiscourseCalendar::UsersOnHoliday do
       # event3       ▭▭▭▭
       # event4           ↑       ▭▭▭▭
       #
-      event1 = Fabricate(:calendar_event, user: user, start_date: "2000-01-01 08:00:00", end_date: "2000-01-02 10:00:00")
-      event2 = Fabricate(:calendar_event, user: user, start_date: "2000-01-02 08:00:00", end_date: "2000-01-03 12:00:00")
-      event3 = Fabricate(:calendar_event, user: user, start_date: "2000-01-03 08:00:00", end_date: farthest_end_date)
+      event1 =
+        Fabricate(
+          :calendar_event,
+          user: user,
+          start_date: "2000-01-01 08:00:00",
+          end_date: "2000-01-02 10:00:00",
+        )
+      event2 =
+        Fabricate(
+          :calendar_event,
+          user: user,
+          start_date: "2000-01-02 08:00:00",
+          end_date: "2000-01-03 12:00:00",
+        )
+      event3 =
+        Fabricate(
+          :calendar_event,
+          user: user,
+          start_date: "2000-01-03 08:00:00",
+          end_date: farthest_end_date,
+        )
       # this event isn't a part of the chain of subsequent holidays
-      event4 = Fabricate(:calendar_event, user: user, start_date: "2000-01-08", end_date: "2000-01-10")
+      event4 =
+        Fabricate(:calendar_event, user: user, start_date: "2000-01-08", end_date: "2000-01-10")
 
       freeze_time Time.utc(2000, 1, 1, 8, 0)
       users_on_holiday = DiscourseCalendar::UsersOnHoliday.from([event1, event2, event3, event4])

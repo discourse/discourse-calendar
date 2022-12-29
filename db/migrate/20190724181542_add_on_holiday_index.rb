@@ -13,10 +13,10 @@ class AddOnHolidayIndex < ActiveRecord::Migration[5.2]
     SQL
 
     add_index :user_custom_fields,
-      [:name, :user_id],
-      unique: true,
-      name: :idx_user_custom_fields_on_holiday,
-      where: "name = 'on_holiday'"
+              %i[name user_id],
+              unique: true,
+              name: :idx_user_custom_fields_on_holiday,
+              where: "name = 'on_holiday'"
   end
 
   def down

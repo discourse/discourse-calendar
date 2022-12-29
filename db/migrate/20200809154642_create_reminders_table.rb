@@ -6,7 +6,7 @@ class CreateRemindersTable < ActiveRecord::Migration[6.0]
       t.integer :post_id, null: false
       t.integer :value, null: false, default: 0
       t.integer :mean, null: false, default: 0
-      t.string :unit, null: false, default: 'minutes'
+      t.string :unit, null: false, default: "minutes"
     end
   end
 end

@@ -5,9 +5,7 @@ module Admin::DiscourseCalendar
     before_action :ensure_calendar_enabled
 
     def ensure_calendar_enabled
-      if !SiteSetting.calendar_enabled
-        raise Discourse::NotFound
-      end
+      raise Discourse::NotFound if !SiteSetting.calendar_enabled
     end
   end
 end

@@ -2,6 +2,7 @@
 
 module DiscoursePostEvent
   class UpcomingEventsController < DiscoursePostEventController
-    def index; end
+    def index
+    end
   end
 end

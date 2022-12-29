@@ -2,11 +2,11 @@
 
 module DiscoursePostEvent
   class Event < ActiveRecord::Base
-    PUBLIC_GROUP = 'trust_level_0'
+    PUBLIC_GROUP = "trust_level_0"
 
-    self.table_name = 'discourse_post_event_events'
+    self.table_name = "discourse_post_event_events"
 
-    self.ignored_columns = %w(starts_at ends_at)
+    self.ignored_columns = %w[starts_at ends_at]
 
     has_many :event_dates, dependent: :destroy
 
@@ -18,16 +18,18 @@ module DiscoursePostEvent
     def destroy_topic_custom_field
       if self.post && self.post.is_first_post?
         TopicCustomField.where(
-          topic_id: self.post.topic_id, name: TOPIC_POST_EVENT_STARTS_AT
+          topic_id: self.post.topic_id,
+          name: TOPIC_POST_EVENT_STARTS_AT,
         ).delete_all
 
         TopicCustomField.where(
-          topic_id: self.post.topic_id, name: TOPIC_POST_EVENT_ENDS_AT
+          topic_id: self.post.topic_id,
+          name: TOPIC_POST_EVENT_ENDS_AT,
         ).delete_all
       end
     end
 
-    after_commit :create_or_update_event_date, on: %i(create update)
+    after_commit :create_or_update_event_date, on: %i[create update]
     def create_or_update_event_date
       starts_at_changed = saved_change_to_original_starts_at
       ends_at_changed = saved_change_to_original_ends_at
@@ -44,7 +46,7 @@ module DiscoursePostEvent
 
       event_dates.create!(
         starts_at: next_dates[:starts_at],
-        ends_at: next_dates[:ends_at]
+        ends_at: next_dates[:ends_at],
       ) do |event_date|
         if next_dates[:ends_at] && next_dates[:ends_at] < Time.current
           event_date.finished_at = next_dates[:ends_at]
@@ -61,12 +63,14 @@ module DiscoursePostEvent
       date = nil
 
       return if reminders.blank?
-      reminders.split(',').each do |reminder|
-        type, value, unit = reminder.split('.')
-        next if type != 'bumpTopic' || !validate_reminder_unit(unit)
-        date = starts_at - value.to_i.public_send(unit)
-        break
-      end
+      reminders
+        .split(",")
+        .each do |reminder|
+          type, value, unit = reminder.split(".")
+          next if type != "bumpTopic" || !validate_reminder_unit(unit)
+          date = starts_at - value.to_i.public_send(unit)
+          break
+        end
 
       return if date.blank?
       Jobs.enqueue(:discourse_post_event_bump_topic, topic_id: self.post.topic_id, date: date)
@@ -102,8 +106,7 @@ module DiscoursePostEvent
 
       if self.ends_at
         extended_ends_at =
-          self.ends_at +
-          SiteSetting.discourse_post_event_edit_notifications_time_extension.minutes
+          self.ends_at + SiteSetting.discourse_post_event_edit_notifications_time_extension.minutes
         return [] if !(self.starts_at..extended_ends_at).cover?(Time.now)
       end
 
@@ -113,7 +116,9 @@ module DiscoursePostEvent
     MIN_NAME_LENGTH = 5
     MAX_NAME_LENGTH = 255
     validates :name,
-              length: { in: MIN_NAME_LENGTH..MAX_NAME_LENGTH },
+              length: {
+                in: MIN_NAME_LENGTH..MAX_NAME_LENGTH,
+              },
               unless: ->(event) { event.name.blank? }
 
     validate :raw_invitees_length
@@ -122,10 +127,10 @@ module DiscoursePostEvent
         errors.add(
           :base,
           I18n.t(
-            'discourse_post_event.errors.models.event.raw_invitees_length
-',
-            count: 10
-          )
+            "discourse_post_event.errors.models.event.raw_invitees_length
+",
+            count: 10,
+          ),
         )
       end
     end
@@ -133,34 +138,32 @@ module DiscoursePostEvent
     validate :raw_invitees_are_groups
     def raw_invitees_are_groups
       if self.raw_invitees && User.select(:id).where(username: self.raw_invitees).limit(1).count > 0
-        errors.add(:base, I18n.t('discourse_post_event.errors.models.event.raw_invitees.only_group'))
+        errors.add(
+          :base,
+          I18n.t("discourse_post_event.errors.models.event.raw_invitees.only_group"),
+        )
       end
     end
 
     validate :ends_before_start
     def ends_before_start
-      if self.original_starts_at && self.original_ends_at && self.original_starts_at >= self.original_ends_at
+      if self.original_starts_at && self.original_ends_at &&
+           self.original_starts_at >= self.original_ends_at
         errors.add(
           :base,
-          I18n.t(
-            'discourse_post_event.errors.models.event.ends_at_before_starts_at'
-          )
+          I18n.t("discourse_post_event.errors.models.event.ends_at_before_starts_at"),
         )
       end
     end
 
     validate :allowed_custom_fields
     def allowed_custom_fields
-      allowed_custom_fields =
-        SiteSetting.discourse_post_event_allowed_custom_fields.split('|')
+      allowed_custom_fields = SiteSetting.discourse_post_event_allowed_custom_fields.split("|")
       self.custom_fields.each do |key, value|
         if !allowed_custom_fields.include?(key)
           errors.add(
             :base,
-            I18n.t(
-              'discourse_post_event.errors.models.event.custom_field_is_invalid',
-              field: key
-            )
+            I18n.t("discourse_post_event.errors.models.event.custom_field_is_invalid", field: key),
           )
         end
       end
@@ -169,31 +172,28 @@ module DiscoursePostEvent
     def create_invitees(attrs)
       timestamp = Time.now
       attrs.map! do |attr|
-        {
-          post_id: self.id, created_at: timestamp, updated_at: timestamp
-        }.merge(attr)
+        { post_id: self.id, created_at: timestamp, updated_at: timestamp }.merge(attr)
       end
 
       self.invitees.insert_all!(attrs)
     end
 
     def notify_invitees!(predefined_attendance: false)
-      self.invitees.where(notified: false).find_each do |invitee|
-        create_notification!(
-          invitee.user,
-          self.post,
-          predefined_attendance: predefined_attendance
-        )
-        invitee.update!(notified: true)
-      end
+      self
+        .invitees
+        .where(notified: false)
+        .find_each do |invitee|
+          create_notification!(
+            invitee.user,
+            self.post,
+            predefined_attendance: predefined_attendance,
+          )
+          invitee.update!(notified: true)
+        end
     end
 
     def notify_missing_invitees!
-      if self.private?
-        self.missing_users.each do |user|
-          create_notification!(user, self.post)
-        end
-      end
+      self.missing_users.each { |user| create_notification!(user, self.post) } if self.private?
     end
 
     def create_notification!(user, post, predefined_attendance: false)
@@ -201,9 +201,9 @@ module DiscoursePostEvent
 
       message =
         if predefined_attendance
-          'discourse_post_event.notifications.invite_user_predefined_attendance_notification'
+          "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
         else
-          'discourse_post_event.notifications.invite_user_notification'
+          "discourse_post_event.notifications.invite_user_notification"
         end
 
       attrs = {
@@ -213,8 +213,8 @@ module DiscoursePostEvent
         data: {
           topic_title: self.name || post.topic.title,
           display_username: post.user.username,
-          message: message
-        }.to_json
+          message: message,
+        }.to_json,
       }
 
       user.notifications.consolidate_or_create!(attrs)
@@ -222,9 +222,7 @@ module DiscoursePostEvent
 
     def ongoing?
       (
-        self.ends_at ?
-          (self.starts_at..self.ends_at).cover?(Time.now) :
-          self.starts_at >= Time.now
+        self.ends_at ? (self.starts_at..self.ends_at).cover?(Time.now) : self.starts_at >= Time.now
       ) && !self.expired?
     end
 
@@ -252,19 +250,16 @@ module DiscoursePostEvent
         # so we create a dummy invitee object with only what's needed for serializer
         going =
           going +
-          missing_users(going.pluck(:user_id))
-            .limit(limit - going.count)
-            .map { |user| Invitee.new(user: user, post_id: self.id) }
+            missing_users(going.pluck(:user_id))
+              .limit(limit - going.count)
+              .map { |user| Invitee.new(user: user, post_id: self.id) }
       end
 
       going
     end
 
     def publish_update!
-      self.post.publish_message!(
-        "/discourse-post-event/#{self.post.topic_id}",
-        id: self.id
-      )
+      self.post.publish_message!("/discourse-post-event/#{self.post.topic_id}", id: self.id)
     end
 
     def fetch_users
@@ -307,17 +302,28 @@ module DiscoursePostEvent
           url: event_params[:url],
           recurrence: event_params[:recurrence],
           timezone: event_params[:timezone],
-          status: event_params[:status].present? ? Event.statuses[event_params[:status].to_sym] : event.status,
+          status:
+            (
+              if event_params[:status].present?
+                Event.statuses[event_params[:status].to_sym]
+              else
+                event.status
+              end
+            ),
           reminders: event_params[:reminders],
-          raw_invitees: event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(',') : nil
+          raw_invitees:
+            event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(",") : nil,
         }
 
         params[:custom_fields] = {}
-        SiteSetting.discourse_post_event_allowed_custom_fields.split("|").each do |setting|
-          if event_params[setting.to_sym].present?
-            params[:custom_fields][setting] = event_params[setting.to_sym]
+        SiteSetting
+          .discourse_post_event_allowed_custom_fields
+          .split("|")
+          .each do |setting|
+            if event_params[setting.to_sym].present?
+              params[:custom_fields][setting] = event_params[setting.to_sym]
+            end
           end
-        end
 
         event.update_with_params!(params)
         event.set_topic_bump
@@ -329,7 +335,7 @@ module DiscoursePostEvent
     def missing_users(excluded_ids = self.invitees.select(:user_id))
       User
         .joins(:groups)
-        .where('groups.name' => self.raw_invitees)
+        .where("groups.name" => self.raw_invitees)
         .where.not(id: excluded_ids)
         .distinct
     end
@@ -356,10 +362,7 @@ module DiscoursePostEvent
 
     def calculate_next_date
       if !original_ends_at || self.recurrence.blank? || original_starts_at > Time.current
-        return {
-          starts_at: original_starts_at,
-          ends_at: original_ends_at
-        }
+        return { starts_at: original_starts_at, ends_at: original_ends_at }
       end
 
       localized_start = original_starts_at.in_time_zone(timezone)
@@ -367,26 +370,26 @@ module DiscoursePostEvent
       recurrence = nil
 
       case self.recurrence
-      when 'every_day'
-        recurrence = 'FREQ=DAILY'
-      when 'every_month'
+      when "every_day"
+        recurrence = "FREQ=DAILY"
+      when "every_month"
         start_date = localized_start.beginning_of_month.to_date
         end_date = localized_start.end_of_month.to_date
-        weekday = localized_start.strftime('%A')
+        weekday = localized_start.strftime("%A")
 
         count = 0
         (start_date..end_date).each do |date|
-          count += 1 if date.strftime('%A') == weekday
+          count += 1 if date.strftime("%A") == weekday
           break if date.day == localized_start.day
         end
 
         recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
-      when 'every_weekday'
-        recurrence = 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
-      when 'every_two_weeks'
+      when "every_weekday"
+        recurrence = "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR"
+      when "every_two_weeks"
         recurrence = "FREQ=WEEKLY;INTERVAL=2;"
       else
-        byday = localized_start.strftime('%A').upcase[0, 2]
+        byday = localized_start.strftime("%A").upcase[0, 2]
         recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
       end
 

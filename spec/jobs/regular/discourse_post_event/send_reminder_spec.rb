@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 describe Jobs::DiscoursePostEventSendReminder do
   Invitee ||= DiscoursePostEvent::Invitee
@@ -13,7 +13,7 @@ describe Jobs::DiscoursePostEventSendReminder do
   let(:going_user_unread_notification) { Fabricate(:user) }
   let(:going_user_read_notification) { Fabricate(:user) }
   let(:post_1) { Fabricate(:post) }
-  let(:reminders) { 'notification.5.minutes' }
+  let(:reminders) { "notification.5.minutes" }
 
   def init_invitees
     Invitee.create_attendance!(going_user.id, event_1.id, :going)
@@ -29,21 +29,19 @@ describe Jobs::DiscoursePostEventSendReminder do
       not_going_user,
       going_user_unread_notification,
       going_user_read_notification,
-      visited_going_user
-    ].each do |user|
-      user.notifications.update_all(read: true)
-    end
+      visited_going_user,
+    ].each { |user| user.notifications.update_all(read: true) }
 
     going_user_unread_notification.notifications.create!(
       notification_type: Notification.types[:event_reminder],
       topic_id: post_1.topic_id,
       post_number: 1,
-      data: {}.to_json
+      data: {}.to_json,
     )
   end
 
   before do
-    freeze_time DateTime.parse('2018-11-10 12:00')
+    freeze_time DateTime.parse("2018-11-10 12:00")
 
     Jobs.run_immediately!
 
@@ -51,126 +49,147 @@ describe Jobs::DiscoursePostEventSendReminder do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  describe '#execute' do
-    context 'with invalid params' do
-      it 'raises an invalid parameters errors' do
-        expect {
-          subject.execute(event_id: 1)
-        }.to raise_error(Discourse::InvalidParameters)
+  describe "#execute" do
+    context "with invalid params" do
+      it "raises an invalid parameters errors" do
+        expect { subject.execute(event_id: 1) }.to raise_error(Discourse::InvalidParameters)
 
-        expect {
-          subject.execute(reminder: 'foo')
-        }.to raise_error(Discourse::InvalidParameters)
+        expect { subject.execute(reminder: "foo") }.to raise_error(Discourse::InvalidParameters)
       end
     end
 
-    context 'with deleted post' do
-      let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
+    context "with deleted post" do
+      let!(:event_1) do
+        Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now)
+      end
 
-      it 'is not erroring when post is already deleted' do
+      it "is not erroring when post is already deleted" do
         post_1.delete
 
-        expect {
-          subject.execute(event_id: event_1.id, reminder: reminders)
-        }.not_to raise_error
+        expect { subject.execute(event_id: event_1.id, reminder: reminders) }.not_to raise_error
       end
     end
 
-    context 'with public event' do
-      context 'when event has not started' do
-        let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.from_now) }
+    context "with public event" do
+      context "when event has not started" do
+        let!(:event_1) do
+          Fabricate(
+            :event,
+            post: post_1,
+            reminders: reminders,
+            original_starts_at: 3.hours.from_now,
+          )
+        end
         let!(:event_date_1) { Fabricate(:event_date, event: event_1, starts_at: 3.hours.from_now) }
 
-        before do
-          init_invitees
-        end
+        before { init_invitees }
 
-        it 'creates a new notification for going user' do
+        it "creates a new notification for going user" do
           expect(going_user.unread_notifications).to eq(0)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { going_user.reload.unread_notifications }.by(1)
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.to change {
+            going_user.reload.unread_notifications
+          }.by(1)
         end
 
-        it 'doesn’t create a new notification for not going user' do
+        it "doesn’t create a new notification for not going user" do
           expect(not_going_user.unread_notifications).to eq(0)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.not_to change { not_going_user.reload.unread_notifications }
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.not_to change {
+            not_going_user.reload.unread_notifications
+          }
         end
 
-        it 'doesn’t create a new notification if there’s already one' do
+        it "doesn’t create a new notification if there’s already one" do
           expect(going_user_unread_notification.unread_notifications).to eq(1)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.not_to change { going_user_unread_notification.reload.unread_notifications }
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.not_to change {
+            going_user_unread_notification.reload.unread_notifications
+          }
         end
 
-        it 'delete previous notifications before creating a new one' do
+        it "delete previous notifications before creating a new one" do
           subject.execute(event_id: event_1.id, reminder: reminders)
           going_user.notifications.update_all(read: true)
 
           subject.execute(event_id: event_1.id, reminder: reminders)
 
-          expect(going_user.notifications.where(notification_type: Notification.types[:event_reminder]).count).to eq(1)
+          expect(
+            going_user
+              .notifications
+              .where(notification_type: Notification.types[:event_reminder])
+              .count,
+          ).to eq(1)
         end
       end
 
-      context 'when event has started' do
-        let!(:event_1) { Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.ago) }
+      context "when event has started" do
+        let!(:event_1) do
+          Fabricate(:event, post: post_1, reminders: reminders, original_starts_at: 3.hours.ago)
+        end
         let!(:event_date_1) { Fabricate(:event_date, event: event_1, starts_at: 3.hours.ago) }
 
         before do
           init_invitees
 
-          TopicUser.change(going_user, event_1.post.topic, last_visited_at: 4.hours.ago, last_read_post_number: 1)
-          TopicUser.change(visited_going_user, event_1.post.topic, last_visited_at: 2.minutes.ago, last_read_post_number: 1)
+          TopicUser.change(
+            going_user,
+            event_1.post.topic,
+            last_visited_at: 4.hours.ago,
+            last_read_post_number: 1,
+          )
+          TopicUser.change(
+            visited_going_user,
+            event_1.post.topic,
+            last_visited_at: 2.minutes.ago,
+            last_read_post_number: 1,
+          )
         end
 
-        it 'creates a new notification for going user' do
+        it "creates a new notification for going user" do
           expect(going_user.reload.unread_notifications).to eq(0)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { going_user.reload.unread_notifications }.by(1)
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.to change {
+            going_user.reload.unread_notifications
+          }.by(1)
         end
 
-        it 'creates a new notification for interested user' do
+        it "creates a new notification for interested user" do
           expect(interested_user.reload.unread_notifications).to eq(0)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.to change { interested_user.reload.unread_notifications }.by(1)
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.to change {
+            interested_user.reload.unread_notifications
+          }.by(1)
         end
 
-        it 'doesn’t create a new notification for not going user' do
+        it "doesn’t create a new notification for not going user" do
           expect(not_going_user.unread_notifications).to eq(0)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.not_to change { not_going_user.reload.unread_notifications }
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.not_to change {
+            not_going_user.reload.unread_notifications
+          }
         end
 
-        it 'doesn’t create a new notification if there’s already one' do
+        it "doesn’t create a new notification if there’s already one" do
           expect(going_user_unread_notification.unread_notifications).to eq(1)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.not_to change {
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.not_to change {
             going_user_unread_notification.reload.unread_notifications
           }
         end
 
-        it 'deletes previous notifications when creating a new one' do
+        it "deletes previous notifications when creating a new one" do
           subject.execute(event_id: event_1.id, reminder: reminders)
           going_user.notifications.update_all(read: true)
 
           subject.execute(event_id: event_1.id, reminder: reminders)
 
-          expect(going_user.notifications.where(notification_type: Notification.types[:event_reminder]).count).to eq(1)
+          expect(
+            going_user
+              .notifications
+              .where(notification_type: Notification.types[:event_reminder])
+              .count,
+          ).to eq(1)
         end
 
         it "doesn't delete previous notifications if reminder type is different" do
@@ -182,27 +201,27 @@ describe Jobs::DiscoursePostEventSendReminder do
             data: {
               topic_title: event_1.name || post_1.topic.title,
               display_username: going_user.username,
-              message: 'discourse_post_event.notifications.before_event_reminder'
-            }.to_json
+              message: "discourse_post_event.notifications.before_event_reminder",
+            }.to_json,
           )
 
           subject.execute(event_id: event_1.id, reminder: reminders)
-          messages = Notification.where(
-            user: going_user, notification_type: Notification.types[:event_reminder]
-          ).pluck("data::json ->> 'message'")
+          messages =
+            Notification.where(
+              user: going_user,
+              notification_type: Notification.types[:event_reminder],
+            ).pluck("data::json ->> 'message'")
 
           expect(messages).to contain_exactly(
-            'discourse_post_event.notifications.before_event_reminder',
-            'discourse_post_event.notifications.ongoing_event_reminder'
+            "discourse_post_event.notifications.before_event_reminder",
+            "discourse_post_event.notifications.ongoing_event_reminder",
           )
         end
 
-        it 'doesn’t create a new notification for visiting user' do
+        it "doesn’t create a new notification for visiting user" do
           expect(visited_going_user.unread_notifications).to eq(0)
 
-          expect {
-            subject.execute(event_id: event_1.id, reminder: reminders)
-          }.not_to change {
+          expect { subject.execute(event_id: event_1.id, reminder: reminders) }.not_to change {
             visited_going_user.reload.unread_notifications
           }
         end
