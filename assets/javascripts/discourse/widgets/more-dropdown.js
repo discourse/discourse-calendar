@@ -67,6 +67,15 @@ export default createWidget("more-dropdown", {
       });
     }
 
+    if (attrs.eventModel.watching_invitee && attrs.isPublicEvent) {
+      content.push({
+        id: "leaveEvent",
+        icon: "times",
+        label: "discourse_post_event.event_ui.leave",
+        param: attrs.eventModel.id,
+      });
+    }
+
     if (attrs.canActOnEvent) {
       content.push("separator");
 
