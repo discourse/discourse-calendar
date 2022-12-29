@@ -14,14 +14,15 @@ describe Topic do
 
   let(:user) { Fabricate(:user) }
 
-  context 'when a topic is created' do
-    context 'with a date in title' do
-      it 'doesn’t create a post event' do
-        post_with_date = PostCreator.create!(
-          user,
-          title: 'Let’s buy a boat with me tomorrow',
-          raw: 'The boat market is quite active lately.'
-        )
+  context "when a topic is created" do
+    context "with a date in title" do
+      it "doesn’t create a post event" do
+        post_with_date =
+          PostCreator.create!(
+            user,
+            title: "Let’s buy a boat with me tomorrow",
+            raw: "The boat market is quite active lately.",
+          )
 
         expect(Event).to_not exist(id: post_with_date.id)
       end

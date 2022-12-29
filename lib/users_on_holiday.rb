@@ -18,13 +18,7 @@ module DiscourseCalendar
       ends_at = holiday_ends_at(user_events)
       return nil unless ends_at
 
-      [
-        user_events[0].user_id,
-        {
-          username: user_events[0].username,
-          ends_at: ends_at
-        }
-      ]
+      [user_events[0].user_id, { username: user_events[0].username, ends_at: ends_at }]
     end
 
     # If a user has several holidays one after another

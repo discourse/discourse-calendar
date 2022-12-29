@@ -33,13 +33,15 @@ class TimeSniffer
         hours: obj.hour,
         minutes: obj.minute,
         seconds: obj.second,
-        zone: zone
+        zone: zone,
       )
     end
 
     def to_time
       Time.use_zone(self.zone) do
-        Time.zone.parse("#{self.year}-#{self.month}-#{self.day} #{self.hours}:#{self.minutes}:#{self.seconds}")
+        Time.zone.parse(
+          "#{self.year}-#{self.month}-#{self.day} #{self.hours}:#{self.minutes}:#{self.seconds}",
+        )
       end
     end
 
@@ -78,10 +80,7 @@ class TimeSniffer
     end
 
     def matcher(name, regex, &blk)
-      matchers[name] = {
-        regex: regex,
-        blk: blk,
-      }
+      matchers[name] = { regex: regex, blk: blk }
     end
   end
 
@@ -103,7 +102,7 @@ class TimeSniffer
     end
 
     def parse_space
-      if input[offset] == ' '
+      if input[offset] == " "
         self.offset += 1
         true
       else
@@ -137,25 +136,15 @@ class TimeSniffer
             century = @context.at.year - (@context.at.year % 100)
             last_century = century - 100
 
-            choices = [
-              century + year.to_i,
-              last_century + year.to_i,
-            ]
+            choices = [century + year.to_i, last_century + year.to_i]
 
-            choices.sort_by { |x|
-              (@context.at.year - x).abs
-            }[0]
+            choices.sort_by { |x| (@context.at.year - x).abs }[0]
           when 4
             year.to_i
           end
 
         result =
-          SniffedTime.new(
-            year: year,
-            month: month.to_i,
-            day: day.to_i,
-            zone: @context.timezone,
-          )
+          SniffedTime.new(year: year, month: month.to_i, day: day.to_i, zone: @context.timezone)
 
         self.offset += date_match.offset(0)[1]
         result
@@ -167,9 +156,7 @@ class TimeSniffer
       if result
         zone = parse_timezone
 
-        if zone
-          result = result.with(zone: zone)
-        end
+        result = result.with(zone: zone) if zone
 
         result
       end
@@ -180,21 +167,13 @@ class TimeSniffer
       if date
         if parse_space
           datetime = parse_time_with_timezone(date, immediate: true)
-          if datetime
-            [false, datetime]
-          else
-            [true, date]
-          end
+          datetime ? [false, datetime] : [true, date]
         else
           [true, date]
         end
       elsif relative_to
         datetime = parse_time_with_timezone(relative_to, immediate: false)
-        if datetime
-          [false, datetime]
-        else
-          [true, nil]
-        end
+        datetime ? [false, datetime] : [true, nil]
       end
     end
 
@@ -210,11 +189,7 @@ class TimeSniffer
             Interval.new(from.to_time, to.to_time)
           end
         else
-          if from_is_date
-            Interval.new(from.to_time, from.to_time + 1.day)
-          else
-            Event.new(from.to_time)
-          end
+          from_is_date ? Interval.new(from.to_time, from.to_time + 1.day) : Event.new(from.to_time)
         end
       end
     end
@@ -247,12 +222,8 @@ class TimeSniffer
     yesterday = today - 1
 
     Interval.new(
-      SniffedTime
-        .from_datetime(yesterday.to_datetime, timezone)
-        .to_time,
-      SniffedTime
-        .from_datetime(today.to_datetime, timezone)
-        .to_time,
+      SniffedTime.from_datetime(yesterday.to_datetime, timezone).to_time,
+      SniffedTime.from_datetime(today.to_datetime, timezone).to_time,
     )
   end
 
@@ -261,12 +232,8 @@ class TimeSniffer
     the_day_after_tomorrow = tomorrow + 1
 
     Interval.new(
-      SniffedTime
-        .from_datetime(tomorrow.to_datetime, timezone)
-        .to_time,
-      SniffedTime
-        .from_datetime(the_day_after_tomorrow.to_datetime, timezone)
-        .to_time,
+      SniffedTime.from_datetime(tomorrow.to_datetime, timezone).to_time,
+      SniffedTime.from_datetime(the_day_after_tomorrow.to_datetime, timezone).to_time,
     )
   end
 
@@ -306,17 +273,15 @@ class TimeSniffer
           minutes: from[1].to_i,
           seconds: 0,
           zone: timezone,
-        ).to_time
+        ).to_time,
       )
     end
   end
 
-  DATE_SEPARATOR = /[-\/]/
+  DATE_SEPARATOR = %r{[-/]}
   DATE_REGEX = /((?:^|\s)\d{1,2})#{DATE_SEPARATOR}(\d{1,2})#{DATE_SEPARATOR}(\d{2,4})/
 
-  matcher(:date, DATE_REGEX) do |m|
-    Parser.new(input, @context).parse_range
-  end
+  matcher(:date, DATE_REGEX) { |m| Parser.new(input, @context).parse_range }
 
   def initialize(input, at: DateTime.now, timezone:, date_order:, matchers:, raise_errors: false)
     @input = input

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'migration/table_dropper'
+require "migration/table_dropper"
 
 class DropOldDiscourseCalendarTables < ActiveRecord::Migration[6.0]
   def up

@@ -10,6 +10,8 @@ class CreateDisabledHolidays < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :discourse_calendar_disabled_holidays, [:holiday_name, :region_code], name: 'index_disabled_holidays_on_holiday_name_and_region_code'
+    add_index :discourse_calendar_disabled_holidays,
+              %i[holiday_name region_code],
+              name: "index_disabled_holidays_on_holiday_name_and_region_code"
   end
 end

@@ -7,25 +7,31 @@ module Admin::DiscourseCalendar
     fab!(:admin) { Fabricate(:user, admin: true) }
     fab!(:member) { Fabricate(:user) }
 
-    before do
-      SiteSetting.calendar_enabled = calendar_enabled
-    end
+    before { SiteSetting.calendar_enabled = calendar_enabled }
 
     describe "#index" do
       context "when the calendar plugin is enabled" do
         let(:calendar_enabled) { true }
 
         context "when an admin is signed in" do
-          before do
-            sign_in(admin)
-          end
+          before { sign_in(admin) }
 
           it "returns a list of holidays for a given region" do
             get "/admin/discourse-calendar/holiday-regions/mx/holidays.json"
 
             expect(response.parsed_body["holidays"]).to include(
-              { "date" => "2022-01-01", "name" => "Año nuevo", "regions" => ["mx"], "disabled" => false },
-              { "date" => "2022-09-16", "name" => "Día de la Independencia", "regions" => ["mx"], "disabled" => false }
+              {
+                "date" => "2022-01-01",
+                "name" => "Año nuevo",
+                "regions" => ["mx"],
+                "disabled" => false,
+              },
+              {
+                "date" => "2022-09-16",
+                "name" => "Día de la Independencia",
+                "regions" => ["mx"],
+                "disabled" => false,
+              },
             )
           end
 
@@ -34,7 +40,7 @@ module Admin::DiscourseCalendar
 
             expect(response.status).to eq(422)
             expect(response.parsed_body["errors"]).to include(
-              I18n.t("system_messages.discourse_calendar_holiday_region_invalid")
+              I18n.t("system_messages.discourse_calendar_holiday_region_invalid"),
             )
           end
         end
@@ -74,15 +80,13 @@ module Admin::DiscourseCalendar
         end
 
         context "when an admin is signed in" do
-          before do
-            sign_in(admin)
-          end
+          before { sign_in(admin) }
 
           it "disables the holiday in the specified region and returns a 200 status code" do
             post "/admin/discourse-calendar/holidays/disable.json",
-              params: {
-                disabled_holiday: dia_de_la_independencia
-              }
+                 params: {
+                   disabled_holiday: dia_de_la_independencia,
+                 }
 
             disabled_holiday = DiscourseCalendar::DisabledHoliday.last
 
@@ -93,8 +97,7 @@ module Admin::DiscourseCalendar
           end
 
           it "returns a 400 (bad request) status code when the parameters are not valid" do
-            post "/admin/discourse-calendar/holidays/disable.json",
-              params: { disabled_holiday: {} }
+            post "/admin/discourse-calendar/holidays/disable.json", params: { disabled_holiday: {} }
 
             expect(response.status).to eq(400)
           end
@@ -113,35 +116,39 @@ module Admin::DiscourseCalendar
                 topic_id: calendar_post.topic_id,
                 description: australia_new_years_day[:holiday_name],
                 start_date: australia_new_years_day[:date],
-                region: australia_new_years_day[:region_code]
+                region: australia_new_years_day[:region_code],
               )
 
               CalendarEvent.create!(
                 topic_id: calendar_post.topic_id,
                 description: australia_day[:holiday_name],
                 start_date: australia_day[:date],
-                region: australia_day[:region_code]
+                region: australia_day[:region_code],
               )
             end
 
             it "removes disabled holidays from the calendar" do
               post "/admin/discourse-calendar/holidays/disable.json",
-                params: {
-                  disabled_holiday: {
-                    holiday_name: australia_new_years_day[:holiday_name],
-                    region_code: australia_new_years_day[:region_code],
-                  }
-                }
+                   params: {
+                     disabled_holiday: {
+                       holiday_name: australia_new_years_day[:holiday_name],
+                       region_code: australia_new_years_day[:region_code],
+                     },
+                   }
 
-              expect(CalendarEvent.where(
-                description: australia_new_years_day[:holiday_name],
-                region: australia_new_years_day[:region_code]
-              ).count).to eq(0)
+              expect(
+                CalendarEvent.where(
+                  description: australia_new_years_day[:holiday_name],
+                  region: australia_new_years_day[:region_code],
+                ).count,
+              ).to eq(0)
 
-              expect(CalendarEvent.where(
-                description: australia_day[:holiday_name],
-                region: australia_day[:region_code]
-              ).count).to eq(1)
+              expect(
+                CalendarEvent.where(
+                  description: australia_day[:holiday_name],
+                  region: australia_day[:region_code],
+                ).count,
+              ).to eq(1)
             end
           end
         end
@@ -153,24 +160,20 @@ module Admin::DiscourseCalendar
         let(:calendar_enabled) { true }
 
         context "when an admin is signed in" do
-          before do
-            sign_in(admin)
-          end
+          before { sign_in(admin) }
 
           context "when there is a disabled holiday" do
             let(:hong_kong_labour_day) { { holiday_name: "Labour Day", region_code: "hk" } }
 
-            before do
-              DiscourseCalendar::DisabledHoliday.create!(hong_kong_labour_day)
-            end
+            before { DiscourseCalendar::DisabledHoliday.create!(hong_kong_labour_day) }
 
             it "enables a holiday (by deleting its 'disabled' record) and returns a 200 status code" do
               expect(DiscourseCalendar::DisabledHoliday.count).to eq(1)
 
               delete "/admin/discourse-calendar/holidays/enable.json",
-                params: {
-                  disabled_holiday: hong_kong_labour_day
-                }
+                     params: {
+                       disabled_holiday: hong_kong_labour_day,
+                     }
 
               expect(DiscourseCalendar::DisabledHoliday.count).to eq(0)
               expect(response.status).to eq(200)
@@ -179,7 +182,12 @@ module Admin::DiscourseCalendar
 
           it "returns a 422 (unprocessable enity) status code when a holiday can't be enabled" do
             delete "/admin/discourse-calendar/holidays/enable.json",
-              params: { disabled_holiday: { holiday_name: "Not disabled holiday", region_code: "NA" } }
+                   params: {
+                     disabled_holiday: {
+                       holiday_name: "Not disabled holiday",
+                       region_code: "NA",
+                     },
+                   }
 
             expect(response.status).to eq(422)
           end

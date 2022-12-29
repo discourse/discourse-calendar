@@ -8,7 +8,12 @@ module Admin::DiscourseCalendar
       begin
         holidays = DiscourseCalendar::Holiday.find_holidays_for(region_code: region_code)
       rescue Holidays::InvalidRegion
-        return render_json_error(I18n.t("system_messages.discourse_calendar_holiday_region_invalid"), 422)
+        return(
+          render_json_error(
+            I18n.t("system_messages.discourse_calendar_holiday_region_invalid"),
+            422,
+          )
+        )
       end
 
       render json: { region_code: region_code, holidays: holidays }
@@ -18,7 +23,7 @@ module Admin::DiscourseCalendar
       DiscourseCalendar::DisabledHoliday.create!(disabled_holiday_params)
       CalendarEvent.destroy_by(
         description: disabled_holiday_params[:holiday_name],
-        region: disabled_holiday_params[:region_code]
+        region: disabled_holiday_params[:region_code],
       )
 
       render json: success_json

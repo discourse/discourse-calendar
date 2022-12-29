@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-describe 'currently_away report' do
+describe "currently_away report" do
   fab!(:user_1) { Fabricate(:user) }
   fab!(:user_2) { Fabricate(:user) }
   fab!(:group_1) { Fabricate(:group) }
@@ -13,8 +13,8 @@ describe 'currently_away report' do
     DiscourseCalendar.users_on_holiday = [user_1.username]
   end
 
-  it 'generates a correct report' do
-    report = Report.find('currently_away', filters: { group: group_1.id })
+  it "generates a correct report" do
+    report = Report.find("currently_away", filters: { group: group_1.id })
 
     expect(report.data).to contain_exactly({ username: user_1.username })
     expect(report.total).to eq(1)

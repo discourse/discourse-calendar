@@ -7,8 +7,13 @@ class UnescapeEventName < ActiveRecord::Migration[6.1]
 
   def up
     # event notifications
-    DB.exec("CREATE INDEX CONCURRENTLY #{TEMP_INDEX_NAME} ON notifications(id) WHERE notification_type IN (27, 28)")
-    start, limit = DB.query_single("SELECT MIN(id), MAX(id) FROM notifications WHERE notification_type IN (27, 28)")
+    DB.exec(
+      "CREATE INDEX CONCURRENTLY #{TEMP_INDEX_NAME} ON notifications(id) WHERE notification_type IN (27, 28)",
+    )
+    start, limit =
+      DB.query_single(
+        "SELECT MIN(id), MAX(id) FROM notifications WHERE notification_type IN (27, 28)",
+      )
 
     return if !start
 
@@ -24,34 +29,30 @@ class UnescapeEventName < ActiveRecord::Migration[6.1]
     SQL
 
     while true
-      if start > limit
-        break
-      end
+      break if start > limit
 
       max_seen = -1
 
-      DB.query(notifications_query, start: start).each do |record|
-        id = record.id
+      DB
+        .query(notifications_query, start: start)
+        .each do |record|
+          id = record.id
 
-        if id > max_seen
-          max_seen = id
-        end
+          max_seen = id if id > max_seen
 
-        data = JSON.parse(record.data)
-        unescaped = CGI.unescapeHTML(data["topic_title"])
-        next if unescaped == data["topic_title"]
-        data["topic_title"] = unescaped
+          data = JSON.parse(record.data)
+          unescaped = CGI.unescapeHTML(data["topic_title"])
+          next if unescaped == data["topic_title"]
+          data["topic_title"] = unescaped
 
-        DB.exec(<<~SQL, data: data.to_json, id: id)
+          DB.exec(<<~SQL, data: data.to_json, id: id)
           UPDATE notifications SET data = :data WHERE id = :id
         SQL
-      end
+        end
 
-      start += 10000
+      start += 10_000
 
-      if max_seen > start
-        start = max_seen + 1
-      end
+      start = max_seen + 1 if max_seen > start
     end
 
     # event names
@@ -62,13 +63,15 @@ class UnescapeEventName < ActiveRecord::Migration[6.1]
       ORDER BY id ASC
     SQL
 
-    DB.query(events_query).each do |event|
-      unescaped_name = CGI.unescapeHTML(event.name)
-      next if unescaped_name == event.name
-      DB.exec(<<~SQL, unescaped_name: unescaped_name, id: event.id)
+    DB
+      .query(events_query)
+      .each do |event|
+        unescaped_name = CGI.unescapeHTML(event.name)
+        next if unescaped_name == event.name
+        DB.exec(<<~SQL, unescaped_name: unescaped_name, id: event.id)
         UPDATE discourse_post_event_events SET name = :unescaped_name WHERE id = :id
       SQL
-    end
+      end
   ensure
     DB.exec("DROP INDEX IF EXISTS #{TEMP_INDEX_NAME}")
   end

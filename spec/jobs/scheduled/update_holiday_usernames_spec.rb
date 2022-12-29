@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 describe DiscourseCalendar::UpdateHolidayUsernames do
   let(:calendar_post) { create_post(raw: "[calendar]\n[/calendar]") }
@@ -37,18 +37,48 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     post2 = create_post(raw: raw2, topic: calendar_post.topic)
 
     subject.execute(nil)
-    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_truthy
-    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_truthy
+    expect(
+      UserCustomField.exists?(
+        name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+        user_id: post1.user.id,
+      ),
+    ).to be_truthy
+    expect(
+      UserCustomField.exists?(
+        name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+        user_id: post2.user.id,
+      ),
+    ).to be_truthy
 
     freeze_time Time.utc(2018, 6, 6, 10, 00)
     subject.execute(nil)
-    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_truthy
-    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_falsey
+    expect(
+      UserCustomField.exists?(
+        name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+        user_id: post1.user.id,
+      ),
+    ).to be_truthy
+    expect(
+      UserCustomField.exists?(
+        name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+        user_id: post2.user.id,
+      ),
+    ).to be_falsey
 
     freeze_time Time.utc(2018, 6, 7, 10, 00)
     subject.execute(nil)
-    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post1.user.id)).to be_falsey
-    expect(UserCustomField.exists?(name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, user_id: post2.user.id)).to be_falsey
+    expect(
+      UserCustomField.exists?(
+        name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+        user_id: post1.user.id,
+      ),
+    ).to be_falsey
+    expect(
+      UserCustomField.exists?(
+        name: DiscourseCalendar::HOLIDAY_CUSTOM_FIELD,
+        user_id: post2.user.id,
+      ),
+    ).to be_falsey
   end
 
   it "sets status of users on holiday" do
@@ -87,10 +117,7 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
 
     raw = 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
     post = create_post(raw: raw, topic: calendar_post.topic)
-    custom_status = {
-      description: "I am working on holiday",
-      emoji: "construction_worker_man"
-    }
+    custom_status = { description: "I am working on holiday", emoji: "construction_worker_man" }
     post.user.set_status!(custom_status[:description], custom_status[:emoji])
 
     subject.execute(nil)
@@ -115,9 +142,13 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     custom_status = {
       description: "I am working on holiday",
       emoji: "construction_worker_man",
-      ends_at: tomorrow
+      ends_at: tomorrow,
     }
-    post.user.set_status!(custom_status[:description], custom_status[:emoji], custom_status[:ends_at])
+    post.user.set_status!(
+      custom_status[:description],
+      custom_status[:emoji],
+      custom_status[:ends_at],
+    )
 
     freeze_time tomorrow + 2.day
     subject.execute(nil)
@@ -147,7 +178,7 @@ describe DiscourseCalendar::UpdateHolidayUsernames do
     revisor.revise!(
       post.user,
       { raw: 'Rome [date="2018-06-05" time="10:20:00"] to [date="2018-12-10" time="10:20:00"]' },
-      revised_at: Time.now
+      revised_at: Time.now,
     )
     subject.execute(nil)
 

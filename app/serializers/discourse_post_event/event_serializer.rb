@@ -33,11 +33,13 @@ module DiscoursePostEvent
     end
 
     def reminders
-      (object.reminders || '').split(',').map do |reminder|
-        type, value, unit = reminder.split('.')
-        value = value.to_i
-        { value: value.to_i.abs, unit: unit, period: value > 0 ? 'before' : 'after', type: type }
-      end
+      (object.reminders || "")
+        .split(",")
+        .map do |reminder|
+          type, value, unit = reminder.split(".")
+          value = value.to_i
+          { value: value.to_i.abs, unit: unit, period: value > 0 ? "before" : "after", type: type }
+        end
     end
 
     def is_expired
@@ -73,8 +75,8 @@ module DiscoursePostEvent
         url: object.post.url,
         topic: {
           id: object.post.topic.id,
-          title: object.post.topic.title
-        }
+          title: object.post.topic.title,
+        },
       }
     end
 
@@ -97,29 +99,22 @@ module DiscoursePostEvent
 
       # when a group is private we know the list of possible users
       # even if an invitee has not been created yet
-      if object.private?
-        unanswered += object.missing_users.count
-      end
+      unanswered += object.missing_users.count if object.private?
 
       {
         going: going,
         interested: interested,
         not_going: not_going,
-        invited: going + interested + not_going + unanswered
+        invited: going + interested + not_going + unanswered,
       }
     end
 
     def watching_invitee
       if scope.current_user
-        watching_invitee = Invitee.find_by(
-          user_id: scope.current_user.id,
-          post_id: object.id
-        )
+        watching_invitee = Invitee.find_by(user_id: scope.current_user.id, post_id: object.id)
       end
 
-      if watching_invitee
-        InviteeSerializer.new(watching_invitee, root: false)
-      end
+      InviteeSerializer.new(watching_invitee, root: false) if watching_invitee
     end
 
     def sample_invitees
@@ -128,7 +123,8 @@ module DiscoursePostEvent
     end
 
     def should_display_invitees
-      (object.public? && object.invitees.count > 0) || (object.private? && object.raw_invitees.count > 0)
+      (object.public? && object.invitees.count > 0) ||
+        (object.private? && object.raw_invitees.count > 0)
     end
   end
 end
