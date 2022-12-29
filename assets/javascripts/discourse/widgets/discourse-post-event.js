@@ -142,6 +142,21 @@ export default createWidget("discourse-post-event", {
     ]);
   },
 
+  leaveEvent(postId) {
+    this.store
+      .findAll("discourse-post-event-invitee", {
+        post_id: postId,
+      })
+      .then((invitees) => {
+        invitees
+          .find(
+            (invitee) =>
+              invitee.id === this.state.eventModel.watching_invitee.id
+          )
+          .destroyRecord();
+      });
+  },
+
   transform() {
     const eventModel = this.state.eventModel;
 

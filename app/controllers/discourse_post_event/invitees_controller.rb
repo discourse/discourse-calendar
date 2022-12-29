@@ -45,7 +45,7 @@ module DiscoursePostEvent
     def destroy
       event = Event.find_by(id: params[:post_id])
       invitee = event.invitees.find_by(id: params[:id])
-      guardian.ensure_can_act_on_discourse_post_event!(event)
+      guardian.ensure_can_act_on_invitee!(invitee)
       invitee.destroy!
       event.publish_update!
       render json: success_json
