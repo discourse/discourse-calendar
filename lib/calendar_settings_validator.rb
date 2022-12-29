@@ -8,7 +8,7 @@ class CalendarSettingsValidator
   def valid_value?(val)
     return true if val == ""
 
-    split = val.split(':')
+    split = val.split(":")
     return false if split.count != 2
 
     hour = split.first
@@ -22,6 +22,6 @@ class CalendarSettingsValidator
   end
 
   def error_message
-    I18n.t('site_settings.all_day_event_time_error')
+    I18n.t("site_settings.all_day_event_time_error")
   end
 end

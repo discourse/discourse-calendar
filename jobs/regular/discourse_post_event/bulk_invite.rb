@@ -53,23 +53,25 @@ module Jobs
 
     def process_invitee(invitee)
       if @event.public?
-        users = User.where(username: invitee['identifier']).pluck(:id)
+        users = User.where(username: invitee["identifier"]).pluck(:id)
       else
-        group = Group.find_by(name: invitee['identifier'])
+        group = Group.find_by(name: invitee["identifier"])
         if group
           users = group.users.pluck(:id)
-          @event.update_with_params!(raw_invitees: (@event.raw_invitees || []).push(group.name).uniq)
+          @event.update_with_params!(
+            raw_invitees: (@event.raw_invitees || []).push(group.name).uniq,
+          )
         end
       end
 
       if users.blank?
-        save_log "Couldn't find user or group: '#{invitee['identifier']}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
+        save_log "Couldn't find user or group: '#{invitee["identifier"]}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames."
         @failed += 1
         return
       end
 
       users.each do |user_id|
-        create_attendance(user_id, @event.post.id, invitee['attendance'] || 'going')
+        create_attendance(user_id, @event.post.id, invitee["attendance"] || "going")
       end
 
       @processed += 1
@@ -85,7 +87,8 @@ module Jobs
         DiscoursePostEvent::Invitee.where(user_id: user_id, post_id: post_id).destroy_all
       else
         status = DiscoursePostEvent::Invitee.statuses[attendance.to_sym]
-        invitee = DiscoursePostEvent::Invitee.find_or_initialize_by(user_id: user_id, post_id: post_id)
+        invitee =
+          DiscoursePostEvent::Invitee.find_or_initialize_by(user_id: user_id, post_id: post_id)
         invitee.notified = false
         invitee.status = status
         invitee.save!
@@ -102,7 +105,7 @@ module Jobs
           SystemMessage.create_from_system_user(
             @current_user,
             :discourse_post_event_bulk_invite_succeeded,
-            processed: @processed
+            processed: @processed,
           )
         else
           SystemMessage.create_from_system_user(
@@ -110,7 +113,7 @@ module Jobs
             :discourse_post_event_bulk_invite_failed,
             processed: @processed,
             failed: @failed,
-            logs: @logs.join("\n")
+            logs: @logs.join("\n"),
           )
         end
       end

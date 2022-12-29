@@ -16,9 +16,7 @@ module DiscourseCalendar
         return false
       end
 
-      if calendar_type == "static" && dates_count > 0
-        return false
-      end
+      return false if calendar_type == "static" && dates_count > 0
 
       dates_count > 0
     end
@@ -27,7 +25,7 @@ module DiscourseCalendar
 
     def count_dates(post)
       cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
-      Nokogiri::HTML(cooked).css('span.discourse-local-date').count
+      Nokogiri.HTML(cooked).css("span.discourse-local-date").count
     end
   end
 end

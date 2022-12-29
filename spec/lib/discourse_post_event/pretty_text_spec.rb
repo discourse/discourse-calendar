@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'rails_helper'
+require "rails_helper"
 
 describe PrettyText do
   before do
@@ -9,14 +9,14 @@ describe PrettyText do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  context 'with a public event' do
-    describe 'An event is displayed in an email' do
+  context "with a public event" do
+    describe "An event is displayed in an email" do
       let(:user_1) { Fabricate(:user, admin: true) }
 
-      context 'when the event has no name' do
+      context "when the event has no name" do
         let(:post_1) { create_post_with_event(user_1) }
 
-        it 'displays the topic title' do
+        it "displays the topic title" do
           cooked = PrettyText.cook(post_1.raw)
 
           expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
@@ -28,10 +28,10 @@ describe PrettyText do
         end
       end
 
-      context 'when the event has a name' do
+      context "when the event has a name" do
         let(:post_1) { create_post_with_event(user_1, 'name="Pancakes event"') }
 
-        it 'displays the event name' do
+        it "displays the event name" do
           cooked = PrettyText.cook(post_1.raw)
 
           expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
@@ -43,10 +43,10 @@ describe PrettyText do
         end
       end
 
-      context 'when the event has an end date' do
+      context "when the event has an end date" do
         let(:post_1) { create_post_with_event(user_1, 'end="2018-06-22"') }
 
-        it 'displays the end date' do
+        it "displays the end date" do
           cooked = PrettyText.cook(post_1.raw)
 
           expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
@@ -58,10 +58,10 @@ describe PrettyText do
         end
       end
 
-      context 'when the event has a timezone' do
+      context "when the event has a timezone" do
         let(:post_1) { create_post_with_event(user_1, 'timezone="America/New_York"') }
 
-        it 'uses the timezone' do
+        it "uses the timezone" do
           cooked = PrettyText.cook(post_1.raw)
 
           expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
