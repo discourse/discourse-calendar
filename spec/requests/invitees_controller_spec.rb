@@ -112,6 +112,17 @@ module DiscoursePostEvent
             end
           end
 
+          context "when acting user can act on invitee" do
+            before { sign_in(invitee1) }
+
+            it "destroys the invitee" do
+              invitee = post_event_2.invitees.first
+              delete "/discourse-post-event/events/#{post_event_2.id}/invitees/#{invitee.id}.json"
+              expect(Invitee.where(id: invitee.id).length).to eq(0)
+              expect(response.status).to eq(200)
+            end
+          end
+
           context 'when acting user can’t act on discourse event' do
             let(:lurker) { Fabricate(:user) }
 
