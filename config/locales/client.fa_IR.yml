@@ -320,6 +320,8 @@ fa_IR:
               title: "خصوصی"
       event_ui:
         show_all: "نمایش همه"
+        add_to_calendar: "افزودن به تقویم"
+        edit_event: "ویرایش رویداد"
       bulk_invite_modal:
         confirm: "تایید"
       builder_modal:
