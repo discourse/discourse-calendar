@@ -17,6 +17,8 @@ module Admin::DiscourseCalendar
           before { sign_in(admin) }
 
           it "returns a list of holidays for a given region" do
+            freeze_time DateTime.parse("2022-12-24 12:00")
+
             get "/admin/discourse-calendar/holiday-regions/mx/holidays.json"
 
             expect(response.parsed_body["holidays"]).to include(
