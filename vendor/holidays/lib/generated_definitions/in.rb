@@ -12,30 +12,30 @@ module Holidays
 
     def self.holidays_by_month
       {
-                1 => [{:mday => 26, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Republic Day", :regions => [:in]},
-            {:mday => 14, :year_ranges => { :limited => [2022] },:name => "Pongal", :regions => [:in]}],
-      3 => [{:mday => 1, :year_ranges => { :limited => [2022] },:name => "Maha Shivaratri", :regions => [:in]},
-            {:mday => 18, :year_ranges => { :limited => [2022] },:name => "Holi", :regions => [:in]}],
-      4 => [{:mday => 14, :name => "Ambedkar Jayanti", :regions => [:in]}],
-      5 => [{:mday => 3, :year_ranges => { :limited => [2022] },:name => "Eid al-Fitr", :regions => [:in]}],
-      7 => [{:mday => 10, :year_ranges => { :limited => [2022] },:name => "Eid al-Adha", :regions => [:in]}],
-      8 => [{:mday => 9, :year_ranges => { :limited => [2022] },:name => "Muharram", :regions => [:in]},
-            {:mday => 11, :year_ranges => { :limited => [2022] },:name => "Raksha Bandhan", :regions => [:in]},
-            {:mday => 15, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Independence Day", :regions => [:in]},
-            {:mday => 19, :year_ranges => { :limited => [2022] },:name => "Janmashtami", :regions => [:in]},
-            {:mday => 31, :year_ranges => { :limited => [2022] },:name => "Ganesh Chaturthi", :regions => [:in]}],
+                1 => [{:mday => 26, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Republic Day", :regions => [:in]}],
+      3 => [{:mday => 7, :year_ranges => { :limited => [2023] },:name => "Holi", :regions => [:in]},
+            {:mday => 30, :year_ranges => { :limited => [2023] },:name => "Ramnavmi", :regions => [:in]}],
+      4 => [{:mday => 4, :name => "Mahavir Jayanti", :regions => [:in]},
+            {:mday => 7, :year_ranges => { :limited => [2023] },:name => "Good Friday", :regions => [:in]},
+            {:mday => 14, :name => "Ambedkar Jayanti", :regions => [:in]}],
+      5 => [{:mday => 5, :year_ranges => { :limited => [2023] },:name => "Buddha Purnima", :regions => [:in]}],
+      6 => [{:mday => 29, :year_ranges => { :limited => [2023] },:name => "Eid al-Adha", :regions => [:in]}],
+      7 => [{:mday => 29, :year_ranges => { :limited => [2023] },:name => "Muharram", :regions => [:in]}],
+      8 => [{:mday => 15, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Independence Day", :regions => [:in]},
+            {:mday => 30, :year_ranges => { :limited => [2023] },:name => "Raksha Bandhan", :regions => [:in]}],
+      9 => [{:mday => 7, :year_ranges => { :limited => [2023] },:name => "Janmashtami", :regions => [:in]},
+            {:mday => 19, :year_ranges => { :limited => [2023] },:name => "Ganesh Chaturthi", :regions => [:in]}],
       10 => [{:mday => 2, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Gandhi Jayanti", :regions => [:in]},
-            {:mday => 5, :year_ranges => { :limited => [2022] },:name => "Dussehra", :regions => [:in]},
-            {:mday => 24, :year_ranges => { :limited => [2022] },:name => "Diwali", :regions => [:in]},
-            {:mday => 25, :year_ranges => { :limited => [2022] },:name => "Govardhan Puja", :regions => [:in]}],
-      11 => [{:mday => 8, :year_ranges => { :limited => [2022] },:name => "Guru Nanak Jayanti", :regions => [:in]}],
+            {:mday => 24, :year_ranges => { :limited => [2023] },:name => "Dussehra", :regions => [:in]}],
+      11 => [{:mday => 13, :year_ranges => { :limited => [2023] },:name => "Govardhan Puja", :regions => [:in]},
+            {:mday => 27, :year_ranges => { :limited => [2023] },:name => "Guru Nanak Jayanti", :regions => [:in]}],
       12 => [{:mday => 25, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Christmas Day", :regions => [:in]}]
       }
     end
 
     def self.custom_methods
       {
-          
+
       }
     end
   end

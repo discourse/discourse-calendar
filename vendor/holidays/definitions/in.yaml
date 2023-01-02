@@ -7,63 +7,68 @@ months:
     regions: [in]
     mday: 26
     observed: to_weekday_if_weekend(date)
-  - name: Pongal
-    regions: [in]
-    mday: 14
-    year_ranges:
-      limited: [2022]
   3:
-  - name: Maha Shivaratri
-    regions: [in]
-    mday: 1
-    year_ranges:
-      limited: [2022]
   - name: Holi
     regions: [in]
-    mday: 18
+    mday: 7
     year_ranges:
-      limited: [2022]
+      limited: [2023]
+  - name: Ramnavmi
+    regions: [in]
+    mday: 30
+    year_ranges:
+      limited: [2023]
   4:
+  - name: Mahavir Jayanti
+    regions: [in]
+    mday: 4
+  - name: Good Friday
+    regions: [in]
+    mday: 7
+    year_ranges:
+      limited: [2023]
   - name: Ambedkar Jayanti
     regions: [in]
     mday: 14
   5:
-  - name: Eid al-Fitr
+  - name: Buddha Purnima
     regions: [in]
-    mday: 3
+    mday: 5
     year_ranges:
-      limited: [2022]
-  7:
+      limited: [2023]
+  6:
   - name: Eid al-Adha
     regions: [in]
-    mday: 10
+    mday: 29
     year_ranges:
-      limited: [2022]
-  8:
+      limited: [2023]
+  7:
   - name: Muharram
     regions: [in]
-    mday: 9
+    mday: 29
     year_ranges:
-      limited: [2022]
-  - name: Raksha Bandhan
-    regions: [in]
-    mday: 11
-    year_ranges:
-      limited: [2022]
+      limited: [2023]
+  8:
   - name: Independence Day
     regions: [in]
     mday: 15
     observed: to_weekday_if_weekend(date)
+  - name: Raksha Bandhan
+    regions: [in]
+    mday: 30
+    year_ranges:
+      limited: [2023]
+  9:
   - name: Janmashtami
+    regions: [in]
+    mday: 7
+    year_ranges:
+      limited: [2023]
+  - name: Ganesh Chaturthi
     regions: [in]
     mday: 19
     year_ranges:
-      limited: [2022]
-  - name: Ganesh Chaturthi
-    regions: [in]
-    mday: 31
-    year_ranges:
-      limited: [2022]
+      limited: [2023]
   10:
   - name: Gandhi Jayanti
     regions: [in]
@@ -71,25 +76,20 @@ months:
     observed: to_weekday_if_weekend(date)
   - name: Dussehra
     regions: [in]
-    mday: 5
-    year_ranges:
-      limited: [2022]
-  - name: Diwali
-    regions: [in]
     mday: 24
     year_ranges:
-      limited: [2022]
+      limited: [2023]
+  11:
   - name: Govardhan Puja
     regions: [in]
-    mday: 25
+    mday: 13
     year_ranges:
-      limited: [2022]
-  11:
+      limited: [2023]
   - name: Guru Nanak Jayanti
     regions: [in]
-    mday: 8
+    mday: 27
     year_ranges:
-      limited: [2022]
+      limited: [2023]
   12:
   - name: Christmas Day
     regions: [in]
