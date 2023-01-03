@@ -350,6 +350,7 @@ he:
         invite: "הודעה למשתמש"
         add_to_calendar: "הוספה ללוח השנה"
         send_pm_to_creator: "שליחת הודעה פרטית על %{username}"
+        leave: "עזיבת האירוע"
         edit_event: "עריכת אירוע"
         export_event: "ייצוא אירוע"
         created_by: "נוצר על ידי"
