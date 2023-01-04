@@ -15,7 +15,11 @@
 
             {{#if invitee.status}}
               <span class="status {{invitee.status}}">
-                {{i18n (concat "discourse_post_event.models.invitee.status." invitee.status)}}
+                {{i18n
+                  (concat
+                    "discourse_post_event.models.invitee.status." invitee.status
+                  )
+                }}
               </span>
             {{else}}
               <span class="status">

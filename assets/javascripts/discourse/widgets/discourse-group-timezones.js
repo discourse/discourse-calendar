@@ -78,9 +78,8 @@ export default createWidget("discourse-group-timezones", {
     if (newDayIndex) {
       groupedTimezones.splice(newDayIndex, 0, {
         type: "discourse-group-timezone-new-day",
-        beforeDate: groupedTimezones[newDayIndex - 1].nowWithOffset.format(
-          "dddd"
-        ),
+        beforeDate:
+          groupedTimezones[newDayIndex - 1].nowWithOffset.format("dddd"),
         afterDate: groupedTimezones[newDayIndex].nowWithOffset.format("dddd"),
       });
     }
