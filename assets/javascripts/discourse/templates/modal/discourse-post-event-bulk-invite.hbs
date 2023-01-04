@@ -3,7 +3,12 @@
   class="discourse-post-event-bulk-invite"
 }}
   <div class="bulk-invites">
-    <p class="bulk-event-help">{{i18n (concat "discourse_post_event.bulk_invite_modal.description_" model.eventModel.status)}}</p>
+    <p class="bulk-event-help">{{i18n
+        (concat
+          "discourse_post_event.bulk_invite_modal.description_"
+          model.eventModel.status
+        )
+      }}</p>
     <h3>{{i18n "discourse_post_event.bulk_invite_modal.inline_title"}}</h3>
 
     <div class="bulk-invite-rows">
@@ -49,8 +54,17 @@
     </div>
 
     <div class="bulk-invite-actions">
-      {{d-button class="send-bulk-invites btn-primary" label="discourse_post_event.bulk_invite_modal.send_bulk_invites" action=(action "sendBulkInvites") disabled=bulkInviteDisabled}}
-      {{d-button class="add-bulk-invite" icon="plus" action=(action "addBulkInvite")}}
+      {{d-button
+        class="send-bulk-invites btn-primary"
+        label="discourse_post_event.bulk_invite_modal.send_bulk_invites"
+        action=(action "sendBulkInvites")
+        disabled=bulkInviteDisabled
+      }}
+      {{d-button
+        class="add-bulk-invite"
+        icon="plus"
+        action=(action "addBulkInvite")
+      }}
     </div>
 
   </div>
@@ -63,7 +77,9 @@
 
       {{csv-uploader
         id="discourse-post-event-csv-uploader"
-        uploadUrl=(concat "/discourse-post-event/events/" model.eventModel.id "/csv-bulk-invite")
+        uploadUrl=(concat
+          "/discourse-post-event/events/" model.eventModel.id "/csv-bulk-invite"
+        )
         i18nPrefix="discourse_post_event.bulk_invite_modal"
         uploading=uploading
         uploadDone=(action "uploadDone")

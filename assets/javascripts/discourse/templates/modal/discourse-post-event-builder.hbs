@@ -13,7 +13,10 @@
         onChange=(action "onChangeDates")
       }}
 
-      {{#event-field class="name" label="discourse_post_event.builder_modal.name.label"}}
+      {{#event-field
+        class="name"
+        label="discourse_post_event.builder_modal.name.label"
+      }}
         {{input
           value=(readonly model.eventModel.name)
           placeholderKey="discourse_post_event.builder_modal.name.placeholder"
@@ -21,7 +24,10 @@
         }}
       {{/event-field}}
 
-      {{#event-field class="url" label="discourse_post_event.builder_modal.url.label"}}
+      {{#event-field
+        class="url"
+        label="discourse_post_event.builder_modal.url.label"
+      }}
         {{input
           value=(readonly model.eventModel.url)
           placeholderKey="discourse_post_event.builder_modal.url.placeholder"
@@ -29,7 +35,10 @@
         }}
       {{/event-field}}
 
-      {{#event-field class="timezone" label="discourse_post_event.builder_modal.timezone.label"}}
+      {{#event-field
+        class="timezone"
+        label="discourse_post_event.builder_modal.timezone.label"
+      }}
         {{timezone-input
           value=model.eventModel.timezone
           onChange=(action "onChangeTimezone")
@@ -47,8 +56,12 @@
             onChange=(action "onChangeStatus")
           }}
           <span class="message">
-            <span class="title">{{i18n "discourse_post_event.models.event.status.public.title"}}</span>
-            <span class="description">{{i18n "discourse_post_event.models.event.status.public.description"}}</span>
+            <span class="title">{{i18n
+                "discourse_post_event.models.event.status.public.title"
+              }}</span>
+            <span class="description">{{i18n
+                "discourse_post_event.models.event.status.public.description"
+              }}</span>
           </span>
         </label>
         <label class="radio-label">
@@ -59,8 +72,12 @@
             onChange=(action "onChangeStatus")
           }}
           <span class="message">
-            <span class="title">{{i18n "discourse_post_event.models.event.status.private.title"}}</span>
-            <span class="description">{{i18n "discourse_post_event.models.event.status.private.description"}}</span>
+            <span class="title">{{i18n
+                "discourse_post_event.models.event.status.private.title"
+              }}</span>
+            <span class="description">{{i18n
+                "discourse_post_event.models.event.status.private.description"
+              }}</span>
           </span>
         </label>
         <label class="radio-label">
@@ -71,13 +88,20 @@
             onChange=(action "onChangeStatus")
           }}
           <span class="message">
-            <span class="title">{{i18n "discourse_post_event.models.event.status.standalone.title"}}</span>
-            <span class="description">{{i18n "discourse_post_event.models.event.status.standalone.description"}}</span>
+            <span class="title">{{i18n
+                "discourse_post_event.models.event.status.standalone.title"
+              }}</span>
+            <span class="description">{{i18n
+                "discourse_post_event.models.event.status.standalone.description"
+              }}</span>
           </span>
         </label>
       {{/event-field}}
 
-      {{#event-field enabled=allowsInvitees label="discourse_post_event.builder_modal.invitees.label"}}
+      {{#event-field
+        enabled=allowsInvitees
+        label="discourse_post_event.builder_modal.invitees.label"
+      }}
         {{group-selector
           fullWidthWrap=true
           groupFinder=groupFinder
@@ -87,7 +111,10 @@
         }}
       {{/event-field}}
 
-      {{#event-field class="reminders" label="discourse_post_event.builder_modal.reminders.label"}}
+      {{#event-field
+        class="reminders"
+        label="discourse_post_event.builder_modal.reminders.label"
+      }}
         <div class="reminders-list">
           {{#each model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
@@ -145,24 +172,35 @@
         }}
       {{/event-field}}
 
-      {{#event-field class="recurrence" label="discourse_post_event.builder_modal.recurrence.label"}}
+      {{#event-field
+        class="recurrence"
+        label="discourse_post_event.builder_modal.recurrence.label"
+      }}
         {{combo-box
           class="available-recurrences"
           value=(readonly model.eventModel.recurrence)
           content=availableRecurrences
           onChange=(action (mut model.eventModel.recurrence))
-          options=(hash none="discourse_post_event.builder_modal.recurrence.none")
+          options=(hash
+            none="discourse_post_event.builder_modal.recurrence.none"
+          )
         }}
       {{/event-field}}
 
       {{#if allowedCustomFields.length}}
-        {{#event-field label="discourse_post_event.builder_modal.custom_fields.label"}}
-          <p class="event-field-description">{{i18n "discourse_post_event.builder_modal.custom_fields.description"}}</p>
+        {{#event-field
+          label="discourse_post_event.builder_modal.custom_fields.label"
+        }}
+          <p class="event-field-description">{{i18n
+              "discourse_post_event.builder_modal.custom_fields.description"
+            }}</p>
           {{#each allowedCustomFields as |allowedCustomField|}}
             <span class="label custom-field-label">{{allowedCustomField}}</span>
             {{input
               class="custom-field-input"
-              value=(readonly (get model.eventModel.custom_fields allowedCustomField))
+              value=(readonly
+                (get model.eventModel.custom_fields allowedCustomField)
+              )
               placeholderKey="discourse_post_event.builder_modal.custom_fields.placeholder"
               input=(action "onChangeCustomField" allowedCustomField)
             }}
@@ -191,10 +229,6 @@
       action=(action "updateEvent")
     }}
 
-    {{d-button
-      icon="trash-alt"
-      class="btn-danger"
-      action="destroyPostEvent"
-    }}
+    {{d-button icon="trash-alt" class="btn-danger" action="destroyPostEvent"}}
   {{/if}}
 </div>
