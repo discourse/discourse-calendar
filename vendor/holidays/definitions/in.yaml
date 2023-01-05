@@ -3,95 +3,131 @@
 ---
 months:
   1:
+  - name: New Year's Day
+    regions: [in_tn]
+    mday: 1
+  - name: Thiruvalluvar Day
+    regions: [in_tn]
+    mday: 16
+    year_ranges:
+      limited: [2023]
+  - name: Uzhavar Thirunal
+    regions: [in_tn]
+    mday: 17
+    year_ranges:
+      limited: [2023]
   - name: Republic Day
     regions: [in]
     mday: 26
     observed: to_weekday_if_weekend(date)
-  - name: Pongal
-    regions: [in]
-    mday: 14
-    year_ranges:
-      limited: [2022]
   3:
-  - name: Maha Shivaratri
-    regions: [in]
-    mday: 1
-    year_ranges:
-      limited: [2022]
   - name: Holi
-    regions: [in]
-    mday: 18
+    regions: [in_rj]
+    mday: 7
     year_ranges:
-      limited: [2022]
+      limited: [2023]
+  - name: Holi
+    regions: [in_mh]
+    mday: 8
+    year_ranges:
+      limited: [2023]
+  - name: Ramnavmi
+    regions: [in_rj, in_mh]
+    mday: 30
+    year_ranges:
+      limited: [2023]
   4:
+  - name: Mahavir Jayanti
+    regions: [in_rj, in_tn]
+    mday: 4
+  - name: Good Friday
+    regions: [in_rj, in_mh, in_tn]
+    mday: 7
+    year_ranges:
+      limited: [2023]
   - name: Ambedkar Jayanti
-    regions: [in]
+    regions: [in_rj, in_mh]
+    mday: 14
+  - name: Tamil New Year's Day
+    regions: [in_tn]
     mday: 14
   5:
-  - name: Eid al-Fitr
-    regions: [in]
-    mday: 3
+  - name: Maharashtra Day
+    regions: [in_mh]
+    mday: 1
+  - name: Labour's Day
+    regions: [in_tn]
+    mday: 1
+  - name: Buddha Purnima
+    regions: [in_rj]
+    mday: 5
     year_ranges:
-      limited: [2022]
-  7:
+      limited: [2023]
+  6:
   - name: Eid al-Adha
-    regions: [in]
-    mday: 10
+    regions: [in_rj, in_tn]
+    mday: 29
     year_ranges:
-      limited: [2022]
+      limited: [2023]
   8:
-  - name: Muharram
-    regions: [in]
-    mday: 9
-    year_ranges:
-      limited: [2022]
-  - name: Raksha Bandhan
-    regions: [in]
-    mday: 11
-    year_ranges:
-      limited: [2022]
   - name: Independence Day
     regions: [in]
     mday: 15
     observed: to_weekday_if_weekend(date)
+  - name: Raksha Bandhan
+    regions: [in_rj, in_mh]
+    mday: 30
+    year_ranges:
+      limited: [2023]
+  9:
+  - name: Krishna Jayanthi
+    regions: [in_tn]
+    mday: 6
+    year_ranges:
+      limited: [2023]
   - name: Janmashtami
-    regions: [in]
+    regions: [in_rj, in_mh]
+    mday: 7
+    year_ranges:
+      limited: [2023]
+  - name: Ganesh Chaturthi
+    regions: [in_rj, in_mh]
     mday: 19
     year_ranges:
-      limited: [2022]
-  - name: Ganesh Chaturthi
-    regions: [in]
-    mday: 31
+      limited: [2023]
+  - name: Milad-un-Nabi
+    regions: [in_tn]
+    mday: 28
     year_ranges:
-      limited: [2022]
+      limited: [2023]
   10:
   - name: Gandhi Jayanti
     regions: [in]
     mday: 2
     observed: to_weekday_if_weekend(date)
-  - name: Dussehra
-    regions: [in]
-    mday: 5
+  - name: Ayutha Pooja
+    regions: [in_tn]
+    mday: 23
     year_ranges:
-      limited: [2022]
-  - name: Diwali
-    regions: [in]
+      limited: [2023]
+  - name: Dussehra
+    regions: [in_rj, in_mh, in_tn]
     mday: 24
     year_ranges:
-      limited: [2022]
-  - name: Govardhan Puja
-    regions: [in]
-    mday: 25
-    year_ranges:
-      limited: [2022]
+      limited: [2023]
   11:
-  - name: Guru Nanak Jayanti
-    regions: [in]
-    mday: 8
+  - name: Govardhan Puja
+    regions: [in_rj]
+    mday: 13
     year_ranges:
-      limited: [2022]
+      limited: [2023]
+  - name: Guru Nanak Jayanti
+    regions: [in_rj, in_mh]
+    mday: 27
+    year_ranges:
+      limited: [2023]
   12:
   - name: Christmas Day
-    regions: [in]
+    regions: [in_rj, in_mh, in_tn]
     mday: 25
     observed: to_weekday_if_weekend(date)
