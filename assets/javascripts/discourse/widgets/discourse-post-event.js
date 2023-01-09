@@ -91,10 +91,15 @@ export default createWidget("discourse-post-event", {
 
   changeWatchingInviteeStatus(status) {
     if (this.state.eventModel.watching_invitee) {
+      const currentStatus = this.state.eventModel.watching_invitee.status;
+      let newStatus = status;
+      if (status === currentStatus && status === "interested") {
+        newStatus = null;
+      }
       this.store.update(
         "discourse-post-event-invitee",
         this.state.eventModel.watching_invitee.id,
-        { status, post_id: this.state.eventModel.id }
+        { status: newStatus, post_id: this.state.eventModel.id }
       );
     } else {
       this.store
