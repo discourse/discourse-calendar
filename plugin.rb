@@ -92,7 +92,7 @@ after_initialize do
     GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
 
     def self.users_on_holiday
-      PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY)
+      PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY) || []
     end
 
     def self.users_on_holiday=(usernames)
