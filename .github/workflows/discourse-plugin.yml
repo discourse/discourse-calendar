@@ -8,4 +8,4 @@ on:
 
 jobs:
   ci:
-    uses: discourse/.github/.github/workflows/discourse-plugin.yml@v1
+    uses: discourse/.github/.github/workflows/discourse-plugin.yml@912ff68e7cf73260c32975b33244d7d2efb5b23d
