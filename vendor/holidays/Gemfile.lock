@@ -25,6 +25,7 @@ GEM
       power_assert
 
 PLATFORMS
+  arm64-darwin-21
   arm64-darwin-22
   x86_64-linux
 
@@ -38,4 +39,4 @@ DEPENDENCIES
   test-unit (~> 3)
 
 BUNDLED WITH
-   2.2.18
+   2.3.4
