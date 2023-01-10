@@ -7,12 +7,16 @@
 tr_TR:
   admin_js:
     admin:
+      calendar: "Takvim"
       site_settings:
         categories:
           discourse_post_event: "Discourse Etkinliği"
           discourse_calendar: "Discourse Takvimi"
   js:
     notifications:
+      titles:
+        event_reminder: "etkinlik hatırlatıcısı"
+        event_invitation: "etkinlik daveti"
       popup:
         event_reminder: Etkinlik hatırlatıcısı
     discourse_automation:
@@ -25,7 +29,14 @@ tr_TR:
     discourse_calendar:
       invite_user_notification: "%{username} sizi %{description} etkinliğine katılmaya davet etti"
       on_holiday: "Tatilde"
+      disable_holiday: "Devre dışı bırak"
+      enable_holiday: "Etkinleştir"
       holiday: "Tatil"
+      holidays:
+        header_title: "Tatiller"
+        pick_region_description: "Bir bölge seçerek o bölgenin tatil günlerini görebilirsiniz."
+        disabled_holidays_description: "Devre dışı bırakılan tatiller personel tatil takviminin dışında tutulacak."
+      date: "Tarih"
       add_to_calendar: "Google Takvim'e Ekle"
       region:
         title: "Bölge"
@@ -53,6 +64,8 @@ tr_TR:
           bg_bg: "Bulgaristan (bg_bg)"
           bg_en: "Bulgaristan (bg_bg)"
           br: "Brezilya"
+          br_sp: "Brezilya (br_sp)"
+          br_spcapital: "Brezilya (br_spcapital)"
           ca_ab: "Kanada (ca_ab)"
           ca_bc: "Kanada (ca_ab)"
           ca_mb: "Kanada (ca_mb)"
@@ -157,9 +170,11 @@ tr_TR:
           gb: "Birleşik Krallık"
           ge: "Gürcistan"
           gg: "Guernsey"
+          gh: "Gana"
           hk: "Hong Kong"
           hr: "Hırvatistan"
           hu: "Macaristan"
+          id: "Endonezya"
           ie: "İrlanda"
           im: "Man Adası"
           in: "Hindistan"
@@ -179,6 +194,7 @@ tr_TR:
           je: "Jersey"
           jp: "Japonya"
           kr: "Kore Cumhuriyeti"
+          kz: "Kazakistan (Cumhuriyeti)"
           li: "Lihtenştayn"
           lt: "Litvanya"
           lu: "Lüksemburg"
@@ -288,7 +304,15 @@ tr_TR:
       group_availability: "%{group} uygunluğu"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username}, katılımınızı otomatik olarak ayarladı ve sizi şuraya davet etti:"
+        before_event_reminder: "Bir etkinlik başlamak üzere"
+        after_event_reminder: "Bir etkinlik sona erdi"
+        ongoing_event_reminder: "Bir etkinlik devam ediyor"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username}, katılımınızı otomatik olarak ayarladı ve sizi %{description} adlı etkinliğe davet etti"
+        before_event_reminder_html: "Bir etkinlik başlamak üzere %{description}"
+        after_event_reminder_html: "Bir etkinlik sona erdi %{description}"
+        ongoing_event_reminder_html: "Bir etkinlik devam ediyor  %{description}"
       preview:
         more_than_one_event: "Birden fazla etkinliğiniz olamaz."
       edit_reason: "Etkinlik güncellendi"
@@ -324,6 +348,7 @@ tr_TR:
         invite: "Kullanıcıları bilgilendir"
         add_to_calendar: "Takvime ekle"
         send_pm_to_creator: "%{username} kullanıcısına PM gönder"
+        leave: "Etkinlikten ayrıl"
         edit_event: "Etkinliği düzenle"
         export_event: "Etkinliği dışarı aktar"
         created_by: "Oluşturan"
@@ -366,6 +391,17 @@ tr_TR:
           remove_timezone: Saat dilimi yok (UTC)
         reminders:
           label: "Hatırlatıcılar"
+          types:
+            bump_topic: "konuyu otomatik üste sıçrat"
+            notification: "katılımcıları bilgilendirin"
+          units:
+            minutes: "dakika"
+            hours: "saat"
+            days: "gün"
+            weeks: "hafta"
+          periods:
+            before: "önce"
+            after: "sonra"
         recurrence:
           label: "Yineleme"
           none: "Yineleme yok"
@@ -392,3 +428,8 @@ tr_TR:
         creator: "Yaratıcı"
         status: "Durum"
         starts_at: "Şu adrese başlar"
+    category:
+      sort_topics_by_event_start_date: "Konuları etkinlik başlangıç tarihine göre sıralayın."
+      disable_topic_resorting: "Konu yeniden sıralamasını devre dışı bırakın."
+      settings_sections:
+        event_sorting: "Etkinlik Sıralama"
