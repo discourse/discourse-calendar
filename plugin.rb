@@ -254,7 +254,9 @@ after_initialize do
     SiteSetting.discourse_post_event_enabled && !object.nil? && !object.deleted_at.present?
   end
 
-  on(:post_process_cooked) { |doc, post| DiscoursePostEvent::Event.update_from_raw(post) }
+  on(:post_created) { |post| DiscoursePostEvent::Event.update_from_raw(post) }
+
+  on(:post_edited) { |post| DiscoursePostEvent::Event.update_from_raw(post) }
 
   on(:post_destroyed) do |post|
     if SiteSetting.discourse_post_event_enabled && post.event
