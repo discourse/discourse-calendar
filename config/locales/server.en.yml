@@ -59,6 +59,9 @@ en:
     event_expired: "Event expired"
     holiday_status:
       description: "On holiday"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Event Reminder"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} is about to start."
