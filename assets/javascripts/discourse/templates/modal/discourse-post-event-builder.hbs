@@ -187,7 +187,10 @@
         }}
       {{/event-field}}
 
-      {{#event-field class="minimal-event" label="discourse_post_event.builder_modal.minimal.label"}}
+      {{#event-field
+        class="minimal-event"
+        label="discourse_post_event.builder_modal.minimal.label"
+      }}
         <label class="checkbox-label">
           <Input @type="checkbox" @checked={{model.eventModel.minimal}} />
           <span class="message">
