@@ -313,6 +313,7 @@ module DiscoursePostEvent
           reminders: event_params[:reminders],
           raw_invitees:
             event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(",") : nil,
+          minimal: event_params[:minimal],
         }
 
         params[:custom_fields] = {}
@@ -418,4 +419,5 @@ end
 #  reminders          :string
 #  recurrence         :string
 #  timezone           :string
+#  minimal            :boolean          default(FALSE), not null
 #

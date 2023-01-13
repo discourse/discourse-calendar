@@ -13,8 +13,12 @@ export default createWidget("discourse-post-event-status", {
   },
 
   template: hbs`
-    {{attach widget="going-button"}}
+    {{#unless attrs.minimal}}
+      {{attach widget="going-button"}}
+    {{/unless}}
     {{attach widget="interested-button"}}
-    {{attach widget="not-going-button"}}
+    {{#unless attrs.minimal}}
+      {{attach widget="not-going-button"}}
+    {{/unless}}
   `,
 });

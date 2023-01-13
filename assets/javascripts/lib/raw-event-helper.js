@@ -25,6 +25,10 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
     params.recurrence = eventModel.recurrence;
   }
 
+  if (eventModel.minimal) {
+    params.minimal = "true";
+  }
+
   if (endsAt) {
     params.end = moment(endsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
   }

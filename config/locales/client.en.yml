@@ -411,6 +411,9 @@ en:
           every_weekday: "Every weekday"
           every_week: "Every week at this weekday"
           every_two_weeks: "Every two weeks at this weekday"
+        minimal:
+          label: "Minimal event"
+          checkbox_label: "Hide Going/Not going buttons and invitees status"
         url:
           label: "URL"
           placeholder: "Optional"
