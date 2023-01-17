@@ -18,6 +18,16 @@ describe DiscourseCalendar::CreateHolidayEvents do
     SiteSetting.holiday_calendar_topic_id = calendar_post.topic_id
   end
 
+  it "can be disabled" do
+    SiteSetting.calendar_automatic_holidays_enabled = false
+
+    frenchy
+    freeze_time Time.zone.local(2019, 8, 1)
+    subject.execute(nil)
+
+    expect(CalendarEvent.where(user_id: frenchy.id).count).to eq(0)
+  end
+
   it "adds all holidays in the next 6 months" do
     frenchy
     freeze_time Time.zone.local(2019, 8, 1)
