@@ -63,6 +63,9 @@ he:
     event_expired: "תוקף האירוע פג"
     holiday_status:
       description: "בחג"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "תזכורת לאירוע"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} עומד להתחיל."

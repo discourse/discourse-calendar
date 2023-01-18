@@ -178,6 +178,10 @@ he:
           ie: "אירלנד"
           im: "האי מאן"
           in: "הודו"
+          in_gj: "הודו (in_gj)"
+          in_mh: "הודו (in_mh)"
+          in_rj: "הודו (in_rj)"
+          in_tn: "הודו (in_tn)"
           is: "איסלנד"
           it_bl: "איטליה (it_bl)"
           it_fi: "איטליה (it_fi)"
@@ -412,6 +416,9 @@ he:
           every_weekday: "כל יום חול"
           every_week: "כל שבוע ביום הזה בשבוע"
           every_two_weeks: "כל שבועיים ביום הזה בשבוע"
+        minimal:
+          label: "אירוע מזערי"
+          checkbox_label: "הסתרת כפתורי הצטרפות/העדרות ומצב מוזמנים"
         url:
           label: "כתובת"
           placeholder: "רשות"
