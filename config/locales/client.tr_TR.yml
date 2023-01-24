@@ -22,12 +22,12 @@ tr_TR:
     discourse_automation:
       triggerables:
         event_started:
-          title: Etkinlik Başladı
+          title: Etkinlik başladı
           fields:
             topic_id:
-              label: Konu ID'si
+              label: Konu kimliği
     discourse_calendar:
-      invite_user_notification: "%{username} sizi %{description} etkinliğine katılmaya davet etti"
+      invite_user_notification: "%{username} sizi şuraya davet etti: %{description}"
       on_holiday: "Tatilde"
       disable_holiday: "Devre dışı bırak"
       enable_holiday: "Etkinleştir"
@@ -35,7 +35,7 @@ tr_TR:
       holidays:
         header_title: "Tatiller"
         pick_region_description: "Bir bölge seçerek o bölgenin tatil günlerini görebilirsiniz."
-        disabled_holidays_description: "Devre dışı bırakılan tatiller personel tatil takviminin dışında tutulacak."
+        disabled_holidays_description: "Devre dışı bırakılan tatiller personel tatil takviminin dışında tutulur."
       date: "Tarih"
       add_to_calendar: "Google Takvim'e Ekle"
       region:
@@ -193,7 +193,7 @@ tr_TR:
           it: "İtalya"
           je: "Jersey"
           jp: "Japonya"
-          kr: "Kore Cumhuriyeti"
+          kr: "Kore (Cumhuriyeti)"
           kz: "Kazakistan (Cumhuriyeti)"
           li: "Lihtenştayn"
           lt: "Litvanya"
@@ -300,7 +300,7 @@ tr_TR:
           vi: "Virgin Adaları (ABD)"
           za: "Güney Afrika"
     group_timezones:
-      search: "Arama..."
+      search: "Ara..."
       group_availability: "%{group} uygunluğu"
     discourse_post_event:
       notifications:
@@ -319,21 +319,21 @@ tr_TR:
       topic_title:
         starts_at: "Etkinlik başlayacak: %{date}"
         ended_at: "Etkinlik sona erdi: %{date}"
-        ends_in_duration: "%{duration} biter"
+        ends_in_duration: "Sona erme zamanı: %{duration}"
       models:
         invitee:
           no_users: "Bu türde kullanıcı yok."
           status:
             unknown: "İlgilenmiyorum"
-            going: "Gidiyor"
-            not_going: "Gitmiyor"
-            interested: "Ilgilenen"
+            going: "Gidiyorum"
+            not_going: "Gitmiyorum"
+            interested: "İlgileniyorum"
         event:
           expired: "Süresi doldu"
           status:
             standalone:
               title: "Bağımsız"
-              description: "Bağımsız bir olay birleştirilemez."
+              description: "Bağımsız bir etkinliğe katılınamaz."
             public:
               title: "Herkese Açık"
               description: "Herkese açık bir etkinliğe herkes katılabilir."
@@ -341,21 +341,21 @@ tr_TR:
               title: "Özel"
               description: "Özel bir etkinliğe yalnızca davet edilen kullanıcılar katılabilir."
       event_ui:
-        show_all: "Hepsini Göster ↓"
+        show_all: "Tümünü göster"
         participants:
           one: "%{count} kullanıcı katıldı."
           other: "%{count} kullanıcı katıldı."
-        invite: "Kullanıcıları bilgilendir"
+        invite: "Kullanıcıya bildir"
         add_to_calendar: "Takvime ekle"
-        send_pm_to_creator: "%{username} kullanıcısına PM gönder"
+        send_pm_to_creator: "%{username} adlı kullanıcıya özel mesaj gönder"
         leave: "Etkinlikten ayrıl"
         edit_event: "Etkinliği düzenle"
-        export_event: "Etkinliği dışarı aktar"
-        created_by: "Oluşturan"
+        export_event: "Etkinliği dışa aktar"
+        created_by: "Oluşturan:"
         bulk_invite: "Toplu Davet"
         close_event: "Etkinliği kapat"
       invitees_modal:
-        title_invited: "LCV'lenen kullanıcıların listesi"
+        title_invited: "Yanıt veren kullanıcıların listesi"
         title_participated: "Katılan kullanıcıların listesi"
         filter_placeholder: "Kullanıcıları filtrele"
       bulk_invite_modal:
@@ -368,8 +368,8 @@ tr_TR:
         description_public: "Herkese açık etkinlikler yalnızca toplu davetler için kullanıcı adlarını kabul eder."
         description_private: "Özel etkinlikler yalnızca toplu davetler için grup adlarını kabul eder."
         download_sample_csv: "Örnek bir CSV dosyası indirin"
-        send_bulk_invites: "Davet gönder"
-        group_selector_placeholder: "Bir grup seçin..."
+        send_bulk_invites: "Davet gönderin"
+        group_selector_placeholder: "Grup seçin..."
         user_selector_placeholder: "Kullanıcı seçin..."
         inline_title: "Satır içi toplu davet"
         csv_title: "CSV toplu daveti"
@@ -378,8 +378,8 @@ tr_TR:
           label: "Özel Alanlar"
           placeholder: "İsteğe bağlı"
           description: "İzin verilen özel alanlar site ayarlarında tanımlanır. Özel alanlar, verileri diğer eklentilere iletmek için kullanılır."
-        create_event_title: "Etkinlik Oluştur"
-        update_event_title: "Etkinliği Düzenle"
+        create_event_title: "Etkinlik oluşturun"
+        update_event_title: "Etkinliği düzenleyin"
         confirm_delete: "Bu etkinliği silmek istediğinizden emin misiniz?"
         confirm_close: "Bu etkinliği kapatmak istediğinizden emin misiniz?"
         create: "Oluştur"
@@ -390,7 +390,7 @@ tr_TR:
           label: Saat dilimi
           remove_timezone: Saat dilimi yok (UTC)
         reminders:
-          label: "Hatırlatıcılar"
+          label: "Anımsatıcılar"
           types:
             bump_topic: "konuyu otomatik üste sıçrat"
             notification: "katılımcıları bilgilendirin"
@@ -406,10 +406,10 @@ tr_TR:
           label: "Yineleme"
           none: "Yineleme yok"
           every_day: "Her gün"
-          every_month: "Her ay bu hafta içi"
+          every_month: "Her ay bu hafta içi günü"
           every_weekday: "Hafta içi her gün"
-          every_week: "Her hafta bugün"
-          every_two_weeks: "İki haftada bir bugün"
+          every_week: "Her hafta bu hafta içi günü"
+          every_two_weeks: "İki haftada bir bu hafta içi günü"
         url:
           label: "URL"
           placeholder: "İsteğe bağlı"
@@ -424,10 +424,10 @@ tr_TR:
         title: "Kullanıcıları veya grupları bilgilendir"
         invite: "Gönder"
       upcoming_events:
-        title: "Yaklaşan Etkinlikler"
+        title: "Yaklaşan etkinlikler"
         creator: "Yaratıcı"
         status: "Durum"
-        starts_at: "Şu adrese başlar"
+        starts_at: "Başlangıç:"
     category:
       sort_topics_by_event_start_date: "Konuları etkinlik başlangıç tarihine göre sıralayın."
       disable_topic_resorting: "Konu yeniden sıralamasını devre dışı bırakın."
