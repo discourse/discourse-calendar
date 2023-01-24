@@ -1,7 +1,5 @@
 import { emojiUrlFor } from "discourse/lib/text";
 
-const HOLIDAY_EMOJI_NAME = "desert_island";
-
 export default {
   shouldRender(args, context) {
     return (
@@ -12,9 +10,11 @@ export default {
   },
 
   setupComponent(args, component) {
+    const holidayEmojiName =
+      this.get("siteSettings.holiday_status_emoji") || "date";
     component.setProperties({
-      holidayEmojiName: `:${HOLIDAY_EMOJI_NAME}:`,
-      holidayEmoji: emojiUrlFor(HOLIDAY_EMOJI_NAME),
+      holidayEmojiName: `:${holidayEmojiName}:`,
+      holidayEmoji: emojiUrlFor(holidayEmojiName),
     });
   },
 };

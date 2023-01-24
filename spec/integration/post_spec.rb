@@ -572,7 +572,7 @@ describe Post do
         status = post.user.user_status
         expect(status).to be_present
         expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
-        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.emoji).to eq(SiteSetting.holiday_status_emoji)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
       end
 
@@ -592,6 +592,44 @@ describe Post do
         expect(status.description).to eq(custom_status[:description])
         expect(status.emoji).to eq(custom_status[:emoji])
       end
+
+      context "when custom emoji is set" do
+        custom_emoji = "palm_tree"
+
+        before { SiteSetting.holiday_status_emoji = custom_emoji }
+
+        it "sets holiday user status with custom emoji" do
+          freeze_time Time.utc(2018, 6, 5, 10, 30)
+
+          raw =
+            'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+          post = create_post(raw: raw, topic: calendar_post.topic)
+
+          status = post.user.user_status
+          expect(status).to be_present
+          expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+          expect(status.emoji).to eq(custom_emoji)
+          expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+        end
+      end
+
+      context "when custom emoji is blank" do
+        before { SiteSetting.holiday_status_emoji = "" }
+
+        it "sets holiday user status with the default emoji" do
+          freeze_time Time.utc(2018, 6, 5, 10, 30)
+
+          raw =
+            'Vacation [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+          post = create_post(raw: raw, topic: calendar_post.topic)
+
+          status = post.user.user_status
+          expect(status).to be_present
+          expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
+          expect(status.emoji).to eq("date")
+          expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
+        end
+      end
     end
 
     context "when updating event dates" do
@@ -610,7 +648,7 @@ describe Post do
         status = post.user.user_status
         expect(status).to be_present
         expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
-        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.emoji).to eq(SiteSetting.holiday_status_emoji)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 0, 0))
       end
 
@@ -650,7 +688,7 @@ describe Post do
         status = post.user.user_status
         expect(status).to be_present
         expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
-        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.emoji).to eq(SiteSetting.holiday_status_emoji)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
 
         # after destroying the post the holiday status disappears:
@@ -671,7 +709,7 @@ describe Post do
         status = post.user.user_status
         expect(status).to be_present
         expect(status.description).to eq(I18n.t("discourse_calendar.holiday_status.description"))
-        expect(status.emoji).to eq(DiscourseCalendar::HolidayStatus::EMOJI)
+        expect(status.emoji).to eq(SiteSetting.holiday_status_emoji)
         expect(status.ends_at).to eq_time(Time.utc(2018, 6, 6, 10, 20))
 
         # user sets a custom status

@@ -38,6 +38,7 @@ en:
     discourse_post_event_allowed_custom_fields: "Allows to let each event to set the value of custom fields."
     discourse_post_event_edit_notifications_time_extension: "Extends (in minutes) the period after the end of an event when `going` invitees are still being notified from edit in the original post."
     holiday_calendar_topic_id: "Topic ID of staffs holiday / absence calendar."
+    holiday_status_emoji: Defines the emoji used for the holiday status.
     delete_expired_event_posts_after: "Posts with expired events will be automatically deleted after (n) hours. Set to -1 to disable deletion."
     all_day_event_start_time: "Events that do not have a start time specified will start at this time. Format is HH:mm. For 6:00 am, enter 06:00"
     all_day_event_end_time: "Events that do not have a end time specified will end at this time. Format is HH:mm. For 6:00 pm, enter 18:00"
