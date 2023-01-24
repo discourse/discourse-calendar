@@ -13,7 +13,7 @@ tr_TR:
   discourse_automation:
     triggerables:
       event_started:
-        title: Etkinlik Başladı
+        title: Etkinlik başladı
   system_messages:
     discourse_calendar_holiday_region_invalid: "Belirttiğiniz tatil bölgesi mevcut değil."
     discourse_calendar_enable_holiday_failed: "Bu tatil etkinleştirilemedi, zaten etkinleştirilmiş veya devre dışı bırakılmamış."
@@ -29,26 +29,26 @@ tr_TR:
 
         Günlük:
 
-        ```metin
+        ```text
         %{logs}
         ```
   site_settings:
     calendar_enabled: "discourse-calendar eklentisini etkinleştirin. Bu, bir konunun ilk gönderisine [calendar][/calendar] etiketi için destek ekleyecektir."
     discourse_post_event_enabled: "[experimental] Bir gönderiye bir olay eklemeyi etkinleştirir. Not: ayrıca etkinleştirilmesi için \"takvim etkin\" olmalıdır."
-    displayed_invitees_limit: "Bir etkinlikte görüntülenen davetlilerin sayısını sınırlar."
-    display_post_event_date_on_topic_title: "Konu başlığından sonra olayın tarihini görüntüler."
+    displayed_invitees_limit: "Bir etkinlikte gösterilen davetlilerin sayısını sınırlar."
+    display_post_event_date_on_topic_title: "Konu başlığından sonra olayın tarihini gösterir."
     use_local_event_date: "Konu başlığından sonra göreli zaman yerine yerel tarih kullanın."
     discourse_post_event_allowed_on_groups: "Etkinlik oluşturmasına izin verilen gruplar."
     discourse_post_event_allowed_custom_fields: "Her olayın özel alanların değerini ayarlamasına izin verir."
-    discourse_post_event_edit_notifications_time_extension: "Bir etkinliğin bitiminden sonraki süreyi (dakika olarak) uzatır, \"gidiyor\" davetliler orijinal gönderideki düzenlemeden hala haberdar edilir."
-    holiday_calendar_topic_id: "Personelin tatil / devamsızlık takviminin konu kimliği."
+    discourse_post_event_edit_notifications_time_extension: "Bir etkinliğin bitiminden sonraki süreyi (dakika olarak) uzatır, \"gidiyor\" davetliler orijinal gönderideki düzenlemeden yine de haberdar edilir."
+    holiday_calendar_topic_id: "Personelin tatil / izin takviminin konu kimliği."
     delete_expired_event_posts_after: "Süresi dolmuş etkinlikleri olan gönderiler (n) saat sonra otomatik olarak silinecektir. Silmeyi devre dışı bırakmak için -1'e ayarlayın."
-    all_day_event_start_time: "Başlangıç zamanı belirtilmeyen etkinlikler bu saatte başlayacaktır. Biçim SS:dd'dir. 06:00 için 06:00 girin"
-    all_day_event_end_time: "Bitiş saati belirtilmeyen etkinlikler bu saatte sona erecektir. Biçim SS:dd'dir. 18:00 için 18:00 girin"
-    all_day_event_time_error: "Geçersiz zaman. Biçim SS:dd (ör: 08:00) olmalıdır."
+    all_day_event_start_time: "Başlangıç zamanı belirtilmeyen etkinlikler bu saatte başlayacaktır. Biçim SS:dd'dir. Sabah 6 için 06.00 yazın"
+    all_day_event_end_time: "Bitiş saati belirtilmeyen etkinlikler bu saatte sona erecektir. Biçim SS:dd'dir. Öğleden sonra 6 için 18.00 girin"
+    all_day_event_time_error: "Geçersiz saat. Biçim SS:dd (ör: 08.00) olmalıdır."
     calendar_categories: "Bir kategorinin en üstünde bir takvim görüntüleyin. Zorunlu ayarlar, CategoryId ve postId'dir. ör.: CategoryId=6;postId=453\n Diğer geçerli ayarlar: tzPicker, hafta sonları ve defaultView."
     calendar_categories_outlet: "Kategori takvimini hangi çıkışın göstereceğini değiştirmeye izin verir."
-    working_days: "Çalışma günlerini ayarlayın. Bir gönderide \"zaman dilimleri\" etiketini kullanarak bir grubun uygunluğunu görüntüleyebilirsiniz, örneğin: `[timezones group=admins][timezones]`"
+    working_days: "Çalışma günlerini ayarlayın. Bir gönderide \"saat dilimleri\" etiketini kullanarak bir grubun uygunluğunu görüntüleyebilirsiniz, ör.: \"[timezones group=admins][timezones]\""
     working_day_start_hour: "Çalışma günü saatlerinin başlama saati."
     working_day_end_hour: "Çalışma günü saatlerinin bitiş saati."
     close_to_working_day_hours_extension: "Saat dilimlerini vurgulamak için çalışma günü saatlerinde uzatma süresini ayarlayın."
@@ -87,6 +87,6 @@ tr_TR:
           acting_user_not_allowed_to_act_on_this_event: "Mevcut kullanıcının bu etkinlik üzerinde işlem yapmasına izin verilmiyor."
           invalid_allowed_groups: "Geçersiz izin verilen gruplar."
           acting_user_not_allowed_to_invite_these_groups: "Mevcut kullanıcının bu grupları davet etmesine izin verilmiyor."
-          custom_field_is_invalid: "`%{field}` özel alanına izin verilmiyor."
+          custom_field_is_invalid: "\"%{field}\" özel alanına izin verilmiyor."
           name:
-            length: "Etkinlik adı uzunluğu %{minimum} ile %{maximum} karakter arasında olmalıdır."
+            length: "Etkinlik adı uzunluğu %{minimum} ila %{maximum} karakter olmalıdır."
