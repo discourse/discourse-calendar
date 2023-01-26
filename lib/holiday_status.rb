@@ -2,14 +2,15 @@
 
 module DiscourseCalendar
   class HolidayStatus
-    EMOJI = "desert_island"
-
     def self.set!(user, ends_at)
       status = user.user_status
-
       if status.blank? || status.expired? ||
            (is_holiday_status?(status) && status.ends_at != ends_at)
-        user.set_status!(I18n.t("discourse_calendar.holiday_status.description"), EMOJI, ends_at)
+        user.set_status!(
+          I18n.t("discourse_calendar.holiday_status.description"),
+          emoji_name,
+          ends_at,
+        )
       end
     end
 
@@ -20,8 +21,13 @@ module DiscourseCalendar
     private
 
     def self.is_holiday_status?(status)
-      status.emoji == EMOJI &&
+      status.emoji == emoji_name &&
         status.description == I18n.t("discourse_calendar.holiday_status.description")
+    end
+
+    def self.emoji_name
+      emoji = SiteSetting.holiday_status_emoji
+      emoji.blank? ? "date" : emoji
     end
   end
 end
