@@ -5,30 +5,23 @@ require "rails_helper"
 module DiscourseCalendar
   describe Holiday do
     describe ".find_holidays_for" do
-      before do
-        DisabledHoliday.create!(holiday_name: "New Year's Day", region_code: "sg")
-        DisabledHoliday.create!(holiday_name: "Chinese New Year", region_code: "sg")
-      end
+      before { DisabledHoliday.create!(holiday_name: "Saudi National Day", region_code: "sa") }
 
       let(:holidays) do
         Holiday.find_holidays_for(
-          region_code: "sg",
-          start_date: "2022-01-01",
-          end_date: "2022-04-30",
+          region_code: "sa",
+          start_date: "2023-02-21",
+          end_date: "2023-09-23",
         )
       end
 
       it "returns a list of holidays indicating whether a holiday is disabled or not" do
         expect(holidays).to include(
-          a_hash_including({ name: "New Year's Day", regions: [:sg], disabled: true }),
+          a_hash_including({ name: "Saudi National Day", regions: [:sa], disabled: true }),
         )
 
         expect(holidays).to include(
-          a_hash_including({ name: "Chinese New Year", regions: [:sg], disabled: true }),
-        )
-
-        expect(holidays).to include(
-          a_hash_including({ name: "Good Friday", regions: [:sg], disabled: false }),
+          a_hash_including({ name: "Foundation Day", regions: [:sa], disabled: false }),
         )
       end
 

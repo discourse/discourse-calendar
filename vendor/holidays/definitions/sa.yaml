@@ -2,6 +2,10 @@
 
 ---
 months:
+  2:
+  - name: Foundation Day
+    regions: [sa]
+    mday: 22
   5:
   - name: Festival of Breaking the Fast
     regions: [sa]
