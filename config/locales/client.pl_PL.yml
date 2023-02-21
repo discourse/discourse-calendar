@@ -5,3 +5,67 @@
 # https://translate.discourse.org/
 
 pl_PL:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: ID tematu
+    discourse_calendar:
+      disable_holiday: "Wyłącz"
+      enable_holiday: "Włącz"
+      date: "Data"
+      region:
+        none: "Brak"
+    group_timezones:
+      search: "Wyszukiwanie..."
+    discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
+      models:
+        event:
+          expired: "Wygasły"
+          status:
+            public:
+              title: "Publiczne"
+            private:
+              title: "Prywatne"
+      event_ui:
+        show_all: "Pokaż wszystkie"
+        add_to_calendar: "Dodaj do kalendarza"
+        created_by: "Utworzony przez"
+        bulk_invite: "Zaproszenie zbiorcze"
+      bulk_invite_modal:
+        confirm: "potwierdź"
+        title: "Zaproszenie zbiorcze"
+        success: "Plik został przesłany pomyślnie: otrzymasz prywatną wiadomość, gdy proces zostanie zakończony."
+        error: "Przykro nam, ale wymagany format pliku to CSV."
+      builder_modal:
+        custom_fields:
+          placeholder: "Opcjonalnie"
+        create: "Utwórz"
+        update: "Zapisz"
+        timezone:
+          label: Strefa czasowa
+        reminders:
+          units:
+            minutes: "minut"
+            hours: "godzin"
+            days: "dni"
+          periods:
+            before: "przed"
+            after: "po"
+        recurrence:
+          label: "Powtarzanie"
+          none: "Brak powtarzania"
+          every_day: "Codziennie"
+        url:
+          label: "URL"
+          placeholder: "Opcjonalnie"
+        status:
+          label: "Status"
+      invite_user_or_group:
+        invite: "Wyślij"
+      upcoming_events:
+        status: "Status"

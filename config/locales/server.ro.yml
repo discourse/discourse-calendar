@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 ro:
+  reports:
+    currently_away:
+      labels:
+        username: Nume de utilizator
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "A apărut o eroare la încărcarea acestui fișier. Te rugăm să încerci din nou, mai târziu."

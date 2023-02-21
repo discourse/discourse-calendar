@@ -5,6 +5,10 @@
 # https://translate.discourse.org/
 
 cs:
+  reports:
+    currently_away:
+      labels:
+        username: Uživatelské jméno
   site_settings:
     calendar_enabled: "Povolte plugin `discourse-calendar`. Přidá podporu pro značku `[calendar][/calendar]` v prvním příspěvku tématu."
     discourse_post_event_enabled: "[experimentální] Umožní připojit událost k příspěvku. Poznámka: musí být zapnuto nastavení `calendar enabled`."
@@ -29,6 +33,8 @@ cs:
     event_expired: "Událost uplynula"
   discourse_post_event:
     errors:
+      bulk_invite:
+        error: "Nastala chyba při nahrávání souboru. Prosím opakujte akci později."
       models:
         event:
           only_one_event: "Příspěvek může obsahovat jen jednu událost."

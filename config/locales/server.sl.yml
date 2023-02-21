@@ -5,6 +5,10 @@
 # https://translate.discourse.org/
 
 sl:
+  reports:
+    currently_away:
+      labels:
+        username: Uporabniško ime
   system_messages:
     discourse_post_event_bulk_invite_succeeded:
       title: "Dogodek - Skupinsko vabilo je uspelo"

@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 hr:
+  reports:
+    currently_away:
+      labels:
+        username: Korisničko ime
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Dogodila se greška pri učitavanju te datoteke. Molimo kasnije pokušajte ponovno."

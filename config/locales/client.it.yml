@@ -390,6 +390,13 @@ it:
           remove_timezone: Nessun fuso orario (UTC)
         reminders:
           label: "Promemoria"
+          units:
+            minutes: "minuti"
+            hours: "ore"
+            days: "giorni"
+          periods:
+            before: "prima del"
+            after: "dopo il"
         recurrence:
           label: "Periodico"
           none: "Non periodico"

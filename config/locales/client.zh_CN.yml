@@ -389,6 +389,13 @@ zh_CN:
           remove_timezone: 无时区 (UTC)
         reminders:
           label: "提醒"
+          units:
+            minutes: "分钟"
+            hours: "小时"
+            days: "天"
+          periods:
+            before: "早于"
+            after: "晚于"
         recurrence:
           label: "重复"
           none: "不重复"

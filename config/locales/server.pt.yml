@@ -5,7 +5,15 @@
 # https://translate.discourse.org/
 
 pt:
+  reports:
+    currently_away:
+      labels:
+        username: Nome de Utilizador
   discourse_automation:
     triggerables:
       event_started:
         title: Evento iniciado
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Ocorreu um erro ao carregar esse ficheiro. Por favor tente mais tarde."

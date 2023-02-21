@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 id:
+  reports:
+    currently_away:
+      labels:
+        username: Nama Pengguna
+  discourse_calendar:
+    invite_user_notification: "%{username} mengundang Anda ke: %{description}"

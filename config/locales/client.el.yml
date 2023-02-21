@@ -5,3 +5,62 @@
 # https://translate.discourse.org/
 
 el:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: Topic ID
+    discourse_calendar:
+      disable_holiday: "Απενεργοποίηση"
+      enable_holiday: "Ενεργοποίηση"
+      date: "Ημερομηνία"
+      region:
+        none: "Κανένα"
+    group_timezones:
+      search: "Αναζήτηση..."
+    discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
+      models:
+        event:
+          status:
+            public:
+              title: "Δημόσια"
+            private:
+              title: "Ιδιωτική"
+      event_ui:
+        created_by: "Δημιουργήθηκε από"
+        bulk_invite: "Μαζική πρόσκληση"
+      bulk_invite_modal:
+        title: "Μαζική πρόσκληση"
+        success: "Το αρχείο ανέβηκε. Θα ενημερωθείς με ένα μήνυμα όταν ολοκληρωθεί η διαδικασία."
+        error: "Λυπούμαστε, το αρχείο πρέπει να έχει την μορφή CSV."
+      builder_modal:
+        custom_fields:
+          placeholder: "Προεραιτικό"
+        create: "Δημιουργία"
+        update: "Αποθήκευση"
+        timezone:
+          label: Ζώνη ώρας
+        reminders:
+          units:
+            hours: "ώρες"
+            days: "ημέρες"
+          periods:
+            before: "πριν"
+            after: "μετά"
+        recurrence:
+          label: "Επανάληψη"
+          none: "Χωρίς επανάληψη"
+          every_day: "Κάθε μέρα"
+        url:
+          label: "URL"
+          placeholder: "Προεραιτικό"
+        status:
+          label: "Κατάσταση"
+      invite_user_or_group:
+        invite: "Αποστολή"
+      upcoming_events:
+        status: "Κατάσταση"

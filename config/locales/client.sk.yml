@@ -5,3 +5,46 @@
 # https://translate.discourse.org/
 
 sk:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: ID témy
+    discourse_calendar:
+      disable_holiday: "Zakázať"
+      enable_holiday: "Povoliť"
+      date: "Dátum"
+      region:
+        none: "Žiadny"
+    group_timezones:
+      search: "Hľadať"
+    discourse_post_event:
+      models:
+        event:
+          status:
+            public:
+              title: "Verejné"
+            private:
+              title: "Súkromné"
+      bulk_invite_modal:
+        success: "Súbor bol úspešne odoslaný. Keď sa nahrávanie dokončí, budete na to upozornený cez správu."
+        error: "Prepáčte, súbor musí byť v CSV formáte."
+      builder_modal:
+        custom_fields:
+          placeholder: "Nepovinné"
+        create: "Vytvoriť"
+        update: "Uložiť"
+        reminders:
+          units:
+            days: "dní"
+          periods:
+            before: "pred"
+            after: "po"
+        recurrence:
+          label: "Opakovanie"
+          none: "Žiadna opakovaná udalosť"
+        url:
+          label: "URL"
+          placeholder: "Nepovinné"

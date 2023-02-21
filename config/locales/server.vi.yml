@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 vi:
+  reports:
+    currently_away:
+      labels:
+        username: Tên tài khoản
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Đã xảy ra lỗi khi tải lên tệp đó. Vui lòng thử lại sau."

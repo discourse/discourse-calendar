@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 pl_PL:
+  reports:
+    currently_away:
+      labels:
+        username: Nazwa konta
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Wystąpił błąd podczas wgrywania tego pliku. Spróbuj ponownie później."

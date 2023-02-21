@@ -390,6 +390,13 @@ fr:
           remove_timezone: Pas de fuseau horaire (UTC)
         reminders:
           label: "Rappels"
+          units:
+            minutes: "minutes"
+            hours: "heures"
+            days: "jours"
+          periods:
+            before: "avant"
+            after: "après"
         recurrence:
           label: "Périodicité"
           none: "Pas de périodicité"

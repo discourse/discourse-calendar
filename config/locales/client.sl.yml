@@ -12,13 +12,23 @@ sl:
           discourse_post_event: "Dogodek Discourse"
           discourse_calendar: "Koledar Discourse"
   js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: ID teme
     discourse_calendar:
       invite_user_notification: "%{username} vas vabi na: %{description}"
       on_holiday: "Na počitnicah"
+      disable_holiday: "Onemogoči"
+      enable_holiday: "Omogoči"
       holiday: "Praznik"
+      date: "Datum"
       add_to_calendar: "Dodaj v Googlov koledar"
       region:
         title: "Regija"
+        none: "Brez"
         use_current_region: "Uporabi trenutno regijo"
         names:
           ar: "Argentina"
@@ -274,6 +284,12 @@ sl:
       search: "Išči..."
       group_availability: "Razpoložljivost %{group}"
     discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} vas je povabil na %{description} in vam določil udeležbo"
+        before_event_reminder_html: "Dogodek se bo kmalu pričel %{description}"
+        after_event_reminder_html: "Dogodek je zaključen %{description}"
+        ongoing_event_reminder_html: "Dogodek je v teku  %{description}"
       preview:
         more_than_one_event: "Dodaš lahko največ en dogodek."
       edit_reason: "Dogodek posodobljen"
@@ -347,8 +363,17 @@ sl:
         update: "Shrani"
         attach: "Ustvari dogodek"
         add_reminder: "Dodaj opomnik"
+        timezone:
+          label: Časovni pas
         reminders:
           label: "Opomniki"
+          units:
+            minutes: "minut"
+            hours: "ur"
+            days: "dnevi"
+          periods:
+            before: "pred"
+            after: "po"
         recurrence:
           label: "Ponavljanje"
           none: "Brez"

@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 ca:
+  reports:
+    currently_away:
+      labels:
+        username: Nom d'usuari
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Hi ha hagut un error en carregar aquest fitxer. Proveu-ho de nou més tard."

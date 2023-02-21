@@ -390,6 +390,13 @@ pt_BR:
           remove_timezone: Sem fuso horário (UTC)
         reminders:
           label: "Lembretes"
+          units:
+            minutes: "minutos"
+            hours: "horas"
+            days: "dias"
+          periods:
+            before: "antes"
+            after: "depois"
         recurrence:
           label: "Recorrência"
           none: "Sem recorrência"

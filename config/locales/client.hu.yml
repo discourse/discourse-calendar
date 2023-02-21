@@ -13,6 +13,8 @@ hu:
           discourse_calendar: "Discourse naptár"
   js:
     notifications:
+      titles:
+        event_reminder: "esemény emlékeztető"
       popup:
         event_reminder: Esemény emlékeztető
     discourse_automation:
@@ -25,7 +27,10 @@ hu:
     discourse_calendar:
       invite_user_notification: "%{username} meghívta erre: %{description}"
       on_holiday: "Szabadságon"
+      disable_holiday: "Kikapcsol"
+      enable_holiday: "Engedélyez"
       holiday: "Ünnep"
+      date: "Dátum"
       add_to_calendar: "Hozzáadás a Google Naptárhoz"
       region:
         title: "Régió"
@@ -289,6 +294,10 @@ hu:
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} automatikusan beállította a részvételét, és meghívta erre: %{description}"
+        before_event_reminder_html: "Egy esemény hamarosan elkezdődik: %{description}"
+        after_event_reminder_html: "Egy esemény véget ért: %{description}"
+        ongoing_event_reminder_html: "Egy esemény folyamatban van: %{description}"
       preview:
         more_than_one_event: "Nem lehet egynél több eseménye."
       edit_reason: "Esemény frissítve"
@@ -365,6 +374,13 @@ hu:
           remove_timezone: Nincs időzóna (UTC)
         reminders:
           label: "Emlékeztetők"
+          units:
+            minutes: "perc"
+            hours: "óra"
+            days: "nap"
+          periods:
+            before: "előtte"
+            after: "utána"
         recurrence:
           label: "Ismétlődés"
           none: "Nincs ismétlődés"

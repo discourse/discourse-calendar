@@ -9,7 +9,10 @@ id:
     discourse_calendar:
       invite_user_notification: "%{username} mengundang Anda ke: %{description}"
       on_holiday: "Saat Liburan"
+      disable_holiday: "Nonaktifkan"
+      enable_holiday: "Aktifkan"
       holiday: "Hari Libur"
+      date: "Tanggal"
       add_to_calendar: "Tambahkan ke Google Kalender"
       region:
         title: "Wilayah"
@@ -56,3 +59,35 @@ id:
           ch_ar: "Swiss (ch_ar)"
           ch_be: "Swiss (ch_be)"
           ch_bl: "Swiss (ch_bl)"
+    group_timezones:
+      search: "Cari..."
+    discourse_post_event:
+      models:
+        event:
+          status:
+            public:
+              title: "Umum"
+            private:
+              title: "Pribadi"
+      bulk_invite_modal:
+        success: "File telah sukses diunggah, anda akan mendapat pesan pemberitahuan saat proses telah selesai."
+        error: "Maaf, file harus dalam format CSV"
+      builder_modal:
+        custom_fields:
+          placeholder: "Opsional"
+        update: "Simpan"
+        timezone:
+          label: Zona Waktu
+        reminders:
+          units:
+            minutes: "menit"
+            hours: "jam"
+            days: "hari"
+        recurrence:
+          every_day: "Setiap hari"
+        url:
+          placeholder: "Opsional"
+        status:
+          label: "Status"
+      upcoming_events:
+        status: "Status"
