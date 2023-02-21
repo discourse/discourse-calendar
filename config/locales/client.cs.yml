@@ -12,13 +12,23 @@ cs:
           discourse_post_event: "Událost Discourse"
           discourse_calendar: "Kalendář Discourse"
   js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: ID tématu
     discourse_calendar:
       invite_user_notification: "%{username} vás zve do kalendáře: %{description}"
       on_holiday: "Na dovolené"
+      disable_holiday: "Vypnout"
+      enable_holiday: "Zapnout"
       holiday: "Dovolená"
+      date: "Datum"
       add_to_calendar: "Přidat do Kalendáře Google"
       region:
         title: "Region"
+        none: "Žádná"
         use_current_region: "Použít současný region"
         names:
           ar: "Argentina"
@@ -274,6 +284,8 @@ cs:
       search: "Hledat…"
       group_availability: "Dostupnost %{group}"
     discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
       preview:
         more_than_one_event: "Nemůžete mít více než jednu událost."
       edit_reason: "Událost aktualizována"
@@ -308,13 +320,35 @@ cs:
         title_invited: "Seznam pozvaných uživatelů"
         title_participated: "Seznam uživatelů, kteří se zúčastnili"
         filter_placeholder: "Filtrovat uživatele"
+      bulk_invite_modal:
+        success: "Nahrání souboru proběhlo úspěšně. O dokončení celého procesu budete informování pomocí zprávy."
+        error: "Omlouváme se, soubor by měl být ve formátu CSV."
       builder_modal:
+        custom_fields:
+          placeholder: "Volitelné"
         create_event_title: "Vytvořit událost"
         update_event_title: "Upravit událost"
         confirm_delete: "Určitě chcete tuto událost smazat?"
         create: "Vytvořit"
         update: "Uložit"
         attach: "Vytvořit událost"
+        timezone:
+          label: Časové pásmo
+        reminders:
+          units:
+            minutes: "minut"
+            hours: "hodin"
+            days: "dnů"
+          periods:
+            before: "před"
+            after: "po"
+        recurrence:
+          label: "Opakování"
+          none: "Bez opakování"
+          every_day: "každý den"
+        url:
+          label: "URL"
+          placeholder: "Volitelné"
         name:
           label: "Název události"
           placeholder: "Volitelný, ve výchozím stavu název tématu"

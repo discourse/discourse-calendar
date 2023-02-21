@@ -387,6 +387,13 @@ ru:
           remove_timezone: Без часового пояса (UTC)
         reminders:
           label: "Напоминания"
+          units:
+            minutes: "минут"
+            hours: "часов"
+            days: "Дней"
+          periods:
+            before: "До (включая)"
+            after: "Начиная с"
         recurrence:
           label: "Повторение"
           none: "Без повторения"

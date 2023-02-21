@@ -390,6 +390,13 @@ fi:
           remove_timezone: Ei aikavyöhykettä (UTC)
         reminders:
           label: "Muistutukset"
+          units:
+            minutes: "minuuttia"
+            hours: "tuntiin"
+            days: "päivää"
+          periods:
+            before: "ennen"
+            after: "jälkeen"
         recurrence:
           label: "Toistuvuus"
           none: "Ei toistu"

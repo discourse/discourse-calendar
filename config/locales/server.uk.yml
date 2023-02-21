@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 uk:
+  reports:
+    currently_away:
+      labels:
+        username: Імʼя користувача
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Під час завантаження цього файлу сталася помилка. Будь ласка, спробуйте пізніше."

@@ -390,6 +390,13 @@ de:
           remove_timezone: Keine Zeitzone (UTC)
         reminders:
           label: "Erinnerungen"
+          units:
+            minutes: "Minuten"
+            hours: "Stunden"
+            days: "Tage"
+          periods:
+            before: "Beiträge vor dem"
+            after: "Beiträge nach dem"
         recurrence:
           label: "Wiederholung"
           none: "Keine Wiederholung"

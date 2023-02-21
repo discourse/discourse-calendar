@@ -5,3 +5,67 @@
 # https://translate.discourse.org/
 
 uk:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: ID теми
+    discourse_calendar:
+      disable_holiday: "Відключити"
+      enable_holiday: "Включити"
+      date: "Дата"
+      region:
+        none: "Немає"
+    group_timezones:
+      search: "Пошук…"
+    discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
+      models:
+        event:
+          expired: "Термін дії закінчився"
+          status:
+            public:
+              title: "Публічні"
+            private:
+              title: "Приватні"
+      event_ui:
+        show_all: "Показати всі"
+        add_to_calendar: "Додати до календаря"
+        created_by: "Ким створено"
+        bulk_invite: "Масове запрошення"
+      bulk_invite_modal:
+        confirm: "підтвердити"
+        title: "Масове запрошення"
+        success: "Файл успішно завантажений, ви отримаєте повідомлення, коли процес буде завершений."
+        error: "Вибачте, але файл повинен бути у форматі CSV."
+      builder_modal:
+        custom_fields:
+          placeholder: "Опціонально"
+        create: "Створити"
+        update: "Зберегти"
+        timezone:
+          label: Часовий пояс
+        reminders:
+          units:
+            minutes: "хвилини"
+            hours: "години"
+            days: "дні"
+          periods:
+            before: "до"
+            after: "після"
+        recurrence:
+          label: "Повторення"
+          none: "Без повторів"
+          every_day: "Щодня"
+        url:
+          label: "Посилання"
+          placeholder: "Опціонально"
+        status:
+          label: "Статус"
+      invite_user_or_group:
+        invite: "Надіслати"
+      upcoming_events:
+        status: "Статус"

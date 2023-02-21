@@ -14,6 +14,8 @@ sv:
           discourse_calendar: "Discourse-kalender"
   js:
     notifications:
+      titles:
+        event_reminder: "händelsepåminnelse"
       popup:
         event_reminder: Händelsepåminnelse
     discourse_automation:
@@ -300,7 +302,12 @@ sv:
       group_availability: "%{group}-tillgänglighet"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till %{description}"
+        before_event_reminder_html: "Ett evenemang börjar snart %{description}"
+        after_event_reminder_html: "Ett evenemang har avslutats %{description}"
+        ongoing_event_reminder_html: "Ett evenemang pågår %{description}"
       preview:
         more_than_one_event: "Du kan inte ha mer än ett evenemang."
       edit_reason: "Evenemang uppdaterat"
@@ -378,6 +385,13 @@ sv:
           remove_timezone: Ingen tidszon (UTC)
         reminders:
           label: "Påminnelser"
+          units:
+            minutes: "minuter"
+            hours: "timmar"
+            days: "dagar"
+          periods:
+            before: "innan"
+            after: "efter"
         recurrence:
           label: "Upprepning"
           none: "Ingen upprepning"

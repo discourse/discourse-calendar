@@ -16,10 +16,13 @@ fa_IR:
   site_settings:
     events_calendar_categories: "نمایش رویدادهای تقویم در بالای دسته‌بندی"
   discourse_calendar:
+    invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
     holiday_status:
       description: "در تعطیلات"
   discourse_post_event:
     errors:
+      bulk_invite:
+        error: "خطایی هنگام آپلود فایل مربوطه رخ داده است. لطفا بعدا امتحان کنید."
       models:
         event:
           invalid_timezone: "منطقه‌زمانی شناسایی نشد."

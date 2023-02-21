@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 lt:
+  reports:
+    currently_away:
+      labels:
+        username: Vartotojo vardas
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Įkeliant failą įvyko klaida. Pabandykite dar kartą vėliau."

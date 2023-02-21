@@ -394,6 +394,13 @@ ar:
           remove_timezone: لا توجد منطقة زمنية (UTC)
         reminders:
           label: "التذكيرات"
+          units:
+            minutes: "الدقائق"
+            hours: "ساعات"
+            days: "الأيام"
+          periods:
+            before: "قبل"
+            after: "بعد"
         recurrence:
           label: "التكرار"
           none: "بلا تكرار"

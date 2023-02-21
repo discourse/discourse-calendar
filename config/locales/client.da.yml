@@ -12,10 +12,19 @@ da:
           discourse_post_event: "Discourse Begivenhed"
           discourse_calendar: "Discourse Kalender"
   js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: Emne ID
     discourse_calendar:
       invite_user_notification: "%{username} inviterede dig til: %{description}"
       on_holiday: "På Ferie"
+      disable_holiday: "Deaktiver"
+      enable_holiday: "Aktiver"
       holiday: "Ferie"
+      date: "Dato"
       add_to_calendar: "Tilføj til Google Kalender"
       region:
         title: "Område"
@@ -277,6 +286,13 @@ da:
       search: "Søg..."
       group_availability: "%{group} tilgængelighed"
     discourse_post_event:
+      notifications:
+        invite_user_predefined_attendance_notification: "%{username} har automatisk indstillet din deltagelse og inviteret dig til"
+        invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} har automatisk indstillet din deltagelse og inviteret dig til %{description}"
+        before_event_reminder_html: "En begivenhed er ved at starte %{description}"
+        after_event_reminder_html: "En begivenhed er afsluttet %{description}"
+        ongoing_event_reminder_html: "En begivenhed er i gang  %{description}"
       preview:
         more_than_one_event: "Du kan ikke have mere end én begivenhed."
       edit_reason: "Begivenhed opdateret"
@@ -321,6 +337,7 @@ da:
         title_participated: "Liste over brugere, der deltog"
         filter_placeholder: "Filtrer brugere"
       bulk_invite_modal:
+        confirm: "bekræft"
         text: "Upload CSV-fil"
         title: "Masseinvitation"
         success: "Filen uploadet korrekt, du vil blive underrettet via besked, når processen er færdig."
@@ -347,8 +364,17 @@ da:
         update: "Gem"
         attach: "Opret begivenhed"
         add_reminder: "Tilføj påmindelse"
+        timezone:
+          label: Tidszone
         reminders:
           label: "Påmindelser"
+          units:
+            minutes: "minutter"
+            hours: "timer"
+            days: "dage"
+          periods:
+            before: "før"
+            after: "efter"
         recurrence:
           label: "Gentagelse"
           none: "Ingen gentagelse"

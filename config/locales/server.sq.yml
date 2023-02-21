@@ -5,3 +5,7 @@
 # https://translate.discourse.org/
 
 sq:
+  reports:
+    currently_away:
+      labels:
+        username: Emri i përdoruesit

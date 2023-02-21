@@ -5,3 +5,7 @@
 # https://translate.discourse.org/
 
 th:
+  reports:
+    currently_away:
+      labels:
+        username: ชื่อผู้ใช้

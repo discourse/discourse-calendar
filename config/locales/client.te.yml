@@ -5,3 +5,28 @@
 # https://translate.discourse.org/
 
 te:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: విషయపు ఐడీ
+    discourse_calendar:
+      disable_holiday: "అచేతనం"
+      enable_holiday: "చేతనం"
+    discourse_post_event:
+      models:
+        event:
+          status:
+            public:
+              title: "బహిరంగం"
+            private:
+              title: "అంతరంగికం"
+      builder_modal:
+        update: "భద్రపరుచు"
+        reminders:
+          units:
+            days: "రోజులు"
+        url:
+          label: "యూఆర్ యల్"

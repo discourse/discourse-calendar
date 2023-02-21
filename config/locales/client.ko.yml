@@ -13,6 +13,8 @@ ko:
           discourse_calendar: "Discourse 캘린더"
   js:
     notifications:
+      titles:
+        event_reminder: "이벤트 알림"
       popup:
         event_reminder: 이벤트 알림
     discourse_automation:
@@ -25,7 +27,10 @@ ko:
     discourse_calendar:
       invite_user_notification: "%{username}님이 사용자님을 초대했습니다: %{description}"
       on_holiday: "휴일"
+      disable_holiday: "비활성"
+      enable_holiday: "설정"
       holiday: "휴일"
+      date: "날짜"
       add_to_calendar: "구글 캘린더에 추가"
       region:
         title: "지역"
@@ -78,6 +83,8 @@ ko:
     group_timezones:
       search: "검색..."
     discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
       edit_reason: "이벤트 업데이트됨"
       models:
         invitee:
@@ -96,10 +103,15 @@ ko:
         add_to_calendar: "캘린더에 추가"
         edit_event: "이벤트 편집"
         export_event: "이벤트 내보내기"
+        created_by: "작성자"
+        bulk_invite: "일괄 초대"
         close_event: "이벤트 닫기"
       bulk_invite_modal:
         confirm: "확인"
         text: "CSV 파일 업로드"
+        title: "일괄 초대"
+        success: "파일이 성공적으로 업로드되었습니다. 처리가 완료되면 메시지를 통해 알림을 받게됩니다."
+        error: "죄송합니다. 파일은 CSV 형식이어야 합니다."
         send_bulk_invites: "초대장 보내기"
         group_selector_placeholder: "그룹 선택..."
         user_selector_placeholder: "사용자 선택..."
@@ -114,8 +126,17 @@ ko:
         update: "저장"
         attach: "이벤트 만들기"
         add_reminder: "알림 추가"
+        timezone:
+          label: 시간대
         reminders:
           label: "미리 알림"
+          units:
+            minutes: "분"
+            hours: "시간"
+            days: "일"
+          periods:
+            before: "이전"
+            after: "이후"
         recurrence:
           label: "반복"
           none: "반복 없음"

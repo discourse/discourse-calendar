@@ -317,6 +317,7 @@ fa_IR:
       edit_reason: "رویداد به‌روز شد"
       models:
         event:
+          expired: "منقضی شده"
           status:
             public:
               title: "عمومی"
@@ -326,8 +327,12 @@ fa_IR:
         show_all: "نمایش همه"
         add_to_calendar: "افزودن به تقویم"
         edit_event: "ویرایش رویداد"
+        bulk_invite: "دعوت به تعداد بالا"
       bulk_invite_modal:
         confirm: "تایید"
+        title: "دعوت به تعداد بالا"
+        success: "فایل با موفقیت بارگذاری شد٬ وقتی که پروسه تمام شد به شما را از طریق پیام اطلاع می دهیم. "
+        error: "با عرض پوزش، نوع فایل باید CSV باشد."
       builder_modal:
         custom_fields:
           placeholder: "اختیاری"
@@ -349,6 +354,8 @@ fa_IR:
             before: "قبل از"
             after: "بعد از"
         recurrence:
+          label: "همروندی"
+          none: "بدون همروندی"
           every_day: "هر روز"
           every_weekday: "هر هفته"
         url:

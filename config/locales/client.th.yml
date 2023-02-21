@@ -5,3 +5,58 @@
 # https://translate.discourse.org/
 
 th:
+  js:
+    discourse_automation:
+      triggerables:
+        event_started:
+          fields:
+            topic_id:
+              label: หมายเลขกระทู้
+    discourse_calendar:
+      disable_holiday: "ปิดใช้งาน"
+      enable_holiday: "เปิดใช้งาน"
+      date: "วันที่"
+      region:
+        none: "ไม่มี"
+    group_timezones:
+      search: "ค้นหา..."
+    discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username}%{description}"
+      models:
+        event:
+          status:
+            public:
+              title: "สาธารณะ"
+            private:
+              title: "ส่วนตัว"
+      event_ui:
+        created_by: "สร้างโดย"
+      bulk_invite_modal:
+        success: "ไฟล์ถูกอัปโหลดเรียบร้อยแล้ว คุณจะได้รับการแจ้งเตือนทางข้อความเมื่อขั้นตอนเสร็จสิ้น"
+      builder_modal:
+        custom_fields:
+          placeholder: "ทางเลือก"
+        create: "สร้าง"
+        update: "บันทึก"
+        timezone:
+          label: เขตเวลา
+        reminders:
+          units:
+            days: "วัน"
+          periods:
+            before: "ก่อน"
+            after: "หลังจาก"
+        recurrence:
+          label: "มีการเกิดขึ้นซ้ำ"
+          none: "ไม่มีการเกิดขึ้นซ้ำ"
+          every_day: "ทุกวัน"
+        url:
+          label: "URL"
+          placeholder: "ทางเลือก"
+        status:
+          label: "สถานะ"
+      invite_user_or_group:
+        invite: "ส่ง"
+      upcoming_events:
+        status: "สถานะ"

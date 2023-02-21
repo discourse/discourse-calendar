@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 ur:
+  reports:
+    currently_away:
+      labels:
+        username: صارف نام
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "یہ فائل اَپ لوڈ کرنے میں ایک خرابی کا سامنا کرنا پڑا۔ براہ مہربانی کچھ دیر بعد دوبارہ کوشش کریں۔"

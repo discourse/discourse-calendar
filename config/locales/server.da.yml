@@ -5,6 +5,10 @@
 # https://translate.discourse.org/
 
 da:
+  reports:
+    currently_away:
+      labels:
+        username: Brugernavn
   system_messages:
     discourse_post_event_bulk_invite_succeeded:
       title: "Begivenhed - masseinvitation lykkedes"

@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 nb_NO:
+  reports:
+    currently_away:
+      labels:
+        username: Brukernavn
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Det skjedde en feil når filen ble lastet opp. Prøv igjen senere. "

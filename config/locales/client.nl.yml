@@ -390,6 +390,13 @@ nl:
           remove_timezone: Geen tijdzone (UTC)
         reminders:
           label: "Herinneringen"
+          units:
+            minutes: "minuten"
+            hours: "uur"
+            days: "dagen"
+          periods:
+            before: "voor"
+            after: "na"
         recurrence:
           label: "Herhaling"
           none: "Geen herhaling"

@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 be:
+  reports:
+    currently_away:
+      labels:
+        username: Імя карыстальніка
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Была памылка загрузкі гэтага файла. Калі ласка паспрабуйце зноў пазней."

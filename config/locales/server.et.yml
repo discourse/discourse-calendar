@@ -5,3 +5,11 @@
 # https://translate.discourse.org/
 
 et:
+  reports:
+    currently_away:
+      labels:
+        username: Kasutajanimi
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Selle faili üleslaadimisel tekkis viga. Palun proovi hiljem uuesti."
