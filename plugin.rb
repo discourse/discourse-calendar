@@ -12,7 +12,7 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 gem "rrule", "0.4.4", require: false
 
-load File.expand_path("../lib/calendar_settings_validator.rb", __FILE__)
+require_relative "lib/calendar_settings_validator.rb"
 
 enabled_site_setting :calendar_enabled
 
@@ -50,6 +50,7 @@ after_initialize do
   add_to_serializer :basic_category, :sort_topics_by_event_start_date do
     object.custom_fields["sort_topics_by_event_start_date"]
   end
+
   add_to_serializer :basic_category, :disable_topic_resorting do
     object.custom_fields["disable_topic_resorting"]
   end
@@ -74,22 +75,22 @@ after_initialize do
   end
 
   module ::DiscourseCalendar
-    PLUGIN_NAME ||= "discourse-calendar"
+    PLUGIN_NAME = "discourse-calendar"
 
     # Type of calendar ('static' or 'dynamic')
-    CALENDAR_CUSTOM_FIELD ||= "calendar"
+    CALENDAR_CUSTOM_FIELD = "calendar"
 
     # User custom field set when user is on holiday
-    HOLIDAY_CUSTOM_FIELD ||= "on_holiday"
+    HOLIDAY_CUSTOM_FIELD = "on_holiday"
 
     # List of all users on holiday
-    USERS_ON_HOLIDAY_KEY ||= "users_on_holiday"
+    USERS_ON_HOLIDAY_KEY = "users_on_holiday"
 
     # User region used in finding holidays
-    REGION_CUSTOM_FIELD ||= "holidays-region"
+    REGION_CUSTOM_FIELD = "holidays-region"
 
     # List of groups
-    GROUP_TIMEZONES_CUSTOM_FIELD ||= "group-timezones"
+    GROUP_TIMEZONES_CUSTOM_FIELD = "group-timezones"
 
     def self.users_on_holiday
       PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY) || []
@@ -106,11 +107,11 @@ after_initialize do
   end
 
   module ::DiscoursePostEvent
-    PLUGIN_NAME ||= "discourse-post-event"
+    PLUGIN_NAME = "discourse-post-event"
 
     # Topic where op has a post event custom field
-    TOPIC_POST_EVENT_STARTS_AT ||= "TopicEventStartsAt"
-    TOPIC_POST_EVENT_ENDS_AT ||= "TopicEventEndsAt"
+    TOPIC_POST_EVENT_STARTS_AT = "TopicEventStartsAt"
+    TOPIC_POST_EVENT_ENDS_AT = "TopicEventEndsAt"
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
@@ -123,11 +124,10 @@ after_initialize do
   add_admin_route "admin.calendar", "calendar"
 
   %w[
-    ../app/controllers/admin/admin_discourse_calendar_controller.rb
-    ../app/controllers/admin/discourse_calendar/admin_holidays_controller.rb
-    ../app/models/discourse_calendar/disabled_holiday.rb
-    ../app/services/discourse_calendar/holiday.rb
-  ].each { |path| load File.expand_path(path, __FILE__) }
+    app/controllers/admin/discourse_calendar/admin_holidays_controller.rb
+    app/models/discourse_calendar/disabled_holiday.rb
+    app/services/discourse_calendar/holiday.rb
+  ].each { |path| require_relative path }
 
   Discourse::Application.routes.append do
     mount ::DiscourseCalendar::Engine, at: "/"
@@ -147,23 +147,26 @@ after_initialize do
   # DISCOURSE POST EVENT
 
   %w[
-    ../app/controllers/discourse_post_event_controller.rb
-    ../app/controllers/discourse_post_event/invitees_controller.rb
-    ../app/controllers/discourse_post_event/events_controller.rb
-    ../app/controllers/discourse_post_event/upcoming_events_controller.rb
-    ../app/models/discourse_post_event/event.rb
-    ../app/models/discourse_post_event/event_date.rb
-    ../app/models/discourse_post_event/invitee.rb
-    ../lib/discourse_post_event/event_parser.rb
-    ../lib/discourse_post_event/event_validator.rb
-    ../lib/discourse_post_event/rrule_generator.rb
-    ../jobs/regular/discourse_post_event/bulk_invite.rb
-    ../jobs/regular/discourse_post_event/send_reminder.rb
-    ../jobs/regular/discourse_post_event/bump_topic.rb
-    ../lib/discourse_post_event/event_finder.rb
-    ../app/serializers/discourse_post_event/invitee_serializer.rb
-    ../app/serializers/discourse_post_event/event_serializer.rb
-  ].each { |path| load File.expand_path(path, __FILE__) }
+    app/controllers/discourse_post_event_controller.rb
+    app/controllers/discourse_post_event/events_controller.rb
+    app/controllers/discourse_post_event/invitees_controller.rb
+    app/controllers/discourse_post_event/upcoming_events_controller.rb
+    app/models/discourse_post_event/event_date.rb
+    app/models/discourse_post_event/event.rb
+    app/models/discourse_post_event/invitee.rb
+    app/serializers/discourse_post_event/event_serializer.rb
+    app/serializers/discourse_post_event/invitee_serializer.rb
+    jobs/regular/discourse_post_event/bulk_invite.rb
+    jobs/regular/discourse_post_event/bump_topic.rb
+    jobs/regular/discourse_post_event/send_reminder.rb
+    lib/discourse_post_event/event_finder.rb
+    lib/discourse_post_event/event_parser.rb
+    lib/discourse_post_event/event_validator.rb
+    lib/discourse_post_event/export_csv_controller_extension.rb
+    lib/discourse_post_event/export_csv_file_extension.rb
+    lib/discourse_post_event/post_extension.rb
+    lib/discourse_post_event/rrule_generator.rb
+  ].each { |path| require_relative path }
 
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 
@@ -185,16 +188,9 @@ after_initialize do
   end
 
   reloadable_patch do
-    Post.class_eval do
-      has_one :event, dependent: :destroy, class_name: "DiscoursePostEvent::Event", foreign_key: :id
-
-      validate :valid_event
-      def valid_event
-        return unless self.raw_changed?
-        validator = DiscoursePostEvent::EventValidator.new(self)
-        validator.validate_event
-      end
-    end
+    ExportCsvController.class_eval { prepend DiscoursePostEvent::ExportCsvControllerExtension }
+    Jobs::ExportCsvFile.class_eval { prepend DiscoursePostEvent::ExportPostEventCsvReportExtension }
+    Post.class_eval { prepend DiscoursePostEvent::PostExtension }
   end
 
   add_to_class(:user, :can_create_discourse_post_event?) do
@@ -317,20 +313,20 @@ after_initialize do
   # DISCOURSE CALENDAR
 
   %w[
-    ../app/models/calendar_event.rb
-    ../app/serializers/user_timezone_serializer.rb
-    ../jobs/scheduled/create_holiday_events.rb
-    ../jobs/scheduled/delete_expired_event_posts.rb
-    ../jobs/scheduled/update_holiday_usernames.rb
-    ../jobs/scheduled/monitor_event_dates.rb
-    ../lib/calendar_validator.rb
-    ../lib/calendar.rb
-    ../lib/event_validator.rb
-    ../lib/group_timezones.rb
-    ../lib/time_sniffer.rb
-    ../lib/users_on_holiday.rb
-    ../lib/holiday_status.rb
-  ].each { |path| load File.expand_path(path, __FILE__) }
+    app/models/calendar_event.rb
+    app/serializers/user_timezone_serializer.rb
+    jobs/scheduled/create_holiday_events.rb
+    jobs/scheduled/delete_expired_event_posts.rb
+    jobs/scheduled/monitor_event_dates.rb
+    jobs/scheduled/update_holiday_usernames.rb
+    lib/calendar_validator.rb
+    lib/calendar.rb
+    lib/event_validator.rb
+    lib/group_timezones.rb
+    lib/holiday_status.rb
+    lib/time_sniffer.rb
+    lib/users_on_holiday.rb
+  ].each { |path| require_relative path }
 
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
   register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
@@ -476,176 +472,89 @@ after_initialize do
 
   add_to_serializer(:site, :include_users_on_holiday?) { scope.is_staff? }
 
-  reloadable_patch do
-    module DiscoursePostEvent::ExportCsvControllerExtension
-      def export_entity
-        if post_event_export? && ensure_can_export_post_event
-          Jobs.enqueue(
-            :export_csv_file,
-            entity: export_params[:entity],
-            user_id: current_user.id,
-            args: export_params[:args],
+  on(:reduce_cooked) do |fragment, post|
+    if SiteSetting.discourse_post_event_enabled
+      fragment
+        .css(".discourse-post-event")
+        .each do |event_node|
+          starts_at = event_node["data-start"]
+          ends_at = event_node["data-end"]
+          dates = "#{starts_at} (#{event_node["data-timezone"] || "UTC"})"
+          dates = "#{dates} → #{ends_at} (#{event_node["data-timezone"] || "UTC"})" if ends_at
+
+          event_name = event_node["data-name"] || post.topic.title
+          event_node.replace <<~TXT
+          <div style='border:1px solid #dedede'>
+            <p><a href="#{Discourse.base_url}#{post.url}">#{event_name}</a></p>
+            <p>#{dates}</p>
+          </div>
+        TXT
+        end
+    end
+  end
+
+  on(:user_destroyed) { |user| DiscoursePostEvent::Invitee.where(user_id: user.id).destroy_all }
+
+  if respond_to?(:add_post_revision_notifier_recipients)
+    add_post_revision_notifier_recipients do |post_revision|
+      # next if no modifications
+      next if !post_revision.modifications.present?
+
+      # do no notify recipients when only updating tags
+      next if post_revision.modifications.keys == ["tags"]
+
+      ids = []
+      post = post_revision.post
+
+      if post && post.is_first_post? && post.event
+        ids.concat(post.event.on_going_event_invitees.pluck(:user_id))
+      end
+
+      ids
+    end
+  end
+
+  on(:site_setting_changed) do |name, old_val, new_val|
+    next if name != :discourse_post_event_allowed_custom_fields
+
+    previous_fields = old_val.split("|")
+    new_fields = new_val.split("|")
+    removed_fields = previous_fields - new_fields
+
+    next if removed_fields.empty?
+
+    DiscoursePostEvent::Event.all.find_each do |event|
+      removed_fields.each { |field| event.custom_fields.delete(field) }
+      event.save
+    end
+  end
+
+  if defined?(DiscourseAutomation)
+    on(:discourse_post_event_event_started) do |event|
+      DiscourseAutomation::Automation
+        .where(enabled: true, trigger: "event_started")
+        .each do |automation|
+          fields = automation.serialized_fields
+          topic_id = fields.dig("topic_id", "value")
+
+          next unless event.post.topic.id.to_s == topic_id
+
+          automation.trigger!(
+            "kind" => "event_started",
+            "event" => event,
+            "placeholders" => {
+              "event_url" => event.url,
+            },
           )
-          StaffActionLogger.new(current_user).log_entity_export(export_params[:entity])
-          render json: success_json
-        else
-          super
         end
-      end
-
-      private
-
-      def export_params
-        if post_event_export?
-          @_export_params ||=
-            begin
-              params.require(:entity)
-              params.permit(:entity, args: %i[id]).to_h
-            end
-        else
-          super
-        end
-      end
-
-      def post_event_export?
-        params[:entity] === "post_event"
-      end
-
-      def ensure_can_export_post_event
-        return if !SiteSetting.discourse_post_event_enabled
-
-        post_event = DiscoursePostEvent::Event.find(export_params[:args][:id])
-        post_event && guardian.can_act_on_discourse_post_event?(post_event)
-      end
     end
 
-    require_dependency "export_csv_controller"
-    class ::ExportCsvController
-      prepend DiscoursePostEvent::ExportCsvControllerExtension
-    end
+    add_triggerable_to_scriptable("event_started", "send_chat_message")
 
-    module ExportPostEventCsvReportExtension
-      def post_event_export(&block)
-        return enum_for(:post_event_export) unless block_given?
+    add_automation_triggerable("event_started") do
+      placeholder :event_url
 
-        guardian = Guardian.new(current_user)
-
-        event = DiscoursePostEvent::Event.includes(invitees: :user).find(@extra[:id])
-
-        guardian.ensure_can_act_on_discourse_post_event!(event)
-
-        event
-          .invitees
-          .order(:id)
-          .each do |invitee|
-            yield(
-              [
-                invitee.user.username,
-                DiscoursePostEvent::Invitee.statuses[invitee.status],
-                invitee.created_at,
-                invitee.updated_at,
-              ]
-            )
-          end
-      end
-
-      def get_header(entity)
-        if SiteSetting.discourse_post_event_enabled && entity === "post_event"
-          %w[username status first_answered_at last_updated_at]
-        else
-          super
-        end
-      end
-    end
-
-    class Jobs::ExportCsvFile
-      prepend ExportPostEventCsvReportExtension
-    end
-
-    on(:reduce_cooked) do |fragment, post|
-      if SiteSetting.discourse_post_event_enabled
-        fragment
-          .css(".discourse-post-event")
-          .each do |event_node|
-            starts_at = event_node["data-start"]
-            ends_at = event_node["data-end"]
-            dates = "#{starts_at} (#{event_node["data-timezone"] || "UTC"})"
-            dates = "#{dates} → #{ends_at} (#{event_node["data-timezone"] || "UTC"})" if ends_at
-
-            event_name = event_node["data-name"] || post.topic.title
-            event_node.replace <<~TXT
-            <div style='border:1px solid #dedede'>
-              <p><a href="#{Discourse.base_url}#{post.url}">#{event_name}</a></p>
-              <p>#{dates}</p>
-            </div>
-          TXT
-          end
-      end
-    end
-
-    on(:user_destroyed) { |user| DiscoursePostEvent::Invitee.where(user_id: user.id).destroy_all }
-
-    if respond_to?(:add_post_revision_notifier_recipients)
-      add_post_revision_notifier_recipients do |post_revision|
-        # next if no modifications
-        next if !post_revision.modifications.present?
-
-        # do no notify recipients when only updating tags
-        next if post_revision.modifications.keys == ["tags"]
-
-        ids = []
-        post = post_revision.post
-
-        if post && post.is_first_post? && post.event
-          ids.concat(post.event.on_going_event_invitees.pluck(:user_id))
-        end
-
-        ids
-      end
-    end
-
-    on(:site_setting_changed) do |name, old_val, new_val|
-      next if name != :discourse_post_event_allowed_custom_fields
-
-      previous_fields = old_val.split("|")
-      new_fields = new_val.split("|")
-      removed_fields = previous_fields - new_fields
-
-      next if removed_fields.empty?
-
-      DiscoursePostEvent::Event.all.find_each do |event|
-        removed_fields.each { |field| event.custom_fields.delete(field) }
-        event.save
-      end
-    end
-
-    if defined?(DiscourseAutomation)
-      on(:discourse_post_event_event_started) do |event|
-        DiscourseAutomation::Automation
-          .where(enabled: true, trigger: "event_started")
-          .each do |automation|
-            fields = automation.serialized_fields
-            topic_id = fields.dig("topic_id", "value")
-
-            next unless event.post.topic.id.to_s == topic_id
-
-            automation.trigger!(
-              "kind" => "event_started",
-              "event" => event,
-              "placeholders" => {
-                "event_url" => event.url,
-              },
-            )
-          end
-      end
-
-      add_triggerable_to_scriptable("event_started", "send_chat_message")
-
-      add_automation_triggerable("event_started") do
-        placeholder :event_url
-
-        field :topic_id, component: :text
-      end
+      field :topic_id, component: :text
     end
   end
 

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Admin::DiscourseCalendar
-  class AdminHolidaysController < AdminDiscourseCalendarController
+  class AdminHolidaysController < Admin::AdminController
+    requires_plugin DiscourseCalendar::PLUGIN_NAME
+
     def index
       region_code = params[:region_code]
 
