@@ -42,6 +42,7 @@ ru:
     discourse_post_event_allowed_custom_fields: "Позволять каждому мероприятию устанавливать значение настраиваемых полей."
     discourse_post_event_edit_notifications_time_extension: "Продлить на указанное здесь количество минут период после окончания мероприятия, когда приглашённые всё ещё получают уведомление об изменении исходной записи."
     holiday_calendar_topic_id: "Идентификатор темы календаря праздников и отсутствия сотрудников."
+    holiday_status_emoji: Эмодзи для статуса «праздники».
     delete_expired_event_posts_after: "Сообщения с истекшими мероприятиями будут автоматически удалены после указанного здесь количества часов. Установите значение -1 для отключения удаления."
     all_day_event_start_time: "События, для которых не указано время начала, начнутся в указанное здесь время. Формат времени - ЧЧ:мм. Например, для 6:00 утра введите 06:00"
     all_day_event_end_time: "События, для которых не указано время окончания, завершатся в указанное здесь время. Формат времени - ЧЧ:мм. Например, для 6:00 вечера введите 18:00"
@@ -55,6 +56,7 @@ ru:
     events_calendar_categories: "Отображать календарь событий в верхней части категории."
     sort_categories_by_event_start_date_enabled: "Включить сортировку тем категории по дате начала мероприятия."
     disable_resorting_on_categories_enabled: "Разрешить категориям скрывать возможность сортировать мероприятия по категориям."
+    calendar_automatic_holidays_enabled: "Автоматически задавать статус «праздники» по региону пользователя (отключить конкретные автоматически устанавливаемые праздники можно в настройках плагина)"
   discourse_calendar:
     invite_user_notification: "Пользователь %{username} приглашает вас: %{description}"
     calendar_must_be_in_first_post: "Тег календаря может быть использован только в первом сообщении темы."
@@ -63,6 +65,9 @@ ru:
     event_expired: "Срок проведения мероприятия истек"
     holiday_status:
       description: "Выходные"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Напоминание о мероприятии"
   discourse_post_event:
     notifications:
       before_event_reminder: "Мероприятие '%{title}' вот-вот начнется."
@@ -85,6 +90,8 @@ ru:
           invalid_timezone: "Часовой пояс не распознан."
           acting_user_not_allowed_to_create_event: "Текущему пользователю не разрешено создавать события."
           acting_user_not_allowed_to_act_on_this_event: "Текущий пользователь не имеет права работать с этим событием."
+          invalid_allowed_groups: "Недействительные разрешённые группы."
+          acting_user_not_allowed_to_invite_these_groups: "Текущему пользователю не разрешено приглашать эти группы."
           custom_field_is_invalid: "Настраиваемое поле `%{field}` не допускается."
           name:
             length: "Название мероприятия должно содержать от %{minimum} до %{maximum} символов."
