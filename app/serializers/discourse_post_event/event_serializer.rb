@@ -36,7 +36,9 @@ module DiscoursePostEvent
       (object.reminders || "")
         .split(",")
         .map do |reminder|
-          type, value, unit = reminder.split(".")
+          unit, value, type = reminder.split(".").reverse
+          type ||= "notification"
+
           value = value.to_i
           { value: value.to_i.abs, unit: unit, period: value > 0 ? "before" : "after", type: type }
         end

@@ -10,7 +10,7 @@ describe DiscourseCalendar::MonitorEventDates do
       post: post_1,
       original_starts_at: 7.days.after,
       original_ends_at: 7.days.after + 1.hour,
-      reminders: "notification.15.minutes,notification.1.hours,bumpTopic.10.minutes",
+      reminders: "15.minutes,notification.1.hours,bumpTopic.10.minutes",
     )
   end
   let(:past_date) { past_event.event_dates.first }
