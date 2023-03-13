@@ -55,8 +55,10 @@ module DiscoursePostEvent
 
       publish_update!
       invitees.update_all(status: nil, notified: false)
-      notify_invitees!
-      notify_missing_invitees!
+      if !next_dates[:rescheduled]
+        notify_invitees!
+        notify_missing_invitees!
+      end
     end
 
     def set_topic_bump
@@ -363,7 +365,7 @@ module DiscoursePostEvent
 
     def calculate_next_date
       if !original_ends_at || self.recurrence.blank? || original_starts_at > Time.current
-        return { starts_at: original_starts_at, ends_at: original_ends_at }
+        return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
 
       localized_start = original_starts_at.in_time_zone(timezone)
@@ -398,7 +400,7 @@ module DiscoursePostEvent
       difference = original_ends_at - original_starts_at
       next_ends_at = next_starts_at + difference.seconds
 
-      { starts_at: next_starts_at, ends_at: next_ends_at }
+      { starts_at: next_starts_at, ends_at: next_ends_at, rescheduled: true }
     end
   end
 end
