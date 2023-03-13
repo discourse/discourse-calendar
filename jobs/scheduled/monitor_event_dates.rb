@@ -57,9 +57,10 @@ module Jobs
         .reminders
         .split(",")
         .map do |reminder|
-          type, value, unit = reminder.split(".")
+          unit, value, type = reminder.split(".").reverse
 
           next if type === "bumpTopic" || !validate_reminder_unit(unit)
+          reminder = "notification.#{value}.#{unit}" if type.blank?
 
           date = event_date.starts_at - value.to_i.public_send(unit)
           { description: reminder, date: date }
