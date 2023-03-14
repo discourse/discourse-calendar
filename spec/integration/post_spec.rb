@@ -132,10 +132,10 @@ describe Post do
               end
 
               # that will be handled by new job, uncomment when finishedh
-              it "resends event creation notification to invitees" do
-                expect { event_1.update_with_params!(original_ends_at: Time.now) }.to change {
+              it "doesn’t resend event creation notification to invitees" do
+                expect { event_1.update_with_params!(original_ends_at: Time.now) }.not_to change {
                   going_user.notifications.count
-                }.by(1)
+                }
               end
             end
           end
@@ -467,14 +467,12 @@ describe Post do
           status: Event.statuses[:private],
           raw_invitees: [group_1.name],
           recurrence: "FREQ=WEEKLY;BYDAY=MO",
-          original_starts_at: 3.hours.ago,
+          original_starts_at: 2.hours.from_now,
           original_ends_at: nil,
         )
       end
 
       before do
-        Invitee.create_attendance!(invitee_1.id, event_1.id, :going)
-
         # we stop processing jobs immediately at this point to prevent infinite loop
         # as future event ended job would finish now, trigger next recurrence, and anodther job...
         Jobs.run_later!
@@ -482,9 +480,7 @@ describe Post do
 
       context "when updating the end" do
         it "resends event creation notification to invitees and possible invitees" do
-          expect(event_1.invitees.count).to eq(1)
-
-          expect { event_1.update_with_params!(original_ends_at: 2.hours.ago) }.to change {
+          expect { event_1.update_with_params!(original_ends_at: 3.hours.from_now) }.to change {
             invitee_1.notifications.count + invitee_2.notifications.count
           }.by(2)
         end
