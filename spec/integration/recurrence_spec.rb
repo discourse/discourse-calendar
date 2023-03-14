@@ -26,9 +26,10 @@ describe "discourse_post_event_recurrence" do
   it "delete previous notifications before creating a new one for invites" do
     going_user = Fabricate(:user)
     DiscoursePostEvent::Invitee.create_attendance!(going_user.id, post_event_1.id, :going)
-    post_event_1.update!(recurrence: "every_month")
 
+    post_event_1.update!(original_starts_at: starts_at + 10.minutes)
     post_event_1.set_next_date
+    post_event_1.update!(original_starts_at: starts_at - 10.minutes)
     post_event_1.set_next_date
 
     expect(
