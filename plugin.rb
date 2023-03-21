@@ -39,6 +39,43 @@ register_svg_icon "fas fa-file-csv"
 register_svg_icon "fas fa-star"
 register_svg_icon "fas fa-file-upload"
 
+module ::DiscourseCalendar
+  PLUGIN_NAME = "discourse-calendar"
+
+  # Type of calendar ('static' or 'dynamic')
+  CALENDAR_CUSTOM_FIELD = "calendar"
+
+  # User custom field set when user is on holiday
+  HOLIDAY_CUSTOM_FIELD = "on_holiday"
+
+  # List of all users on holiday
+  USERS_ON_HOLIDAY_KEY = "users_on_holiday"
+
+  # User region used in finding holidays
+  REGION_CUSTOM_FIELD = "holidays-region"
+
+  # List of groups
+  GROUP_TIMEZONES_CUSTOM_FIELD = "group-timezones"
+
+  def self.users_on_holiday
+    PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY) || []
+  end
+
+  def self.users_on_holiday=(usernames)
+    PluginStore.set(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY, usernames)
+  end
+end
+
+module ::DiscoursePostEvent
+  PLUGIN_NAME = "discourse-post-event"
+
+  # Topic where op has a post event custom field
+  TOPIC_POST_EVENT_STARTS_AT = "TopicEventStartsAt"
+  TOPIC_POST_EVENT_ENDS_AT = "TopicEventEndsAt"
+end
+
+require_relative "lib/discourse_calendar/engine"
+
 after_initialize do
   reloadable_patch do
     Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
@@ -74,118 +111,25 @@ after_initialize do
     end
   end
 
-  module ::DiscourseCalendar
-    PLUGIN_NAME = "discourse-calendar"
-
-    # Type of calendar ('static' or 'dynamic')
-    CALENDAR_CUSTOM_FIELD = "calendar"
-
-    # User custom field set when user is on holiday
-    HOLIDAY_CUSTOM_FIELD = "on_holiday"
-
-    # List of all users on holiday
-    USERS_ON_HOLIDAY_KEY = "users_on_holiday"
-
-    # User region used in finding holidays
-    REGION_CUSTOM_FIELD = "holidays-region"
-
-    # List of groups
-    GROUP_TIMEZONES_CUSTOM_FIELD = "group-timezones"
-
-    def self.users_on_holiday
-      PluginStore.get(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY) || []
-    end
-
-    def self.users_on_holiday=(usernames)
-      PluginStore.set(PLUGIN_NAME, USERS_ON_HOLIDAY_KEY, usernames)
-    end
-
-    class Engine < ::Rails::Engine
-      engine_name PLUGIN_NAME
-      isolate_namespace DiscourseCalendar
-    end
-  end
-
-  module ::DiscoursePostEvent
-    PLUGIN_NAME = "discourse-post-event"
-
-    # Topic where op has a post event custom field
-    TOPIC_POST_EVENT_STARTS_AT = "TopicEventStartsAt"
-    TOPIC_POST_EVENT_ENDS_AT = "TopicEventEndsAt"
-
-    class Engine < ::Rails::Engine
-      engine_name PLUGIN_NAME
-      isolate_namespace DiscoursePostEvent
-    end
-  end
-
   # DISCOURSE CALENDAR HOLIDAYS
 
   add_admin_route "admin.calendar", "calendar"
 
-  %w[
-    app/controllers/admin/discourse_calendar/admin_holidays_controller.rb
-    app/models/discourse_calendar/disabled_holiday.rb
-    app/services/discourse_calendar/holiday.rb
-  ].each { |path| require_relative path }
-
-  Discourse::Application.routes.append do
-    mount ::DiscourseCalendar::Engine, at: "/"
-
-    get "/admin/plugins/calendar" => "admin/plugins#index", :constraints => StaffConstraint.new
-    get "/admin/discourse-calendar/holiday-regions/:region_code/holidays" =>
-          "admin/discourse_calendar/admin_holidays#index",
-        :constraints => StaffConstraint.new
-    post "/admin/discourse-calendar/holidays/disable" =>
-           "admin/discourse_calendar/admin_holidays#disable",
-         :constraints => StaffConstraint.new
-    delete "/admin/discourse-calendar/holidays/enable" =>
-             "admin/discourse_calendar/admin_holidays#enable",
-           :constraints => StaffConstraint.new
-  end
-
   # DISCOURSE POST EVENT
 
-  %w[
-    app/controllers/discourse_post_event_controller.rb
-    app/controllers/discourse_post_event/events_controller.rb
-    app/controllers/discourse_post_event/invitees_controller.rb
-    app/controllers/discourse_post_event/upcoming_events_controller.rb
-    app/models/discourse_post_event/event_date.rb
-    app/models/discourse_post_event/event.rb
-    app/models/discourse_post_event/invitee.rb
-    app/serializers/discourse_post_event/event_serializer.rb
-    app/serializers/discourse_post_event/invitee_serializer.rb
-    jobs/regular/discourse_post_event/bulk_invite.rb
-    jobs/regular/discourse_post_event/bump_topic.rb
-    jobs/regular/discourse_post_event/send_reminder.rb
-    lib/discourse_post_event/event_finder.rb
-    lib/discourse_post_event/event_parser.rb
-    lib/discourse_post_event/event_validator.rb
-    lib/discourse_post_event/export_csv_controller_extension.rb
-    lib/discourse_post_event/export_csv_file_extension.rb
-    lib/discourse_post_event/post_extension.rb
-    lib/discourse_post_event/rrule_generator.rb
-  ].each { |path| require_relative path }
+  require_relative "jobs/regular/discourse_post_event/bulk_invite"
+  require_relative "jobs/regular/discourse_post_event/bump_topic"
+  require_relative "jobs/regular/discourse_post_event/send_reminder"
+  require_relative "lib/discourse_post_event/engine"
+  require_relative "lib/discourse_post_event/event_finder"
+  require_relative "lib/discourse_post_event/event_parser"
+  require_relative "lib/discourse_post_event/event_validator"
+  require_relative "lib/discourse_post_event/export_csv_controller_extension"
+  require_relative "lib/discourse_post_event/export_csv_file_extension"
+  require_relative "lib/discourse_post_event/post_extension"
+  require_relative "lib/discourse_post_event/rrule_generator"
 
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
-
-  Discourse::Application.routes.append { mount ::DiscoursePostEvent::Engine, at: "/" }
-
-  DiscoursePostEvent::Engine.routes.draw do
-    get "/discourse-post-event/events" => "events#index", :format => :json
-    get "/discourse-post-event/events/:id" => "events#show"
-    delete "/discourse-post-event/events/:id" => "events#destroy"
-    post "/discourse-post-event/events" => "events#create"
-    post "/discourse-post-event/events/:id/csv-bulk-invite" => "events#csv_bulk_invite"
-    post "/discourse-post-event/events/:id/bulk-invite" => "events#bulk_invite", :format => :json
-    post "/discourse-post-event/events/:id/invite" => "events#invite"
-    put "/discourse-post-event/events/:post_id/invitees/:id" => "invitees#update"
-    post "/discourse-post-event/events/:post_id/invitees" => "invitees#create"
-    get "/discourse-post-event/events/:post_id/invitees" => "invitees#index"
-    delete "/discourse-post-event/events/:post_id/invitees/:id" => "invitees#destroy"
-    get "/upcoming-events" => "upcoming_events#index"
-  end
 
   reloadable_patch do
     ExportCsvController.class_eval { prepend DiscoursePostEvent::ExportCsvControllerExtension }
@@ -312,21 +256,17 @@ after_initialize do
 
   # DISCOURSE CALENDAR
 
-  %w[
-    app/models/calendar_event.rb
-    app/serializers/user_timezone_serializer.rb
-    jobs/scheduled/create_holiday_events.rb
-    jobs/scheduled/delete_expired_event_posts.rb
-    jobs/scheduled/monitor_event_dates.rb
-    jobs/scheduled/update_holiday_usernames.rb
-    lib/calendar_validator.rb
-    lib/calendar.rb
-    lib/event_validator.rb
-    lib/group_timezones.rb
-    lib/holiday_status.rb
-    lib/time_sniffer.rb
-    lib/users_on_holiday.rb
-  ].each { |path| require_relative path }
+  require_relative "jobs/scheduled/create_holiday_events"
+  require_relative "jobs/scheduled/delete_expired_event_posts"
+  require_relative "jobs/scheduled/monitor_event_dates"
+  require_relative "jobs/scheduled/update_holiday_usernames"
+  require_relative "lib/calendar_validator"
+  require_relative "lib/calendar"
+  require_relative "lib/event_validator"
+  require_relative "lib/group_timezones"
+  require_relative "lib/holiday_status"
+  require_relative "lib/time_sniffer"
+  require_relative "lib/users_on_holiday"
 
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
   register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
