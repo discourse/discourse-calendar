@@ -42,6 +42,7 @@ de:
     discourse_post_event_allowed_custom_fields: "Ermöglicht es, für jedes Ereignis den Wert von benutzerdefinierten Feldern zu setzen."
     discourse_post_event_edit_notifications_time_extension: "Verlängert (in Minuten) den Zeitraum nach dem Ende eines Ereignisses, in dem eingeladene Personen (`going`) noch von der Bearbeitung im ursprünglichen Beitrag benachrichtigt werden."
     holiday_calendar_topic_id: "Themen-ID des Urlaubs-/Abwesenheitskalenders des Teams."
+    holiday_status_emoji: Legt das Emoji fest, das für den Urlaubsstatus verwendet wird.
     delete_expired_event_posts_after: "Beiträge mit abgelaufenen Ereignissen werden nach (n) Stunden automatisch gelöscht. Setze den Wert auf -1, um die Löschung zu deaktivieren."
     all_day_event_start_time: "Ereignisse, für die keine Startzeit angegeben ist, beginnen zu dieser Zeit. Das Format lautet HH:mm. Gib „06:00“ für 6 Uhr morgens ein"
     all_day_event_end_time: "Ereignisse, für die keine Endzeit angegeben ist, enden zu dieser Zeit. Das Format lautet HH:mm. Gib „18:00“ für 6 Uhr abends ein"
