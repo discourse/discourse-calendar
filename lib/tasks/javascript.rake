@@ -2,10 +2,19 @@
 
 require "open-uri"
 
-TIMEZONES_DEFINITIONS =
+TIMEZONES_DEFINITIONS ||=
   "https://raw.githubusercontent.com/moment/moment-timezone/develop/data/meta/latest.json"
-UNUSED_REGIONS = %w[ecbtarget federalreserve federalreservebanks fedex nerc unitednations ups nyse]
-HOLIDAYS_COUNTRY_OVERRIDES = { "gr" => "el" }
+UNUSED_REGIONS ||= %w[
+  ecbtarget
+  federalreserve
+  federalreservebanks
+  fedex
+  nerc
+  unitednations
+  ups
+  nyse
+]
+HOLIDAYS_COUNTRY_OVERRIDES ||= { "gr" => "el" }
 
 task "javascript:update_constants" => :environment do
   require "holidays" if !defined?(Holidays)
