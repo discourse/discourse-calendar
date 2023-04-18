@@ -68,7 +68,7 @@ module Holidays
             {:wday => 0, :week => 2, :type => :informal, :name => "Mother's Day", :regions => [:us, :ca]},
             {:wday => 6, :week => 3, :type => :informal, :name => "Armed Forces Day", :regions => [:us]}],
       6 => [{:mday => 24, :type => :informal, :name => "Discovery Day", :regions => [:ca_nl]},
-            {:mday => 24, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Fête Nationale", :regions => [:ca_qc]},
+            {:mday => 24, :name => "Fête Nationale", :regions => [:ca_qc]},
             {:mday => 21, :name => "National Aboriginal Day", :regions => [:ca_nt]},
             {:mday => 21, :year_ranges => { :from => 2017 },:name => "National Aboriginal Day", :regions => [:ca_yt]},
             {:wday => 0, :week => 3, :type => :informal, :name => "Día del Padre", :regions => [:mx]},
