@@ -6,6 +6,22 @@ months:
   - name: Foundation Day
     regions: [sa]
     mday: 22
+  4:
+  - name: Festival of Breaking the Fast
+    regions: [sa]
+    mday: 21
+    year_ranges:
+      limited: [2023]
+  - name: Second Day of the Festival of Breaking the Fast
+    regions: [sa]
+    mday: 22
+    year_ranges:
+      limited: [2023]
+  - name: Third Day of the Festival of Breaking the Fast
+    regions: [sa]
+    mday: 23
+    year_ranges:
+      limited: [2023]
   5:
   - name: Festival of Breaking the Fast
     regions: [sa]

@@ -369,7 +369,6 @@ export const TIME_ZONE_TO_REGION = {
   "America/Whitehorse": "ca",
   "America/Winnipeg": "ca",
   "America/Yakutat": "us",
-  "America/Yellowknife": "ca",
   "Antarctica/Macquarie": "au",
   "Asia/Almaty": "kz",
   "Asia/Anadyr": "ru",
