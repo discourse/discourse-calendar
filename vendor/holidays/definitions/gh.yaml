@@ -30,6 +30,13 @@ months:
     regions: [gh]
     mday: 6
     observed: to_monday_if_weekend(date)
+  4:
+  - name: Eid-ul-Fitr
+    regions: [gh]
+    mday: 22
+    year_ranges:
+      limited: [2023]
+    observed: to_monday_if_weekend(date)
   5:
   - name: May Day (Workers' Day)
     regions: [gh]
@@ -98,6 +105,12 @@ tests:
       options: ["observed"]
     expect:
       name: "Independence Day"
+  - given:
+      date: "2023-04-24"
+      regions: ["gh"]
+      options: ["observed"]
+    expect:
+      name: "Eid-ul-Fitr"
   - given:
       date: "2022-05-01"
       regions: ["gh"]
