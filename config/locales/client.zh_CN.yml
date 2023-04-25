@@ -347,6 +347,7 @@ zh_CN:
         invite: "通知用户"
         add_to_calendar: "添加到日历"
         send_pm_to_creator: "将 PM 发送到 %{username}"
+        leave: "退出活动"
         edit_event: "编辑活动"
         export_event: "导出活动"
         created_by: "创建者："
@@ -393,9 +394,10 @@ zh_CN:
             minutes: "分钟"
             hours: "小时"
             days: "天"
+            weeks: "周"
           periods:
-            before: "早于"
-            after: "晚于"
+            before: "之前"
+            after: "之后"
         recurrence:
           label: "重复"
           none: "不重复"

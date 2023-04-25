@@ -42,6 +42,7 @@ zh_CN:
     discourse_post_event_allowed_custom_fields: "允许让每个活动设置自定义字段的值。"
     discourse_post_event_edit_notifications_time_extension: "活动结束后延长一段时间（以分钟为单位），让“参加”的受邀者仍可以收到原始帖子的编辑通知。"
     holiday_calendar_topic_id: "管理人员假期/缺勤日历的话题 ID。"
+    holiday_status_emoji: 给节日状态设置表情图片。
     delete_expired_event_posts_after: "包含过期活动的帖子将在 (n) 小时后自动删除。设置为 -1 将禁用删除。"
     all_day_event_start_time: "未指定开始时间的活动将在此时间开始。格式为 HH:mm。如为上午 6:00，输入 06:00"
     all_day_event_end_time: "未指定结束时间的活动将在此时间结束。格式为 HH:mm。如为下午 6:00，输入 18:00"
@@ -63,6 +64,9 @@ zh_CN:
     event_expired: "活动已过期"
     holiday_status:
       description: "休假"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "活动提醒"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} 即将开始。"
