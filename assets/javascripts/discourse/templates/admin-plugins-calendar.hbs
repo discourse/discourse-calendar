@@ -10,7 +10,7 @@
   {{i18n "discourse_calendar.holidays.disabled_holidays_description"}}
 </p>
 
-{{conditional-loading-spinner condition=loading}}
+<ConditionalLoadingSpinner @condition={{loading}} />
 
 {{#if model.holidays}}
   {{admin-holidays-list
