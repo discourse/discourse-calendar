@@ -1,60 +1,70 @@
-{{#d-modal-body
-  title=(concat "discourse_post_event.builder_modal." modalTitle)
-  class="discourse-post-event-builder"
-}}
-  {{#conditional-loading-section isLoading=model.eventModel.isSaving}}
+<DModalBody
+  @title={{concat "discourse_post_event.builder_modal." modalTitle}}
+  @class="discourse-post-event-builder"
+>
+  <ConditionalLoadingSection @isLoading={{model.eventModel.isSaving}}>
     <form>
-      {{date-time-input-range
-        from=startsAt
-        to=endsAt
-        toTimeFirst=true
-        clearable=true
-        timezone=model.eventModel.timezone
-        onChange=(action "onChangeDates")
-      }}
+      <DateTimeInputRange
+        @from={{startsAt}}
+        @to={{endsAt}}
+        @toTimeFirst={{true}}
+        @clearable={{true}}
+        @timezone={{model.eventModel.timezone}}
+        @onChange={{action "onChangeDates"}}
+      />
 
       {{#event-field
         class="name"
         label="discourse_post_event.builder_modal.name.label"
       }}
-        {{input
-          value=(readonly model.eventModel.name)
-          placeholderKey="discourse_post_event.builder_modal.name.placeholder"
-          input=(action (mut model.eventModel.name) value="target.value")
-        }}
+        <Input
+          @value={{readonly model.eventModel.name}}
+          placeholder={{I18n
+            "discourse_post_event.builder_modal.name.placeholder"
+          }}
+          {{on
+            "input"
+            (action (mut model.eventModel.name) value="target.value")
+          }}
+        />
       {{/event-field}}
 
       {{#event-field
         class="url"
         label="discourse_post_event.builder_modal.url.label"
       }}
-        {{input
-          value=(readonly model.eventModel.url)
-          placeholderKey="discourse_post_event.builder_modal.url.placeholder"
-          input=(action (mut model.eventModel.url) value="target.value")
-        }}
+        <Input
+          @value={{readonly model.eventModel.url}}
+          placeholder={{I18n
+            "discourse_post_event.builder_modal.url.placeholder"
+          }}
+          {{on
+            "input"
+            (action (mut model.eventModel.url) value="target.value")
+          }}
+        />
       {{/event-field}}
 
       {{#event-field
         class="timezone"
         label="discourse_post_event.builder_modal.timezone.label"
       }}
-        {{timezone-input
-          value=model.eventModel.timezone
-          onChange=(action "onChangeTimezone")
-          class="input-xxlarge"
-          none="discourse_post_event.builder_modal.timezone.remove_timezone"
-        }}
+        <TimezoneInput
+          @value={{model.eventModel.timezone}}
+          @onChange={{action "onChangeTimezone"}}
+          @class="input-xxlarge"
+          @none="discourse_post_event.builder_modal.timezone.remove_timezone"
+        />
       {{/event-field}}
 
       {{#event-field label="discourse_post_event.builder_modal.status.label"}}
         <label class="radio-label">
-          {{radio-button
-            name="status"
-            value="public"
-            selection=model.eventModel.status
-            onChange=(action "onChangeStatus")
-          }}
+          <RadioButton
+            @name="status"
+            @value="public"
+            @selection={{model.eventModel.status}}
+            @onChange={{action "onChangeStatus"}}
+          />
           <span class="message">
             <span class="title">{{i18n
                 "discourse_post_event.models.event.status.public.title"
@@ -65,12 +75,12 @@
           </span>
         </label>
         <label class="radio-label">
-          {{radio-button
-            name="status"
-            value="private"
-            selection=model.eventModel.status
-            onChange=(action "onChangeStatus")
-          }}
+          <RadioButton
+            @name="status"
+            @value="private"
+            @selection={{model.eventModel.status}}
+            @onChange={{action "onChangeStatus"}}
+          />
           <span class="message">
             <span class="title">{{i18n
                 "discourse_post_event.models.event.status.private.title"
@@ -81,12 +91,12 @@
           </span>
         </label>
         <label class="radio-label">
-          {{radio-button
-            name="status"
-            value="standalone"
-            selection=model.eventModel.status
-            onChange=(action "onChangeStatus")
-          }}
+          <RadioButton
+            @name="status"
+            @value="standalone"
+            @selection={{model.eventModel.status}}
+            @onChange={{action "onChangeStatus"}}
+          />
           <span class="message">
             <span class="title">{{i18n
                 "discourse_post_event.models.event.status.standalone.title"
@@ -102,13 +112,13 @@
         enabled=allowsInvitees
         label="discourse_post_event.builder_modal.invitees.label"
       }}
-        {{group-selector
-          fullWidthWrap=true
-          groupFinder=groupFinder
-          groupNames=model.eventModel.raw_invitees
-          onChangeCallback=(action "setRawInvitees")
-          placeholderKey="topic.invite_private.group_name"
-        }}
+        <GroupSelector
+          @fullWidthWrap={{true}}
+          @groupFinder={{groupFinder}}
+          @groupNames={{model.eventModel.raw_invitees}}
+          @onChangeCallback={{action "setRawInvitees"}}
+          @placeholderKey="topic.invite_private.group_name"
+        />
       {{/event-field}}
 
       {{#event-field
@@ -118,73 +128,79 @@
         <div class="reminders-list">
           {{#each model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
-              {{combo-box
-                class="reminder-type"
-                value=reminder.type
-                nameProperty="name"
-                valueProperty="value"
-                content=reminderTypes
-                onChange=(action (mut reminder.type))
-              }}
+              <ComboBox
+                @class="reminder-type"
+                @value={{reminder.type}}
+                @nameProperty="name"
+                @valueProperty="value"
+                @content={{reminderTypes}}
+                @onChange={{action (mut reminder.type)}}
+              />
 
-              {{input
+              <Input
                 class="reminder-value"
-                min=0
-                value=(readonly reminder.value)
-                placeholderKey="discourse_post_event.builder_modal.name.placeholder"
-                input=(action (mut reminder.value) value="target.value")
-              }}
+                min={{0}}
+                @value={{readonly reminder.value}}
+                placeholder={{I18n
+                  "discourse_post_event.builder_modal.name.placeholder"
+                }}
+                {{on
+                  "input"
+                  (action (mut reminder.value) value="target.value")
+                }}
+              />
 
-              {{combo-box
-                class="reminder-unit"
-                value=reminder.unit
-                nameProperty="name"
-                valueProperty="value"
-                content=reminderUnits
-                onChange=(action (mut reminder.unit))
-              }}
+              <ComboBox
+                @class="reminder-unit"
+                @value={{reminder.unit}}
+                @nameProperty="name"
+                @valueProperty="value"
+                @content={{reminderUnits}}
+                @onChange={{action (mut reminder.unit)}}
+              />
 
-              {{combo-box
-                class="reminder-period"
-                value=reminder.period
-                nameProperty="name"
-                valueProperty="value"
-                content=reminderPeriods
-                onChange=(action (mut reminder.period))
-              }}
+              <ComboBox
+                @class="reminder-period"
+                @value={{reminder.period}}
+                @nameProperty="name"
+                @valueProperty="value"
+                @content={{reminderPeriods}}
+                @onChange={{action (mut reminder.period)}}
+              />
 
-              {{d-button
+              <DButton
                 class="remove-reminder"
-                icon="times"
-                action=(action "removeReminder" reminder)
-                disabled=isLoadingReminders
-              }}
+                @icon="times"
+                @action={{action "removeReminder" reminder}}
+                @disabled="isLoadingReminders"
+              />
+
             </div>
           {{/each}}
         </div>
 
-        {{d-button
+        <DButton
           class="add-reminder"
-          disabled=addReminderDisabled
-          icon="plus"
-          label="discourse_post_event.builder_modal.add_reminder"
-          action=(action "addReminder")
-        }}
+          @disabled={{addReminderDisabled}}
+          @icon="plus"
+          @label="discourse_post_event.builder_modal.add_reminder"
+          @action={{action "addReminder"}}
+        />
       {{/event-field}}
 
       {{#event-field
         class="recurrence"
         label="discourse_post_event.builder_modal.recurrence.label"
       }}
-        {{combo-box
-          class="available-recurrences"
-          value=(readonly model.eventModel.recurrence)
-          content=availableRecurrences
-          onChange=(action (mut model.eventModel.recurrence))
-          options=(hash
+        <ComboBox
+          @class="available-recurrences"
+          @value={{readonly model.eventModel.recurrence}}
+          @content={{availableRecurrences}}
+          @onChange={{action (mut model.eventModel.recurrence)}}
+          @options={{hash
             none="discourse_post_event.builder_modal.recurrence.none"
-          )
-        }}
+          }}
+        />
       {{/event-field}}
 
       {{#event-field
@@ -208,39 +224,45 @@
             }}</p>
           {{#each allowedCustomFields as |allowedCustomField|}}
             <span class="label custom-field-label">{{allowedCustomField}}</span>
-            {{input
+            <Input
               class="custom-field-input"
-              value=(readonly
+              @value={{readonly
                 (get model.eventModel.custom_fields allowedCustomField)
-              )
-              placeholderKey="discourse_post_event.builder_modal.custom_fields.placeholder"
-              input=(action "onChangeCustomField" allowedCustomField)
-            }}
+              }}
+              placeholder={{I18n
+                "discourse_post_event.builder_modal.custom_fields.placeholder"
+              }}
+              {{on "input" (action "onChangeCustomField" allowedCustomField)}}
+            />
           {{/each}}
         {{/event-field}}
       {{/if}}
     </form>
-  {{/conditional-loading-section}}
-{{/d-modal-body}}
+  </ConditionalLoadingSection>
+</DModalBody>
 
 <div class="modal-footer">
   {{#if model.eventModel.isNew}}
-    {{d-button
-      type="button"
+    <DButton
+      @type="button"
       class="btn-primary"
-      label="discourse_post_event.builder_modal.create"
-      icon="calendar-day"
-      action=(action "createEvent")
-    }}
+      @label="discourse_post_event.builder_modal.create"
+      @icon="calendar-day"
+      @action={{action "createEvent"}}
+    />
   {{else}}
-    {{d-button
-      type="button"
+    <DButton
+      @type="button"
       class="btn-primary"
-      label="discourse_post_event.builder_modal.update"
-      icon="calendar-day"
-      action=(action "updateEvent")
-    }}
+      @label="discourse_post_event.builder_modal.update"
+      @icon="calendar-day"
+      @action={{action "updateEvent"}}
+    />
 
-    {{d-button icon="trash-alt" class="btn-danger" action="destroyPostEvent"}}
+    <DButton
+      @icon="trash-alt"
+      class="btn-danger"
+      @action={{action "destroyPostEvent"}}
+    />
   {{/if}}
 </div>

@@ -1,7 +1,7 @@
-{{#d-modal-body
-  title=(concat "discourse_post_event.bulk_invite_modal.title")
-  class="discourse-post-event-bulk-invite"
-}}
+<DModalBody
+  @title={{concat "discourse_post_event.bulk_invite_modal.title"}}
+  @class="discourse-post-event-bulk-invite"
+>
   <div class="bulk-invites">
     <p class="bulk-event-help">{{i18n
         (concat
@@ -15,58 +15,57 @@
       {{#each bulkInvites as |bulkInvite|}}
         <div class="bulk-invite-row">
           {{#if model.eventModel.is_private}}
-            {{group-selector
-              class="bulk-invite-identifier"
-              single=true
-              groupFinder=groupFinder
-              groupNames=bulkInvite.identifier
-              placeholderKey="discourse_post_event.bulk_invite_modal.group_selector_placeholder"
-            }}
+            <GroupSelector
+              @class="bulk-invite-identifier"
+              @single={{true}}
+              @groupFinder={{groupFinder}}
+              @groupNames={{bulkInvite.identifier}}
+              @placeholderKey="discourse_post_event.bulk_invite_modal.group_selector_placeholder"
+            />
           {{/if}}
           {{#if model.eventModel.is_public}}
-            {{email-group-user-chooser
-              class="bulk-invite-identifier"
-              value=bulkInvite.identifier
-              onChange=(action "updateInviteIdentifier" bulkInvite)
-              options=(hash
+            <EmailGroupUserChooser
+              @class="bulk-invite-identifier"
+              @value={{bulkInvite.identifier}}
+              @onChange={{action "updateInviteIdentifier" bulkInvite}}
+              @options={{hash
                 maximum=1
                 filterPlaceholder="discourse_post_event.bulk_invite_modal.user_selector_placeholder"
-              )
-            }}
+              }}
+            />
           {{/if}}
 
-          {{combo-box
-            class="bulk-invite-attendance"
-            value=bulkInvite.attendance
-            content=bulkInviteStatuses
-            nameProperty="name"
-            valueProperty="name"
-            onChange=(action (mut bulkInvite.attendance))
-          }}
+          <ComboBox
+            @class="bulk-invite-attendance"
+            @value={{bulkInvite.attendance}}
+            @content={{bulkInviteStatuses}}
+            @nameProperty="name"
+            @valueProperty="name"
+            @onChange={{action (mut bulkInvite.attendance)}}
+          />
 
-          {{d-button
-            icon="trash-alt"
-            action=(action "removeBulkInvite" bulkInvite)
+          <DButton
+            @icon="trash-alt"
+            @action={{action "removeBulkInvite" bulkInvite}}
             class="remove-bulk-invite"
-          }}
+          />
         </div>
       {{/each}}
     </div>
 
     <div class="bulk-invite-actions">
-      {{d-button
+      <DButton
         class="send-bulk-invites btn-primary"
-        label="discourse_post_event.bulk_invite_modal.send_bulk_invites"
-        action=(action "sendBulkInvites")
-        disabled=bulkInviteDisabled
-      }}
-      {{d-button
+        @label="discourse_post_event.bulk_invite_modal.send_bulk_invites"
+        @action={{action "sendBulkInvites"}}
+        @disabled={{bulkInviteDisabled}}
+      />
+      <DButton
         class="add-bulk-invite"
-        icon="plus"
-        action=(action "addBulkInvite")
-      }}
+        @icon="plus"
+        @action={{action "addBulkInvite"}}
+      />
     </div>
-
   </div>
 
   <div class="csv-bulk-invites">
@@ -86,4 +85,4 @@
       }}
     </div>
   </div>
-{{/d-modal-body}}
+</DModalBody>

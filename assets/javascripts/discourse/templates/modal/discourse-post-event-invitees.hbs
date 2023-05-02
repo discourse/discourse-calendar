@@ -1,12 +1,14 @@
-{{#d-modal-body}}
-  {{input
-    value=(readonly filter)
-    input=(action "onFilterChanged" value="target.value")
+<DModalBody>
+  <Input
+    @value={{readonly filter}}
+    {{on "input" (action "onFilterChanged" value="target.value")}}
     class="filter"
-    placeholderKey="discourse_post_event.invitees_modal.filter_placeholder"
-  }}
+    placeholder={{I18n
+      "discourse_post_event.invitees_modal.filter_placeholder"
+    }}
+  />
   {{toggle-invitees-modal modal=this toggle=(action "toggleType")}}
-  {{#conditional-loading-spinner condition=isLoading}}
+  <ConditionalLoadingSpinner @condition={{isLoading}}>
     {{#if invitees}}
       <ul class="invitees">
         {{#each invitees as |invitee|}}
@@ -28,10 +30,10 @@
             {{/if}}
 
             {{#if model.can_act_on_discourse_post_event}}
-              {{d-button
-                icon="trash-alt"
-                action=(action "removeInvitee" invitee)
-              }}
+              <DButton
+                @icon="trash-alt"
+                @action={{action "removeInvitee" invitee}}
+              />
             {{/if}}
           </li>
         {{/each}}
@@ -41,5 +43,5 @@
         {{i18n "discourse_post_event.models.invitee.no_users"}}
       </p>
     {{/if}}
-  {{/conditional-loading-spinner}}
-{{/d-modal-body}}
+  </ConditionalLoadingSpinner>
+</DModalBody>
