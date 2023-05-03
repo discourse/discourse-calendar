@@ -1,6 +1,7 @@
 import { Promise } from "rsvp";
 import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
+import discourseComputed from "discourse-common/utils/decorators";
 import loadScript from "discourse/lib/load-script";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
@@ -9,6 +10,8 @@ import getURL from "discourse-common/lib/get-url";
 export default Component.extend({
   tagName: "",
   events: null,
+  shouldShowEventInfo: false,
+  eventData: null,
 
   init() {
     this._super(...arguments);
@@ -29,6 +32,11 @@ export default Component.extend({
     this._renderCalendar();
   },
 
+  @discourseComputed("eventData")
+  eventInfo(info) {
+    return info;
+  },
+
   _renderCalendar() {
     const calendarNode = document.getElementById("upcoming-events-calendar");
     if (!calendarNode) {
@@ -37,8 +45,18 @@ export default Component.extend({
 
     calendarNode.innerHTML = "";
 
-    this._loadCalendar().then(() => {
-      this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
+    this._loadCalendar(this).then(() => {
+      let eventThis = this;
+      this._calendar = new window.FullCalendar.Calendar(calendarNode, {
+        eventClick: function (info) {
+          eventThis.set("eventData", info.event);
+          eventThis.set("shouldShowEventInfo", true);
+          info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+        },
+        eventMouseEnter: function (info) {
+          let eventObj = info.event;
+        },
+      });
 
       (this.events || []).forEach((event) => {
         const { starts_at, ends_at, post } = event;
@@ -55,7 +73,7 @@ export default Component.extend({
     });
   },
 
-  _loadCalendar() {
+  _loadCalendar(context) {
     return new Promise((resolve) => {
       loadScript(
         "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
