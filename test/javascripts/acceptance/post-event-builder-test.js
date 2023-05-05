@@ -64,7 +64,7 @@ acceptance("Post event - composer", function (needs) {
     );
   });
 
-  test("composer event builder - the timezone issues around midnight", async function (assert) {
+  test("composer event builder - the timezone case", async function (assert) {
     await visit("/");
 
     // Freeze time
@@ -83,6 +83,10 @@ acceptance("Post event - composer", function (needs) {
 
     try {
       await click("#create-topic");
+      const categoryChooser = selectKit(".category-chooser");
+      await categoryChooser.expand();
+      await categoryChooser.selectRowByValue(2);
+
       await click(".toolbar-popup-menu-options .dropdown-select-box-header");
       await click(".toolbar-popup-menu-options *[data-value='insertEvent']");
 
@@ -98,7 +102,7 @@ acceptance("Post event - composer", function (needs) {
       await timezoneInput.expand();
       await timezoneInput.selectRowByValue("Europe/London");
 
-      // The date should be still the same
+      // The date should be still the same?
       assert.strictEqual(
         query(`${modal} .from input[type=date]`).value,
         "2022-07-01"

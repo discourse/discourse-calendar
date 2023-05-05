@@ -210,7 +210,11 @@ export default Controller.extend(ModalFunctionality, {
 
   @action
   onChangeTimezone(newTz) {
-    this.model.eventModel.set("timezone", newTz);
+    this.model.eventModel.setProperties({
+      timezone: newTz,
+      starts_at: replaceTimezone(this.startsAt, newTz),
+      ends_at: this.endsAt && replaceTimezone(this.endsAt, newTz),
+    });
   },
 
   @action
@@ -249,16 +253,16 @@ export default Controller.extend(ModalFunctionality, {
     }
 
     const eventParams = buildParams(
-      replaceTimezone(this.startsAt, this.model.eventModel.timezone),
-      replaceTimezone(this.endsAt, this.model.eventModel.timezone),
+      this.startsAt,
+      this.endsAt,
       this.model.eventModel,
       this.siteSettings
     );
-
     const markdownParams = [];
-    for (const [key, value] of Object.entries(eventParams)) {
+    Object.keys(eventParams).forEach((key) => {
+      let value = eventParams[key];
       markdownParams.push(`${key}="${value}"`);
-    }
+    });
 
     this.toolbarEvent.addText(`[event ${markdownParams.join(" ")}]\n[/event]`);
     this.send("closeModal");
@@ -267,14 +271,15 @@ export default Controller.extend(ModalFunctionality, {
   @action
   updateEvent() {
     return this.store.find("post", this.model.eventModel.id).then((post) => {
+      const raw = post.raw;
       const eventParams = buildParams(
-        replaceTimezone(this.startsAt, this.model.eventModel.timezone),
-        replaceTimezone(this.endsAt, this.model.eventModel.timezone),
+        this.startsAt,
+        this.endsAt,
         this.model.eventModel,
         this.siteSettings
       );
 
-      const newRaw = replaceRaw(eventParams, post.raw);
+      const newRaw = replaceRaw(eventParams, raw);
 
       if (newRaw) {
         const props = {
