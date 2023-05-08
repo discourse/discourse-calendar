@@ -1,0 +1,63 @@
+.event-container {
+  border: 5px solid var(--primary-low);
+  display: flex;
+  background: var(--secondary);
+  margin: 5px 0;
+  flex-direction: column;
+  flex: 1 0 auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 0 1em;
+    height: 75px;
+  }
+  &__header-date {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin-right: 1em;
+  }
+  &__header-date .month {
+    text-align: center;
+    color: red;
+    font-size: var(--font-down-1);
+    text-transform: uppercase;
+  }
+  &__header-date .day {
+    text-align: center;
+    font-weight: 500;
+    font-size: var(--font-up-2);
+  }
+  &__header-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-right: 0.5rem;
+  }
+  &__header-info-title {
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 45vw;
+  }
+  &__header-info-metadata {
+    display: flex;
+    align-items: center;
+    color: var(--primary-medium);
+    font-size: var(--font-down-1);
+    margin: 0.25em 0;
+  }
+  &__header-info-metadata .creators {
+    display: flex;
+    align-items: center;
+  }
+  &__invites .show-all {
+    display: none;
+  }
+  .event-info-local-date .d-icon {
+    display: none;
+  }
+}

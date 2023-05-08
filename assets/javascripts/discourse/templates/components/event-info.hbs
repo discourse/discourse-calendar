@@ -1,3 +1,79 @@
-<h1>The event should show</h1>
-
-{{log this.eventInfo}}
+<div
+  class="event-container"
+  {{did-insert this.fetchEventData}}
+  {{did-insert this.setupEventInfo}}
+  {{did-insert this.setPlacement}}
+  {{did-update this.fetchEventData @discourseEvent}}
+  {{did-update this.setPlacement @eventInfoPosition}}
+>
+  {{#if this.eventModel}}
+    <div class="event-container__header">
+      <div class="event-container__header-date">
+        <div class="month">{{this.transformed.startsAtMonth}}</div>
+        <div class="day">{{this.transformed.startsAtDay}}</div>
+      </div>
+      <div class="event-container__header-info">
+        <a
+          href={{@discourseEvent.url}}
+          class="event-container__header-info-title"
+        >
+          <span>{{this.transformed.eventName}}</span>
+        </a>
+        <div class="event-container__header-info-metadata">
+          {{#unless this.transformed.isStandaloneEvent}}
+            {{#if this.eventModel.is_expired}}
+              <span class="status expired">
+                {{i18n "discourse_post_event.models.event.expired"}}
+              </span>
+            {{else}}
+              <span
+                class={{this.transformed.statusClass}}
+                title={{this.transformed.eventStatusDescription}}
+              >
+                {{this.transformed.eventStatusLabel}}
+              </span>
+            {{/if}}
+          {{/unless}}
+          <span class="creators">
+            <span class="created-by">{{i18n
+                "discourse_post_event.event_ui.created_by"
+              }}
+              {{bound-avatar this.eventModel.creator "tiny"}}
+              {{this.eventModel.creator.username}}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="event-container__url">
+      {{d-icon "link"}}
+      <a href="{{this.eventModel.url}}">{{this.eventModel.url}}</a>
+    </div>
+    <div class="event-container__dates">
+      {{d-icon "clock"}}
+      {{#if this.eventModel.ends_at}}
+        <EventTimestamp
+          @date={{this.transformed.startsAt.date}}
+          @time={{this.transformed.startsAt.time}}
+        />
+        <EventTimestamp
+          @date={{this.transformed.endsAt.date}}
+          @time={{this.transformed.endsAt.time}}
+        />
+      {{else}}
+        <EventTimestamp
+          @date={{this.transformed.startsAt.date}}
+          @time={{this.transformed.startsAt.time}}
+        />
+      {{/if}}
+    </div>
+    {{#if this.eventModel.should_display_invitees}}
+      <div class="event-container__invites">
+        <MountWidget
+          @widget="discourse-post-event-invitees"
+          @args={{hash eventModel=this.eventModel}}
+        />
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

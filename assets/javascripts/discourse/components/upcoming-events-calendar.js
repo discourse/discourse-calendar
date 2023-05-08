@@ -1,7 +1,6 @@
 import { Promise } from "rsvp";
 import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
 import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
-import discourseComputed from "discourse-common/utils/decorators";
 import loadScript from "discourse/lib/load-script";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
@@ -12,10 +11,10 @@ export default Component.extend({
   events: null,
   shouldShowEventInfo: false,
   eventData: null,
+  eventInfoPosition: null,
 
   init() {
     this._super(...arguments);
-
     this._calendar = null;
   },
 
@@ -32,9 +31,39 @@ export default Component.extend({
     this._renderCalendar();
   },
 
-  @discourseComputed("eventData")
-  eventInfo(info) {
-    return info;
+  _calculatePosition(element) {
+    const offsetLeft = element.offsetLeft;
+    const offsetTop = element.offsetTop;
+    const windowWidth = $(window).width();
+    const windowHeight = $(window).height();
+
+    let styles;
+
+    if (offsetLeft > windowWidth / 2) {
+      styles = {
+        left: "-390px",
+        right: "initial",
+      };
+    } else {
+      styles = {
+        right: "-390px",
+        left: "initial",
+      };
+    }
+
+    if (offsetTop > windowHeight / 2) {
+      styles = Object.assign(styles, {
+        bottom: "-15px",
+        top: "initial",
+      });
+    } else {
+      styles = Object.assign(styles, {
+        top: "-15px",
+        bottom: "initial",
+      });
+    }
+
+    this.set("eventInfoPosition", styles);
   },
 
   _renderCalendar() {
@@ -51,6 +80,7 @@ export default Component.extend({
         eventClick: function (info) {
           eventThis.set("eventData", info.event);
           eventThis.set("shouldShowEventInfo", true);
+          eventThis._calculatePosition(info.el);
           info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
         },
         eventMouseEnter: function (info) {
@@ -59,13 +89,14 @@ export default Component.extend({
       });
 
       (this.events || []).forEach((event) => {
-        const { starts_at, ends_at, post } = event;
+        const { starts_at, ends_at, post, id } = event;
         this._calendar.addEvent({
           title: formatEventName(event),
           start: starts_at,
           end: ends_at || starts_at,
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+          postId: id,
         });
       });
 

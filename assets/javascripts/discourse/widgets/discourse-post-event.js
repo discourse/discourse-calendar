@@ -15,7 +15,10 @@ export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
   services: ["dialog"],
 
-  buildKey: (attrs) => `discourse-post-event-${attrs.id}`,
+  buildKey: (attrs) => {
+    console.log(attrs);
+    return `discourse-post-event-${attrs.id}`
+  },
 
   buildClasses() {
     if (this.state.event) {

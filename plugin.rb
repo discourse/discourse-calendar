@@ -33,6 +33,7 @@ register_asset "stylesheets/mobile/discourse-post-event.scss", :mobile
 register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
 register_asset "stylesheets/colors.scss", :color_definitions
 register_asset "stylesheets/common/user-preferences.scss"
+register_asset "stylesheets/common/event-info.scss"
 register_svg_icon "fas fa-calendar-day"
 register_svg_icon "fas fa-clock"
 register_svg_icon "fas fa-file-csv"

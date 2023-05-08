@@ -7,6 +7,7 @@ export default createWidget("discourse-post-event-creator", {
   tagName: "span.event-creator",
 
   html(attrs) {
+    console.log(attrs);
     const { name, username, avatar_template } = attrs.user;
 
     return h(
