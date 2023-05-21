@@ -4,16 +4,9 @@ module DiscoursePostEvent
   class EventDate < ActiveRecord::Base
     self.table_name = "discourse_calendar_post_event_dates"
     belongs_to :event
-
-    scope :pending,
-          -> {
-            where(finished_at: nil).joins(:event).where(
-              "discourse_post_event_events.deleted_at is NULL",
-            )
-          }
-    scope :expired, -> { where("ends_at IS NOT NULL AND ends_at < ?", Time.now) }
-    scope :not_expired, -> { where("ends_at IS NULL OR ends_at > ?", Time.now) }
-
+    scope :pending, -> { where('deleted_at IS NULL AND finished_at IS NULL') }
+    scope :expired, -> { where('deleted_at IS NULL AND ends_at IS NOT NULL AND ends_at < ?', Time.now) }
+    scope :not_expired, -> { where('deleted_at IS NULL AND (ends_at IS NULL OR ends_at > ?)', Time.now) }
     after_commit :upsert_topic_custom_field, on: %i[create]
     def upsert_topic_custom_field
       if self.event.post && self.event.post.is_first_post?
@@ -65,6 +58,7 @@ end
 #  event_id                 :integer
 #  starts_at                :datetime
 #  ends_at                  :datetime
+#  deleted_at                :datetime
 #  reminder_counter         :integer          default(0)
 #  event_will_start_sent_at :datetime
 #  event_started_sent_at    :datetime

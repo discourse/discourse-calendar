@@ -34,9 +34,11 @@ module DiscoursePostEvent
       starts_at_changed = saved_change_to_original_starts_at
       ends_at_changed = saved_change_to_original_ends_at
 
+      # No one of date changed => Must keep the event
       return if !starts_at_changed && !ends_at_changed
 
-      event_dates.update_all(finished_at: Time.current)
+      # One of date changed => Must delete the event_date and create new event_date on this event
+      event_dates.update_all(deleted_at: Time.current)
       set_next_date
     end
 

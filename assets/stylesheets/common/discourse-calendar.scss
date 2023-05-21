@@ -7,34 +7,34 @@
   overflow-y: scroll;
 }
 
-.before-topic-list-body-outlet.category-calendar {
-  display: table-caption;
-}
-
-.calendar.fc {
-  height: 645px; // Must be fixed to prevent height change on load
-  border: 0;
-
-  &.fc-unthemed {
-    tbody,
-    thead,
-    tr {
-      border: none;
-
-      td.fc-widget-content,
-      td.fc-widget-header {
-        border-left: 0;
-
-        &:last-child {
-          border-right: 0;
+  .mobile-view {
+    .calendar {
+        .fc-toolbar{
+            display: block;
         }
-      }
+    }
+  }
+
+.calendar {
+
+    .fc-list-event-title .fc-list-item-add-to-calendar{
+        position: absolute;
+        right: 10px;
+        font-size: 0.75em;
+        background: var(--primary-low);
+        padding: 2px 4px;
+        border-radius: 2px;
+        text-decoration: none!important;
+
+        &:hover {
+            background: var(--primary-medium);
+            color: var(--secondary);
+        }
     }
 
     overflow: hidden;
 
     .fc-scroller {
-      height: 575px !important;
       padding-bottom: 5px;
     }
 
@@ -63,25 +63,47 @@
 
     .fc-title {
       @include ellipsis;
+    }
+
+    .fc-event-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       display: block;
     }
 
-    .fc-widget-header span {
-      padding: 3px 3px 3px 0.5em;
+    .fc-daygrid-event-dot{
+        display: none;
     }
 
-    .fc-center {
-      display: none;
+    .fc-event-time {
+        background: var(--fc-event-bg-color, #3788d8);
+        color: white;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 0.9em;
     }
+
+    .fc-daygrid-event{
+        .fc-event-time {
+            margin-left: 2px;
+        }
+    }
+
+    .fc-daygrid-block-event .fc-event-title {
+        padding: 2px;
+    }
+
 
     .fc-button {
-      border-radius: 0;
+      border-radius: 5px;
       box-shadow: none;
       background: var(--primary-low);
       text-transform: capitalize;
       color: var(--primary);
       text-shadow: none;
       border: none;
+
       padding: 6px 12px;
 
       &:hover {
@@ -93,301 +115,126 @@
         background: var(--tertiary);
         color: var(--secondary);
       }
+      margin: 0.3em 0 0.3em 0.5em;
     }
 
-    .fc-button-group {
-      // margin-right: 0;
-      .fc-button {
-        margin: 0;
-      }
-    }
-
-    .fc-divider,
-    .fc-list-empty,
-    .fc-list-heading td,
-    .fc-popover .fc-header {
-      background: var(--primary-low);
-    }
-
-    .fc-content,
-    .fc-divider,
-    .fc-list-heading td,
-    .fc-list-view,
-    .fc-popover,
-    .fc-row,
-    tbody,
-    td,
-    th,
     thead {
-      border-color: var(--primary-low);
-    }
-  }
-
-  .fc-event,
-  .fc-event-dot {
-    background-color: var(--tertiary);
-    border: 1px solid transparent;
-
-    .fc-time {
-      display: none;
+      background: var(--fc-button-active-bg-color, #1a252f);
+        a {
+          color: white;
+        }
     }
 
-    &.grouped-event {
-      background-color: var(--primary-low);
-      border: 1px solid var(--primary-low-mid);
-      color: var(--primary);
-
-      .emoji {
-        margin-right: 0.25em;
-      }
-    }
-  }
-
-  .fc-left {
-    .fc-button-group:first-child {
-      margin-left: 0;
-    }
-  }
-  .fc-list-item-add-to-calendar {
-    color: var(--tertiary);
-    font-size: $font-down-1;
-  }
 }
 
 a.holiday {
   cursor: default;
 }
 
-.combo-box.user-timezone {
-  min-width: 15em;
-}
+.calendar-tooltip {
+    display   : none;
+    background: var(--fc-event-bg-color, #3788d8);
+    color     : white;
+    border    : solid 1px white;
+    box-shadow   : rgba(0, 0, 0, 0.3) 0 2px 10px;
+    font-weight  : bold;
+    padding      : 20px 20px;
+    font-size    : 10px;
+    border-radius: 4px;
+    text-align   : left;
+    z-index      : 10000;
+    position: relative;
 
-.discourse-calendar-header {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 0.5em;
-  border-bottom: 1px solid var(--primary-low);
-  background: var(--primary-very-low);
-  min-height: 60px;
+    .tooltip-content{
 
-  .discourse-calendar-timezone-picker {
-    margin-bottom: 0;
-  }
-
-  h2.discourse-calendar-title {
-    margin: 0 !important;
-  }
-
-  .title {
-    font-weight: 700;
-    text-transform: capitalize;
-  }
-}
-
-.discourse-calendar-header .discourse-calendar-timezone-picker {
-  max-width: 50vw;
-  font-size: 16px;
-}
-
-.group-timezones {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  flex-direction: column;
-
-  &[data-size="auto"],
-  &.auto {
-    height: auto;
-  }
-
-  &[data-size="small"],
-  &.small {
-    height: 175px;
-  }
-
-  &[data-size="medium"],
-  &.medium {
-    height: 300px;
-  }
-
-  &[data-size="large"],
-  &.large {
-    height: 600px;
-  }
-}
-
-.group-timezones-header {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5em;
-  box-sizing: border-box;
-
-  .title {
-    font-weight: bold;
-    text-transform: capitalize;
-  }
-}
-
-.group-timezones-time-traveler {
-  display: flex;
-  align-items: center;
-
-  .time {
-    font-weight: 700;
-    margin-right: 0.5em;
-    min-width: 45px;
-  }
-}
-
-.mobile-view .group-timezones-time-traveler,
-.mobile-view .group-timezones-filter {
-  display: none;
-}
-
-.discourse-group-timezones-slider-wrapper {
-  // we need the wrapper because Firefox doesn't allow pseudo selectors on inputs
-  position: relative;
-  margin: 0.25em 0;
-  margin-right: 0.5em;
-  &::before {
-    display: block;
-    content: "";
-    position: absolute;
-    margin-top: -1px;
-    background: var(--tertiary);
-    height: 2px;
-    top: 50%;
-    width: 100%;
-  }
-}
-
-.group-timezones-slider {
-  position: relative;
-  z-index: 1; // need a positive z-index to appear above the ::before
-  display: flex;
-  width: 120px;
-  padding: 0.25em;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  font: inherit;
-  outline: none;
-  box-sizing: border-box;
-  background-color: transparent;
-}
-
-.group-timezones-body {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  grid-template-rows: auto;
-  grid-gap: 0.25em;
-  box-sizing: border-box;
-  overflow-y: auto;
-
-  .group-timezones-header {
-    .title {
-      font-weight: 700;
-    }
-  }
-
-  .group-timezone,
-  .group-timezone-new-day {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    padding: 0.25em;
-  }
-
-  .group-timezone-new-day {
-    align-items: center;
-    justify-content: space-between;
-    color: inherit;
-    font-size: $font-down-1;
-
-    .before {
-      margin-right: auto;
-      text-transform: capitalize;
-    }
-
-    .after {
-      margin-left: auto;
-      text-transform: capitalize;
-    }
-  }
-
-  .group-timezone {
-    color: var(--primary);
-    background-color: var(--calendar-normal);
-    transition: opacity 0.4s;
-    opacity: 0.5;
-
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &.close-to-working-hours {
-      background-color: var(--calendar-close-to-working-hours);
-      opacity: 0.7;
-    }
-
-    &.in-working-hours {
-      background-color: var(--calendar-in-working-hours);
-      opacity: 1;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-
-    .info {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .time {
-        font-weight: 700;
-      }
-
-      .offset {
-        font-size: $font-down-2;
-        margin-left: 0.5em;
-      }
-    }
-
-    .group-timezones-members {
-      padding: 0;
-      margin: 0.1em 0;
-
-      .group-timezones-member {
-        &.on-holiday {
-          opacity: 0.4;
+        &.only-first-date {
+            .starts {
+                position: relative;
+                left: auto;
+                text-align: center;
+                width: 100%;
+            }
+            .date-to, .ends {
+                display: none;
+            }
         }
 
-        margin: 0.1em;
-        list-style: none;
-        display: inline-block;
-      }
+        &.no-title {
+            .title {
+                display: none;
+            }
+        }
+
+        .category {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .starts, .ends, .date-to {
+            display: inline-block;
+        }
+
+        .starts {
+            position: absolute;
+            left: 20px;
+            text-align: left;
+        }
+
+        .ends {
+            position: absolute;
+            right: 20px;
+            text-align: right;
+        }
+
+        .date-to {
+            width: 100%;
+            min-width: 150px;
+            font-size: 20px;
+            vertical-align: top;
+            text-align: center;
+        }
     }
-  }
+
 }
 
-.group-timezones-reset {
-  display: flex;
-  margin-left: 0.5em;
+.tooltip-arrow,
+.tooltip-arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  border-bottom: solid 1px white;
+  border-right: solid 1px white;
 }
 
-.group-timezones-filter[type="text"] {
-  margin: 0;
-  width: 120px;
+.tooltip-arrow {
+  visibility: hidden;
+}
+
+.tooltip-arrow::before {
+  visibility: visible;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.calendar-tooltip[data-popper-placement^='top'] > .tooltip-arrow {
+  bottom: -5px;
+}
+
+.calendar-tooltip[data-popper-placement^='bottom'] > .tooltip-arrow {
+  top: -5px;
+}
+
+.calendar-tooltip[data-popper-placement^='left'] > .tooltip-arrow {
+  right: -5px;
+}
+
+.calendar-tooltip[data-popper-placement^='right'] > .tooltip-arrow {
+  left: -5px;
 }
 
 .emoji.on-holiday {

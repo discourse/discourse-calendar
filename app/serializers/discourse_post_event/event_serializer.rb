@@ -78,7 +78,8 @@ module DiscoursePostEvent
         topic: {
           id: object.post.topic.id,
           title: object.post.topic.title,
-        },
+          category_id: object.post.topic.category_id
+        }
       }
     end
 

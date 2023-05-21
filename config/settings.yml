@@ -2,6 +2,9 @@ discourse_calendar:
   calendar_enabled:
     default: false
     client: true
+  show_past_events:
+    default: false
+    client: true
   holiday_calendar_topic_id:
     default: ""
     client: true
@@ -26,11 +29,11 @@ discourse_calendar:
     default: ""
   calendar_categories_outlet:
     client: true
-    default: "discovery-list-container-top"
+    default: "list-container"
     type: enum
     choices:
-      - discovery-list-container-top
-      - before-topic-list-body
+      - ".list-container"
+      - "#list-area"
   working_days:
     type: list
     list_type: simple
