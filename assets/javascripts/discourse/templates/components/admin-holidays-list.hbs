@@ -8,11 +8,11 @@
 
   <tbody>
     {{#each @holidays as |holiday|}}
-      {{admin-holidays-list-item
-        holiday=holiday
-        isHolidayDisabled=holiday.disabled
-        region_code=region_code
-      }}
+      <AdminHolidaysListItem
+        @holiday={{holiday}}
+        @isHolidayDisabled={{holiday.disabled}}
+        @region_code={{region_code}}
+      />
     {{/each}}
   </tbody>
 </table>

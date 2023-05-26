@@ -3,7 +3,7 @@
   @class="invite-user-or-group-modal"
 >
   <form>
-    {{#event-field}}
+    <EventField>
       <EmailGroupUserChooser
         @tabindex="1"
         @value={{invitedNames}}
@@ -15,7 +15,7 @@
           excludeCurrentUser=true
         }}
       />
-    {{/event-field}}
+    </EventField>
   </form>
 </DModalBody>
 

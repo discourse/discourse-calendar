@@ -7,7 +7,7 @@
       "discourse_post_event.invitees_modal.filter_placeholder"
     }}
   />
-  {{toggle-invitees-modal modal=this toggle=(action "toggleType")}}
+  <ToggleInviteesModal @modal={{this}} @toggle={{action "toggleType"}} />
   <ConditionalLoadingSpinner @condition={{isLoading}}>
     {{#if invitees}}
       <ul class="invitees">

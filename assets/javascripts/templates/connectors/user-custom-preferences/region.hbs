@@ -3,11 +3,11 @@
       "discourse_calendar.region.title"
     }}</label>
   <div class="controls">
-    {{region-input
-      value=model.custom_fields.holidays-region
-      allowNoneRegion=true
-      onChange=(action "onChange")
-    }}
+    <RegionInput
+      @value={{model.custom_fields.holidays-region}}
+      @allowNoneRegion={{true}}
+      @onChange={{action "onChange"}}
+    />
   </div>
   <DButton
     @icon="globe"
