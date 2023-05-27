@@ -13,10 +13,10 @@
         @onChange={{action "onChangeDates"}}
       />
 
-      {{#event-field
-        class="name"
-        label="discourse_post_event.builder_modal.name.label"
-      }}
+      <EventField
+        @class="name"
+        @label="discourse_post_event.builder_modal.name.label"
+      >
         <Input
           @value={{readonly model.eventModel.name}}
           placeholder={{I18n
@@ -27,12 +27,12 @@
             (action (mut model.eventModel.name) value="target.value")
           }}
         />
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field
-        class="url"
-        label="discourse_post_event.builder_modal.url.label"
-      }}
+      <EventField
+        @class="url"
+        @label="discourse_post_event.builder_modal.url.label"
+      >
         <Input
           @value={{readonly model.eventModel.url}}
           placeholder={{I18n
@@ -43,21 +43,21 @@
             (action (mut model.eventModel.url) value="target.value")
           }}
         />
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field
-        class="timezone"
-        label="discourse_post_event.builder_modal.timezone.label"
-      }}
+      <EventField
+        @class="timezone"
+        @label="discourse_post_event.builder_modal.timezone.label"
+      >
         <TimezoneInput
           @value={{model.eventModel.timezone}}
           @onChange={{action "onChangeTimezone"}}
           @class="input-xxlarge"
           @none="discourse_post_event.builder_modal.timezone.remove_timezone"
         />
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field label="discourse_post_event.builder_modal.status.label"}}
+      <EventField @label="discourse_post_event.builder_modal.status.label">
         <label class="radio-label">
           <RadioButton
             @name="status"
@@ -106,12 +106,12 @@
               }}</span>
           </span>
         </label>
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field
-        enabled=allowsInvitees
-        label="discourse_post_event.builder_modal.invitees.label"
-      }}
+      <EventField
+        @enabled={{allowsInvitees}}
+        @label="discourse_post_event.builder_modal.invitees.label"
+      >
         <GroupSelector
           @fullWidthWrap={{true}}
           @groupFinder={{groupFinder}}
@@ -119,12 +119,12 @@
           @onChangeCallback={{action "setRawInvitees"}}
           @placeholderKey="topic.invite_private.group_name"
         />
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field
-        class="reminders"
-        label="discourse_post_event.builder_modal.reminders.label"
-      }}
+      <EventField
+        @class="reminders"
+        @label="discourse_post_event.builder_modal.reminders.label"
+      >
         <div class="reminders-list">
           {{#each model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
@@ -186,12 +186,12 @@
           @label="discourse_post_event.builder_modal.add_reminder"
           @action={{action "addReminder"}}
         />
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field
-        class="recurrence"
-        label="discourse_post_event.builder_modal.recurrence.label"
-      }}
+      <EventField
+        @class="recurrence"
+        @label="discourse_post_event.builder_modal.recurrence.label"
+      >
         <ComboBox
           @class="available-recurrences"
           @value={{readonly model.eventModel.recurrence}}
@@ -201,24 +201,24 @@
             none="discourse_post_event.builder_modal.recurrence.none"
           }}
         />
-      {{/event-field}}
+      </EventField>
 
-      {{#event-field
-        class="minimal-event"
-        label="discourse_post_event.builder_modal.minimal.label"
-      }}
+      <EventField
+        @class="minimal-event"
+        @label="discourse_post_event.builder_modal.minimal.label"
+      >
         <label class="checkbox-label">
           <Input @type="checkbox" @checked={{model.eventModel.minimal}} />
           <span class="message">
             {{i18n "discourse_post_event.builder_modal.minimal.checkbox_label"}}
           </span>
         </label>
-      {{/event-field}}
+      </EventField>
 
       {{#if allowedCustomFields.length}}
-        {{#event-field
-          label="discourse_post_event.builder_modal.custom_fields.label"
-        }}
+        <EventField
+          @label="discourse_post_event.builder_modal.custom_fields.label"
+        >
           <p class="event-field-description">{{i18n
               "discourse_post_event.builder_modal.custom_fields.description"
             }}</p>
@@ -235,7 +235,7 @@
               {{on "input" (action "onChangeCustomField" allowedCustomField)}}
             />
           {{/each}}
-        {{/event-field}}
+        </EventField>
       {{/if}}
     </form>
   </ConditionalLoadingSection>

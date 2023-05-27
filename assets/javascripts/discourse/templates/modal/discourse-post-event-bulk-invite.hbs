@@ -72,17 +72,19 @@
     <h3>{{i18n "discourse_post_event.bulk_invite_modal.csv_title"}}</h3>
 
     <div class="bulk-invite-actions">
-      {{bulk-invite-sample-csv-file}}
+      <BulkInviteSampleCsvFile />
 
-      {{csv-uploader
+      <CsvUploader
         id="discourse-post-event-csv-uploader"
-        uploadUrl=(concat
-          "/discourse-post-event/events/" model.eventModel.id "/csv-bulk-invite"
-        )
-        i18nPrefix="discourse_post_event.bulk_invite_modal"
-        uploading=uploading
-        uploadDone=(action "uploadDone")
-      }}
+        @uploadUrl={{concat
+          "/discourse-post-event/events/"
+          model.eventModel.id
+          "/csv-bulk-invite"
+        }}
+        @i18nPrefix="discourse_post_event.bulk_invite_modal"
+        @uploading={{uploading}}
+        @uploadDone={{action "uploadDone"}}
+      />
     </div>
   </div>
 </DModalBody>
