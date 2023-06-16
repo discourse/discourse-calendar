@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Discourse::Application.routes.append do
+Discourse::Application.routes.draw do
   mount ::DiscourseCalendar::Engine, at: "/"
 
   get "/admin/plugins/calendar" => "admin/plugins#index", :constraints => StaffConstraint.new
@@ -30,4 +30,4 @@ DiscoursePostEvent::Engine.routes.draw do
   get "/upcoming-events" => "upcoming_events#index"
 end
 
-Discourse::Application.routes.append { mount ::DiscoursePostEvent::Engine, at: "/" }
+Discourse::Application.routes.draw { mount ::DiscoursePostEvent::Engine, at: "/" }
