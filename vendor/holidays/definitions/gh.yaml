@@ -46,6 +46,12 @@ months:
     regions: [gh]
     mday: 25
     type: informal
+  6:
+  - name: Eid-ul-Adha
+    regions: [gh]
+    mday: 28
+    year_ranges:
+      limited: [2023]
   7:
   - name: Republic Day
     regions: [gh]
@@ -122,6 +128,12 @@ tests:
       options: ["informal"]
     expect:
       name: "African Union Day"
+  - given:
+      date: "2023-06-28"
+      regions: ["gh"]
+      options: ["observed"]
+    expect:
+      name: "Eid-ul-Adha"
   - given:
       date: "2022-07-01"
       regions: ["gh"]

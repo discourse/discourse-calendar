@@ -20,6 +20,7 @@ module Holidays
       4 => [{:mday => 22, :year_ranges => { :limited => [2023] },:observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Eid-ul-Fitr", :regions => [:gh]}],
       5 => [{:mday => 1, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "May Day (Workers' Day)", :regions => [:gh]},
             {:mday => 25, :type => :informal, :name => "African Union Day", :regions => [:gh]}],
+      6 => [{:mday => 28, :year_ranges => { :limited => [2023] },:name => "Eid-ul-Adha", :regions => [:gh]}],
       7 => [{:mday => 1, :type => :informal, :name => "Republic Day", :regions => [:gh]}],
       8 => [{:mday => 4, :year_ranges => { :from => 2019 },:observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Founders' Day", :regions => [:gh]}],
       9 => [{:mday => 21, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Kwame Nkrumah Memorial Day", :regions => [:gh]}],

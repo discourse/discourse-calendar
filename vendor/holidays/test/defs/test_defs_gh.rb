@@ -23,6 +23,8 @@ class GhDefinitionTests < Test::Unit::TestCase  # :nodoc:
 
     assert_equal "African Union Day", (Holidays.on(Date.civil(2022, 5, 25), [:gh], [:informal])[0] || {})[:name]
 
+    assert_equal "Eid-ul-Adha", (Holidays.on(Date.civil(2023, 6, 28), [:gh], [:observed])[0] || {})[:name]
+
     assert_equal "Republic Day", (Holidays.on(Date.civil(2022, 7, 1), [:gh], [:informal])[0] || {})[:name]
 
     assert_equal "Founders' Day", (Holidays.on(Date.civil(2022, 8, 4), [:gh])[0] || {})[:name]
