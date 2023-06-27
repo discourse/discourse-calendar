@@ -28,7 +28,7 @@ module Holidays
       5 => [{:mday => 1, :name => "Maharashtra Day", :regions => [:in_mh]},
             {:mday => 1, :name => "Labour's Day", :regions => [:in_tn]},
             {:mday => 5, :year_ranges => { :limited => [2023] },:name => "Buddha Purnima", :regions => [:in_rj]}],
-      6 => [{:mday => 29, :year_ranges => { :limited => [2023] },:name => "Eid al-Adha", :regions => [:in_rj, :in_tn, :in_gj]}],
+      6 => [{:mday => 29, :year_ranges => { :limited => [2023] },:name => "Eid al-Adha", :regions => [:in_rj, :in_tn, :in_gj, :in_mh]}],
       7 => [{:mday => 28, :year_ranges => { :limited => [2023] },:name => "Muharram", :regions => [:in_gj]}],
       8 => [{:mday => 15, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Independence Day", :regions => [:in]},
             {:mday => 16, :year_ranges => { :limited => [2023] },:name => "Parsi New Year's Day", :regions => [:in_gj]},
