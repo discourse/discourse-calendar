@@ -63,7 +63,10 @@ describe User do
           let(:topic_1) { Fabricate(:topic, user: user_2) }
           let(:post_1) { Fabricate(:post, topic: topic_1, user: user_2) }
           let(:post_event_1) { Fabricate(:event, post: post_1) }
-          before { user_1.update(trust_level: 4) }
+          before do
+            user_1.update(trust_level: 4)
+            Group.refresh_automatic_groups!
+          end
 
           it "can act on the event" do
             expect(user_1.can_act_on_discourse_post_event?(post_event_1)).to eq(true)
