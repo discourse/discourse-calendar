@@ -15,15 +15,61 @@ months:
     regions: [my]
     mday: 1
     observed: to_weekday_if_weekend(date)
+  - name: Chinese New Year
+    regions: [my]
+    mday: 23
+    observed: to_weekday_if_weekend(date)
+  - name: Chinese New Year (Day 2)
+    regions: [my]
+    mday: 24
+    year_ranges:
+      limited: [2023]
+  2:
+  - name: Thaipusam
+    regions: [my]
+    mday: 5
+    observed: to_weekday_if_weekend(date)
+  4:
+  - name: Nuzul Al-Quran
+    regions: [my]
+    mday: 8
+    year_ranges:
+      limited: [2023]
+  - name: Hari Raya Aidilfitri
+    regions: [my]
+    mday: 21
+    year_ranges:
+      limited: [2023]
+  - name: Hari Raya Aidilfitri (Day 2)
+    regions: [my]
+    mday: 24
+    year_ranges:
+      limited: [2023]
   5:
   - name: Labour Day
     regions: [my]
     mday: 1
+  - name: Wesak Day
+    regions: [my]
+    mday: 4
+    year_ranges:
+      limited: [2023]
   6:
   - name: Agong's Birthday
     regions: [my]
     mday: 4
     observed: to_weekday_if_weekend(date)
+  - name: Hari Raya Haji
+    regions: [my]
+    mday: 29
+    year_ranges:
+      limited: [2023]
+  7:
+  - name: Awal Muharram
+    regions: [my]
+    mday: 19
+    year_ranges:
+      limited: [2023]
   8:
   - name: Independence Day
     regions: [my]
@@ -34,7 +80,22 @@ months:
     regions: [my]
     mday: 16
     observed: to_weekday_if_weekend(date)
+  - name: Prophet Muhammad's Birthday
+    regions: [my]
+    mday: 28
+    year_ranges:
+      limited: [2023]
+  11:
+  - name: Deepavali (Observed)
+    regions: [my]
+    mday: 13
+    observed: to_weekday_if_weekend(date)
   12:
+  - name: Sultan of Selangor's Birthday
+    regions: [my]
+    mday: 11
+    year_ranges:
+      limited: [2023]
   - name: Christmas Day
     regions: [my]
     mday: 25
@@ -42,37 +103,61 @@ months:
 
 tests:
   - given:
-      date: '2016-01-01'
+      date: '2023-01-01'
       regions: ["my"]
       options: ["informal"]
     expect:
       name: "New Year's Day"
   - given:
-      date: '2016-05-01'
+      date: '2023-05-01'
       regions: ["my"]
       options: ["informal"]
     expect:
       name: "Labour Day"
   - given:
-      date: '2016-06-04'
+      date: '2023-06-04'
       regions: ["my"]
       options: ["informal"]
     expect:
       name: "Agong's Birthday"
   - given:
-      date: '2016-08-31'
+      date: '2023-06-29'
+      regions: ["my"]
+      options: ["observed"]
+    expect:
+      name: "Hari Raya Haji"
+  - given:
+      date: '2023-07-19'
+      regions: ["my"]
+      options: ["informal"]
+    expect:
+      name: "Awal Muharram"
+  - given:
+      date: '2023-08-31'
       regions: ["my"]
       options: ["informal"]
     expect:
       name: "Independence Day"
   - given:
-      date: '2016-09-16'
+      date: '2023-09-16'
       regions: ["my"]
       options: ["informal"]
     expect:
       name: "Malaysia Day"
   - given:
-      date: '2016-12-25'
+      date: '2023-09-28'
+      regions: ["my"]
+      options: ["informal"]
+    expect:
+      name: "Prophet Muhammad's Birthday"
+  - given:
+      date: '2023-11-13'
+      regions: ["my"]
+      options: ["observed"]
+    expect:
+      name: "Deepavali (Observed)"
+  - given:
+      date: '2023-12-25'
       regions: ["my"]
       options: ["informal"]
     expect:
