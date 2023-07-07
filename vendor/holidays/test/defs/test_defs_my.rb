@@ -7,17 +7,25 @@ require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 class MyDefinitionTests < Test::Unit::TestCase  # :nodoc:
 
   def test_my
-    assert_equal "New Year's Day", (Holidays.on(Date.civil(2016, 1, 1), [:my], [:informal])[0] || {})[:name]
+    assert_equal "New Year's Day", (Holidays.on(Date.civil(2023, 1, 1), [:my], [:informal])[0] || {})[:name]
 
-    assert_equal "Labour Day", (Holidays.on(Date.civil(2016, 5, 1), [:my], [:informal])[0] || {})[:name]
+    assert_equal "Labour Day", (Holidays.on(Date.civil(2023, 5, 1), [:my], [:informal])[0] || {})[:name]
 
-    assert_equal "Agong's Birthday", (Holidays.on(Date.civil(2016, 6, 4), [:my], [:informal])[0] || {})[:name]
+    assert_equal "Agong's Birthday", (Holidays.on(Date.civil(2023, 6, 4), [:my], [:informal])[0] || {})[:name]
 
-    assert_equal "Independence Day", (Holidays.on(Date.civil(2016, 8, 31), [:my], [:informal])[0] || {})[:name]
+    assert_equal "Hari Raya Haji", (Holidays.on(Date.civil(2023, 6, 29), [:my], [:observed])[0] || {})[:name]
 
-    assert_equal "Malaysia Day", (Holidays.on(Date.civil(2016, 9, 16), [:my], [:informal])[0] || {})[:name]
+    assert_equal "Awal Muharram", (Holidays.on(Date.civil(2023, 7, 19), [:my], [:informal])[0] || {})[:name]
 
-    assert_equal "Christmas Day", (Holidays.on(Date.civil(2016, 12, 25), [:my], [:informal])[0] || {})[:name]
+    assert_equal "Independence Day", (Holidays.on(Date.civil(2023, 8, 31), [:my], [:informal])[0] || {})[:name]
+
+    assert_equal "Malaysia Day", (Holidays.on(Date.civil(2023, 9, 16), [:my], [:informal])[0] || {})[:name]
+
+    assert_equal "Prophet Muhammad's Birthday", (Holidays.on(Date.civil(2023, 9, 28), [:my], [:informal])[0] || {})[:name]
+
+    assert_equal "Deepavali (Observed)", (Holidays.on(Date.civil(2023, 11, 13), [:my], [:observed])[0] || {})[:name]
+
+    assert_equal "Christmas Day", (Holidays.on(Date.civil(2023, 12, 25), [:my], [:informal])[0] || {})[:name]
 
   end
 end

@@ -75,7 +75,7 @@ months:
       limited: [2023]
   6:
   - name: Eid al-Adha
-    regions: [in_rj, in_tn, in_gj]
+    regions: [in_rj, in_tn, in_gj, in_mh]
     mday: 29
     year_ranges:
       limited: [2023]
