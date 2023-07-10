@@ -262,6 +262,7 @@ export const HOLIDAY_REGIONS = [
   "my",
   "th",
   "ng",
+  "ke",
 ];
 
 export const TIME_ZONE_TO_REGION = {
@@ -270,6 +271,7 @@ export const TIME_ZONE_TO_REGION = {
   "Africa/Ceuta": "es",
   "Africa/Johannesburg": "za",
   "Africa/Lagos": "ng",
+  "Africa/Nairobi": "ke",
   "Africa/Tunis": "tn",
   "America/Adak": "us",
   "America/Anchorage": "us",
