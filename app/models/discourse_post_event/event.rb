@@ -199,7 +199,8 @@ module DiscoursePostEvent
     end
 
     def create_notification!(user, post, predefined_attendance: false)
-      return if post.event.starts_at < Time.current
+      byebug
+      # return if post.event.starts_at < Time.current
 
       message =
         if predefined_attendance
@@ -213,6 +214,7 @@ module DiscoursePostEvent
         topic_id: post.topic_id,
         post_number: post.post_number,
         data: {
+          user_id: user.id,
           topic_title: self.name || post.topic.title,
           display_username: post.user.username,
           message: message,
