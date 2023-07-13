@@ -17,6 +17,7 @@ describe DiscoursePostEvent::Event do
 
   describe "topic custom fields callback" do
     let(:user) { Fabricate(:user, admin: true) }
+    let!(:notified_user) { Fabricate(:user) }
     let(:topic) { Fabricate(:topic, user: user) }
     let!(:first_post) { Fabricate(:post, topic: topic) }
     let(:second_post) { Fabricate(:post, topic: topic) }
@@ -24,6 +25,20 @@ describe DiscoursePostEvent::Event do
     let!(:ends_at) { "2020-04-24 16:15:00" }
     let!(:alt_starts_at) { "2020-04-24 14:14:25" }
     let!(:alt_ends_at) { "2020-04-24 19:15:25" }
+    let(:event) do
+      Event.create!(
+        id: first_post.id,
+        original_starts_at: Time.now + 1.hours,
+        original_ends_at: Time.now + 2.hours,
+      )
+    end
+    let(:late_event) do 
+      Event.create!(
+        id: first_post.id,
+        original_starts_at: Time.now - 10.hours,
+        original_ends_at: Time.now - 8.hours,
+      )
+    end
 
     describe "#after_commit[:create, :update]" do
       context "when a post event has been created" do
@@ -61,6 +76,24 @@ describe DiscoursePostEvent::Event do
             second_post.topic.reload
 
             expect(second_post.topic.custom_fields).to be_blank
+          end
+        end
+        describe "notify an user" do
+          describe "before the event starts" do
+            it "does notify the user" do
+              
+              expect {
+                event.create_notification!(notified_user, first_post)
+              }.to change {Notification.count}.by(1)
+              
+            end
+          end
+          describe "after the event starts" do
+            it "doesn't notify the user" do
+              expect {
+                late_event.create_notification!(notified_user, first_post)
+              }.not_to change {Notification.count}
+            end
           end
         end
       end
