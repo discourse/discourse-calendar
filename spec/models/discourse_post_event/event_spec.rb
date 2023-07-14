@@ -32,7 +32,7 @@ describe DiscoursePostEvent::Event do
         original_ends_at: Time.now + 2.hours,
       )
     end
-    let(:late_event) do 
+    let(:late_event) do
       Event.create!(
         id: first_post.id,
         original_starts_at: Time.now - 10.hours,
@@ -81,18 +81,16 @@ describe DiscoursePostEvent::Event do
         describe "notify an user" do
           describe "before the event starts" do
             it "does notify the user" do
-              
-              expect {
-                event.create_notification!(notified_user, first_post)
-              }.to change {Notification.count}.by(1)
-              
+              expect { event.create_notification!(notified_user, first_post) }.to change {
+                Notification.count
+              }.by(1)
             end
           end
           describe "after the event starts" do
             it "doesn't notify the user" do
-              expect {
-                late_event.create_notification!(notified_user, first_post)
-              }.not_to change {Notification.count}
+              expect { late_event.create_notification!(notified_user, first_post) }.not_to change {
+                Notification.count
+              }
             end
           end
         end
