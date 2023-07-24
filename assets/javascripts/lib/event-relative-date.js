@@ -37,7 +37,6 @@ export default function eventRelativeDate(container) {
     title += ` → ${endsAt.format(format)}`;
   }
   container.setAttribute("title", title);
-
   if (startsAt.isAfter(moment()) && endsAt.isAfter(moment())) {
     container.classList.add("future");
     _computeFutureEvent(container, startsAt);
@@ -53,6 +52,12 @@ export default function eventRelativeDate(container) {
   if (startsAt.isBefore(moment()) && endsAt.isBefore(moment())) {
     container.classList.add("past");
     _computePastEvent(container, endsAt);
+    return;
+  }
+
+  if (startsAt.isAfter(moment()) && endsAt._i === "undefined") {
+    container.classList.add("upcoming");
+    _computeFutureEvent(container, startsAt);
     return;
   }
 }

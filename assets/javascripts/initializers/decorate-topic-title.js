@@ -7,7 +7,7 @@ function initializeDecorateTopicTitle(api) {
     const container = node.querySelector(".event-date-container");
     container && container.remove();
 
-    if (!topic.event_starts_at || !topic.event_ends_at) {
+    if (!topic.event_starts_at) {
       return;
     }
 
@@ -16,6 +16,18 @@ function initializeDecorateTopicTitle(api) {
       topicTitleType === "header-title"
     ) {
       const eventdateContainer = document.createElement("div");
+
+      if (!topic.event_ends_at) {
+        const upcoming = document.createElement("span");
+        const startLabel = document.createElement("span");
+        upcoming.classList.add("event-date", "event-relative-date");
+        startLabel.dataset.starts_at = topic.event_starts_at;
+        upcoming.innerText = I18n.t(
+          "discourse_post_event.topic_title.upcoming"
+        );
+        node.appendChild(upcoming);
+      }
+
       eventdateContainer.classList.add("event-date-container");
 
       const eventDate = document.createElement("span");

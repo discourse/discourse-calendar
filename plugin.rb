@@ -99,12 +99,17 @@ after_initialize do
         category = Category.find_by(id: topic_query.options[:category_id])
         if category && category.custom_fields &&
              category.custom_fields["sort_topics_by_event_start_date"]
+          reorder_sql = <<~SQL
+              CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN 0 ELSE 1 END,
+              CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) ELSE NULL END,
+              CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) < NOW() THEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) ELSE NULL END DESC
+             SQL
           results =
             results.joins(
               "LEFT JOIN topic_custom_fields AS custom_fields on custom_fields.topic_id = topics.id
             AND custom_fields.name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'
             ",
-            ).reorder("topics.pinned_at ASC, custom_fields.value ASC")
+            ).reorder(reorder_sql)
         end
       end
       results

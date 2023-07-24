@@ -322,6 +322,7 @@ en:
         starts_at: "Event will start: %{date}"
         ended_at: "Event ended: %{date}"
         ends_in_duration: "Ends %{duration}"
+        upcoming: "Upcoming"
       models:
         invitee:
           no_users: "There are no users of this type."
