@@ -60,4 +60,9 @@ export default function eventRelativeDate(container) {
     _computeFutureEvent(container, startsAt);
     return;
   }
+  
+  if (startsAt.isBefore(moment()) && endsAt._i === "undefined") {
+    container.remove();
+    return;
+  }
 }
