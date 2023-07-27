@@ -20,7 +20,7 @@ function initializeDecorateTopicTitle(api) {
       if (!topic.event_ends_at) {
         const upcoming = document.createElement("span");
         const startLabel = document.createElement("span");
-        upcoming.classList.add("event-date", "event-relative-date");
+        upcoming.classList.add("event-label");
         startLabel.dataset.starts_at = topic.event_starts_at;
         upcoming.innerText = I18n.t(
           "discourse_post_event.topic_title.upcoming"
