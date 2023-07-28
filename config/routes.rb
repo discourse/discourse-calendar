@@ -13,9 +13,7 @@ Discourse::Application.routes.draw do
   delete "/admin/discourse-calendar/holidays/enable" =>
            "admin/discourse_calendar/admin_holidays#enable",
          :constraints => StaffConstraint.new
-  scope path: "c/*category_slug_path_with_id" do
-    get "/l/calendar" => "list#category_calendar", :as => "category_calendar"
-  end
+  
 end
 
 DiscoursePostEvent::Engine.routes.draw do
@@ -31,6 +29,9 @@ DiscoursePostEvent::Engine.routes.draw do
   get "/discourse-post-event/events/:post_id/invitees" => "invitees#index"
   delete "/discourse-post-event/events/:post_id/invitees/:id" => "invitees#destroy"
   get "/upcoming-events" => "upcoming_events#index"
+  scope path: "c/*category_slug_path_with_id" do
+    get "/l/calendar" => "calendar#index", :as => "category_calendar"
+  end
 end
 
 Discourse::Application.routes.draw { mount ::DiscoursePostEvent::Engine, at: "/" }
