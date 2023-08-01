@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-
+Discourse::Application.routes.prepend do
+    get "c/*category_slug_path_with_id/l/calendar" => "calendar#index", :as => "category_calendar"
+end
 Discourse::Application.routes.draw do
   mount ::DiscourseCalendar::Engine, at: "/"
 
@@ -29,9 +31,7 @@ DiscoursePostEvent::Engine.routes.draw do
   get "/discourse-post-event/events/:post_id/invitees" => "invitees#index"
   delete "/discourse-post-event/events/:post_id/invitees/:id" => "invitees#destroy"
   get "/upcoming-events" => "upcoming_events#index"
-  scope path: "c/*category_slug_path_with_id" do
-    get "/l/calendar" => "calendar#index", :as => "category_calendar"
-  end
+  
 end
 
 Discourse::Application.routes.draw { mount ::DiscoursePostEvent::Engine, at: "/" }
