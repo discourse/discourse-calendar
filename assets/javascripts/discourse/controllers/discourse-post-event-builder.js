@@ -7,7 +7,7 @@ import { action, computed, set } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { extractError } from "discourse/lib/ajax-error";
 import { inject as service } from "@ember/service";
-import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
+import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
 const DEFAULT_REMINDER = {
   type: "notification",

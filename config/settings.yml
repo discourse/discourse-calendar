@@ -89,4 +89,3 @@ discourse_post_event:
   disable_resorting_on_categories_enabled:
     default: false
     client: true
-

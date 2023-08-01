@@ -1,47 +1,34 @@
-import componentTest, {
-  setupRenderingTest,
-} from "discourse/tests/helpers/component-test";
-import { discourseModule, query } from "discourse/tests/helpers/qunit-helpers";
-import hbs from "htmlbars-inline-precompile";
+import { module, test } from "qunit";
+import { setupRenderingTest } from "discourse/tests/helpers/component-test";
+import { render } from "@ember/test-helpers";
+import { hbs } from "ember-cli-htmlbars";
 
-discourseModule(
-  "Integration | Component | admin-holidays-list",
-  function (hooks) {
-    setupRenderingTest(hooks);
+module("Integration | Component | admin-holidays-list", function (hooks) {
+  setupRenderingTest(hooks);
 
-    componentTest("displaying a list of the provided holidays", {
-      template: hbs`{{admin-holidays-list holidays=holidays}}`,
+  test("displaying a list of the provided holidays", async function (assert) {
+    this.set("holidays", [
+      { date: "2022-01-01", name: "New Year's Day" },
+      { date: "2022-01-17", name: "Martin Luther King, Jr. Day" },
+    ]);
 
-      beforeEach() {
-        this.set("holidays", [
-          { date: "2022-01-01", name: "New Year's Day" },
-          { date: "2022-01-17", name: "Martin Luther King, Jr. Day" },
-        ]);
-      },
+    await render(hbs`<AdminHolidaysList @holidays={{this.holidays}} />`);
 
-      async test(assert) {
-        assert.strictEqual(
-          query("table tbody tr:nth-child(1) td:nth-child(1)").innerText.trim(),
-          "2022-01-01",
-          "it displays the first holiday date"
-        );
-        assert.strictEqual(
-          query("table tbody tr:nth-child(1) td:nth-child(2)").innerText.trim(),
-          "New Year's Day",
-          "it displays the first holiday name"
-        );
+    assert
+      .dom("table tbody tr:nth-child(1) td:nth-child(1)")
+      .hasText("2022-01-01", "it displays the first holiday date");
+    assert
+      .dom("table tbody tr:nth-child(1) td:nth-child(2)")
+      .hasText("New Year's Day", "it displays the first holiday name");
 
-        assert.strictEqual(
-          query("table tbody tr:nth-child(2) td:nth-child(1)").innerText.trim(),
-          "2022-01-17",
-          "it displays the second holiday date"
-        );
-        assert.strictEqual(
-          query("table tbody tr:nth-child(2) td:nth-child(2)").innerText.trim(),
-          "Martin Luther King, Jr. Day",
-          "it displays the second holiday name"
-        );
-      },
-    });
-  }
-);
+    assert
+      .dom("table tbody tr:nth-child(2) td:nth-child(1)")
+      .hasText("2022-01-17", "it displays the second holiday date");
+    assert
+      .dom("table tbody tr:nth-child(2) td:nth-child(2)")
+      .hasText(
+        "Martin Luther King, Jr. Day",
+        "it displays the second holiday name"
+      );
+  });
+});

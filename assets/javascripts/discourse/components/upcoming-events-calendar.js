@@ -1,6 +1,6 @@
 import { Promise } from "rsvp";
-import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
-import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
+import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { formatEventName } from "../helpers/format-event-name";
 import loadScript from "discourse/lib/load-script";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";

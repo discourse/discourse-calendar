@@ -1,4 +1,4 @@
-import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
+import guessDateFormat from "./guess-best-date-format";
 
 export default function eventLocalDate(container) {
   container.classList.remove("past", "current", "future");

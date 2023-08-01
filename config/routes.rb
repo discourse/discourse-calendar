@@ -1,20 +1,5 @@
 # frozen_string_literal: true
 
-Discourse::Application.routes.draw do
-  mount ::DiscourseCalendar::Engine, at: "/"
-
-  get "/admin/plugins/calendar" => "admin/plugins#index", :constraints => StaffConstraint.new
-  get "/admin/discourse-calendar/holiday-regions/:region_code/holidays" =>
-        "admin/discourse_calendar/admin_holidays#index",
-      :constraints => StaffConstraint.new
-  post "/admin/discourse-calendar/holidays/disable" =>
-         "admin/discourse_calendar/admin_holidays#disable",
-       :constraints => StaffConstraint.new
-  delete "/admin/discourse-calendar/holidays/enable" =>
-           "admin/discourse_calendar/admin_holidays#enable",
-         :constraints => StaffConstraint.new
-end
-
 DiscoursePostEvent::Engine.routes.draw do
   get "/discourse-post-event/events" => "events#index", :format => :json
   get "/discourse-post-event/events/:id" => "events#show"
@@ -30,4 +15,17 @@ DiscoursePostEvent::Engine.routes.draw do
   get "/upcoming-events" => "upcoming_events#index"
 end
 
-Discourse::Application.routes.draw { mount ::DiscoursePostEvent::Engine, at: "/" }
+Discourse::Application.routes.draw do
+  mount ::DiscourseCalendar::Engine, at: "/"
+  mount ::DiscoursePostEvent::Engine, at: "/"
+
+  scope constraints: StaffConstraint.new do
+    get "/admin/plugins/calendar" => "admin/plugins#index"
+    get "/admin/discourse-calendar/holiday-regions/:region_code/holidays" =>
+          "admin/discourse_calendar/admin_holidays#index"
+    post "/admin/discourse-calendar/holidays/disable" =>
+           "admin/discourse_calendar/admin_holidays#disable"
+    delete "/admin/discourse-calendar/holidays/enable" =>
+             "admin/discourse_calendar/admin_holidays#enable"
+  end
+end

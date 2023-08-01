@@ -1,5 +1,5 @@
 import I18n from "I18n";
-import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
+import guessDateFormat from "../lib/guess-best-date-format";
 import { cookAsync } from "discourse/lib/text";
 import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";

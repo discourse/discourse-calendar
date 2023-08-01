@@ -8,14 +8,10 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
 import Category from "discourse/models/category";
 import I18n from "I18n";
-import {
-  colorToHex,
-  contrastColor,
-  stringToColor,
-} from "discourse/plugins/discourse-calendar/lib/colors";
+import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { createPopper } from "@popperjs/core";
-import { isNotFullDayEvent } from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
-import { formatEventName } from "discourse/plugins/discourse-calendar/helpers/format-event-name";
+import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { formatEventName } from "../helpers/format-event-name";
 import getURL from "discourse-common/lib/get-url";
 
 function loadFullCalendar() {

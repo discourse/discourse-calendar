@@ -85,14 +85,14 @@ $interested: #fb985d;
     .month {
       text-align: center;
       color: red;
-      font-size: $font-down-1;
+      font-size: var(--font-down-1);
       text-transform: uppercase;
     }
 
     .day {
       text-align: center;
       font-weight: 500;
-      font-size: $font-up-2;
+      font-size: var(--font-up-2);
     }
   }
 
@@ -111,7 +111,7 @@ $interested: #fb985d;
       display: flex;
       align-items: center;
       color: var(--primary-medium);
-      font-size: $font-down-1;
+      font-size: var(--font-down-1);
       margin: 0.25em 0;
 
       .separator {
@@ -253,7 +253,7 @@ $interested: #fb985d;
           border: 1px solid var(--primary-low);
 
           .d-icon {
-            font-size: $font-down-3;
+            font-size: var(--font-down-3);
           }
         }
       }

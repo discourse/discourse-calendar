@@ -124,6 +124,6 @@
   }
   .fc-list-item-add-to-calendar {
     color: var(--tertiary);
-    font-size: $font-down-1;
+    font-size: var(--font-down-1);
   }
 }

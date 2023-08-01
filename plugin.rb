@@ -5,7 +5,6 @@
 # version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
-# transpile_js: true
 
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)

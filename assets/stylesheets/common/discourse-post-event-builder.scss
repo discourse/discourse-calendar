@@ -13,7 +13,7 @@
             }
 
             .name {
-              font-size: $font-down-1;
+              font-size: var(--font-down-1);
             }
 
             &.from {
@@ -69,7 +69,7 @@
           border: 0;
 
           .name {
-            font-size: $font-down-1;
+            font-size: var(--font-down-1);
           }
         }
       }

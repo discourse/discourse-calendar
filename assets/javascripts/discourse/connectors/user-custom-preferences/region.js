@@ -1,5 +1,5 @@
 import { action } from "@ember/object";
-import { TIME_ZONE_TO_REGION } from "discourse/plugins/discourse-calendar/lib/regions";
+import { TIME_ZONE_TO_REGION } from "../../lib/regions";
 
 export default {
   setupComponent(args, component) {

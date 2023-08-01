@@ -6,7 +6,7 @@
     background: none;
 
     h2.discourse-calendar-title {
-      font-size: $font-0;
+      font-size: var(--font-0);
       flex-wrap: nowrap;
       max-width: 75%;
       white-space: nowrap;
@@ -24,7 +24,7 @@
       text-align: center;
       padding: 0.25em;
       span {
-        font-size: $font-down-1;
+        font-size: var(--font-down-1);
         text-align: center;
         padding: 0;
       }

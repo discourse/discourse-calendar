@@ -1,4 +1,4 @@
-import guessDateFormat from "discourse/plugins/discourse-calendar/lib/guess-best-date-format";
+import guessDateFormat from "../lib/guess-best-date-format";
 import { htmlHelper } from "discourse-common/lib/helpers";
 
 export default htmlHelper((date) => {
