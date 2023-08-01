@@ -13,11 +13,11 @@ class CalendarSettingsValidator
 
     hour = split.first
     return false if hour.length != 2
-    return false unless hour.to_i >= 0 && hour.to_i < 24
+    return false if hour.to_i < 0 || hour.to_i >= 24
 
     minutes = split.second
     return false if minutes.length != 2
-    return false unless minutes.to_i >= 0 && minutes.to_i < 60
+    return false if minutes.to_i < 0 || minutes.to_i >= 60
     true
   end
 
