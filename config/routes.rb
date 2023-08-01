@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-Discourse::Application.routes.append do
+Discourse::Application.routes.prepend do
     get "/c/*category_slug_path_with_id/l/calendar" => "calendar#index"
 end
 
