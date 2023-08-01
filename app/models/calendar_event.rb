@@ -6,7 +6,7 @@ class CalendarEvent < ActiveRecord::Base
   belongs_to :user
 
   after_save do
-    if SiteSetting.enable_user_status && underway?
+    if SiteSetting.enable_user_status && is_holiday? && underway?
       DiscourseCalendar::HolidayStatus.set!(user, ends_at)
     end
   end
@@ -20,6 +20,10 @@ class CalendarEvent < ActiveRecord::Base
   def underway?
     now = Time.zone.now
     start_date <= now && now < ends_at
+  end
+
+  def is_holiday?
+    SiteSetting.holiday_calendar_topic_id.to_i == topic_id
   end
 
   def in_future?

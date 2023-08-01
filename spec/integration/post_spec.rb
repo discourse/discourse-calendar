@@ -589,6 +589,20 @@ describe Post do
         expect(status.emoji).to eq(custom_status[:emoji])
       end
 
+      context "when using multiple calendars" do
+        let(:regular_calendar_post) { create_post(raw: "[calendar]\n[/calendar]") }
+
+        it "doesn't set holiday user status for a non-holiday calendar" do
+          freeze_time Time.utc(2018, 6, 5, 10, 30)
+
+          raw = 'Meeting [date="2018-06-05" time="10:20:00"] to [date="2018-06-06" time="10:20:00"]'
+          post = create_post(raw: raw, topic: regular_calendar_post.topic, user: user)
+
+          # a holiday status wasn't set:
+          expect(post.user.user_status).to be_nil
+        end
+      end
+
       context "when custom emoji is set" do
         custom_emoji = "palm_tree"
 
