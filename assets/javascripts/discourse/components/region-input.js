@@ -1,5 +1,5 @@
 import { computed } from "@ember/object";
-import { HOLIDAY_REGIONS } from "discourse/plugins/discourse-calendar/lib/regions";
+import { HOLIDAY_REGIONS } from "../lib/regions";
 import I18n from "I18n";
 import ComboBoxComponent from "select-kit/components/combo-box";
 

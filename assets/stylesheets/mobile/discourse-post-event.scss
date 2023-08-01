@@ -24,7 +24,7 @@
   }
 
   .event-invitees-status {
-    font-size: $font-down-1;
+    font-size: var(--font-down-1);
   }
 
   .event-invitees .event-invitees-avatars .topic-invitee-avatar .avatar-flair {

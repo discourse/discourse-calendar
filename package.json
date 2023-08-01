@@ -1,10 +1,10 @@
 {
   "name": "discourse-calendar",
-  "version": "1.0.0",
-  "repository": "git@github.com:discourse/discourse-calendar.git",
+  "version": "0.3.0",
+  "repository": "https://github.com/discourse/discourse-calendar",
   "author": "Discourse",
   "license": "MIT",
   "devDependencies": {
-    "eslint-config-discourse": "^3.4.0"
+    "eslint-config-discourse": "^3.5.0"
   }
 }

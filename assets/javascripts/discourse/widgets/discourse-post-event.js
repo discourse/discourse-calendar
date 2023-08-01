@@ -1,14 +1,14 @@
 import I18n from "I18n";
 import TextLib, { emojiUnescape } from "discourse/lib/text";
 import { exportEntity } from "discourse/lib/export-csv";
-import cleanTitle from "discourse/plugins/discourse-calendar/lib/clean-title";
+import cleanTitle from "../lib/clean-title";
 import { dasherize } from "@ember/string";
 import EmberObject from "@ember/object";
 import showModal from "discourse/lib/show-modal";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import { routeAction } from "discourse/helpers/route-action";
-import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
+import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 import { escapeExpression } from "discourse/lib/utilities";
 
 export default createWidget("discourse-post-event", {

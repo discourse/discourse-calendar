@@ -1,6 +1,6 @@
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
-import roundTime from "discourse/plugins/discourse-calendar/lib/round-time";
+import roundTime from "../lib/round-time";
 
 export default createWidget("discourse-group-timezones", {
   tagName: "div.group-timezones",

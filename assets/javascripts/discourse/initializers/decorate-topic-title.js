@@ -1,6 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import eventRelativeDate from "discourse/plugins/discourse-calendar/lib/event-relative-date";
-import eventLocalDate from "discourse/plugins/discourse-calendar/lib/event-local-date";
+import eventRelativeDate from "../lib/event-relative-date";
+import eventLocalDate from "../lib/event-local-date";
 
 function initializeDecorateTopicTitle(api) {
   api.decorateTopicTitle((topic, node, topicTitleType) => {

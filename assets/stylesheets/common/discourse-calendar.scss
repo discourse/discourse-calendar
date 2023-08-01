@@ -150,7 +150,7 @@
   }
   .fc-list-item-add-to-calendar {
     color: var(--tertiary);
-    font-size: $font-down-1;
+    font-size: var(--font-down-1);
   }
 }
 
@@ -307,7 +307,7 @@ a.holiday {
     align-items: center;
     justify-content: space-between;
     color: inherit;
-    font-size: $font-down-1;
+    font-size: var(--font-down-1);
 
     .before {
       margin-right: auto;
@@ -358,7 +358,7 @@ a.holiday {
       }
 
       .offset {
-        font-size: $font-down-2;
+        font-size: var(--font-down-2);
         margin-left: 0.5em;
       }
     }
