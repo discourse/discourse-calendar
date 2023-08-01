@@ -19,16 +19,19 @@ describe Jobs::DiscoursePostEventBulkInvite do
     context "with invalid params" do
       context "with no invitees given" do
         it "raises an invalid parameters errors" do
-          expect { subject.execute(current_user_id: 1, event_id: 1) }.to raise_error(
-            Discourse::InvalidParameters,
-          )
+          expect {
+            Jobs::DiscoursePostEventBulkInvite.new.execute(current_user_id: 1, event_id: 1)
+          }.to raise_error(Discourse::InvalidParameters)
         end
       end
 
       context "with no current_user_id given" do
         it "raises an invalid parameters errors" do
           expect {
-            subject.execute(invitees: [{ identifier: "bob", attendance: "going" }], event_id: 1)
+            Jobs::DiscoursePostEventBulkInvite.new.execute(
+              invitees: [{ identifier: "bob", attendance: "going" }],
+              event_id: 1,
+            )
           }.to raise_error(Discourse::InvalidParameters)
         end
       end
@@ -36,7 +39,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
       context "with no event_id given" do
         it "raises an invalid parameters errors" do
           expect {
-            subject.execute(
+            Jobs::DiscoursePostEventBulkInvite.new.execute(
               invitees: [{ identifier: "bob", attendance: "going" }],
               current_user_id: 1,
             )
@@ -51,7 +54,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
 
         it "raises an error" do
           expect {
-            subject.execute(
+            Jobs::DiscoursePostEventBulkInvite.new.execute(
               event_id: post_event_1.id,
               invitees: [{ identifier: "bob", attendance: "going" }],
               current_user_id: lurker.id,
@@ -101,7 +104,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
               )
               .once
 
-            subject.execute(valid_params)
+            Jobs::DiscoursePostEventBulkInvite.new.execute(valid_params)
 
             invitee_klass = DiscoursePostEvent::Invitee
 
@@ -117,7 +120,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
           end
 
           it "removes the invitee if set to unknown" do
-            subject.execute(valid_params)
+            Jobs::DiscoursePostEventBulkInvite.new.execute(valid_params)
 
             invitee_klass = DiscoursePostEvent::Invitee
 
@@ -129,7 +132,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
               invitee_klass.statuses[:not_going],
             )
 
-            subject.execute(
+            Jobs::DiscoursePostEventBulkInvite.new.execute(
               event_id: post_event_1.id,
               invitees: [{ "identifier" => group_1.name, "attendance" => "unknown" }],
               current_user_id: user_1.id,
@@ -149,7 +152,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
 
             invitee_klass = DiscoursePostEvent::Invitee
 
-            subject.execute(
+            Jobs::DiscoursePostEventBulkInvite.new.execute(
               event_id: post_event_1.id,
               invitees: [{ "identifier" => group_1.name }],
               current_user_id: user_1.id,
@@ -183,7 +186,7 @@ describe Jobs::DiscoursePostEventBulkInvite do
               )
               .once
 
-            subject.execute(valid_params)
+            Jobs::DiscoursePostEventBulkInvite.new.execute(valid_params)
 
             invitee_klass = DiscoursePostEvent::Invitee
 

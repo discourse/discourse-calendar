@@ -7,17 +7,17 @@ def build_post(user, raw)
 end
 
 describe DiscoursePostEvent::EventParser do
-  subject { DiscoursePostEvent::EventParser }
+  subject(:parser) { DiscoursePostEvent::EventParser }
 
   let(:user) { Fabricate(:user) }
 
   it "works with no event" do
-    events = subject.extract_events(build_post(user, "this could be a nice event"))
+    events = parser.extract_events(build_post(user, "this could be a nice event"))
     expect(events.length).to eq(0)
   end
 
   it "finds one event" do
-    events = subject.extract_events(build_post(user, '[event start="foo" end="bar"]\n[/event]'))
+    events = parser.extract_events(build_post(user, '[event start="foo" end="bar"]\n[/event]'))
     expect(events.length).to eq(1)
   end
 
@@ -30,33 +30,32 @@ describe DiscoursePostEvent::EventParser do
       [/event]
     TXT
 
-    events = subject.extract_events(post_event)
+    events = parser.extract_events(post_event)
     expect(events.length).to eq(2)
   end
 
   it "parses options" do
-    events = subject.extract_events(build_post(user, '[event start="foo" end="bar"]\n[/event]'))
+    events = parser.extract_events(build_post(user, '[event start="foo" end="bar"]\n[/event]'))
     expect(events[0][:start]).to eq("foo")
     expect(events[0][:end]).to eq("bar")
   end
 
   it "works with escaped string" do
     events =
-      subject.extract_events(
+      parser.extract_events(
         build_post(user, "I am going to get that fixed.\n\n[event start=\"bar\"]\n[/event]"),
       )
     expect(events[0][:start]).to eq("bar")
   end
 
   it "parses options where value has spaces" do
-    events =
-      subject.extract_events(build_post(user, '[event start="foo" name="bar baz"]\n[/event]'))
+    events = parser.extract_events(build_post(user, '[event start="foo" name="bar baz"]\n[/event]'))
     expect(events[0][:name]).to eq("bar baz")
   end
 
   it "doesn’t parse invalid options" do
     events =
-      subject.extract_events(
+      parser.extract_events(
         build_post(
           user,
           "I am going to get that fixed.\n\n[event start=\"foo\" something=\"bar\"]\n[/event]",
@@ -65,7 +64,7 @@ describe DiscoursePostEvent::EventParser do
     expect(events[0][:something]).to be(nil)
 
     events =
-      subject.extract_events(
+      parser.extract_events(
         build_post(user, "I am going to get that fixed.\n\n[event something=\"bar\"]\n[/event]"),
       )
     expect(events).to eq([])
@@ -79,7 +78,7 @@ describe DiscoursePostEvent::EventParser do
       ```
     TXT
 
-    events = subject.extract_events(post_event)
+    events = parser.extract_events(post_event)
 
     expect(events).to eq([])
   end
@@ -89,13 +88,13 @@ describe DiscoursePostEvent::EventParser do
       [event start="2020"][/event]
     TXT
 
-    events = subject.extract_events(post_event)
+    events = parser.extract_events(post_event)
     expect(events).to eq([])
   end
 
   it "doesn’t escape event name" do
     events =
-      subject.extract_events(
+      parser.extract_events(
         build_post(user, '[event start="foo" name="bar <script> baz"]\n[/event]'),
       )
     expect(events[0][:name]).to eq("bar <script> baz")
@@ -110,7 +109,7 @@ describe DiscoursePostEvent::EventParser do
         [/event]
       TXT
 
-      events = subject.extract_events(post_event)
+      events = parser.extract_events(post_event)
       expect(events[0][:"foo-bar"]).to eq("1")
       expect(events[0][:"bar"]).to eq("2")
     end
@@ -121,7 +120,7 @@ describe DiscoursePostEvent::EventParser do
         [/event]
       TXT
 
-      events = subject.extract_events(post_event)
+      events = parser.extract_events(post_event)
       expect(events[0][:"baz"]).to eq(nil)
     end
   end

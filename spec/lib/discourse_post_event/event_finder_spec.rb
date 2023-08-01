@@ -5,7 +5,7 @@ describe DiscoursePostEvent::EventFinder do
   fab!(:current_user) { Fabricate(:user) }
   fab!(:user) { Fabricate(:user) }
 
-  subject { DiscoursePostEvent::EventFinder }
+  subject(:finder) { DiscoursePostEvent::EventFinder }
 
   before do
     Jobs.run_immediately!
@@ -24,7 +24,7 @@ describe DiscoursePostEvent::EventFinder do
     let!(:event) { Fabricate(:event, post: post1) }
 
     it "returns the event" do
-      expect(subject.search(current_user)).to match_array([event])
+      expect(finder.search(current_user)).to match_array([event])
     end
   end
 
@@ -41,7 +41,7 @@ describe DiscoursePostEvent::EventFinder do
     let!(:event) { Fabricate(:event, post: post1) }
 
     it "returns the event" do
-      expect(subject.search(current_user)).to match_array([event])
+      expect(finder.search(current_user)).to match_array([event])
     end
   end
 
@@ -59,7 +59,7 @@ describe DiscoursePostEvent::EventFinder do
     let!(:event) { Fabricate(:event, post: post1) }
 
     it "doesn’t return the event" do
-      expect(subject.search(current_user)).to match_array([])
+      expect(finder.search(current_user)).to match_array([])
     end
   end
 
@@ -83,7 +83,7 @@ describe DiscoursePostEvent::EventFinder do
       let!(:event2) { Fabricate(:event, post: post2) }
 
       it "returns only the specified event" do
-        expect(subject.search(current_user, { post_id: post2.id })).to match_array([event2])
+        expect(finder.search(current_user, { post_id: post2.id })).to match_array([event2])
       end
     end
 
@@ -122,10 +122,8 @@ describe DiscoursePostEvent::EventFinder do
       end
 
       it "returns correct events" do
-        expect(subject.search(current_user, { expired: false })).to eq(
-          [current_event, future_event],
-        )
-        expect(subject.search(current_user, { expired: true })).to eq([older_event, old_event])
+        expect(finder.search(current_user, { expired: false })).to eq([current_event, future_event])
+        expect(finder.search(current_user, { expired: true })).to eq([older_event, old_event])
       end
 
       context "when a past event has been edited to be in the future" do
@@ -140,10 +138,10 @@ describe DiscoursePostEvent::EventFinder do
         end
 
         it "returns correct events" do
-          expect(subject.search(current_user, { expired: false })).to eq(
+          expect(finder.search(current_user, { expired: false })).to eq(
             [current_event, future_event],
           )
-          expect(subject.search(current_user, { expired: true })).to eq([older_event, old_event])
+          expect(finder.search(current_user, { expired: true })).to eq([older_event, old_event])
         end
       end
 
@@ -159,10 +157,10 @@ describe DiscoursePostEvent::EventFinder do
         end
 
         it "returns correct events" do
-          expect(subject.search(current_user, { expired: false })).to eq(
+          expect(finder.search(current_user, { expired: false })).to eq(
             [current_event, future_event],
           )
-          expect(subject.search(current_user, { expired: true })).to eq([older_event, old_event])
+          expect(finder.search(current_user, { expired: true })).to eq([older_event, old_event])
         end
       end
     end

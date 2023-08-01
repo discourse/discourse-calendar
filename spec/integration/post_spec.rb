@@ -4,9 +4,6 @@ require "rails_helper"
 require "securerandom"
 
 describe Post do
-  Event ||= DiscoursePostEvent::Event
-  Invitee ||= DiscoursePostEvent::Invitee
-
   before do
     freeze_time
     Jobs.run_immediately!
@@ -58,8 +55,12 @@ describe Post do
             end
 
             it "sends a post revision to going invitees" do
-              Invitee.create_attendance!(going_user.id, post_1.id, :going)
-              Invitee.create_attendance!(interested_user.id, post_1.id, :interested)
+              DiscoursePostEvent::Invitee.create_attendance!(going_user.id, post_1.id, :going)
+              DiscoursePostEvent::Invitee.create_attendance!(
+                interested_user.id,
+                post_1.id,
+                :interested,
+              )
 
               expect {
                 revisor = PostRevisor.new(post_1)
@@ -78,8 +79,12 @@ describe Post do
             before { event_1.event_dates.first.update_columns(starts_at: 5.hours.ago) }
 
             it "doesn’t send a post revision to anyone" do
-              Invitee.create_attendance!(going_user.id, post_1.id, :going)
-              Invitee.create_attendance!(interested_user.id, event_1.id, :interested)
+              DiscoursePostEvent::Invitee.create_attendance!(going_user.id, post_1.id, :going)
+              DiscoursePostEvent::Invitee.create_attendance!(
+                interested_user.id,
+                event_1.id,
+                :interested,
+              )
 
               expect {
                 revisor = PostRevisor.new(event_1.post)
@@ -104,8 +109,12 @@ describe Post do
                 original_ends_at: nil,
               )
 
-              Invitee.create_attendance!(going_user.id, event_1.id, :going)
-              Invitee.create_attendance!(interested_user.id, event_1.id, :interested)
+              DiscoursePostEvent::Invitee.create_attendance!(going_user.id, event_1.id, :going)
+              DiscoursePostEvent::Invitee.create_attendance!(
+                interested_user.id,
+                event_1.id,
+                :interested,
+              )
 
               event_1.reload
 
@@ -124,7 +133,10 @@ describe Post do
 
               it "it removes status from every invitees" do
                 expect(event_1.invitees.pluck(:status)).to match_array(
-                  [Invitee.statuses[:going], Invitee.statuses[:interested]],
+                  [
+                    DiscoursePostEvent::Invitee.statuses[:going],
+                    DiscoursePostEvent::Invitee.statuses[:interested],
+                  ],
                 )
 
                 event_1.update_with_params!(original_ends_at: Time.now)
@@ -158,12 +170,12 @@ describe Post do
           context "when updating status to private" do
             it "it changes the status and force invitees" do
               expect(event_1.raw_invitees).to eq(["trust_level_0"])
-              expect(event_1.status).to eq(Event.statuses[:public])
+              expect(event_1.status).to eq(DiscoursePostEvent::Event.statuses[:public])
 
-              event_1.update_with_params!(status: Event.statuses[:private])
+              event_1.update_with_params!(status: DiscoursePostEvent::Event.statuses[:private])
 
               expect(event_1.raw_invitees).to eq([])
-              expect(event_1.status).to eq(Event.statuses[:private])
+              expect(event_1.status).to eq(DiscoursePostEvent::Event.statuses[:private])
             end
           end
         end
@@ -452,7 +464,7 @@ describe Post do
       Fabricate(
         :event,
         post: post_1,
-        status: Event.statuses[:private],
+        status: DiscoursePostEvent::Event.statuses[:private],
         raw_invitees: [group_1.name],
         original_starts_at: 3.hours.ago,
         original_ends_at: nil,
@@ -464,7 +476,7 @@ describe Post do
         Fabricate(
           :event,
           post: post_1,
-          status: Event.statuses[:private],
+          status: DiscoursePostEvent::Event.statuses[:private],
           raw_invitees: [group_1.name],
           recurrence: "FREQ=WEEKLY;BYDAY=MO",
           original_starts_at: 2.hours.from_now,
@@ -506,12 +518,12 @@ describe Post do
     context "when updating status to public" do
       it "it changes the status and force invitees" do
         expect(event_1.raw_invitees).to eq([group_1.name])
-        expect(event_1.status).to eq(Event.statuses[:private])
+        expect(event_1.status).to eq(DiscoursePostEvent::Event.statuses[:private])
 
-        event_1.update_with_params!(status: Event.statuses[:public])
+        event_1.update_with_params!(status: DiscoursePostEvent::Event.statuses[:public])
 
         expect(event_1.raw_invitees).to eq(["trust_level_0"])
-        expect(event_1.status).to eq(Event.statuses[:public])
+        expect(event_1.status).to eq(DiscoursePostEvent::Event.statuses[:public])
       end
     end
 

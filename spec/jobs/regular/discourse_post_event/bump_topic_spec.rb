@@ -19,7 +19,7 @@ describe Jobs::DiscoursePostEventBumpTopic do
     context "when params are present" do
       it "creates an auto-bump topic timer" do
         freeze_time
-        subject.execute(topic_id: topic_1.id, date: "2019-12-10 5:00")
+        Jobs::DiscoursePostEventBumpTopic.new.execute(topic_id: topic_1.id, date: "2019-12-10 5:00")
 
         timer = TopicTimer.find_by(topic: topic_1)
         expect(timer.status_type).to eq(TopicTimer.types[:bump])
@@ -29,10 +29,12 @@ describe Jobs::DiscoursePostEventBumpTopic do
 
     context "when the topic_id param is missing" do
       it "does not throw an error if the date param is present" do
-        expect { subject.execute(date: "2019-12-10 5:00") }.not_to raise_error
+        expect {
+          Jobs::DiscoursePostEventBumpTopic.new.execute(date: "2019-12-10 5:00")
+        }.not_to raise_error
       end
       it "does not throw an error if the date param is missing" do
-        expect { subject.execute({}) }.not_to raise_error
+        expect { Jobs::DiscoursePostEventBumpTopic.new.execute({}) }.not_to raise_error
       end
     end
   end
