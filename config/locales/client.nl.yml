@@ -178,6 +178,10 @@ nl:
           ie: "Ierland"
           im: "Eiland Man"
           in: "India"
+          in_gj: "India (in_gj)"
+          in_mh: "India (in_mh)"
+          in_rj: "India (in_rj)"
+          in_tn: "India (in_tn)"
           is: "IJsland"
           it_bl: "Italië (it_bl)"
           it_fi: "Italië (it_fi)"
@@ -193,6 +197,7 @@ nl:
           it: "Italië"
           je: "Jersey"
           jp: "Japan"
+          ke: "Kenia"
           kr: "Zuid-Korea"
           kz: "Kazachstan"
           li: "Liechtenstein"
@@ -348,6 +353,7 @@ nl:
         invite: "Gebruiker informeren"
         add_to_calendar: "Toevoegen aan agenda"
         send_pm_to_creator: "PB sturen naar %{username}"
+        leave: "Evenement verlaten"
         edit_event: "Evenement bewerken"
         export_event: "Evenement exporteren"
         created_by: "Gemaakt door"
@@ -390,10 +396,14 @@ nl:
           remove_timezone: Geen tijdzone (UTC)
         reminders:
           label: "Herinneringen"
+          types:
+            bump_topic: "topic automatisch omhoog plaatsen"
+            notification: "deelnemers informeren"
           units:
             minutes: "minuten"
             hours: "uur"
             days: "dagen"
+            weeks: "weken"
           periods:
             before: "voor"
             after: "na"
@@ -405,6 +415,9 @@ nl:
           every_weekday: "Elke weekdag"
           every_week: "Elke week op deze weekdag"
           every_two_weeks: "Elke twee weken op deze weekdag"
+        minimal:
+          label: "Minimaal evenement"
+          checkbox_label: "Knoppen Gaan/Niet gaan en genodigdenstatus verbergen"
         url:
           label: "URL"
           placeholder: "Optioneel"

@@ -178,6 +178,10 @@ ja:
           ie: "アイルランド"
           im: "マン島"
           in: "インド"
+          in_gj: "インド (in_gj)"
+          in_mh: "インド (in_mh)"
+          in_rj: "インド (in_rj)"
+          in_tn: "インド (in_tn)"
           is: "アイスランド"
           it_bl: "イタリア（it_bl）"
           it_fi: "イタリア（it_fi）"
@@ -193,6 +197,7 @@ ja:
           it: "イタリア"
           je: "ジャージー"
           jp: "日本"
+          ke: "ケニア"
           kr: "韓国"
           kz: "カザフスタン共和国"
           li: "リヒテンシュタイン"
@@ -347,6 +352,7 @@ ja:
         invite: "ユーザーに通知"
         add_to_calendar: "カレンダーに追加"
         send_pm_to_creator: "%{username} に PM を送信"
+        leave: "イベントから退出"
         edit_event: "イベントを編集"
         export_event: "イベントをエクスポート"
         created_by: "作成者"
@@ -389,13 +395,17 @@ ja:
           remove_timezone: タイムゾーンなし (UTC)
         reminders:
           label: "リマインダー"
+          types:
+            bump_topic: "トピックの自動バンプ"
+            notification: "参加者に通知"
           units:
             minutes: "分"
             hours: "時間"
             days: "日"
+            weeks: "週間"
           periods:
-            before: "以前"
-            after: "以降"
+            before: "前"
+            after: "後"
         recurrence:
           label: "繰り返し"
           none: "繰り返しなし"
@@ -404,6 +414,9 @@ ja:
           every_weekday: "すべての平日"
           every_week: "毎週この平日"
           every_two_weeks: "隔週この平日"
+        minimal:
+          label: "ミニマルイベント"
+          checkbox_label: "参加/不参加ボタンと招待者のステータスを非表示にする"
         url:
           label: "URL"
           placeholder: "オプション"

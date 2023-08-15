@@ -42,6 +42,7 @@ fi:
     discourse_post_event_allowed_custom_fields: "Antaa jokaisen tapahtuman määrittää mukautettujen kenttien arvon."
     discourse_post_event_edit_notifications_time_extension: "Pidentää (minuutteina) tapahtuman päättymisen jälkeistä aikaa, jolloin \"menossa\" olevat kutsutut saavat edelleen ilmoituksen alkuperäisen viestin muokkauksesta."
     holiday_calendar_topic_id: "Henkilökunnan loma-/poissaolokalenterin ketjun tunnus."
+    holiday_status_emoji: Määrittää lomatilassa käytettävän emojin.
     delete_expired_event_posts_after: "Viestit, joissa on vanhentuneita tapahtumia, poistetaan automaattisesti (n) tunnin kuluttua. Poista poisto käytöstä asettamalla arvoksi -1."
     all_day_event_start_time: "Tapahtumat, joille ei ole määritetty alkamisaikaa, alkavat tähän aikaan. Muoto on tt:mm. Esim. kirjoita klo 6.00 muodossa 06:00."
     all_day_event_end_time: "Tapahtumat, joille ei ole määritetty loppumisaikaa, päättyvät tähän aikaan. Muoto on tt:mm. Esim. kirjoita klo 18.00 muodossa 18:00."
@@ -55,6 +56,7 @@ fi:
     events_calendar_categories: "Näytä tapahtumakalenteri alueen yläosassa."
     sort_categories_by_event_start_date_enabled: "Ota käyttöön alueen ketjujen lajittelu tapahtuman alkamispäivän mukaan."
     disable_resorting_on_categories_enabled: "Salli alueiden poistaa käytöstä käyttäjien mahdollisuus lajitella tapahtuman luokan mukaan."
+    calendar_automatic_holidays_enabled: "Aseta lomatila automaattisesti käyttäjän alueen mukaan (huomaa: voit poistaa tietyt automaattiset lomat käytöstä lisäosan asetuksissa)"
   discourse_calendar:
     invite_user_notification: "%{username} kutsui sinut: %{description}"
     calendar_must_be_in_first_post: "Kalenteritunnistetta voi käyttää vain ketjun ensimmäisessä viestissä."
@@ -63,6 +65,9 @@ fi:
     event_expired: "Tapahtuma on vanhentunut"
     holiday_status:
       description: "Lomalla"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Tapahtumamuistutus"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} on alkamassa."
@@ -85,6 +90,8 @@ fi:
           invalid_timezone: "Aikavyöhykettä ei tunnisteta."
           acting_user_not_allowed_to_create_event: "Nykyinen käyttäjä ei saa luoda tapahtumia."
           acting_user_not_allowed_to_act_on_this_event: "Nykyinen käyttäjä ei saa tehdä toimia tässä tapahtumassa."
+          invalid_allowed_groups: "Virheelliset sallitut ryhmät."
+          acting_user_not_allowed_to_invite_these_groups: "Nykyinen käyttäjä ei saa kutsua näitä ryhmiä."
           custom_field_is_invalid: "Mukautettua kenttää %{field} ei sallita."
           name:
             length: "Tapahtuman nimen täytyy olla %{minimum}–%{maximum} merkin pituinen."
