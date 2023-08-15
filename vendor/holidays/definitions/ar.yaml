@@ -53,7 +53,7 @@ months:
   8:
   - name: Paso a la Inmortalidad del General José de San Martín
     regions: [ar]
-    mday: 15
+    mday: 17
   10:
   - name: Día del Respeto a la Diversidad Cultural
     regions: [ar]
@@ -165,7 +165,7 @@ tests:
     expect:
       name: 'Día de la Independencia'
   - given:
-      date: '2016-08-15'
+      date: '2016-08-17'
       regions: ['ar']
       options: 'informal'
     expect:
