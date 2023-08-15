@@ -178,6 +178,10 @@ es:
           ie: "Irlanda"
           im: "Isla de Man"
           in: "India"
+          in_gj: "India (in_gj)"
+          in_mh: "India (in_mh)"
+          in_rj: "India (in_rj)"
+          in_tn: "India (in_tn)"
           is: "Islandia"
           it_bl: "Italia (it_bl)"
           it_fi: "Italia (it_fi)"
@@ -193,6 +197,7 @@ es:
           it: "Italia"
           je: "Jersey"
           jp: "Japón"
+          ke: "Kenia"
           kr: "Corea (República de)"
           kz: "Kazajstán (República de)"
           li: "Liechtenstein"
@@ -348,6 +353,7 @@ es:
         invite: "Notificar al usuario"
         add_to_calendar: "Añadir al calendario"
         send_pm_to_creator: "Enviar MP a %{username}"
+        leave: "Abandonar evento"
         edit_event: "Editar evento"
         export_event: "Exportar evento"
         created_by: "Creado por"
@@ -390,10 +396,14 @@ es:
           remove_timezone: Sin zona horaria (UTC)
         reminders:
           label: "Recordatorios"
+          types:
+            bump_topic: "reflotar tema automáticamente"
+            notification: "notificar a los participantes"
           units:
             minutes: "minutos"
             hours: "horas"
             days: "días"
+            weeks: "semanas"
           periods:
             before: "antes de"
             after: "después de"
@@ -405,6 +415,9 @@ es:
           every_weekday: "Todos los días de la semana"
           every_week: "Todas las semanas en este día de la semana"
           every_two_weeks: "Cada dos semanas en este día de la semana"
+        minimal:
+          label: "Evento mínimo"
+          checkbox_label: "Ocultar los botones Asistiré/No asistiré y el estado de los invitados"
         url:
           label: "URL"
           placeholder: "Opcional"

@@ -42,6 +42,7 @@ es:
     discourse_post_event_allowed_custom_fields: "Permite dejar que cada evento establezca el valor de los campos personalizados."
     discourse_post_event_edit_notifications_time_extension: "Amplía (en minutos) el período después del final de un evento en el que los invitados «asistentes» aún reciben notificaciones de edición en la publicación original."
     holiday_calendar_topic_id: "ID del tema del calendario de vacaciones / ausencia del personal."
+    holiday_status_emoji: Define el emoji utilizado para el estado de vacaciones.
     delete_expired_event_posts_after: "Las publicaciones con eventos caducados se eliminarán automáticamente después de (n) horas. Establecer en -1 para deshabilitar la eliminación."
     all_day_event_start_time: "Los eventos que no tienen una hora de inicio especificada comenzarán a esta hora. El formato es HH:mm. Para las 6:00 am, introduce 06:00"
     all_day_event_end_time: "Los eventos que no tienen una hora de finalización especificada terminarán a esta hora. El formato es HH:mm. Para las 6:00 pm, introduce 18:00"
@@ -55,6 +56,7 @@ es:
     events_calendar_categories: "Mostrar un calendario de eventos en la parte superior de una categoría."
     sort_categories_by_event_start_date_enabled: "Habilitar la clasificación de los temas de las categorías por fecha de inicio del evento."
     disable_resorting_on_categories_enabled: "Permitir que las categorías deshabiliten la posibilidad de que los usuarios clasifiquen en la categoría del evento."
+    calendar_automatic_holidays_enabled: "Establecer automáticamente el estado de vacaciones en función de la región del usuario (nota: puedes desactivar las vacaciones automáticas específicas en la configuración del plugin)"
   discourse_calendar:
     invite_user_notification: "%{username} te invitó a: %{description}"
     calendar_must_be_in_first_post: "La etiqueta de calendario solo se puede utilizar en la primera publicación de un tema."
@@ -63,6 +65,9 @@ es:
     event_expired: "Evento caducado"
     holiday_status:
       description: "En día festivo"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Recordatorio de evento"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} está a punto de comenzar."
@@ -85,6 +90,8 @@ es:
           invalid_timezone: "Zona horaria no reconocida."
           acting_user_not_allowed_to_create_event: "El usuario actual no tiene permiso para crear eventos."
           acting_user_not_allowed_to_act_on_this_event: "El usuario actual no puede actuar en este evento."
+          invalid_allowed_groups: "Grupos permitidos no válidos."
+          acting_user_not_allowed_to_invite_these_groups: "El usuario actual no puede invitar a estos grupos."
           custom_field_is_invalid: "El campo personalizado `%{field}` no está permitido."
           name:
             length: "La longitud del nombre del evento debe tener entre %{minimum} y %{maximum} caracteres."

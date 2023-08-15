@@ -56,6 +56,7 @@ zh_CN:
     events_calendar_categories: "在类别顶部显示活动日历。"
     sort_categories_by_event_start_date_enabled: "启用按活动开始日期对类别话题进行排序。"
     disable_resorting_on_categories_enabled: "允许类别禁用用户对活动类别进行排序的功能。"
+    calendar_automatic_holidays_enabled: "根据用户所在区域自动设置假期状态（注意：您可以在插件设置中禁用特定的自动假期）"
   discourse_calendar:
     invite_user_notification: "%{username} 邀请您加入：%{description}"
     calendar_must_be_in_first_post: "日历标签仅可用于话题的第一个帖子。"
@@ -89,6 +90,8 @@ zh_CN:
           invalid_timezone: "无法识别时区。"
           acting_user_not_allowed_to_create_event: "当前用户不能创建活动。"
           acting_user_not_allowed_to_act_on_this_event: "当前用户不能在此活动上操作。"
+          invalid_allowed_groups: "允许的群组无效。"
+          acting_user_not_allowed_to_invite_these_groups: "当前用户不能邀请这些群组。"
           custom_field_is_invalid: "不允许自定义字段 `%{field}`。"
           name:
             length: "活动名称长度必须介于 %{minimum} 和 %{maximum} 个字符之间。"

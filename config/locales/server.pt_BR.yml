@@ -42,6 +42,7 @@ pt_BR:
     discourse_post_event_allowed_custom_fields: "Permite que cada evento defina o valor dos campos personalizados."
     discourse_post_event_edit_notifications_time_extension: "Prolonga (em minutos) o período após o final de um evento quando os(as) convidados(as) \"de saída' ainda estão sendo notificados da edição na postagem original."
     holiday_calendar_topic_id: "ID do tópico do calendário de feriados/ausências da equipe."
+    holiday_status_emoji: Define o emoji usado para o status de feriado.
     delete_expired_event_posts_after: "As mensagens com eventos vencidos serão automaticamente apagadas após (n) horas. Defina para -1 para desativar a exclusão."
     all_day_event_start_time: "Os eventos que não têm uma hora de início especificada começarão neste momento. O formato é HH:mm. Para 6:00 da manhã, digite 06:00"
     all_day_event_end_time: "Os eventos que não têm uma hora de início especificada começarão neste momento. O formato é HH:mm. Para 6:00 da manhã, digite 18:00"
@@ -55,6 +56,7 @@ pt_BR:
     events_calendar_categories: "Exiba um calendário de eventos no topo de uma categoria."
     sort_categories_by_event_start_date_enabled: "Habilite a classificação dos tópicos da categoria por data de início do evento."
     disable_resorting_on_categories_enabled: "Permita que categorias desativem a capacidade dos usuários de classificar na categoria do evento."
+    calendar_automatic_holidays_enabled: "Definir automaticamente o status do feriado conforme a região do(a) usuário(a) (observação: você pode desativar feriados automáticos específicos nas configurações do plugin)"
   discourse_calendar:
     invite_user_notification: "%{username} convidou para participar de %{description}"
     calendar_must_be_in_first_post: "A etiqueta do calendário só pode ser usada no primeiro post de um tópico."
@@ -63,6 +65,9 @@ pt_BR:
     event_expired: "Evento expirado"
     holiday_status:
       description: "De férias"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Lembrete de evento"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} está prestes a começar."
@@ -85,6 +90,8 @@ pt_BR:
           invalid_timezone: "Fuso horário não reconhecido."
           acting_user_not_allowed_to_create_event: "O(a) usuário(a) atual não tem permissão para criar eventos."
           acting_user_not_allowed_to_act_on_this_event: "O(a) usuário(a) atual não tem permissão para agir neste evento."
+          invalid_allowed_groups: "Grupos permitidos inválidos."
+          acting_user_not_allowed_to_invite_these_groups: "O(a) usuário(a) atual não tem permissão para convidar estes grupos."
           custom_field_is_invalid: "O campo personalizado `%{field}` não é permitido."
           name:
             length: "A duração do nome do evento deve estar entre %{minimum} e %{maximum} caracteres."

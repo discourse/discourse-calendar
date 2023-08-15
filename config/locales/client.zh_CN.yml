@@ -178,6 +178,10 @@ zh_CN:
           ie: "爱尔兰"
           im: "马恩岛"
           in: "印度"
+          in_gj: "印度 (in_gj)"
+          in_mh: "印度 (in_mh)"
+          in_rj: "印度 (in_rj)"
+          in_tn: "印度 (in_tn)"
           is: "冰岛"
           it_bl: "意大利 (it_bl)"
           it_fi: "意大利 (it_fi)"
@@ -193,6 +197,7 @@ zh_CN:
           it: "意大利"
           je: "泽西岛"
           jp: "日本"
+          ke: "肯尼亚"
           kr: "韩国"
           kz: "哈萨克斯坦"
           li: "列支敦士登"
@@ -347,7 +352,7 @@ zh_CN:
         invite: "通知用户"
         add_to_calendar: "添加到日历"
         send_pm_to_creator: "将 PM 发送到 %{username}"
-        leave: "退出活动"
+        leave: "离开活动"
         edit_event: "编辑活动"
         export_event: "导出活动"
         created_by: "创建者："
@@ -390,14 +395,17 @@ zh_CN:
           remove_timezone: 无时区 (UTC)
         reminders:
           label: "提醒"
+          types:
+            bump_topic: "自动提升话题"
+            notification: "通知参与者"
           units:
             minutes: "分钟"
             hours: "小时"
             days: "天"
             weeks: "周"
           periods:
-            before: "之前"
-            after: "之后"
+            before: "提前"
+            after: "推后"
         recurrence:
           label: "重复"
           none: "不重复"
@@ -406,6 +414,9 @@ zh_CN:
           every_weekday: "每个工作日"
           every_week: "每周的这个工作日"
           every_two_weeks: "每两周的这个工作日"
+        minimal:
+          label: "最低限度活动"
+          checkbox_label: "隐藏“参加/不参加”按钮和受邀者状态"
         url:
           label: "URL"
           placeholder: "可选"

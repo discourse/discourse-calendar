@@ -178,6 +178,10 @@ de:
           ie: "Irland"
           im: "Isle of Man"
           in: "Indien"
+          in_gj: "Indien (in_gj)"
+          in_mh: "Indien (in_mh)"
+          in_rj: "Indien (in_rj)"
+          in_tn: "Indien (in_tn)"
           is: "Island"
           it_bl: "Italien (it_bl)"
           it_fi: "Italien (it_fi)"
@@ -193,6 +197,7 @@ de:
           it: "Italien"
           je: "Jersey"
           jp: "Japan"
+          ke: "Kenia"
           kr: "Korea (Republik)"
           kz: "Kasachstan (Republik)"
           li: "Liechtenstein"
@@ -348,6 +353,7 @@ de:
         invite: "Benutzer benachrichtigen"
         add_to_calendar: "Zum Kalender hinzufügen"
         send_pm_to_creator: "PN senden an %{username}"
+        leave: "Event erstellen"
         edit_event: "Ereignis bearbeiten"
         export_event: "Ereignis exportieren"
         created_by: "Erstellt von"
@@ -390,13 +396,17 @@ de:
           remove_timezone: Keine Zeitzone (UTC)
         reminders:
           label: "Erinnerungen"
+          types:
+            bump_topic: "Thema automatisch nach oben verschieben"
+            notification: "Teilnehmer benachrichtigen"
           units:
             minutes: "Minuten"
             hours: "Stunden"
             days: "Tage"
+            weeks: "Wochen"
           periods:
-            before: "Beiträge vor dem"
-            after: "Beiträge nach dem"
+            before: "vor"
+            after: "nach"
         recurrence:
           label: "Wiederholung"
           none: "Keine Wiederholung"
@@ -405,6 +415,9 @@ de:
           every_weekday: "Jeden Wochentag"
           every_week: "Jede Woche an diesem Wochentag"
           every_two_weeks: "Alle zwei Wochen an diesem Wochentag"
+        minimal:
+          label: "Minimales Event"
+          checkbox_label: "Schaltflächen „Dabei“/„Nicht dabei“ und Status der eingeladenen Personen ausblenden"
         url:
           label: "URL"
           placeholder: "Optional"

@@ -178,6 +178,10 @@ tr_TR:
           ie: "İrlanda"
           im: "Man Adası"
           in: "Hindistan"
+          in_gj: "Hindistan (in_gj)"
+          in_mh: "Hindistan (in_mh)"
+          in_rj: "Hindistan (in_rj)"
+          in_tn: "Hindistan (in_tn)"
           is: "İzlanda"
           it_bl: "İtalya (it_bl)"
           it_fi: "İtalya (it_fi)"
@@ -193,6 +197,7 @@ tr_TR:
           it: "İtalya"
           je: "Jersey"
           jp: "Japonya"
+          ke: "Kenya"
           kr: "Kore (Cumhuriyeti)"
           kz: "Kazakistan (Cumhuriyeti)"
           li: "Lihtenştayn"
@@ -410,6 +415,9 @@ tr_TR:
           every_weekday: "Hafta içi her gün"
           every_week: "Her hafta bu hafta içi günü"
           every_two_weeks: "İki haftada bir bu hafta içi günü"
+        minimal:
+          label: "Minimal etkinlik"
+          checkbox_label: "Giden/Gitmeyen düğmelerini ve davetlilerin durumunu gizle"
         url:
           label: "URL"
           placeholder: "İsteğe bağlı"

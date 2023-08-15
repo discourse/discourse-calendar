@@ -56,6 +56,7 @@ de:
     events_calendar_categories: "Zeige einen Ereigniskalender oben in einer Kategorie an."
     sort_categories_by_event_start_date_enabled: "Aktiviere die Sortierung der Kategoriethemen nach dem Startdatum des Ereignisses."
     disable_resorting_on_categories_enabled: "Erlaube Kategorien, die Möglichkeit der Sortierung nach Ereigniskategorie für Benutzer zu deaktivieren."
+    calendar_automatic_holidays_enabled: "Feiertagsstatus automatisch basierend auf der Region eines Benutzers festlegen (Hinweis: Sie können bestimmte automatische Feiertage in den Plug-in-Einstellungen deaktivieren)"
   discourse_calendar:
     invite_user_notification: "%{username} lädt dich ein zu: %{description}"
     calendar_must_be_in_first_post: "Kalender-Tag kann nur im ersten Beitrag eines Themas verwendet werden."
@@ -64,6 +65,9 @@ de:
     event_expired: "Ereignis abgelaufen"
     holiday_status:
       description: "Im Urlaub"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Event-Erinnerung"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} fängt gleich an."
@@ -86,6 +90,8 @@ de:
           invalid_timezone: "Zeitzone nicht erkannt."
           acting_user_not_allowed_to_create_event: "Der aktuelle Benutzer darf keine Ereignisse erstellen."
           acting_user_not_allowed_to_act_on_this_event: "Der aktuelle Benutzer darf nicht auf dieses Ereignis reagieren."
+          invalid_allowed_groups: "Ungültige erlaubte Gruppen."
+          acting_user_not_allowed_to_invite_these_groups: "Der aktuelle Benutzer darf diese Gruppen nicht einladen."
           custom_field_is_invalid: "Das benutzerdefinierte Feld `%{field}` ist nicht zulässig."
           name:
             length: "Die Länge des Ereignisnamens muss zwischen %{minimum} und %{maximum} Zeichen liegen."

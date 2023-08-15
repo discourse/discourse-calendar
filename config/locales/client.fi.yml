@@ -178,6 +178,10 @@ fi:
           ie: "Irlanti"
           im: "Mansaari"
           in: "Intia"
+          in_gj: "Intia (in_gj)"
+          in_mh: "Intia (in_mh)"
+          in_rj: "Intia (in_rj)"
+          in_tn: "Intia (in_tn)"
           is: "Islanti"
           it_bl: "Italia (it_bl)"
           it_fi: "Italia (it_fi)"
@@ -193,6 +197,7 @@ fi:
           it: "Italia"
           je: "Jersey"
           jp: "Japani"
+          ke: "Kenia"
           kr: "Korean tasavalta"
           kz: "Kazakstanin tasavalta"
           li: "Liechtenstein"
@@ -348,6 +353,7 @@ fi:
         invite: "Ilmoita käyttäjälle"
         add_to_calendar: "Lisää kalenteriin"
         send_pm_to_creator: "Lähetä yksityisviesti käyttäjälle %{username}"
+        leave: "Poistu tapahtumasta"
         edit_event: "Muokkaa tapahtumaa"
         export_event: "Vie tapahtuma"
         created_by: "Luonut"
@@ -390,10 +396,14 @@ fi:
           remove_timezone: Ei aikavyöhykettä (UTC)
         reminders:
           label: "Muistutukset"
+          types:
+            bump_topic: "nosta ketjua automaattisesti"
+            notification: "Ilmoita osallistujille"
           units:
             minutes: "minuuttia"
-            hours: "tuntiin"
+            hours: "tuntia"
             days: "päivää"
+            weeks: "viikkoa"
           periods:
             before: "ennen"
             after: "jälkeen"
@@ -405,6 +415,9 @@ fi:
           every_weekday: "Arkipäivisin"
           every_week: "Viikoittain tänä arkipäivänä"
           every_two_weeks: "Kahden viikon välein tänä arkipäivänä"
+        minimal:
+          label: "Minimaalinen tapahtuma"
+          checkbox_label: "Piilota Menossa- ja Ei menossa -painikeet sekä kutsuttujen tila"
         url:
           label: "URL"
           placeholder: "Valinnainen"

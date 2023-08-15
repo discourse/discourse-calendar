@@ -42,7 +42,7 @@ fr:
     discourse_post_event_allowed_custom_fields: "Permet à chaque événement de définir la valeur des champs personnalisés."
     discourse_post_event_edit_notifications_time_extension: "Prolonge (en minutes) la période suivant la fin d'un événement pendant laquelle les invités « participants » sont toujours notifiés de la modification du message original."
     holiday_calendar_topic_id: "ID du sujet du calendrier des vacances/absences du personnel."
-    holiday_status_emoji: Définit l'emoji utilisé pour le statut de vacances.
+    holiday_status_emoji: Définit l’émoji utilisé pour le statut de vacances.
     delete_expired_event_posts_after: "Les messages comprenant des événements expirés seront automatiquement supprimés après (n) heures. Fixez cette valeur sur -1 pour désactiver la suppression."
     all_day_event_start_time: "Les événements qui n'ont pas d'heure de début spécifiée commenceront à cette heure. Le format est HH:mm. Pour indiquer 6:00 heures, saisissez 06:00"
     all_day_event_end_time: "Les événements qui n'ont pas d'heure de fin spécifiée se termineront à cette heure. Le format est HH:mm. Pour indiquer 18:00 heures, saisissez 18:00"
@@ -56,7 +56,7 @@ fr:
     events_calendar_categories: "Afficher un calendrier des événements en haut d'une catégorie."
     sort_categories_by_event_start_date_enabled: "Activer le tri des rubriques de la catégorie par date de début de l'événement."
     disable_resorting_on_categories_enabled: "Autoriser les catégories pour désactiver la possibilité pour les utilisateurs de trier la catégorie d'événement."
-    calendar_automatic_holidays_enabled: "Définir automatiquement le statut des vacances en fonction de la région de l'utilisateur (note : il est possible de désactiver des vacances automatiques spécifiques dans les paramètres du plugin)"
+    calendar_automatic_holidays_enabled: "Définir automatiquement le statut des vacances en fonction de la région de l'utilisateur (note : il est possible de désactiver des vacances automatiques spécifiques dans les paramètres de l'extension)"
   discourse_calendar:
     invite_user_notification: "%{username} vous a invité(e) à rejoindre : %{description}"
     calendar_must_be_in_first_post: "L'étiquette du calendrier ne peut être utilisée que dans le premier message d'un sujet."

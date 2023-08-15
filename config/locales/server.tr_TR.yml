@@ -42,6 +42,7 @@ tr_TR:
     discourse_post_event_allowed_custom_fields: "Her olayın özel alanların değerini ayarlamasına izin verir."
     discourse_post_event_edit_notifications_time_extension: "Bir etkinliğin bitiminden sonraki süreyi (dakika olarak) uzatır, \"gidiyor\" davetliler orijinal gönderideki düzenlemeden yine de haberdar edilir."
     holiday_calendar_topic_id: "Personelin tatil / izin takviminin konu kimliği."
+    holiday_status_emoji: Tatil durumu için kullanılan emoji'yi tanımlar.
     delete_expired_event_posts_after: "Süresi dolmuş etkinlikleri olan gönderiler (n) saat sonra otomatik olarak silinecektir. Silmeyi devre dışı bırakmak için -1'e ayarlayın."
     all_day_event_start_time: "Başlangıç zamanı belirtilmeyen etkinlikler bu saatte başlayacaktır. Biçim SS:dd'dir. Sabah 6 için 06.00 yazın"
     all_day_event_end_time: "Bitiş saati belirtilmeyen etkinlikler bu saatte sona erecektir. Biçim SS:dd'dir. Öğleden sonra 6 için 18.00 girin"
@@ -55,6 +56,7 @@ tr_TR:
     events_calendar_categories: "Bir kategorinin en üstünde bir etkinlik takvimi görüntüleyin."
     sort_categories_by_event_start_date_enabled: "Kategori konularının etkinlik başlangıç tarihine göre sıralanmasını etkinleştirin."
     disable_resorting_on_categories_enabled: "Kategorilerin, kullanıcıların etkinlik kategorisine göre sıralama yapma özelliğini devre dışı bırakmasına izin verin."
+    calendar_automatic_holidays_enabled: "Kullanıcı bölgesine göre tatil durumunu otomatik olarak ayarla (not: belirli otomatik tatilleri eklenti ayarlarından devre dışı bırakabilirsiniz)"
   discourse_calendar:
     invite_user_notification: "%{username} sizi şuraya davet etti: %{description}"
     calendar_must_be_in_first_post: "Takvim etiketi, bir konunun yalnızca ilk gönderisinde kullanılabilir."
@@ -63,6 +65,9 @@ tr_TR:
     event_expired: "Etkinliğin süresi doldu"
     holiday_status:
       description: "Tatilde"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Etkinlik Anımsatıcısı"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} başlamak üzere."

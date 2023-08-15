@@ -178,6 +178,10 @@ ar:
           ie: "أيرلندا"
           im: "جزيرة مان"
           in: "الهند"
+          in_gj: "الهند (in_gj)"
+          in_mh: "الهند (in_mh)"
+          in_rj: "الهند (in_rj)"
+          in_tn: "الهند (in_tn)"
           is: "أيسلندا"
           it_bl: "إيطاليا (it_bl)"
           it_fi: "إيطاليا (it_fi)"
@@ -193,6 +197,7 @@ ar:
           it: "إيطاليا"
           je: "جيرسي"
           jp: "اليابان"
+          ke: "كينيا"
           kr: "جمهورية كوريا"
           kz: "جمهورية كازاخستان"
           li: "ليختنشتاين"
@@ -352,6 +357,7 @@ ar:
         invite: "إرسال إشعار إلى المستخدم"
         add_to_calendar: "إضافة إلى التقويم"
         send_pm_to_creator: "إرسال رسالة خاصة إلى %{username}"
+        leave: "مغادرة الحدث"
         edit_event: "تعديل الحدث"
         export_event: "تصدير الحدث"
         created_by: "تم إنشاؤه بواسطة"
@@ -394,10 +400,14 @@ ar:
           remove_timezone: لا توجد منطقة زمنية (UTC)
         reminders:
           label: "التذكيرات"
+          types:
+            bump_topic: "رفع الموضوع تلقائيًا"
+            notification: "إرسال إشعار إلى المشاركين"
           units:
-            minutes: "الدقائق"
+            minutes: "دقائق"
             hours: "ساعات"
-            days: "الأيام"
+            days: "أيام"
+            weeks: "أسابيع"
           periods:
             before: "قبل"
             after: "بعد"
@@ -409,6 +419,9 @@ ar:
           every_weekday: "كل أيام الأسبوع"
           every_week: "كل أسبوع في هذا اليوم"
           every_two_weeks: "كل أسبوعين في هذا اليوم"
+        minimal:
+          label: "حدث صغير"
+          checkbox_label: "إخفاء زريِّ ذاهب/غير ذاهب وحالة المدعوين"
         url:
           label: "عنوان URL"
           placeholder: "اختياري"

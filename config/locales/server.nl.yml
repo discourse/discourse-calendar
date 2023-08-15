@@ -42,6 +42,7 @@ nl:
     discourse_post_event_allowed_custom_fields: "Maakt het mogelijk om de waarde van aangepaste velden in te stellen voor elk evenement."
     discourse_post_event_edit_notifications_time_extension: "Verlengt (in minuten) de periode na afloop van een evenement waarin 'gaande’ nog bericht krijgen van bewerking in het oorspronkelijke bericht."
     holiday_calendar_topic_id: "Topic-ID van de feestdagen-/verzuimkalender voor medewerkers."
+    holiday_status_emoji: Definieert de emoji die wordt gebruikt voor de feestdagstatus.
     delete_expired_event_posts_after: "Berichten met verlopen evenementen worden na (n) uur automatisch verwijderd. Stel dit in op -1 om verwijdering uit te schakelen."
     all_day_event_start_time: "Evenementen waarvoor geen begintijd is opgegeven, beginnen op deze tijd. De notatie is Hh:mm. Voor 6:00 uur voer je 06:00 in"
     all_day_event_end_time: "Evenementen waarvoor geen eindtijd is opgegeven, eindigen op deze tijd. De notatie is HH:mm. Voor 18:00 uur voer je 18:00 in"
@@ -55,6 +56,7 @@ nl:
     events_calendar_categories: "Geef een evenementenkalender weer bovenaan een categorie."
     sort_categories_by_event_start_date_enabled: "Schakel het sorteren van categorietopics op begindatum van evenement in."
     disable_resorting_on_categories_enabled: "Sta toe dat categorieën de mogelijkheid voor gebruikers om te sorteren op evenementcategorie uitschakelen."
+    calendar_automatic_holidays_enabled: "Stel automatisch de feestdagstatus in op basis van een gebruikersregio (opmerking: je kunt specifieke automatische feestdagen uitschakelen in de plug-in-instellingen)"
   discourse_calendar:
     invite_user_notification: "%{username} heeft je uitgenodigd voor: %{description}"
     calendar_must_be_in_first_post: "Calendar-tag kan alleen worden gebruikt in het eerste bericht van een topic."
@@ -63,6 +65,9 @@ nl:
     event_expired: "Evenement verlopen"
     holiday_status:
       description: "Op feestdag"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "Evenementherinnering"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} gaat beginnen."

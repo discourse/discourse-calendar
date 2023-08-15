@@ -42,6 +42,7 @@ ar:
     discourse_post_event_allowed_custom_fields: "يتيح السماح لكل حدث بتحديد قيمة الحقول المخصَّصة."
     discourse_post_event_edit_notifications_time_extension: "يمد (بالدقائق) الفترة بعد نهاية حدث عندما يستمر المدعوون ذوي الحالة `going` في تلقي الإشعارات عند التعديل في المنشور الأصلي."
     holiday_calendar_topic_id: "معرِّف الموضوع لتقويم العطلات/الغياب لفريق العمل"
+    holiday_status_emoji: يحدِّد الرمز التعبيري المستخدم في حالة العطلة.
     delete_expired_event_posts_after: "سيتم حذف المنشورات ذات الأحداث المنتهية تلقائيًا بعد (n) من الساعات. اضبط القيمة على 1- لإيقاف الحذف."
     all_day_event_start_time: "ستبدأ الأحداث التي ليس بها وقت محدَّد للبدء في هذا الوقت. التنسيق هو HH:mm. للساعة 6 صباحًا، أدخل 06:00."
     all_day_event_end_time: "ستنتهي الأحداث التي ليس بها وقت محدَّد للانتهاء في هذا الوقت. التنسيق هو HH:mm. للساعة 6 مساءً، أدخل 18:00."
@@ -55,6 +56,7 @@ ar:
     events_calendar_categories: "عرض تقويم الأحداث في أعلى الفئة."
     sort_categories_by_event_start_date_enabled: "تفعيل ترتيب موضوعات الفئات حسب تاريخ بدء الحدث."
     disable_resorting_on_categories_enabled: "السماح للفئات بإيقاف قدرة المستخدمين على الترتيب حسب فئة الحدث."
+    calendar_automatic_holidays_enabled: "يحدِّد حالة العطلة تلقائيًا حسب المنطقة الجغرافية للمستخدمين (ملاحظة: يمكنك إيقاف عطلات تلقائية محدَّدة في إعدادات المكوِّن الإضافي)"
   discourse_calendar:
     invite_user_notification: "دعاك %{username} إلى: %{description}"
     calendar_must_be_in_first_post: "لا يمكن استخدام علامة التقويم إلا في المنشور الأول في الموضوع."
@@ -63,6 +65,9 @@ ar:
     event_expired: "انتهى الحدث"
     holiday_status:
       description: "في عطلة"
+  discourse_push_notifications:
+    popup:
+      event_reminder: "تذكير بالحدث"
   discourse_post_event:
     notifications:
       before_event_reminder: "%{title} على وشك البدء."
@@ -85,6 +90,8 @@ ar:
           invalid_timezone: "لم يتم التعرُّف على المنطقة الزمنية."
           acting_user_not_allowed_to_create_event: "غير مسموح للمستخدم الحالي بإنشاء أحداث."
           acting_user_not_allowed_to_act_on_this_event: "غير مسموح للمستخدم الحالي باتخاذ إجراء بشأن هذا الحدث."
+          invalid_allowed_groups: "المجموعات المسموح بها غير صالحة."
+          acting_user_not_allowed_to_invite_these_groups: "غير مسموح للمستخدم الحالي بدعوة تلك المجموعات."
           custom_field_is_invalid: "غير مسموح بالحقل المخصَّص `%{field}`."
           name:
             length: "يجب أن يتراوح طول اسم الحدث بين %{minimum} و%{maximum} من الأحرف."
