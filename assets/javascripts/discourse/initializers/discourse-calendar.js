@@ -236,7 +236,7 @@ function initializeDiscourseCalendar(api) {
       calendar.render();
       _setStaticCalendarEvents(calendar, $calendar, post);
     } else {
-      _setDynamicCalendarEvents(calendar, post, fullDay);
+      _setDynamicCalendarEvents(calendar, post, fullDay, timezone);
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
     }
@@ -299,6 +299,10 @@ function initializeDiscourseCalendar(api) {
         }
 
         $calendarTitle.innerText = info.view.title;
+      },
+
+      eventRender: (info) => {
+        _setTimezoneOffset(info);
       },
     });
   }
@@ -478,6 +482,11 @@ function initializeDiscourseCalendar(api) {
       event.classNames = ["holiday"];
     }
 
+    if (detail.timezoneOffset) {
+      event.extendedProps.timezoneOffset = detail.timezoneOffset;
+      event.extendedProps.eventDaysDuration = detail.eventDaysDuration;
+    }
+
     return event;
   }
 
@@ -556,8 +565,9 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _setDynamicCalendarEvents(calendar, post, fullDay) {
+  function _setDynamicCalendarEvents(calendar, post, fullDay, timezone) {
     const groupedEvents = [];
+    const calendarUtcOffset = moment.tz(timezone).utcOffset();
 
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
@@ -566,12 +576,30 @@ function initializeDiscourseCalendar(api) {
           break;
         case "standalone":
           if (fullDay && detail.timezone) {
-            detail.from = moment
-              .tz(detail.from, detail.timezone)
-              .format("YYYY-MM-DD");
-            detail.to = moment
-              .tz(detail.to, detail.timezone)
-              .format("YYYY-MM-DD");
+            detail.from = moment.tz(detail.from, detail.timezone);
+            detail.to = moment.tz(detail.to, detail.timezone);
+
+            const eventUtcOffset = moment.tz(detail.timezone).utcOffset();
+            const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
+            detail.timezoneOffset = timezoneOffset;
+            detail.eventDaysDuration =
+              detail.to.diff(detail.from, "days") + 1 || 1;
+
+            if (timezoneOffset > 0) {
+              if (detail.to.isValid()) {
+                detail.to.add(1, "day");
+              } else {
+                detail.to = detail.from.clone().add(1, "day");
+              }
+            } else if (timezoneOffset < 0) {
+              if (!detail.to.isValid()) {
+                detail.to = detail.from.clone();
+              }
+              detail.from.subtract(1, "day");
+            }
+
+            detail.from = detail.from.format("YYYY-MM-DD");
+            detail.to = detail.to.format("YYYY-MM-DD");
           }
           _addStandaloneEvent(calendar, post, detail);
           break;
@@ -660,6 +688,42 @@ function initializeDiscourseCalendar(api) {
 
     for (const event of eventSegments) {
       _insertAddToCalendarLinkForEvent(event, eventSegmentDefMap);
+    }
+  }
+
+  function _setTimezoneOffset(info) {
+    const timezoneOffset = info.event.extendedProps.timezoneOffset;
+    const eventDaysDuration = info.event.extendedProps.eventDaysDuration;
+    if (timezoneOffset) {
+      const baseOffset = 100 / (eventDaysDuration + 1);
+      const pxOffset = `${3.5 - (eventDaysDuration - 1) / 2.5}px`;
+
+      const notStart = info.el.classList.contains("fc-not-start");
+      const notEnd = info.el.classList.contains("fc-not-end");
+
+      if (timezoneOffset > 0) {
+        if (!notStart) {
+          const leftK = Math.abs(timezoneOffset) / 24;
+          const pctOffset = `${baseOffset * leftK * (notEnd ? 2 : 1)}%`;
+          info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
+        }
+        if (!notEnd) {
+          const rightK = (24 - Math.abs(timezoneOffset)) / 24;
+          const pctOffset = `${baseOffset * rightK * (notStart ? 2 : 1)}%`;
+          info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
+        }
+      } else if (timezoneOffset < 0) {
+        if (!notStart) {
+          const leftK = (24 - Math.abs(timezoneOffset)) / 24;
+          const pctOffset = `${baseOffset * leftK * (notEnd ? 2 : 1)}%`;
+          info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
+        }
+        if (!notEnd) {
+          const rightK = Math.abs(timezoneOffset) / 24;
+          const pctOffset = `${baseOffset * rightK * (notStart ? 2 : 1)}%`;
+          info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
+        }
+      }
     }
   }
 
