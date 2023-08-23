@@ -92,3 +92,6 @@ discourse_post_event:
   disable_resorting_on_categories_enabled:
     default: false
     client: true
+  enable_timezone_offset_for_calendar_events:
+    default: false
+    client: true

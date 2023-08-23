@@ -579,23 +579,25 @@ function initializeDiscourseCalendar(api) {
             detail.from = moment.tz(detail.from, detail.timezone);
             detail.to = moment.tz(detail.to, detail.timezone);
 
-            const eventUtcOffset = moment.tz(detail.timezone).utcOffset();
-            const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
-            detail.timezoneOffset = timezoneOffset;
-            detail.eventDaysDuration =
-              detail.to.diff(detail.from, "days") + 1 || 1;
+            if (siteSettings.enable_timezone_offset_for_calendar_events) {
+              const eventUtcOffset = moment.tz(detail.timezone).utcOffset();
+              const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
+              detail.timezoneOffset = timezoneOffset;
+              detail.eventDaysDuration =
+                detail.to.diff(detail.from, "days") + 1 || 1;
 
-            if (timezoneOffset > 0) {
-              if (detail.to.isValid()) {
-                detail.to.add(1, "day");
-              } else {
-                detail.to = detail.from.clone().add(1, "day");
+              if (timezoneOffset > 0) {
+                if (detail.to.isValid()) {
+                  detail.to.add(1, "day");
+                } else {
+                  detail.to = detail.from.clone().add(1, "day");
+                }
+              } else if (timezoneOffset < 0) {
+                if (!detail.to.isValid()) {
+                  detail.to = detail.from.clone();
+                }
+                detail.from.subtract(1, "day");
               }
-            } else if (timezoneOffset < 0) {
-              if (!detail.to.isValid()) {
-                detail.to = detail.from.clone();
-              }
-              detail.from.subtract(1, "day");
             }
 
             detail.from = detail.from.format("YYYY-MM-DD");
@@ -692,6 +694,10 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _setTimezoneOffset(info) {
+    if (!siteSettings.enable_timezone_offset_for_calendar_events) {
+      return;
+    }
+
     const timezoneOffset = info.event.extendedProps.timezoneOffset;
     const eventDaysDuration = info.event.extendedProps.eventDaysDuration;
     if (timezoneOffset) {
