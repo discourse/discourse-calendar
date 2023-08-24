@@ -523,46 +523,111 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _addGroupedEvent(calendar, post, detail) {
-    let htmlContent = "";
-    let usernames = [];
-    let localEventNames = [];
+  function _addGroupedEvent(calendar, post, detail, timezone) {
+    const data = siteSettings.enable_timezone_offset_for_calendar_events
+      ? _splitGroupEventByTimezone(detail, timezone)
+      : [detail];
 
-    Object.keys(detail.localEvents)
-      .sort()
-      .forEach((key) => {
-        const localEvent = detail.localEvents[key];
-        htmlContent += `<b>${key}</b>: ${localEvent.usernames
-          .sort()
-          .join(", ")}<br>`;
-        usernames = usernames.concat(localEvent.usernames);
-        localEventNames.push(key);
-      });
+    data.forEach((el) => {
+      let htmlContent = "";
+      let users = [];
+      let localEventNames = [];
 
-    const event = _buildEvent(detail);
-    event.classNames = ["grouped-event"];
+      Object.keys(el.localEvents)
+        .sort()
+        .forEach((key) => {
+          const localEvent = el.localEvents[key];
+          htmlContent += `<b>${key}</b>: ${localEvent.users
+            .map((u) => u.username)
+            .sort()
+            .join(", ")}<br>`;
+          users = users.concat(localEvent.users);
+          localEventNames.push(key);
+        });
 
-    if (usernames.length > 2) {
-      event.title = `(${usernames.length}) ${localEventNames[0]}`;
-    } else if (usernames.length === 1) {
-      event.title = usernames[0];
-    } else {
-      event.title = isMobileView
-        ? `(${usernames.length}) ${localEventNames[0]}`
-        : `(${usernames.length}) ` + usernames.join(", ");
-    }
+      const event = _buildEvent(el);
+      event.classNames = ["grouped-event"];
 
-    if (localEventNames.length > 1) {
-      event.extendedProps.htmlContent = htmlContent;
-    } else {
-      if (usernames.length > 1) {
+      if (users.length > 2) {
+        event.title = `(${users.length}) ${localEventNames[0]}`;
+      } else if (users.length === 1) {
+        event.title = users[0].username;
+      } else {
+        event.title = isMobileView
+          ? `(${users.length}) ${localEventNames[0]}`
+          : `(${users.length}) ` + users.map((u) => u.username).join(", ");
+      }
+
+      if (localEventNames.length > 1) {
         event.extendedProps.htmlContent = htmlContent;
       } else {
-        event.extendedProps.htmlContent = localEventNames[0];
+        if (users.length > 1) {
+          event.extendedProps.htmlContent = htmlContent;
+        } else {
+          event.extendedProps.htmlContent = localEventNames[0];
+        }
       }
-    }
 
-    calendar.addEvent(event);
+      calendar.addEvent(event);
+    });
+  }
+
+  function _splitGroupEventByTimezone(detail, timezone) {
+    const calendarUtcOffset = moment.tz(timezone).utcOffset();
+    let timezonesOffsets = [];
+    let splittedEvents = [];
+
+    Object.values(detail.localEvents).forEach((event) => {
+      event.users.forEach((user) => {
+        const userUtcOffset = moment.tz(user.timezone).utcOffset();
+        const timezoneOffset = (calendarUtcOffset - userUtcOffset) / 60;
+        user.timezoneOffset = timezoneOffset;
+        timezonesOffsets.push(timezoneOffset);
+      });
+    });
+
+    [...new Set(timezonesOffsets)].forEach((offset) => {
+      let filteredLocalEvents = {};
+      let eventTimezone;
+
+      Object.keys(detail.localEvents).forEach((key) => {
+        const filtered = detail.localEvents[key].users.filter(
+          (user) => user.timezoneOffset === offset
+        );
+        if (filtered.length > 0) {
+          filteredLocalEvents[key] = {
+            users: filtered,
+          };
+          eventTimezone ||= filtered[0].timezone;
+        }
+      });
+
+      let from = moment.tz(detail.from, eventTimezone);
+      let to = moment.tz(detail.to, eventTimezone);
+
+      if (offset > 0) {
+        if (to.isValid()) {
+          to.add(1, "day");
+        } else {
+          to = from.clone().add(1, "day");
+        }
+      } else if (offset < 0) {
+        if (!to.isValid()) {
+          to = from.clone();
+        }
+        from.subtract(1, "day");
+      }
+
+      splittedEvents.push({
+        timezoneOffset: offset,
+        localEvents: filteredLocalEvents,
+        eventDaysDuration: 1,
+        from: from.format("YYYY-MM-DD"),
+        to: to.format("YYYY-MM-DD"),
+      });
+    });
+
+    return splittedEvents;
   }
 
   function _setDynamicCalendarEvents(calendar, post, fullDay, timezone) {
@@ -631,21 +696,20 @@ function initializeDiscourseCalendar(api) {
 
       formattedGroupedEvents[identifier].localEvents[groupedEvent.name] =
         formattedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
-          usernames: [],
+          users: [],
         };
 
       formattedGroupedEvents[identifier].localEvents[
         groupedEvent.name
-      ].usernames.push.apply(
-        formattedGroupedEvents[identifier].localEvents[groupedEvent.name]
-          .usernames,
-        groupedEvent.usernames
+      ].users.push.apply(
+        formattedGroupedEvents[identifier].localEvents[groupedEvent.name].users,
+        groupedEvent.users
       );
     });
 
     Object.keys(formattedGroupedEvents).forEach((key) => {
       const formattedGroupedEvent = formattedGroupedEvents[key];
-      _addGroupedEvent(calendar, post, formattedGroupedEvent);
+      _addGroupedEvent(calendar, post, formattedGroupedEvent, timezone);
     });
   }
 
