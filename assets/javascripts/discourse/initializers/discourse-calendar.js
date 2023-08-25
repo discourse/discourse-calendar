@@ -641,34 +641,37 @@ function initializeDiscourseCalendar(api) {
           break;
         case "standalone":
           if (fullDay && detail.timezone) {
-            detail.from = moment.tz(detail.from, detail.timezone);
-            detail.to = moment.tz(detail.to, detail.timezone);
+            const eventDetail = { ...detail };
+            let from = moment.tz(detail.from, detail.timezone);
+            let to = moment.tz(detail.to, detail.timezone);
 
             if (siteSettings.enable_timezone_offset_for_calendar_events) {
               const eventUtcOffset = moment.tz(detail.timezone).utcOffset();
               const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
-              detail.timezoneOffset = timezoneOffset;
-              detail.eventDaysDuration =
-                detail.to.diff(detail.from, "days") + 1 || 1;
+
+              eventDetail.timezoneOffset = timezoneOffset;
+              eventDetail.eventDaysDuration = to.diff(from, "days") + 1 || 1;
 
               if (timezoneOffset > 0) {
-                if (detail.to.isValid()) {
-                  detail.to.add(1, "day");
+                if (to.isValid()) {
+                  to.add(1, "day");
                 } else {
-                  detail.to = detail.from.clone().add(1, "day");
+                  to = from.clone().add(1, "day");
                 }
               } else if (timezoneOffset < 0) {
-                if (!detail.to.isValid()) {
-                  detail.to = detail.from.clone();
+                if (!to.isValid()) {
+                  to = from.clone();
                 }
-                detail.from.subtract(1, "day");
+                from.subtract(1, "day");
               }
             }
+            eventDetail.from = from.format("YYYY-MM-DD");
+            eventDetail.to = to.format("YYYY-MM-DD");
 
-            detail.from = detail.from.format("YYYY-MM-DD");
-            detail.to = detail.to.format("YYYY-MM-DD");
+            _addStandaloneEvent(calendar, post, eventDetail);
+          } else {
+            _addStandaloneEvent(calendar, post, detail);
           }
-          _addStandaloneEvent(calendar, post, detail);
           break;
       }
     });
