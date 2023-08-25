@@ -241,7 +241,13 @@ function initializeDiscourseCalendar(api) {
       _setDynamicCalendarOptions(calendar, $calendar);
     }
 
-    _setupTimezonePicker(calendar, timezone);
+    const resetDynamicEvents = () => {
+      const selectedTimezone = calendar.getOption("timeZone");
+      calendar.getEvents().forEach((event) => event.remove());
+      _setDynamicCalendarEvents(calendar, post, fullDay, selectedTimezone);
+    };
+
+    _setupTimezonePicker(calendar, timezone, resetDynamicEvents);
   }
 
   function attachCalendar($elem, helper) {
@@ -726,13 +732,14 @@ function initializeDiscourseCalendar(api) {
     return defaultTimezone || currentUser?.timezone || moment.tz.guess();
   }
 
-  function _setupTimezonePicker(calendar, timezone) {
+  function _setupTimezonePicker(calendar, timezone, resetDynamicEvents) {
     const tzPicker = document.querySelector(
       ".discourse-calendar-timezone-picker"
     );
     if (tzPicker) {
       tzPicker.addEventListener("change", function (event) {
         calendar.setOption("timeZone", event.target.value);
+        resetDynamicEvents();
         _insertAddToCalendarLinks(calendar);
       });
 
