@@ -15,7 +15,10 @@ export default {
 
   initialize(container) {
     const siteSettings = container.lookup("service:site-settings");
-    if (siteSettings.discourse_post_event_enabled) {
+    if (
+      siteSettings.discourse_post_event_enabled &&
+      siteSettings.sidebar_show_upcoming_events
+    ) {
       withPluginApi("0.8.7", initializeHamburgerMenu);
     }
   },
