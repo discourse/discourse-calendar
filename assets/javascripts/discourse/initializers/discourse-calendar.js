@@ -339,15 +339,15 @@ function initializeDiscourseCalendar(api) {
     };
 
     let event = {
-      start: from.dateTime.toDate(),
+      start: from.dateTime.format("YYYY-MM-DD"),
       allDay: false,
     };
 
     if (to) {
       if (hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime)) {
-        event.end = to.dateTime.toDate();
+        event.end = to.dateTime.format("YYYY-MM-DD");
       } else {
-        event.end = to.dateTime.add(1, "days").toDate();
+        event.end = to.dateTime.add(1, "days").format("YYYY-MM-DD");
         event.allDay = true;
       }
     } else {
