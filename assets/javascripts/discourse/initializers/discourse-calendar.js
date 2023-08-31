@@ -776,30 +776,28 @@ function initializeDiscourseCalendar(api) {
 
     const basePctOffset = 100 / segmentDuration;
     const basePxOffset = 5.5 - (segmentDuration - 1) * 0.78;
-    const notStart = info.el.classList.contains("fc-not-start");
-    const notEnd = info.el.classList.contains("fc-not-end");
 
     if (timezoneOffset > 0) {
-      if (!notStart) {
+      if (info.isStart) {
         const leftK = Math.abs(timezoneOffset) / 24;
         const pctOffset = `${basePctOffset * leftK}%`;
         const pxOffset = `${basePxOffset * leftK}px`;
         info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
       }
-      if (!notEnd) {
+      if (info.isEnd) {
         const rightK = (24 - Math.abs(timezoneOffset)) / 24;
         const pctOffset = `${basePctOffset * rightK}%`;
         const pxOffset = `${basePxOffset * rightK}px`;
         info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
       }
     } else if (timezoneOffset < 0) {
-      if (!notStart) {
+      if (info.isStart) {
         const leftK = (24 - Math.abs(timezoneOffset)) / 24;
         const pctOffset = `${basePctOffset * leftK}%`;
         const pxOffset = `${basePxOffset * leftK}px`;
         info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
       }
-      if (!notEnd) {
+      if (info.isEnd) {
         const rightK = Math.abs(timezoneOffset) / 24;
         const pctOffset = `${basePctOffset * rightK}%`;
         const pxOffset = `${basePxOffset * rightK}px`;
