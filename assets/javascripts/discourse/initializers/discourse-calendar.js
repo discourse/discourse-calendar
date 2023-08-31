@@ -739,9 +739,12 @@ function initializeDiscourseCalendar(api) {
         _insertAddToCalendarLinks(calendar);
       });
 
-      moment.tz.names().forEach((tz) => {
-        tzPicker.appendChild(new Option(tz, tz));
-      });
+      moment.tz
+        .names()
+        .filter((t) => !t.startsWith("Etc/GMT"))
+        .forEach((tz) => {
+          tzPicker.appendChild(new Option(tz, tz));
+        });
 
       tzPicker.value = timezone;
     } else {
