@@ -767,7 +767,10 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _setTimezoneOffset(info) {
-    if (!siteSettings.enable_timezone_offset_for_calendar_events) {
+    if (
+      !siteSettings.enable_timezone_offset_for_calendar_events ||
+      info.view.type === "listNextYear"
+    ) {
       return;
     }
 
