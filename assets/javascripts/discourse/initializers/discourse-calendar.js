@@ -528,20 +528,21 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _addGroupedEvent(calendar, post, detail, timezone) {
-    const data = siteSettings.enable_timezone_offset_for_calendar_events
-      ? _splitGroupEventByTimezone(detail, timezone)
-      : [detail];
+  function _addGroupedEvent(calendar, post, detail, calendarTz) {
+    const groupedEventData =
+      siteSettings.enable_timezone_offset_for_calendar_events
+        ? _splitGroupEventByTimezone(detail, calendarTz)
+        : [detail];
 
-    data.forEach((el) => {
+    groupedEventData.forEach((eventData) => {
       let htmlContent = "";
       let users = [];
       let localEventNames = [];
 
-      Object.keys(el.localEvents)
+      Object.keys(eventData.localEvents)
         .sort()
         .forEach((key) => {
-          const localEvent = el.localEvents[key];
+          const localEvent = eventData.localEvents[key];
           htmlContent += `<b>${key}</b>: ${localEvent.users
             .map((u) => u.username)
             .sort()
@@ -550,7 +551,7 @@ function initializeDiscourseCalendar(api) {
           localEventNames.push(key);
         });
 
-      const event = _buildEvent(el);
+      const event = _buildEvent(eventData);
       event.classNames = ["grouped-event"];
 
       if (users.length > 2) {
@@ -577,8 +578,8 @@ function initializeDiscourseCalendar(api) {
     });
   }
 
-  function _splitGroupEventByTimezone(detail, timezone) {
-    const calendarUtcOffset = moment.tz(timezone).utcOffset();
+  function _splitGroupEventByTimezone(detail, calendarTz) {
+    const calendarUtcOffset = moment.tz(calendarTz).utcOffset();
     let timezonesOffsets = [];
     let splittedEvents = [];
 
@@ -634,9 +635,9 @@ function initializeDiscourseCalendar(api) {
     return splittedEvents;
   }
 
-  function _setDynamicCalendarEvents(calendar, post, fullDay, timezone) {
+  function _setDynamicCalendarEvents(calendar, post, fullDay, calendarTz) {
     const groupedEvents = [];
-    const calendarUtcOffset = moment.tz(timezone).utcOffset();
+    const calendarUtcOffset = moment.tz(calendarTz).utcOffset();
 
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
@@ -714,7 +715,7 @@ function initializeDiscourseCalendar(api) {
 
     Object.keys(formattedGroupedEvents).forEach((key) => {
       const formattedGroupedEvent = formattedGroupedEvents[key];
-      _addGroupedEvent(calendar, post, formattedGroupedEvent, timezone);
+      _addGroupedEvent(calendar, post, formattedGroupedEvent, calendarTz);
     });
   }
 
