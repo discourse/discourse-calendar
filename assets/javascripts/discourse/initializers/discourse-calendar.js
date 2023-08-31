@@ -299,6 +299,7 @@ function initializeDiscourseCalendar(api) {
         center: "title",
         right: "month,basicWeek,listNextYear",
       },
+      eventOrder: ["start", _orderByTz, "-duration", "allDay", "title"],
       datesRender: (info) => {
         if (showAddToCalendar) {
           _insertAddToCalendarLinks(info);
@@ -311,6 +312,17 @@ function initializeDiscourseCalendar(api) {
         _setTimezoneOffset(info);
       },
     });
+  }
+
+  function _orderByTz(a, b) {
+    if (!siteSettings.enable_timezone_offset_for_calendar_events) {
+      return 0;
+    }
+
+    const offsetA = a.extendedProps.timezoneOffset;
+    const offsetB = b.extendedProps.timezoneOffset;
+
+    return offsetA === offsetB ? 0 : offsetA < offsetB ? -1 : 1;
   }
 
   function _convertHtmlToDate(html) {
