@@ -5,19 +5,97 @@
 # https://translate.discourse.org/
 
 uk:
+  admin_js:
+    admin:
+      calendar: "Календар"
+      site_settings:
+        categories:
+          discourse_post_event: "Подія Discourse"
+          discourse_calendar: "Календар Discourse"
   js:
+    notifications:
+      titles:
+        event_reminder: "нагадування про подію"
+        event_invitation: "запрошення на подію"
+      popup:
+        event_reminder: Нагадування про подію
     discourse_automation:
       triggerables:
         event_started:
+          title: Подія розпочалася
           fields:
             topic_id:
               label: ID теми
     discourse_calendar:
+      invite_user_notification: "%{username} запросив тебе: %{description}"
+      on_holiday: "У відпустці"
       disable_holiday: "Відключити"
       enable_holiday: "Включити"
+      holiday: "Свято"
+      holidays:
+        header_title: "Свята"
+        pick_region_description: "Оберіть регіон, щоб побачити свята для цього регіону."
+        disabled_holidays_description: "При вимкненні свят вони будуть виключені з календаря персоналу."
       date: "Дата"
+      add_to_calendar: "Додати до календаря Google"
       region:
+        title: "Регіон"
         none: "Немає"
+        use_current_region: "Використовувати поточний регіон"
+        names:
+          ar: "Аргентина"
+          at: "Австрія"
+          au_act: "Австралія (au_act)"
+          au: "Австралія"
+          br: "Бразилія"
+          ch: "Швейцарія"
+          cl: "Чилі"
+          co: "Колумбія"
+          cr: "Коста-Ріка"
+          cz: "Чехія"
+          de: "Німеччина"
+          dk: "Данія"
+          ee: "Естонія"
+          el: "Греція"
+          fr: "Франція"
+          gb: "Велика Британія"
+          ge: "Грузія"
+          gg: "Гернсі"
+          gh: "Гана"
+          hk: "Гонконг"
+          hr: "Хорватія"
+          hu: "Угорщина"
+          id: "Індонезія"
+          ie: "Ірландія"
+          im: "Острів Мен"
+          in: "Індія"
+          it: "Італія"
+          je: "Джерсі"
+          jp: "Японія"
+          ke: "Кенія"
+          li: "Ліхтенштейн"
+          lt: "Литва"
+          lu: "Люксембург"
+          lv: "Латвія"
+          ma: "Марокко"
+          ph: "Філіппіни"
+          pl: "Польща"
+          pt: "Португалія"
+          ro: "Румунія"
+          ru: "російська федерація"
+          se: "Швеція"
+          sa: "Саудівська Аравія"
+          sg: "Сінгапур"
+          si: "Slovenia"
+          sk: "Словаччина"
+          th: "Таїланд"
+          tn: "Туніс"
+          tr: "Туреччина"
+          ua: "Україна"
+          us: "Сполучені Штати Америки"
+          ve: "Венесуела"
+          vi: "Віргінські острови (США)"
+          za: "Південна Африка"
     group_timezones:
       search: "Пошук…"
     discourse_post_event:
