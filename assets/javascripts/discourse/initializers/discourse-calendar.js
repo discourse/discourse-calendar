@@ -787,33 +787,51 @@ function initializeDiscourseCalendar(api) {
       return;
     }
 
+    // The timezone offset works by calculating the hour difference
+    // between a target event and the calendar event. This is used to
+    // determine whether to add an extra day before or after the event.
+    // Then, it applies inline styling to resize the event to its
+    // original size while adjusting it to the respective timezone.
+
     const timezoneOffset = info.event.extendedProps.timezoneOffset;
     const segmentDuration = info.el.parentNode?.colSpan;
 
     const basePctOffset = 100 / segmentDuration;
-    const pxOffset = 7.5 - segmentDuration;
+    // Base margin required to shrink down the event by one day
+    const basePxOffset = 5.5 - segmentDuration;
+    // Default space between two consecutive events
+    // 5.5px = ( ( ( 2px margin + 3px padding ) * 2 ) + 1px border ) / 2
+
+    // K factors are used to adjust each side of the event based on the hour difference
+    // A '2' is added to the pxOffset to account for the default margin
 
     if (timezoneOffset > 0) {
+      // When the event extends into the next day
       if (info.isStart) {
         const leftK = Math.abs(timezoneOffset) / 24;
         const pctOffset = `${basePctOffset * leftK}%`;
-        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset}px)`;
+        const pxOffset = `${basePxOffset * leftK + 2}px`;
+        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
       }
       if (info.isEnd) {
         const rightK = (24 - Math.abs(timezoneOffset)) / 24;
         const pctOffset = `${basePctOffset * rightK}%`;
-        info.el.style.marginRight = `calc(${pctOffset} + 2px)`;
+        const pxOffset = `${basePxOffset * rightK + 2}px`;
+        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
       }
     } else if (timezoneOffset < 0) {
+      // When the event starts on the previous day
       if (info.isStart) {
         const leftK = (24 - Math.abs(timezoneOffset)) / 24;
         const pctOffset = `${basePctOffset * leftK}%`;
-        info.el.style.marginLeft = `calc(${pctOffset} + 2px)`;
+        const pxOffset = `${basePxOffset * leftK + 2}px`;
+        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
       }
       if (info.isEnd) {
         const rightK = Math.abs(timezoneOffset) / 24;
         const pctOffset = `${basePctOffset * rightK}%`;
-        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset}px)`;
+        const pxOffset = `${basePxOffset * rightK + 2}px`;
+        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
       }
     }
   }
