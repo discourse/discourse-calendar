@@ -791,33 +791,29 @@ function initializeDiscourseCalendar(api) {
     const segmentDuration = info.el.parentNode?.colSpan;
 
     const basePctOffset = 100 / segmentDuration;
-    const basePxOffset = 5.5 - (segmentDuration - 1) * 0.78;
+    const pxOffset = 7.5 - segmentDuration;
 
     if (timezoneOffset > 0) {
       if (info.isStart) {
         const leftK = Math.abs(timezoneOffset) / 24;
         const pctOffset = `${basePctOffset * leftK}%`;
-        const pxOffset = `${basePxOffset * leftK}px`;
-        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
+        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset}px)`;
       }
       if (info.isEnd) {
         const rightK = (24 - Math.abs(timezoneOffset)) / 24;
         const pctOffset = `${basePctOffset * rightK}%`;
-        const pxOffset = `${basePxOffset * rightK}px`;
-        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
+        info.el.style.marginRight = `calc(${pctOffset} + 2px)`;
       }
     } else if (timezoneOffset < 0) {
       if (info.isStart) {
         const leftK = (24 - Math.abs(timezoneOffset)) / 24;
         const pctOffset = `${basePctOffset * leftK}%`;
-        const pxOffset = `${basePxOffset * leftK}px`;
-        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
+        info.el.style.marginLeft = `calc(${pctOffset} + 2px)`;
       }
       if (info.isEnd) {
         const rightK = Math.abs(timezoneOffset) / 24;
         const pctOffset = `${basePctOffset * rightK}%`;
-        const pxOffset = `${basePxOffset * rightK}px`;
-        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
+        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset}px)`;
       }
     }
   }
