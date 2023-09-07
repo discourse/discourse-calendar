@@ -350,16 +350,20 @@ function initializeDiscourseCalendar(api) {
       return d.hours() !== 0 || d.minutes() !== 0 || d.seconds() !== 0;
     };
 
+    const hasTime =
+      hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime);
+    const dateFormat = hasTime ? "YYYY-MM-DD HH:mm:ss Z" : "YYYY-MM-DD";
+
     let event = {
-      start: from.dateTime.format("YYYY-MM-DD"),
+      start: from.dateTime.format(dateFormat),
       allDay: false,
     };
 
     if (to) {
-      if (hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime)) {
-        event.end = to.dateTime.format("YYYY-MM-DD");
+      if (hasTime) {
+        event.end = to.dateTime.format(dateFormat);
       } else {
-        event.end = to.dateTime.add(1, "days").format("YYYY-MM-DD");
+        event.end = to.dateTime.add(1, "days").format(dateFormat);
         event.allDay = true;
       }
     } else {
