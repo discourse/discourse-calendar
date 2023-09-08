@@ -544,9 +544,9 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _addGroupedEvent(calendar, post, detail, calendarTz) {
+  function _addGroupedEvent(calendar, post, detail, fullDay, calendarTz) {
     const groupedEventData =
-      siteSettings.enable_timezone_offset_for_calendar_events
+      siteSettings.enable_timezone_offset_for_calendar_events && fullDay
         ? _splitGroupEventByTimezone(detail, calendarTz)
         : [detail];
 
@@ -768,7 +768,13 @@ function initializeDiscourseCalendar(api) {
 
     Object.keys(formattedGroupedEvents).forEach((key) => {
       const formattedGroupedEvent = formattedGroupedEvents[key];
-      _addGroupedEvent(calendar, post, formattedGroupedEvent, calendarTz);
+      _addGroupedEvent(
+        calendar,
+        post,
+        formattedGroupedEvent,
+        fullDay,
+        calendarTz
+      );
     });
   }
 
