@@ -610,45 +610,82 @@ function initializeDiscourseCalendar(api) {
 
     [...new Set(timezonesOffsets)].forEach((offset) => {
       let filteredLocalEvents = {};
-      let eventTimezone;
+      let eventTimezones = [];
 
       Object.keys(detail.localEvents).forEach((key) => {
+        const threshold =
+          siteSettings.split_grouped_events_by_timezone_threshold;
+
         const filtered = detail.localEvents[key].users.filter(
-          (user) => user.timezoneOffset === offset
+          (u) => Math.abs(u.timezoneOffset - offset) <= threshold
         );
         if (filtered.length > 0) {
           filteredLocalEvents[key] = {
             users: filtered,
           };
-          eventTimezone ||= filtered[0].timezone;
+          filtered.forEach((u) => {
+            detail.localEvents[key].users.splice(
+              detail.localEvents[key].users.findIndex(
+                (e) => e.username === u.username
+              ),
+              1
+            );
+            if (
+              !eventTimezones.find((t) => t.timezoneOffset === u.timezoneOffset)
+            ) {
+              eventTimezones.push({
+                timezone: u.timezone,
+                timezoneOffset: u.timezoneOffset,
+              });
+            }
+          });
         }
       });
 
-      let from = moment.tz(detail.from, eventTimezone);
-      let to = moment.tz(detail.to, eventTimezone);
+      if (Object.keys(filteredLocalEvents).length > 0) {
+        const eventTimezone = _findAverageTimezone(eventTimezones);
 
-      if (offset > 0) {
-        if (to.isValid()) {
-          to.add(1, "day");
-        } else {
-          to = from.clone().add(1, "day");
+        let from = moment.tz(detail.from, eventTimezone.timezone);
+        let to = moment.tz(detail.to, eventTimezone.timezone);
+
+        if (eventTimezone.timezoneOffset > 0) {
+          if (to.isValid()) {
+            to.add(1, "day");
+          } else {
+            to = from.clone().add(1, "day");
+          }
+        } else if (eventTimezone.timezoneOffset < 0) {
+          if (!to.isValid()) {
+            to = from.clone();
+          }
+          from.subtract(1, "day");
         }
-      } else if (offset < 0) {
-        if (!to.isValid()) {
-          to = from.clone();
-        }
-        from.subtract(1, "day");
+
+        splittedEvents.push({
+          timezoneOffset: eventTimezone.timezoneOffset,
+          localEvents: filteredLocalEvents,
+          from: from.format("YYYY-MM-DD"),
+          to: to.format("YYYY-MM-DD"),
+        });
       }
-
-      splittedEvents.push({
-        timezoneOffset: offset,
-        localEvents: filteredLocalEvents,
-        from: from.format("YYYY-MM-DD"),
-        to: to.format("YYYY-MM-DD"),
-      });
     });
 
     return splittedEvents;
+  }
+
+  function _findAverageTimezone(eventTimezones) {
+    const totalOffsets = eventTimezones.reduce(
+      (sum, timezone) => sum + timezone.timezoneOffset,
+      0
+    );
+    const averageOffset = totalOffsets / eventTimezones.length;
+
+    return eventTimezones.reduce((closest, timezone) => {
+      const difference = Math.abs(timezone.timezoneOffset - averageOffset);
+      return difference < Math.abs(closest.timezoneOffset - averageOffset)
+        ? timezone
+        : closest;
+    });
   }
 
   function _setDynamicCalendarEvents(calendar, post, fullDay, calendarTz) {
