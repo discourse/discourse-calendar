@@ -651,18 +651,7 @@ function initializeDiscourseCalendar(api) {
         let from = moment.tz(detail.from, eventTimezone.timezone);
         let to = moment.tz(detail.to, eventTimezone.timezone);
 
-        if (eventTimezone.timezoneOffset > 0) {
-          if (to.isValid()) {
-            to.add(1, "day");
-          } else {
-            to = from.clone().add(1, "day");
-          }
-        } else if (eventTimezone.timezoneOffset < 0) {
-          if (!to.isValid()) {
-            to = from.clone();
-          }
-          from.subtract(1, "day");
-        }
+        _modifyDatesForTimezoneOffset(from, to, eventTimezone.timezoneOffset);
 
         splittedEvents.push({
           timezoneOffset: eventTimezone.timezoneOffset,
@@ -711,18 +700,7 @@ function initializeDiscourseCalendar(api) {
               const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
               eventDetail.timezoneOffset = timezoneOffset;
 
-              if (timezoneOffset > 0) {
-                if (to.isValid()) {
-                  to.add(1, "day");
-                } else {
-                  to = from.clone().add(1, "day");
-                }
-              } else if (timezoneOffset < 0) {
-                if (!to.isValid()) {
-                  to = from.clone();
-                }
-                from.subtract(1, "day");
-              }
+              _modifyDatesForTimezoneOffset(from, to, timezoneOffset);
             }
             eventDetail.from = from.format("YYYY-MM-DD");
             eventDetail.to = to.format("YYYY-MM-DD");
@@ -779,6 +757,21 @@ function initializeDiscourseCalendar(api) {
         calendarTz
       );
     });
+  }
+
+  function _modifyDatesForTimezoneOffset(from, to, timezoneOffset) {
+    if (timezoneOffset > 0) {
+      if (to.isValid()) {
+        to.add(1, "day");
+      } else {
+        to = from.clone().add(1, "day");
+      }
+    } else if (timezoneOffset < 0) {
+      if (!to.isValid()) {
+        to = from.clone();
+      }
+      from.subtract(1, "day");
+    }
   }
 
   function _getTimeZone($calendar, currentUser) {
