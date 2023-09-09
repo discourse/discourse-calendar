@@ -347,11 +347,14 @@ function initializeDiscourseCalendar(api) {
 
   function _buildEventObject(from, to) {
     const hasTimeSpecified = (d) => {
+      if (!d) {
+        return false;
+      }
       return d.hours() !== 0 || d.minutes() !== 0 || d.seconds() !== 0;
     };
 
     const hasTime =
-      hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime);
+      hasTimeSpecified(to?.dateTime) || hasTimeSpecified(from?.dateTime);
     const dateFormat = hasTime ? "YYYY-MM-DD HH:mm:ss Z" : "YYYY-MM-DD";
 
     let event = {
