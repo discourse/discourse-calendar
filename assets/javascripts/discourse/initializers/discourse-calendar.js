@@ -611,7 +611,7 @@ function initializeDiscourseCalendar(api) {
       });
     });
 
-    [...new Set(timezonesOffsets)].forEach((offset) => {
+    [...new Set(timezonesOffsets)].forEach((offset, i) => {
       let filteredLocalEvents = {};
       let eventTimezones = [];
 
@@ -620,7 +620,8 @@ function initializeDiscourseCalendar(api) {
           siteSettings.split_grouped_events_by_timezone_threshold;
 
         const filtered = detail.localEvents[key].users.filter(
-          (u) => Math.abs(u.timezoneOffset - offset) <= threshold
+          (u) =>
+            Math.abs(u.timezoneOffset - (offset + threshold * i)) <= threshold
         );
         if (filtered.length > 0) {
           filteredLocalEvents[key] = {
