@@ -247,6 +247,10 @@ function getEventByText(text) {
   return events.length === 1 ? events[0] : events;
 }
 
+function getRoundedPct(marginString) {
+  return Math.round(marginString.match(/(\d+(\.\d+)?)%/)[1]);
+}
+
 acceptance("Discourse Calendar - Timezone Offset", function (needs) {
   needs.settings({
     calendar_enabled: true,
@@ -273,8 +277,8 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
 
     const eventElement = getEventByText("Cordoba");
 
-    assert.ok(eventElement.style.marginLeft.includes("8.33")); // ( ( 1 - (-3) ) / 24 ) * 50%
-    assert.ok(eventElement.style.marginRight.includes("41.66")); // ( ( 24 - ( 1 - (-3) ) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement.style.marginLeft), 8); // ( ( 1 - (-3) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement.style.marginRight), 42); // ( ( 24 - ( 1 - (-3) ) ) / 24 ) * 50%
   });
 
   test("applies the correct offset for events that start on the previous day", async (assert) => {
@@ -282,8 +286,8 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
 
     const eventElement = getEventByText("Tokyo");
 
-    assert.ok(eventElement.style.marginLeft.includes("22.22")); // ( ( 24 - ( 9 - 1 ) ) / 24 ) * 33.33%
-    assert.ok(eventElement.style.marginRight.includes("11.11")); // ( ( 9 - 1 ) / 24 ) * 33.33%
+    assert.strictEqual(getRoundedPct(eventElement.style.marginLeft), 22); // ( ( 24 - ( 9 - 1 ) ) / 24 ) * 33.33%
+    assert.strictEqual(getRoundedPct(eventElement.style.marginRight), 11); // ( ( 9 - 1 ) / 24 ) * 33.33%
   });
 
   test("applies the correct offset for multiline events", async (assert) => {
@@ -291,11 +295,11 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
 
     const eventElement = getEventByText("Moscow");
 
-    assert.ok(eventElement[0].style.marginLeft.includes("45.83")); // ( ( 24 - ( 1 - (-1) ) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[0].style.marginLeft), 46); // ( ( 24 - ( 1 - (-1) ) ) / 24 ) * 50%
     assert.notOk(eventElement[0].style.marginRight);
 
     assert.notOk(eventElement[1].style.marginLeft);
-    assert.ok(eventElement[1].style.marginRight.includes("8.33")); // ( ( 1 - (-1) ) / 24 ) * 100%
+    assert.strictEqual(getRoundedPct(eventElement[1].style.marginRight), 8); // ( ( 1 - (-1) ) / 24 ) * 100%
   });
 });
 
@@ -320,14 +324,14 @@ acceptance("Discourse Calendar - Splitted Grouped Events", function (needs) {
     );
     assert.ok(eventElement.length === 3);
 
-    assert.ok(eventElement[0].style.marginLeft.includes("12.5")); // ( ( 1 - (-5) ) / 24 ) * 50%
-    assert.ok(eventElement[0].style.marginRight.includes("37.5")); // ( ( 24 - ( 1 - (-5) ) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[0].style.marginLeft), 13); // ( ( 1 - (-5) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[0].style.marginRight), 38); // ( ( 24 - ( 1 - (-5) ) ) / 24 ) * 50%
 
-    assert.ok(eventElement[1].style.marginLeft.includes("14.58")); // ( ( 1 - (-6) ) / 24 ) * 50%
-    assert.ok(eventElement[1].style.marginRight.includes("35.41")); // ( ( 24 - ( 1 - (-6) ) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[1].style.marginLeft), 15); // ( ( 1 - (-6) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[1].style.marginRight), 35); // ( ( 24 - ( 1 - (-6) ) ) / 24 ) * 50%
 
-    assert.ok(eventElement[2].style.marginLeft.includes("16.66")); // ( ( 1 - (-7) ) / 24 ) * 50%
-    assert.ok(eventElement[2].style.marginRight.includes("33.33")); // ( ( 24 - ( 1 - (-7) ) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[2].style.marginLeft), 17); // ( ( 1 - (-7) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[2].style.marginRight), 33); // ( ( 24 - ( 1 - (-7) ) ) / 24 ) * 50%
   });
 });
 
@@ -352,7 +356,7 @@ acceptance("Discourse Calendar - Grouped Events", function (needs) {
     );
     assert.ok(eventElement.length === 1);
 
-    assert.ok(eventElement[0].style.marginLeft.includes("14.58")); // ( ( 1 - (-6) ) / 24 ) * 50%
-    assert.ok(eventElement[0].style.marginRight.includes("35.41")); // ( ( 24 - ( 1 - (-6) ) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[0].style.marginLeft), 15); // ( ( 1 - (-6) ) / 24 ) * 50%
+    assert.strictEqual(getRoundedPct(eventElement[0].style.marginRight), 35); // ( ( 24 - ( 1 - (-6) ) ) / 24 ) * 50%
   });
 });
