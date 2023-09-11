@@ -11,6 +11,7 @@ const topicResponse = {
         username: "jan",
         avatar_template: "/letter_avatar_proxy/v4/letter/j/ce7236/{size}.png",
         created_at: "2023-09-08T16:50:07.638Z",
+        raw: '[calendar weekends=true tzPicker="true" fullDay="true" showAddToCalendar="false" defaultTimezone="Europe/Lisbon"] [/calendar]',
         cooked:
           '\u003cdiv class="discourse-calendar-wrap"\u003e\n\u003cdiv class="discourse-calendar-header"\u003e\n\u003ch2 class="discourse-calendar-title"\u003e\u003c/h2\u003e\n\u003cspan class="discourse-calendar-timezone-wrap"\u003e\n\u003cselect class="discourse-calendar-timezone-picker"\u003e\u003c/select\u003e\n\u003c/span\u003e\n\u003c/div\u003e\n\u003cdiv class="calendar" data-calendar-type="dynamic" data-calendar-default-timezone="Europe/Lisbon" data-weekends="true" data-calendar-show-add-to-calendar="false" data-calendar-full-day="true"\u003e\u003c/div\u003e\n\u003c/div\u003e',
         post_number: 1,
