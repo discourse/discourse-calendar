@@ -236,12 +236,18 @@ function initializeDiscourseCalendar(api) {
       calendar.render();
       _setStaticCalendarEvents(calendar, $calendar, post);
     } else {
-      _setDynamicCalendarEvents(calendar, post, fullDay);
+      _setDynamicCalendarEvents(calendar, post, fullDay, timezone);
       calendar.render();
       _setDynamicCalendarOptions(calendar, $calendar);
     }
 
-    _setupTimezonePicker(calendar, timezone);
+    const resetDynamicEvents = () => {
+      const selectedTimezone = calendar.getOption("timeZone");
+      calendar.getEvents().forEach((event) => event.remove());
+      _setDynamicCalendarEvents(calendar, post, fullDay, selectedTimezone);
+    };
+
+    _setupTimezonePicker(calendar, timezone, resetDynamicEvents);
   }
 
   function attachCalendar($elem, helper) {
@@ -293,6 +299,7 @@ function initializeDiscourseCalendar(api) {
         center: "title",
         right: "month,basicWeek,listNextYear",
       },
+      eventOrder: ["start", _orderByTz, "-duration", "allDay", "title"],
       datesRender: (info) => {
         if (showAddToCalendar) {
           _insertAddToCalendarLinks(info);
@@ -300,7 +307,22 @@ function initializeDiscourseCalendar(api) {
 
         $calendarTitle.innerText = info.view.title;
       },
+
+      eventPositioned: (info) => {
+        _setTimezoneOffset(info);
+      },
     });
+  }
+
+  function _orderByTz(a, b) {
+    if (!siteSettings.enable_timezone_offset_for_calendar_events) {
+      return 0;
+    }
+
+    const offsetA = a.extendedProps.timezoneOffset;
+    const offsetB = b.extendedProps.timezoneOffset;
+
+    return offsetA === offsetB ? 0 : offsetA < offsetB ? -1 : 1;
   }
 
   function _convertHtmlToDate(html) {
@@ -325,19 +347,26 @@ function initializeDiscourseCalendar(api) {
 
   function _buildEventObject(from, to) {
     const hasTimeSpecified = (d) => {
+      if (!d) {
+        return false;
+      }
       return d.hours() !== 0 || d.minutes() !== 0 || d.seconds() !== 0;
     };
 
+    const hasTime =
+      hasTimeSpecified(to?.dateTime) || hasTimeSpecified(from?.dateTime);
+    const dateFormat = hasTime ? "YYYY-MM-DD HH:mm:ss Z" : "YYYY-MM-DD";
+
     let event = {
-      start: from.dateTime.toDate(),
+      start: from.dateTime.format(dateFormat),
       allDay: false,
     };
 
     if (to) {
-      if (hasTimeSpecified(to.dateTime) || hasTimeSpecified(from.dateTime)) {
-        event.end = to.dateTime.toDate();
+      if (hasTime) {
+        event.end = to.dateTime.format(dateFormat);
       } else {
-        event.end = to.dateTime.add(1, "days").toDate();
+        event.end = to.dateTime.add(1, "days").format(dateFormat);
         event.allDay = true;
       }
     } else {
@@ -478,6 +507,10 @@ function initializeDiscourseCalendar(api) {
       event.classNames = ["holiday"];
     }
 
+    if (detail.timezoneOffset) {
+      event.extendedProps.timezoneOffset = detail.timezoneOffset;
+    }
+
     return event;
   }
 
@@ -514,50 +547,143 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _addGroupedEvent(calendar, post, detail) {
-    let htmlContent = "";
-    let usernames = [];
-    let localEventNames = [];
+  function _addGroupedEvent(calendar, post, detail, fullDay, calendarTz) {
+    const groupedEventData =
+      siteSettings.enable_timezone_offset_for_calendar_events && fullDay
+        ? _splitGroupEventByTimezone(detail, calendarTz)
+        : [detail];
 
-    Object.keys(detail.localEvents)
-      .sort()
-      .forEach((key) => {
-        const localEvent = detail.localEvents[key];
-        htmlContent += `<b>${key}</b>: ${localEvent.usernames
-          .sort()
-          .join(", ")}<br>`;
-        usernames = usernames.concat(localEvent.usernames);
-        localEventNames.push(key);
-      });
+    groupedEventData.forEach((eventData) => {
+      let htmlContent = "";
+      let users = [];
+      let localEventNames = [];
 
-    const event = _buildEvent(detail);
-    event.classNames = ["grouped-event"];
+      Object.keys(eventData.localEvents)
+        .sort()
+        .forEach((key) => {
+          const localEvent = eventData.localEvents[key];
+          htmlContent += `<b>${key}</b>: ${localEvent.users
+            .map((u) => u.username)
+            .sort()
+            .join(", ")}<br>`;
+          users = users.concat(localEvent.users);
+          localEventNames.push(key);
+        });
 
-    if (usernames.length > 2) {
-      event.title = `(${usernames.length}) ${localEventNames[0]}`;
-    } else if (usernames.length === 1) {
-      event.title = usernames[0];
-    } else {
-      event.title = isMobileView
-        ? `(${usernames.length}) ${localEventNames[0]}`
-        : `(${usernames.length}) ` + usernames.join(", ");
-    }
+      const event = _buildEvent(eventData);
+      event.classNames = ["grouped-event"];
 
-    if (localEventNames.length > 1) {
-      event.extendedProps.htmlContent = htmlContent;
-    } else {
-      if (usernames.length > 1) {
+      if (users.length > 2) {
+        event.title = `(${users.length}) ${localEventNames[0]}`;
+      } else if (users.length === 1) {
+        event.title = users[0].username;
+      } else {
+        event.title = isMobileView
+          ? `(${users.length}) ${localEventNames[0]}`
+          : `(${users.length}) ` + users.map((u) => u.username).join(", ");
+      }
+
+      if (localEventNames.length > 1) {
         event.extendedProps.htmlContent = htmlContent;
       } else {
-        event.extendedProps.htmlContent = localEventNames[0];
+        if (users.length > 1) {
+          event.extendedProps.htmlContent = htmlContent;
+        } else {
+          event.extendedProps.htmlContent = localEventNames[0];
+        }
       }
-    }
 
-    calendar.addEvent(event);
+      calendar.addEvent(event);
+    });
   }
 
-  function _setDynamicCalendarEvents(calendar, post, fullDay) {
+  function _splitGroupEventByTimezone(detail, calendarTz) {
+    const calendarUtcOffset = moment.tz(calendarTz).utcOffset();
+    let timezonesOffsets = [];
+    let splittedEvents = [];
+
+    Object.values(detail.localEvents).forEach((event) => {
+      event.users.forEach((user) => {
+        const userUtcOffset = moment.tz(user.timezone).utcOffset();
+        const timezoneOffset = (calendarUtcOffset - userUtcOffset) / 60;
+        user.timezoneOffset = timezoneOffset;
+        timezonesOffsets.push(timezoneOffset);
+      });
+    });
+
+    [...new Set(timezonesOffsets)].forEach((offset, i) => {
+      let filteredLocalEvents = {};
+      let eventTimezones = [];
+
+      Object.keys(detail.localEvents).forEach((key) => {
+        const threshold =
+          siteSettings.split_grouped_events_by_timezone_threshold;
+
+        const filtered = detail.localEvents[key].users.filter(
+          (u) =>
+            Math.abs(u.timezoneOffset - (offset + threshold * i)) <= threshold
+        );
+        if (filtered.length > 0) {
+          filteredLocalEvents[key] = {
+            users: filtered,
+          };
+          filtered.forEach((u) => {
+            detail.localEvents[key].users.splice(
+              detail.localEvents[key].users.findIndex(
+                (e) => e.username === u.username
+              ),
+              1
+            );
+            if (
+              !eventTimezones.find((t) => t.timezoneOffset === u.timezoneOffset)
+            ) {
+              eventTimezones.push({
+                timezone: u.timezone,
+                timezoneOffset: u.timezoneOffset,
+              });
+            }
+          });
+        }
+      });
+
+      if (Object.keys(filteredLocalEvents).length > 0) {
+        const eventTimezone = _findAverageTimezone(eventTimezones);
+
+        let from = moment.tz(detail.from, eventTimezone.timezone);
+        let to = moment.tz(detail.to, eventTimezone.timezone);
+
+        _modifyDatesForTimezoneOffset(from, to, eventTimezone.timezoneOffset);
+
+        splittedEvents.push({
+          timezoneOffset: eventTimezone.timezoneOffset,
+          localEvents: filteredLocalEvents,
+          from: from.format("YYYY-MM-DD"),
+          to: to.format("YYYY-MM-DD"),
+        });
+      }
+    });
+
+    return splittedEvents;
+  }
+
+  function _findAverageTimezone(eventTimezones) {
+    const totalOffsets = eventTimezones.reduce(
+      (sum, timezone) => sum + timezone.timezoneOffset,
+      0
+    );
+    const averageOffset = totalOffsets / eventTimezones.length;
+
+    return eventTimezones.reduce((closest, timezone) => {
+      const difference = Math.abs(timezone.timezoneOffset - averageOffset);
+      return difference < Math.abs(closest.timezoneOffset - averageOffset)
+        ? timezone
+        : closest;
+    });
+  }
+
+  function _setDynamicCalendarEvents(calendar, post, fullDay, calendarTz) {
     const groupedEvents = [];
+    const calendarUtcOffset = moment.tz(calendarTz).utcOffset();
 
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
@@ -566,14 +692,24 @@ function initializeDiscourseCalendar(api) {
           break;
         case "standalone":
           if (fullDay && detail.timezone) {
-            detail.from = moment
-              .tz(detail.from, detail.timezone)
-              .format("YYYY-MM-DD");
-            detail.to = moment
-              .tz(detail.to, detail.timezone)
-              .format("YYYY-MM-DD");
+            const eventDetail = { ...detail };
+            let from = moment.tz(detail.from, detail.timezone);
+            let to = moment.tz(detail.to, detail.timezone);
+
+            if (siteSettings.enable_timezone_offset_for_calendar_events) {
+              const eventUtcOffset = moment.tz(detail.timezone).utcOffset();
+              const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
+              eventDetail.timezoneOffset = timezoneOffset;
+
+              _modifyDatesForTimezoneOffset(from, to, timezoneOffset);
+            }
+            eventDetail.from = from.format("YYYY-MM-DD");
+            eventDetail.to = to.format("YYYY-MM-DD");
+
+            _addStandaloneEvent(calendar, post, eventDetail);
+          } else {
+            _addStandaloneEvent(calendar, post, detail);
           }
-          _addStandaloneEvent(calendar, post, detail);
           break;
       }
     });
@@ -601,22 +737,42 @@ function initializeDiscourseCalendar(api) {
 
       formattedGroupedEvents[identifier].localEvents[groupedEvent.name] =
         formattedGroupedEvents[identifier].localEvents[groupedEvent.name] || {
-          usernames: [],
+          users: [],
         };
 
       formattedGroupedEvents[identifier].localEvents[
         groupedEvent.name
-      ].usernames.push.apply(
-        formattedGroupedEvents[identifier].localEvents[groupedEvent.name]
-          .usernames,
-        groupedEvent.usernames
+      ].users.push.apply(
+        formattedGroupedEvents[identifier].localEvents[groupedEvent.name].users,
+        groupedEvent.users
       );
     });
 
     Object.keys(formattedGroupedEvents).forEach((key) => {
       const formattedGroupedEvent = formattedGroupedEvents[key];
-      _addGroupedEvent(calendar, post, formattedGroupedEvent);
+      _addGroupedEvent(
+        calendar,
+        post,
+        formattedGroupedEvent,
+        fullDay,
+        calendarTz
+      );
     });
+  }
+
+  function _modifyDatesForTimezoneOffset(from, to, timezoneOffset) {
+    if (timezoneOffset > 0) {
+      if (to.isValid()) {
+        to.add(1, "day");
+      } else {
+        to = from.clone().add(1, "day");
+      }
+    } else if (timezoneOffset < 0) {
+      if (!to.isValid()) {
+        to = from.clone();
+      }
+      from.subtract(1, "day");
+    }
   }
 
   function _getTimeZone($calendar, currentUser) {
@@ -629,19 +785,23 @@ function initializeDiscourseCalendar(api) {
     return defaultTimezone || currentUser?.timezone || moment.tz.guess();
   }
 
-  function _setupTimezonePicker(calendar, timezone) {
+  function _setupTimezonePicker(calendar, timezone, resetDynamicEvents) {
     const tzPicker = document.querySelector(
       ".discourse-calendar-timezone-picker"
     );
     if (tzPicker) {
       tzPicker.addEventListener("change", function (event) {
         calendar.setOption("timeZone", event.target.value);
+        resetDynamicEvents();
         _insertAddToCalendarLinks(calendar);
       });
 
-      moment.tz.names().forEach((tz) => {
-        tzPicker.appendChild(new Option(tz, tz));
-      });
+      moment.tz
+        .names()
+        .filter((t) => !t.startsWith("Etc/GMT"))
+        .forEach((tz) => {
+          tzPicker.appendChild(new Option(tz, tz));
+        });
 
       tzPicker.value = timezone;
     } else {
@@ -660,6 +820,63 @@ function initializeDiscourseCalendar(api) {
 
     for (const event of eventSegments) {
       _insertAddToCalendarLinkForEvent(event, eventSegmentDefMap);
+    }
+  }
+
+  function _setTimezoneOffset(info) {
+    if (
+      !siteSettings.enable_timezone_offset_for_calendar_events ||
+      info.view.type === "listNextYear"
+    ) {
+      return;
+    }
+
+    // The timezone offset works by calculating the hour difference
+    // between a target event and the calendar event. This is used to
+    // determine whether to add an extra day before or after the event.
+    // Then, it applies inline styling to resize the event to its
+    // original size while adjusting it to the respective timezone.
+
+    const timezoneOffset = info.event.extendedProps.timezoneOffset;
+    const segmentDuration = info.el.parentNode?.colSpan;
+
+    const basePctOffset = 100 / segmentDuration;
+    // Base margin required to shrink down the event by one day
+    const basePxOffset = 5.5 - segmentDuration;
+    // Default space between two consecutive events
+    // 5.5px = ( ( ( 2px margin + 3px padding ) * 2 ) + 1px border ) / 2
+
+    // K factors are used to adjust each side of the event based on the hour difference
+    // A '2' is added to the pxOffset to account for the default margin
+
+    if (timezoneOffset > 0) {
+      // When the event extends into the next day
+      if (info.isStart) {
+        const leftK = Math.abs(timezoneOffset) / 24;
+        const pctOffset = `${basePctOffset * leftK}%`;
+        const pxOffset = `${basePxOffset * leftK + 2}px`;
+        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
+      }
+      if (info.isEnd) {
+        const rightK = (24 - Math.abs(timezoneOffset)) / 24;
+        const pctOffset = `${basePctOffset * rightK}%`;
+        const pxOffset = `${basePxOffset * rightK + 2}px`;
+        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
+      }
+    } else if (timezoneOffset < 0) {
+      // When the event starts on the previous day
+      if (info.isStart) {
+        const leftK = (24 - Math.abs(timezoneOffset)) / 24;
+        const pctOffset = `${basePctOffset * leftK}%`;
+        const pxOffset = `${basePxOffset * leftK + 2}px`;
+        info.el.style.marginLeft = `calc(${pctOffset} + ${pxOffset})`;
+      }
+      if (info.isEnd) {
+        const rightK = Math.abs(timezoneOffset) / 24;
+        const pctOffset = `${basePctOffset * rightK}%`;
+        const pxOffset = `${basePxOffset * rightK + 2}px`;
+        info.el.style.marginRight = `calc(${pctOffset} + ${pxOffset})`;
+      }
     }
   }
 

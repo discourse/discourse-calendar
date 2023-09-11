@@ -363,22 +363,23 @@ after_initialize do
         else
           identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
 
-          grouped[identifier] ||= {
-            type: :grouped,
-            from: event.start_date,
-            name: [],
-            usernames: [],
-          }
+          grouped[identifier] ||= { type: :grouped, from: event.start_date, name: [], users: [] }
+
+          user = User.find_by_username(event.username)
 
           grouped[identifier][:name] << event.description
-          grouped[identifier][:usernames] << event.username
+          grouped[identifier][:users] << {
+            username: event.username,
+            timezone: user.present? ? user.user_option.timezone : nil,
+          }
         end
       end
 
     grouped.each do |_, v|
       v[:name].sort!.uniq!
       v[:name] = v[:name].join(", ")
-      v[:usernames].sort!.uniq!
+      v[:users].sort! { |a, b| a[:username] <=> b[:username] }
+      v[:users].uniq! { |u| u[:username] }
     end
 
     standalones + grouped.values

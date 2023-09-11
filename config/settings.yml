@@ -49,6 +49,14 @@ discourse_calendar:
   sidebar_show_upcoming_events:
     default: true
     client: true
+  enable_timezone_offset_for_calendar_events:
+    default: false
+    client: true
+    hidden: true
+  split_grouped_events_by_timezone_threshold:
+    default: 0
+    client: true
+    hidden: true
 
 discourse_post_event:
   discourse_post_event_enabled:
