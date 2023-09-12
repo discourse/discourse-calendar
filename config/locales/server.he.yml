@@ -57,6 +57,7 @@ he:
     sort_categories_by_event_start_date_enabled: "לאפשר מיון של נושאי קטגוריות לפי תאריך תחילת האירוע."
     disable_resorting_on_categories_enabled: "לאפשר לקטגוריות להשבית את היכולת של משתמשים למיין לפי קטגוריית האירוע."
     calendar_automatic_holidays_enabled: "להגדיר מצב חופשה לפי האזור של המשתמש (לתשומת לבך: ניתן להשבית חגים אוטומטיים מסוימים בהגדרות התוסף)"
+    sidebar_show_upcoming_events: "הצגת קישור לאירועים קרובים בסרגל הצד תחת ‚עוד’. דורש את ‚אירוע פוסט פעיל’"
   discourse_calendar:
     invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
     calendar_must_be_in_first_post: "ניתן להשתמש בתגית יומן רק בפוסט הראשון של נושא."
