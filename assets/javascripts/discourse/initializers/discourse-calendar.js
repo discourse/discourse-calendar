@@ -833,29 +833,20 @@ function initializeDiscourseCalendar(api) {
     );
     const timezoneButton = document.createElement("button");
 
-    timezoneButton.classList.add("fc-timezoneOffset-button");
-    timezoneButton.classList.add("fc-button");
+    timezoneButton.classList.add(
+      "timezone-offset-button",
+      "btn",
+      "btn-small",
+      "btn-icon",
+      "no-text"
+    );
     timezoneButton.innerHTML = iconHTML("globe");
-
-    if (enableTimezoneOffset) {
-      timezoneButton.classList.add("fc-state-active");
-    } else {
-      timezoneButton.classList.add("fc-state-default");
-    }
-
     timezoneWrapper.appendChild(timezoneButton);
+
     timezoneButton.addEventListener("click", () => {
       enableTimezoneOffset = !enableTimezoneOffset;
-
-      if (enableTimezoneOffset) {
-        timezoneButton.classList.add("fc-state-active");
-        timezoneButton.classList.remove("fc-state-default");
-      } else {
-        timezoneButton.classList.add("fc-state-default");
-        timezoneButton.classList.remove("fc-state-active");
-      }
-
       resetDynamicEvents();
+      timezoneButton.blur();
     });
   }
 
