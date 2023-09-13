@@ -833,10 +833,11 @@ function initializeDiscourseCalendar(api) {
     );
     const timezoneButton = document.createElement("button");
 
+    timezoneButton.title = "Toggle timezone offset";
     timezoneButton.classList.add(
       "timezone-offset-button",
       "btn",
-      "btn-small",
+      "btn-default",
       "btn-icon",
       "no-text"
     );
