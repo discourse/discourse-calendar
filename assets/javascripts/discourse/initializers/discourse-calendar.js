@@ -13,6 +13,7 @@ import { createPopper } from "@popperjs/core";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { formatEventName } from "../helpers/format-event-name";
 import getURL from "discourse-common/lib/get-url";
+import { iconHTML } from "discourse-common/lib/icon-library";
 
 function loadFullCalendar() {
   return loadScript(
@@ -20,10 +21,7 @@ function loadFullCalendar() {
   );
 }
 
-let calendarPost;
-let calendar;
 let eventPopper;
-
 const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
@@ -233,26 +231,30 @@ function initializeDiscourseCalendar(api) {
     $calendar = $calendar.empty();
 
     const timezone = _getTimeZone($calendar, api.getCurrentUser());
+    const calendar = _buildCalendar($calendar, timezone);
     const isStatic = $calendar.attr("data-calendar-type") === "static";
     const fullDay = $calendar.attr("data-calendar-full-day") === "true";
-    calendar = _buildCalendar($calendar, timezone);
 
     if (isStatic) {
       calendar.render();
-      _setStaticCalendarEvents($calendar, post);
+      _setStaticCalendarEvents(calendar, $calendar, post);
     } else {
-      _setDynamicCalendarEvents(post, fullDay, timezone);
+      _setDynamicCalendarEvents(calendar, post, fullDay, timezone);
       calendar.render();
-      _setDynamicCalendarOptions($calendar);
+      _setDynamicCalendarOptions(calendar, $calendar);
     }
 
     const resetDynamicEvents = () => {
       const selectedTimezone = calendar.getOption("timeZone");
       calendar.getEvents().forEach((event) => event.remove());
-      _setDynamicCalendarEvents(post, fullDay, selectedTimezone);
+      _setDynamicCalendarEvents(calendar, post, fullDay, selectedTimezone);
     };
 
-    _setupTimezonePicker(timezone, resetDynamicEvents);
+    _setupTimezonePicker(calendar, timezone, resetDynamicEvents);
+
+    if (siteSettings.enable_timezone_offset_for_calendar_events) {
+      _setupTimezoneOffsetButton(resetDynamicEvents);
+    }
   }
 
   function attachCalendar($elem, helper) {
@@ -261,8 +263,8 @@ function initializeDiscourseCalendar(api) {
     if ($calendar.length === 0) {
       return;
     }
-    calendarPost = helper.getModel();
-    loadFullCalendar().then(() => render($calendar, calendarPost));
+
+    loadFullCalendar().then(() => render($calendar, helper.getModel()));
   }
 
   function _buildCalendar($calendar, timeZone) {
@@ -300,21 +302,11 @@ function initializeDiscourseCalendar(api) {
         },
       },
       header: {
-        left: "prev,next today timezoneOffset",
+        left: "prev,next today",
         center: "title",
         right: "month,basicWeek,listNextYear",
       },
       eventOrder: ["start", _orderByTz, "-duration", "allDay", "title"],
-      customButtons:
-        siteSettings.enable_timezone_offset_for_calendar_events && {
-          timezoneOffset: {
-            text: "Timezone Offset",
-            click: () => {
-              toggleTimezoneOffset($calendar);
-            },
-          },
-        },
-
       datesRender: (info) => {
         if (showAddToCalendar) {
           _insertAddToCalendarLinks(info);
@@ -327,24 +319,6 @@ function initializeDiscourseCalendar(api) {
         _setTimezoneOffset(info);
       },
     });
-  }
-
-  function toggleTimezoneOffset($calendar) {
-    const button = document.querySelector(".fc-timezoneOffset-button");
-    enableTimezoneOffset = !enableTimezoneOffset;
-    if (enableTimezoneOffset) {
-      button.classList.add("fc-state-active");
-      button.classList.remove("fc-state-default");
-    } else {
-      button.classList.add("fc-state-default");
-      button.classList.remove("fc-state-active");
-    }
-
-    const fullDay = $calendar.attr("data-calendar-full-day") === "true";
-    const selectedTimezone = calendar.getOption("timeZone");
-
-    calendar.getEvents().forEach((event) => event.remove());
-    _setDynamicCalendarEvents(calendarPost, fullDay, selectedTimezone);
   }
 
   function _orderByTz(a, b) {
@@ -421,7 +395,7 @@ function initializeDiscourseCalendar(api) {
     return event;
   }
 
-  function _setStaticCalendarEvents($calendar, post) {
+  function _setStaticCalendarEvents(calendar, $calendar, post) {
     $(`<div>${post.cooked}</div>`)
       .find('.calendar[data-calendar-type="static"] p')
       .html()
@@ -477,7 +451,7 @@ function initializeDiscourseCalendar(api) {
     document.getElementById(EVENT_POPOVER_ID)?.remove();
   }
 
-  function _setDynamicCalendarOptions($calendar) {
+  function _setDynamicCalendarOptions(calendar, $calendar) {
     const skipWeekends = $calendar.attr("data-weekends") === "false";
     const hiddenDays = $calendar.attr("data-hidden-days");
 
@@ -550,7 +524,7 @@ function initializeDiscourseCalendar(api) {
     return event;
   }
 
-  function _addStandaloneEvent(post, detail) {
+  function _addStandaloneEvent(calendar, post, detail) {
     const event = _buildEvent(detail);
 
     const holidayCalendarTopicId = parseInt(
@@ -583,7 +557,7 @@ function initializeDiscourseCalendar(api) {
     calendar.addEvent(event);
   }
 
-  function _addGroupedEvent(post, detail, fullDay, calendarTz) {
+  function _addGroupedEvent(calendar, post, detail, fullDay, calendarTz) {
     const groupedEventData =
       siteSettings.enable_timezone_offset_for_calendar_events &&
       enableTimezoneOffset &&
@@ -719,7 +693,7 @@ function initializeDiscourseCalendar(api) {
     });
   }
 
-  function _setDynamicCalendarEvents(post, fullDay, calendarTz) {
+  function _setDynamicCalendarEvents(calendar, post, fullDay, calendarTz) {
     const groupedEvents = [];
     const calendarUtcOffset = moment.tz(calendarTz).utcOffset();
 
@@ -747,9 +721,9 @@ function initializeDiscourseCalendar(api) {
             eventDetail.from = from.format("YYYY-MM-DD");
             eventDetail.to = to.format("YYYY-MM-DD");
 
-            _addStandaloneEvent(post, eventDetail);
+            _addStandaloneEvent(calendar, post, eventDetail);
           } else {
-            _addStandaloneEvent(post, detail);
+            _addStandaloneEvent(calendar, post, detail);
           }
           break;
       }
@@ -791,7 +765,13 @@ function initializeDiscourseCalendar(api) {
 
     Object.keys(formattedGroupedEvents).forEach((key) => {
       const formattedGroupedEvent = formattedGroupedEvents[key];
-      _addGroupedEvent(post, formattedGroupedEvent, fullDay, calendarTz);
+      _addGroupedEvent(
+        calendar,
+        post,
+        formattedGroupedEvent,
+        fullDay,
+        calendarTz
+      );
     });
   }
 
@@ -820,7 +800,7 @@ function initializeDiscourseCalendar(api) {
     return defaultTimezone || currentUser?.timezone || moment.tz.guess();
   }
 
-  function _setupTimezonePicker(timezone, resetDynamicEvents) {
+  function _setupTimezonePicker(calendar, timezone, resetDynamicEvents) {
     const tzPicker = document.querySelector(
       ".discourse-calendar-timezone-picker"
     );
@@ -845,6 +825,38 @@ function initializeDiscourseCalendar(api) {
       document.querySelector(".discourse-calendar-timezone-wrap").innerText =
         timezone;
     }
+  }
+
+  function _setupTimezoneOffsetButton(resetDynamicEvents) {
+    const timezoneWrapper = document.querySelector(
+      ".discourse-calendar-timezone-wrap"
+    );
+    const timezoneButton = document.createElement("button");
+
+    timezoneButton.classList.add("fc-timezoneOffset-button");
+    timezoneButton.classList.add("fc-button");
+    timezoneButton.innerHTML = iconHTML("globe");
+
+    if (enableTimezoneOffset) {
+      timezoneButton.classList.add("fc-state-active");
+    } else {
+      timezoneButton.classList.add("fc-state-default");
+    }
+
+    timezoneWrapper.appendChild(timezoneButton);
+    timezoneButton.addEventListener("click", () => {
+      enableTimezoneOffset = !enableTimezoneOffset;
+
+      if (enableTimezoneOffset) {
+        timezoneButton.classList.add("fc-state-active");
+        timezoneButton.classList.remove("fc-state-default");
+      } else {
+        timezoneButton.classList.add("fc-state-default");
+        timezoneButton.classList.remove("fc-state-active");
+      }
+
+      resetDynamicEvents();
+    });
   }
 
   function _insertAddToCalendarLinks(info) {
