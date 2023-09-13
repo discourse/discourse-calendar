@@ -13,6 +13,7 @@ import { createPopper } from "@popperjs/core";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { formatEventName } from "../helpers/format-event-name";
 import getURL from "discourse-common/lib/get-url";
+import { iconHTML } from "discourse-common/lib/icon-library";
 
 function loadFullCalendar() {
   return loadScript(
@@ -29,6 +30,8 @@ function initializeDiscourseCalendar(api) {
   if (siteSettings.login_required && !api.getCurrentUser()) {
     return;
   }
+
+  let enableTimezoneOffset = siteSettings.default_timezone_offset_user_option;
 
   let _topicController;
   const outletName = siteSettings.calendar_categories_outlet;
@@ -119,7 +122,7 @@ function initializeDiscourseCalendar(api) {
 
       if (foundCategory) {
         loadFullCalendar().then(() => {
-          let calendar = new window.FullCalendar.Calendar(
+          let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {}
           );
@@ -132,7 +135,7 @@ function initializeDiscourseCalendar(api) {
 
             events[Object.keys(events)[0]].forEach((event) => {
               const { starts_at, ends_at, post } = event;
-              calendar.addEvent({
+              fullCalendar.addEvent({
                 title: formatEventName(event),
                 start: starts_at,
                 end: ends_at || starts_at,
@@ -141,7 +144,7 @@ function initializeDiscourseCalendar(api) {
               });
             });
 
-            calendar.render();
+            fullCalendar.render();
           });
         });
       }
@@ -248,6 +251,10 @@ function initializeDiscourseCalendar(api) {
     };
 
     _setupTimezonePicker(calendar, timezone, resetDynamicEvents);
+
+    if (siteSettings.enable_timezone_offset_for_calendar_events) {
+      _setupTimezoneOffsetButton(resetDynamicEvents);
+    }
   }
 
   function attachCalendar($elem, helper) {
@@ -315,7 +322,10 @@ function initializeDiscourseCalendar(api) {
   }
 
   function _orderByTz(a, b) {
-    if (!siteSettings.enable_timezone_offset_for_calendar_events) {
+    if (
+      !siteSettings.enable_timezone_offset_for_calendar_events &&
+      !enableTimezoneOffset
+    ) {
       return 0;
     }
 
@@ -549,7 +559,9 @@ function initializeDiscourseCalendar(api) {
 
   function _addGroupedEvent(calendar, post, detail, fullDay, calendarTz) {
     const groupedEventData =
-      siteSettings.enable_timezone_offset_for_calendar_events && fullDay
+      siteSettings.enable_timezone_offset_for_calendar_events &&
+      enableTimezoneOffset &&
+      fullDay
         ? _splitGroupEventByTimezone(detail, calendarTz)
         : [detail];
 
@@ -696,7 +708,10 @@ function initializeDiscourseCalendar(api) {
             let from = moment.tz(detail.from, detail.timezone);
             let to = moment.tz(detail.to, detail.timezone);
 
-            if (siteSettings.enable_timezone_offset_for_calendar_events) {
+            if (
+              siteSettings.enable_timezone_offset_for_calendar_events &&
+              enableTimezoneOffset
+            ) {
               const eventUtcOffset = moment.tz(detail.timezone).utcOffset();
               const timezoneOffset = (calendarUtcOffset - eventUtcOffset) / 60;
               eventDetail.timezoneOffset = timezoneOffset;
@@ -792,8 +807,10 @@ function initializeDiscourseCalendar(api) {
     if (tzPicker) {
       tzPicker.addEventListener("change", function (event) {
         calendar.setOption("timeZone", event.target.value);
-        resetDynamicEvents();
-        _insertAddToCalendarLinks(calendar);
+        if (enableTimezoneOffset) {
+          resetDynamicEvents();
+          _insertAddToCalendarLinks(calendar);
+        }
       });
 
       moment.tz
@@ -808,6 +825,32 @@ function initializeDiscourseCalendar(api) {
       document.querySelector(".discourse-calendar-timezone-wrap").innerText =
         timezone;
     }
+  }
+
+  function _setupTimezoneOffsetButton(resetDynamicEvents) {
+    const timezoneWrapper = document.querySelector(
+      ".discourse-calendar-timezone-wrap"
+    );
+    const timezoneButton = document.createElement("button");
+
+    timezoneButton.title = I18n.t(
+      "discourse_calendar.toggle_timezone_offset_title"
+    );
+    timezoneButton.classList.add(
+      "timezone-offset-button",
+      "btn",
+      "btn-default",
+      "btn-icon",
+      "no-text"
+    );
+    timezoneButton.innerHTML = iconHTML("globe");
+    timezoneWrapper.appendChild(timezoneButton);
+
+    timezoneButton.addEventListener("click", () => {
+      enableTimezoneOffset = !enableTimezoneOffset;
+      resetDynamicEvents();
+      timezoneButton.blur();
+    });
   }
 
   function _insertAddToCalendarLinks(info) {
@@ -826,6 +869,7 @@ function initializeDiscourseCalendar(api) {
   function _setTimezoneOffset(info) {
     if (
       !siteSettings.enable_timezone_offset_for_calendar_events ||
+      !enableTimezoneOffset ||
       info.view.type === "listNextYear"
     ) {
       return;

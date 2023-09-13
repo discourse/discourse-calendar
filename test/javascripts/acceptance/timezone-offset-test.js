@@ -256,6 +256,7 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
   needs.settings({
     calendar_enabled: true,
     enable_timezone_offset_for_calendar_events: true,
+    default_timezone_offset_user_option: true,
   });
 
   needs.pretender((server, helper) => {
@@ -308,6 +309,7 @@ acceptance("Discourse Calendar - Splitted Grouped Events", function (needs) {
   needs.settings({
     calendar_enabled: true,
     enable_timezone_offset_for_calendar_events: true,
+    default_timezone_offset_user_option: true,
     split_grouped_events_by_timezone_threshold: 0,
   });
 
@@ -340,6 +342,7 @@ acceptance("Discourse Calendar - Grouped Events", function (needs) {
   needs.settings({
     calendar_enabled: true,
     enable_timezone_offset_for_calendar_events: true,
+    default_timezone_offset_user_option: true,
     split_grouped_events_by_timezone_threshold: 2,
   });
 

@@ -57,6 +57,10 @@ discourse_calendar:
     default: 0
     client: true
     hidden: true
+  default_timezone_offset_user_option:
+    default: false
+    client: true
+    hidden: true
 
 discourse_post_event:
   discourse_post_event_enabled:
