@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "topic_view"
 
 RSpec.describe TopicQuery do
