@@ -36,13 +36,13 @@ module Holidays
       9 => [{:mday => 6, :year_ranges => { :limited => [2023] },:name => "Krishna Jayanthi", :regions => [:in_tn]},
             {:mday => 7, :year_ranges => { :limited => [2023] },:name => "Janmashtami", :regions => [:in_rj, :in_mh, :in_gj]},
             {:mday => 19, :year_ranges => { :limited => [2023] },:name => "Ganesh Chaturthi", :regions => [:in_rj, :in_mh, :in_gj]},
-            {:mday => 28, :year_ranges => { :limited => [2023] },:name => "Milad-un-Nabi", :regions => [:in_tn, :in_gj]}],
+            {:mday => 28, :year_ranges => { :limited => [2023] },:name => "Milad-un-Nabi", :regions => [:in_rj, :in_tn, :in_gj]}],
       10 => [{:mday => 2, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Gandhi Jayanti", :regions => [:in]},
             {:mday => 23, :year_ranges => { :limited => [2023] },:name => "Ayutha Pooja", :regions => [:in_tn]},
             {:mday => 24, :year_ranges => { :limited => [2023] },:name => "Dussehra", :regions => [:in_rj, :in_mh, :in_tn, :in_gj]},
             {:mday => 31, :name => "Sardar Vallabhbhai Patel Jayanti", :regions => [:in_gj]}],
       11 => [{:mday => 13, :year_ranges => { :limited => [2023] },:name => "Govardhan Puja", :regions => [:in_rj, :in_gj]},
-            {:mday => 15, :year_ranges => { :limited => [2023] },:name => "Bhai Dooj", :regions => [:in_gj]},
+            {:mday => 15, :year_ranges => { :limited => [2023] },:name => "Bhai Dooj", :regions => [:in_rj, :in_gj]},
             {:mday => 27, :year_ranges => { :limited => [2023] },:name => "Guru Nanak Jayanti", :regions => [:in_rj, :in_mh, :in_gj]}],
       12 => [{:mday => 25, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Christmas Day", :regions => [:in_rj, :in_mh, :in_tn, :in_gj]}]
       }
