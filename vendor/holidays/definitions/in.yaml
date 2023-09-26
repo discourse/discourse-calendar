@@ -117,7 +117,7 @@ months:
     year_ranges:
       limited: [2023]
   - name: Milad-un-Nabi
-    regions: [in_tn, in_gj]
+    regions: [in_rj, in_tn, in_gj]
     mday: 28
     year_ranges:
       limited: [2023]
@@ -146,7 +146,7 @@ months:
     year_ranges:
       limited: [2023]
   - name: Bhai Dooj
-    regions: [in_gj]
+    regions: [in_rj, in_gj]
     mday: 15
     year_ranges:
       limited: [2023]
