@@ -38,6 +38,7 @@ he:
         disabled_holidays_description: "חגים מושבתים יוחרגו מלוח השנה של חגי הסגל."
       date: "תאריך"
       add_to_calendar: "הוספה ללוח השנה של Google"
+      toggle_timezone_offset_title: "החלפת מצב היסט אזור זמן"
       region:
         title: "אזור"
         none: "ללא"
