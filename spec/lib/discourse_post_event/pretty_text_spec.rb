@@ -30,6 +30,9 @@ describe PrettyText do
 
       context "when the event has a name" do
         let(:post_1) { create_post_with_event(user_1, 'name="Pancakes event"') }
+        let(:post_2) do
+          create_post_with_event(user_1, 'name="Pancakes event <a>with html chars</a>"')
+        end
 
         it "displays the event name" do
           cooked = PrettyText.cook(post_1.raw)
@@ -37,6 +40,17 @@ describe PrettyText do
           expect(PrettyText.format_for_email(cooked, post_1)).to match_html(<<~HTML)
             <div style='border:1px solid #dedede'>
               <p><a href="#{Discourse.base_url}#{post_1.url}">Pancakes event</a></p>
+              <p>2018-06-05T18:39:50.000Z (UTC)</p>
+            </div>
+          HTML
+        end
+
+        it "properly escapes title" do
+          cooked = PrettyText.cook(post_2.raw)
+
+          expect(PrettyText.format_for_email(cooked, post_2)).to match_html(<<~HTML)
+            <div style='border:1px solid #dedede'>
+              <p><a href="#{Discourse.base_url}#{post_2.url}">Pancakes event &lt;a&gt;with html chars&lt;/a&gt;</a></p>
               <p>2018-06-05T18:39:50.000Z (UTC)</p>
             </div>
           HTML

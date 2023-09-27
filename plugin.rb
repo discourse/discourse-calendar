@@ -429,8 +429,8 @@ after_initialize do
           event_name = event_node["data-name"] || post.topic.title
           event_node.replace <<~TXT
           <div style='border:1px solid #dedede'>
-            <p><a href="#{Discourse.base_url}#{post.url}">#{event_name}</a></p>
-            <p>#{dates}</p>
+            <p><a href="#{Discourse.base_url}#{post.url}">#{CGI.escape_html(event_name)}</a></p>
+            <p>#{CGI.escape_html(dates)}</p>
           </div>
         TXT
         end
