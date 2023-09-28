@@ -70,6 +70,16 @@ describe "discourse_post_event_recurrence" do
     end
   end
 
+  describe "every_four_weeks" do
+    before { post_event_1.update!(recurrence: "every_four_weeks") }
+
+    it "sets in four weeks at the same weekday" do
+      post_event_1.set_next_date
+
+      expect(post_event_1.starts_at).to eq_time(Time.zone.parse("2020-10-08 19:00"))
+    end
+  end
+
   describe "every_day" do
     before { post_event_1.update!(recurrence: "every_day") }
 

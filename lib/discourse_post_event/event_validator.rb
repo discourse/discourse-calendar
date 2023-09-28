@@ -2,7 +2,14 @@
 
 module DiscoursePostEvent
   class EventValidator
-    VALID_RECURRENCES = %w[every_month every_week every_two_weeks every_day every_weekday]
+    VALID_RECURRENCES = %w[
+      every_month
+      every_week
+      every_two_weeks
+      every_four_weeks
+      every_day
+      every_weekday
+    ]
 
     def initialize(post)
       @post = post

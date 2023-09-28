@@ -392,12 +392,15 @@ module DiscoursePostEvent
         recurrence = "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR"
       when "every_two_weeks"
         recurrence = "FREQ=WEEKLY;INTERVAL=2;"
+      when "every_four_weeks"
+        recurrence = "FREQ=WEEKLY;INTERVAL=4;"
       else
         byday = localized_start.strftime("%A").upcase[0, 2]
         recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
       end
 
       next_starts_at = RRuleGenerator.generate(recurrence, localized_start, tzid: self.timezone)
+
       difference = original_ends_at - original_starts_at
       next_ends_at = next_starts_at + difference.seconds
 

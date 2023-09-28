@@ -3,7 +3,9 @@
 require "rrule"
 
 class RRuleGenerator
-  def self.generate(base_rrule, starts_at, tzid: "UTC")
+  def self.generate(base_rrule, starts_at, tzid: nil)
+    tzid ||= "UTC"
+
     rrule = generate_hash(base_rrule)
     rrule = set_mandatory_options(rrule, starts_at)
 
