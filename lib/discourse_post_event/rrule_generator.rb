@@ -3,9 +3,24 @@
 require "rrule"
 
 class RRuleGenerator
-  def self.generate(base_rrule, starts_at, tzid: "UTC")
+  def self.generate(base_rrule, starts_at, tzid: nil)
+    tzid ||= "UTC"
+
     rrule = generate_hash(base_rrule)
+    p rrule
     rrule = set_mandatory_options(rrule, starts_at)
+
+    p rrule
+    p starts_at
+    p Time.current
+    p tzid
+
+    p ::RRule::Rule.new(
+        stringify(rrule),
+        dtstart: starts_at,
+        exdate: [starts_at],
+        tzid: tzid,
+      ).between(Time.current, Time.current + 2.months)
 
     ::RRule::Rule
       .new(stringify(rrule), dtstart: starts_at, exdate: [starts_at], tzid: tzid)
