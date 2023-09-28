@@ -141,6 +141,7 @@ function initializeDiscourseCalendar(api) {
                 end: ends_at || starts_at,
                 allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
                 url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+                backgroundColor: `#${browsedCategory.color}`,
               });
             });
 

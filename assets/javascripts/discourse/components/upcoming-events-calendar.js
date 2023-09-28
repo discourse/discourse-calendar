@@ -48,6 +48,7 @@ export default Component.extend({
           end: ends_at || starts_at,
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+          backgroundColor: `#${event.category_color}`,
         });
       });
 

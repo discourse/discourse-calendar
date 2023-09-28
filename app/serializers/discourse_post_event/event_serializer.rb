@@ -27,6 +27,7 @@ module DiscoursePostEvent
     attributes :reminders
     attributes :recurrence
     attributes :minimal
+    attributes :category_color
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)
@@ -127,6 +128,10 @@ module DiscoursePostEvent
     def should_display_invitees
       (object.public? && object.invitees.count > 0) ||
         (object.private? && object.raw_invitees.count > 0)
+    end
+
+    def category_color
+      object.post.topic.category.color
     end
   end
 end
