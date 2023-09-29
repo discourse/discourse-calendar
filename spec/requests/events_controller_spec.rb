@@ -325,5 +325,22 @@ module DiscoursePostEvent
         end
       end
     end
+
+    context "for upcoming events" do
+      it "returns all events for all categories" do
+        category1 = Fabricate(:category)
+        category2 = Fabricate(:category)
+        topic1 = Fabricate(:topic, category: category1)
+        topic2 = Fabricate(:topic, category: category2)
+        event_1 = Fabricate(:event, post: Fabricate(:post, post_number: 1, topic: topic1))
+        event_2 = Fabricate(:event, post: Fabricate(:post, post_number: 1, topic: topic2))
+
+        get "/discourse-post-event/events.json"
+
+        expect(response.status).to eq(200)
+        events = response.parsed_body["events"]
+        expect(events.map { |e| e["id"] }).to match_array([event_1.id, event_2.id])
+      end
+    end
   end
 end

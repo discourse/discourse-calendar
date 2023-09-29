@@ -10,7 +10,8 @@ module DiscoursePostEvent
       events =
         DiscoursePostEvent::Event
           .select("discourse_post_event_events.*, dcped.starts_at")
-          .joins(post: :topic)
+          .joins(post: [:user, { topic: {} }])
+          .includes(post: { user: {}, topic: {} })
           .merge(Post.secured(guardian))
           .merge(topics.or(pms).distinct)
           .joins(
