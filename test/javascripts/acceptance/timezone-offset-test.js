@@ -1,6 +1,6 @@
-import { acceptance } from "discourse/tests/helpers/qunit-helpers";
+import { acceptance, fakeTime } from "discourse/tests/helpers/qunit-helpers";
 import { visit } from "@ember/test-helpers";
-import { skip } from "qunit";
+import { test } from "qunit";
 
 const topicResponse = {
   post_stream: {
@@ -252,7 +252,21 @@ function getRoundedPct(marginString) {
   return Math.round(marginString.match(/(\d+(\.\d+)?)%/)[1]);
 }
 
+function setupClock(needs) {
+  let clock;
+
+  needs.hooks.beforeEach(() => {
+    clock = fakeTime("2023-09-10T00:00:00", "Australia/Brisbane", true);
+  });
+
+  needs.hooks.afterEach(() => {
+    clock?.restore();
+  });
+}
+
 acceptance("Discourse Calendar - Timezone Offset", function (needs) {
+  setupClock(needs);
+
   needs.settings({
     calendar_enabled: true,
     enable_timezone_offset_for_calendar_events: true,
@@ -265,7 +279,7 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
     });
   });
 
-  skip("doesn't apply an offset for events in the same timezone", async (assert) => {
+  test("doesn't apply an offset for events in the same timezone", async (assert) => {
     await visit("/t/252");
 
     const eventElement = getEventByText("Lisbon");
@@ -274,7 +288,7 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
     assert.notOk(eventElement.style.marginRight);
   });
 
-  skip("applies the correct offset for events that extend into the next day", async (assert) => {
+  test("applies the correct offset for events that extend into the next day", async (assert) => {
     await visit("/t/252");
 
     const eventElement = getEventByText("Cordoba");
@@ -283,7 +297,7 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
     assert.strictEqual(getRoundedPct(eventElement.style.marginRight), 42); // ( ( 24 - ( 1 - (-3) ) ) / 24 ) * 50%
   });
 
-  skip("applies the correct offset for events that start on the previous day", async (assert) => {
+  test("applies the correct offset for events that start on the previous day", async (assert) => {
     await visit("/t/252");
 
     const eventElement = getEventByText("Tokyo");
@@ -292,7 +306,7 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
     assert.strictEqual(getRoundedPct(eventElement.style.marginRight), 11); // ( ( 9 - 1 ) / 24 ) * 33.33%
   });
 
-  skip("applies the correct offset for multiline events", async (assert) => {
+  test("applies the correct offset for multiline events", async (assert) => {
     await visit("/t/252");
 
     const eventElement = getEventByText("Moscow");
@@ -306,6 +320,8 @@ acceptance("Discourse Calendar - Timezone Offset", function (needs) {
 });
 
 acceptance("Discourse Calendar - Splitted Grouped Events", function (needs) {
+  setupClock(needs);
+
   needs.settings({
     calendar_enabled: true,
     enable_timezone_offset_for_calendar_events: true,
@@ -319,7 +335,7 @@ acceptance("Discourse Calendar - Splitted Grouped Events", function (needs) {
     });
   });
 
-  skip("splits holidays events by timezone", async (assert) => {
+  test("splits holidays events by timezone", async (assert) => {
     await visit("/t/252");
 
     const eventElement = document.querySelectorAll(
@@ -339,6 +355,8 @@ acceptance("Discourse Calendar - Splitted Grouped Events", function (needs) {
 });
 
 acceptance("Discourse Calendar - Grouped Events", function (needs) {
+  setupClock(needs);
+
   needs.settings({
     calendar_enabled: true,
     enable_timezone_offset_for_calendar_events: true,
@@ -352,7 +370,7 @@ acceptance("Discourse Calendar - Grouped Events", function (needs) {
     });
   });
 
-  skip("groups holidays events according to threshold", async (assert) => {
+  test("groups holidays events according to threshold", async (assert) => {
     await visit("/t/252");
 
     const eventElement = document.querySelectorAll(
