@@ -4,17 +4,25 @@ import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
 
 acceptance("Discourse Calendar - hamburger action shown", function (needs) {
   needs.user();
+
   needs.settings({
     calendar_enabled: true,
     discourse_post_event_enabled: true,
     sidebar_show_upcoming_events: true,
-    navigation_menu: "legacy",
   });
 
   test("upcoming events hamburger action shown", async function (assert) {
     await visit("/");
-    await click(".hamburger-dropdown");
-    assert.ok(exists(".widget-link[title='Upcoming events']"));
+
+    await click(
+      ".sidebar-section[data-section-name='community'] .sidebar-more-section-links-details-summary"
+    );
+
+    assert
+      .dom(
+        ".sidebar-section[data-section-name='community'] .sidebar-section-link[data-link-name='upcoming-events']"
+      )
+      .exists();
   });
 });
 
