@@ -150,7 +150,7 @@ function _attachWidget(api, cooked, eventModel) {
         const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
           eventModel,
           widgetHeight,
-          localDates: $(result.string).html(),
+          localDates: $(result.toString()).html(),
           api,
         });
 
