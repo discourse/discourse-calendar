@@ -57,7 +57,6 @@ hu:
           ends_at_before_starts_at: "Egy esemény nem érhet véget, mielőtt elkezdődne."
           start_must_be_present_and_a_valid_date: "Az eseményhez érvényes kezdési dátum szükséges."
           end_must_be_a_valid_date: "A befejezés dátumának érvényes dátumnak kell lennie."
-          invalid_recurrence: "Az ismétlődésnek a következők egyikének kell lennie: havonta, hetente, naponta, minden munkanap."
           acting_user_not_allowed_to_create_event: "A jelenlegi felhasználó nem hozhat létre eseményeket."
           acting_user_not_allowed_to_act_on_this_event: "A jelenlegi felhasználó nem tehet semmit ennél az eseménynél."
           custom_field_is_invalid: "A(z) „%{field}” egyéni mező nem engedélyezett."
