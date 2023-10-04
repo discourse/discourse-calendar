@@ -86,7 +86,6 @@ fr:
           ends_at_before_starts_at: "Un événement ne peut pas se terminer avant d'avoir commencé."
           start_must_be_present_and_a_valid_date: "Un événement nécessite une date de début valide."
           end_must_be_a_valid_date: "La date de fin doit être une date valide."
-          invalid_recurrence: "La récurrence doit être l'une des suivantes : every_month, every_week, every_two_weeks, every_day, every_weekday."
           invalid_timezone: "Fuseau horaire non reconnu."
           acting_user_not_allowed_to_create_event: "L'utilisateur actuel n'est pas autorisé à créer des événements."
           acting_user_not_allowed_to_act_on_this_event: "L'utilisateur actuel n'est pas autorisé à agir sur cet événement."

@@ -86,7 +86,6 @@ zh_CN:
           ends_at_before_starts_at: "活动不能在开始之前结束。"
           start_must_be_present_and_a_valid_date: "活动需要有效的开始日期。"
           end_must_be_a_valid_date: "结束日期必须是有效日期。"
-          invalid_recurrence: "重复必须是以下之一：every_month、every_week、every_two_weeks、every_day、every_weekday。"
           invalid_timezone: "无法识别时区。"
           acting_user_not_allowed_to_create_event: "当前用户不能创建活动。"
           acting_user_not_allowed_to_act_on_this_event: "当前用户不能在此活动上操作。"
