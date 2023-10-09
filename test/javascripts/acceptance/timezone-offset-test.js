@@ -245,6 +245,9 @@ function getEventByText(text) {
   const events = [...document.querySelectorAll(".fc-day-grid-event")].filter(
     (event) => event.textContent.includes(text)
   );
+  if (!events.length) {
+    return;
+  }
   return events.length === 1 ? events[0] : events;
 }
 
