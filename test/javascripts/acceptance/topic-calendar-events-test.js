@@ -11,7 +11,7 @@ const topicResponse = {
         username: "jan",
         avatar_template: "/letter_avatar_proxy/v4/letter/j/ce7236/{size}.png",
         created_at: "2023-09-08T16:50:07.638Z",
-        raw: '[calendar fullDay="false"] [/calendar]',
+        raw: '[calendar fullDay="false"][/calendar]',
         cooked:
           '<div class="discourse-calendar-wrap"><div class="discourse-calendar-header"><h2 class="discourse-calendar-title"></h2><span class="discourse-calendar-timezone-wrap"></span></div><div class="calendar" data-calendar-type="dynamic" data-calendar-default-timezone="undefined" data-calendar-full-day="false"><p> </p></div></div>',
         post_number: 1,
