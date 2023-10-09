@@ -365,7 +365,7 @@ function initializeDiscourseCalendar(api) {
 
     const hasTime =
       hasTimeSpecified(to?.dateTime) || hasTimeSpecified(from?.dateTime);
-    const dateFormat = hasTime ? "YYYY-MM-DD HH:mm:ss Z" : "YYYY-MM-DD";
+    const dateFormat = hasTime ? "YYYY-MM-DD HH:mm:ssZ" : "YYYY-MM-DD";
 
     let event = {
       start: from.dateTime.format(dateFormat),
