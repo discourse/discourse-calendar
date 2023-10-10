@@ -1,4 +1,4 @@
-import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
 import Site from "discourse/models/site";
@@ -16,11 +16,12 @@ acceptance("Calendar - Disable sorting headers", function (needs) {
     site.categories[15].custom_fields = { disable_topic_resorting: true };
 
     await visit("/c/bug");
-    assert.ok(exists(".topic-list"), "The list of topics was rendered");
-    assert.ok(
-      exists(".topic-list .topic-list-data"),
-      "The headers were rendered"
-    );
-    assert.ok(!exists(".topic-list .sortable"), "The headers are not sortable");
+    assert.dom(".topic-list").exists("The list of topics was rendered");
+    assert
+      .dom(".topic-list .topic-list-data")
+      .exists("The headers were rendered");
+    assert
+      .dom(".topic-list")
+      .doesNotHaveClass("sortable", "The headers are not sortable");
   });
 });

@@ -1,6 +1,6 @@
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { click, visit } from "@ember/test-helpers";
-import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
 
 acceptance("Discourse Calendar - hamburger action shown", function (needs) {
   needs.user();
@@ -38,7 +38,7 @@ acceptance("Discourse Calendar - hamburger action hidden", function (needs) {
   test("upcoming events hamburger action hidden", async function (assert) {
     await visit("/");
     await click(".hamburger-dropdown");
-    assert.notOk(exists(".widget-link[title='Upcoming events']"));
+    assert.dom(".widget-link[title='Upcoming events']").doesNotExist();
   });
 });
 
@@ -54,9 +54,9 @@ acceptance("Discourse Calendar - sidebar link shown", function (needs) {
   test("upcoming events sidebar section link shown", async function (assert) {
     await visit("/");
     await click(".sidebar-more-section-links-details-summary");
-    assert.ok(
-      exists(".sidebar-section-link[data-link-name='upcoming-events']")
-    );
+    assert
+      .dom(".sidebar-section-link[data-link-name='upcoming-events']")
+      .exists();
   });
 });
 
@@ -72,8 +72,8 @@ acceptance("Discourse Calendar - sidebar link hidden", function (needs) {
   test("upcoming events sidebar section link hidden", async function (assert) {
     await visit("/");
     await click(".sidebar-more-section-links-details-summary");
-    assert.notOk(
-      exists(".sidebar-section-link[data-link-name='upcoming-events']")
-    );
+    assert
+      .dom(".sidebar-section-link[data-link-name='upcoming-events']")
+      .doesNotExist();
   });
 });

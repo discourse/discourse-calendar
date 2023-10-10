@@ -122,14 +122,13 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
       )} Monthly Hangout #3`,
       "before event reminder notification has the right content"
     );
-    assert.ok(
+    assert.true(
       notifications[0].href.endsWith("/t/monthly-hangout-3/993"),
       "before event reminder notification links to the event topic"
     );
-    assert.ok(
-      notifications[0].querySelector(".d-icon-calendar-day"),
-      "before event reminder notification has the right icon"
-    );
+    assert
+      .dom(".d-icon-calendar-day", notifications[0])
+      .exists("before event reminder notification has the right icon");
 
     assert.strictEqual(
       notifications[1].textContent.replaceAll(/\s+/g, " ").trim(),
@@ -138,14 +137,13 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
       )} Fancy title and pants`,
       "ongoing event reminder notification has the right content"
     );
-    assert.ok(
+    assert.true(
       notifications[1].href.endsWith("/t/fancy-title-and-pants/339"),
       "ongoing event reminder notification links to the event topic"
     );
-    assert.ok(
-      notifications[1].querySelector(".d-icon-calendar-day"),
-      "ongoing event reminder notification has the right icon"
-    );
+    assert
+      .dom(".d-icon-calendar-day", notifications[1])
+      .exists("ongoing event reminder notification has the right icon");
 
     assert.strictEqual(
       notifications[2].textContent.replaceAll(/\s+/g, " ").trim(),
@@ -154,30 +152,28 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
       )} Topic with event and after_event reminder`,
       "after event reminder notification has the right content"
     );
-    assert.ok(
+    assert.true(
       notifications[2].href.endsWith(
         "/t/topic-with-event-and-after_event-reminder/834"
       ),
       "after event reminder notification links to the event topic"
     );
-    assert.ok(
-      notifications[2].querySelector(".d-icon-calendar-day"),
-      "after event reminder notification has the right icon"
-    );
+    assert
+      .dom(".d-icon-calendar-day", notifications[2])
+      .exists("after event reminder notification has the right icon");
 
     assert.strictEqual(
       notifications[3].textContent.replaceAll(/\s+/g, " ").trim(),
       "imposter Tuesdays are for Among Us",
       "event invitation notification has the right content"
     );
-    assert.ok(
+    assert.true(
       notifications[3].href.endsWith("/t/tuesdays-are-for-among-us/195"),
       "event invitation notification links to the event topic"
     );
-    assert.ok(
-      notifications[3].querySelector(".d-icon-calendar-day"),
-      "event invitation notification has the right icon"
-    );
+    assert
+      .dom(".d-icon-calendar-day", notifications[3])
+      .exists("event invitation notification has the right icon");
 
     assert.strictEqual(
       notifications[4].textContent.replaceAll(/\s+/g, " ").trim(),
@@ -187,13 +183,14 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
       )} Asia Pacific team call`,
       "event invitation with predefined attendance notification has the right content"
     );
-    assert.ok(
+    assert.true(
       notifications[4].href.endsWith("/t/asia-pacific-team-call/348"),
       "event invitation with predefined attendance notification links to the event topic"
     );
-    assert.ok(
-      notifications[4].querySelector(".d-icon-calendar-day"),
-      "event invitation with predefined attendance notification has the right icon"
-    );
+    assert
+      .dom(".d-icon-calendar-day", notifications[4])
+      .exists(
+        "event invitation with predefined attendance notification has the right icon"
+      );
   });
 });

@@ -1,4 +1,4 @@
-import { acceptance, query } from "discourse/tests/helpers/qunit-helpers";
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { click, visit } from "@ember/test-helpers";
 import selectKit from "discourse/tests/helpers/select-kit-helper";
@@ -36,23 +36,19 @@ acceptance("Admin - Discourse Calendar - Holidays", function (needs) {
     await regions.expand();
     await regions.selectRowByValue("ca");
 
-    assert.ok(
-      query(".holidays-list").innerText.includes("New Year's Day"),
-      "it displays holiday names"
-    );
-    assert.ok(
-      query(".holidays-list").innerText.includes("Good Friday"),
-      "it displays holiday names"
-    );
+    assert
+      .dom(".holidays-list")
+      .includesText("New Year's Day", "it displays holiday names");
+    assert
+      .dom(".holidays-list")
+      .includesText("Good Friday", "it displays holiday names");
 
-    assert.ok(
-      query(".holidays-list").innerText.includes("2022-01-01"),
-      "it displays holiday dates"
-    );
-    assert.ok(
-      query(".holidays-list").innerText.includes("2022-04-15"),
-      "it displays holiday dates"
-    );
+    assert
+      .dom(".holidays-list")
+      .includesText("2022-01-01", "it displays holiday dates");
+    assert
+      .dom(".holidays-list")
+      .includesText("2022-04-15", "it displays holiday dates");
   });
 
   test("disabling and enabling a holiday", async (assert) => {
@@ -62,16 +58,20 @@ acceptance("Admin - Discourse Calendar - Holidays", function (needs) {
     await regions.expand();
     await regions.selectRowByValue("ca");
 
-    await click("table tr:first-child button");
-    assert.ok(
-      query("table tr.disabled:first-child"),
-      "after clicking the disable button, it adds a .disabled CSS class"
-    );
+    await click("table tbody tr button");
+    assert
+      .dom("table tbody tr")
+      .hasClass(
+        "disabled",
+        "after clicking the disable button, it adds a .disabled CSS class"
+      );
 
-    await click("table tr.disabled:first-child button");
-    assert.ok(
-      query("table tr:first-child"),
-      "after clicking the enable button, it removes the .disabled CSS class"
-    );
+    await click("table tr.disabled button");
+    assert
+      .dom("table tbody tr")
+      .doesNotHaveClass(
+        "disabled",
+        "after clicking the enable button, it removes the .disabled CSS class"
+      );
   });
 });
