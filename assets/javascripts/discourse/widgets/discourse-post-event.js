@@ -1,5 +1,5 @@
 import I18n from "I18n";
-import TextLib, { emojiUnescape } from "discourse/lib/text";
+import { cookAsync, emojiUnescape } from "discourse/lib/text";
 import { exportEntity } from "discourse/lib/export-csv";
 import cleanTitle from "../lib/clean-title";
 import { dasherize } from "@ember/string";
@@ -79,7 +79,7 @@ export default createWidget("discourse-post-event", {
               edit_reason: I18n.t("discourse_post_event.edit_reason"),
             };
 
-            return TextLib.cookAsync(newRaw).then((cooked) => {
+            return cookAsync(newRaw).then((cooked) => {
               props.cooked = cooked.string;
               return post.save(props);
             });
