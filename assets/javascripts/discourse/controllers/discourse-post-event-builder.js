@@ -1,5 +1,5 @@
 import I18n from "I18n";
-import TextLib from "discourse/lib/text";
+import { cookAsync } from "discourse/lib/text";
 import Group from "discourse/models/group";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
@@ -238,7 +238,7 @@ export default Controller.extend(ModalFunctionality, {
               edit_reason: I18n.t("discourse_post_event.destroy_event"),
             };
 
-            return TextLib.cookAsync(newRaw).then((cooked) => {
+            return cookAsync(newRaw).then((cooked) => {
               props.cooked = cooked.string;
               return post
                 .save(props)
@@ -293,7 +293,7 @@ export default Controller.extend(ModalFunctionality, {
           edit_reason: I18n.t("discourse_post_event.edit_reason"),
         };
 
-        return TextLib.cookAsync(newRaw).then((cooked) => {
+        return cookAsync(newRaw).then((cooked) => {
           props.cooked = cooked.string;
           return post
             .save(props)
