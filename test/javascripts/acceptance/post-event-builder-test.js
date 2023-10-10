@@ -1,4 +1,4 @@
-import { acceptance, query } from "discourse/tests/helpers/qunit-helpers";
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import { click, fillIn, visit } from "@ember/test-helpers";
 import selectKit from "discourse/tests/helpers/select-kit-helper";
@@ -36,15 +36,13 @@ acceptance("Post event - composer", function (needs) {
       "Timezone can be changed"
     );
 
-    const fromDate = query(`${modal} .from input[type=date]`);
-    await fillIn(fromDate, "2022-07-01");
+    await fillIn(`${modal} .from input[type=date]`, "2022-07-01");
 
     const fromTime = selectKit(`${modal} .from .d-time-input .select-kit`);
     await fromTime.expand();
     await fromTime.selectRowByName("12:00");
 
-    const toDate = query(`${modal} .to input[type=date]`);
-    await fillIn(toDate, "2022-07-01");
+    await fillIn(`${modal} .to input[type=date]`, "2022-07-01");
     const toTime = selectKit(`${modal} .to .d-time-input .select-kit`);
     await toTime.expand();
     await toTime.selectRowByName("13:00");
@@ -57,11 +55,12 @@ acceptance("Post event - composer", function (needs) {
 
     await click(`${modal} .modal-footer .btn-primary`);
 
-    assert.strictEqual(
-      query(".d-editor-input").value,
-      `[event start="2022-07-01 12:00" status="public" timezone="Europe/Paris" end="2022-07-01 13:00" allowedGroups="trust_level_0"]\n[/event]`,
-      "bbcode is correct"
-    );
+    assert
+      .dom(".d-editor-input")
+      .hasValue(
+        `[event start="2022-07-01 12:00" status="public" timezone="Europe/Paris" end="2022-07-01 13:00" allowedGroups="trust_level_0"]\n[/event]`,
+        "bbcode is correct"
+      );
   });
 
   test("composer event builder - the timezone case", async function (assert) {
@@ -103,10 +102,7 @@ acceptance("Post event - composer", function (needs) {
       await timezoneInput.selectRowByValue("Europe/London");
 
       // The date should be still the same?
-      assert.strictEqual(
-        query(`${modal} .from input[type=date]`).value,
-        "2022-07-01"
-      );
+      assert.dom(`${modal} .from input[type=date]`).hasValue("2022-07-01");
     } finally {
       // Unfreeze time
       moment.tz.guess.returns(previousZone);
