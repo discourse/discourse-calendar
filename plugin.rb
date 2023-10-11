@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # name: discourse-calendar
-# about: Display a calendar in the first post of a topic
+# about: Adds the ability to create a dynmanic calendar with events in a topic. 
+# meta_topic_id: 97376
 # version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
