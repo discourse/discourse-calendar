@@ -12,7 +12,7 @@ describe DiscoursePostEvent::EventSerializer do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  fab!(:category) { Fabricate(:category, color: "b878e2") }
+  fab!(:category) { Fabricate(:category) }
   fab!(:topic) { Fabricate(:topic, category: category) }
   fab!(:post) { Fabricate(:post, topic: topic) }
 
@@ -45,9 +45,9 @@ describe DiscoursePostEvent::EventSerializer do
   context "with a public event" do
     fab!(:event) { Fabricate(:event, post: post) }
 
-    it "returns the event category's color" do
+    it "returns the event category's id" do
       json = EventSerializer.new(event, scope: Guardian.new).as_json
-      expect(json[:event][:category_color]).to eq(category.color)
+      expect(json[:event][:category_id]).to eq(category.id)
     end
   end
 end

@@ -41,14 +41,15 @@ export default Component.extend({
       this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
 
       (this.events || []).forEach((event) => {
-        const { starts_at, ends_at, post } = event;
+        const { starts_at, ends_at, post, category_id } = event;
+        const backgroundColor = `#${this.site.categoriesById[category_id].color}`;
         this._calendar.addEvent({
           title: formatEventName(event),
           start: starts_at,
           end: ends_at || starts_at,
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
-          backgroundColor: `#${event.category_color}`,
+          backgroundColor,
         });
       });
 
