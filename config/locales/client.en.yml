@@ -299,6 +299,12 @@ en:
           ve: "Venezuela"
           vi: "Virgin Islands (U.S.)"
           za: "South Africa"
+      toolbar_button:
+        today: "Today"
+        month: "Month"
+        week: "Week"
+        day: "Day"
+        list: "List"
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"
