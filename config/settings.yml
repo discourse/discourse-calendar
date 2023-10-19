@@ -29,6 +29,7 @@ discourse_calendar:
     default: "discovery-list-container-top"
     type: enum
     choices:
+      - none
       - discovery-list-container-top
       - before-topic-list-body
   working_days:
