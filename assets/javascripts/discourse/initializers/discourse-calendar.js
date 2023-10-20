@@ -21,6 +21,20 @@ function loadFullCalendar() {
   );
 }
 
+function getCurrentBcp47Locale() {
+  return I18n.currentLocale().replace("_", "-");
+}
+
+function getCalendarButtonsText() {
+  return {
+    today: I18n.t("discourse_calendar.toolbar_button.today"),
+    month: I18n.t("discourse_calendar.toolbar_button.month"),
+    week: I18n.t("discourse_calendar.toolbar_button.week"),
+    day: I18n.t("discourse_calendar.toolbar_button.day"),
+    list: I18n.t("discourse_calendar.toolbar_button.list"),
+  };
+}
+
 let eventPopper;
 const EVENT_POPOVER_ID = "event-popover";
 
@@ -124,7 +138,10 @@ function initializeDiscourseCalendar(api) {
         loadFullCalendar().then(() => {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
-            {}
+            {
+              locale: getCurrentBcp47Locale(),
+              buttonText: getCalendarButtonsText(),
+            }
           );
           const loadEvents = ajax(
             `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
@@ -284,6 +301,8 @@ function initializeDiscourseCalendar(api) {
     return new window.FullCalendar.Calendar($calendar[0], {
       timeZone,
       timeZoneImpl: "moment-timezone",
+      locale: getCurrentBcp47Locale(),
+      buttonText: getCalendarButtonsText(),
       nextDayThreshold: "06:00:00",
       displayEventEnd: true,
       height: 650,
