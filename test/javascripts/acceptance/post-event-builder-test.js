@@ -1,8 +1,9 @@
-import { acceptance } from "discourse/tests/helpers/qunit-helpers";
-import { test } from "qunit";
 import { click, fillIn, visit } from "@ember/test-helpers";
-import selectKit from "discourse/tests/helpers/select-kit-helper";
+import { test } from "qunit";
 import sinon from "sinon";
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
+import selectKit from "discourse/tests/helpers/select-kit-helper";
+import I18n from "discourse-i18n";
 
 acceptance("Post event - composer", function (needs) {
   needs.user({ admin: true, can_create_discourse_post_event: true });
@@ -21,7 +22,11 @@ acceptance("Post event - composer", function (needs) {
     await categoryChooser.expand();
     await categoryChooser.selectRowByValue(2);
     await click(".toolbar-popup-menu-options .dropdown-select-box-header");
-    await click(".toolbar-popup-menu-options *[data-value='insertEvent']");
+    await click(
+      `.toolbar-popup-menu-options *[data-name='${I18n.t(
+        "discourse_post_event.builder_modal.attach"
+      )}']`
+    );
 
     const modal = ".discourse-post-event-builder-modal";
 
@@ -87,7 +92,11 @@ acceptance("Post event - composer", function (needs) {
       await categoryChooser.selectRowByValue(2);
 
       await click(".toolbar-popup-menu-options .dropdown-select-box-header");
-      await click(".toolbar-popup-menu-options *[data-value='insertEvent']");
+      await click(
+        `.toolbar-popup-menu-options *[data-name='${I18n.t(
+          "discourse_post_event.builder_modal.attach"
+        )}']`
+      );
 
       const modal = ".discourse-post-event-builder-modal";
 

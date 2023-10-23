@@ -3,50 +3,40 @@ import showModal from "discourse/lib/show-modal";
 
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
+  const store = api.container.lookup("service:store");
 
-  api.addToolbarPopupMenuOptionsCallback((composerController) => {
-    if (!currentUser || !currentUser.can_create_discourse_post_event) {
-      return;
-    }
+  api.addComposerToolbarPopupMenuOption({
+    action: (toolbarEvent) => {
+      const eventModel = store.createRecord("discourse-post-event-event");
+      eventModel.set("status", "public");
+      eventModel.set("custom_fields", {});
+      eventModel.set("starts_at", moment());
+      eventModel.set("timezone", moment.tz.guess());
 
-    const composerModel = composerController.model;
-    if (
-      composerModel &&
-      !composerModel.replyingToTopic &&
-      (composerModel.topicFirstPost ||
-        composerModel.creatingPrivateMessage ||
-        (composerModel.editingPost &&
-          composerModel.post &&
-          composerModel.post.post_number === 1))
-    ) {
-      return {
-        label: "discourse_post_event.builder_modal.attach",
-        id: "insertEvent",
-        group: "insertions",
-        icon: "calendar-day",
-        action: "insertEvent",
-      };
-    }
-  });
+      showModal("discourse-post-event-builder").setProperties({
+        toolbarEvent,
+        model: { eventModel },
+      });
+    },
+    group: "insertions",
+    icon: "calendar-day",
+    label: "discourse_post_event.builder_modal.attach",
+    condition: (composer) => {
+      if (!currentUser || !currentUser.can_create_discourse_post_event) {
+        return false;
+      }
 
-  api.modifyClass("controller:composer", {
-    pluginId: "discourse-calendar",
+      const composerModel = composer.model;
 
-    actions: {
-      insertEvent() {
-        const eventModel = this.store.createRecord(
-          "discourse-post-event-event"
-        );
-        eventModel.set("status", "public");
-        eventModel.set("custom_fields", {});
-        eventModel.set("starts_at", moment());
-        eventModel.set("timezone", moment.tz.guess());
-
-        showModal("discourse-post-event-builder").setProperties({
-          toolbarEvent: this.toolbarEvent,
-          model: { eventModel },
-        });
-      },
+      return (
+        composerModel &&
+        !composerModel.replyingToTopic &&
+        (composerModel.topicFirstPost ||
+          composerModel.creatingPrivateMessage ||
+          (composerModel.editingPost &&
+            composerModel.post &&
+            composerModel.post.post_number === 1))
+      );
     },
   });
 }
