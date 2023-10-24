@@ -441,6 +441,10 @@ en:
         creator: "Creator"
         status: "Status"
         starts_at: "Starts at"
+      upcoming_events_list:
+        title: "Upcoming events"
+        empty: "No upcoming events"
+        all_day: "All-day"
     category:
       sort_topics_by_event_start_date: "Sort topics by event start date."
       disable_topic_resorting: "Disable topic resorting."
