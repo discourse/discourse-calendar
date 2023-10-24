@@ -19,6 +19,11 @@ pt:
       date: "Data"
       region:
         none: "Nenhuma"
+      toolbar_button:
+        today: "Hoje"
+        month: "Mês"
+        week: "Semana"
+        day: "Dia"
     group_timezones:
       search: "Pesquisar..."
     discourse_post_event:

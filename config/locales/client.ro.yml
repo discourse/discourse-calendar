@@ -19,6 +19,11 @@ ro:
       add_to_calendar: "Adaugă în Google Calendar"
       region:
         none: "Nimeni"
+      toolbar_button:
+        today: "Astăzi"
+        month: "Lună"
+        week: "Săptămână"
+        day: "Zi"
     group_timezones:
       search: "Caută..."
     discourse_post_event:

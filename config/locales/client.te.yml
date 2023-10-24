@@ -15,6 +15,9 @@ te:
     discourse_calendar:
       disable_holiday: "అచేతనం"
       enable_holiday: "చేతనం"
+      toolbar_button:
+        today: "ఈరోజు"
+        day: "రోజు"
     discourse_post_event:
       models:
         event:

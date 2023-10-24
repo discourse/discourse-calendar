@@ -304,6 +304,11 @@ ru:
           ve: "Венесуэла"
           vi: "Виргинские острова (США)"
           za: "Южная Африка"
+      toolbar_button:
+        today: "Сегодня"
+        month: "За месяц"
+        week: "За неделю"
+        day: "Дата"
     group_timezones:
       search: "Поиск..."
       group_availability: "доступность %{group}"

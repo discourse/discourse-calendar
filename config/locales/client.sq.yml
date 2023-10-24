@@ -17,6 +17,11 @@ sq:
       enable_holiday: "Aktivizo"
       region:
         none: "Asnjë"
+      toolbar_button:
+        today: "Sot"
+        month: "Këtë muaj"
+        week: "Këtë javë"
+        day: "Dit"
     discourse_post_event:
       bulk_invite_modal:
         success: "Skedari u ngarkua, do njoftoheni me mesazh kur procesi të mbarojë. "

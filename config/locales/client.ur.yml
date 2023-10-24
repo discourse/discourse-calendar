@@ -18,6 +18,11 @@ ur:
       date: "تاریخ"
       region:
         none: "کوئی نہیں"
+      toolbar_button:
+        today: "آج"
+        month: "مہینہ"
+        week: "ہفتہ"
+        day: "دن"
     group_timezones:
       search: "تلاش کریں..."
     discourse_post_event:

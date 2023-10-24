@@ -18,6 +18,11 @@ et:
       date: "Date"
       region:
         none: "Pole"
+      toolbar_button:
+        today: "Täna"
+        month: "Kuu"
+        week: "Nädal"
+        day: "Päev"
     group_timezones:
       search: "Otsi..."
     discourse_post_event:

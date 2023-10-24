@@ -15,6 +15,11 @@ be:
     discourse_calendar:
       disable_holiday: "Адключыць"
       enable_holiday: "Уключыць"
+      toolbar_button:
+        today: "сёння"
+        month: "месяц"
+        week: "тыдзень"
+        day: "дзень"
     discourse_post_event:
       models:
         event:

@@ -304,6 +304,11 @@ tr_TR:
           ve: "Venezuela"
           vi: "Virgin Adaları (ABD)"
           za: "Güney Afrika"
+      toolbar_button:
+        today: "Bugün"
+        month: "Ay"
+        week: "Hafta"
+        day: "Gün"
     group_timezones:
       search: "Ara..."
       group_availability: "%{group} uygunluğu"

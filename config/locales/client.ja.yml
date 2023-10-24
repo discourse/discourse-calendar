@@ -304,6 +304,11 @@ ja:
           ve: "ベネズエラ"
           vi: "バージン諸島（米国）"
           za: "南アフリカ"
+      toolbar_button:
+        today: "今日"
+        month: "今月"
+        week: "今週"
+        day: "日"
     group_timezones:
       search: "検索..."
       group_availability: "%{group} の空き状況"

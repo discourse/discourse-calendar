@@ -302,6 +302,11 @@ fa_IR:
           ve: "ونزوئلا"
           vi: "جزایر ویرجین (ایالات متحده)"
           za: "آفریقایی جنوبی"
+      toolbar_button:
+        today: "امروز"
+        month: "ماه"
+        week: "هفته"
+        day: "روز"
     group_timezones:
       search: "جستجو..."
     discourse_post_event:

@@ -304,6 +304,11 @@ ar:
           ve: "فنزويلا"
           vi: "جزر العذراء الأمريكية"
           za: "جنوب إفريقيا"
+      toolbar_button:
+        today: "اليوم"
+        month: "الشهر"
+        week: "الأسبوع"
+        day: "اليوم"
     group_timezones:
       search: "بحث..."
       group_availability: "توافر %{group}"

@@ -18,6 +18,11 @@ lv:
       date: "Datums"
       region:
         none: "Nav"
+      toolbar_button:
+        today: "Šodien"
+        month: "Mēneša"
+        week: "Nedēļas"
+        day: "Diena"
     group_timezones:
       search: "Meklēt..."
     discourse_post_event:

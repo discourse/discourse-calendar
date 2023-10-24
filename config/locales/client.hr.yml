@@ -18,6 +18,11 @@ hr:
       date: "Datum"
       region:
         none: "Ništa"
+      toolbar_button:
+        today: "Danas"
+        month: "Mjesec"
+        week: "Tjedan"
+        day: "Dan"
     group_timezones:
       search: "Pretraži..."
     discourse_post_event:

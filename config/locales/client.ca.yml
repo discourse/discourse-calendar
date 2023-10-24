@@ -18,6 +18,11 @@ ca:
       date: "Data"
       region:
         none: "Cap"
+      toolbar_button:
+        today: "Avui"
+        month: "Mes"
+        week: "Setmana"
+        day: "Dia"
     group_timezones:
       search: "Cerca..."
     discourse_post_event:

@@ -18,6 +18,11 @@ nb_NO:
       date: "Dato"
       region:
         none: "Ingen"
+      toolbar_button:
+        today: "I dag"
+        month: "Den siste måneden"
+        week: "Den siste uken"
+        day: "Dag"
     group_timezones:
       search: "Søk…"
     discourse_post_event:

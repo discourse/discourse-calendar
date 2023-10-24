@@ -18,6 +18,11 @@ bg:
       date: "Дата"
       region:
         none: "Без"
+      toolbar_button:
+        today: "Днес"
+        month: "Месец"
+        week: "Седмица"
+        day: "Ден"
     group_timezones:
       search: "Търсене ... "
     discourse_post_event:

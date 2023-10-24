@@ -18,6 +18,11 @@ el:
       date: "Ημερομηνία"
       region:
         none: "Κανένα"
+      toolbar_button:
+        today: "Σήμερα"
+        month: "Μήνας"
+        week: "Εβδομάδα"
+        day: "Ημέρα"
     group_timezones:
       search: "Αναζήτηση..."
     discourse_post_event:

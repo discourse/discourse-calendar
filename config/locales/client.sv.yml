@@ -297,6 +297,11 @@ sv:
           ve: "Venezuela"
           vi: "Jungfruöarna (USA)"
           za: "Sydafrika"
+      toolbar_button:
+        today: "Idag"
+        month: "Månad"
+        week: "Vecka"
+        day: "Dag"
     group_timezones:
       search: "Sök..."
       group_availability: "%{group}-tillgänglighet"

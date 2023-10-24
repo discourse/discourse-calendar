@@ -18,6 +18,11 @@ gl:
       date: "Data"
       region:
         none: "Ningunha"
+      toolbar_button:
+        today: "Hoxe"
+        month: "Mes"
+        week: "Semana"
+        day: "Día"
     group_timezones:
       search: "Buscar..."
     discourse_post_event:

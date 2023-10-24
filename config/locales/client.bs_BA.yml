@@ -18,6 +18,11 @@ bs_BA:
       date: "Datum"
       region:
         none: "Ništa"
+      toolbar_button:
+        today: "Today"
+        month: "Mjesec"
+        week: "Sedmica"
+        day: "Day"
     group_timezones:
       search: "Pretraga..."
     discourse_post_event:
