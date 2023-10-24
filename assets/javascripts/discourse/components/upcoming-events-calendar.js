@@ -42,7 +42,8 @@ export default Component.extend({
 
       (this.events || []).forEach((event) => {
         const { starts_at, ends_at, post, category_id } = event;
-        const backgroundColor = `#${this.site.categoriesById[category_id].color}`;
+        const categoryColor = this.site.categoriesById[category_id]?.color;
+        const backgroundColor = categoryColor ? `#${categoryColor}` : undefined;
         this._calendar.addEvent({
           title: formatEventName(event),
           start: starts_at,
