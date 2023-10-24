@@ -18,6 +18,11 @@ sk:
       date: "Dátum"
       region:
         none: "Žiadny"
+      toolbar_button:
+        today: "Dnes"
+        month: "Mesiac"
+        week: "Týždeň"
+        day: "Deň"
     group_timezones:
       search: "Hľadať"
     discourse_post_event:

@@ -80,6 +80,11 @@ ko:
           in: "인도"
           is: "아이슬란드"
           kr: "한국 (대한민국)"
+      toolbar_button:
+        today: "오늘"
+        month: "월"
+        week: "주"
+        day: "일"
     group_timezones:
       search: "검색..."
     discourse_post_event:

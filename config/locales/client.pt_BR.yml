@@ -304,6 +304,11 @@ pt_BR:
           ve: "Venezuela"
           vi: "Ilhas Virgens (E.U.A)"
           za: "África do Sul"
+      toolbar_button:
+        today: "Hoje"
+        month: "Mês"
+        week: "Semana"
+        day: "Dia"
     group_timezones:
       search: "Pesquisar..."
       group_availability: "disponibilidade de %{group}"
@@ -412,7 +417,7 @@ pt_BR:
           none: "Sem recorrência"
           every_day: "Todos os dias"
           every_month: "Todo mês, neste dia da semana"
-          every_weekday: "Todas as semanas"
+          every_weekday: "Todos os dias da semana"
           every_week: "Todo mês, neste dia da semana"
           every_two_weeks: "Todo mês, neste dia da semana"
         minimal:

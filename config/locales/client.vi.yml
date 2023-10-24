@@ -18,6 +18,11 @@ vi:
       date: "ày"
       region:
         none: "Không có gì"
+      toolbar_button:
+        today: "Hôm nay"
+        month: "Tháng"
+        week: "Tuần"
+        day: "Ngày"
     group_timezones:
       search: "Tìm kiến..."
     discourse_post_event:

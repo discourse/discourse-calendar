@@ -59,6 +59,8 @@ id:
           ch_ar: "Swiss (ch_ar)"
           ch_be: "Swiss (ch_be)"
           ch_bl: "Swiss (ch_bl)"
+      toolbar_button:
+        day: "Hari"
     group_timezones:
       search: "Cari..."
     discourse_post_event:

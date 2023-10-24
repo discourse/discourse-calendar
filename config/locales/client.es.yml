@@ -304,6 +304,11 @@ es:
           ve: "Venezuela"
           vi: "Islas Vírgenes (EE. UU.)"
           za: "Sudáfrica"
+      toolbar_button:
+        today: "Hoy"
+        month: "Mes"
+        week: "Semana"
+        day: "Día"
     group_timezones:
       search: "Buscar..."
       group_availability: "Disponibilidad de %{group}"

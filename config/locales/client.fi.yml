@@ -304,6 +304,11 @@ fi:
           ve: "Venezuela"
           vi: "Neitsytsaaret (Yhdysvallat)"
           za: "Etelä-Afrikka"
+      toolbar_button:
+        today: "Tänään"
+        month: "Kuukausi"
+        week: "Viikko"
+        day: "Päivä"
     group_timezones:
       search: "Hae..."
       group_availability: "%{group} – saatavuus"

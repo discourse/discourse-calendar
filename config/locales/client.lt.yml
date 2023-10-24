@@ -18,6 +18,11 @@ lt:
       date: "Data"
       region:
         none: "Nieko"
+      toolbar_button:
+        today: "Šiandien"
+        month: "Per mėnesį"
+        week: "Per savaitę"
+        day: "Diena"
     group_timezones:
       search: "Paieška..."
     discourse_post_event:

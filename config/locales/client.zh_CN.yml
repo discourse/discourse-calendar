@@ -304,6 +304,11 @@ zh_CN:
           ve: "委内瑞拉"
           vi: "美属维尔京群岛"
           za: "南非"
+      toolbar_button:
+        today: "今天"
+        month: "月"
+        week: "周"
+        day: "天"
     group_timezones:
       search: "搜索…"
       group_availability: "%{group} 可用性"

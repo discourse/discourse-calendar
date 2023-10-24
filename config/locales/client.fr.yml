@@ -304,6 +304,11 @@ fr:
           ve: "Venezuela"
           vi: "Îles Vierges (États-Unis)"
           za: "Afrique du Sud"
+      toolbar_button:
+        today: "Aujourd'hui"
+        month: "Mois"
+        week: "Semaine"
+        day: "Jour"
     group_timezones:
       search: "Recherche…"
       group_availability: "disponibilité de %{group}"

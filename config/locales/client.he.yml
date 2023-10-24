@@ -305,6 +305,11 @@ he:
           ve: "ונצואלה"
           vi: "איי הבתולה (ארה״ב)"
           za: "דרום אפריקה"
+      toolbar_button:
+        today: "היום"
+        month: "חודש"
+        week: "שבוע"
+        day: "יום"
     group_timezones:
       search: "חיפוש…"
       group_availability: "זמינות %{group}"

@@ -96,6 +96,11 @@ uk:
           ve: "Венесуела"
           vi: "Віргінські острови (США)"
           za: "Південна Африка"
+      toolbar_button:
+        today: "Сьогодні"
+        month: "Місяць"
+        week: "Тиждень"
+        day: "День"
     group_timezones:
       search: "Пошук…"
     discourse_post_event:

@@ -18,6 +18,11 @@ sw:
       date: "Tarehe"
       region:
         none: "Hakuna"
+      toolbar_button:
+        today: "Leo"
+        month: "Mwezi"
+        week: "Wiki"
+        day: "Siku"
     group_timezones:
       search: "Tafuta"
     discourse_post_event:

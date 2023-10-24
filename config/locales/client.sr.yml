@@ -17,6 +17,10 @@ sr:
       enable_holiday: "Omogući"
       region:
         none: "Ništa"
+      toolbar_button:
+        today: "Danas"
+        month: "Mesec"
+        week: "Nedelja"
     discourse_post_event:
       builder_modal:
         update: "Sačuvaj"

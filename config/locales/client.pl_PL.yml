@@ -75,6 +75,11 @@ pl_PL:
           it: "Włochy"
           jp: "Japonia"
           ke: "Kenia"
+      toolbar_button:
+        today: "Dzisiaj"
+        month: "Miesiąc"
+        week: "Tydzień"
+        day: "Dzień"
     group_timezones:
       search: "Wyszukiwanie..."
     discourse_post_event:

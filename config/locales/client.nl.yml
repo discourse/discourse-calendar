@@ -304,6 +304,11 @@ nl:
           ve: "Venezuela"
           vi: "Maagdeneilanden (VS)"
           za: "Zuid-Afrika"
+      toolbar_button:
+        today: "Vandaag"
+        month: "Maand"
+        week: "Week"
+        day: "Day"
     group_timezones:
       search: "Zoeken..."
       group_availability: "Beschikbaarheid %{groep}"

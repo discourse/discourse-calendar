@@ -18,6 +18,11 @@ zh_TW:
       date: "日期"
       region:
         none: "無"
+      toolbar_button:
+        today: "今天"
+        month: "月"
+        week: "週"
+        day: "天"
     group_timezones:
       search: "搜尋..."
     discourse_post_event:

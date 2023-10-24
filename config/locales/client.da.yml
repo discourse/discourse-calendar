@@ -282,6 +282,11 @@ da:
           ve: "Venezuela"
           vi: "Jomfruøerne (USA)"
           za: "Sydafrika"
+      toolbar_button:
+        today: "I dag"
+        month: "Måned"
+        week: "Uge"
+        day: "Dag"
     group_timezones:
       search: "Søg..."
       group_availability: "%{group} tilgængelighed"

@@ -280,6 +280,10 @@ sl:
           ve: "Venezuela"
           vi: "Deviški otoki (ZDA)"
           za: "Južna Afrika"
+      toolbar_button:
+        today: "Danes"
+        month: "Mesec"
+        week: "Teden"
     group_timezones:
       search: "Išči..."
       group_availability: "Razpoložljivost %{group}"
