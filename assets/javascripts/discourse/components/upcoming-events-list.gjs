@@ -132,7 +132,7 @@ export default class UpcomingEventsList extends Component {
                   {{#each events as |event|}}
                     <a
                       class="upcoming-events-list__event"
-                      href="{{event.post.url}}"
+                      href={{event.post.url}}
                     >
                       <div class="upcoming-events-list__event-time">
                         {{this.formatTime event}}
