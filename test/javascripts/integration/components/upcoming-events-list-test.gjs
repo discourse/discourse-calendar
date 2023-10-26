@@ -13,7 +13,6 @@ import {
   queryAll,
   fakeTime,
 } from "discourse/tests/helpers/qunit-helpers";
-import { pauseTest } from "@ember/test-helpers";
 import { hash } from "@ember/helper";
 
 class RouterStub extends Service {
@@ -33,8 +32,6 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     this.owner.unregister("service:router");
     this.owner.register("service:router", RouterStub);
 
-    // this.siteSettings.discourse_calendar_enabled = true;
-    // this.siteSettings.discourse_post_event_enabled = true;
     this.siteSettings.events_calendar_categories = "1";
 
     this.appEvents = this.container.lookup("service:appEvents");
@@ -176,6 +173,36 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       ),
       ["Awesome Event", "Another Awesome Event"],
       "it displays the event name"
+    );
+  });
+
+  test("with an error response", async function (assert) {
+    pretender.get("/discourse-post-event/events", () => {
+      return response(500, {});
+    });
+
+    await render(<template><UpcomingEventsList /></template>);
+
+    this.appEvents.trigger("page:changed", {});
+
+    assert.strictEqual(
+      query(".upcoming-events-list__heading").innerText,
+      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      "it displays the title"
+    );
+
+    await waitFor(".loading-container .spinner", { count: 0 });
+
+    assert.strictEqual(
+      query(".upcoming-events-list__error-message").innerText,
+      I18n.t("discourse_post_event.upcoming_events_list.error"),
+      "it displays the error message"
+    );
+
+    assert.strictEqual(
+      query(".upcoming-events-list__try-again").innerText,
+      I18n.t("discourse_post_event.upcoming_events_list.try_again"),
+      "it displays the try again button"
     );
   });
 });

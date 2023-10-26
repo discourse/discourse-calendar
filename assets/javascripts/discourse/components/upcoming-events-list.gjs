@@ -1,4 +1,6 @@
+import DButton from "discourse/components/d-button";
 import Component from "@glimmer/component";
+import { ajax } from "discourse/lib/ajax";
 import I18n from "discourse-i18n";
 import { tracked } from "@glimmer/tracking";
 import { inject as service } from "@ember/service";
@@ -15,9 +17,9 @@ export default class UpcomingEventsList extends Component {
   @service appEvents;
   @service siteSettings;
   @service router;
-  @service postEventApi;
 
   @tracked isLoading = true;
+  @tracked hasError = false;
   @tracked eventsByMonth = {};
 
   monthFormat = this.args.params?.monthFormat ?? DEFAULT_MONTH_FORMAT;
@@ -27,6 +29,7 @@ export default class UpcomingEventsList extends Component {
   title = I18n.t("discourse_post_event.upcoming_events_list.title");
   emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
   allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
+  errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
 
   constructor() {
     super(...arguments);
@@ -50,18 +53,29 @@ export default class UpcomingEventsList extends Component {
   }
 
   get hasEmptyResponse() {
-    return !this.isLoading && Object.keys(this.eventsByMonth).length === 0;
+    return (
+      !this.isLoading &&
+      !this.hasError &&
+      Object.keys(this.eventsByMonth).length === 0
+    );
   }
 
   @action
   async updateEventsByMonth() {
     this.isLoading = true;
+    this.hasError = false;
 
-    const { events } = await this.postEventApi.categoryEvents(this.categoryId);
+    try {
+      const { events } = await ajax("/discourse-post-event/events", {
+        data: { category_id: this.categoryId },
+      });
 
-    this.eventsByMonth = this.groupByMonthAndDay(events);
-
-    this.isLoading = false;
+      this.eventsByMonth = this.groupByMonthAndDay(events);
+    } catch {
+      this.hasError = true;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action
@@ -112,7 +126,19 @@ export default class UpcomingEventsList extends Component {
           {{#if this.hasEmptyResponse}}
             <div class="upcoming-events-list__empty-message">
               {{this.emptyMessage}}
+
             </div>
+          {{/if}}
+
+          {{#if this.hasError}}
+            <div class="upcoming-events-list__error-message">
+              {{this.errorMessage}}
+            </div>
+            <DButton
+              @action={{this.updateEventsByMonth}}
+              @label="discourse_post_event.upcoming_events_list.try_again"
+              class="btn-link upcoming-events-list__try-again"
+            />
           {{/if}}
 
           {{#unless this.isLoading}}

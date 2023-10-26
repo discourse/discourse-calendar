@@ -445,6 +445,8 @@ en:
         title: "Upcoming events"
         empty: "No upcoming events"
         all_day: "All-day"
+        error: "Failed to retrieve events"
+        try_again: "Try again"
     category:
       sort_topics_by_event_start_date: "Sort topics by event start date."
       disable_topic_resorting: "Disable topic resorting."
