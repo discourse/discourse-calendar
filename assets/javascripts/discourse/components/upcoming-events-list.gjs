@@ -126,7 +126,6 @@ export default class UpcomingEventsList extends Component {
           {{#if this.hasEmptyResponse}}
             <div class="upcoming-events-list__empty-message">
               {{this.emptyMessage}}
-
             </div>
           {{/if}}
 
