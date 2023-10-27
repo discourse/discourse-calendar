@@ -4,7 +4,7 @@ require "rails_helper"
 module DiscoursePostEvent
   describe InviteesController do
     before do
-      SiteSetting.queue_jobs = false
+      Jobs.run_immediately!
       SiteSetting.calendar_enabled = true
       SiteSetting.discourse_post_event_enabled = true
       sign_in(user)
