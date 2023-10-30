@@ -1,8 +1,8 @@
 import Component from "@ember/component";
-import I18n from "I18n";
-import UppyUploadMixin from "discourse/mixins/uppy-upload";
 import { inject as service } from "@ember/service";
+import UppyUploadMixin from "discourse/mixins/uppy-upload";
 import discourseComputed from "discourse-common/utils/decorators";
+import I18n from "I18n";
 
 export default Component.extend(UppyUploadMixin, {
   type: "csv",

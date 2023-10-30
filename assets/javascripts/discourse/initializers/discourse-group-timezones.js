@@ -1,6 +1,6 @@
+import { withPluginApi } from "discourse/lib/plugin-api";
 import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";
-import { withPluginApi } from "discourse/lib/plugin-api";
 
 export default {
   name: "discourse-group-timezones",

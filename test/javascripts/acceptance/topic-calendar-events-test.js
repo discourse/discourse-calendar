@@ -1,8 +1,8 @@
-import { acceptance, fakeTime } from "discourse/tests/helpers/qunit-helpers";
 import { visit } from "@ember/test-helpers";
 import { skip } from "qunit";
-import getEventByText from "../helpers/get-event-by-text";
+import { acceptance, fakeTime } from "discourse/tests/helpers/qunit-helpers";
 import eventTopicFixture from "../helpers/event-topic-fixture";
+import getEventByText from "../helpers/get-event-by-text";
 
 acceptance("Discourse Calendar - Topic Calendar Events", function (needs) {
   needs.hooks.beforeEach(function () {

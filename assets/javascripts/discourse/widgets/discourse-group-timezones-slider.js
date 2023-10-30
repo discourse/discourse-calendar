@@ -1,5 +1,5 @@
-import { createWidget } from "discourse/widgets/widget";
 import { throttle } from "@ember/runloop";
+import { createWidget } from "discourse/widgets/widget";
 
 export default createWidget("discourse-group-timezones-slider", {
   tagName: "input.group-timezones-slider",

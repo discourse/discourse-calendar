@@ -1,7 +1,7 @@
-import { acceptance } from "discourse/tests/helpers/qunit-helpers";
-import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
+import { test } from "qunit";
 import Site from "discourse/models/site";
+import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 
 acceptance("Calendar - Disable sorting headers", function (needs) {
   needs.user();

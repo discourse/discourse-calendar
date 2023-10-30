@@ -1,6 +1,6 @@
-import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Controller from "@ember/controller";
 import { action } from "@ember/object";
+import ModalFunctionality from "discourse/mixins/modal-functionality";
 import discourseDebounce from "discourse-common/lib/debounce";
 
 export default Controller.extend(ModalFunctionality, {

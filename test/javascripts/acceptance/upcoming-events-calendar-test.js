@@ -1,11 +1,11 @@
+import { visit } from "@ember/test-helpers";
+import { test } from "qunit";
+import { tomorrow } from "discourse/lib/time-utils";
 import {
   acceptance,
   exists,
   query,
 } from "discourse/tests/helpers/qunit-helpers";
-import { test } from "qunit";
-import { visit } from "@ember/test-helpers";
-import { tomorrow } from "discourse/lib/time-utils";
 
 acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
   needs.site({

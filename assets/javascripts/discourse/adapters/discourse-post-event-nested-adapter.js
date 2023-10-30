@@ -1,7 +1,7 @@
-import DiscoursePostEventAdapter from "./discourse-post-event-adapter";
 import { underscore } from "@ember/string";
 import { Result } from "discourse/adapters/rest";
 import { ajax } from "discourse/lib/ajax";
+import DiscoursePostEventAdapter from "./discourse-post-event-adapter";
 
 export default DiscoursePostEventAdapter.extend({
   // TODO: destroy/update/create should be improved in core to allow for nested models

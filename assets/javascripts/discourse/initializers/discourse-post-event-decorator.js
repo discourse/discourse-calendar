@@ -1,11 +1,11 @@
-import I18n from "I18n";
-import guessDateFormat from "../lib/guess-best-date-format";
+import { schedule } from "@ember/runloop";
+import { applyLocalDates } from "discourse/lib/local-dates";
+import { withPluginApi } from "discourse/lib/plugin-api";
 import { cookAsync } from "discourse/lib/text";
 import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";
-import { withPluginApi } from "discourse/lib/plugin-api";
-import { schedule } from "@ember/runloop";
-import { applyLocalDates } from "discourse/lib/local-dates";
+import I18n from "I18n";
+import guessDateFormat from "../lib/guess-best-date-format";
 
 function _decorateEvent(api, cooked, post) {
   _attachWidget(api, cooked, post);

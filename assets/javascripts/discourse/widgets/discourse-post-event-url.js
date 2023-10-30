@@ -1,6 +1,6 @@
-import { iconNode } from "discourse-common/lib/icon-library";
 import { h } from "virtual-dom";
 import { createWidget } from "discourse/widgets/widget";
+import { iconNode } from "discourse-common/lib/icon-library";
 
 function prefixProtocol(url) {
   return url.indexOf("://") === -1 && url.indexOf("mailto:") === -1

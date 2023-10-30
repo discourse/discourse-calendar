@@ -1,19 +1,19 @@
-import { Promise } from "rsvp";
 import { isPresent } from "@ember/utils";
-import DiscourseURL from "discourse/lib/url";
-import { cookAsync } from "discourse/lib/text";
-import { escapeExpression } from "discourse/lib/utilities";
+import { createPopper } from "@popperjs/core";
+import { Promise } from "rsvp";
+import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { ajax } from "discourse/lib/ajax";
+import { cookAsync } from "discourse/lib/text";
+import DiscourseURL from "discourse/lib/url";
+import { escapeExpression } from "discourse/lib/utilities";
 import Category from "discourse/models/category";
-import I18n from "I18n";
-import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
-import { createPopper } from "@popperjs/core";
-import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import { formatEventName } from "../helpers/format-event-name";
 import getURL from "discourse-common/lib/get-url";
 import { iconHTML } from "discourse-common/lib/icon-library";
+import I18n from "I18n";
+import { formatEventName } from "../helpers/format-event-name";
+import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
+import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
 function loadFullCalendar() {
   return loadScript(

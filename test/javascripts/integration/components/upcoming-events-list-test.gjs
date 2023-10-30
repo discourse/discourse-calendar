@@ -1,19 +1,20 @@
+import { hash } from "@ember/helper";
+import Service from "@ember/service";
+import { render, waitFor } from "@ember/test-helpers";
 import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
-import { render, waitFor } from "@ember/test-helpers";
-import UpcomingEventsList, {
-  DEFAULT_MONTH_FORMAT,
-  DEFAULT_DATE_FORMAT,
-  DEFAULT_TIME_FORMAT,
-} from "../../discourse/components/upcoming-events-list";
-import Service from "@ember/service";
 import pretender, { response } from "discourse/tests/helpers/create-pretender";
 import {
-  query,
-  queryAll,
+exists,
   fakeTime,
-} from "discourse/tests/helpers/qunit-helpers";
-import { hash } from "@ember/helper";
+  query,
+  queryAll} from "discourse/tests/helpers/qunit-helpers";
+import I18n from "discourse-i18n";
+import UpcomingEventsList, {
+  DEFAULT_DATE_FORMAT,
+  DEFAULT_MONTH_FORMAT,
+  DEFAULT_TIME_FORMAT,
+} from "../../discourse/components/upcoming-events-list";
 
 class RouterStub extends Service {
   currentRoute = { attributes: { category: { id: 1 } } };

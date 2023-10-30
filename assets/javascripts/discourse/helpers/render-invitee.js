@@ -1,8 +1,8 @@
+import { htmlSafe } from "@ember/template";
 import { renderAvatar } from "discourse/helpers/user-avatar";
 import { userPath } from "discourse/lib/url";
-import { htmlHelper } from "discourse-common/lib/helpers";
-import { htmlSafe } from "@ember/template";
 import { formatUsername } from "discourse/lib/utilities";
+import { htmlHelper } from "discourse-common/lib/helpers";
 
 export default htmlHelper((invitee) => {
   const path = userPath(invitee.user.username);
