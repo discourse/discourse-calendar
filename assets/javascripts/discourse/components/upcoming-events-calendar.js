@@ -1,10 +1,10 @@
-import { Promise } from "rsvp";
-import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import { formatEventName } from "../helpers/format-event-name";
-import loadScript from "discourse/lib/load-script";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
+import { Promise } from "rsvp";
+import loadScript from "discourse/lib/load-script";
 import getURL from "discourse-common/lib/get-url";
+import { formatEventName } from "../helpers/format-event-name";
+import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
 export default Component.extend({
   tagName: "",

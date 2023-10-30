@@ -1,6 +1,6 @@
-import DiscourseURL from "discourse/lib/url";
-import Route from "@ember/routing/route";
 import { on } from "@ember/object/evented";
+import Route from "@ember/routing/route";
+import DiscourseURL from "discourse/lib/url";
 
 export default Route.extend({
   enforcePostEventEnabled: on("activate", function () {

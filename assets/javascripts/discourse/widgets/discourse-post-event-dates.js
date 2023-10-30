@@ -1,8 +1,8 @@
-import I18n from "I18n";
-import RawHtml from "discourse/widgets/raw-html";
-import { iconNode } from "discourse-common/lib/icon-library";
 import { h } from "virtual-dom";
+import RawHtml from "discourse/widgets/raw-html";
 import { createWidget } from "discourse/widgets/widget";
+import { iconNode } from "discourse-common/lib/icon-library";
+import I18n from "I18n";
 
 export default createWidget("discourse-post-event-dates", {
   tagName: "section.event-dates",

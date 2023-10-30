@@ -1,15 +1,15 @@
-import I18n from "I18n";
-import { cookAsync, emojiUnescape } from "discourse/lib/text";
-import { exportEntity } from "discourse/lib/export-csv";
-import cleanTitle from "../lib/clean-title";
-import { dasherize } from "@ember/string";
 import EmberObject from "@ember/object";
+import { dasherize } from "@ember/string";
+import { routeAction } from "discourse/helpers/route-action";
+import { exportEntity } from "discourse/lib/export-csv";
 import showModal from "discourse/lib/show-modal";
+import { cookAsync, emojiUnescape } from "discourse/lib/text";
+import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
-import { routeAction } from "discourse/helpers/route-action";
+import I18n from "I18n";
+import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
-import { escapeExpression } from "discourse/lib/utilities";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",

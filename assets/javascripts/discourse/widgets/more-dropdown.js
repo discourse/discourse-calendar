@@ -1,6 +1,6 @@
-import I18n from "I18n";
-import { createWidget } from "discourse/widgets/widget";
 import hbs from "discourse/widgets/hbs-compiler";
+import { createWidget } from "discourse/widgets/widget";
+import I18n from "I18n";
 
 export default createWidget("more-dropdown", {
   tagName: "div.more-dropdown",

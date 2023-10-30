@@ -1,7 +1,7 @@
 import { h } from "virtual-dom";
+import { formatUsername } from "discourse/lib/utilities";
 import { avatarImg } from "discourse/widgets/post";
 import { createWidget } from "discourse/widgets/widget";
-import { formatUsername } from "discourse/lib/utilities";
 
 export default createWidget("discourse-post-event-creator", {
   tagName: "span.event-creator",

@@ -1,13 +1,13 @@
+import Controller from "@ember/controller";
+import EmberObject, { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { isPresent } from "@ember/utils";
 import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
-import EmberObject, { action } from "@ember/object";
-import { observes } from "discourse-common/utils/decorators";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
-import Controller from "@ember/controller";
 import Group from "discourse/models/group";
+import { observes } from "discourse-common/utils/decorators";
 import I18n from "I18n";
-import { inject as service } from "@ember/service";
 
 export default Controller.extend(ModalFunctionality, {
   dialog: service(),

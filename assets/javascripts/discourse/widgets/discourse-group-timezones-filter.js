@@ -1,6 +1,6 @@
-import I18n from "I18n";
-import { createWidget } from "discourse/widgets/widget";
 import { throttle } from "@ember/runloop";
+import { createWidget } from "discourse/widgets/widget";
+import I18n from "I18n";
 
 export default createWidget("discourse-group-timezones-filter", {
   tagName: "input.group-timezones-filter",

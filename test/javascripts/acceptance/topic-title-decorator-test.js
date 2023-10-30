@@ -1,9 +1,9 @@
-import { acceptance, query } from "discourse/tests/helpers/qunit-helpers";
-import { test } from "qunit";
 import { visit } from "@ember/test-helpers";
-import discoveryFixtures from "discourse/tests/fixtures/discovery-fixtures";
-import { cloneJSON } from "discourse-common/lib/object";
+import { test } from "qunit";
 import sinon from "sinon";
+import discoveryFixtures from "discourse/tests/fixtures/discovery-fixtures";
+import { acceptance, query } from "discourse/tests/helpers/qunit-helpers";
+import { cloneJSON } from "discourse-common/lib/object";
 
 acceptance("Discourse Calendar - Event Title Decorator", function (needs) {
   needs.user();

@@ -1,6 +1,6 @@
-import I18n from "I18n";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
+import I18n from "I18n";
 
 export default createWidget("discourse-group-timezones-header", {
   tagName: "div.group-timezones-header",

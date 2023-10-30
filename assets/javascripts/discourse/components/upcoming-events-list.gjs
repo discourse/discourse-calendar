@@ -1,13 +1,13 @@
-import DButton from "discourse/components/d-button";
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
+import ConditionalLoadingSpinner from "discourse/components/conditional-loading-spinner";
+import DButton from "discourse/components/d-button";
 import { ajax } from "discourse/lib/ajax";
 import I18n from "discourse-i18n";
-import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import { action } from "@ember/object";
-import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import ConditionalLoadingSpinner from "discourse/components/conditional-loading-spinner";
 import or from "truth-helpers/helpers/or";
+import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
 export const DEFAULT_MONTH_FORMAT = "MMMM YYYY";
 export const DEFAULT_DATE_FORMAT = "dddd, MMM D";
