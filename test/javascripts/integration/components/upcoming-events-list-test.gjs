@@ -5,10 +5,11 @@ import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import pretender, { response } from "discourse/tests/helpers/create-pretender";
 import {
-exists,
+  exists,
   fakeTime,
   query,
-  queryAll} from "discourse/tests/helpers/qunit-helpers";
+  queryAll,
+} from "discourse/tests/helpers/qunit-helpers";
 import I18n from "discourse-i18n";
 import UpcomingEventsList, {
   DEFAULT_DATE_FORMAT,
