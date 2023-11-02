@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # name: discourse-calendar
-# about: Adds the ability to create a dynmanic calendar with events in a topic. 
+# about: Adds the ability to create a dynamic calendar with events in a topic.
 # meta_topic_id: 97376
 # version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
