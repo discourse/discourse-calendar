@@ -3,7 +3,7 @@ import { action, computed, set } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { inject as service } from "@ember/service";
 import { extractError } from "discourse/lib/ajax-error";
-import { cookAsync } from "discourse/lib/text";
+import { cook } from "discourse/lib/text";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Group from "discourse/models/group";
 import I18n from "I18n";
@@ -238,7 +238,7 @@ export default Controller.extend(ModalFunctionality, {
               edit_reason: I18n.t("discourse_post_event.destroy_event"),
             };
 
-            return cookAsync(newRaw).then((cooked) => {
+            return cook(newRaw).then((cooked) => {
               props.cooked = cooked.string;
               return post
                 .save(props)
@@ -293,7 +293,7 @@ export default Controller.extend(ModalFunctionality, {
           edit_reason: I18n.t("discourse_post_event.edit_reason"),
         };
 
-        return cookAsync(newRaw).then((cooked) => {
+        return cook(newRaw).then((cooked) => {
           props.cooked = cooked.string;
           return post
             .save(props)

@@ -1,7 +1,7 @@
 import { schedule } from "@ember/runloop";
 import { applyLocalDates } from "discourse/lib/local-dates";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { cookAsync } from "discourse/lib/text";
+import { cook } from "discourse/lib/text";
 import WidgetGlue from "discourse/widgets/glue";
 import { getRegister } from "discourse-common/lib/get-owner";
 import I18n from "I18n";
@@ -143,7 +143,7 @@ function _attachWidget(api, cooked, eventModel) {
         );
       }
 
-      cookAsync(dates.join("<span> → </span>")).then((result) => {
+      cook(dates.join("<span> → </span>")).then((result) => {
         eventContainer.classList.remove("is-loading");
         eventContainer.classList.add("is-loaded");
 

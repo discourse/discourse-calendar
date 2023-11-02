@@ -3,7 +3,7 @@ import { dasherize } from "@ember/string";
 import { routeAction } from "discourse/helpers/route-action";
 import { exportEntity } from "discourse/lib/export-csv";
 import showModal from "discourse/lib/show-modal";
-import { cookAsync, emojiUnescape } from "discourse/lib/text";
+import { cook, emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
@@ -79,7 +79,7 @@ export default createWidget("discourse-post-event", {
               edit_reason: I18n.t("discourse_post_event.edit_reason"),
             };
 
-            return cookAsync(newRaw).then((cooked) => {
+            return cook(newRaw).then((cooked) => {
               props.cooked = cooked.string;
               return post.save(props);
             });
