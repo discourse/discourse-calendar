@@ -82,6 +82,10 @@ after_initialize do
     Category.register_custom_field_type("disable_topic_resorting", :boolean)
     Site.preloaded_category_custom_fields << "sort_topics_by_event_start_date"
     Site.preloaded_category_custom_fields << "disable_topic_resorting"
+    if defined?(register_category_list_preloaded_category_custom_fields)
+      register_category_list_preloaded_category_custom_fields("sort_topics_by_event_start_date")
+      register_category_list_preloaded_category_custom_fields("disable_topic_resorting")
+    end
   end
 
   add_to_serializer :basic_category, :sort_topics_by_event_start_date do
