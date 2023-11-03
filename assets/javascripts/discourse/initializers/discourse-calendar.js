@@ -4,7 +4,7 @@ import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { cookAsync } from "discourse/lib/text";
+import { cook } from "discourse/lib/text";
 import DiscourseURL from "discourse/lib/url";
 import { escapeExpression } from "discourse/lib/utilities";
 import Category from "discourse/models/category";
@@ -115,7 +115,7 @@ function initializeDiscourseCalendar(api) {
         });
 
         const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
-        const cookRaw = cookAsync(rawCalendar);
+        const cookRaw = cook(rawCalendar);
         const loadPost = ajax(`/posts/${postId}.json`);
         Promise.all([cookRaw, loadPost]).then((results) => {
           const cooked = results[0];
