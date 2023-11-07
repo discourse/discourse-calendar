@@ -443,6 +443,8 @@ ru:
         creator: "Создатель"
         status: "Статус"
         starts_at: "Начинается в"
+      upcoming_events_list:
+        title: "Предстоящие мероприятия"
     category:
       sort_topics_by_event_start_date: "Сортировать темы по дате начала мероприятия."
       disable_topic_resorting: "Отключить сортировку тем."

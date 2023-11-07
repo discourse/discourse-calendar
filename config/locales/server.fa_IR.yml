@@ -15,6 +15,7 @@ fa_IR:
         title: رویداد شروع شد
   site_settings:
     events_calendar_categories: "نمایش رویدادهای تقویم در بالای دسته‌بندی"
+    sidebar_show_upcoming_events: "پیوند رویدادهای آینده را در نوار کناری زیر «بیشتر» نمایش دهید."
   discourse_calendar:
     invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
     holiday_status:

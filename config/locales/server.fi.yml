@@ -34,7 +34,6 @@ fi:
         ```
   site_settings:
     calendar_enabled: "Ota discourse-calendar-lisäosa käyttöön. Tämä lisää tuen [calendar][/calendar]-tunnisteelle ketjun ensimmäisessä viestissä."
-    discourse_post_event_enabled: "[experimental] Mahdollistaa tapahtuman liittämisen viestiin. Huomautus: edellyttää myös, että `calendar enabled` on käytössä."
     displayed_invitees_limit: "Rajoittaa tapahtumassa näytettävien kutsuttujen määrää."
     display_post_event_date_on_topic_title: "Näyttää tapahtuman päivämäärän ketjun otsikon jälkeen."
     use_local_event_date: "Käytä paikallista päivämäärää ketjun otsikon jälkeen suhteellisen ajan sijaan."

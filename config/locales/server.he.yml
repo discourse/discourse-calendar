@@ -34,7 +34,7 @@ he:
         ```
   site_settings:
     calendar_enabled: "נא להפעיל את התוסף discourse-calendar. כך תתווסף תמיכה בתגית ‎[calendar][/calendar] בפוסט ראשון בנושא."
-    discourse_post_event_enabled: "[experimental] מאפשר לצרף אירוע לפוסט. הערה: צריך גם את האפשרות `calendar enabled` כדי שיהיה פעיל."
+    discourse_post_event_enabled: "הפעלת יכולות האירועים. לתשומת ליבך: דורש גם את הפעלת `לוח שנה פעיל`."
     displayed_invitees_limit: "מגביל את מספר המוזמנים שמוצגים לאירוע."
     display_post_event_date_on_topic_title: "מציג את תאריך האירוע אחרי כותרת הנושא."
     use_local_event_date: "להשתמש בתאריך המקומי אחרי כותרת הנושא במקום בזמן יחסי."
@@ -57,7 +57,7 @@ he:
     sort_categories_by_event_start_date_enabled: "לאפשר מיון של נושאי קטגוריות לפי תאריך תחילת האירוע."
     disable_resorting_on_categories_enabled: "לאפשר לקטגוריות להשבית את היכולת של משתמשים למיין לפי קטגוריית האירוע."
     calendar_automatic_holidays_enabled: "להגדיר מצב חופשה לפי האזור של המשתמש (לתשומת לבך: ניתן להשבית חגים אוטומטיים מסוימים בהגדרות התוסף)"
-    sidebar_show_upcoming_events: "הצגת קישור לאירועים קרובים בסרגל הצד תחת ‚עוד’. דורש את ‚אירוע פוסט פעיל’"
+    sidebar_show_upcoming_events: "הצגת קישור לאירועים קרובים בסרגל הצד תחת ‚עוד’."
   discourse_calendar:
     invite_user_notification: "קיבלת הזמנה מאת %{username} אל: %{description}"
     calendar_must_be_in_first_post: "ניתן להשתמש בתגית יומן רק בפוסט הראשון של נושא."

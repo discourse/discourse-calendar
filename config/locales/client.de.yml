@@ -441,6 +441,8 @@ de:
         creator: "Ersteller"
         status: "Status"
         starts_at: "Beginnt um"
+      upcoming_events_list:
+        title: "Anstehende Ereignisse"
     category:
       sort_topics_by_event_start_date: "Themen nach Startdatum des Ereignisses sortieren."
       disable_topic_resorting: "Themensortierung deaktivieren."

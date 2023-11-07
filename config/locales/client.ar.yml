@@ -445,6 +445,8 @@ ar:
         creator: "المنشئ"
         status: "الحالة"
         starts_at: "يبدأ في"
+      upcoming_events_list:
+        title: "الأحداث القادمة"
     category:
       sort_topics_by_event_start_date: "ترتيب الموضوعات حسب تاريخ بدء الحدث."
       disable_topic_resorting: "إيقاف الرجوع إلى الموضوع."

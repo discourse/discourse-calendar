@@ -440,6 +440,8 @@ zh_CN:
         creator: "创建者"
         status: "状态"
         starts_at: "开始时间"
+      upcoming_events_list:
+        title: "即将到来的活动"
     category:
       sort_topics_by_event_start_date: "按活动开始日期对话题进行排序。"
       disable_topic_resorting: "禁用话题重新排序。"

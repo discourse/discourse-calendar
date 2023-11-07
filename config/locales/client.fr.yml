@@ -441,6 +441,8 @@ fr:
         creator: "Créateur"
         status: "Statut"
         starts_at: "Commence à"
+      upcoming_events_list:
+        title: "Événements à venir"
     category:
       sort_topics_by_event_start_date: "Trier les sujets par date de début d'événement."
       disable_topic_resorting: "Désactiver le tri des sujets."

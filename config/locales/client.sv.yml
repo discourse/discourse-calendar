@@ -423,3 +423,5 @@ sv:
         creator: "Skapare"
         status: "Status"
         starts_at: "Börjar"
+      upcoming_events_list:
+        title: "Kommande evenemang"

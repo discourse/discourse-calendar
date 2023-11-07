@@ -441,6 +441,8 @@ pt_BR:
         creator: "Criador"
         status: "Status"
         starts_at: "Começa"
+      upcoming_events_list:
+        title: "Próximos eventos"
     category:
       sort_topics_by_event_start_date: "Classifique os tópicos por data de início do evento."
       disable_topic_resorting: "Desativar reclassificação de tópico."
