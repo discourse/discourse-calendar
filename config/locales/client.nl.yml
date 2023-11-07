@@ -441,6 +441,8 @@ nl:
         creator: "Maker"
         status: "Status"
         starts_at: "Begint om"
+      upcoming_events_list:
+        title: "Aankomende evenementen"
     category:
       sort_topics_by_event_start_date: "Sorteer onderwerpen op begindatum."
       disable_topic_resorting: "Schakel sorteren van topics uit."

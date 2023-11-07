@@ -11,7 +11,6 @@ cs:
         username: Uživatelské jméno
   site_settings:
     calendar_enabled: "Povolte plugin `discourse-calendar`. Přidá podporu pro značku `[calendar][/calendar]` v prvním příspěvku tématu."
-    discourse_post_event_enabled: "[experimentální] Umožní připojit událost k příspěvku. Poznámka: musí být zapnuto nastavení `calendar enabled`."
     displayed_invitees_limit: "Omezuje, kolik pozvaných se u události zobrazí."
     display_post_event_date_on_topic_title: "Zobrazí datum události za názvem tématu."
     discourse_post_event_allowed_on_groups: "Skupiny, které smí vytvářet události."

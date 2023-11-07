@@ -369,3 +369,5 @@ cs:
         creator: "Vytvořil/a"
         status: "Stav"
         starts_at: "Začíná v"
+      upcoming_events_list:
+        title: "Nadcházející události"

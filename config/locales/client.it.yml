@@ -441,6 +441,8 @@ it:
         creator: "Creatore"
         status: "Stato"
         starts_at: "Inizia alle"
+      upcoming_events_list:
+        title: "Prossimi eventi"
     category:
       sort_topics_by_event_start_date: "Ordina gli argomenti per data di inizio dell'evento."
       disable_topic_resorting: "Disabilita il riordinamento degli argomenti"

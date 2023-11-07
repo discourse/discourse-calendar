@@ -34,7 +34,6 @@ ru:
         ```
   site_settings:
     calendar_enabled: "Включить плагин discourse-calendar. Это добавит поддержку тега [calendar][/calendar] в первом сообщении темы."
-    discourse_post_event_enabled: "[experimental] Включить прикрепление событий к сообщению. Примечание: также необходимо, чтобы опция `calendar enabled` была включена."
     displayed_invitees_limit: "Ограничивать количество приглашений, отображаемых в мероприятии ."
     display_post_event_date_on_topic_title: "Отображать дату мероприятия после названия темы."
     use_local_event_date: "Использовать локальную дату после заголовка темы вместо прошедшего времени."

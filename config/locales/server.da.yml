@@ -27,7 +27,6 @@ da:
         ````
   site_settings:
     calendar_enabled: "Aktiver discourse-kalendar udvidelse. Dette vil tilføje understøttelse af et [calendar][/calendar] i det første indlæg af et emne."
-    discourse_post_event_enabled: "[experimental] Gør det muligt at tilknytte en begivenhed til et indlæg. Bemærk: skal også have 'kalender aktiveret' for at være aktiveret."
     displayed_invitees_limit: "Begrænser antallet af inviterede, der vises på en begivenhed."
     display_post_event_date_on_topic_title: "Viser datoen for begivenheden efter emnets titel."
     discourse_post_event_allowed_on_groups: "Grupper, der har lov til at oprette begivenheder."

@@ -405,3 +405,5 @@ da:
         creator: "Skaber"
         status: "Status"
         starts_at: "Begynder"
+      upcoming_events_list:
+        title: "Kommende begivenheder"

@@ -34,7 +34,6 @@ zh_CN:
         ```
   site_settings:
     calendar_enabled: "启用 discourse-calendar 插件。这将在话题的第一个帖子中添加对 [calendar][/calendar] 标签的支持。"
-    discourse_post_event_enabled: "[experimental] 允许将活动附加到帖子。注意：还需要启用 `calendar enabled`。"
     displayed_invitees_limit: "限制活动中显示的受邀者数量。"
     display_post_event_date_on_topic_title: "在话题标题之后显示活动日期。"
     use_local_event_date: "在话题标题后使用本地日期而不是相对时间。"

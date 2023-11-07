@@ -412,3 +412,5 @@ hu:
         creator: "Létrehozó"
         status: "Állapot"
         starts_at: "Kezdődik:"
+      upcoming_events_list:
+        title: "Közelgő események"

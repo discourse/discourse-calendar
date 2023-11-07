@@ -27,7 +27,6 @@ it:
       text_body_template: "Il tuo file di invito collettivo è stato elaborato, %{processed} inviti creati con %{failed} errori. \n\nEcco il log:\n\n``` text\n%{logs}\n```\n"
   site_settings:
     calendar_enabled: "Abilita il plugin del calendario di discourse. Questo permetterà di supportare un tag [calendar][/calendar] nel primo messaggio di un argomento."
-    discourse_post_event_enabled: "[experimental] Consente di allegare un evento a un messaggio. Nota: per abilitare questa opzione, occorre attivare anche l'impostazione 'calendar enabled'."
     displayed_invitees_limit: "Limita il numero di invitati visualizzati in un evento."
     display_post_event_date_on_topic_title: "Visualizza la data dell'evento dopo il titolo dell'argomento."
     use_local_event_date: "Usa la data locale dopo il titolo dell'argomento invece dell'orario relativo."

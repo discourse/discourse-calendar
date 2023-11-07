@@ -440,6 +440,8 @@ ja:
         creator: "作成者"
         status: "ステータス"
         starts_at: "開始時刻"
+      upcoming_events_list:
+        title: "今後のイベント"
     category:
       sort_topics_by_event_start_date: "イベント開始日順にトピックを並べ替えます。"
       disable_topic_resorting: "トピックの並べ替え直しを無効にします。"

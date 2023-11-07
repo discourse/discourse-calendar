@@ -34,7 +34,6 @@ nl:
         ```
   site_settings:
     calendar_enabled: "Schakel de Discourse-Kalender-plug-in in. Dit voegt ondersteuning toe voor een [calendar][/calendar]-tag in het eerste bericht van een topic."
-    discourse_post_event_enabled: "[Experimenteel] Maakt het mogelijk een evenement aan een bericht te koppelen. Opmerking: 'calendar enabled' moet ook ingeschakeld zijn."
     displayed_invitees_limit: "Beperkt het aantal genodigden van een evenement."
     display_post_event_date_on_topic_title: "Geeft de datum van het evenement weer na de topictitel."
     use_local_event_date: "Gebruik lokale datum na topictitel in plaats van relatieve tijd."

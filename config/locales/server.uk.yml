@@ -9,7 +9,22 @@ uk:
     currently_away:
       labels:
         username: Імʼя користувача
+  site_settings:
+    discourse_post_event_enabled: "Вмикає функції подій. Примітка: також має бути увімкнено `календар`."
   discourse_post_event:
     errors:
       bulk_invite:
         error: "Під час завантаження цього файлу сталася помилка. Будь ласка, спробуйте пізніше."
+      models:
+        event:
+          start_must_be_present_and_a_valid_date: "Подія вимагає дійсної дати початку."
+          end_must_be_a_valid_date: "Дата закінчення повинна бути дійсною датою."
+          invalid_recurrence: "Періодичність повинна бути однією з наступних: every_month, every_week, every_two_weeks, every_four_weeks, every_day, every_weekday."
+          invalid_timezone: "Часовий пояс не розпізнано."
+          acting_user_not_allowed_to_create_event: "Поточний користувач не може створювати події."
+          acting_user_not_allowed_to_act_on_this_event: "Поточний користувач не має права впливати на цю подію."
+          invalid_allowed_groups: "Неправильні дозволені групи."
+          acting_user_not_allowed_to_invite_these_groups: "Поточний користувач не має права запрошувати ці групи."
+          custom_field_is_invalid: "Користувацьке поле `%{field}` не допускається."
+          name:
+            length: "Довжина назви події має бути від %{minimum} до %{maximum} символів."

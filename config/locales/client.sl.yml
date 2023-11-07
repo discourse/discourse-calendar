@@ -403,3 +403,5 @@ sl:
         creator: "Organizator"
         status: "Status"
         starts_at: "Prične se ob"
+      upcoming_events_list:
+        title: "Prihajajoči dogodki"

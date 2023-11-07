@@ -310,6 +310,7 @@ he:
         month: "חודש"
         week: "שבוע"
         day: "יום"
+        list: "רשימה"
     group_timezones:
       search: "חיפוש…"
       group_availability: "זמינות %{group}"
@@ -445,6 +446,12 @@ he:
         creator: "יוצר"
         status: "מצב"
         starts_at: "מועד התחלה"
+      upcoming_events_list:
+        title: "אירועים קרובים"
+        empty: "אין אירועים בקרוב"
+        all_day: "יום שלם"
+        error: "משיכת האירועים נכשלה"
+        try_again: "לנסות שוב"
     category:
       sort_topics_by_event_start_date: "מיון נושאים לפי תאריך תחילת האירוע."
       disable_topic_resorting: "השבתת מיון נושאים מחדש."

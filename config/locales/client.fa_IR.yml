@@ -307,6 +307,7 @@ fa_IR:
         month: "ماه"
         week: "هفته"
         day: "روز"
+        list: "فهرست"
     group_timezones:
       search: "جستجو..."
     discourse_post_event:
@@ -347,10 +348,12 @@ fa_IR:
         create: "ایجاد"
         update: "ذخیره"
         attach: "ایجاد رویداد"
+        add_reminder: "افزودن یادآوری"
         timezone:
           label: منطقه زمانی
           remove_timezone: بدون منطقه زمانی (UTC)
         reminders:
+          label: "یادآوری‌ها"
           units:
             minutes: "دقیقه"
             hours: "ساعت"
@@ -380,3 +383,5 @@ fa_IR:
         title: "رویدادهای آینده"
         creator: "ایجاد کننده"
         status: "وضعیت"
+      upcoming_events_list:
+        title: "رویدادهای آینده"

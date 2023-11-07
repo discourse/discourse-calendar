@@ -34,7 +34,6 @@ tr_TR:
         ```
   site_settings:
     calendar_enabled: "discourse-calendar eklentisini etkinleştirin. Bu, bir konunun ilk gönderisine [calendar][/calendar] etiketi için destek ekleyecektir."
-    discourse_post_event_enabled: "[experimental] Bir gönderiye bir olay eklemeyi etkinleştirir. Not: ayrıca etkinleştirilmesi için \"takvim etkin\" olmalıdır."
     displayed_invitees_limit: "Bir etkinlikte gösterilen davetlilerin sayısını sınırlar."
     display_post_event_date_on_topic_title: "Konu başlığından sonra olayın tarihini gösterir."
     use_local_event_date: "Konu başlığından sonra göreli zaman yerine yerel tarih kullanın."

@@ -34,7 +34,6 @@ pt_BR:
         ```
   site_settings:
     calendar_enabled: "Ative o plugin do calendário discursivo. Isso adicionará suporte para uma etiqueta de [calendar][/calendar] na primeira postagem de um tópico."
-    discourse_post_event_enabled: "[experimental] Permite anexar um evento a uma postagem. Observação: é necessário ativar o calendário para ativar."
     displayed_invitees_limit: "Limita o número de convidados(as) exibidos(as) em um evento."
     display_post_event_date_on_topic_title: "Exibe a data do evento após o título do tópico."
     use_local_event_date: "Use a data local após o título do tópico em vez da hora relativa."
