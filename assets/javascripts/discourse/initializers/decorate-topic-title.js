@@ -12,11 +12,10 @@ function initializeDecorateTopicTitle(api) {
     }
 
     if (
-      topicTitleType === "topic-list-item-title" ||
       topicTitleType === "header-title"
     ) {
       const eventdateContainer = document.createElement("div");
-      eventdateContainer.classList.add("event-date-container");
+      eventdateContainer.classList.add("event-date-container", "legacy");
 
       const eventDate = document.createElement("span");
       eventDate.classList.add("event-date", "event-relative-date");
