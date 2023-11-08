@@ -100,6 +100,16 @@ describe DiscoursePostEvent::EventParser do
     expect(events[0][:name]).to eq("bar <script> baz")
   end
 
+  it "doesn't escape urls" do
+    post_event = build_post user, <<~TXT
+        [event start="2020" url="https://example.com/?q=foo&all=true"]
+        [/event]
+      TXT
+
+    events = parser.extract_events(post_event)
+    expect(events[0][:url]).to eq("https://example.com/?q=foo&all=true")
+  end
+
   context "with custom fields" do
     before { SiteSetting.discourse_post_event_allowed_custom_fields = "foo-bar|bar" }
 
