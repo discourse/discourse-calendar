@@ -1,8 +1,8 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
-import { tracked } from "@glimmer/tracking";
 
 export default class PostEventInviteUserOrGroup extends Component {
   @tracked invitedNames = null;
