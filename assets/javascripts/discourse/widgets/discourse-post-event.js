@@ -10,6 +10,7 @@ import I18n from "I18n";
 import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
+import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -25,8 +26,8 @@ export default createWidget("discourse-post-event", {
 
   inviteUserOrGroup(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal("discourse-post-event-invite-user-or-group", {
-        model: eventModel,
+      this.modal.show(PostEventInviteUserOrGroup, {
+        model: { event: eventModel },
       });
     });
   },
