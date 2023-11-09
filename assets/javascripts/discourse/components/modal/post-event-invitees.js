@@ -3,8 +3,9 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { debounce } from "discourse-common/utils/decorators";
+import I18n from "I18n";
 
-export default class DiscoursePostEventInvitees extends Component {
+export default class PostEventInvitees extends Component {
   @service store;
 
   @tracked invitees;
@@ -18,9 +19,11 @@ export default class DiscoursePostEventInvitees extends Component {
   }
 
   get title() {
-    return `discourse_post_event.invitees_modal.${
-      this.args.model.params?.title || "title_invited"
-    }`;
+    return I18n.t(
+      `discourse_post_event.invitees_modal.${
+        this.args.model.title || "title_invited"
+      }`
+    );
   }
 
   @action

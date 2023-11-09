@@ -1,8 +1,8 @@
 <DModal
-  @title={{i18n this.title}}
+  @title={{this.title}}
   @closeModal={{@closeModal}}
   class={{concat-class
-    (or @model.params.extraClass "invited")
+    (or @model.extraClass "invited")
     "discourse-post-event-invitees-modal"
   }}
 >

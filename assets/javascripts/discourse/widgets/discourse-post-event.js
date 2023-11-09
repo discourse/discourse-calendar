@@ -7,7 +7,7 @@ import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
-import DiscoursePostEventInvitees from "../components/modal/discourse-post-event-invitees";
+import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
@@ -35,8 +35,12 @@ export default createWidget("discourse-post-event", {
     this.store
       .find("discourse-post-event-event", params.postId)
       .then((eventModel) => {
-        this.modal.show(DiscoursePostEventInvitees, {
-          model: { event: eventModel, params },
+        this.modal.show(PostEventInvitees, {
+          model: {
+            event: eventModel,
+            title: params.title,
+            extraClass: params.extraClass,
+          },
         });
       });
   },
