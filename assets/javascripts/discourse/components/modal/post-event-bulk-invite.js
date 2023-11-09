@@ -1,24 +1,27 @@
-import Controller from "@ember/controller";
-import EmberObject, { action } from "@ember/object";
+import Component from "@glimmer/component";
+import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { isPresent } from "@ember/utils";
 import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
-import ModalFunctionality from "discourse/mixins/modal-functionality";
 import Group from "discourse/models/group";
 import { observes } from "discourse-common/utils/decorators";
-import I18n from "I18n";
+import I18n from "discourse-i18n";
+import { tracked } from "@glimmer/tracking";
+import EmberObject from "@ember/object";
+import { TrackedArray } from "@ember-compat/tracked-built-ins";
 
-export default Controller.extend(ModalFunctionality, {
-  dialog: service(),
-  bulkInvites: null,
-  bulkInviteStatuses: null,
-  bulkInviteDisabled: true,
+export default class PostEventBulkInvite extends Component {
+  @service dialog;
 
-  init() {
-    this._super(...arguments);
+  @tracked bulkInvites = new TrackedArray([
+    EmberObject.create({ identifier: null, attendance: "unknown" }),
+  ]);
+  @tracked bulkInviteDisabled = true;
+  @tracked flash = null;
 
-    this.set("bulkInviteStatuses", [
+  get bulkInviteStatuses() {
+    return [
       {
         label: I18n.t("discourse_post_event.models.invitee.status.unknown"),
         name: "unknown",
@@ -35,79 +38,75 @@ export default Controller.extend(ModalFunctionality, {
         label: I18n.t("discourse_post_event.models.invitee.status.interested"),
         name: "interested",
       },
-    ]);
-  },
-
-  onShow() {
-    this.set("bulkInvites", [
-      EmberObject.create({ identifier: null, attendance: "unknown" }),
-    ]);
-  },
+    ];
+  }
 
   @action
   groupFinder(term) {
     return Group.findAll({ term, ignore_automatic: true });
-  },
+  }
 
   // TODO: improve core to avoid having to rely on observer for group changes
   // using onChangeCallback doesn't solve the issue as it doesn't provide the object
-  @observes("bulkInvites.@each.identifier")
+  // @observes("bulkInvites.@each.identifier")
+  @action
   setBulkInviteDisabled() {
-    this.set(
-      "bulkInviteDisabled",
-      this.bulkInvites.filter((x) => isPresent(x.identifier)).length === 0
-    );
-  },
+    this.bulkInviteDisabled =
+      this.bulkInvites.filter((x) => isPresent(x.identifier)).length === 0;
+  }
 
   @action
-  sendBulkInvites() {
-    return ajax(
-      `/discourse-post-event/events/${this.model.eventModel.id}/bulk-invite.json`,
-      {
-        type: "POST",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify({
-          invitees: this.bulkInvites.filter((x) => isPresent(x.identifier)),
-        }),
-      }
-    )
-      .then((data) => {
-        if (data.success) {
-          this.send("closeModal");
+  async sendBulkInvites() {
+    try {
+      const response = await ajax(
+        `/discourse-post-event/events/${this.args.model.event.id}/bulk-invite.json`,
+        {
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify({
+            invitees: this.bulkInvites.filter((x) => isPresent(x.identifier)),
+          }),
         }
-      })
-      .catch((e) => this.flash(extractError(e), "error"));
-  },
+      );
+
+      if (response.success) {
+        this.args.closeModal();
+      }
+    } catch (e) {
+      this.flash = extractError(e);
+    }
+  }
 
   @action
   removeBulkInvite(bulkInvite) {
     this.bulkInvites.removeObject(bulkInvite);
 
     if (!this.bulkInvites.length) {
-      this.set("bulkInvites", [
+      this.bulkInvites = [
         EmberObject.create({ identifier: null, attendance: "unknown" }),
-      ]);
+      ];
     }
-  },
+  }
 
   @action
   addBulkInvite() {
     const attendance =
-      this.bulkInvites.get("lastObject.attendance") || "unknown";
+      this.bulkInvites[this.bulkInvites.length - 1]?.attendance || "unknown";
     this.bulkInvites.pushObject(
       EmberObject.create({ identifier: null, attendance })
     );
-  },
+  }
 
   @action
   uploadDone() {
-    this.send("closeModal");
     this.dialog.alert(I18n.t("discourse_post_event.bulk_invite_modal.success"));
-  },
+    this.args.closeModal();
+  }
 
   @action
   updateInviteIdentifier(bulkInvite, selected) {
-    bulkInvite.set("identifier", selected.firstObject);
-  },
-});
+    bulkInvite.identifier = selected[0];
+    this.setBulkInviteDisabled();
+  }
+}

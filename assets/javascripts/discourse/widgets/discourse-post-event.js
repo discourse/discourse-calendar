@@ -9,6 +9,7 @@ import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
 import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
+import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
@@ -120,8 +121,8 @@ export default createWidget("discourse-post-event", {
   },
 
   bulkInvite(eventModel) {
-    showModal("discourse-post-event-bulk-invite", {
-      model: { eventModel },
+    this.modal.show(PostEventBulkInvite, {
+      model: { event: eventModel },
     });
   },
 
