@@ -81,7 +81,7 @@ after_initialize do
   reloadable_patch do
     Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
     Category.register_custom_field_type("disable_topic_resorting", :boolean)
-    if defined?(register_preloaded_category_custom_fields)
+    if respond_to?(:register_preloaded_category_custom_fields)
       register_category_list_preloaded_category_custom_fields("sort_topics_by_event_start_date")
       register_category_list_preloaded_category_custom_fields("disable_topic_resorting")
     else
