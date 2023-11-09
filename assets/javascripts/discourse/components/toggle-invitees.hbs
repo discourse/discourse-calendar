@@ -1,22 +1,22 @@
 <div class="invitees-type-filter">
   <DButton
     @label="discourse_post_event.models.invitee.status.going"
-    class={{concat "btn toggle-going" isGoing}}
-    @action={{toggle}}
+    class={{concat "btn toggle-going" this.buttonType}}
+    @action={{@toggle}}
     @actionParam="going"
   />
 
   <DButton
     @label="discourse_post_event.models.invitee.status.interested"
-    class={{concat "btn toggle-interested" isInterested}}
-    @action={{toggle}}
+    class={{concat "btn toggle-interested" this.buttonType}}
+    @action={{@toggle}}
     @actionParam="interested"
   />
 
   <DButton
     @label="discourse_post_event.models.invitee.status.not_going"
-    class={{concat "btn toggle-not-going" isNotGoing}}
-    @action={{toggle}}
+    class={{concat "btn toggle-not-going" this.buttonType}}
+    @action={{@toggle}}
     @actionParam="not_going"
   />
 </div>

@@ -1,5 +1,4 @@
 import EmberObject from "@ember/object";
-import { dasherize } from "@ember/string";
 import { routeAction } from "discourse/helpers/route-action";
 import { exportEntity } from "discourse/lib/export-csv";
 import showModal from "discourse/lib/show-modal";
@@ -10,10 +9,11 @@ import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
+import DiscoursePostEventInvitees from "../components/modal/discourse-post-event-invitees";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
-  services: ["dialog"],
+  services: ["dialog", "store", "modal", "currentUser", "siteSettings"],
 
   buildKey: (attrs) => `discourse-post-event-${attrs.id}`,
 
@@ -32,20 +32,13 @@ export default createWidget("discourse-post-event", {
   },
 
   showAllInvitees(params) {
-    const postId = params.postId;
-    const title = params.title || "title_invited";
-    const extraClass = params.extraClass || "invited";
-    const name = "discourse-post-event-invitees";
-
-    this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal(name, {
-        model: eventModel,
-        title: `discourse_post_event.invitees_modal.${title}`,
-        modalClass: [`${dasherize(name).toLowerCase()}-modal`, extraClass].join(
-          " "
-        ),
+    this.store
+      .find("discourse-post-event-event", params.postId)
+      .then((eventModel) => {
+        this.modal.show(DiscoursePostEventInvitees, {
+          model: { event: eventModel, params: params },
+        });
       });
-    });
   },
 
   editPostEvent(postId) {
