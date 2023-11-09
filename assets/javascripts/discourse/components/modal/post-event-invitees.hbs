@@ -22,22 +22,6 @@
           {{#each this.invitees as |invitee|}}
             <li class="invitee">
               {{render-invitee invitee}}
-
-              {{#if invitee.status}}
-                <span class="status {{invitee.status}}">
-                  {{i18n
-                    (concat
-                      "discourse_post_event.models.invitee.status."
-                      invitee.status
-                    )
-                  }}
-                </span>
-              {{else}}
-                <span class="status">
-                  -
-                </span>
-              {{/if}}
-
               {{#if @model.event.can_act_on_discourse_post_event}}
                 <DButton
                   @icon="trash-alt"
