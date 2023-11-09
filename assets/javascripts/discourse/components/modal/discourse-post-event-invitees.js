@@ -24,19 +24,14 @@ export default class DiscoursePostEventInvitees extends Component {
   }
 
   @action
-  toggleViewingFilter(filter) {
-    this.onFilterChanged(filter);
-  }
-
-  @action
   toggleType(type) {
     this.type = type;
     this._fetchInvitees(this.filter);
   }
 
   @debounce(250)
-  onFilterChanged(filter) {
-    this._fetchInvitees(filter);
+  onFilterChanged() {
+    this._fetchInvitees(this.filter);
   }
 
   @action

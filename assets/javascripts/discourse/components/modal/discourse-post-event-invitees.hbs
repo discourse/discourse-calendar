@@ -8,10 +8,10 @@
 >
   <:body>
     <Input
-      @value={{readonly filter}}
-      {{on "input" this.onFilterChanged value="target.value"}}
+      @value={{this.filter}}
+      {{on "input" this.onFilterChanged}}
       class="filter"
-      placeholder={{I18n
+      placeholder={{i18n
         "discourse_post_event.invitees_modal.filter_placeholder"
       }}
     />
