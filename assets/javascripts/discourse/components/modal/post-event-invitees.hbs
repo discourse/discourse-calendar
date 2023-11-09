@@ -1,0 +1,41 @@
+<DModal
+  @title={{this.title}}
+  @closeModal={{@closeModal}}
+  class={{concat-class
+    (or @model.extraClass "invited")
+    "discourse-post-event-invitees-modal"
+  }}
+>
+  <:body>
+    <Input
+      @value={{this.filter}}
+      {{on "input" this.onFilterChanged}}
+      class="filter"
+      placeholder={{i18n
+        "discourse_post_event.invitees_modal.filter_placeholder"
+      }}
+    />
+    <ToggleInvitees @viewType={{this.type}} @toggle={{this.toggleType}} />
+    <ConditionalLoadingSpinner @condition={{this.isLoading}}>
+      {{#if this.invitees}}
+        <ul class="invitees">
+          {{#each this.invitees as |invitee|}}
+            <li class="invitee">
+              {{render-invitee invitee}}
+              {{#if @model.event.can_act_on_discourse_post_event}}
+                <DButton
+                  @icon="trash-alt"
+                  @action={{fn this.removeInvitee invitee}}
+                />
+              {{/if}}
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="no-users">
+          {{i18n "discourse_post_event.models.invitee.no_users"}}
+        </p>
+      {{/if}}
+    </ConditionalLoadingSpinner>
+  </:body>
+</DModal>
