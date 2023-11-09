@@ -82,8 +82,8 @@ after_initialize do
     Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
     Category.register_custom_field_type("disable_topic_resorting", :boolean)
     if respond_to?(:register_preloaded_category_custom_fields)
-      register_category_list_preloaded_category_custom_fields("sort_topics_by_event_start_date")
-      register_category_list_preloaded_category_custom_fields("disable_topic_resorting")
+      register_preloaded_category_custom_fields("sort_topics_by_event_start_date")
+      register_preloaded_category_custom_fields("disable_topic_resorting")
     else
       # TODO: Drop the if-statement and this if-branch in Discourse v3.2
       Site.preloaded_category_custom_fields << "sort_topics_by_event_start_date"
