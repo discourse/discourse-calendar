@@ -10,6 +10,7 @@ export default Route.extend({
   }),
 
   model(params) {
+    alert("HERE?")
     return this.store.findAll("discourse-post-event-event", params);
   },
 });

@@ -142,6 +142,13 @@ function initializeDiscourseCalendar(api) {
             {
               locale: getCurrentBcp47Locale(),
               buttonText: getCalendarButtonsText(),
+              eventMouseEnter: function({ event, jsEvent }) {
+                _destroyPopover();
+                const htmlContent = event.title;
+                _buildPopover(jsEvent, htmlContent);
+              }, eventMouseLeave: function({ event, jsEvent }) {
+                _destroyPopover();
+              },
             }
           );
           const loadEvents = ajax(
@@ -151,9 +158,27 @@ function initializeDiscourseCalendar(api) {
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
 
+            const tagsColorsMap = JSON.parse(siteSettings.map_events_to_tags_color);
+
             events[Object.keys(events)[0]].forEach((event) => {
               const { starts_at, ends_at, post, category_id } = event;
-              const backgroundColor = `#${site.categoriesById[category_id]?.color}`;
+
+              let backgroundColor = `#${site.categoriesById[category_id]?.color}`;
+              for (const tag of post.topic.tags) {
+                const tagColorEntry = tagsColorsMap.find(entry => entry.type === 'tag' && entry.slug === tag);
+                if (tagColorEntry) {
+                  backgroundColor = tagColorEntry.color;
+                  break;
+                }
+              }
+
+              if (!backgroundColor) {
+                const categoryColorEntry = tagsColorsMap.find(entry => entry.type === 'category' && entry.slug === post.topic.category_slug);
+                if(categoryColorEntry) {
+                  backgroundColor = categoryColorEntry.color;
+                }
+              }
+
               fullCalendar.addEvent({
                 title: formatEventName(event),
                 start: starts_at,

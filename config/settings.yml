@@ -105,3 +105,7 @@ discourse_post_event:
   sidebar_show_upcoming_events:
     default: true
     client: true
+  map_events_to_tags_color:
+    client: true
+    default: "[]"
+    json_schema: DiscourseCalendar::SiteSettings::MapEventTagColorsJsonSchema

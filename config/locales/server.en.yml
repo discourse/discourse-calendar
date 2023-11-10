@@ -29,6 +29,7 @@ en:
         ```
 
   site_settings:
+    map_events_to_tags_color: "Assign a color to each tag or category. Format is `tag_slug|category_slug=color` (eg: `holiday=red`)."
     calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
     discourse_post_event_enabled: "Enables the Event features. Note: also needs `calendar enabled` to be enabled."
     displayed_invitees_limit: "Limits the numbers of invitees displayed on an event."
