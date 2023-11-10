@@ -1,3 +1,12 @@
+.header-title {
+  > div {
+    display: inline-block;
+  }
+  .topic-link {
+    display: inline;
+  }
+}
+
 .link-top-line,
 .header-title {
   .event-date-container {

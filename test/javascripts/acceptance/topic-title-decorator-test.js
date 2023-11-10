@@ -29,7 +29,7 @@ acceptance("Discourse Calendar - Event Title Decorator", function (needs) {
 
     await visit("/latest");
 
-    const firstTopic = query(".topic-list-item:first-child .raw-topic-link");
+    const firstTopic = query(".topic-list-item:first-child .link-top-line");
     assert.dom(".event-date.past", firstTopic).exists();
     assert.dom(".event-date", firstTopic).hasAttribute("data-starts_at");
     assert.dom(".event-date", firstTopic).hasAttribute("data-ends_at");
