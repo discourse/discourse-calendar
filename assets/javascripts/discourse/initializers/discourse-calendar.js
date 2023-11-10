@@ -144,21 +144,22 @@ function initializeDiscourseCalendar(api) {
             }
           );
           const loadEvents = ajax(
-            `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
+            `/discourse-post-event/events.json?category_id=${browsedCategory.id}&include_subcategories=true`
           );
 
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
 
             events[Object.keys(events)[0]].forEach((event) => {
-              const { starts_at, ends_at, post } = event;
+              const { starts_at, ends_at, post, category_id } = event;
+              const backgroundColor = `#${site.categoriesById[category_id]?.color}`;
               fullCalendar.addEvent({
                 title: formatEventName(event),
                 start: starts_at,
                 end: ends_at || starts_at,
                 allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
                 url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
-                backgroundColor: `#${browsedCategory.color}`,
+                backgroundColor,
               });
             });
 

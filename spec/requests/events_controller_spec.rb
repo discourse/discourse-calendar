@@ -210,17 +210,42 @@ module DiscoursePostEvent
         end
 
         context "when filtering by category" do
-          it "can filter the event by category" do
-            category = Fabricate(:category)
-            topic = Fabricate(:topic, category: category)
-            event_2 = Fabricate(:event, post: Fabricate(:post, post_number: 1, topic: topic))
+          fab!(:category) { Fabricate(:category) }
+          fab!(:subcategory) do
+            Fabricate(:category, parent_category: category, name: "category subcategory")
+          end
+          fab!(:event_1) do
+            Fabricate(
+              :event,
+              post: Fabricate(:post, post_number: 1, topic: Fabricate(:topic, category: category)),
+            )
+          end
+          fab!(:event_2) do
+            Fabricate(
+              :event,
+              post:
+                Fabricate(:post, post_number: 1, topic: Fabricate(:topic, category: subcategory)),
+            )
+          end
 
+          it "can filter the event by category" do
             get "/discourse-post-event/events.json?category_id=#{category.id}"
 
             expect(response.status).to eq(200)
             events = response.parsed_body["events"]
             expect(events.length).to eq(1)
-            expect(events[0]["id"]).to eq(event_2.id)
+            expect(events[0]["id"]).to eq(event_1.id)
+          end
+
+          it "includes subcategory events when param provided" do
+            get "/discourse-post-event/events.json?category_id=#{category.id}&include_subcategories=true"
+
+            expect(response.status).to eq(200)
+            events = response.parsed_body["events"]
+            expect(events.length).to eq(2)
+            expect(events).to match_array(
+              [hash_including("id" => event_1.id), hash_including("id" => event_2.id)],
+            )
           end
         end
       end
