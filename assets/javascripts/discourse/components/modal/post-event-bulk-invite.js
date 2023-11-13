@@ -1,20 +1,19 @@
 import Component from "@glimmer/component";
-import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
+import EmberObject, { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { isPresent } from "@ember/utils";
+import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
 import Group from "discourse/models/group";
-import { observes } from "discourse-common/utils/decorators";
 import I18n from "discourse-i18n";
-import { tracked } from "@glimmer/tracking";
-import EmberObject from "@ember/object";
-import { TrackedArray } from "@ember-compat/tracked-built-ins";
 
 export default class PostEventBulkInvite extends Component {
   @service dialog;
 
-  @tracked bulkInvites = new TrackedArray([
+  @tracked
+  bulkInvites = new TrackedArray([
     EmberObject.create({ identifier: null, attendance: "unknown" }),
   ]);
   @tracked bulkInviteDisabled = true;

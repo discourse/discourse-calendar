@@ -7,9 +7,9 @@ import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
+import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
-import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
