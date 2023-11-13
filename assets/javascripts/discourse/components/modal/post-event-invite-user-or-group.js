@@ -5,7 +5,7 @@ import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
 
 export default class PostEventInviteUserOrGroup extends Component {
-  @tracked invitedNames = null;
+  @tracked invitedNames = [];
   @tracked flash = null;
 
   @action
@@ -14,7 +14,7 @@ export default class PostEventInviteUserOrGroup extends Component {
       await ajax(
         `/discourse-post-event/events/${this.args.model.event.id}/invite.json`,
         {
-          data: { invites: this.invitedNames || [] },
+          data: { invites: this.invitedNames },
           type: "POST",
         }
       );
