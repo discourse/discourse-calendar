@@ -6,12 +6,12 @@ import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
+import PostEventBuilder from "../components/modal/post-event-builder";
 import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
-import PostEventBuilder from "../components/modal/post-event-builder";
 
 const DEFAULT_REMINDER = {
   type: "notification",
@@ -19,6 +19,10 @@ const DEFAULT_REMINDER = {
   unit: "minutes",
   period: "before",
 };
+
+function replaceTimezone(val, newTimezone) {
+  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
+}
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -59,15 +63,20 @@ export default createWidget("discourse-post-event", {
       this.modal.show(PostEventBuilder, {
         model: {
           event: eventModel,
-          updateEventName: this.updateEventName,
-          updateEventUrl: this.updateEventUrl,
-          updateCustomField: this.updateCustomField,
-          updateEventStatus: this.updateEventStatus,
-          updateEventRawInvitees: this.updateEventRawInvitees,
-          updateReminderValue: this.updateReminderValue,
-          removeReminder: this.removeReminder,
-          addReminder: this.addReminder,
-          onChangeDates: this.onChangeDates,
+          updateEventName: (name) => this.updateEventName(eventModel, name),
+          updateEventUrl: (url) => this.updateEventUrl(eventModel, url),
+          updateCustomField: (field, value) =>
+            this.updateCustomField(eventModel, field, value),
+          updateEventStatus: (status) =>
+            this.updateEventStatus(eventModel, status),
+          updateEventRawInvitees: (rawInvitees) =>
+            this.updateEventRawInvitees(eventModel, rawInvitees),
+          removeReminder: (reminder) =>
+            this.removeReminder(eventModel, reminder),
+          addReminder: () => this.addReminder(eventModel),
+          onChangeDates: (changes) => this.onChangeDates(eventModel, changes),
+          updateTimezone: (newTz, startsAt, endsAt) =>
+            this.updateTimezone(eventModel, newTz, startsAt, endsAt),
         },
       });
     });
@@ -215,7 +224,6 @@ export default createWidget("discourse-post-event", {
   updateCustomField(event, field, value) {
     event.custom_fields.set(field, value);
   },
-  updateReminderValue: (reminder, value) => reminder.set("value", value),
   removeReminder: (event, reminder) => event.reminders.removeObject(reminder),
   addReminder(event) {
     if (!event.reminders) {
@@ -225,6 +233,13 @@ export default createWidget("discourse-post-event", {
   },
   onChangeDates: (event, changes) =>
     event.setProperties({ starts_at: changes.from, ends_at: changes.to }),
+  updateTimezone(event, newTz, startsAt, endsAt) {
+    event.setProperties({
+      timezone: newTz,
+      starts_at: replaceTimezone(startsAt, newTz),
+      ends_at: endsAt && replaceTimezone(endsAt, newTz),
+    });
+  },
 
   template: hbs`
     {{#if state.eventModel}}

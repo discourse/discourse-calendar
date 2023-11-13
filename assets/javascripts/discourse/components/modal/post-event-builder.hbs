@@ -18,7 +18,7 @@
           @toTimeFirst={{true}}
           @clearable={{true}}
           @timezone={{@model.event.timezone}}
-          @onChange={{fn @model.onChangeDates @model.event}}
+          @onChange={{fn @model.onChangeDates}}
         />
 
         <EventField
@@ -30,7 +30,7 @@
             placeholder={{I18n
               "discourse_post_event.builder_modal.name.placeholder"
             }}
-            {{on "input" this.setEventName}}
+            {{on "input" (action @model.updateEventName value="target.value")}}
           />
         </EventField>
 
@@ -43,7 +43,7 @@
             placeholder={{I18n
               "discourse_post_event.builder_modal.url.placeholder"
             }}
-            {{on "input" this.setEventUrl}}
+            {{on "input" (action @model.updateEventUrl value="target.value")}}
           />
         </EventField>
 
@@ -53,7 +53,7 @@
         >
           <TimezoneInput
             @value={{@model.event.timezone}}
-            @onChange={{this.onChangeTimezone}}
+            @onChange={{this.setNewTimezone}}
             @class="input-xxlarge"
             @none="discourse_post_event.builder_modal.timezone.remove_timezone"
           />
@@ -146,17 +146,15 @@
                   @nameProperty="name"
                   @valueProperty="value"
                   @content={{reminderTypes}}
-                  @onChange={{mut reminder.type}}
                 />
 
                 <Input
                   class="reminder-value"
                   min={{0}}
-                  @value={{readonly reminder.value}}
+                  @value={{reminder.value}}
                   placeholder={{I18n
                     "discourse_post_event.builder_modal.name.placeholder"
                   }}
-                  {{on "input" (fn this.setReminderValue reminder)}}
                 />
 
                 <ComboBox
@@ -165,7 +163,6 @@
                   @nameProperty="name"
                   @valueProperty="value"
                   @content={{this.reminderUnits}}
-                  @onChange={{mut reminder.unit}}
                 />
 
                 <ComboBox
@@ -174,13 +171,12 @@
                   @nameProperty="name"
                   @valueProperty="value"
                   @content={{this.reminderPeriods}}
-                  @onChange={{mut reminder.period}}
                 />
 
                 <DButton
                   class="remove-reminder"
                   @icon="times"
-                  @action={{fn @model.removeReminder @model.event reminder}}
+                  @action={{fn @model.removeReminder reminder}}
                   @disabled={{this.isLoadingReminders}}
                 />
 
@@ -193,7 +189,7 @@
             @disabled={{this.addReminderDisabled}}
             @icon="plus"
             @label="discourse_post_event.builder_modal.add_reminder"
-            @action={{fn @model.addReminder @model.event}}
+            @action={{@model.addReminder}}
           />
         </EventField>
 
