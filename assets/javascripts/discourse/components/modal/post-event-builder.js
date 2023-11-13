@@ -3,6 +3,16 @@ import { action } from "@ember/object";
 import { equal, gte } from "@ember/object/computed";
 import { inject as service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
+import { extractError } from "discourse/lib/ajax-error";
+import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
+import { cook } from "discourse/lib/text";
+import Group from "discourse/models/group";
+import I18n from "I18n";
+import { debounce } from "discourse-common/utils/decorators";
+
+function replaceTimezone(val, newTimezone) {
+  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
+}
 
 export default class PostEventBuilder extends Component {
   @service dialog;
@@ -11,6 +21,7 @@ export default class PostEventBuilder extends Component {
 
   @tracked reminders = null;
   @tracked isLoadingReminders = false;
+  @tracked flash = null;
 
   get reminderTypes() {
     return [
@@ -46,53 +57,6 @@ export default class PostEventBuilder extends Component {
     ];
   }
 
-  get allowedCustomFields() {
-    return this.siteSettings.discourse_post_event_allowed_custom_fields
-      .split("|")
-      .filter(Boolean);
-  }
-
-  get addReminderDisabled() {
-    return this.args.model.event.reminders.length >= 5;
-  }
-
-  @action
-  onChangeCustomField(field, event) {
-    this.args.model.event.custom_fields[field] = event.target.value;
-  }
-
-  @action
-  onChangeStatus(newStatus) {
-    this.args.model.event.set("raw_invitees", []);
-
-    if (newStatus === "private") {
-      this.setRawInvitees(
-        null,
-        this.args.model.event.raw_invitees.filter((x) => x !== "trust_level_0")
-      );
-    }
-    this.set("model.eventModel.status", newStatus);
-  }
-
-  @action
-  setRawInvitees(_, newInvitees) {
-    this.set("model.eventModel.raw_invitees", newInvitees);
-  }
-
-  @action
-  removeReminder(reminder) {
-    this.args.model.event.reminders.removeObject(reminder);
-  }
-
-  @action
-  addReminder() {
-    if (!this.args.model.event.reminders) {
-      this.args.model.event.set("reminders", []);
-    }
-
-    this.args.model.event.reminders.pushObject({ ...DEFAULT_REMINDER });
-  }
-
   get startsAt() {
     return moment(this.args.model.event.starts_at).tz(
       this.args.model.event.timezone || "UTC"
@@ -108,12 +72,48 @@ export default class PostEventBuilder extends Component {
     );
   }
 
+  get allowedCustomFields() {
+    return this.siteSettings.discourse_post_event_allowed_custom_fields
+      .split("|")
+      .filter(Boolean);
+  }
+
+  get addReminderDisabled() {
+    return this.args.model.event.reminders.length >= 5;
+  }
+
   @action
-  onChangeDates(changes) {
-    this.args.model.event.setProperties({
-      starts_at: changes.from,
-      ends_at: changes.to,
-    });
+  groupFinder(term) {
+    return Group.findAll({ term, ignore_automatic: true });
+  }
+
+  @action
+  setCustomField(field, target) {
+    this.args.model.updateCustomField(field, target.value);
+  }
+
+  @action
+  onChangeStatus(newStatus) {
+    this.args.model.updateEventRawInvitees(this.args.model.event, []);
+    // why are we doing this?
+    if (newStatus === "private") {
+      this.args.model.updateEventRawInvitees(
+        this.args.model.event,
+        this.args.model.event.raw_invitees.filter((x) => x !== "trust_level_0")
+      );
+    }
+    this.args.model.updateEventStatus(this.args.model.event, newStatus);
+  }
+
+  @action
+  setRawInvitees(_, newInvitees) {
+    this.args.model.updateEventRawInvitees(this.args.model.event, newInvitees);
+  }
+
+  @debounce(250)
+  setReminderValue(reminder, event) {
+    console.log(reminder);
+    this.args.model.updateReminderValue(reminder, event.target.value);
   }
 
   @action
@@ -126,31 +126,32 @@ export default class PostEventBuilder extends Component {
   }
 
   @action
-  destroyPostEvent() {
-    this.dialog.yesNoConfirm({
-      message: "Confirm delete",
-      didConfirm: () => {
-        return this.store
-          .find("post", this.args.model.event.id)
-          .then((post) => {
-            const raw = post.raw;
-            const newRaw = this._removeRawEvent(raw);
-            const props = {
-              raw: newRaw,
-              edit_reason: "Destroy event",
-            };
+  async destroyPostEvent() {
+    try {
+      const confirmResult = await this.dialog.yesNoConfirm({
+        message: "Confirm delete",
+      });
 
-            return cook(newRaw).then((cooked) => {
-              props.cooked = cooked.string;
-              return post
-                .save(props)
-                .catch((e) => this.flash(extractError(e), "error"))
-                .then((result) => result && this.send("closeModal"));
-            });
-          })
-          .catch((e) => this.flash(extractError(e), "error"));
-      },
-    });
+      if (confirmResult) {
+        const post = await this.store.find("post", this.args.model.event.id);
+        const raw = post.raw;
+        const newRaw = this._removeRawEvent(raw);
+        const props = {
+          raw: newRaw,
+          edit_reason: "Destroy event",
+        };
+
+        const cooked = await cook(newRaw);
+        props.cooked = cooked.string;
+
+        const result = await post.save(props);
+        if (result) {
+          this.args.closeModal();
+        }
+      }
+    } catch (e) {
+      this.flash = extractError(e);
+    }
   }
 
   @action
@@ -177,8 +178,9 @@ export default class PostEventBuilder extends Component {
   }
 
   @action
-  updateEvent() {
-    return this.store.find("post", this.args.model.event.id).then((post) => {
+  async updateEvent() {
+    try {
+      const post = await this.store.find("post", this.args.model.event.id);
       const raw = post.raw;
       const eventParams = buildParams(
         this.startsAt,
@@ -188,22 +190,33 @@ export default class PostEventBuilder extends Component {
       );
 
       const newRaw = replaceRaw(eventParams, raw);
-
       if (newRaw) {
         const props = {
           raw: newRaw,
           edit_reason: "Edit reason",
         };
 
-        return cook(newRaw).then((cooked) => {
-          props.cooked = cooked.string;
-          return post
-            .save(props)
-            .catch((e) => this.flash(extractError(e), "error"))
-            .then((result) => result && this.send("closeModal"));
-        });
+        const cooked = await cook(newRaw);
+        props.cooked = cooked.string;
+
+        const result = await post.save(props);
+        if (result) {
+          this.args.closeModal();
+        }
       }
-    });
+    } catch (e) {
+      this.flash = extractError(e);
+    }
+  }
+
+  @debounce(250)
+  setEventName(event) {
+    this.args.model.updateEventName(this.args.model.event, event.target.value);
+  }
+
+  @debounce(250)
+  setEventUrl(event) {
+    this.args.model.updateEventUrl(this.args.model.event, event.target.value);
   }
 
   _removeRawEvent(raw) {

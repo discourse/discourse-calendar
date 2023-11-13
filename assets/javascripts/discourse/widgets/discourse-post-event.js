@@ -13,6 +13,13 @@ import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 import PostEventBuilder from "../components/modal/post-event-builder";
 
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
+};
+
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
   services: ["dialog", "store", "modal", "currentUser", "siteSettings"],
@@ -50,7 +57,18 @@ export default createWidget("discourse-post-event", {
   editPostEvent(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
       this.modal.show(PostEventBuilder, {
-        model: { event: eventModel },
+        model: {
+          event: eventModel,
+          updateEventName: this.updateEventName,
+          updateEventUrl: this.updateEventUrl,
+          updateCustomField: this.updateCustomField,
+          updateEventStatus: this.updateEventStatus,
+          updateEventRawInvitees: this.updateEventRawInvitees,
+          updateReminderValue: this.updateReminderValue,
+          removeReminder: this.removeReminder,
+          addReminder: this.addReminder,
+          onChangeDates: this.onChangeDates,
+        },
       });
     });
   },
@@ -188,6 +206,25 @@ export default createWidget("discourse-post-event", {
         this.state.eventModel.can_act_on_discourse_post_event,
     };
   },
+
+  updateEventName: (event, name) => event.set("name", name),
+  updateEventUrl: (event, url) => event.set("url", url),
+  updateEventStatus: (event, status) => event.set("status", status),
+  updateEventRawInvitees: (event, rawInvitees) =>
+    event.set("raw_invitees", rawInvitees),
+  updateCustomField(event, field, value) {
+    event.custom_fields.set(field, value);
+  },
+  updateReminderValue: (reminder, value) => reminder.set("value", value),
+  removeReminder: (event, reminder) => event.reminders.removeObject(reminder),
+  addReminder(event) {
+    if (!event.reminders) {
+      event.set("reminders", []);
+    }
+    event.reminders.pushObject(Object.assign({}, DEFAULT_REMINDER));
+  },
+  onChangeDates: (event, changes) =>
+    event.setProperties({ starts_at: changes.from, ends_at: changes.to }),
 
   template: hbs`
     {{#if state.eventModel}}
