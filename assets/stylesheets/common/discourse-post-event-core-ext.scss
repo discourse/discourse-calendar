@@ -9,6 +9,10 @@
 
 .link-top-line,
 .header-title {
+  .event-date-container-wrapper {
+    display: contents;
+  }
+
   .event-date-container {
     display: inline-block;
     box-sizing: border-box;

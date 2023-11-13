@@ -1,1 +1,1 @@
-{{~raw "event-date" topic=context.topic}}
+{{~raw "event-date-container" topic=context.topic}}
