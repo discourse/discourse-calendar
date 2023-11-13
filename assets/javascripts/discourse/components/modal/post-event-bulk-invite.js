@@ -46,9 +46,6 @@ export default class PostEventBulkInvite extends Component {
     return Group.findAll({ term, ignore_automatic: true });
   }
 
-  // TODO: improve core to avoid having to rely on observer for group changes
-  // using onChangeCallback doesn't solve the issue as it doesn't provide the object
-  // @observes("bulkInvites.@each.identifier")
   @action
   setBulkInviteDisabled() {
     this.bulkInviteDisabled =
@@ -107,6 +104,11 @@ export default class PostEventBulkInvite extends Component {
   @action
   updateInviteIdentifier(bulkInvite, selected) {
     bulkInvite.identifier = selected[0];
+    this.setBulkInviteDisabled();
+  }
+  @action
+  updateBulkGroupInviteIdentifier(bulkInvite, _, groupNames) {
+    bulkInvite.identifier = groupNames[0];
     this.setBulkInviteDisabled();
   }
 }

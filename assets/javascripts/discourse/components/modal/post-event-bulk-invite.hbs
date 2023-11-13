@@ -26,6 +26,10 @@
                 @groupFinder={{this.groupFinder}}
                 @groupNames={{bulkInvite.identifier}}
                 @placeholderKey="discourse_post_event.bulk_invite_modal.group_selector_placeholder"
+                @onChangeCallback={{fn
+                  this.updateBulkGroupInviteIdentifier
+                  bulkInvite
+                }}
               />
             {{/if}}
             {{#if @model.event.is_public}}
