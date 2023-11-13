@@ -7,6 +7,7 @@ import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
+import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
@@ -25,8 +26,8 @@ export default createWidget("discourse-post-event", {
 
   inviteUserOrGroup(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal("discourse-post-event-invite-user-or-group", {
-        model: eventModel,
+      this.modal.show(PostEventInviteUserOrGroup, {
+        model: { event: eventModel },
       });
     });
   },
