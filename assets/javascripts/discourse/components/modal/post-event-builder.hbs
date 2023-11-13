@@ -1,15 +1,20 @@
 <DModalBody
-  @title={{concat "discourse_post_event.builder_modal." modalTitle}}
-  @class="discourse-post-event-builder"
+  @title={{i18n
+    concat
+    "discourse_post_event.builder_modal."
+    (if @model.event.isNew "create_event_title" "update_event_title")
+  }}
+  class="discourse-post-event-builder"
+  @closeModal={{@closeModal}}
 >
-  <ConditionalLoadingSection @isLoading={{model.eventModel.isSaving}}>
+  <ConditionalLoadingSection @isLoading={{@model.eventModel.isSaving}}>
     <form>
       <DateTimeInputRange
         @from={{startsAt}}
         @to={{endsAt}}
         @toTimeFirst={{true}}
         @clearable={{true}}
-        @timezone={{model.eventModel.timezone}}
+        @timezone={{@model.eventModel.timezone}}
         @onChange={{action "onChangeDates"}}
       />
 
@@ -18,13 +23,13 @@
         @label="discourse_post_event.builder_modal.name.label"
       >
         <Input
-          @value={{readonly model.eventModel.name}}
+          @value={{readonly @model.eventModel.name}}
           placeholder={{I18n
             "discourse_post_event.builder_modal.name.placeholder"
           }}
           {{on
             "input"
-            (action (mut model.eventModel.name) value="target.value")
+            (action (mut @model.eventModel.name) value="target.value")
           }}
         />
       </EventField>
@@ -34,13 +39,13 @@
         @label="discourse_post_event.builder_modal.url.label"
       >
         <Input
-          @value={{readonly model.eventModel.url}}
+          @value={{readonly @model.eventModel.url}}
           placeholder={{I18n
             "discourse_post_event.builder_modal.url.placeholder"
           }}
           {{on
             "input"
-            (action (mut model.eventModel.url) value="target.value")
+            (action (mut @model.eventModel.url) value="target.value")
           }}
         />
       </EventField>
@@ -50,7 +55,7 @@
         @label="discourse_post_event.builder_modal.timezone.label"
       >
         <TimezoneInput
-          @value={{model.eventModel.timezone}}
+          @value={{@model.eventModel.timezone}}
           @onChange={{action "onChangeTimezone"}}
           @class="input-xxlarge"
           @none="discourse_post_event.builder_modal.timezone.remove_timezone"
@@ -62,7 +67,7 @@
           <RadioButton
             @name="status"
             @value="public"
-            @selection={{model.eventModel.status}}
+            @selection={{@model.eventModel.status}}
             @onChange={{action "onChangeStatus"}}
           />
           <span class="message">
@@ -78,7 +83,7 @@
           <RadioButton
             @name="status"
             @value="private"
-            @selection={{model.eventModel.status}}
+            @selection={{@model.eventModel.status}}
             @onChange={{action "onChangeStatus"}}
           />
           <span class="message">
@@ -94,7 +99,7 @@
           <RadioButton
             @name="status"
             @value="standalone"
-            @selection={{model.eventModel.status}}
+            @selection={{@model.eventModel.status}}
             @onChange={{action "onChangeStatus"}}
           />
           <span class="message">
@@ -109,13 +114,13 @@
       </EventField>
 
       <EventField
-        @enabled={{allowsInvitees}}
+        @enabled={{eq @model.event.status "private"}}
         @label="discourse_post_event.builder_modal.invitees.label"
       >
         <GroupSelector
           @fullWidthWrap={{true}}
           @groupFinder={{groupFinder}}
-          @groupNames={{model.eventModel.raw_invitees}}
+          @groupNames={{@model.eventModel.raw_invitees}}
           @onChangeCallback={{action "setRawInvitees"}}
           @placeholderKey="topic.invite_private.group_name"
         />
@@ -126,7 +131,7 @@
         @label="discourse_post_event.builder_modal.reminders.label"
       >
         <div class="reminders-list">
-          {{#each model.eventModel.reminders as |reminder|}}
+          {{#each @model.eventModel.reminders as |reminder|}}
             <div class="reminder-item">
               <ComboBox
                 @class="reminder-type"
@@ -181,7 +186,7 @@
 
         <DButton
           class="add-reminder"
-          @disabled={{addReminderDisabled}}
+          @disabled={{this.addReminderDisabled}}
           @icon="plus"
           @label="discourse_post_event.builder_modal.add_reminder"
           @action={{action "addReminder"}}
@@ -194,9 +199,9 @@
       >
         <ComboBox
           @class="available-recurrences"
-          @value={{readonly model.eventModel.recurrence}}
+          @value={{readonly @model.eventModel.recurrence}}
           @content={{availableRecurrences}}
-          @onChange={{action (mut model.eventModel.recurrence)}}
+          @onChange={{action (mut @model.eventModel.recurrence)}}
           @options={{hash
             none="discourse_post_event.builder_modal.recurrence.none"
           }}
@@ -208,7 +213,7 @@
         @label="discourse_post_event.builder_modal.minimal.label"
       >
         <label class="checkbox-label">
-          <Input @type="checkbox" @checked={{model.eventModel.minimal}} />
+          <Input @type="checkbox" @checked={{@model.eventModel.minimal}} />
           <span class="message">
             {{i18n "discourse_post_event.builder_modal.minimal.checkbox_label"}}
           </span>
@@ -227,7 +232,7 @@
             <Input
               class="custom-field-input"
               @value={{readonly
-                (get model.eventModel.custom_fields allowedCustomField)
+                (get @model.eventModel.custom_fields allowedCustomField)
               }}
               placeholder={{I18n
                 "discourse_post_event.builder_modal.custom_fields.placeholder"
@@ -242,7 +247,7 @@
 </DModalBody>
 
 <div class="modal-footer">
-  {{#if model.eventModel.isNew}}
+  {{#if @model.eventModel.isNew}}
     <DButton
       @type="button"
       class="btn-primary"

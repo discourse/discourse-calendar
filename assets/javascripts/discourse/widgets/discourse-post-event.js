@@ -1,7 +1,6 @@
 import EmberObject from "@ember/object";
 import { routeAction } from "discourse/helpers/route-action";
 import { exportEntity } from "discourse/lib/export-csv";
-import showModal from "discourse/lib/show-modal";
 import { cook, emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
@@ -12,6 +11,7 @@ import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-us
 import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
+import PostEventBuilder from "../components/modal/post-event-builder";
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -49,8 +49,8 @@ export default createWidget("discourse-post-event", {
 
   editPostEvent(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal("discourse-post-event-builder", {
-        model: { eventModel, topicId: eventModel.post.topic.id },
+      this.modal.show(PostEventBuilder, {
+        model: { event: eventModel },
       });
     });
   },
