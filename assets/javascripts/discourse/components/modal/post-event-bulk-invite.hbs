@@ -1,7 +1,7 @@
 <DModal
   @closeModal={{@closeModal}}
   @title={{i18n "discourse_post_event.bulk_invite_modal.title"}}
-  @class="post-event-bulk-invite"
+  class="post-event-bulk-invite"
   @flash={{this.flash}}
 >
   <:body>
@@ -17,7 +17,6 @@
       <h3>{{i18n "discourse_post_event.bulk_invite_modal.inline_title"}}</h3>
 
       <div class="bulk-invite-rows">
-        foo
         {{#each this.bulkInvites as |bulkInvite|}}
           <div class="bulk-invite-row">
             {{#if @model.event.is_private}}
@@ -81,7 +80,7 @@
         <BulkInviteSampleCsvFile />
 
         <CsvUploader
-          id="discourse-post-event-csv-uploader"
+          @id="discourse-post-event-csv-uploader"
           @uploadUrl={{concat
             "/discourse-post-event/events/"
             @model.event.id
