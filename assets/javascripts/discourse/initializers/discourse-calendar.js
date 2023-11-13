@@ -158,7 +158,7 @@ function initializeDiscourseCalendar(api) {
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
 
-            const tagsColorsMap = JSON.parse(siteSettings.map_events_to_tags_color);
+            const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
             events[Object.keys(events)[0]].forEach((event) => {
               const { starts_at, ends_at, post, category_id } = event;

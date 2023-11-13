@@ -9,11 +9,11 @@ module DiscourseCalendar
           uniqueItems: true,
           items: {
             type: "object",
-            title: "TagOrCategoryColorMapping",
+            title: "Color Mapping",
             properties: {
               type: {
                 type: "string",
-                description: "Type of the name (tag or category)",
+                description: "Type of mapping (tag or category)",
                 enum: ["tag", "category"]
               },
               slug: {
