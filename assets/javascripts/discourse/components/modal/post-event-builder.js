@@ -103,6 +103,10 @@ export default class PostEventBuilder extends Component {
   @action
   setNewTimezone(newTz) {
     this.args.model.updateTimezone(newTz, this.startsAt, this.endsAt);
+    this.startsAt = moment(this.args.model.event.starts_at).tz(newTz);
+    this.endsAt = moment(this.args.model.event.ends_at).tz(
+      this.args.model.event.timezone
+    );
   }
 
   @action
