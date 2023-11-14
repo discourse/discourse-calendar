@@ -87,11 +87,6 @@ export default class PostEventBuilder extends Component {
   @action
   onChangeStatus(newStatus) {
     this.args.model.updateEventRawInvitees([]);
-    if (newStatus === "private") {
-      this.args.model.updateEventRawInvitees(
-        this.args.model.event.raw_invitees.filter((x) => x !== "trust_level_0")
-      );
-    }
     this.args.model.updateEventStatus(newStatus);
   }
 
