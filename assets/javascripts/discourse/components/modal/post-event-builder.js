@@ -64,7 +64,7 @@ export default class PostEventBuilder extends Component {
   }
 
   get addReminderDisabled() {
-    return this.args.model.event.reminders.length >= 5;
+    return this.args.model.event.reminders?.length >= 5;
   }
 
   @action
@@ -153,7 +153,9 @@ export default class PostEventBuilder extends Component {
       markdownParams.push(`${key}="${value}"`);
     });
 
-    this.toolbarEvent.addText(`[event ${markdownParams.join(" ")}]\n[/event]`);
+    this.args.model.toolbarEvent.addText(
+      `[event ${markdownParams.join(" ")}]\n[/event]`
+    );
     this.args.closeModal();
   }
 

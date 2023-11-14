@@ -20,10 +20,6 @@ const DEFAULT_REMINDER = {
   period: "before",
 };
 
-function replaceTimezone(val, newTimezone) {
-  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
-}
-
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
   services: ["dialog", "store", "modal", "currentUser", "siteSettings"],
@@ -64,17 +60,15 @@ export default createWidget("discourse-post-event", {
         model: {
           event: eventModel,
           updateCustomField: (field, value) =>
-            this.updateCustomField(eventModel, field, value),
-          updateEventStatus: (status) =>
-            this.updateEventStatus(eventModel, status),
+            updateCustomField(eventModel, field, value),
+          updateEventStatus: (status) => updateEventStatus(eventModel, status),
           updateEventRawInvitees: (rawInvitees) =>
-            this.updateEventRawInvitees(eventModel, rawInvitees),
-          removeReminder: (reminder) =>
-            this.removeReminder(eventModel, reminder),
-          addReminder: () => this.addReminder(eventModel),
-          onChangeDates: (changes) => this.onChangeDates(eventModel, changes),
+            updateEventRawInvitees(eventModel, rawInvitees),
+          removeReminder: (reminder) => removeReminder(eventModel, reminder),
+          addReminder: () => addReminder(eventModel),
+          onChangeDates: (changes) => onChangeDates(eventModel, changes),
           updateTimezone: (newTz, startsAt, endsAt) =>
-            this.updateTimezone(eventModel, newTz, startsAt, endsAt),
+            updateTimezone(eventModel, newTz, startsAt, endsAt),
         },
       });
     });
@@ -214,29 +208,6 @@ export default createWidget("discourse-post-event", {
     };
   },
 
-  updateEventStatus: (event, status) => event.set("status", status),
-  updateEventRawInvitees: (event, rawInvitees) =>
-    event.set("raw_invitees", rawInvitees),
-  updateCustomField(event, field, value) {
-    event.custom_fields.set(field, value);
-  },
-  removeReminder: (event, reminder) => event.reminders.removeObject(reminder),
-  addReminder(event) {
-    if (!event.reminders) {
-      event.set("reminders", []);
-    }
-    event.reminders.pushObject(Object.assign({}, DEFAULT_REMINDER));
-  },
-  onChangeDates: (event, changes) =>
-    event.setProperties({ starts_at: changes.from, ends_at: changes.to }),
-  updateTimezone(event, newTz, startsAt, endsAt) {
-    event.setProperties({
-      timezone: newTz,
-      starts_at: replaceTimezone(startsAt, newTz),
-      ends_at: endsAt && replaceTimezone(endsAt, newTz),
-    });
-  },
-
   template: hbs`
     {{#if state.eventModel}}
       <header class="event-header">
@@ -331,3 +302,35 @@ export default createWidget("discourse-post-event", {
     return topicTitle;
   },
 });
+
+function replaceTimezone(val, newTimezone) {
+  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
+}
+export function updateEventStatus(event, status) {
+  return event.set("status", status);
+}
+export function updateEventRawInvitees(event, rawInvitees) {
+  return event.set("raw_invitees", rawInvitees);
+}
+export function updateCustomField(event, field, value) {
+  event.custom_fields.set(field, value);
+}
+export function removeReminder(event, reminder) {
+  return event.reminders.removeObject(reminder);
+}
+export function addReminder(event) {
+  if (!event.reminders) {
+    event.set("reminders", []);
+  }
+  event.reminders.pushObject(Object.assign({}, DEFAULT_REMINDER));
+}
+export function onChangeDates(event, changes) {
+  return event.setProperties({ starts_at: changes.from, ends_at: changes.to });
+}
+export function updateTimezone(event, newTz, startsAt, endsAt) {
+  return event.setProperties({
+    timezone: newTz,
+    starts_at: replaceTimezone(startsAt, newTz),
+    ends_at: endsAt && replaceTimezone(endsAt, newTz),
+  });
+}
