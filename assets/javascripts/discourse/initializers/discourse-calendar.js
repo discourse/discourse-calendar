@@ -142,11 +142,26 @@ function initializeDiscourseCalendar(api) {
             {
               locale: getCurrentBcp47Locale(),
               buttonText: getCalendarButtonsText(),
+              eventPositioned: (info) => {
+                if(siteSettings.events_line_height === 0) { return; }
+
+                let fcContent = info.el.querySelector('.fc-content');
+                if (fcContent) {
+                  fcContent.style.maxHeight = `${siteSettings.events_line_height}px`;
+                }
+
+                let fcTitle = info.el.querySelector('.fc-title');
+
+                if (fcTitle) {
+                  fcTitle.style.overflow = 'hidden';
+                  fcTitle.style.whiteSpace = 'pre-wrap';
+                }
+              },
               eventMouseEnter: function({ event, jsEvent }) {
                 _destroyPopover();
                 const htmlContent = event.title;
                 _buildPopover(jsEvent, htmlContent);
-              }, eventMouseLeave: function({ event, jsEvent }) {
+              }, eventMouseLeave: function({}) {
                 _destroyPopover();
               },
             }

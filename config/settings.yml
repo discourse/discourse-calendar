@@ -105,6 +105,9 @@ discourse_post_event:
   sidebar_show_upcoming_events:
     default: true
     client: true
+  events_line_height:
+    default: 0
+    client: true
   map_events_to_color:
     client: true
     default: "[]"

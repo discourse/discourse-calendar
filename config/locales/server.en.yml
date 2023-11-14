@@ -29,6 +29,7 @@ en:
         ```
 
   site_settings:
+    events_line_height: "Line height between events in px."
     map_events_to_color: "Assign a color to each tag or category."
     calendar_enabled: "Enable the discourse-calendar plugin. This will add support for a [calendar][/calendar] tag in the first post of a topic."
     discourse_post_event_enabled: "Enables the Event features. Note: also needs `calendar enabled` to be enabled."
