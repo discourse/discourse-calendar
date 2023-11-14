@@ -79,9 +79,9 @@ export default class PostEventBulkInvite extends Component {
     this.bulkInvites.removeObject(bulkInvite);
 
     if (!this.bulkInvites.length) {
-      this.bulkInvites = [
-        EmberObject.create({ identifier: null, attendance: "unknown" }),
-      ];
+      this.bulkInvites.pushObject(
+        EmberObject.create({ identifier: null, attendance: "unknown" })
+      );
     }
   }
 
@@ -95,8 +95,10 @@ export default class PostEventBulkInvite extends Component {
   }
 
   @action
-  uploadDone() {
-    this.dialog.alert(I18n.t("discourse_post_event.bulk_invite_modal.success"));
+  async uploadDone() {
+    await this.dialog.alert(
+      I18n.t("discourse_post_event.bulk_invite_modal.success")
+    );
     this.args.closeModal();
   }
 
