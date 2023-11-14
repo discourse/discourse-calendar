@@ -1,7 +1,6 @@
 .header-title {
-  > div {
-    display: contents;
-  }
+  @include ellipsis;
+
   .topic-link {
     display: inline;
   }
@@ -9,13 +8,8 @@
 
 .link-top-line,
 .header-title {
-  .event-date-container-wrapper {
-    display: contents;
-  }
-
   .event-date-container {
-    display: inline-block;
-    box-sizing: border-box;
+    display: contents;
   }
 
   .event-date {
@@ -27,7 +21,6 @@
     padding: 0 0.25em;
     border-radius: 3px;
     vertical-align: middle;
-    margin-left: 0.25em;
     pointer-events: auto; // needed to show title attribute on hover
 
     .indicator {

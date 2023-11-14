@@ -6,7 +6,7 @@ export default class extends EmberObject {
     get html() {
         return rawRenderGlimmer(
             this,
-            "div.event-date-container-wrapper",
+            "span.event-date-container-wrapper",
             <template><EventDate @topic={{@data.topic}} /></template>,
             { topic: this.topic }
         );
