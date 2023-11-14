@@ -12,9 +12,16 @@ export default class PostEventBuilder extends Component {
   @service siteSettings;
   @service store;
 
-  @tracked reminders = null;
-  @tracked isLoadingReminders = false;
   @tracked flash = null;
+  @tracked startsAt = moment(this.args.model.event.starts_at).tz(
+    this.args.model.event.timezone || "UTC"
+  );
+  @tracked
+  endsAt =
+    this.args.model.event.ends_at &&
+    moment(this.args.model.event.ends_at).tz(
+      this.args.model.event.timezone || "UTC"
+    );
 
   get reminderTypes() {
     return [
@@ -50,21 +57,6 @@ export default class PostEventBuilder extends Component {
     ];
   }
 
-  get startsAt() {
-    return moment(this.args.model.event.starts_at).tz(
-      this.args.model.event.timezone || "UTC"
-    );
-  }
-
-  get endsAt() {
-    return (
-      this.args.model.event.ends_at &&
-      moment(this.args.model.event.ends_at).tz(
-        this.args.model.event.timezone || "UTC"
-      )
-    );
-  }
-
   get allowedCustomFields() {
     return this.siteSettings.discourse_post_event_allowed_custom_fields
       .split("|")
@@ -86,9 +78,15 @@ export default class PostEventBuilder extends Component {
   }
 
   @action
+  onChangeDates(dates) {
+    this.args.model.onChangeDates(dates);
+    this.startsAt = dates.from;
+    this.endsAt = dates.to;
+  }
+
+  @action
   onChangeStatus(newStatus) {
     this.args.model.updateEventRawInvitees([]);
-    // why are we doing this?
     if (newStatus === "private") {
       this.args.model.updateEventRawInvitees(
         this.args.model.event.raw_invitees.filter((x) => x !== "trust_level_0")

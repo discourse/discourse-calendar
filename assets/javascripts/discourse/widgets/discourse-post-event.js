@@ -63,8 +63,6 @@ export default createWidget("discourse-post-event", {
       this.modal.show(PostEventBuilder, {
         model: {
           event: eventModel,
-          updateEventName: (name) => this.updateEventName(eventModel, name),
-          updateEventUrl: (url) => this.updateEventUrl(eventModel, url),
           updateCustomField: (field, value) =>
             this.updateCustomField(eventModel, field, value),
           updateEventStatus: (status) =>
@@ -216,8 +214,6 @@ export default createWidget("discourse-post-event", {
     };
   },
 
-  updateEventName: (event, name) => event.set("name", name),
-  updateEventUrl: (event, url) => event.set("url", url),
   updateEventStatus: (event, status) => event.set("status", status),
   updateEventRawInvitees: (event, rawInvitees) =>
     event.set("raw_invitees", rawInvitees),

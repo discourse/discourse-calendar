@@ -5,7 +5,7 @@
       (if @model.event.isNew "create_event_title" "update_event_title")
     )
   }}
-  class="discourse-post-event-builder"
+  class="post-event-builder-modal"
   @closeModal={{@closeModal}}
   @flash={{this.flash}}
 >
@@ -13,12 +13,12 @@
     <ConditionalLoadingSection @isLoading={{@model.event.isSaving}}>
       <form>
         <DateTimeInputRange
-          @from={{startsAt}}
-          @to={{endsAt}}
+          @from={{this.startsAt}}
+          @to={{this.endsAt}}
           @toTimeFirst={{true}}
           @clearable={{true}}
           @timezone={{@model.event.timezone}}
-          @onChange={{fn @model.onChangeDates}}
+          @onChange={{this.onChangeDates}}
         />
 
         <EventField
@@ -26,11 +26,10 @@
           @label="discourse_post_event.builder_modal.name.label"
         >
           <Input
-            @value={{readonly @model.event.name}}
-            placeholder={{I18n
+            @value={{@model.event.name}}
+            placeholder={{i18n
               "discourse_post_event.builder_modal.name.placeholder"
             }}
-            {{on "input" (action @model.updateEventName value="target.value")}}
           />
         </EventField>
 
@@ -39,11 +38,10 @@
           @label="discourse_post_event.builder_modal.url.label"
         >
           <Input
-            @value={{readonly @model.event.url}}
-            placeholder={{I18n
+            @value={{@model.event.url}}
+            placeholder={{i18n
               "discourse_post_event.builder_modal.url.placeholder"
             }}
-            {{on "input" (action @model.updateEventUrl value="target.value")}}
           />
         </EventField>
 
@@ -145,14 +143,14 @@
                   @value={{reminder.type}}
                   @nameProperty="name"
                   @valueProperty="value"
-                  @content={{reminderTypes}}
+                  @content={{this.reminderTypes}}
                 />
 
                 <Input
                   class="reminder-value"
                   min={{0}}
                   @value={{reminder.value}}
-                  placeholder={{I18n
+                  placeholder={{i18n
                     "discourse_post_event.builder_modal.name.placeholder"
                   }}
                 />
@@ -177,7 +175,6 @@
                   class="remove-reminder"
                   @icon="times"
                   @action={{fn @model.removeReminder reminder}}
-                  @disabled={{this.isLoadingReminders}}
                 />
 
               </div>
@@ -199,9 +196,8 @@
         >
           <ComboBox
             @class="available-recurrences"
-            @value={{readonly @model.event.recurrence}}
+            @value={{@model.event.recurrence}}
             @content={{this.availableRecurrences}}
-            @onChange={{mut @model.event.recurrence}}
             @options={{hash
               none="discourse_post_event.builder_modal.recurrence.none"
             }}
@@ -240,7 +236,7 @@
                 @value={{readonly
                   (get @model.event.custom_fields allowedCustomField)
                 }}
-                placeholder={{I18n
+                placeholder={{i18n
                   "discourse_post_event.builder_modal.custom_fields.placeholder"
                 }}
                 {{on "input" (fn this.setCustomField allowedCustomField)}}
