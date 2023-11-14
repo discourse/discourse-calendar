@@ -1,15 +1,14 @@
-.mobile-view {
-  .discourse-post-event-bulk-invite {
-  }
-}
-
-.discourse-post-event-bulk-invite {
+.post-event-bulk-invite {
   .bulk-event-help {
     margin: 0 0 1em 0;
   }
 
   .bulk-invite-rows {
     margin-bottom: 1em;
+
+    .group-selector {
+      margin: 0;
+    }
   }
 
   .bulk-invite-row {
