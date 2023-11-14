@@ -1,17 +1,24 @@
 import EmberObject from "@ember/object";
 import { routeAction } from "discourse/helpers/route-action";
 import { exportEntity } from "discourse/lib/export-csv";
-import showModal from "discourse/lib/show-modal";
 import { cook, emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
+import PostEventBuilder from "../components/modal/post-event-builder";
 import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
+
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
+};
 
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
@@ -49,8 +56,20 @@ export default createWidget("discourse-post-event", {
 
   editPostEvent(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal("discourse-post-event-builder", {
-        model: { eventModel, topicId: eventModel.post.topic.id },
+      this.modal.show(PostEventBuilder, {
+        model: {
+          event: eventModel,
+          updateCustomField: (field, value) =>
+            updateCustomField(eventModel, field, value),
+          updateEventStatus: (status) => updateEventStatus(eventModel, status),
+          updateEventRawInvitees: (rawInvitees) =>
+            updateEventRawInvitees(eventModel, rawInvitees),
+          removeReminder: (reminder) => removeReminder(eventModel, reminder),
+          addReminder: () => addReminder(eventModel),
+          onChangeDates: (changes) => onChangeDates(eventModel, changes),
+          updateTimezone: (newTz, startsAt, endsAt) =>
+            updateTimezone(eventModel, newTz, startsAt, endsAt),
+        },
       });
     });
   },
@@ -283,3 +302,35 @@ export default createWidget("discourse-post-event", {
     return topicTitle;
   },
 });
+
+function replaceTimezone(val, newTimezone) {
+  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
+}
+export function updateEventStatus(event, status) {
+  return event.set("status", status);
+}
+export function updateEventRawInvitees(event, rawInvitees) {
+  return event.set("raw_invitees", rawInvitees);
+}
+export function updateCustomField(event, field, value) {
+  event.custom_fields.set(field, value);
+}
+export function removeReminder(event, reminder) {
+  return event.reminders.removeObject(reminder);
+}
+export function addReminder(event) {
+  if (!event.reminders) {
+    event.set("reminders", []);
+  }
+  event.reminders.pushObject(Object.assign({}, DEFAULT_REMINDER));
+}
+export function onChangeDates(event, changes) {
+  return event.setProperties({ starts_at: changes.from, ends_at: changes.to });
+}
+export function updateTimezone(event, newTz, startsAt, endsAt) {
+  return event.setProperties({
+    timezone: newTz,
+    starts_at: replaceTimezone(startsAt, newTz),
+    ends_at: endsAt && replaceTimezone(endsAt, newTz),
+  });
+}

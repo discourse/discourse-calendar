@@ -28,7 +28,7 @@ acceptance("Post event - composer", function (needs) {
       )}']`
     );
 
-    const modal = ".discourse-post-event-builder-modal";
+    const modal = ".post-event-builder-modal";
 
     const timezoneInput = selectKit(
       `${modal} .event-field.timezone .timezone-input`
@@ -98,7 +98,7 @@ acceptance("Post event - composer", function (needs) {
         )}']`
       );
 
-      const modal = ".discourse-post-event-builder-modal";
+      const modal = ".post-event-builder-modal";
 
       // Select the date
       await fillIn(`${modal} .from input[type=date]`, "2022-07-01");
