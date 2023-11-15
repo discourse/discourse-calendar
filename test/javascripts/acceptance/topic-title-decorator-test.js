@@ -31,8 +31,8 @@ acceptance("Discourse Calendar - Event Title Decorator", function (needs) {
 
     const firstTopic = query(".topic-list-item:first-child .link-top-line");
     assert.dom(".event-date.past", firstTopic).exists();
-    assert.dom(".event-date", firstTopic).hasAttribute("data-starts_at");
-    assert.dom(".event-date", firstTopic).hasAttribute("data-ends_at");
+    assert.dom(".event-date", firstTopic).hasAttribute("data-starts-at");
+    assert.dom(".event-date", firstTopic).hasAttribute("data-ends-at");
     assert
       .dom(".event-date", firstTopic)
       .hasAttribute(
