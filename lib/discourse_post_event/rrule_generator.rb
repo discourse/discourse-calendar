@@ -9,10 +9,12 @@ class RRuleGenerator
     rrule = generate_hash(base_rrule)
     rrule = set_mandatory_options(rrule, starts_at)
 
-    ::RRule::Rule
-      .new(stringify(rrule), dtstart: starts_at, exdate: [starts_at], tzid: tzid)
-      .between(Time.current, Time.current + 2.months)
-      .first
+    ::RRule::Rule.new(
+      stringify(rrule),
+      dtstart: starts_at,
+      exdate: [starts_at],
+      tzid: tzid,
+    ).between(Time.current, Time.current + 14.months)
   end
 
   private

@@ -360,42 +360,12 @@ module DiscoursePostEvent
       self.publish_update!
     end
 
-    def calculate_next_date
+    def calculate_next_date(start_date: nil)
+      localized_start = start_date || original_starts_at.in_time_zone(timezone)
+
       if self.recurrence.blank? || original_starts_at > Time.current
         return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
-
-      localized_start = original_starts_at.in_time_zone(timezone)
-
-      recurrence = nil
-
-      case self.recurrence
-      when "every_day"
-        recurrence = "FREQ=DAILY"
-      when "every_month"
-        start_date = localized_start.beginning_of_month.to_date
-        end_date = localized_start.end_of_month.to_date
-        weekday = localized_start.strftime("%A")
-
-        count = 0
-        (start_date..end_date).each do |date|
-          count += 1 if date.strftime("%A") == weekday
-          break if date.day == localized_start.day
-        end
-
-        recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
-      when "every_weekday"
-        recurrence = "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR"
-      when "every_two_weeks"
-        recurrence = "FREQ=WEEKLY;INTERVAL=2;"
-      when "every_four_weeks"
-        recurrence = "FREQ=WEEKLY;INTERVAL=4;"
-      else
-        byday = localized_start.strftime("%A").upcase[0, 2]
-        recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
-      end
-
-      next_starts_at = RRuleGenerator.generate(recurrence, localized_start, tzid: self.timezone)
 
       if original_ends_at
         difference = original_ends_at - original_starts_at
@@ -404,7 +374,16 @@ module DiscoursePostEvent
         next_ends_at = nil
       end
 
-      { starts_at: next_starts_at, ends_at: next_ends_at, rescheduled: true }
+      next_starts_at =
+        RRuleGenerator.generate(
+          recurrence_rule(localized_start),
+          localized_start,
+          tzid: self.timezone,
+        ).first
+
+      difference = original_ends_at ? original_ends_at - original_starts_at : 0
+
+      { starts_at: next_starts_at, ends_at: next_starts_at + difference.seconds, rescheduled: true }
     end
   end
 end
