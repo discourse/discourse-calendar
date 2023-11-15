@@ -140,18 +140,30 @@ function initializeDiscourseCalendar(api) {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {
+              eventClick: function() {
+                _destroyPopover();
+              },
               locale: getCurrentBcp47Locale(),
               buttonText: getCalendarButtonsText(),
               eventPositioned: (info) => {
-                if(siteSettings.events_line_height === 0) { return; }
+                if (siteSettings.events_max_rows === 0) {
+                  return;
+                }
 
                 let fcContent = info.el.querySelector('.fc-content');
+                let computedStyle = window.getComputedStyle(fcContent);
+                let lineHeight = parseInt(computedStyle.lineHeight, 10);
+
+                if(lineHeight === 0) {
+                  lineHeight = 20;
+                }
+                let maxHeight = lineHeight * siteSettings.events_max_rows;
+
                 if (fcContent) {
-                  fcContent.style.maxHeight = `${siteSettings.events_line_height}px`;
+                  fcContent.style.maxHeight = `${maxHeight}px`;
                 }
 
                 let fcTitle = info.el.querySelector('.fc-title');
-
                 if (fcTitle) {
                   fcTitle.style.overflow = 'hidden';
                   fcTitle.style.whiteSpace = 'pre-wrap';
