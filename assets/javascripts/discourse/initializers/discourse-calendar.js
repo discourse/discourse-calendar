@@ -168,6 +168,7 @@ function initializeDiscourseCalendar(api) {
                   fcTitle.style.overflow = 'hidden';
                   fcTitle.style.whiteSpace = 'pre-wrap';
                 }
+                fullCalendar.updateSize()
               },
               eventMouseEnter: function({ event, jsEvent }) {
                 _destroyPopover();
