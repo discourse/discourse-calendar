@@ -58,7 +58,7 @@ acceptance("Post event - composer", function (needs) {
     assert.strictEqual(fromTime.header().name(), "12:00");
     assert.strictEqual(toTime.header().name(), "13:00");
 
-    await click(`${modal} .modal-footer .btn-primary`);
+    await click(`${modal} .d-modal__footer .btn-primary`);
 
     assert
       .dom(".d-editor-input")
