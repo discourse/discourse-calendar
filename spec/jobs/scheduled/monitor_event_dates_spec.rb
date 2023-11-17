@@ -4,6 +4,7 @@ require "rails_helper"
 describe DiscourseCalendar::MonitorEventDates do
   fab!(:post_1) { Fabricate(:post) }
   fab!(:post_2) { Fabricate(:post) }
+  fab!(:post_3) { Fabricate(:post) }
   fab!(:past_event) do
     Fabricate(
       :event,
@@ -23,6 +24,11 @@ describe DiscourseCalendar::MonitorEventDates do
     )
   end
   let(:future_date) { future_event.event_dates.first }
+
+  fab!(:past_event_no_end_time) do
+    Fabricate(:event, post: post_3, original_starts_at: 7.days.after)
+  end
+  let(:past_date_no_end_time) { past_event_no_end_time.event_dates.first }
 
   describe "#send_reminder" do
     it "lodge reminder jobs in correct times" do
@@ -129,23 +135,39 @@ describe DiscourseCalendar::MonitorEventDates do
       freeze_time 8.days.after
 
       described_class.new.execute({})
+      future_date.reload
       expect(future_date.finished_at).to eq(nil)
       expect(past_event.event_dates.pending.count).to eq(0)
-      # expect(past_date.finished_at).not_to eq(nil)
+      past_date.reload
+      expect(past_date.finished_at).not_to eq(nil)
+      past_event_no_end_time.reload
+      expect(past_date_no_end_time.finished_at).not_to eq(nil)
     end
 
     it "creates new date for recurrent events" do
       past_event.update!(recurrence: "every_week")
+      past_event_no_end_time.update!(recurrence: "every_week")
 
       freeze_time 8.days.after
 
       events = DiscourseEvent.track_events { described_class.new.execute({}) }
       expect(future_date.finished_at).to eq(nil)
+
       expect(past_event.event_dates.pending.count).to eq(1)
       expect(past_event.event_dates.pending.first.starts_at.to_s).to eq(
         (past_date.starts_at + 7.days).to_s,
       )
+
+      expect(past_event_no_end_time.event_dates.pending.count).to eq(1)
+      expect(past_event_no_end_time.event_dates.pending.first.starts_at.to_s).to eq(
+        (past_date_no_end_time.starts_at + 7.days).to_s,
+      )
+
       expect(events).to include(event_name: :discourse_post_event_event_ended, params: [past_event])
+      expect(events).to include(
+        event_name: :discourse_post_event_event_ended,
+        params: [past_event_no_end_time],
+      )
     end
   end
 

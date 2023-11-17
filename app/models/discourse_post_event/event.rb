@@ -88,7 +88,7 @@ module DiscoursePostEvent
     scope :visible, -> { where(deleted_at: nil) }
 
     def expired?
-      !!(self.ends_at && Time.now > self.ends_at)
+      (ends_at || starts_at.end_of_day) <= Time.now
     end
 
     def starts_at
@@ -128,11 +128,7 @@ module DiscoursePostEvent
       if self.raw_invitees && self.raw_invitees.length > 10
         errors.add(
           :base,
-          I18n.t(
-            "discourse_post_event.errors.models.event.raw_invitees_length
-",
-            count: 10,
-          ),
+          I18n.t("discourse_post_event.errors.models.event.raw_invitees_length", count: 10),
         )
       end
     end
@@ -365,7 +361,7 @@ module DiscoursePostEvent
     end
 
     def calculate_next_date
-      if !original_ends_at || self.recurrence.blank? || original_starts_at > Time.current
+      if self.recurrence.blank? || original_starts_at > Time.current
         return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
 
@@ -401,8 +397,12 @@ module DiscoursePostEvent
 
       next_starts_at = RRuleGenerator.generate(recurrence, localized_start, tzid: self.timezone)
 
-      difference = original_ends_at - original_starts_at
-      next_ends_at = next_starts_at + difference.seconds
+      if original_ends_at
+        difference = original_ends_at - original_starts_at
+        next_ends_at = next_starts_at + difference.seconds
+      else
+        next_ends_at = nil
+      end
 
       { starts_at: next_starts_at, ends_at: next_ends_at, rescheduled: true }
     end
