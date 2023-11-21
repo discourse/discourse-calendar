@@ -371,7 +371,13 @@ after_initialize do
         else
           identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
 
-          grouped[identifier] ||= { type: :grouped, from: event.start_date, name: [], users: [] }
+          grouped[identifier] ||= {
+            type: :grouped,
+            from: event.start_date,
+            timezone: event.timezone,
+            name: [],
+            users: [],
+          }
 
           user = User.find_by_username(event.username)
 
