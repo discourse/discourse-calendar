@@ -721,6 +721,11 @@ function initializeDiscourseCalendar(api) {
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
         case "grouped":
+          if (fullDay && detail.timezone) {
+            detail.from = moment
+              .tz(detail.from, detail.timezone)
+              .format("YYYY-MM-DD");
+          }
           groupedEvents.push(detail);
           break;
         case "standalone":

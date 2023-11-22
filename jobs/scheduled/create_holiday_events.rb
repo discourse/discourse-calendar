@@ -75,14 +75,18 @@ module Jobs
                   holiday[:date]
                 end
 
-              CalendarEvent.find_or_create_by(
-                topic_id: topic_id,
-                user_id: user_id,
-                username: usernames[user_id],
-                description: holiday[:name],
-                start_date: date,
-                region: region,
-              )
+              event =
+                CalendarEvent.find_or_initialize_by(
+                  topic_id: topic_id,
+                  user_id: user_id,
+                  username: usernames[user_id],
+                  description: holiday[:name],
+                  start_date: date,
+                  region: region,
+                )
+
+              event.timezone = tz.name if tz
+              event.save!
             end
           end
       end
