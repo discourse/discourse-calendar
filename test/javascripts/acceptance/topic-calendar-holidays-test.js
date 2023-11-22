@@ -1,6 +1,7 @@
 import { visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import { acceptance, fakeTime } from "discourse/tests/helpers/qunit-helpers";
+import { cloneJSON } from "discourse-common/lib/object";
 import eventTopicFixture from "../helpers/event-topic-fixture";
 
 acceptance("Discourse Calendar - Topic Calendar Holidays", function (needs) {
@@ -17,7 +18,9 @@ acceptance("Discourse Calendar - Topic Calendar Holidays", function (needs) {
   });
 
   needs.pretender((server, helper) => {
-    eventTopicFixture.post_stream.posts[0].calendar_details = [
+    const clonedEventTopicFixture = cloneJSON(eventTopicFixture);
+
+    clonedEventTopicFixture.post_stream.posts[0].calendar_details = [
       {
         type: "grouped",
         from: "2023-12-25T05:00:00.000Z",
@@ -32,7 +35,7 @@ acceptance("Discourse Calendar - Topic Calendar Holidays", function (needs) {
       },
     ];
     server.get("/t/252.json", () => {
-      return helper.response(eventTopicFixture);
+      return helper.response(clonedEventTopicFixture);
     });
   });
 
