@@ -111,6 +111,17 @@ describe DiscourseCalendar::CreateHolidayEvents do
     expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([])
   end
 
+  it "does not create duplicates when username is changed" do
+    frenchy
+    DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
+    frenchy.update!(username: "new_username")
+
+    expect { DiscourseCalendar::CreateHolidayEvents.new.execute(nil) }.not_to change {
+      CalendarEvent.count
+    }
+    expect(CalendarEvent.last.username).to eq("new_username")
+  end
+
   it "cleans up holidays from deactivated/silenced/suspended users" do
     frenchy
     freeze_time Time.zone.local(2019, 8, 1)
