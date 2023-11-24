@@ -114,12 +114,14 @@ describe DiscourseCalendar::CreateHolidayEvents do
   it "does not create duplicates when username is changed" do
     frenchy
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
+    created_event = CalendarEvent.last
+    expect(created_event.username).to eq(frenchy.username)
     frenchy.update!(username: "new_username")
 
     expect { DiscourseCalendar::CreateHolidayEvents.new.execute(nil) }.not_to change {
       CalendarEvent.count
     }
-    expect(CalendarEvent.last.username).to eq("new_username")
+    expect(created_event.reload.username).to eq("new_username")
   end
 
   it "cleans up holidays from deactivated/silenced/suspended users" do
