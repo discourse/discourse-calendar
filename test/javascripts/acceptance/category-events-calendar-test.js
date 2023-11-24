@@ -28,6 +28,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
               topic: {
                 id: 18449,
                 title: "This is an event",
+                tags: ["awesome-event"],
               },
             },
             name: "Awesome Event",

@@ -18,6 +18,7 @@ const eventsPretender = (server, helper) => {
             topic: {
               id: 18449,
               title: "This is an event",
+              tags: ["awesome-event"],
             },
           },
           name: "Awesome Event",

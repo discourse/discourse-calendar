@@ -119,10 +119,13 @@ export default createWidget("discourse-post-event", {
         this.state.eventModel.watching_invitee.id,
         { status: newStatus, post_id: this.state.eventModel.id }
       );
+
+      this.appEvents.trigger("calendar:update-invitee-status", { status: newStatus, postId: this.state.eventModel.id });
     } else {
       this.store
         .createRecord("discourse-post-event-invitee")
         .save({ post_id: this.state.eventModel.id, status });
+      this.appEvents.trigger("calendar:create-invitee-status", { status, postId: this.state.eventModel.id });
     }
   },
 
@@ -180,12 +183,13 @@ export default createWidget("discourse-post-event", {
         post_id: postId,
       })
       .then((invitees) => {
-        invitees
+        let invitee = invitees
           .find(
             (invitee) =>
               invitee.id === this.state.eventModel.watching_invitee.id
-          )
-          .destroyRecord();
+          );
+        this.appEvents.trigger("calendar:invitee-left-event", { invitee, postId });
+        invitee.destroyRecord();
       });
   },
 
