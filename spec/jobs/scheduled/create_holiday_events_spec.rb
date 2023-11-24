@@ -124,6 +124,19 @@ describe DiscourseCalendar::CreateHolidayEvents do
     expect(created_event.reload.username).to eq("new_username")
   end
 
+  it "does not create duplicates when timezone is changed" do
+    frenchy
+    DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
+    created_event = CalendarEvent.last
+    expect(created_event.timezone).to eq(frenchy.user_option.timezone)
+    frenchy.user_option.update!(timezone: "Asia/Taipei")
+
+    expect { DiscourseCalendar::CreateHolidayEvents.new.execute(nil) }.not_to change {
+      CalendarEvent.count
+    }
+    expect(created_event.reload.timezone).to eq("Asia/Taipei")
+  end
+
   it "cleans up holidays from deactivated/silenced/suspended users" do
     frenchy
     freeze_time Time.zone.local(2019, 8, 1)
