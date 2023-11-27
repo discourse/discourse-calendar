@@ -7,7 +7,7 @@ describe DiscoursePostEvent::EventSummarySerializer do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  fab!(:category) { Fabricate(:category) }
+  fab!(:category)
   fab!(:topic) { Fabricate(:topic, category: category) }
   fab!(:post) { Fabricate(:post, topic: topic) }
   fab!(:event) { Fabricate(:event, post: post) }
