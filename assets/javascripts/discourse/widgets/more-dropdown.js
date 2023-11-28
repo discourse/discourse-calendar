@@ -79,7 +79,7 @@ export default createWidget("more-dropdown", {
     if (attrs.eventModel.recurrence) {
       content.push({
         id: "upcomingEvents",
-        icon: "file",
+        icon: "far-calendar-plus",
         label: "discourse_post_event.event_ui.upcoming_events",
       });
     }

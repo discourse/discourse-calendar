@@ -28,7 +28,6 @@ module DiscoursePostEvent
     attributes :recurrence
     attributes :minimal
     attributes :category_id
-    attributes :next_dates
     attributes :recurrence_rule
 
     def can_act_on_discourse_post_event
@@ -136,45 +135,13 @@ module DiscoursePostEvent
       object.post.topic.category_id
     end
 
-    def include_next_dates?
-      object.recurrence
-    end
-
-    def next_dates
-      how_many_recurring_events =
-        case object.recurrence
-        when "every_month"
-          12
-        when "every_four_weeks"
-          13
-        when "every_two_weeks"
-          26
-        when "every_weekday"
-          260
-        when "every_week"
-          52
-        when "every_day"
-          365
-        end
-
-      difference = object.original_ends_at ? object.original_ends_at - object.original_starts_at : 0
-
-      RRuleGenerator
-        .generate(
-          recurrence_rule,
-          object.starts_at.in_time_zone(object.timezone),
-          tzid: object.timezone,
-        )
-        .first(how_many_recurring_events)
-        .map { |date| { starts_at: date, ends_at: date + difference.seconds } }
-    end
-
     def include_recurrence_rule?
-      object.recurrence
+      object.recurring?
     end
 
     def recurrence_rule
-      object.recurrence_rule(object.starts_at.in_time_zone(object.timezone))
+      localized_start ||= self.starts_at.in_time_zone(self.timezone)
+      RRuleConfigurator.rule(object.recurrence, localized_start)
     end
   end
 end

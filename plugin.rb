@@ -135,6 +135,7 @@ after_initialize do
   require_relative "lib/discourse_post_event/export_csv_file_extension"
   require_relative "lib/discourse_post_event/post_extension"
   require_relative "lib/discourse_post_event/rrule_generator"
+  require_relative "lib/discourse_post_event/rrule_configurator"
 
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 

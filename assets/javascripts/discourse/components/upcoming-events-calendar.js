@@ -31,13 +31,15 @@ export default Component.extend({
 
   addRecurrentEvents(events) {
     events.forEach((event) => {
-      event.next_dates &&
-        event.next_dates.forEach((date) => {
-          const recurrentEvent = Object.assign({}, event);
-          recurrentEvent.starts_at = date.starts_at;
-          recurrentEvent.ends_at = date.ends_at;
-          events.push(recurrentEvent);
-        });
+      event.upcoming_dates?.forEach((upcomingDate) => {
+        events.push(
+          Object.assign({}, event, {
+            starts_at: upcomingDate.starts_at,
+            ends_at: upcomingDate.ends_at,
+            upcoming_dates: [],
+          })
+        );
+      });
     });
 
     return events;

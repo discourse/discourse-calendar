@@ -241,6 +241,10 @@ module DiscoursePostEvent
       status == Event.statuses[:private]
     end
 
+    def recurring?
+      recurrence.present?
+    end
+
     def most_likely_going(limit = SiteSetting.displayed_invitees_limit)
       going = self.invitees.order(%i[status user_id]).limit(limit)
 
@@ -367,6 +371,13 @@ module DiscoursePostEvent
         return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
 
+      next_starts_at =
+        RRuleGenerator.generate(
+          localized_start,
+          tzid: self.timezone,
+          recurrence_type: self.recurrence,
+        ).first
+
       if original_ends_at
         difference = original_ends_at - original_starts_at
         next_ends_at = next_starts_at + difference.seconds
@@ -374,16 +385,7 @@ module DiscoursePostEvent
         next_ends_at = nil
       end
 
-      next_starts_at =
-        RRuleGenerator.generate(
-          recurrence_rule(localized_start),
-          localized_start,
-          tzid: self.timezone,
-        ).first
-
-      difference = original_ends_at ? original_ends_at - original_starts_at : 0
-
-      { starts_at: next_starts_at, ends_at: next_starts_at + difference.seconds, rescheduled: true }
+      { starts_at: next_starts_at, ends_at: next_ends_at, rescheduled: true }
     end
   end
 end
