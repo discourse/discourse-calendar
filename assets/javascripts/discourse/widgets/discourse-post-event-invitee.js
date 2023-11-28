@@ -52,7 +52,7 @@ export default createWidget("discourse-post-event-invitee", {
       avatarContent.push(
         this.attach("avatar-flair", {
           flair_name: I18n.t(
-            `discourse_post_event.models.invitee.status.${attrs.invitee.status}`
+            `discourse_calendar.discourse_post_event.models.invitee.status.${attrs.invitee.status}`
           ),
           flair_url: statusIcon,
         })

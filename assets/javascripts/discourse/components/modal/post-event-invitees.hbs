@@ -12,7 +12,7 @@
       {{on "input" this.onFilterChanged}}
       class="filter"
       placeholder={{i18n
-        "discourse_post_event.invitees_modal.filter_placeholder"
+        "discourse_calendar.discourse_post_event.invitees_modal.filter_placeholder"
       }}
     />
     <ToggleInvitees @viewType={{this.type}} @toggle={{this.toggleType}} />
@@ -33,7 +33,9 @@
         </ul>
       {{else}}
         <p class="no-users">
-          {{i18n "discourse_post_event.models.invitee.no_users"}}
+          {{i18n
+            "discourse_calendar.discourse_post_event.models.invitee.no_users"
+          }}
         </p>
       {{/if}}
     </ConditionalLoadingSpinner>

@@ -44,7 +44,7 @@ function initializeEventBuilder(api) {
     },
     group: "insertions",
     icon: "calendar-day",
-    label: "discourse_post_event.builder_modal.attach",
+    label: "discourse_calendar.discourse_post_event.builder_modal.attach",
     condition: (composer) => {
       if (!currentUser || !currentUser.can_create_discourse_post_event) {
         return false;

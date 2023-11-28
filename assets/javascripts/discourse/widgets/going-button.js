@@ -11,7 +11,7 @@ export default createWidget("going-button", {
   template: hbs`
     {{d-icon "check"}}
     <span class="label">
-      {{i18n "discourse_post_event.models.invitee.status.going"}}
+      {{i18n "discourse_calendar.discourse_post_event.models.invitee.status.going"}}
     </span>
   `,
 });

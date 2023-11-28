@@ -286,7 +286,7 @@ function initializeDiscourseCalendar(api) {
           get label() {
             if (
               this.notification.data.message ===
-              "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+              "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification"
             ) {
               return I18n.t(this.notification.data.message, {
                 username: this.username,

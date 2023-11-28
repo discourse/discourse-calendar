@@ -43,7 +43,8 @@ export default createWidget("more-dropdown", {
       content.push({
         id: "addToCalendar",
         icon: "file",
-        label: "discourse_post_event.event_ui.add_to_calendar",
+        label:
+          "discourse_calendar.discourse_post_event.event_ui.add_to_calendar",
       });
     }
 
@@ -52,7 +53,7 @@ export default createWidget("more-dropdown", {
         id: "sendPMToCreator",
         icon: "envelope",
         translatedLabel: I18n.t(
-          "discourse_post_event.event_ui.send_pm_to_creator",
+          "discourse_calendar.discourse_post_event.event_ui.send_pm_to_creator",
           { username: attrs.eventModel.creator.username }
         ),
       });
@@ -62,7 +63,7 @@ export default createWidget("more-dropdown", {
       content.push({
         id: "inviteUserOrGroup",
         icon: "user-plus",
-        label: "discourse_post_event.event_ui.invite",
+        label: "discourse_calendar.discourse_post_event.event_ui.invite",
         param: attrs.eventModel.id,
       });
     }
@@ -71,7 +72,7 @@ export default createWidget("more-dropdown", {
       content.push({
         id: "leaveEvent",
         icon: "times",
-        label: "discourse_post_event.event_ui.leave",
+        label: "discourse_calendar.discourse_post_event.event_ui.leave",
         param: attrs.eventModel.id,
       });
     }
@@ -90,7 +91,7 @@ export default createWidget("more-dropdown", {
       content.push({
         icon: "file-csv",
         id: "exportPostEvent",
-        label: "discourse_post_event.event_ui.export_event",
+        label: "discourse_calendar.discourse_post_event.event_ui.export_event",
         param: attrs.eventModel.id,
       });
 
@@ -98,7 +99,7 @@ export default createWidget("more-dropdown", {
         content.push({
           icon: "file-upload",
           id: "bulkInvite",
-          label: "discourse_post_event.event_ui.bulk_invite",
+          label: "discourse_calendar.discourse_post_event.event_ui.bulk_invite",
           param: attrs.eventModel,
         });
       }
@@ -106,7 +107,7 @@ export default createWidget("more-dropdown", {
       content.push({
         icon: "pencil-alt",
         id: "editPostEvent",
-        label: "discourse_post_event.event_ui.edit_event",
+        label: "discourse_calendar.discourse_post_event.event_ui.edit_event",
         param: attrs.eventModel.id,
       });
 
@@ -114,7 +115,7 @@ export default createWidget("more-dropdown", {
         content.push({
           icon: "times",
           id: "closeEvent",
-          label: "discourse_post_event.event_ui.close_event",
+          label: "discourse_calendar.discourse_post_event.event_ui.close_event",
           class: "danger",
           param: attrs.eventModel,
         });

@@ -66,7 +66,8 @@ module Jobs
           data: {
             topic_title: event.name || event.post.topic.title,
             display_username: invitee.user.username,
-            message: "discourse_post_event.notifications.#{prefix}_event_reminder",
+            message:
+              "discourse_calendar.discourse_post_event.notifications.#{prefix}_event_reminder",
           }.to_json,
         }
 
@@ -79,7 +80,7 @@ module Jobs
           notification_type: Notification.types[:event_reminder] || Notification.types[:custom],
           excerpt:
             I18n.t(
-              "discourse_post_event.notifications.#{prefix}_event_reminder",
+              "discourse_calendar.discourse_post_event.notifications.#{prefix}_event_reminder",
               title: event.name || event.post.topic.title,
               locale: invitee.user.effective_locale,
             ),

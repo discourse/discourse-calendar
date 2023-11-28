@@ -59,8 +59,6 @@ discourse_calendar:
     default: false
     client: true
     hidden: true
-
-discourse_post_event:
   discourse_post_event_enabled:
     default: false
     client: true

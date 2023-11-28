@@ -11,7 +11,7 @@ export default createWidget("not-going-button", {
   template: hbs`
     {{d-icon "times"}}
     <span class="label">
-      {{i18n "discourse_post_event.models.invitee.status.not_going"}}
+      {{i18n "discourse_calendar.discourse_post_event.models.invitee.status.not_going"}}
     </span>
   `,
 });

@@ -92,9 +92,12 @@ export default class EventDate extends Component {
   }
 
   get timeRemainingContent() {
-    return I18n.t("discourse_post_event.topic_title.ends_in_duration", {
-      duration: this.eventEndedAt.from(moment()),
-    });
+    return I18n.t(
+      "discourse_calendar.discourse_post_event.topic_title.ends_in_duration",
+      {
+        duration: this.eventEndedAt.from(moment()),
+      }
+    );
   }
 
   _parsedDate(date) {
