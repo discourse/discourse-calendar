@@ -8,7 +8,7 @@ module DiscoursePostEvent
       render json:
                ActiveModel::ArraySerializer.new(
                  @events,
-                 each_serializer: EventSerializer,
+                 each_serializer: EventSummarySerializer,
                  scope: guardian,
                ).as_json
     end
