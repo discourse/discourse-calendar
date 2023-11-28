@@ -51,8 +51,7 @@ module DiscoursePostEvent
     end
 
     def ended?
-      return false if ends_at.nil?
-      ends_at <= Time.current
+      (ends_at || starts_at.end_of_day) <= Time.current
     end
   end
 end
