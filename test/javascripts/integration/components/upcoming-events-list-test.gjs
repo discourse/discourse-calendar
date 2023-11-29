@@ -52,7 +52,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await render(<template><UpcomingEventsList /></template>);
 
-    this.appEvents.trigger("page:changed", { url : "/" });
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
@@ -74,7 +74,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await render(<template><UpcomingEventsList /></template>);
 
-    this.appEvents.trigger("page:changed", { url : "/" });
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
@@ -135,7 +135,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       />
     </template>);
 
-    this.appEvents.trigger("page:changed", { url : "/" });
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
@@ -185,7 +185,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await render(<template><UpcomingEventsList /></template>);
 
-    this.appEvents.trigger("page:changed", { url : "/" });
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,

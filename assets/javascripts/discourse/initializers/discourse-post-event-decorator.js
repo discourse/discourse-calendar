@@ -1,4 +1,5 @@
 import { schedule } from "@ember/runloop";
+import $ from "jquery";
 import { applyLocalDates } from "discourse/lib/local-dates";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { cook } from "discourse/lib/text";

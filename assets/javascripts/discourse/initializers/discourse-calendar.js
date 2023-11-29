@@ -1,5 +1,6 @@
 import { isPresent } from "@ember/utils";
 import { createPopper } from "@popperjs/core";
+import $ from "jquery";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
