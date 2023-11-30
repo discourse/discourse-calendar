@@ -1,4 +1,4 @@
-import { visit } from "@ember/test-helpers";
+import { visit, triggerEvent } from "@ember/test-helpers";
 import { test } from "qunit";
 import { acceptance, queryAll } from "discourse/tests/helpers/qunit-helpers";
 import I18n from "discourse-i18n";
@@ -20,7 +20,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
         type: "category",
         color: "rgb(140,24,193)",
         slug: "awesome-category",
-      }
+      },
     ]),
   });
 
@@ -50,7 +50,8 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
               },
             },
             name: "Awesome Event",
-          },{
+          },
+          {
             id: 67502,
             starts_at: moment()
               .tz("Asia/Calcutta")
@@ -88,6 +89,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     assert.dom(".fc-event[href='/t/-/18449/1']").hasStyle({
       "background-color": "rgb(231, 76, 60)",
     });
+
     assert.dom(".fc-event[href='/t/-/18450/1']").hasStyle({
       "background-color": "rgb(140, 24, 193)",
     });

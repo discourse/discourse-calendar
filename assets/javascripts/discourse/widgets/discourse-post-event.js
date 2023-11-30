@@ -185,8 +185,8 @@ export default createWidget("discourse-post-event", {
       .then((invitees) => {
         let invitee = invitees
           .find(
-            (invitee) =>
-              invitee.id === this.state.eventModel.watching_invitee.id
+            (inv) =>
+                inv.id === this.state.eventModel.watching_invitee.id
           );
         this.appEvents.trigger("calendar:invitee-left-event", { invitee, postId });
         invitee.destroyRecord();

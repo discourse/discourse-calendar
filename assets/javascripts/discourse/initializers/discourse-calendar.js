@@ -15,6 +15,7 @@ import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { _buildPopover, _destroyPopover } from "../lib/popover";
 
 function loadFullCalendar() {
   return loadScript(
@@ -35,9 +36,6 @@ function getCalendarButtonsText() {
     list: I18n.t("discourse_calendar.toolbar_button.list"),
   };
 }
-
-let eventPopper;
-const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
   const siteSettings = api.container.lookup("service:site-settings");
@@ -495,41 +493,6 @@ function initializeDiscourseCalendar(api) {
         event.title = html[0].textContent.trim();
         calendar.addEvent(event);
       });
-  }
-
-  function _buildPopover(jsEvent, htmlContent) {
-    const node = document.createElement("div");
-    node.setAttribute("id", EVENT_POPOVER_ID);
-    node.innerHTML = htmlContent;
-
-    const arrow = document.createElement("span");
-    arrow.dataset.popperArrow = true;
-    node.appendChild(arrow);
-    document.body.appendChild(node);
-
-    eventPopper = createPopper(
-      jsEvent.target,
-      document.getElementById(EVENT_POPOVER_ID),
-      {
-        placement: "bottom",
-        modifiers: [
-          {
-            name: "arrow",
-          },
-          {
-            name: "offset",
-            options: {
-              offset: [20, 10],
-            },
-          },
-        ],
-      }
-    );
-  }
-
-  function _destroyPopover() {
-    eventPopper?.destroy();
-    document.getElementById(EVENT_POPOVER_ID)?.remove();
   }
 
   function _setDynamicCalendarOptions(calendar, $calendar) {
