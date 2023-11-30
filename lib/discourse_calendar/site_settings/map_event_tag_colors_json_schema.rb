@@ -14,20 +14,20 @@ module DiscourseCalendar
               type: {
                 type: "string",
                 description: "Type of mapping (tag or category)",
-                enum: ["tag", "category"]
+                enum: %w[tag category],
               },
               slug: {
                 type: "string",
-                description: "Slug of the tag or category"
+                description: "Slug of the tag or category",
               },
               color: {
                 type: "string",
                 description: "Color associated with the tag or category",
-                pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
-              }
+                pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$",
+              },
             },
-            required: ["slug", "type", "color"]
-          }
+            required: %w[slug type color],
+          },
         }
       end
     end
