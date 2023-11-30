@@ -93,7 +93,6 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     assert.dom(".fc-event[href='/t/-/18450/1']").hasStyle({
       "background-color": "rgb(140, 24, 193)",
     });
-
   });
 
   test("shows event calendar on category page", async (assert) => {
