@@ -91,7 +91,7 @@ export default Component.extend({
           const htmlContent = event.title;
           _buildPopover(jsEvent, htmlContent);
         },
-        eventMouseLeave: function ({}) {
+        eventMouseLeave: function () {
           _destroyPopover();
         },
       });
