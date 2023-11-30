@@ -140,7 +140,7 @@ function initializeDiscourseCalendar(api) {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {
-              eventClick: function() {
+              eventClick: function () {
                 _destroyPopover();
               },
               locale: getCurrentBcp47Locale(),
@@ -150,11 +150,11 @@ function initializeDiscourseCalendar(api) {
                   return;
                 }
 
-                let fcContent = info.el.querySelector('.fc-content');
+                let fcContent = info.el.querySelector(".fc-content");
                 let computedStyle = window.getComputedStyle(fcContent);
                 let lineHeight = parseInt(computedStyle.lineHeight, 10);
 
-                if(lineHeight === 0) {
+                if (lineHeight === 0) {
                   lineHeight = 20;
                 }
                 let maxHeight = lineHeight * siteSettings.events_max_rows;
@@ -163,18 +163,19 @@ function initializeDiscourseCalendar(api) {
                   fcContent.style.maxHeight = `${maxHeight}px`;
                 }
 
-                let fcTitle = info.el.querySelector('.fc-title');
+                let fcTitle = info.el.querySelector(".fc-title");
                 if (fcTitle) {
-                  fcTitle.style.overflow = 'hidden';
-                  fcTitle.style.whiteSpace = 'pre-wrap';
+                  fcTitle.style.overflow = "hidden";
+                  fcTitle.style.whiteSpace = "pre-wrap";
                 }
-                fullCalendar.updateSize()
+                fullCalendar.updateSize();
               },
-              eventMouseEnter: function({ event, jsEvent }) {
+              eventMouseEnter: function ({ event, jsEvent }) {
                 _destroyPopover();
                 const htmlContent = event.title;
                 _buildPopover(jsEvent, htmlContent);
-              }, eventMouseLeave: function({}) {
+              },
+              eventMouseLeave: function ({}) {
                 _destroyPopover();
               },
             }
@@ -191,20 +192,25 @@ function initializeDiscourseCalendar(api) {
             events[Object.keys(events)[0]].forEach((event) => {
               const { starts_at, ends_at, post, category_id } = event;
 
-              let backgroundColor = `#${site.categoriesById[category_id]?.color}`;
-              for (const tag of post.topic.tags) {
-                const tagColorEntry = tagsColorsMap.find(entry => entry.type === 'tag' && entry.slug === tag);
-                if (tagColorEntry) {
-                  backgroundColor = tagColorEntry.color;
-                  break;
-                }
+              let backgroundColor;
+
+              if (post.topic.tags) {
+                const tagColorEntry = tagsColorsMap.find(
+                  (entry) =>
+                    entry.type === "tag" && post.topic.tags.includes(entry.slug)
+                );
+                backgroundColor = tagColorEntry ? tagColorEntry.color : null;
               }
 
               if (!backgroundColor) {
-                const categoryColorEntry = tagsColorsMap.find(entry => entry.type === 'category' && entry.slug === post.topic.category_slug);
-                if(categoryColorEntry) {
-                  backgroundColor = categoryColorEntry.color;
-                }
+                const categoryColorFromMap = tagsColorsMap.find(
+                  (entry) =>
+                    entry.type === "category" &&
+                    entry.slug === post.topic.category_slug
+                )?.color;
+                backgroundColor =
+                  categoryColorFromMap ||
+                  `#${site.categoriesById[category_id]?.color}`;
               }
 
               fullCalendar.addEvent({

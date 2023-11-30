@@ -14,7 +14,7 @@ module DiscoursePostEvent
     # lightweight post object containing
     # only needed info for client
     def post
-      {
+      post_hash = {
         id: object.post.id,
         post_number: object.post.post_number,
         url: object.post.url,
@@ -23,6 +23,13 @@ module DiscoursePostEvent
           title: object.post.topic.title,
         },
       }
+
+      if JSON.parse(SiteSetting.map_events_to_color).size > 0
+        post_hash[:topic][:category_slug] = object.post.topic&.category&.slug
+        post_hash[:topic][:tags] = object.post.topic.tags&.map(&:name)
+      end
+
+      post_hash
     end
 
     def category_id
