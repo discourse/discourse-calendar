@@ -9,6 +9,7 @@ module DiscoursePostEvent
     attributes :post
     attributes :name
     attributes :category_id
+    attributes :upcoming_dates
 
     # lightweight post object containing
     # only needed info for client
@@ -26,6 +27,23 @@ module DiscoursePostEvent
 
     def category_id
       object.post.topic.category_id
+    end
+
+    def include_upcoming_dates?
+      object.recurring?
+    end
+
+    def upcoming_dates
+      difference = object.original_ends_at ? object.original_ends_at - object.original_starts_at : 0
+
+      RRuleGenerator
+        .generate(
+          object.starts_at.in_time_zone(object.timezone),
+          tzid: object.timezone,
+          max_years: 1,
+          recurrence_type: object.recurrence,
+        )
+        .map { |date| { starts_at: date, ends_at: date + difference.seconds } }
     end
   end
 end

@@ -356,6 +356,7 @@ en:
           other: "%{count} users participated."
         invite: "Notify user"
         add_to_calendar: "Add to calendar"
+        upcoming_events: "Upcoming events"
         send_pm_to_creator: "Send PM to %{username}"
         leave: "Leave event"
         edit_event: "Edit event"

@@ -29,6 +29,22 @@ export default Component.extend({
     this._renderCalendar();
   },
 
+  addRecurrentEvents(events) {
+    events.forEach((event) => {
+      event.upcoming_dates?.forEach((upcomingDate) => {
+        events.push(
+          Object.assign({}, event, {
+            starts_at: upcomingDate.starts_at,
+            ends_at: upcomingDate.ends_at,
+            upcoming_dates: [],
+          })
+        );
+      });
+    });
+
+    return events;
+  },
+
   _renderCalendar() {
     const calendarNode = document.getElementById("upcoming-events-calendar");
     if (!calendarNode) {
@@ -40,7 +56,11 @@ export default Component.extend({
     this._loadCalendar().then(() => {
       this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
 
-      (this.events || []).forEach((event) => {
+      const originalEventAndRecurrents = this.addRecurrentEvents(
+        this.events.content
+      );
+
+      (originalEventAndRecurrents || []).forEach((event) => {
         const { starts_at, ends_at, post, category_id } = event;
         const categoryColor = this.site.categoriesById[category_id]?.color;
         const backgroundColor = categoryColor ? `#${categoryColor}` : undefined;

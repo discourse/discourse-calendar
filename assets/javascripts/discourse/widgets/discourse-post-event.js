@@ -157,12 +157,21 @@ export default createWidget("discourse-post-event", {
 
   addToCalendar() {
     const event = this.state.eventModel;
-    this.attrs.api.downloadCalendar(event.name || event.post.topic.title, [
-      {
-        startsAt: event.starts_at,
-        endsAt: event.ends_at,
-      },
-    ]);
+    this.attrs.api.downloadCalendar(
+      event.name || event.post.topic.title,
+      [
+        {
+          startsAt: event.starts_at,
+          endsAt: event.ends_at,
+        },
+      ],
+      event.recurrence_rule
+    );
+  },
+
+  upcomingEvents() {
+    const router = this.register.lookup("service:router")._router;
+    router.transitionTo("discourse-post-event-upcoming-events");
   },
 
   leaveEvent(postId) {
