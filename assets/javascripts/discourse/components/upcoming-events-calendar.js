@@ -5,6 +5,7 @@ import loadScript from "discourse/lib/load-script";
 import getURL from "discourse-common/lib/get-url";
 import { formatEventName } from "../helpers/format-event-name";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { buildPopover, destroyPopover } from "../lib/popover";
 
 export default Component.extend({
   tagName: "",
@@ -46,6 +47,8 @@ export default Component.extend({
   },
 
   _renderCalendar() {
+    const siteSettings = this.site.siteSettings;
+
     const calendarNode = document.getElementById("upcoming-events-calendar");
     if (!calendarNode) {
       return;
@@ -54,7 +57,47 @@ export default Component.extend({
     calendarNode.innerHTML = "";
 
     this._loadCalendar().then(() => {
-      this._calendar = new window.FullCalendar.Calendar(calendarNode, {});
+      const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
+        eventClick: function () {
+          destroyPopover();
+        },
+        eventPositioned: (info) => {
+          if (siteSettings.events_max_rows === 0) {
+            return;
+          }
+
+          let fcContent = info.el.querySelector(".fc-content");
+          let computedStyle = window.getComputedStyle(fcContent);
+          let lineHeight = parseInt(computedStyle.lineHeight, 10);
+
+          if (lineHeight === 0) {
+            lineHeight = 20;
+          }
+          let maxHeight = lineHeight * siteSettings.events_max_rows;
+
+          if (fcContent) {
+            fcContent.style.maxHeight = `${maxHeight}px`;
+          }
+
+          let fcTitle = info.el.querySelector(".fc-title");
+          if (fcTitle) {
+            fcTitle.style.overflow = "hidden";
+            fcTitle.style.whiteSpace = "pre-wrap";
+          }
+          fullCalendar.updateSize();
+        },
+        eventMouseEnter: function ({ event, jsEvent }) {
+          destroyPopover();
+          const htmlContent = event.title;
+          buildPopover(jsEvent, htmlContent);
+        },
+        eventMouseLeave: function () {
+          destroyPopover();
+        },
+      });
+      this._calendar = fullCalendar;
+
+      const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
       const originalEventAndRecurrents = this.addRecurrentEvents(
         this.events.content
@@ -62,8 +105,28 @@ export default Component.extend({
 
       (originalEventAndRecurrents || []).forEach((event) => {
         const { starts_at, ends_at, post, category_id } = event;
-        const categoryColor = this.site.categoriesById[category_id]?.color;
-        const backgroundColor = categoryColor ? `#${categoryColor}` : undefined;
+
+        let backgroundColor;
+
+        if (post.topic.tags) {
+          const tagColorEntry = tagsColorsMap.find(
+            (entry) =>
+              entry.type === "tag" && post.topic.tags.includes(entry.slug)
+          );
+          backgroundColor = tagColorEntry ? tagColorEntry.color : null;
+        }
+
+        if (!backgroundColor) {
+          const categoryColorFromMap = tagsColorsMap.find(
+            (entry) =>
+              entry.type === "category" &&
+              entry.slug === post.topic.category_slug
+          )?.color;
+          backgroundColor =
+            categoryColorFromMap ||
+            `#${this.site.categoriesById[category_id]?.color}`;
+        }
+
         this._calendar.addEvent({
           title: formatEventName(event),
           start: starts_at,

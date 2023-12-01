@@ -77,6 +77,10 @@ end
 
 require_relative "lib/discourse_calendar/engine"
 
+Dir
+  .glob(File.expand_path("../lib/discourse_calendar/site_settings/*.rb", __FILE__))
+  .each { |f| require(f) }
+
 after_initialize do
   reloadable_patch do
     Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)

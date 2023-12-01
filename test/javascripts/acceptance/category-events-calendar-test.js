@@ -10,6 +10,18 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     discourse_post_event_enabled: true,
     events_calendar_categories: "1",
     calendar_categories: "",
+    map_events_to_color: JSON.stringify([
+      {
+        type: "tag",
+        color: "rgb(231, 76, 60)",
+        slug: "awesome-tag",
+      },
+      {
+        type: "category",
+        color: "rgb(140,24,193)",
+        slug: "awesome-category",
+      },
+    ]),
   });
 
   needs.pretender((server, helper) => {
@@ -18,8 +30,14 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
         events: [
           {
             id: 67501,
-            starts_at: "2022-04-25T15:14:00.000Z",
-            ends_at: "2022-04-30T16:14:00.000Z",
+            starts_at: moment()
+              .tz("Asia/Calcutta")
+              .add(1, "days")
+              .format("YYYY-MM-DDT15:14:00.000Z"),
+            ends_at: moment()
+              .tz("Asia/Calcutta")
+              .add(1, "days")
+              .format("YYYY-MM-DDT16:14:00.000Z"),
             timezone: "Asia/Calcutta",
             post: {
               id: 67501,
@@ -28,12 +46,52 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
               topic: {
                 id: 18449,
                 title: "This is an event",
+                tags: ["awesome-tag"],
               },
             },
             name: "Awesome Event",
           },
+          {
+            id: 67502,
+            starts_at: moment()
+              .tz("Asia/Calcutta")
+              .add(2, "days")
+              .format("YYYY-MM-DDT15:14:00.000Z"),
+            ends_at: moment()
+              .tz("Asia/Calcutta")
+              .add(2, "days")
+              .format("YYYY-MM-DDT16:14:00.000Z"),
+            timezone: "Asia/Calcutta",
+            post: {
+              id: 67502,
+              post_number: 1,
+              url: "/t/this-is-an-event/18450/1",
+              topic: {
+                id: 18450,
+                title: "This is an event",
+                category_slug: "awesome-category",
+              },
+            },
+            name: "Awesome Event 2",
+          },
         ],
       });
+    });
+  });
+
+  test("events display the color configured in the map_events_to_color site setting", async (assert) => {
+    await visit("/c/bug/1");
+
+    assert
+      .dom(".fc-event")
+      .exists({ count: 2 }, "One event is displayed on the calendar");
+
+    assert.dom(".fc-event[href='/t/-/18449/1']").hasStyle({
+      "background-color": "rgb(231, 76, 60)",
+    });
+
+    assert.dom(".fc-event[href='/t/-/18450/1']").hasStyle({
+      "background-color": "rgb(140, 24, 193)",
     });
   });
 

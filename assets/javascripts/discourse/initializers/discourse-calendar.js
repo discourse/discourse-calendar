@@ -1,5 +1,4 @@
 import { isPresent } from "@ember/utils";
-import { createPopper } from "@popperjs/core";
 import $ from "jquery";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
@@ -15,6 +14,7 @@ import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { buildPopover, destroyPopover } from "../lib/popover";
 
 function loadFullCalendar() {
   return loadScript(
@@ -35,9 +35,6 @@ function getCalendarButtonsText() {
     list: I18n.t("discourse_calendar.toolbar_button.list"),
   };
 }
-
-let eventPopper;
-const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
   const siteSettings = api.container.lookup("service:site-settings");
@@ -140,8 +137,44 @@ function initializeDiscourseCalendar(api) {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {
+              eventClick: function () {
+                destroyPopover();
+              },
               locale: getCurrentBcp47Locale(),
               buttonText: getCalendarButtonsText(),
+              eventPositioned: (info) => {
+                if (siteSettings.events_max_rows === 0) {
+                  return;
+                }
+
+                let fcContent = info.el.querySelector(".fc-content");
+                let computedStyle = window.getComputedStyle(fcContent);
+                let lineHeight = parseInt(computedStyle.lineHeight, 10);
+
+                if (lineHeight === 0) {
+                  lineHeight = 20;
+                }
+                let maxHeight = lineHeight * siteSettings.events_max_rows;
+
+                if (fcContent) {
+                  fcContent.style.maxHeight = `${maxHeight}px`;
+                }
+
+                let fcTitle = info.el.querySelector(".fc-title");
+                if (fcTitle) {
+                  fcTitle.style.overflow = "hidden";
+                  fcTitle.style.whiteSpace = "pre-wrap";
+                }
+                fullCalendar.updateSize();
+              },
+              eventMouseEnter: function ({ event, jsEvent }) {
+                destroyPopover();
+                const htmlContent = event.title;
+                buildPopover(jsEvent, htmlContent);
+              },
+              eventMouseLeave: function () {
+                destroyPopover();
+              },
             }
           );
           const loadEvents = ajax(
@@ -151,9 +184,32 @@ function initializeDiscourseCalendar(api) {
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
 
+            const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
+
             events[Object.keys(events)[0]].forEach((event) => {
               const { starts_at, ends_at, post, category_id } = event;
-              const backgroundColor = `#${site.categoriesById[category_id]?.color}`;
+
+              let backgroundColor;
+
+              if (post.topic.tags) {
+                const tagColorEntry = tagsColorsMap.find(
+                  (entry) =>
+                    entry.type === "tag" && post.topic.tags.includes(entry.slug)
+                );
+                backgroundColor = tagColorEntry ? tagColorEntry.color : null;
+              }
+
+              if (!backgroundColor) {
+                const categoryColorFromMap = tagsColorsMap.find(
+                  (entry) =>
+                    entry.type === "category" &&
+                    entry.slug === post.topic.category_slug
+                )?.color;
+                backgroundColor =
+                  categoryColorFromMap ||
+                  `#${site.categoriesById[category_id]?.color}`;
+              }
+
               fullCalendar.addEvent({
                 title: formatEventName(event),
                 start: starts_at,
@@ -438,41 +494,6 @@ function initializeDiscourseCalendar(api) {
       });
   }
 
-  function _buildPopover(jsEvent, htmlContent) {
-    const node = document.createElement("div");
-    node.setAttribute("id", EVENT_POPOVER_ID);
-    node.innerHTML = htmlContent;
-
-    const arrow = document.createElement("span");
-    arrow.dataset.popperArrow = true;
-    node.appendChild(arrow);
-    document.body.appendChild(node);
-
-    eventPopper = createPopper(
-      jsEvent.target,
-      document.getElementById(EVENT_POPOVER_ID),
-      {
-        placement: "bottom",
-        modifiers: [
-          {
-            name: "arrow",
-          },
-          {
-            name: "offset",
-            options: {
-              offset: [20, 10],
-            },
-          },
-        ],
-      }
-    );
-  }
-
-  function _destroyPopover() {
-    eventPopper?.destroy();
-    document.getElementById(EVENT_POPOVER_ID)?.remove();
-  }
-
   function _setDynamicCalendarOptions(calendar, $calendar) {
     const skipWeekends = $calendar.attr("data-weekends") === "false";
     const hiddenDays = $calendar.attr("data-hidden-days");
@@ -489,7 +510,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     calendar.setOption("eventClick", ({ event, jsEvent }) => {
-      _destroyPopover();
+      destroyPopover();
       const { htmlContent, postNumber, postUrl } = event.extendedProps;
 
       if (postUrl) {
@@ -499,18 +520,18 @@ function initializeDiscourseCalendar(api) {
           _topicController || api.container.lookup("controller:topic");
         _topicController.send("jumpToPost", postNumber);
       } else if (isMobileView && htmlContent) {
-        _buildPopover(jsEvent, htmlContent);
+        buildPopover(jsEvent, htmlContent);
       }
     });
 
     calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
-      _destroyPopover();
+      destroyPopover();
       const { htmlContent } = event.extendedProps;
-      _buildPopover(jsEvent, htmlContent);
+      buildPopover(jsEvent, htmlContent);
     });
 
     calendar.setOption("eventMouseLeave", () => {
-      _destroyPopover();
+      destroyPopover();
     });
   }
 

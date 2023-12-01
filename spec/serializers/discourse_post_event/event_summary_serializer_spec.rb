@@ -148,4 +148,36 @@ describe DiscoursePostEvent::EventSummarySerializer do
       )
     end
   end
+
+  describe "map_events_to_color" do
+    context "when map_events_to_color is empty" do
+      let(:json) do
+        DiscoursePostEvent::EventSummarySerializer.new(event, scope: Guardian.new).as_json
+      end
+
+      it "returns the event summary with category_slug and tags" do
+        summary = json[:event_summary]
+        expect(summary[:post][:topic][:category_slug]).to be_nil
+        expect(summary[:post][:topic][:tags]).to be_nil
+      end
+    end
+
+    context "when map_events_to_color is set" do
+      let(:json) do
+        DiscoursePostEvent::EventSummarySerializer.new(event, scope: Guardian.new).as_json
+      end
+
+      before do
+        SiteSetting.map_events_to_color = [
+          { type: "tag", color: "#21d939", slug: "nice-tag" },
+        ].to_json
+      end
+
+      it "returns the event summary with category_slug and tags" do
+        summary = json[:event_summary]
+        expect(summary[:post][:topic][:category_slug]).to eq(category.slug)
+        expect(summary[:post][:topic][:tags]).to eq(topic.tags.map(&:name))
+      end
+    end
+  end
 end
