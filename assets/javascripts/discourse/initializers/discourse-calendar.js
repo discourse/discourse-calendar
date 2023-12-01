@@ -14,7 +14,7 @@ import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import { _buildPopover, _destroyPopover } from "../lib/popover";
+import { buildPopover, destroyPopover } from "../lib/popover";
 
 function loadFullCalendar() {
   return loadScript(
@@ -138,7 +138,7 @@ function initializeDiscourseCalendar(api) {
             categoryEventNode,
             {
               eventClick: function () {
-                _destroyPopover();
+                destroyPopover();
               },
               locale: getCurrentBcp47Locale(),
               buttonText: getCalendarButtonsText(),
@@ -168,12 +168,12 @@ function initializeDiscourseCalendar(api) {
                 fullCalendar.updateSize();
               },
               eventMouseEnter: function ({ event, jsEvent }) {
-                _destroyPopover();
+                destroyPopover();
                 const htmlContent = event.title;
-                _buildPopover(jsEvent, htmlContent);
+                buildPopover(jsEvent, htmlContent);
               },
               eventMouseLeave: function () {
-                _destroyPopover();
+                destroyPopover();
               },
             }
           );
@@ -510,7 +510,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     calendar.setOption("eventClick", ({ event, jsEvent }) => {
-      _destroyPopover();
+      destroyPopover();
       const { htmlContent, postNumber, postUrl } = event.extendedProps;
 
       if (postUrl) {
@@ -520,18 +520,18 @@ function initializeDiscourseCalendar(api) {
           _topicController || api.container.lookup("controller:topic");
         _topicController.send("jumpToPost", postNumber);
       } else if (isMobileView && htmlContent) {
-        _buildPopover(jsEvent, htmlContent);
+        buildPopover(jsEvent, htmlContent);
       }
     });
 
     calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
-      _destroyPopover();
+      destroyPopover();
       const { htmlContent } = event.extendedProps;
-      _buildPopover(jsEvent, htmlContent);
+      buildPopover(jsEvent, htmlContent);
     });
 
     calendar.setOption("eventMouseLeave", () => {
-      _destroyPopover();
+      destroyPopover();
     });
   }
 

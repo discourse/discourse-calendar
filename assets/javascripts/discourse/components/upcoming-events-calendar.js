@@ -5,7 +5,7 @@ import loadScript from "discourse/lib/load-script";
 import getURL from "discourse-common/lib/get-url";
 import { formatEventName } from "../helpers/format-event-name";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import { _buildPopover, _destroyPopover } from "../lib/popover";
+import { buildPopover, destroyPopover } from "../lib/popover";
 
 export default Component.extend({
   tagName: "",
@@ -59,7 +59,7 @@ export default Component.extend({
     this._loadCalendar().then(() => {
       const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
         eventClick: function () {
-          _destroyPopover();
+          destroyPopover();
         },
         eventPositioned: (info) => {
           if (siteSettings.events_max_rows === 0) {
@@ -87,12 +87,12 @@ export default Component.extend({
           fullCalendar.updateSize();
         },
         eventMouseEnter: function ({ event, jsEvent }) {
-          _destroyPopover();
+          destroyPopover();
           const htmlContent = event.title;
-          _buildPopover(jsEvent, htmlContent);
+          buildPopover(jsEvent, htmlContent);
         },
         eventMouseLeave: function () {
-          _destroyPopover();
+          destroyPopover();
         },
       });
       this._calendar = fullCalendar;

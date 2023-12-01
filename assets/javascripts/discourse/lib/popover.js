@@ -3,7 +3,7 @@ import { createPopper } from "@popperjs/core";
 let eventPopper;
 const EVENT_POPOVER_ID = "event-popover";
 
-export function _buildPopover(jsEvent, htmlContent) {
+export function buildPopover(jsEvent, htmlContent) {
   const node = document.createElement("div");
   node.setAttribute("id", EVENT_POPOVER_ID);
   node.innerHTML = htmlContent;
@@ -33,7 +33,7 @@ export function _buildPopover(jsEvent, htmlContent) {
   );
 }
 
-export function _destroyPopover() {
+export function destroyPopover() {
   eventPopper?.destroy();
   document.getElementById(EVENT_POPOVER_ID)?.remove();
 }
