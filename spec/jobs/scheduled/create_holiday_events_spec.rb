@@ -5,11 +5,10 @@ require "rails_helper"
 describe DiscourseCalendar::CreateHolidayEvents do
   let(:calendar_post) { create_post(raw: "[calendar]\n[/calendar]") }
 
-  fab!(:frenchy) do
+  let(:frenchy) do
     Fabricate(:user, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" })
   end
-
-  fab!(:aussie) do
+  let(:aussie) do
     Fabricate(:user, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "au" })
   end
 
