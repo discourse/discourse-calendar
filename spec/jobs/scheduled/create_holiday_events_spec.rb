@@ -5,10 +5,11 @@ require "rails_helper"
 describe DiscourseCalendar::CreateHolidayEvents do
   let(:calendar_post) { create_post(raw: "[calendar]\n[/calendar]") }
 
-  let(:frenchy) do
+  fab!(:frenchy) do
     Fabricate(:user, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "fr" })
   end
-  let(:aussie) do
+
+  fab!(:aussie) do
     Fabricate(:user, custom_fields: { DiscourseCalendar::REGION_CUSTOM_FIELD => "au" })
   end
 
@@ -33,7 +34,7 @@ describe DiscourseCalendar::CreateHolidayEvents do
     freeze_time Time.zone.local(2019, 8, 1)
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
       [
         ["fr", "Assomption", "2019-08-15", frenchy.username],
         ["fr", "Toussaint", "2019-11-01", frenchy.username],
@@ -50,7 +51,7 @@ describe DiscourseCalendar::CreateHolidayEvents do
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
     # The "Australia Day" is always observed on a Monday
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
       [
         ["au", "Australia Day", "2020-01-27", aussie.username],
         ["au", "Good Friday", "2020-04-10", aussie.username],
@@ -65,7 +66,7 @@ describe DiscourseCalendar::CreateHolidayEvents do
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
     # The "Fête Nationale" is on July 14th but it's on a Sunday in 2019
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
       [
         ["fr", "Assomption", "2019-08-15", frenchy.username],
         ["fr", "Toussaint", "2019-11-01", frenchy.username],
@@ -166,7 +167,7 @@ describe DiscourseCalendar::CreateHolidayEvents do
       freeze_time Time.zone.local(2019, 7, 1)
       DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
-      expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+      expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
         [
           ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
           ["fr", "Noël", "2019-12-25", frenchy.username],
