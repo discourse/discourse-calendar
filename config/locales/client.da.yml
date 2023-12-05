@@ -331,6 +331,7 @@ da:
           other: "%{count} brugere deltog."
         invite: "Underret bruger"
         add_to_calendar: "Føj til kalenderen"
+        upcoming_events: "Kommende begivenheder"
         send_pm_to_creator: "Send PM til %{username}"
         edit_event: "Redigér begivenhed"
         export_event: "Eksportér begivenhed"

@@ -347,6 +347,7 @@ sv:
           other: "%{count} användare deltog."
         invite: "Meddela användare"
         add_to_calendar: "Lägg till i kalendern"
+        upcoming_events: "Kommande evenemang"
         send_pm_to_creator: "Skicka PM till %{username}"
         edit_event: "Redigera evenemang"
         export_event: "Exportera evenemang"

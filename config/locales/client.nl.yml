@@ -357,6 +357,7 @@ nl:
           other: "%{count} gebruikers hebben deelgenomen."
         invite: "Gebruiker informeren"
         add_to_calendar: "Toevoegen aan agenda"
+        upcoming_events: "Aankomende evenementen"
         send_pm_to_creator: "PB sturen naar %{username}"
         leave: "Evenement verlaten"
         edit_event: "Evenement bewerken"

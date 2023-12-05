@@ -337,6 +337,7 @@ hu:
           other: "%{count} felhasználó vett részt."
         invite: "Felhasználó értesítése"
         add_to_calendar: "Hozzáadás a naptárhoz"
+        upcoming_events: "Közelgő események"
         send_pm_to_creator: "PÜ küldése neki: %{username}"
         edit_event: "Esemény szerkesztése"
         export_event: "Esemény exportálása"

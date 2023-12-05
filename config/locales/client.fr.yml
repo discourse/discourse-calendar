@@ -357,6 +357,7 @@ fr:
           other: "%{count} utilisateurs ont participé."
         invite: "Notifier l'utilisateur"
         add_to_calendar: "Ajouter au calendrier"
+        upcoming_events: "Événements à venir"
         send_pm_to_creator: "Envoyer un message direct à %{username}"
         leave: "Quitter l'événement"
         edit_event: "Modifier l'événement"

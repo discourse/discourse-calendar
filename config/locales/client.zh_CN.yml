@@ -356,6 +356,7 @@ zh_CN:
           other: "%{count} 位用户参与。"
         invite: "通知用户"
         add_to_calendar: "添加到日历"
+        upcoming_events: "即将到来的活动"
         send_pm_to_creator: "将 PM 发送到 %{username}"
         leave: "离开活动"
         edit_event: "编辑活动"

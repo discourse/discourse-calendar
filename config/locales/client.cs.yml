@@ -317,6 +317,7 @@ cs:
         show_all: "Zobrazit vše"
         invite: "Oznámit uživateli"
         add_to_calendar: "Přidat do kalendáře"
+        upcoming_events: "Nadcházející události"
         send_pm_to_creator: "Poslat uživateli %{username} soukromou zprávu"
         edit_event: "Upravit událost"
         export_event: "Exportovat událost"

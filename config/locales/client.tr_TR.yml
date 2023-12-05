@@ -357,6 +357,7 @@ tr_TR:
           other: "%{count} kullanıcı katıldı."
         invite: "Kullanıcıya bildir"
         add_to_calendar: "Takvime ekle"
+        upcoming_events: "Yaklaşan etkinlikler"
         send_pm_to_creator: "%{username} adlı kullanıcıya özel mesaj gönder"
         leave: "Etkinlikten ayrıl"
         edit_event: "Etkinliği düzenle"
