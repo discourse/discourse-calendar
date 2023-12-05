@@ -361,6 +361,7 @@ he:
           other: "%{count} משתמשים השתתפו."
         invite: "הודעה למשתמש"
         add_to_calendar: "הוספה ללוח השנה"
+        upcoming_events: "אירועים קרובים"
         send_pm_to_creator: "שליחת הודעה פרטית על %{username}"
         leave: "עזיבת האירוע"
         edit_event: "עריכת אירוע"

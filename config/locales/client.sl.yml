@@ -329,6 +329,7 @@ sl:
           other: "%{count} udeležencev."
         invite: "Obvesti uporabnika"
         add_to_calendar: "Dodaj v koledar"
+        upcoming_events: "Prihajajoči dogodki"
         send_pm_to_creator: "Pošlji ZS %{username}"
         edit_event: "Uredi dogodek"
         export_event: "Izvozi dogodek"

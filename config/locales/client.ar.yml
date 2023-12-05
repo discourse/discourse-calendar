@@ -361,6 +361,7 @@ ar:
           other: "شارك %{count} مستخدم."
         invite: "إرسال إشعار إلى المستخدم"
         add_to_calendar: "إضافة إلى التقويم"
+        upcoming_events: "الأحداث القادمة"
         send_pm_to_creator: "إرسال رسالة خاصة إلى %{username}"
         leave: "مغادرة الحدث"
         edit_event: "تعديل الحدث"

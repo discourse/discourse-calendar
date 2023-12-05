@@ -356,6 +356,7 @@ ja:
           other: "%{count} 人のユーザーが参加しました。"
         invite: "ユーザーに通知"
         add_to_calendar: "カレンダーに追加"
+        upcoming_events: "今後のイベント"
         send_pm_to_creator: "%{username} に PM を送信"
         leave: "イベントから退出"
         edit_event: "イベントを編集"

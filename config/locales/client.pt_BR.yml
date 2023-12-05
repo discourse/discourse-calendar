@@ -357,6 +357,7 @@ pt_BR:
           other: "%{count} usuários(as) participaram."
         invite: "Notificar usuário(a)"
         add_to_calendar: "Adicionar ao calendário"
+        upcoming_events: "Próximos eventos"
         send_pm_to_creator: "Enviar MP para %{username}"
         leave: "Sair do evento"
         edit_event: "Editar evento"

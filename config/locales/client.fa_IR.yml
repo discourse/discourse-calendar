@@ -333,6 +333,7 @@ fa_IR:
       event_ui:
         show_all: "نمایش همه"
         add_to_calendar: "افزودن به تقویم"
+        upcoming_events: "رویدادهای آینده"
         edit_event: "ویرایش رویداد"
         bulk_invite: "دعوت به تعداد بالا"
       bulk_invite_modal:

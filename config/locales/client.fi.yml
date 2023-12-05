@@ -357,6 +357,7 @@ fi:
           other: "%{count} käyttäjää osallistui."
         invite: "Ilmoita käyttäjälle"
         add_to_calendar: "Lisää kalenteriin"
+        upcoming_events: "Tulevat tapahtumat"
         send_pm_to_creator: "Lähetä yksityisviesti käyttäjälle %{username}"
         leave: "Poistu tapahtumasta"
         edit_event: "Muokkaa tapahtumaa"
