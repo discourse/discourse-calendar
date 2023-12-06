@@ -76,7 +76,9 @@ export default createWidget("discourse-post-event", {
 
   closeEvent(eventModel) {
     this.dialog.yesNoConfirm({
-      message: I18n.t("discourse_post_event.builder_modal.confirm_close"),
+      message: I18n.t(
+        "discourse_calendar.discourse_post_event.builder_modal.confirm_close"
+      ),
       didConfirm: () => {
         return this.store.find("post", eventModel.id).then((post) => {
           const raw = post.raw;
@@ -94,7 +96,9 @@ export default createWidget("discourse-post-event", {
           if (newRaw) {
             const props = {
               raw: newRaw,
-              edit_reason: I18n.t("discourse_post_event.edit_reason"),
+              edit_reason: I18n.t(
+                "discourse_calendar.discourse_post_event.edit_reason"
+              ),
             };
 
             return cook(newRaw).then((cooked) => {
@@ -205,10 +209,10 @@ export default createWidget("discourse-post-event", {
 
     return {
       eventStatusLabel: I18n.t(
-        `discourse_post_event.models.event.status.${eventModel.status}.title`
+        `discourse_calendar.discourse_post_event.models.event.status.${eventModel.status}.title`
       ),
       eventStatusDescription: I18n.t(
-        `discourse_post_event.models.event.status.${eventModel.status}.description`
+        `discourse_calendar.discourse_post_event.models.event.status.${eventModel.status}.description`
       ),
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
@@ -243,7 +247,7 @@ export default createWidget("discourse-post-event", {
             {{#unless transformed.isStandaloneEvent}}
               {{#if state.eventModel.is_expired}}
                 <span class="status expired">
-                  {{i18n "discourse_post_event.models.event.expired"}}
+                  {{i18n "discourse_calendar.discourse_post_event.models.event.expired"}}
                 </span>
               {{else}}
                 <span class={{transformed.statusClass}} title={{transformed.eventStatusDescription}}>
@@ -253,7 +257,7 @@ export default createWidget("discourse-post-event", {
               <span class="separator">·</span>
             {{/unless}}
             <span class="creators">
-              <span class="created-by">{{i18n "discourse_post_event.event_ui.created_by"}}</span>
+              <span class="created-by">{{i18n "discourse_calendar.discourse_post_event.event_ui.created_by"}}</span>
               {{attach widget="discourse-post-event-creator" attrs=(hash user=state.eventModel.creator)}}
             </span>
           </div>

@@ -1,6 +1,8 @@
 <DModal
   @closeModal={{@closeModal}}
-  @title={{i18n "discourse_post_event.bulk_invite_modal.title"}}
+  @title={{i18n
+    "discourse_calendar.discourse_post_event.bulk_invite_modal.title"
+  }}
   class="post-event-bulk-invite"
   @flash={{this.flash}}
 >
@@ -9,12 +11,14 @@
       <p class="bulk-event-help">
         {{i18n
           (concat
-            "discourse_post_event.bulk_invite_modal.description_"
+            "discourse_calendar.discourse_post_event.bulk_invite_modal.description_"
             @model.event.status
           )
         }}
       </p>
-      <h3>{{i18n "discourse_post_event.bulk_invite_modal.inline_title"}}</h3>
+      <h3>{{i18n
+          "discourse_calendar.discourse_post_event.bulk_invite_modal.inline_title"
+        }}</h3>
 
       <div class="bulk-invite-rows">
         {{#each this.bulkInvites as |bulkInvite|}}
@@ -25,7 +29,7 @@
                 @single={{true}}
                 @groupFinder={{this.groupFinder}}
                 @groupNames={{bulkInvite.identifier}}
-                @placeholderKey="discourse_post_event.bulk_invite_modal.group_selector_placeholder"
+                @placeholderKey="discourse_calendar.discourse_post_event.bulk_invite_modal.group_selector_placeholder"
                 @onChangeCallback={{fn
                   this.updateBulkGroupInviteIdentifier
                   bulkInvite
@@ -39,7 +43,7 @@
                 @onChange={{fn this.updateInviteIdentifier bulkInvite}}
                 @options={{hash
                   maximum=1
-                  filterPlaceholder="discourse_post_event.bulk_invite_modal.user_selector_placeholder"
+                  filterPlaceholder="discourse_calendar.discourse_post_event.bulk_invite_modal.user_selector_placeholder"
                 }}
               />
             {{/if}}
@@ -65,7 +69,7 @@
       <div class="bulk-invite-actions">
         <DButton
           class="send-bulk-invites btn-primary"
-          @label="discourse_post_event.bulk_invite_modal.send_bulk_invites"
+          @label="discourse_calendar.discourse_post_event.bulk_invite_modal.send_bulk_invites"
           @action={{this.sendBulkInvites}}
           @disabled={{this.bulkInviteDisabled}}
         />
@@ -78,7 +82,9 @@
     </div>
 
     <div class="csv-bulk-invites">
-      <h3>{{i18n "discourse_post_event.bulk_invite_modal.csv_title"}}</h3>
+      <h3>{{i18n
+          "discourse_calendar.discourse_post_event.bulk_invite_modal.csv_title"
+        }}</h3>
 
       <div class="bulk-invite-actions">
         <BulkInviteSampleCsvFile />
@@ -90,7 +96,7 @@
             @model.event.id
             "/csv-bulk-invite"
           }}
-          @i18nPrefix="discourse_post_event.bulk_invite_modal"
+          @i18nPrefix="discourse_calendar.discourse_post_event.bulk_invite_modal"
           @uploadDone={{this.uploadDone}}
         />
       </div>

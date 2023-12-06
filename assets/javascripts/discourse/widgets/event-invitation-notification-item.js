@@ -29,7 +29,7 @@ createWidgetFrom(
       let translationKey = data.message;
       if (
         translationKey ===
-        "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+        "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification"
       ) {
         translationKey += "_html";
       }

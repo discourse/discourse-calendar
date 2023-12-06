@@ -8,9 +8,12 @@ function _computeCurrentEvent(container, endsAt) {
 
   const text = document.createElement("span");
   text.classList.add("text");
-  text.innerText = I18n.t("discourse_post_event.topic_title.ends_in_duration", {
-    duration: endsAt.from(moment()),
-  });
+  text.innerText = I18n.t(
+    "discourse_calendar.discourse_post_event.topic_title.ends_in_duration",
+    {
+      duration: endsAt.from(moment()),
+    }
+  );
   container.appendChild(text);
 }
 

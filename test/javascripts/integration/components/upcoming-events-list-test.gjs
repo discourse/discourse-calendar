@@ -56,7 +56,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -64,7 +66,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__empty-message").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.empty"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.empty"
+      ),
       "it displays the empty list message"
     );
   });
@@ -78,7 +82,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -111,7 +117,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [
-        I18n.t("discourse_post_event.upcoming_events_list.all_day"),
+        I18n.t(
+          "discourse_calendar.discourse_post_event.upcoming_events_list.all_day"
+        ),
         moment(nextMonth).format(DEFAULT_TIME_FORMAT),
       ],
       "it displays the formatted time"
@@ -139,7 +147,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -163,7 +173,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [
-        I18n.t("discourse_post_event.upcoming_events_list.all_day"),
+        I18n.t(
+          "discourse_calendar.discourse_post_event.upcoming_events_list.all_day"
+        ),
         moment(nextMonth).format("LLL"),
       ],
       "it displays the formatted time"
@@ -189,7 +201,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -197,13 +211,17 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__error-message").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.error"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.error"
+      ),
       "it displays the error message"
     );
 
     assert.strictEqual(
       query(".upcoming-events-list__try-again").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.try_again"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.try_again"
+      ),
       "it displays the try again button"
     );
   });

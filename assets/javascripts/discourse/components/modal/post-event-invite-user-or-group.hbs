@@ -1,5 +1,7 @@
 <DModal
-  @title={{i18n "discourse_post_event.invite_user_or_group.title"}}
+  @title={{i18n
+    "discourse_calendar.discourse_post_event.invite_user_or_group.title"
+  }}
   @closeModal={{@closeModal}}
   @flash={{this.flash}}
 >
@@ -22,7 +24,7 @@
     <DButton
       @type="button"
       class="btn-primary"
-      @label="discourse_post_event.invite_user_or_group.invite"
+      @label="discourse_calendar.discourse_post_event.invite_user_or_group.invite"
       @action={{this.invite}}
     />
   </:footer>

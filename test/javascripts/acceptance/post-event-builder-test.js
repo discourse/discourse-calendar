@@ -24,7 +24,7 @@ acceptance("Post event - composer", function (needs) {
     await click(".toolbar-popup-menu-options .dropdown-select-box-header");
     await click(
       `.toolbar-popup-menu-options *[data-name='${I18n.t(
-        "discourse_post_event.builder_modal.attach"
+        "discourse_calendar.discourse_post_event.builder_modal.attach"
       )}']`
     );
 
@@ -94,7 +94,7 @@ acceptance("Post event - composer", function (needs) {
       await click(".toolbar-popup-menu-options .dropdown-select-box-header");
       await click(
         `.toolbar-popup-menu-options *[data-name='${I18n.t(
-          "discourse_post_event.builder_modal.attach"
+          "discourse_calendar.discourse_post_event.builder_modal.attach"
         )}']`
       );
 

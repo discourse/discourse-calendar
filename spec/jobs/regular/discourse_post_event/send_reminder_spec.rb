@@ -249,7 +249,8 @@ describe Jobs::DiscoursePostEventSendReminder do
             data: {
               topic_title: event_1.name || post_1.topic.title,
               display_username: going_user.username,
-              message: "discourse_post_event.notifications.before_event_reminder",
+              message:
+                "discourse_calendar.discourse_post_event.notifications.before_event_reminder",
             }.to_json,
           )
 
@@ -264,8 +265,8 @@ describe Jobs::DiscoursePostEventSendReminder do
             ).pluck("data::json ->> 'message'")
 
           expect(messages).to contain_exactly(
-            "discourse_post_event.notifications.before_event_reminder",
-            "discourse_post_event.notifications.ongoing_event_reminder",
+            "discourse_calendar.discourse_post_event.notifications.before_event_reminder",
+            "discourse_calendar.discourse_post_event.notifications.ongoing_event_reminder",
           )
         end
 

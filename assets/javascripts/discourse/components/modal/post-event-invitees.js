@@ -20,7 +20,7 @@ export default class PostEventInvitees extends Component {
 
   get title() {
     return I18n.t(
-      `discourse_post_event.invitees_modal.${
+      `discourse_calendar.discourse_post_event.invitees_modal.${
         this.args.model.title || "title_invited"
       }`
     );

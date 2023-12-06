@@ -128,7 +128,10 @@ module DiscoursePostEvent
       if self.raw_invitees && self.raw_invitees.length > 10
         errors.add(
           :base,
-          I18n.t("discourse_post_event.errors.models.event.raw_invitees_length", count: 10),
+          I18n.t(
+            "discourse_calendar.discourse_post_event.errors.models.event.raw_invitees_length",
+            count: 10,
+          ),
         )
       end
     end
@@ -138,7 +141,9 @@ module DiscoursePostEvent
       if self.raw_invitees && User.select(:id).where(username: self.raw_invitees).limit(1).count > 0
         errors.add(
           :base,
-          I18n.t("discourse_post_event.errors.models.event.raw_invitees.only_group"),
+          I18n.t(
+            "discourse_calendar.discourse_post_event.errors.models.event.raw_invitees.only_group",
+          ),
         )
       end
     end
@@ -149,7 +154,9 @@ module DiscoursePostEvent
            self.original_starts_at >= self.original_ends_at
         errors.add(
           :base,
-          I18n.t("discourse_post_event.errors.models.event.ends_at_before_starts_at"),
+          I18n.t(
+            "discourse_calendar.discourse_post_event.errors.models.event.ends_at_before_starts_at",
+          ),
         )
       end
     end
@@ -161,7 +168,10 @@ module DiscoursePostEvent
         if !allowed_custom_fields.include?(key)
           errors.add(
             :base,
-            I18n.t("discourse_post_event.errors.models.event.custom_field_is_invalid", field: key),
+            I18n.t(
+              "discourse_calendar.discourse_post_event.errors.models.event.custom_field_is_invalid",
+              field: key,
+            ),
           )
         end
       end
@@ -199,9 +209,9 @@ module DiscoursePostEvent
 
       message =
         if predefined_attendance
-          "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+          "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification"
         else
-          "discourse_post_event.notifications.invite_user_notification"
+          "discourse_calendar.discourse_post_event.notifications.invite_user_notification"
         end
 
       attrs = {

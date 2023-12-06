@@ -26,10 +26,18 @@ export default class UpcomingEventsList extends Component {
   dateFormat = this.args.params?.dateFormat ?? DEFAULT_DATE_FORMAT;
   timeFormat = this.args.params?.timeFormat ?? DEFAULT_TIME_FORMAT;
 
-  title = I18n.t("discourse_post_event.upcoming_events_list.title");
-  emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
-  allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
-  errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
+  title = I18n.t(
+    "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+  );
+  emptyMessage = I18n.t(
+    "discourse_calendar.discourse_post_event.upcoming_events_list.empty"
+  );
+  allDayLabel = I18n.t(
+    "discourse_calendar.discourse_post_event.upcoming_events_list.all_day"
+  );
+  errorMessage = I18n.t(
+    "discourse_calendar.discourse_post_event.upcoming_events_list.error"
+  );
 
   constructor() {
     super(...arguments);
@@ -135,7 +143,7 @@ export default class UpcomingEventsList extends Component {
             </div>
             <DButton
               @action={{this.updateEventsByMonth}}
-              @label="discourse_post_event.upcoming_events_list.try_again"
+              @label="discourse_calendar.discourse_post_event.upcoming_events_list.try_again"
               class="btn-link upcoming-events-list__try-again"
             />
           {{/if}}

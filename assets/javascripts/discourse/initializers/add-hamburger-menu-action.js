@@ -5,7 +5,7 @@ function initializeHamburgerMenu(api) {
     return {
       icon: "calendar-day",
       route: "discourse-post-event-upcoming-events",
-      label: "discourse_post_event.upcoming_events.title",
+      label: "discourse_calendar.discourse_post_event.upcoming_events.title",
     };
   });
 }
