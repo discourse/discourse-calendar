@@ -9,6 +9,7 @@ import {
   updateEventStatus,
   updateTimezone,
 } from "../widgets/discourse-post-event";
+import EmberObject from "@ember/object";
 
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
@@ -20,7 +21,7 @@ function initializeEventBuilder(api) {
       const eventModel = store.createRecord("discourse-post-event-event");
       eventModel.setProperties({
         status: "public",
-        custom_fields: {},
+        custom_fields: EmberObject.create({}),
         starts_at: moment(),
         timezone: moment.tz.guess(),
       });
