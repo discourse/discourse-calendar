@@ -1,3 +1,4 @@
+import EmberObject from "@ember/object";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import PostEventBuilder from "../components/modal/post-event-builder";
 import {
@@ -20,7 +21,7 @@ function initializeEventBuilder(api) {
       const eventModel = store.createRecord("discourse-post-event-event");
       eventModel.setProperties({
         status: "public",
-        custom_fields: {},
+        custom_fields: EmberObject.create({}),
         starts_at: moment(),
         timezone: moment.tz.guess(),
       });

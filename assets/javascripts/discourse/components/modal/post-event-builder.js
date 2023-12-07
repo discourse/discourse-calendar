@@ -73,8 +73,8 @@ export default class PostEventBuilder extends Component {
   }
 
   @action
-  setCustomField(field, target) {
-    this.args.model.updateCustomField(field, target.value);
+  setCustomField(field, e) {
+    this.args.model.updateCustomField(field, e.target.value);
   }
 
   @action
