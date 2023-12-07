@@ -1,3 +1,4 @@
+import EmberObject from "@ember/object";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import PostEventBuilder from "../components/modal/post-event-builder";
 import {
@@ -9,7 +10,6 @@ import {
   updateEventStatus,
   updateTimezone,
 } from "../widgets/discourse-post-event";
-import EmberObject from "@ember/object";
 
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
