@@ -247,6 +247,26 @@ module DiscoursePostEvent
               [hash_including("id" => event_1.id), hash_including("id" => event_2.id)],
             )
           end
+
+          it "includes events' details when param provided" do
+            get "/discourse-post-event/events.json?category_id=#{category.id}&include_subcategories=true&include_details=true"
+
+            expect(response.status).to eq(200)
+            events = response.parsed_body["events"]
+            expect(events.length).to eq(2)
+            expect(events[0].keys).to include(
+              "creator",
+              "sample_invitees",
+              "watching_invitee",
+              "stats",
+              "status",
+              "can_update_attendance",
+              "should_display_invitees",
+              "is_public",
+              "is_private",
+              "is_standalone",
+            )
+          end
         end
       end
     end

@@ -5,10 +5,13 @@ module DiscoursePostEvent
     def index
       @events = DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params)
 
+      # The detailed serializer is currently not used anywhere in the frontend, but available via API
+      serializer = params[:include_details] == "true" ? EventSerializer : EventSummarySerializer
+
       render json:
                ActiveModel::ArraySerializer.new(
                  @events,
-                 each_serializer: EventSummarySerializer,
+                 each_serializer: serializer,
                  scope: guardian,
                ).as_json
     end
