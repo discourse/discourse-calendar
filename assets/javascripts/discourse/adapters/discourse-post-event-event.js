@@ -3,10 +3,10 @@ import DiscoursePostEventAdapter from "./discourse-post-event-adapter";
 
 export default DiscoursePostEventAdapter.extend({
   pathFor(store, type, findArgs) {
-    let path =
+    const path =
       this.basePath(store, type, findArgs) +
       underscore(store.pluralize(this.apiNameFor(type)));
-    return this.appendQueryParams(path, findArgs) + ".json";
+    return this.appendQueryParams(path, findArgs);
   },
 
   apiNameFor() {

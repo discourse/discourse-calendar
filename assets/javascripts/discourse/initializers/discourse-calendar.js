@@ -177,9 +177,16 @@ function initializeDiscourseCalendar(api) {
               },
             }
           );
-          const loadEvents = ajax(
-            `/discourse-post-event/events.json?category_id=${browsedCategory.id}&include_subcategories=true`
-          );
+          const params = {
+            category_id: browsedCategory.id,
+            include_subcategories: true,
+          };
+          if (siteSettings.include_expired_events_on_calendar) {
+            params.include_expired = true;
+          }
+          const loadEvents = ajax(`/discourse-post-event/events.json`, {
+            data: params,
+          });
 
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
@@ -210,6 +217,12 @@ function initializeDiscourseCalendar(api) {
                   `#${site.categoriesById[category_id]?.color}`;
               }
 
+              let borderColor, textColor;
+              if (moment(ends_at || starts_at).isBefore(moment())) {
+                borderColor = textColor = backgroundColor;
+                backgroundColor = "unset";
+              }
+
               fullCalendar.addEvent({
                 title: formatEventName(event),
                 start: starts_at,
@@ -217,6 +230,8 @@ function initializeDiscourseCalendar(api) {
                 allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
                 url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
                 backgroundColor,
+                borderColor,
+                textColor,
               });
             });
 

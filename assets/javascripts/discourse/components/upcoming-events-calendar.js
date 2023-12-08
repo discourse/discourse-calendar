@@ -127,6 +127,12 @@ export default Component.extend({
             `#${this.site.categoriesById[category_id]?.color}`;
         }
 
+        let borderColor, textColor;
+        if (moment(ends_at || starts_at).isBefore(moment())) {
+          borderColor = textColor = backgroundColor;
+          backgroundColor = "unset";
+        }
+
         this._calendar.addEvent({
           title: formatEventName(event),
           start: starts_at,
@@ -134,6 +140,8 @@ export default Component.extend({
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
           backgroundColor,
+          borderColor,
+          textColor,
         });
       });
 
