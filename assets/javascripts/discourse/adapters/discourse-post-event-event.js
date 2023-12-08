@@ -6,7 +6,7 @@ export default DiscoursePostEventAdapter.extend({
     const path =
       this.basePath(store, type, findArgs) +
       underscore(store.pluralize(this.apiNameFor(type)));
-    return this.appendQueryParams(path, findArgs);
+    return this.appendQueryParams(`${path}.json`, findArgs);
   },
 
   apiNameFor() {
