@@ -130,7 +130,7 @@ export default Component.extend({
         let borderColor, textColor;
         if (moment(ends_at || starts_at).isBefore(moment())) {
           borderColor = textColor = backgroundColor;
-          backgroundColor = "unset";
+          backgroundColor = undefined;
         }
 
         this._calendar.addEvent({
