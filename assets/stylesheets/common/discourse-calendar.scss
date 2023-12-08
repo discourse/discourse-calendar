@@ -372,13 +372,20 @@ a.holiday {
       margin: 0.1em 0;
 
       .group-timezones-member {
-        &.on-holiday {
-          opacity: 0.4;
-        }
-
         margin: 0.1em;
         list-style: none;
         display: inline-block;
+
+        &.on-holiday {
+          opacity: 0.7;
+          position: relative;
+        }
+        &.on-holiday::after {
+          content: "📅";
+          position: absolute;
+          bottom: -8px;
+          left: 14px;
+        }
       }
     }
   }
