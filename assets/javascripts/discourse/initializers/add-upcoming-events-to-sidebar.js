@@ -13,25 +13,14 @@ export default {
       withPluginApi("0.8.7", (api) => {
         api.addCommunitySectionLink((baseSectionLink) => {
           return class UpcomingEventsSectionLink extends baseSectionLink {
-            get name() {
-              return "upcoming-events";
-            }
-
-            get route() {
-              return "discourse-post-event-upcoming-events";
-            }
-
-            get text() {
-              return I18n.t(
-                "discourse_calendar.discourse_post_event.upcoming_events.title"
-              );
-            }
-
-            get title() {
-              return I18n.t(
-                "discourse_calendar.discourse_post_event.upcoming_events.title"
-              );
-            }
+            name = "upcoming-events";
+            route = "discourse-post-event-upcoming-events";
+            text = I18n.t(
+              "discourse_calendar.discourse_post_event.upcoming_events.title"
+            );
+            title = I18n.t(
+              "discourse_calendar.discourse_post_event.upcoming_events.title"
+            );
           };
         });
       });
