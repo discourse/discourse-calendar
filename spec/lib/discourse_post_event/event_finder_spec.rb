@@ -122,8 +122,12 @@ describe DiscoursePostEvent::EventFinder do
       end
 
       it "returns correct events" do
-        expect(finder.search(current_user, { expired: false })).to eq([current_event, future_event])
-        expect(finder.search(current_user, { expired: true })).to eq([older_event, old_event])
+        expect(finder.search(current_user, { include_expired: false })).to eq(
+          [current_event, future_event],
+        )
+        expect(finder.search(current_user, { include_expired: true })).to eq(
+          [older_event, old_event, current_event, future_event],
+        )
       end
 
       context "when a past event has been edited to be in the future" do
@@ -138,10 +142,12 @@ describe DiscoursePostEvent::EventFinder do
         end
 
         it "returns correct events" do
-          expect(finder.search(current_user, { expired: false })).to eq(
+          expect(finder.search(current_user, { include_expired: false })).to eq(
             [current_event, future_event],
           )
-          expect(finder.search(current_user, { expired: true })).to eq([older_event, old_event])
+          expect(finder.search(current_user, { include_expired: true })).to eq(
+            [older_event, old_event, current_event, future_event],
+          )
         end
       end
 
@@ -157,10 +163,12 @@ describe DiscoursePostEvent::EventFinder do
         end
 
         it "returns correct events" do
-          expect(finder.search(current_user, { expired: false })).to eq(
+          expect(finder.search(current_user, { include_expired: false })).to eq(
             [current_event, future_event],
           )
-          expect(finder.search(current_user, { expired: true })).to eq([older_event, old_event])
+          expect(finder.search(current_user, { include_expired: true })).to eq(
+            [older_event, current_event, future_event, old_event],
+          )
         end
       end
     end
