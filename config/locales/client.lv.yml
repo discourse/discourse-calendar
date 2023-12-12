@@ -23,6 +23,45 @@ lv:
         month: "Mēneša"
         week: "Nedēļas"
         day: "Diena"
+      discourse_post_event:
+        models:
+          event:
+            status:
+              public:
+                title: "Publisks"
+              private:
+                title: "Privāts"
+        bulk_invite_modal:
+          success: "Fails veiksmīgi lejuplādēts, jums paziņos, kad process beidzies."
+          error: "Atvainojiet, failam jābūt CSV formātā."
+        builder_modal:
+          custom_fields:
+            placeholder: "Pēc izvēles"
+          create: "Izveidot"
+          update: "Saglabāt"
+          timezone:
+            label: Laika zona
+          reminders:
+            units:
+              minutes: "minūte"
+              hours: "stunda"
+              days: "dienas"
+            periods:
+              before: "līdz"
+              after: "pēc"
+          recurrence:
+            label: "Atkārtošanās"
+            none: "Bez atkārtošanās"
+            every_day: "Katru dienu"
+          url:
+            label: "URL"
+            placeholder: "Pēc izvēles"
+          status:
+            label: "Statuss"
+        invite_user_or_group:
+          invite: "Sūtīt"
+        upcoming_events:
+          status: "Statuss"
     group_timezones:
       search: "Meklēt..."
     discourse_post_event:

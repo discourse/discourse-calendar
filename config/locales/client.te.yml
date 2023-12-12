@@ -18,6 +18,21 @@ te:
       toolbar_button:
         today: "ఈరోజు"
         day: "రోజు"
+      discourse_post_event:
+        models:
+          event:
+            status:
+              public:
+                title: "బహిరంగం"
+              private:
+                title: "అంతరంగికం"
+        builder_modal:
+          update: "భద్రపరుచు"
+          reminders:
+            units:
+              days: "రోజులు"
+          url:
+            label: "యూఆర్ యల్"
     discourse_post_event:
       models:
         event:

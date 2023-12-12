@@ -64,32 +64,32 @@ tr_TR:
     event_expired: "Etkinliğin süresi doldu"
     holiday_status:
       description: "Tatilde"
+    discourse_post_event:
+      notifications:
+        before_event_reminder: "%{title} başlamak üzere."
+        after_event_reminder: "%{title} sona erdi."
+        ongoing_event_reminder: "%{title} devam ediyor."
+      errors:
+        bulk_invite:
+          max_invitees: "İlk %{max_invittes} davetli oluşturuldu. Dosyayı daha küçük parçalara bölmeyi deneyin."
+          error: "Bu dosya yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
+        models:
+          event:
+            only_one_event: "Bir gönderide yalnızca bir etkinlik olabilir."
+            only_group: "Bir etkinlik yalnızca grup adlarını kabul eder."
+            must_be_in_first_post: "Bir etkinlik yalnızca bir konunun ilk gönderisinde olabilir."
+            raw_invitees_length: "Bir etkinlik %{count} kullanıcı/grupla sınırlıdır."
+            ends_at_before_starts_at: "Bir etkinlik başlamadan bitemez."
+            start_must_be_present_and_a_valid_date: "Bir etkinlik için geçerli bir başlangıç tarihi gerekir."
+            end_must_be_a_valid_date: "Bitiş tarihi geçerli bir tarih olmalıdır."
+            invalid_timezone: "Saat dilimi tanınmadı."
+            acting_user_not_allowed_to_create_event: "Mevcut kullanıcının etkinlik oluşturmasına izin verilmiyor."
+            acting_user_not_allowed_to_act_on_this_event: "Mevcut kullanıcının bu etkinlik üzerinde işlem yapmasına izin verilmiyor."
+            invalid_allowed_groups: "Geçersiz izin verilen gruplar."
+            acting_user_not_allowed_to_invite_these_groups: "Mevcut kullanıcının bu grupları davet etmesine izin verilmiyor."
+            custom_field_is_invalid: "\"%{field}\" özel alanına izin verilmiyor."
+            name:
+              length: "Etkinlik adı uzunluğu %{minimum} ila %{maximum} karakter olmalıdır."
   discourse_push_notifications:
     popup:
       event_reminder: "Etkinlik Anımsatıcısı"
-  discourse_post_event:
-    notifications:
-      before_event_reminder: "%{title} başlamak üzere."
-      after_event_reminder: "%{title} sona erdi."
-      ongoing_event_reminder: "%{title} devam ediyor."
-    errors:
-      bulk_invite:
-        max_invitees: "İlk %{max_invittes} davetli oluşturuldu. Dosyayı daha küçük parçalara bölmeyi deneyin."
-        error: "Bu dosya yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
-      models:
-        event:
-          only_one_event: "Bir gönderide yalnızca bir etkinlik olabilir."
-          only_group: "Bir etkinlik yalnızca grup adlarını kabul eder."
-          must_be_in_first_post: "Bir etkinlik yalnızca bir konunun ilk gönderisinde olabilir."
-          raw_invitees_length: "Bir etkinlik %{count} kullanıcı/grupla sınırlıdır."
-          ends_at_before_starts_at: "Bir etkinlik başlamadan bitemez."
-          start_must_be_present_and_a_valid_date: "Bir etkinlik için geçerli bir başlangıç tarihi gerekir."
-          end_must_be_a_valid_date: "Bitiş tarihi geçerli bir tarih olmalıdır."
-          invalid_timezone: "Saat dilimi tanınmadı."
-          acting_user_not_allowed_to_create_event: "Mevcut kullanıcının etkinlik oluşturmasına izin verilmiyor."
-          acting_user_not_allowed_to_act_on_this_event: "Mevcut kullanıcının bu etkinlik üzerinde işlem yapmasına izin verilmiyor."
-          invalid_allowed_groups: "Geçersiz izin verilen gruplar."
-          acting_user_not_allowed_to_invite_these_groups: "Mevcut kullanıcının bu grupları davet etmesine izin verilmiyor."
-          custom_field_is_invalid: "\"%{field}\" özel alanına izin verilmiyor."
-          name:
-            length: "Etkinlik adı uzunluğu %{minimum} ila %{maximum} karakter olmalıdır."

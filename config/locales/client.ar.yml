@@ -309,6 +309,141 @@ ar:
         month: "الشهر"
         week: "الأسبوع"
         day: "اليوم"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "حدَّد %{username} حضورك تلقائيًا ودعاك إلى"
+          before_event_reminder: "هناك حدث على وشك البدء"
+          after_event_reminder: "هناك حدث انتهى"
+          ongoing_event_reminder: "هناك حدث جارٍ"
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "حدَّد %{username} حضورك تلقائيًا ودعاك إلى %{description}"
+          before_event_reminder_html: "هناك حدث على وشك البدء %{description}"
+          after_event_reminder_html: "انتهى حدث %{description}"
+          ongoing_event_reminder_html: "هناك حدث جارٍ %{description}"
+        preview:
+          more_than_one_event: "لا يمكن أن يكون لديك أكثر من حدثٍ واحد."
+        edit_reason: "تم تحديث الحدث"
+        topic_title:
+          starts_at: "سيبدأ الحدث: %{date}"
+          ended_at: "انتهى الحدث: %{date}"
+          ends_in_duration: "ينتهي بعد %{duration}"
+        models:
+          invitee:
+            no_users: "لا يوجد مستخدمون من هذا النوع."
+            status:
+              unknown: "غير مهتم"
+              going: "ذاهب"
+              not_going: "لست ذاهبًا"
+              interested: "مهتم"
+          event:
+            expired: "انتهى"
+            status:
+              standalone:
+                title: "قائم بذاته"
+                description: "لا يمكن الانضمام إلى حدثٍ مستقل."
+              public:
+                title: "عام"
+                description: "يمكن لأي شخص الانضمام إلى حدثٍ عام."
+              private:
+                title: "خاص"
+                description: "لا يمكن إلا للمستخدمين المدعوين الانضمام إلى حدثٍ خاص."
+        event_ui:
+          show_all: "عرض الكل"
+          participants:
+            zero: "شارك %{count} مستخدمًا."
+            one: "شارك مستخدم واحد (%{count})."
+            two: "شارك مستخدمان (%{count})."
+            few: "شارك %{count} مستخدمين."
+            many: "شارك %{count} مستخدمًا."
+            other: "شارك %{count} مستخدمًا."
+          invite: "إرسال إشعار إلى المستخدم"
+          add_to_calendar: "إضافة إلى التقويم"
+          send_pm_to_creator: "إرسال رسالة خاصة إلى %{username}"
+          leave: "مغادرة الحدث"
+          edit_event: "تعديل الحدث"
+          export_event: "تصدير الحدث"
+          created_by: "تم إنشاؤه بواسطة"
+          bulk_invite: "دعوة جماعية"
+          close_event: "إغلاق الحدث"
+        invitees_modal:
+          title_invited: "قائمة المستخدمين الذين تمت مطالبتهم بتأكيد الدعوة"
+          title_participated: "قائمة المستخدمين الذين شاركوا"
+          filter_placeholder: "تصفية المستخدمين"
+        bulk_invite_modal:
+          confirm: "تأكيد"
+          text: "تحميل ملف CSV"
+          title: "دعوة جماعية"
+          success: "تم تحميل الملف بنجاح، وسيتم إرسال إشعار إليك عبر رسالة عند اكتمال العملية."
+          error: "عذرًا، يجب أن يكون الملف بتنسيق CSV."
+          confirmation_message: "أنت على وشك إرسال إشعار إلى جميع الأشخاص في الملف الذي تم رفعه."
+          description_public: "لا تقبل الأحداث العامة أسماء المستخدمين إلا للدعوات الجماعية."
+          description_private: "لا تقبل الأحداث العامة إلا أسماء المجموعات للدعوات الجماعية."
+          download_sample_csv: "تنزيل نموذج ملف CSV"
+          send_bulk_invites: "إرسال دعوات"
+          group_selector_placeholder: "اختر مجموعة..."
+          user_selector_placeholder: "اختر المستخدم..."
+          inline_title: "دعوة جماعية مضمَّنة"
+          csv_title: "دعوة جماعية باستخدام ملف CSV"
+        builder_modal:
+          custom_fields:
+            label: "الحقول المخصَّصة"
+            placeholder: "اختياري"
+            description: "يتم تحديد الحقول المخصَّصة المسموح بها في إعدادات الموقع. ويتم استخدام الحقول المخصَّصة لنقل البيانات إلى المكوِّنات الإضافية الأخرى."
+          create_event_title: "إنشاء حدث"
+          update_event_title: "تعديل الحدث"
+          confirm_delete: "هل تريد بالتأكيد حذف هذا الحدث؟"
+          confirm_close: "هل تريد بالتأكيد إغلاق هذا الحدث؟"
+          create: "إنشاء"
+          update: "حفظ"
+          attach: "إنشاء حدث"
+          add_reminder: "إضافة تذكير"
+          timezone:
+            label: المنطقة الزمنية
+            remove_timezone: لا توجد منطقة زمنية (UTC)
+          reminders:
+            label: "التذكيرات"
+            types:
+              bump_topic: "رفع الموضوع تلقائيًا"
+              notification: "إرسال إشعار إلى المشاركين"
+            units:
+              minutes: "دقائق"
+              hours: "ساعات"
+              days: "أيام"
+              weeks: "أسابيع"
+            periods:
+              before: "قبل"
+              after: "بعد"
+          recurrence:
+            label: "التكرار"
+            none: "بلا تكرار"
+            every_day: "كل يوم"
+            every_month: "كل شهر في هذا اليوم من الأسبوع"
+            every_weekday: "كل أيام الأسبوع"
+            every_week: "كل أسبوع في هذا اليوم"
+            every_two_weeks: "كل أسبوعين في هذا اليوم"
+          minimal:
+            label: "حدث صغير"
+            checkbox_label: "إخفاء زريِّ ذاهب/غير ذاهب وحالة المدعوين"
+          url:
+            label: "عنوان URL"
+            placeholder: "اختياري"
+          name:
+            label: "اسم الحدث"
+            placeholder: "اختياري، الإعدادات الافتراضية لعنوان الموضوع"
+          invitees:
+            label: "المجموعات المدعوة"
+          status:
+            label: "الحالة"
+        invite_user_or_group:
+          title: "إرسال إشعار إلى المستخدمين أو المجموعات"
+          invite: "إرسال"
+        upcoming_events:
+          title: "الأحداث القادمة"
+          creator: "المنشئ"
+          status: "الحالة"
+          starts_at: "يبدأ في"
+        upcoming_events_list:
+          title: "الأحداث القادمة"
     group_timezones:
       search: "بحث..."
       group_availability: "توافر %{group}"

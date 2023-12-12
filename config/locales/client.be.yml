@@ -20,6 +20,31 @@ be:
         month: "месяц"
         week: "тыдзень"
         day: "дзень"
+      discourse_post_event:
+        models:
+          event:
+            status:
+              public:
+                title: "грамадскага"
+              private:
+                title: "прыватны"
+        builder_modal:
+          create: "стварыць"
+          update: "захаваць"
+          reminders:
+            units:
+              days: "дзён"
+            periods:
+              before: "перад"
+              after: "пасля"
+          url:
+            label: "URL спасылка"
+          status:
+            label: "Статус"
+        invite_user_or_group:
+          invite: "адправіць"
+        upcoming_events:
+          status: "Статус"
     discourse_post_event:
       models:
         event:

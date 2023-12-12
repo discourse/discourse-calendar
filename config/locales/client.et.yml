@@ -23,6 +23,45 @@ et:
         month: "Kuu"
         week: "Nädal"
         day: "Päev"
+      discourse_post_event:
+        notifications:
+          invite_user_notification: "%{username} %{description}"
+        models:
+          event:
+            status:
+              public:
+                title: "Avalik"
+              private:
+                title: "Privaatne"
+        event_ui:
+          show_all: "Näita kõiki"
+        bulk_invite_modal:
+          success: "Fail edukalt üles laetud. Sulle saabub teade, kui protsess on lõpule jõudnud."
+          error: "Vabandust, fail peab olema CSV vormingus."
+        builder_modal:
+          custom_fields:
+            placeholder: "Valikuline"
+          create: "Loo"
+          update: "Salvesta"
+          timezone:
+            label: Ajavöönd
+          reminders:
+            units:
+              minutes: "minutit"
+              hours: "tundi"
+              days: "päeva"
+            periods:
+              before: "enne"
+              after: "pärast"
+          url:
+            label: "URL"
+            placeholder: "Valikuline"
+          status:
+            label: "Staatus"
+        invite_user_or_group:
+          invite: "Saada"
+        upcoming_events:
+          status: "Staatus"
     group_timezones:
       search: "Otsi..."
     discourse_post_event:

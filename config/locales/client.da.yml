@@ -287,6 +287,123 @@ da:
         month: "Måned"
         week: "Uge"
         day: "Dag"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "%{username} har automatisk indstillet din deltagelse og inviteret dig til"
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} har automatisk indstillet din deltagelse og inviteret dig til %{description}"
+          before_event_reminder_html: "En begivenhed er ved at starte %{description}"
+          after_event_reminder_html: "En begivenhed er afsluttet %{description}"
+          ongoing_event_reminder_html: "En begivenhed er i gang  %{description}"
+        preview:
+          more_than_one_event: "Du kan ikke have mere end én begivenhed."
+        edit_reason: "Begivenhed opdateret"
+        topic_title:
+          starts_at: "Begivenheden starter: %{date}"
+          ended_at: "Begivenhed sluttede: %{date}"
+          ends_in_duration: "Slutter %{duration}"
+        models:
+          invitee:
+            status:
+              unknown: "Ikke interesseret"
+              going: "Deltager"
+              not_going: "Deltager Ikke"
+              interested: "Interesseret"
+          event:
+            expired: "Udløbet"
+            status:
+              standalone:
+                title: "Enkeltstående"
+                description: "En enkeltstående begivenhed kan ikke tilmeldes"
+              public:
+                title: "Offentlig"
+                description: "En offentlig begivenhed, alle kan tilmeldes."
+              private:
+                title: "Privat"
+                description: "En privat begivenhed kan kun tilmeldes af inviterede brugere."
+        event_ui:
+          show_all: "Vis alle"
+          participants:
+            one: "%{count} bruger deltog."
+            other: "%{count} brugere deltog."
+          invite: "Underret bruger"
+          add_to_calendar: "Føj til kalender"
+          send_pm_to_creator: "Send PM til %{username}"
+          edit_event: "Redigér begivenhed"
+          export_event: "Eksportér begivenhed"
+          created_by: "Oprettet af"
+          bulk_invite: "Masseinvitation"
+          close_event: "Luk begivenhed"
+        invitees_modal:
+          title_invited: "Liste over RSVPed-brugere"
+          title_participated: "Liste over brugere, der deltog"
+          filter_placeholder: "Filtrer brugere"
+        bulk_invite_modal:
+          confirm: "bekræft"
+          text: "Upload CSV-fil"
+          title: "Masseinvitation"
+          success: "Filen uploadet korrekt, du vil blive underrettet via besked, når processen er færdig."
+          error: "Beklager, filen skal være i CSV-format."
+          confirmation_message: "Du er ved at underrette alle i den uploadede fil."
+          description_public: "Offentlige begivenheder accepterer kun brugernavne til masseinvitationer."
+          description_private: "Private begivenheder accepterer kun gruppenavne til masseinvitationer."
+          download_sample_csv: "Download et CSV-prøveeksempel"
+          send_bulk_invites: "Send Invitationer"
+          group_selector_placeholder: "Vælg en gruppe..."
+          user_selector_placeholder: "Vælg bruger..."
+          inline_title: "Indlejret masseinvitation"
+          csv_title: "CSV-masseinvitation"
+        builder_modal:
+          custom_fields:
+            label: "Brugerdefinerede Felter"
+            placeholder: "Valgfri"
+            description: "Tilladte brugerdefinerede felter er defineret i webstedsindstillinger. Brugerdefinerede felter bruges til at overføre data til andre udvidelsesmoduler."
+          create_event_title: "Opret begivenhed"
+          update_event_title: "Rediger begivenhed"
+          confirm_delete: "Er du sikker på, at du vil slette denne begivenhed?"
+          confirm_close: "Er du sikker på, at du vil lukke denne begivenhed?"
+          create: "Opret"
+          update: "Gem"
+          attach: "Opret begivenhed"
+          add_reminder: "Tilføj påmindelse"
+          timezone:
+            label: Tidszone
+          reminders:
+            label: "Påmindelser"
+            units:
+              minutes: "minutter"
+              hours: "timer"
+              days: "dage"
+            periods:
+              before: "før"
+              after: "efter"
+          recurrence:
+            label: "Gentagelse"
+            none: "Ingen gentagelse"
+            every_day: "Hver dag"
+            every_month: "Hver måned på denne ugedag"
+            every_weekday: "Hver ugedag"
+            every_week: "Hver uge på denne ugedag"
+          url:
+            label: "URL"
+            placeholder: "Valgfri"
+          name:
+            label: "Navn på begivenhed"
+            placeholder: "Valgfri, standard er emnetitel"
+          invitees:
+            label: "Inviterede grupper"
+          status:
+            label: "Status"
+        invite_user_or_group:
+          title: "Underret bruger(e) eller gruppe(r)"
+          invite: "Send"
+        upcoming_events:
+          title: "Kommende begivenheder"
+          creator: "Skaber"
+          status: "Status"
+          starts_at: "Begynder"
+        upcoming_events_list:
+          title: "Kommende begivenheder"
     group_timezones:
       search: "Søg..."
       group_availability: "%{group} tilgængelighed"

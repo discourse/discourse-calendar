@@ -9,7 +9,8 @@ gl:
     currently_away:
       labels:
         username: Nome de usuario
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "Houbo un erro ao cargar o ficheiro. Ténteo máis tarde."
+  discourse_calendar:
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "Houbo un erro ao cargar o ficheiro. Ténteo máis tarde."

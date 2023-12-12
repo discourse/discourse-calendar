@@ -9,7 +9,8 @@ sw:
     currently_away:
       labels:
         username: Jina la mtumiaji
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "Tatizo limetokea wakati wa kupakia faili. Tafadhali jaribu tena."
+  discourse_calendar:
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "Tatizo limetokea wakati wa kupakia faili. Tafadhali jaribu tena."

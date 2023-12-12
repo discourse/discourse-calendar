@@ -23,6 +23,41 @@ sk:
         month: "Mesiac"
         week: "Týždeň"
         day: "Deň"
+      discourse_post_event:
+        models:
+          event:
+            status:
+              public:
+                title: "Verejné"
+              private:
+                title: "Súkromné"
+        bulk_invite_modal:
+          confirm: "potvrďte"
+          success: "Súbor bol úspešne odoslaný. Keď sa nahrávanie dokončí, budete na to upozornený cez správu."
+          error: "Prepáčte, súbor musí byť v CSV formáte."
+        builder_modal:
+          custom_fields:
+            placeholder: "Nepovinné"
+          create: "Vytvoriť"
+          update: "Uložiť"
+          reminders:
+            units:
+              days: "dní"
+            periods:
+              before: "pred"
+              after: "po"
+          recurrence:
+            label: "Opakovanie"
+            none: "Žiadna opakovaná udalosť"
+          url:
+            label: "URL"
+            placeholder: "Nepovinné"
+          status:
+            label: "Stav"
+        invite_user_or_group:
+          invite: "Odoslať"
+        upcoming_events:
+          status: "Stav"
     group_timezones:
       search: "Hľadať"
     discourse_post_event:

@@ -308,6 +308,81 @@ fa_IR:
         week: "هفته"
         day: "روز"
         list: "فهرست"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "%{username} به طور خودکار حضور شما را تنظیم کرده و از شما دعوت کرده است"
+          before_event_reminder: "یک رویداد در حال شروع است"
+          after_event_reminder: "یک رویداد به پایان رسیده است"
+          ongoing_event_reminder: "یک رویداد در حال انجام است"
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} به طور خودکار حضور شما را تنظیم کرده و شما را به %{description} دعوت کرده است"
+          before_event_reminder_html: "یک رویداد در حال شروع %{description} است"
+          after_event_reminder_html: "یک رویداد %{description} به پایان رسیده است"
+          ongoing_event_reminder_html: "یک رویداد در حال انجام است %{description}"
+        edit_reason: "رویداد به‌روز شد"
+        models:
+          event:
+            expired: "منقضی شده"
+            status:
+              public:
+                title: "عمومی"
+              private:
+                title: "خصوصی"
+        event_ui:
+          show_all: "نمایش همه"
+          add_to_calendar: "افزودن به تقویم"
+          edit_event: "ویرایش رویداد"
+          bulk_invite: "دعوت به تعداد بالا"
+        bulk_invite_modal:
+          confirm: "تایید"
+          title: "دعوت به تعداد بالا"
+          success: "فایل با موفقیت بارگذاری شد٬ وقتی که پروسه تمام شد به شما را از طریق پیام اطلاع می دهیم. "
+          error: "با عرض پوزش، نوع فایل باید CSV باشد."
+        builder_modal:
+          custom_fields:
+            placeholder: "اختیاری"
+          create_event_title: "ایجاد رویداد"
+          update_event_title: "ویرایش رویداد"
+          create: "ایجاد"
+          update: "ذخیره"
+          attach: "ایجاد رویداد"
+          add_reminder: "افزودن یادآوری"
+          timezone:
+            label: منطقه زمانی
+            remove_timezone: بدون منطقه زمانی (UTC)
+          reminders:
+            label: "یادآوری‌ها"
+            units:
+              minutes: "دقیقه"
+              hours: "ساعت"
+              days: "روز"
+              weeks: "هفته"
+            periods:
+              before: "قبل از"
+              after: "بعد از"
+          recurrence:
+            label: "همروندی"
+            none: "بدون همروندی"
+            every_day: "هر روز"
+            every_weekday: "هر هفته"
+          url:
+            label: "نشانی اینترنتی"
+            placeholder: "اختیاری"
+          name:
+            label: "نام رویداد"
+            placeholder: "اختیاری، پیش‌فرض عنوان موضوع است"
+          invitees:
+            label: "گروه‌های دعوت شده"
+          status:
+            label: "وضعیت"
+        invite_user_or_group:
+          invite: "ارسال"
+        upcoming_events:
+          title: "رویدادهای آینده"
+          creator: "ایجاد کننده"
+          status: "وضعیت"
+        upcoming_events_list:
+          title: "رویدادهای آینده"
     group_timezones:
       search: "جستجو..."
     discourse_post_event:

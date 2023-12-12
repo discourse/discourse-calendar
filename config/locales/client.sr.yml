@@ -21,6 +21,16 @@ sr:
         today: "Danas"
         month: "Mesec"
         week: "Nedelja"
+      discourse_post_event:
+        builder_modal:
+          update: "Sačuvaj"
+          reminders:
+            units:
+              days: "dana"
+            periods:
+              before: "pre"
+          url:
+            label: "URL"
     discourse_post_event:
       builder_modal:
         update: "Sačuvaj"
