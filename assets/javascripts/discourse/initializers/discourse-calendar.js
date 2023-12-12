@@ -220,7 +220,7 @@ function initializeDiscourseCalendar(api) {
               let borderColor, textColor;
               if (moment(ends_at || starts_at).isBefore(moment())) {
                 borderColor = textColor = backgroundColor;
-                backgroundColor = undefined;
+                backgroundColor = "unset";
               }
 
               fullCalendar.addEvent({
