@@ -9,13 +9,14 @@ pl_PL:
     currently_away:
       labels:
         username: Nazwa konta
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "Wystąpił błąd podczas wgrywania tego pliku. Spróbuj ponownie później."
-      models:
-        event:
-          invalid_timezone: "Strefa czasowa nie została rozpoznana."
-          invalid_allowed_groups: "Nieprawidłowe dozwolone grupy."
-          acting_user_not_allowed_to_invite_these_groups: "Bieżący użytkownik nie może zapraszać tych grup."
-          custom_field_is_invalid: "Pole niestandardowe `%{field}` jest niedozwolone."
+  discourse_calendar:
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "Wystąpił błąd podczas wgrywania tego pliku. Spróbuj ponownie później."
+        models:
+          event:
+            invalid_timezone: "Strefa czasowa nie została rozpoznana."
+            invalid_allowed_groups: "Nieprawidłowe dozwolone grupy."
+            acting_user_not_allowed_to_invite_these_groups: "Bieżący użytkownik nie może zapraszać tych grup."
+            custom_field_is_invalid: "Pole niestandardowe `%{field}` jest niedozwolone."

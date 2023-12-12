@@ -284,6 +284,124 @@ sl:
         today: "Danes"
         month: "Mesec"
         week: "Teden"
+      discourse_post_event:
+        notifications:
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} vas je povabil na %{description} in vam določil udeležbo"
+          before_event_reminder_html: "Dogodek se bo kmalu pričel %{description}"
+          after_event_reminder_html: "Dogodek je zaključen %{description}"
+          ongoing_event_reminder_html: "Dogodek je v teku  %{description}"
+        preview:
+          more_than_one_event: "Dodaš lahko največ en dogodek."
+        edit_reason: "Dogodek posodobljen"
+        topic_title:
+          starts_at: "Dogodek se bo pričel: %{date}"
+          ended_at: "Dogodek se je zaključil: %{date}"
+          ends_in_duration: "Bo zaključen %{duration}"
+        models:
+          invitee:
+            status:
+              unknown: "Neodločen"
+              going: "Pridem"
+              not_going: "Ne pridem"
+              interested: "Mogoče pridem"
+          event:
+            expired: "Poteklo"
+            status:
+              standalone:
+                title: "Samostojni"
+                description: "Na samostojni dogodek prijava ni možna."
+              public:
+                title: "Javni"
+                description: "Na javni dogodek se lahko prijavi kdorkoli."
+              private:
+                title: "Zasebni"
+                description: "Na zasebni dogodek se lahko prijavijo samo povabljenci."
+        event_ui:
+          show_all: "Pokaži vse"
+          participants:
+            one: "%{count} udeleženec."
+            two: "%{count} udeleženca."
+            few: "%{count} udeleženci."
+            other: "%{count} udeležencev."
+          invite: "Obvesti uporabnika"
+          add_to_calendar: "Dodaj v koledar"
+          send_pm_to_creator: "Pošlji ZS %{username}"
+          edit_event: "Uredi dogodek"
+          export_event: "Izvozi dogodek"
+          created_by: "Ustvaril"
+          bulk_invite: "Skupinsko vabilo"
+          close_event: "Zapri dogodek"
+        invitees_modal:
+          title_invited: "Seznam potrditev"
+          title_participated: "Seznam udeležencev"
+          filter_placeholder: "Filtriraj uporabnike"
+        bulk_invite_modal:
+          confirm: "potrdi"
+          text: "Uvozi iz CSV"
+          title: "Skupinsko vabilo"
+          success: "Datoteka je uspešno naložena. Obveščeni boste, ko bo postopek zaključen."
+          error: "Datoteka mora biti v CSV obliki."
+          confirmation_message: "Poslali boste obvestilo vsem osebam iz datoteke."
+          description_public: "Skupinska vabila na javne dogodke lahko vsebujejo samo imena uporabnikov."
+          description_private: "Skupinska vabila na zasebne dogodke lahko vsebujejo samo imena grup."
+          download_sample_csv: "Prenesi vzorčno CSV datoteko"
+          send_bulk_invites: "Pošlji vabila"
+          group_selector_placeholder: "Izberi grupo..."
+          user_selector_placeholder: "Izberi uporabnika..."
+          inline_title: "Ročno dodajanje vabil"
+          csv_title: "Dodajanje vabil iz CSV"
+        builder_modal:
+          custom_fields:
+            label: "Polja po meri"
+            placeholder: "Neobvezno"
+            description: "Polja po meri so določena v sistemskih nastavitvah. Z njihovo pomočjo lahko izmenjujete podatke z drugimi vtičniki."
+          create_event_title: "Ustvari dogodek"
+          update_event_title: "Uredi dogodek"
+          confirm_delete: "Res želiš izbrisati ta dogodek?"
+          confirm_close: "Res želiš zapreti ta dogodek?"
+          create: "Ustvari"
+          update: "Shrani"
+          attach: "Ustvari dogodek"
+          add_reminder: "Dodaj opomnik"
+          timezone:
+            label: Časovni pas
+          reminders:
+            label: "Opomniki"
+            units:
+              minutes: "minut"
+              hours: "ur"
+              days: "dni"
+            periods:
+              before: "pred"
+              after: "po"
+          recurrence:
+            label: "Ponavljanje"
+            none: "Brez"
+            every_day: "Vsak dan"
+            every_month: "Mesečno na ta dan"
+            every_weekday: "Vsak delavnik"
+            every_week: "Tedensko na ta dan"
+          url:
+            label: "URL"
+            placeholder: "Neobvezno"
+          name:
+            label: "Ime dogodka"
+            placeholder: "Neobvezno, privzeto enako imenu dogodka"
+          invitees:
+            label: "Povabljene grupe"
+          status:
+            label: "Status"
+        invite_user_or_group:
+          title: "Obvesti uporabnike oz. grupe"
+          invite: "Pošlji"
+        upcoming_events:
+          title: "Prihajajoči dogodki"
+          creator: "Organizator"
+          status: "Status"
+          starts_at: "Prične se ob"
+        upcoming_events_list:
+          title: "Prihajajoči dogodki"
     group_timezones:
       search: "Išči..."
       group_availability: "Razpoložljivost %{group}"

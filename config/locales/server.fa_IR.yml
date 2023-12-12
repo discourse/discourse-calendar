@@ -20,12 +20,12 @@ fa_IR:
     invite_user_notification: "%{username} شما را دعوت کرده به: %{description}"
     holiday_status:
       description: "در تعطیلات"
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "خطایی هنگام آپلود فایل مربوطه رخ داده است. لطفا بعدا امتحان کنید."
-      models:
-        event:
-          invalid_timezone: "منطقه‌زمانی شناسایی نشد."
-          invalid_allowed_groups: "گروه‌های مجاز نامعتبر."
-          acting_user_not_allowed_to_invite_these_groups: "کاربر فعلی اجازه دعوت از این گروه‌ها را ندارد."
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "خطایی هنگام آپلود فایل مربوطه رخ داده است. لطفا بعدا امتحان کنید."
+        models:
+          event:
+            invalid_timezone: "منطقه‌زمانی شناسایی نشد."
+            invalid_allowed_groups: "گروه‌های مجاز نامعتبر."
+            acting_user_not_allowed_to_invite_these_groups: "کاربر فعلی اجازه دعوت از این گروه‌ها را ندارد."

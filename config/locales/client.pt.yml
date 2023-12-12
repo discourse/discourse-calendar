@@ -24,6 +24,54 @@ pt:
         month: "Mês"
         week: "Semana"
         day: "Dia"
+      discourse_post_event:
+        notifications:
+          invite_user_notification: "%{username} %{description}"
+        models:
+          event:
+            expired: "Expirado"
+            status:
+              public:
+                title: "Público"
+              private:
+                title: "Privado"
+        event_ui:
+          show_all: "Mostrar tudo"
+          add_to_calendar: "Adicionar ao calendário"
+          bulk_invite: "Convite em massa"
+        bulk_invite_modal:
+          confirm: "confirmar"
+          title: "Convite em massa"
+          success: "Ficheiro enviado corretamente, será notificado via mensagem quando o processo estiver concluído."
+          error: "Desculpe, o ficheiro deverá estar no formato CSV."
+        builder_modal:
+          custom_fields:
+            placeholder: "Opcional"
+          create: "Criar"
+          update: "Guardar"
+          timezone:
+            label: Zona Horária
+          reminders:
+            units:
+              minutes: "minutos"
+              hours: "horas"
+              days: "dias"
+            periods:
+              before: "antes"
+              after: "depois"
+          recurrence:
+            label: "Recorrência"
+            none: "Nenhuma recorrência"
+            every_day: "Diariamente"
+          url:
+            label: "URL"
+            placeholder: "Opcional"
+          status:
+            label: "Estado"
+        invite_user_or_group:
+          invite: "Enviar"
+        upcoming_events:
+          status: "Estado"
     group_timezones:
       search: "Pesquisar..."
     discourse_post_event:

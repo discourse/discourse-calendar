@@ -64,32 +64,32 @@ ja:
     event_expired: "イベント終了"
     holiday_status:
       description: "休暇中"
+    discourse_post_event:
+      notifications:
+        before_event_reminder: "%{title} は間もなく開始します。"
+        after_event_reminder: "%{title} は終了しました。"
+        ongoing_event_reminder: "%{title} は進行中です。"
+      errors:
+        bulk_invite:
+          max_invitees: "最初の %{max_invittes} 人の招待者が作成されました。ファイルをより小さく分割してください。"
+          error: "そのファイルをアップロード中にエラーが発生しました。後でもう一度お試しください。"
+        models:
+          event:
+            only_one_event: "投稿には 1 つのイベントのみを含めることができます。"
+            only_group: "イベントにはグループ名のみを使用できます。"
+            must_be_in_first_post: "イベントは、トピックの最初の投稿にのみ含めることができます。"
+            raw_invitees_length: "イベントは、%{count} ユーザー/グループに制限されています。"
+            ends_at_before_starts_at: "イベントを開始時刻より前に終了されることはできません。"
+            start_must_be_present_and_a_valid_date: "イベントには有効な開始日が必要です。"
+            end_must_be_a_valid_date: "終了日は有効な日付である必要があります。"
+            invalid_timezone: "タイムゾーンが認識されません。"
+            acting_user_not_allowed_to_create_event: "現在のユーザーは、イベントを作成できません。"
+            acting_user_not_allowed_to_act_on_this_event: "現在のユーザーはこのイベントにアクションを実行することはできません。"
+            invalid_allowed_groups: "許可されたグループは無効です。"
+            acting_user_not_allowed_to_invite_these_groups: "現在のユーザーはこれらのグループを招待できません。"
+            custom_field_is_invalid: "カスタムフィールド `%{field}` は許可されていません。"
+            name:
+              length: "イベント名の長さは、%{minimum}～%{maximum} 文字である必要があります。"
   discourse_push_notifications:
     popup:
       event_reminder: "イベントのリマインダー"
-  discourse_post_event:
-    notifications:
-      before_event_reminder: "%{title} は間もなく開始します。"
-      after_event_reminder: "%{title} は終了しました。"
-      ongoing_event_reminder: "%{title} は進行中です。"
-    errors:
-      bulk_invite:
-        max_invitees: "最初の %{max_invittes} 人の招待者が作成されました。ファイルをより小さく分割してください。"
-        error: "そのファイルをアップロード中にエラーが発生しました。後でもう一度お試しください。"
-      models:
-        event:
-          only_one_event: "投稿には 1 つのイベントのみを含めることができます。"
-          only_group: "イベントにはグループ名のみを使用できます。"
-          must_be_in_first_post: "イベントは、トピックの最初の投稿にのみ含めることができます。"
-          raw_invitees_length: "イベントは、%{count} ユーザー/グループに制限されています。"
-          ends_at_before_starts_at: "イベントを開始時刻より前に終了されることはできません。"
-          start_must_be_present_and_a_valid_date: "イベントには有効な開始日が必要です。"
-          end_must_be_a_valid_date: "終了日は有効な日付である必要があります。"
-          invalid_timezone: "タイムゾーンが認識されません。"
-          acting_user_not_allowed_to_create_event: "現在のユーザーは、イベントを作成できません。"
-          acting_user_not_allowed_to_act_on_this_event: "現在のユーザーはこのイベントにアクションを実行することはできません。"
-          invalid_allowed_groups: "許可されたグループは無効です。"
-          acting_user_not_allowed_to_invite_these_groups: "現在のユーザーはこれらのグループを招待できません。"
-          custom_field_is_invalid: "カスタムフィールド `%{field}` は許可されていません。"
-          name:
-            length: "イベント名の長さは、%{minimum}～%{maximum} 文字である必要があります。"

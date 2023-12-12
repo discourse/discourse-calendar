@@ -30,19 +30,19 @@ cs:
     more_than_one_calendar: "V jednom příspěvku nemůže být více než jeden kalendář."
     more_than_two_dates: "Příspěvek pod tématem kalendáře nemůže obsahovat více než dvě data."
     event_expired: "Událost uplynula"
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "Nastala chyba při nahrávání souboru. Prosím opakujte akci později."
-      models:
-        event:
-          only_one_event: "Příspěvek může obsahovat jen jednu událost."
-          must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
-          raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
-          ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
-          start_must_be_present_and_a_valid_date: "Událost vyžaduje platné datum začátku."
-          end_must_be_a_valid_date: "Datum konce musí být platné datum."
-          acting_user_not_allowed_to_create_event: "Současný uživatel nemůže vytvářet události."
-          acting_user_not_allowed_to_act_on_this_event: "Současný uživatel nemůže reagovat na tuto událost."
-          name:
-            length: "Název události musí být dlouhý %{minimum} až %{maximum} znaků."
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "Nastala chyba při nahrávání souboru. Prosím opakujte akci později."
+        models:
+          event:
+            only_one_event: "Příspěvek může obsahovat jen jednu událost."
+            must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
+            raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
+            ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
+            start_must_be_present_and_a_valid_date: "Událost vyžaduje platné datum začátku."
+            end_must_be_a_valid_date: "Datum konce musí být platné datum."
+            acting_user_not_allowed_to_create_event: "Současný uživatel nemůže vytvářet události."
+            acting_user_not_allowed_to_act_on_this_event: "Současný uživatel nemůže reagovat na tuto událost."
+            name:
+              length: "Název události musí být dlouhý %{minimum} až %{maximum} znaků."

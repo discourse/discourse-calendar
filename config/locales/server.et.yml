@@ -9,7 +9,8 @@ et:
     currently_away:
       labels:
         username: Kasutajanimi
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "Selle faili üleslaadimisel tekkis viga. Palun proovi hiljem uuesti."
+  discourse_calendar:
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "Selle faili üleslaadimisel tekkis viga. Palun proovi hiljem uuesti."

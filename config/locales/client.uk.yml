@@ -311,6 +311,144 @@ uk:
         week: "Тиждень"
         day: "День"
         list: "Список"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "%{username} автоматично встановив вашу присутність і запросив вас туди"
+          before_event_reminder: "Подія ось-ось розпочнеться"
+          after_event_reminder: "Подія завершилася"
+          ongoing_event_reminder: "Подія триває"
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} автоматично встановив вашу присутність і запросив вас на %{description}"
+          before_event_reminder_html: "Подія ось-ось розпочнеться %{description}"
+          after_event_reminder_html: "Подія закінчилася %{description}"
+          ongoing_event_reminder_html: "Подія триває  %{description}"
+        preview:
+          more_than_one_event: "Ви не можете мати більше однієї події."
+        edit_reason: "Подію оновлено"
+        topic_title:
+          starts_at: "Подія розпочинається: %{date}"
+          ended_at: "Подія закінчилася: %{date}"
+          ends_in_duration: "Закінчується %{duration}"
+        models:
+          invitee:
+            no_users: "Користувачів цього типу немає."
+            status:
+              unknown: "Не цікавить"
+              going: "Йду"
+              not_going: "Не піду."
+              interested: "Цікавить"
+          event:
+            expired: "Термін дії закінчився"
+            status:
+              standalone:
+                title: "Автономна"
+                description: "Не можна приєднатися до автономної події."
+              public:
+                title: "Публічні"
+                description: "До публічного заходу може приєднатися будь-хто."
+              private:
+                title: "Приватні"
+                description: "До закритої події можуть приєднатися лише запрошені користувачі."
+        event_ui:
+          show_all: "Показати всі"
+          participants:
+            one: "%{count} користувач брав участь."
+            few: "%{count} користувачі брали участь."
+            many: "%{count} користувачів брали участь."
+            other: "%{count} користувачів брали участь."
+          invite: "Сповістити користувача"
+          add_to_calendar: "Додати до календаря"
+          send_pm_to_creator: "Надіслати PM на %{username}"
+          leave: "Залишити подію"
+          edit_event: "Редагувати подію"
+          export_event: "Експорт події"
+          created_by: "Ким створено"
+          bulk_invite: "Масове запрошення"
+          close_event: "Закрити подію"
+        invitees_modal:
+          title_invited: "Список користувачів RSVPed"
+          title_participated: "Список користувачів, які брали участь"
+          filter_placeholder: "Фільтр користувачів"
+        bulk_invite_modal:
+          confirm: "підтвердити"
+          text: "Завантажити файл CSV"
+          title: "Масове запрошення"
+          success: "Файл успішно завантажений, ви отримаєте повідомлення, коли процес буде завершений."
+          error: "Вибачте, але файл повинен бути у форматі CSV."
+          confirmation_message: "Ви збираєтеся повідомити всіх у завантаженому файлі."
+          description_public: "Для масових запрошень на публічні події приймаються лише імена користувачів."
+          description_private: "Приватні події приймають лише назви груп для масових запрошень."
+          download_sample_csv: "Завантажити приклад CSV-файлу"
+          send_bulk_invites: "Надіслати запрошення"
+          group_selector_placeholder: "Виберіть групу..."
+          user_selector_placeholder: "Виберіть користувача..."
+          inline_title: "Вбудоване масове запрошення"
+          csv_title: "CSV-масове запрошення"
+        builder_modal:
+          custom_fields:
+            label: "Користувацькі поля"
+            placeholder: "Опціонально"
+            description: "Дозволені спеціальні поля визначаються в налаштуваннях сайту. Користувальницькі поля використовуються для передачі даних іншим плагінам."
+          create_event_title: "Створити подію"
+          update_event_title: "Редагувати подію"
+          confirm_delete: "Ви впевнені, що хочете видалити цю подію?"
+          confirm_close: "Ви впевнені, що хочете закрити цю подію?"
+          create: "Створити"
+          update: "Зберегти"
+          attach: "Створити подію"
+          add_reminder: "Додати нагадування"
+          timezone:
+            label: Часовий пояс
+            remove_timezone: Без часового поясу (UTC)
+          reminders:
+            label: "Нагадування"
+            types:
+              bump_topic: "автоматичне зібрання теми"
+              notification: "сповістити учасників"
+            units:
+              minutes: "хвилини"
+              hours: "годин"
+              days: "днів"
+              weeks: "тижнів"
+            periods:
+              before: "до"
+              after: "після"
+          recurrence:
+            label: "Повторення"
+            none: "Без повторів"
+            every_day: "Щодня"
+            every_month: "Щомісяця в будні"
+            every_weekday: "Щодня в будній день"
+            every_week: "Щотижня в цей будній день"
+            every_two_weeks: "Кожні два тижні в цей будній день"
+            every_four_weeks: "Кожні чотири тижні в цей будній день"
+          minimal:
+            label: "Мінімальна подія"
+            checkbox_label: "Приховати кнопки \"Йду/Не йду\" та статус запрошених"
+          url:
+            label: "Посилання"
+            placeholder: "Опціонально"
+          name:
+            label: "Назва події"
+            placeholder: "Необов'язково, типові значення для назви теми"
+          invitees:
+            label: "Запрошені групи"
+          status:
+            label: "Статус"
+        invite_user_or_group:
+          title: "Сповістити користувача(ів) або групу(и)"
+          invite: "Надіслати"
+        upcoming_events:
+          title: "Майбутні події"
+          creator: "Творець"
+          status: "Статус"
+          starts_at: "Починається о"
+        upcoming_events_list:
+          title: "Майбутні події"
+          empty: "Немає майбутніх подій"
+          all_day: "Увесь день"
+          error: "Не вдалося отримати події"
+          try_again: "Спробуйте ще раз"
     group_timezones:
       search: "Пошук…"
       group_availability: "%{group} доступність"

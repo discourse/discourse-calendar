@@ -23,6 +23,48 @@ bs_BA:
         month: "Mjesec"
         week: "Sedmica"
         day: "Day"
+      discourse_post_event:
+        notifications:
+          invite_user_notification: "%{username} %{description}"
+        models:
+          event:
+            status:
+              public:
+                title: "Javno"
+              private:
+                title: "Privatno"
+        event_ui:
+          bulk_invite: "Skupna pozivnica"
+        bulk_invite_modal:
+          title: "Skupna pozivnica"
+          success: "Fajl je uspješno učitan, dobit će te ukratko obavijest o progresu."
+          error: "Oprostite, vaš fajl bi trebao biti u CSV formatu."
+        builder_modal:
+          custom_fields:
+            placeholder: "Opciono"
+          create: "napravi"
+          update: "Save"
+          timezone:
+            label: Vremenska zona
+          reminders:
+            units:
+              days: "days"
+            periods:
+              before: "prije"
+              after: "poslije"
+          recurrence:
+            label: "Vraćanje"
+            none: "Bez ponavljanja"
+            every_day: "Svaki dan"
+          url:
+            label: "URL"
+            placeholder: "Opciono"
+          status:
+            label: "Status"
+        invite_user_or_group:
+          invite: "Pošalji"
+        upcoming_events:
+          status: "Status"
     group_timezones:
       search: "Pretraga..."
     discourse_post_event:

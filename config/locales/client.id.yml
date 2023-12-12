@@ -61,6 +61,38 @@ id:
           ch_bl: "Swiss (ch_bl)"
       toolbar_button:
         day: "Hari"
+      discourse_post_event:
+        models:
+          event:
+            status:
+              public:
+                title: "Umum"
+              private:
+                title: "Pribadi"
+        bulk_invite_modal:
+          confirm: "konfirmasi"
+          success: "File telah sukses diunggah, anda akan mendapat pesan pemberitahuan saat proses telah selesai."
+          error: "Maaf, file harus dalam format CSV"
+        builder_modal:
+          custom_fields:
+            placeholder: "Opsional"
+          create: "Buat"
+          update: "Simpan"
+          timezone:
+            label: Zona Waktu
+          reminders:
+            units:
+              minutes: "menit"
+              hours: "jam"
+              days: "hari"
+          recurrence:
+            every_day: "Setiap hari"
+          url:
+            placeholder: "Opsional"
+          status:
+            label: "Status"
+        upcoming_events:
+          status: "Status"
     group_timezones:
       search: "Cari..."
     discourse_post_event:
