@@ -52,11 +52,13 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await render(<template><UpcomingEventsList /></template>);
 
-    this.appEvents.trigger("page:changed", {});
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -64,7 +66,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__empty-message").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.empty"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.empty"
+      ),
       "it displays the empty list message"
     );
   });
@@ -74,11 +78,13 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await render(<template><UpcomingEventsList /></template>);
 
-    this.appEvents.trigger("page:changed", {});
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -111,7 +117,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [
-        I18n.t("discourse_post_event.upcoming_events_list.all_day"),
+        I18n.t(
+          "discourse_calendar.discourse_post_event.upcoming_events_list.all_day"
+        ),
         moment(nextMonth).format(DEFAULT_TIME_FORMAT),
       ],
       "it displays the formatted time"
@@ -135,11 +143,13 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       />
     </template>);
 
-    this.appEvents.trigger("page:changed", {});
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -163,7 +173,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [
-        I18n.t("discourse_post_event.upcoming_events_list.all_day"),
+        I18n.t(
+          "discourse_calendar.discourse_post_event.upcoming_events_list.all_day"
+        ),
         moment(nextMonth).format("LLL"),
       ],
       "it displays the formatted time"
@@ -185,11 +197,13 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await render(<template><UpcomingEventsList /></template>);
 
-    this.appEvents.trigger("page:changed", {});
+    this.appEvents.trigger("page:changed", { url: "/" });
 
     assert.strictEqual(
       query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
       "it displays the title"
     );
 
@@ -197,13 +211,17 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     assert.strictEqual(
       query(".upcoming-events-list__error-message").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.error"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.error"
+      ),
       "it displays the error message"
     );
 
     assert.strictEqual(
       query(".upcoming-events-list__try-again").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.try_again"),
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.try_again"
+      ),
       "it displays the try again button"
     );
   });
@@ -214,27 +232,9 @@ function twoEventsResponseHandler() {
     events: [
       {
         id: 67501,
-        creator: {
-          id: 1500588,
-          username: "foobar",
-          name: null,
-          avatar_template: "/user_avatar/localhost/foobar/{size}/1913_2.png",
-          assign_icon: "user-plus",
-          assign_path: "/u/foobar/activity/assigned",
-        },
-        sample_invitees: [],
-        watching_invitee: null,
         starts_at: tomorrowAllDay,
         ends_at: null,
         timezone: "Asia/Calcutta",
-        stats: {
-          going: 0,
-          interested: 0,
-          not_going: 0,
-          invited: 0,
-        },
-        status: "public",
-        raw_invitees: ["trust_level_0"],
         post: {
           id: 67501,
           post_number: 1,
@@ -245,43 +245,13 @@ function twoEventsResponseHandler() {
           },
         },
         name: "Awesome Event",
-        can_act_on_discourse_post_event: true,
-        can_update_attendance: true,
-        is_expired: false,
-        is_ongoing: true,
-        should_display_invitees: false,
-        url: null,
-        custom_fields: {},
-        is_public: true,
-        is_private: false,
-        is_standalone: false,
-        reminders: [],
-        recurrence: null,
         category_id: 1,
       },
       {
         id: 67502,
-        creator: {
-          id: 1500588,
-          username: "foobar",
-          name: null,
-          avatar_template: "/user_avatar/localhost/foobar/{size}/1913_2.png",
-          assign_icon: "user-plus",
-          assign_path: "/u/foobar/activity/assigned",
-        },
-        sample_invitees: [],
-        watching_invitee: null,
         starts_at: nextMonth,
         ends_at: null,
         timezone: "Asia/Calcutta",
-        stats: {
-          going: 0,
-          interested: 0,
-          not_going: 0,
-          invited: 0,
-        },
-        status: "public",
-        raw_invitees: ["trust_level_0"],
         post: {
           id: 67501,
           post_number: 1,
@@ -292,18 +262,6 @@ function twoEventsResponseHandler() {
           },
         },
         name: "Another Awesome Event",
-        can_act_on_discourse_post_event: true,
-        can_update_attendance: true,
-        is_expired: false,
-        is_ongoing: true,
-        should_display_invitees: false,
-        url: null,
-        custom_fields: {},
-        is_public: true,
-        is_private: false,
-        is_standalone: false,
-        reminders: [],
-        recurrence: null,
         category_id: 2,
       },
     ],

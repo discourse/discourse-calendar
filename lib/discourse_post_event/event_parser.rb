@@ -41,7 +41,7 @@ module DiscoursePostEvent
 
             if value && valid_options.include?(name)
               event ||= {}
-              event[name.sub("data-", "").to_sym] = if name == "data-name"
+              event[name.sub("data-", "").to_sym] = if %w[data-name data-url].include?(name)
                 value
               else
                 CGI.escapeHTML(value)

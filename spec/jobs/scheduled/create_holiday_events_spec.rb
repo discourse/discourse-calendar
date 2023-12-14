@@ -33,13 +33,13 @@ describe DiscourseCalendar::CreateHolidayEvents do
     freeze_time Time.zone.local(2019, 8, 1)
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
       [
-        ["fr", "Assomption", "2019-08-15", frenchy.username],
-        ["fr", "Toussaint", "2019-11-01", frenchy.username],
-        ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
-        ["fr", "Noël", "2019-12-25", frenchy.username],
-        ["fr", "Jour de l'an", "2020-01-01", frenchy.username],
+        ["fr", "Assomption", Date.parse("2019-08-15"), frenchy.username],
+        ["fr", "Toussaint", Date.parse("2019-11-01"), frenchy.username],
+        ["fr", "Armistice 1918", Date.parse("2019-11-11"), frenchy.username],
+        ["fr", "Noël", Date.parse("2019-12-25"), frenchy.username],
+        ["fr", "Jour de l'an", Date.parse("2020-01-01"), frenchy.username],
       ],
     )
   end
@@ -50,11 +50,11 @@ describe DiscourseCalendar::CreateHolidayEvents do
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
     # The "Australia Day" is always observed on a Monday
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
       [
-        ["au", "Australia Day", "2020-01-27", aussie.username],
-        ["au", "Good Friday", "2020-04-10", aussie.username],
-        ["au", "Easter Monday", "2020-04-13", aussie.username],
+        ["au", "Australia Day", Date.parse("2020-01-27"), aussie.username],
+        ["au", "Good Friday", Date.parse("2020-04-10"), aussie.username],
+        ["au", "Easter Monday", Date.parse("2020-04-13"), aussie.username],
       ],
     )
   end
@@ -65,13 +65,13 @@ describe DiscourseCalendar::CreateHolidayEvents do
     DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
     # The "Fête Nationale" is on July 14th but it's on a Sunday in 2019
-    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+    expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
       [
-        ["fr", "Assomption", "2019-08-15", frenchy.username],
-        ["fr", "Toussaint", "2019-11-01", frenchy.username],
-        ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
-        ["fr", "Noël", "2019-12-25", frenchy.username],
-        ["fr", "Jour de l'an", "2020-01-01", frenchy.username],
+        ["fr", "Assomption", Date.parse("2019-08-15"), frenchy.username],
+        ["fr", "Toussaint", Date.parse("2019-11-01"), frenchy.username],
+        ["fr", "Armistice 1918", Date.parse("2019-11-11"), frenchy.username],
+        ["fr", "Noël", Date.parse("2019-12-25"), frenchy.username],
+        ["fr", "Jour de l'an", Date.parse("2020-01-01"), frenchy.username],
       ],
     )
   end
@@ -111,6 +111,32 @@ describe DiscourseCalendar::CreateHolidayEvents do
     expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq([])
   end
 
+  it "does not create duplicates when username is changed" do
+    frenchy
+    DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
+    created_event = CalendarEvent.last
+    expect(created_event.username).to eq(frenchy.username)
+    frenchy.update!(username: "new_username")
+
+    expect { DiscourseCalendar::CreateHolidayEvents.new.execute(nil) }.not_to change {
+      CalendarEvent.count
+    }
+    expect(created_event.reload.username).to eq("new_username")
+  end
+
+  it "does not create duplicates when timezone is changed" do
+    frenchy
+    DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
+    created_event = CalendarEvent.last
+    expect(created_event.timezone).to eq(frenchy.user_option.timezone)
+    frenchy.user_option.update!(timezone: "Asia/Taipei")
+
+    expect { DiscourseCalendar::CreateHolidayEvents.new.execute(nil) }.not_to change {
+      CalendarEvent.count
+    }
+    expect(created_event.reload.timezone).to eq("Asia/Taipei")
+  end
+
   it "cleans up holidays from deactivated/silenced/suspended users" do
     frenchy
     freeze_time Time.zone.local(2019, 8, 1)
@@ -140,11 +166,11 @@ describe DiscourseCalendar::CreateHolidayEvents do
       freeze_time Time.zone.local(2019, 7, 1)
       DiscourseCalendar::CreateHolidayEvents.new.execute(nil)
 
-      expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to eq(
+      expect(CalendarEvent.pluck(:region, :description, :start_date, :username)).to match_array(
         [
-          ["fr", "Armistice 1918", "2019-11-11", frenchy.username],
-          ["fr", "Noël", "2019-12-25", frenchy.username],
-          ["fr", "Jour de l'an", "2020-01-01", frenchy.username],
+          ["fr", "Armistice 1918", Date.parse("2019-11-11"), frenchy.username],
+          ["fr", "Noël", Date.parse("2019-12-25"), frenchy.username],
+          ["fr", "Jour de l'an", Date.parse("2020-01-01"), frenchy.username],
         ],
       )
     end

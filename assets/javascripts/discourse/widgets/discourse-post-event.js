@@ -1,19 +1,28 @@
 import EmberObject from "@ember/object";
-import { dasherize } from "@ember/string";
 import { routeAction } from "discourse/helpers/route-action";
 import { exportEntity } from "discourse/lib/export-csv";
-import showModal from "discourse/lib/show-modal";
 import { cook, emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
 import I18n from "I18n";
+import PostEventBuilder from "../components/modal/post-event-builder";
+import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
+import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
+import PostEventInvitees from "../components/modal/post-event-invitees";
 import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
+};
+
 export default createWidget("discourse-post-event", {
   tagName: "div.discourse-post-event-widget",
-  services: ["dialog"],
+  services: ["dialog", "store", "modal", "currentUser", "siteSettings"],
 
   buildKey: (attrs) => `discourse-post-event-${attrs.id}`,
 
@@ -25,40 +34,51 @@ export default createWidget("discourse-post-event", {
 
   inviteUserOrGroup(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal("discourse-post-event-invite-user-or-group", {
-        model: eventModel,
+      this.modal.show(PostEventInviteUserOrGroup, {
+        model: { event: eventModel },
       });
     });
   },
 
   showAllInvitees(params) {
-    const postId = params.postId;
-    const title = params.title || "title_invited";
-    const extraClass = params.extraClass || "invited";
-    const name = "discourse-post-event-invitees";
-
-    this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal(name, {
-        model: eventModel,
-        title: `discourse_post_event.invitees_modal.${title}`,
-        modalClass: [`${dasherize(name).toLowerCase()}-modal`, extraClass].join(
-          " "
-        ),
+    this.store
+      .find("discourse-post-event-event", params.postId)
+      .then((eventModel) => {
+        this.modal.show(PostEventInvitees, {
+          model: {
+            event: eventModel,
+            title: params.title,
+            extraClass: params.extraClass,
+          },
+        });
       });
-    });
   },
 
   editPostEvent(postId) {
     this.store.find("discourse-post-event-event", postId).then((eventModel) => {
-      showModal("discourse-post-event-builder", {
-        model: { eventModel, topicId: eventModel.post.topic.id },
+      this.modal.show(PostEventBuilder, {
+        model: {
+          event: eventModel,
+          updateCustomField: (field, value) =>
+            updateCustomField(eventModel, field, value),
+          updateEventStatus: (status) => updateEventStatus(eventModel, status),
+          updateEventRawInvitees: (rawInvitees) =>
+            updateEventRawInvitees(eventModel, rawInvitees),
+          removeReminder: (reminder) => removeReminder(eventModel, reminder),
+          addReminder: () => addReminder(eventModel),
+          onChangeDates: (changes) => onChangeDates(eventModel, changes),
+          updateTimezone: (newTz, startsAt, endsAt) =>
+            updateTimezone(eventModel, newTz, startsAt, endsAt),
+        },
       });
     });
   },
 
   closeEvent(eventModel) {
     this.dialog.yesNoConfirm({
-      message: I18n.t("discourse_post_event.builder_modal.confirm_close"),
+      message: I18n.t(
+        "discourse_calendar.discourse_post_event.builder_modal.confirm_close"
+      ),
       didConfirm: () => {
         return this.store.find("post", eventModel.id).then((post) => {
           const raw = post.raw;
@@ -76,7 +96,9 @@ export default createWidget("discourse-post-event", {
           if (newRaw) {
             const props = {
               raw: newRaw,
-              edit_reason: I18n.t("discourse_post_event.edit_reason"),
+              edit_reason: I18n.t(
+                "discourse_calendar.discourse_post_event.edit_reason"
+              ),
             };
 
             return cook(newRaw).then((cooked) => {
@@ -101,10 +123,19 @@ export default createWidget("discourse-post-event", {
         this.state.eventModel.watching_invitee.id,
         { status: newStatus, post_id: this.state.eventModel.id }
       );
+
+      this.appEvents.trigger("calendar:update-invitee-status", {
+        status: newStatus,
+        postId: this.state.eventModel.id,
+      });
     } else {
       this.store
         .createRecord("discourse-post-event-invitee")
         .save({ post_id: this.state.eventModel.id, status });
+      this.appEvents.trigger("calendar:create-invitee-status", {
+        status,
+        postId: this.state.eventModel.id,
+      });
     }
   },
 
@@ -122,8 +153,8 @@ export default createWidget("discourse-post-event", {
   },
 
   bulkInvite(eventModel) {
-    showModal("discourse-post-event-bulk-invite", {
-      model: { eventModel },
+    this.modal.show(PostEventBulkInvite, {
+      model: { event: eventModel },
     });
   },
 
@@ -139,12 +170,21 @@ export default createWidget("discourse-post-event", {
 
   addToCalendar() {
     const event = this.state.eventModel;
-    this.attrs.api.downloadCalendar(event.name || event.post.topic.title, [
-      {
-        startsAt: event.starts_at,
-        endsAt: event.ends_at,
-      },
-    ]);
+    this.attrs.api.downloadCalendar(
+      event.name || event.post.topic.title,
+      [
+        {
+          startsAt: event.starts_at,
+          endsAt: event.ends_at,
+        },
+      ],
+      event.recurrence_rule
+    );
+  },
+
+  upcomingEvents() {
+    const router = this.register.lookup("service:router")._router;
+    router.transitionTo("discourse-post-event-upcoming-events");
   },
 
   leaveEvent(postId) {
@@ -153,12 +193,14 @@ export default createWidget("discourse-post-event", {
         post_id: postId,
       })
       .then((invitees) => {
-        invitees
-          .find(
-            (invitee) =>
-              invitee.id === this.state.eventModel.watching_invitee.id
-          )
-          .destroyRecord();
+        let invitee = invitees.find(
+          (inv) => inv.id === this.state.eventModel.watching_invitee.id
+        );
+        this.appEvents.trigger("calendar:invitee-left-event", {
+          invitee,
+          postId,
+        });
+        invitee.destroyRecord();
       });
   },
 
@@ -167,10 +209,10 @@ export default createWidget("discourse-post-event", {
 
     return {
       eventStatusLabel: I18n.t(
-        `discourse_post_event.models.event.status.${eventModel.status}.title`
+        `discourse_calendar.discourse_post_event.models.event.status.${eventModel.status}.title`
       ),
       eventStatusDescription: I18n.t(
-        `discourse_post_event.models.event.status.${eventModel.status}.description`
+        `discourse_calendar.discourse_post_event.models.event.status.${eventModel.status}.description`
       ),
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
@@ -205,7 +247,7 @@ export default createWidget("discourse-post-event", {
             {{#unless transformed.isStandaloneEvent}}
               {{#if state.eventModel.is_expired}}
                 <span class="status expired">
-                  {{i18n "discourse_post_event.models.event.expired"}}
+                  {{i18n "discourse_calendar.discourse_post_event.models.event.expired"}}
                 </span>
               {{else}}
                 <span class={{transformed.statusClass}} title={{transformed.eventStatusDescription}}>
@@ -215,7 +257,7 @@ export default createWidget("discourse-post-event", {
               <span class="separator">·</span>
             {{/unless}}
             <span class="creators">
-              <span class="created-by">{{i18n "discourse_post_event.event_ui.created_by"}}</span>
+              <span class="created-by">{{i18n "discourse_calendar.discourse_post_event.event_ui.created_by"}}</span>
               {{attach widget="discourse-post-event-creator" attrs=(hash user=state.eventModel.creator)}}
             </span>
           </div>
@@ -284,3 +326,35 @@ export default createWidget("discourse-post-event", {
     return topicTitle;
   },
 });
+
+function replaceTimezone(val, newTimezone) {
+  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
+}
+export function updateEventStatus(event, status) {
+  return event.set("status", status);
+}
+export function updateEventRawInvitees(event, rawInvitees) {
+  return event.set("raw_invitees", rawInvitees);
+}
+export function updateCustomField(event, field, value) {
+  event.custom_fields.set(field, value);
+}
+export function removeReminder(event, reminder) {
+  return event.reminders.removeObject(reminder);
+}
+export function addReminder(event) {
+  if (!event.reminders) {
+    event.set("reminders", []);
+  }
+  event.reminders.pushObject(Object.assign({}, DEFAULT_REMINDER));
+}
+export function onChangeDates(event, changes) {
+  return event.setProperties({ starts_at: changes.from, ends_at: changes.to });
+}
+export function updateTimezone(event, newTz, startsAt, endsAt) {
+  return event.setProperties({
+    timezone: newTz,
+    starts_at: replaceTimezone(startsAt, newTz),
+    ends_at: endsAt && replaceTimezone(endsAt, newTz),
+  });
+}

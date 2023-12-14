@@ -11,7 +11,7 @@ describe Post do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  let(:user) { Fabricate(:user, admin: true) }
+  let(:user) { Fabricate(:user, admin: true, refresh_auto_groups: true) }
 
   context "with a public event" do
     let(:post_1) { Fabricate(:post) }
@@ -304,7 +304,7 @@ describe Post do
         end
 
         context "when the acting user has rights to create events" do
-          let(:user_with_rights) { Fabricate(:user) }
+          let(:user_with_rights) { Fabricate(:user, refresh_auto_groups: true) }
           let(:group) { Fabricate(:group, users: [user_with_rights]) }
 
           before { SiteSetting.discourse_post_event_allowed_on_groups = group.id.to_s }
@@ -326,7 +326,7 @@ describe Post do
         end
 
         context "when the acting user doesn’t have rights to create events" do
-          let(:user_without_rights) { Fabricate(:user) }
+          let(:user_without_rights) { Fabricate(:user, refresh_auto_groups: true) }
           let(:group) { Fabricate(:group, users: [user]) }
 
           before { SiteSetting.discourse_post_event_allowed_on_groups = group.id.to_s }
@@ -343,7 +343,7 @@ describe Post do
             end.to(
               raise_error(ActiveRecord::RecordNotSaved).with_message(
                 I18n.t(
-                  "discourse_post_event.errors.models.event.acting_user_not_allowed_to_create_event",
+                  "discourse_calendar.discourse_post_event.errors.models.event.acting_user_not_allowed_to_create_event",
                 ),
               ),
             )
@@ -363,7 +363,7 @@ describe Post do
             end.to(
               raise_error(ActiveRecord::RecordNotSaved).with_message(
                 I18n.t(
-                  "discourse_post_event.errors.models.event.start_must_be_present_and_a_valid_date",
+                  "discourse_calendar.discourse_post_event.errors.models.event.start_must_be_present_and_a_valid_date",
                 ),
               ),
             )
@@ -373,7 +373,9 @@ describe Post do
         context "when recurrence is invalid" do
           it "raises an error" do
             expect { create_post_with_event(user, 'recurrence="foo"') }.to raise_error(
-              I18n.t("discourse_post_event.errors.models.event.invalid_recurrence"),
+              I18n.t(
+                "discourse_calendar.discourse_post_event.errors.models.event.invalid_recurrence",
+              ),
             )
           end
         end
@@ -399,7 +401,9 @@ describe Post do
               )
             end.to(
               raise_error(ActiveRecord::RecordNotSaved).with_message(
-                I18n.t("discourse_post_event.errors.models.event.end_must_be_a_valid_date"),
+                I18n.t(
+                  "discourse_calendar.discourse_post_event.errors.models.event.end_must_be_a_valid_date",
+                ),
               ),
             )
           end
@@ -416,7 +420,7 @@ describe Post do
                 [/event]
               TXT
             raise_error(ActiveRecord::RecordNotSaved).with_message(
-              I18n.t("discourse_post_event.errors.models.event.only_one_event"),
+              I18n.t("discourse_calendar.discourse_post_event.errors.models.event.only_one_event"),
             ),
           )
         end
@@ -776,7 +780,9 @@ describe Post do
           title: "Beach party",
           raw: "[event start='2022-07-24 14:01' timezone='Westeros/Winterfell']\n[/event]",
         )
-      }.to raise_error(I18n.t("discourse_post_event.errors.models.event.invalid_timezone"))
+      }.to raise_error(
+        I18n.t("discourse_calendar.discourse_post_event.errors.models.event.invalid_timezone"),
+      )
     end
 
     it "handles simple weekly recurrence correctly" do

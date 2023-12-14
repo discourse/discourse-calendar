@@ -285,6 +285,91 @@ cs:
         month: "Měsíc"
         week: "Týden"
         day: "Den"
+      discourse_post_event:
+        notifications:
+          invite_user_notification: "%{username} %{description}"
+        preview:
+          more_than_one_event: "Nemůžete mít více než jednu událost."
+        edit_reason: "Událost aktualizována"
+        models:
+          invitee:
+            status:
+              unknown: "Nemá zájem"
+              going: "Zúčastní se"
+              not_going: "Nezúčastní se"
+              interested: "Má zájem"
+          event:
+            expired: "Platnost vypršela"
+            status:
+              standalone:
+                title: "Samostatná"
+                description: "Samostatné události se nejde účastnit."
+              public:
+                title: "Veřejná"
+                description: "Veřejné události se může účastnit kdokoliv."
+              private:
+                title: "Soukromá"
+                description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
+        event_ui:
+          show_all: "Zobrazit vše"
+          invite: "Oznámit uživateli"
+          add_to_calendar: "Přidat do kalendáře"
+          send_pm_to_creator: "Poslat uživateli %{username} soukromou zprávu"
+          edit_event: "Upravit událost"
+          export_event: "Exportovat událost"
+          created_by: "Vytvořil/a"
+          bulk_invite: "Hromadné pozvání"
+        invitees_modal:
+          title_invited: "Seznam pozvaných uživatelů"
+          title_participated: "Seznam uživatelů, kteří se zúčastnili"
+          filter_placeholder: "Filtrovat uživatele"
+        bulk_invite_modal:
+          title: "Hromadné pozvání"
+          success: "Nahrání souboru proběhlo úspěšně. O dokončení celého procesu budete informování pomocí zprávy."
+          error: "Omlouváme se, soubor by měl být ve formátu CSV."
+        builder_modal:
+          custom_fields:
+            placeholder: "Volitelné"
+          create_event_title: "Vytvořit událost"
+          update_event_title: "Upravit událost"
+          confirm_delete: "Určitě chcete tuto událost smazat?"
+          create: "Vytvořit"
+          update: "Uložit"
+          attach: "Vytvořit událost"
+          timezone:
+            label: Časové pásmo
+          reminders:
+            units:
+              minutes: "minut"
+              hours: "hodin"
+              days: "dnů"
+            periods:
+              before: "před"
+              after: "po"
+          recurrence:
+            label: "Opakování"
+            none: "Bez opakování"
+            every_day: "každý den"
+          url:
+            label: "URL"
+            placeholder: "Volitelné"
+          name:
+            label: "Název události"
+            placeholder: "Volitelný, ve výchozím stavu název tématu"
+          invitees:
+            label: "Pozvané skupiny"
+          status:
+            label: "Stav"
+        invite_user_or_group:
+          title: "Oznámit uživatelům nebo skupinám"
+          invite: "Odeslat"
+        upcoming_events:
+          title: "Nadcházející události"
+          creator: "Vytvořil/a"
+          status: "Stav"
+          starts_at: "Začíná v"
+        upcoming_events_list:
+          title: "Nadcházející události"
     group_timezones:
       search: "Hledat…"
       group_availability: "Dostupnost %{group}"
@@ -317,6 +402,7 @@ cs:
         show_all: "Zobrazit vše"
         invite: "Oznámit uživateli"
         add_to_calendar: "Přidat do kalendáře"
+        upcoming_events: "Nadcházející události"
         send_pm_to_creator: "Poslat uživateli %{username} soukromou zprávu"
         edit_event: "Upravit událost"
         export_event: "Exportovat událost"

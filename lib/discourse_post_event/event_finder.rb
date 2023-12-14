@@ -7,33 +7,29 @@ module DiscoursePostEvent
       topics = listable_topics(guardian)
       pms = private_messages(user)
 
+      dates_join = <<~SQL
+      LEFT JOIN (
+        SELECT
+          finished_at,
+          event_id,
+          starts_at,
+          ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY finished_at DESC NULLS FIRST) as row_num
+        FROM discourse_calendar_post_event_dates
+      ) dcped ON dcped.event_id = discourse_post_event_events.id AND dcped.row_num = 1
+        
+      SQL
       events =
         DiscoursePostEvent::Event
           .select("discourse_post_event_events.*, dcped.starts_at")
           .joins(post: :topic)
           .merge(Post.secured(guardian))
           .merge(topics.or(pms).distinct)
-          .joins(
-            "LEFT JOIN discourse_calendar_post_event_dates dcped ON dcped.event_id = discourse_post_event_events.id",
-          )
+          .joins(dates_join)
           .order("dcped.starts_at ASC")
 
-      if params[:expired]
-        # The second part below makes the query ignore events that have non-expired event-dates
-        events =
-          events.where(
-            "dcped.finished_at IS NOT NULL AND (dcped.ends_at IS NOT NULL AND dcped.ends_at < ?)",
-            Time.now,
-          ).where(
-            "discourse_post_event_events.id NOT IN (SELECT DISTINCT event_id FROM discourse_calendar_post_event_dates WHERE event_id = discourse_post_event_events.id AND finished_at IS NULL)",
-          )
-      else
-        events =
-          events.where(
-            "dcped.finished_at IS NULL AND (dcped.ends_at IS NULL OR dcped.ends_at > ?)",
-            Time.now,
-          )
-      end
+      include_expired = params[:include_expired].to_s == "true"
+
+      events = events.where("dcped.finished_at IS NULL") unless include_expired
 
       events = events.where(id: Array(params[:post_id])) if params[:post_id]
 

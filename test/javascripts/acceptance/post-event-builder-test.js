@@ -24,11 +24,11 @@ acceptance("Post event - composer", function (needs) {
     await click(".toolbar-popup-menu-options .dropdown-select-box-header");
     await click(
       `.toolbar-popup-menu-options *[data-name='${I18n.t(
-        "discourse_post_event.builder_modal.attach"
+        "discourse_calendar.discourse_post_event.builder_modal.attach"
       )}']`
     );
 
-    const modal = ".discourse-post-event-builder-modal";
+    const modal = ".post-event-builder-modal";
 
     const timezoneInput = selectKit(
       `${modal} .event-field.timezone .timezone-input`
@@ -58,7 +58,7 @@ acceptance("Post event - composer", function (needs) {
     assert.strictEqual(fromTime.header().name(), "12:00");
     assert.strictEqual(toTime.header().name(), "13:00");
 
-    await click(`${modal} .modal-footer .btn-primary`);
+    await click(`${modal} .d-modal__footer .btn-primary`);
 
     assert
       .dom(".d-editor-input")
@@ -94,11 +94,11 @@ acceptance("Post event - composer", function (needs) {
       await click(".toolbar-popup-menu-options .dropdown-select-box-header");
       await click(
         `.toolbar-popup-menu-options *[data-name='${I18n.t(
-          "discourse_post_event.builder_modal.attach"
+          "discourse_calendar.discourse_post_event.builder_modal.attach"
         )}']`
       );
 
-      const modal = ".discourse-post-event-builder-modal";
+      const modal = ".post-event-builder-modal";
 
       // Select the date
       await fillIn(`${modal} .from input[type=date]`, "2022-07-01");

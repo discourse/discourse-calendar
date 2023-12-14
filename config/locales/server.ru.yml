@@ -64,32 +64,32 @@ ru:
     event_expired: "Срок проведения мероприятия истек"
     holiday_status:
       description: "Выходные"
+    discourse_post_event:
+      notifications:
+        before_event_reminder: "Мероприятие '%{title}' вот-вот начнется."
+        after_event_reminder: "Мероприятие '%{title}'закончилось."
+        ongoing_event_reminder: "Мероприятие '%{title}' продолжается."
+      errors:
+        bulk_invite:
+          max_invitees: "Были созданы первые %{max_invittes} приглашений. Попробуйте разделить файл на более мелкие части."
+          error: "Произошла ошибка при загрузке файла. Повторите попытку позже."
+        models:
+          event:
+            only_one_event: "В сообщении может быть только одно событие."
+            only_group: "Мероприятие принимает только имена групп."
+            must_be_in_first_post: "Событие может быть только в первом сообщении темы."
+            raw_invitees_length: "Мероприятие ограничено %{count} пользователями/группами."
+            ends_at_before_starts_at: "Событие не может закончиться раньше, чем оно начнётся."
+            start_must_be_present_and_a_valid_date: "В событии должна быть установлена правильная дата начала."
+            end_must_be_a_valid_date: "Дата окончания должна быть правильной."
+            invalid_timezone: "Часовой пояс не распознан."
+            acting_user_not_allowed_to_create_event: "Текущему пользователю не разрешено создавать события."
+            acting_user_not_allowed_to_act_on_this_event: "Текущий пользователь не имеет права работать с этим событием."
+            invalid_allowed_groups: "Недействительные разрешённые группы."
+            acting_user_not_allowed_to_invite_these_groups: "Текущему пользователю не разрешено приглашать эти группы."
+            custom_field_is_invalid: "Настраиваемое поле `%{field}` не допускается."
+            name:
+              length: "Название мероприятия должно содержать от %{minimum} до %{maximum} символов."
   discourse_push_notifications:
     popup:
       event_reminder: "Напоминание о мероприятии"
-  discourse_post_event:
-    notifications:
-      before_event_reminder: "Мероприятие '%{title}' вот-вот начнется."
-      after_event_reminder: "Мероприятие '%{title}'закончилось."
-      ongoing_event_reminder: "Мероприятие '%{title}' продолжается."
-    errors:
-      bulk_invite:
-        max_invitees: "Были созданы первые %{max_invittes} приглашений. Попробуйте разделить файл на более мелкие части."
-        error: "Произошла ошибка при загрузке файла. Пожалуйста, повторите попытку позже."
-      models:
-        event:
-          only_one_event: "В сообщении может быть только одно событие."
-          only_group: "Мероприятие принимает только имена групп."
-          must_be_in_first_post: "Событие может быть только в первом сообщении темы."
-          raw_invitees_length: "Мероприятие ограничено %{count} пользователями/группами."
-          ends_at_before_starts_at: "Событие не может закончиться раньше, чем оно начнётся."
-          start_must_be_present_and_a_valid_date: "В событии должна быть установлена правильная дата начала."
-          end_must_be_a_valid_date: "Дата окончания должна быть правильной."
-          invalid_timezone: "Часовой пояс не распознан."
-          acting_user_not_allowed_to_create_event: "Текущему пользователю не разрешено создавать события."
-          acting_user_not_allowed_to_act_on_this_event: "Текущий пользователь не имеет права работать с этим событием."
-          invalid_allowed_groups: "Недействительные разрешённые группы."
-          acting_user_not_allowed_to_invite_these_groups: "Текущему пользователю не разрешено приглашать эти группы."
-          custom_field_is_invalid: "Настраиваемое поле `%{field}` не допускается."
-          name:
-            length: "Название мероприятия должно содержать от %{minimum} до %{maximum} символов."

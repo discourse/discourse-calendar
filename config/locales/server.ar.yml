@@ -64,32 +64,32 @@ ar:
     event_expired: "انتهى الحدث"
     holiday_status:
       description: "في عطلة"
+    discourse_post_event:
+      notifications:
+        before_event_reminder: "%{title} على وشك البدء."
+        after_event_reminder: "انتهى %{title}."
+        ongoing_event_reminder: "%{title} جارٍ."
+      errors:
+        bulk_invite:
+          max_invitees: "تم إنشاء أول %{max_invittes} من المدعوين. جرِّب تقسيم الملف إلى أجزاء أصغر."
+          error: "حدث خطأ في تحميل هذا الملف. يُرجى إعادة المحاولة لاحقًا."
+        models:
+          event:
+            only_one_event: "لا يمكن أن يتضمَّن المنشور أكثر من حدثٍ واحد."
+            only_group: "لا يقبل الحدث إلا أسماء المجموعات."
+            must_be_in_first_post: "لا يمكن إلا للمنشور الأول في موضوع أن يتضمَّن حدثًا."
+            raw_invitees_length: "يقتصر الحدث على %{count} من المستخدمين/المجموعات."
+            ends_at_before_starts_at: "لا يمكن أن ينتهي الحدث قبل أن يبدأ."
+            start_must_be_present_and_a_valid_date: "يتطلب الحدث تاريخ بدء صالحًا."
+            end_must_be_a_valid_date: "يجب أن يكون تاريخ الانتهاء تاريخًا صالحًا."
+            invalid_timezone: "لم يتم التعرُّف على المنطقة الزمنية."
+            acting_user_not_allowed_to_create_event: "غير مسموح للمستخدم الحالي بإنشاء أحداث."
+            acting_user_not_allowed_to_act_on_this_event: "غير مسموح للمستخدم الحالي باتخاذ إجراء بشأن هذا الحدث."
+            invalid_allowed_groups: "المجموعات المسموح بها غير صالحة."
+            acting_user_not_allowed_to_invite_these_groups: "غير مسموح للمستخدم الحالي بدعوة تلك المجموعات."
+            custom_field_is_invalid: "غير مسموح بالحقل المخصَّص `%{field}`."
+            name:
+              length: "يجب أن يتراوح طول اسم الحدث بين %{minimum} و%{maximum} من الأحرف."
   discourse_push_notifications:
     popup:
       event_reminder: "تذكير بالحدث"
-  discourse_post_event:
-    notifications:
-      before_event_reminder: "%{title} على وشك البدء."
-      after_event_reminder: "انتهى %{title}."
-      ongoing_event_reminder: "%{title} جارٍ."
-    errors:
-      bulk_invite:
-        max_invitees: "تم إنشاء أول %{max_invittes} من المدعوين. جرِّب تقسيم الملف إلى أجزاء أصغر."
-        error: "حدث خطأ في تحميل هذا الملف. يُرجى إعادة المحاولة لاحقًا."
-      models:
-        event:
-          only_one_event: "لا يمكن أن يتضمَّن المنشور أكثر من حدثٍ واحد."
-          only_group: "لا يقبل الحدث إلا أسماء المجموعات."
-          must_be_in_first_post: "لا يمكن إلا للمنشور الأول في موضوع أن يتضمَّن حدثًا."
-          raw_invitees_length: "يقتصر الحدث على %{count} من المستخدمين/المجموعات."
-          ends_at_before_starts_at: "لا يمكن أن ينتهي الحدث قبل أن يبدأ."
-          start_must_be_present_and_a_valid_date: "يتطلب الحدث تاريخ بدء صالحًا."
-          end_must_be_a_valid_date: "يجب أن يكون تاريخ الانتهاء تاريخًا صالحًا."
-          invalid_timezone: "لم يتم التعرُّف على المنطقة الزمنية."
-          acting_user_not_allowed_to_create_event: "غير مسموح للمستخدم الحالي بإنشاء أحداث."
-          acting_user_not_allowed_to_act_on_this_event: "غير مسموح للمستخدم الحالي باتخاذ إجراء بشأن هذا الحدث."
-          invalid_allowed_groups: "المجموعات المسموح بها غير صالحة."
-          acting_user_not_allowed_to_invite_these_groups: "غير مسموح للمستخدم الحالي بدعوة تلك المجموعات."
-          custom_field_is_invalid: "غير مسموح بالحقل المخصَّص `%{field}`."
-          name:
-            length: "يجب أن يتراوح طول اسم الحدث بين %{minimum} و%{maximum} من الأحرف."

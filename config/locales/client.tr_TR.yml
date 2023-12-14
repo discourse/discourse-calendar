@@ -309,6 +309,137 @@ tr_TR:
         month: "Ay"
         week: "Hafta"
         day: "Gün"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "%{username}, katılımınızı otomatik olarak ayarladı ve sizi şuraya davet etti:"
+          before_event_reminder: "Bir etkinlik başlamak üzere"
+          after_event_reminder: "Bir etkinlik sona erdi"
+          ongoing_event_reminder: "Bir etkinlik devam ediyor"
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username}, katılımınızı otomatik olarak ayarladı ve sizi %{description} adlı etkinliğe davet etti"
+          before_event_reminder_html: "Bir etkinlik başlamak üzere %{description}"
+          after_event_reminder_html: "Bir etkinlik sona erdi %{description}"
+          ongoing_event_reminder_html: "Bir etkinlik devam ediyor  %{description}"
+        preview:
+          more_than_one_event: "Birden fazla etkinliğiniz olamaz."
+        edit_reason: "Etkinlik güncellendi"
+        topic_title:
+          starts_at: "Etkinlik başlayacak: %{date}"
+          ended_at: "Etkinlik sona erdi: %{date}"
+          ends_in_duration: "Sona erme zamanı: %{duration}"
+        models:
+          invitee:
+            no_users: "Bu türde kullanıcı yok."
+            status:
+              unknown: "İlgilenmiyorum"
+              going: "Gidiyorum"
+              not_going: "Gitmiyorum"
+              interested: "İlgileniyorum"
+          event:
+            expired: "Süresi doldu"
+            status:
+              standalone:
+                title: "Bağımsız"
+                description: "Bağımsız bir etkinliğe katılınamaz."
+              public:
+                title: "Genel"
+                description: "Herkese açık bir etkinliğe herkes katılabilir."
+              private:
+                title: "Özel"
+                description: "Özel bir etkinliğe yalnızca davet edilen kullanıcılar katılabilir."
+        event_ui:
+          show_all: "Tümünü göster"
+          participants:
+            one: "%{count} kullanıcı katıldı."
+            other: "%{count} kullanıcı katıldı."
+          invite: "Kullanıcıya bildir"
+          add_to_calendar: "Takvime ekle"
+          send_pm_to_creator: "%{username} adlı kullanıcıya özel mesaj gönder"
+          leave: "Etkinlikten ayrıl"
+          edit_event: "Etkinliği düzenle"
+          export_event: "Etkinliği dışa aktar"
+          created_by: "Oluşturan:"
+          bulk_invite: "Toplu Davet"
+          close_event: "Etkinliği kapat"
+        invitees_modal:
+          title_invited: "Yanıt veren kullanıcıların listesi"
+          title_participated: "Katılan kullanıcıların listesi"
+          filter_placeholder: "Kullanıcıları filtrele"
+        bulk_invite_modal:
+          confirm: "onayla"
+          text: "CSV dosyası yükle"
+          title: "Toplu Davet"
+          success: "Dosya başarıyla yüklendi, işlem tamamlandığında mesaj yoluyla bilgilendirileceksiniz."
+          error: "Üzgünüz, dosya CSV biçiminde olmalı."
+          confirmation_message: "Yüklenen dosyadaki herkesi bilgilendirmek üzeresiniz."
+          description_public: "Herkese açık etkinlikler yalnızca toplu davetler için kullanıcı adlarını kabul eder."
+          description_private: "Özel etkinlikler yalnızca toplu davetler için grup adlarını kabul eder."
+          download_sample_csv: "Örnek bir CSV dosyası indirin"
+          send_bulk_invites: "Davet gönderin"
+          group_selector_placeholder: "Grup seçin..."
+          user_selector_placeholder: "Kullanıcı seçin..."
+          inline_title: "Satır içi toplu davet"
+          csv_title: "CSV toplu daveti"
+        builder_modal:
+          custom_fields:
+            label: "Özel Alanlar"
+            placeholder: "İsteğe bağlı"
+            description: "İzin verilen özel alanlar site ayarlarında tanımlanır. Özel alanlar, verileri diğer eklentilere iletmek için kullanılır."
+          create_event_title: "Etkinlik oluşturun"
+          update_event_title: "Etkinliği düzenleyin"
+          confirm_delete: "Bu etkinliği silmek istediğinizden emin misiniz?"
+          confirm_close: "Bu etkinliği kapatmak istediğinizden emin misiniz?"
+          create: "Oluştur"
+          update: "Kaydet"
+          attach: "Etkinlik oluştur"
+          add_reminder: "Hatırlatıcı ekle"
+          timezone:
+            label: Saat dilimi
+            remove_timezone: Saat dilimi yok (UTC)
+          reminders:
+            label: "Anımsatıcılar"
+            types:
+              bump_topic: "konuyu otomatik üste sıçrat"
+              notification: "katılımcıları bilgilendirin"
+            units:
+              minutes: "dakika"
+              hours: "saat"
+              days: "gün"
+              weeks: "hafta"
+            periods:
+              before: "önce"
+              after: "sonra"
+          recurrence:
+            label: "Tekrarlama"
+            none: "Yineleme yok"
+            every_day: "Her gün"
+            every_month: "Her ay bu hafta içi günü"
+            every_weekday: "Hafta içi her gün"
+            every_week: "Her hafta bu hafta içi günü"
+            every_two_weeks: "İki haftada bir bu hafta içi günü"
+          minimal:
+            label: "Minimal etkinlik"
+            checkbox_label: "Giden/Gitmeyen düğmelerini ve davetlilerin durumunu gizle"
+          url:
+            label: "URL"
+            placeholder: "İsteğe bağlı"
+          name:
+            label: "Etkinlik adı"
+            placeholder: "İsteğe bağlı, varsayılan olarak konu başlığı"
+          invitees:
+            label: "Davet edilen gruplar"
+          status:
+            label: "Durum"
+        invite_user_or_group:
+          title: "Kullanıcıları veya grupları bilgilendir"
+          invite: "Gönder"
+        upcoming_events:
+          title: "Yaklaşan etkinlikler"
+          creator: "Yaratıcı"
+          status: "Durum"
+          starts_at: "Başlangıç:"
+        upcoming_events_list:
+          title: "Yaklaşan etkinlikler"
     group_timezones:
       search: "Ara..."
       group_availability: "%{group} uygunluğu"
@@ -357,6 +488,7 @@ tr_TR:
           other: "%{count} kullanıcı katıldı."
         invite: "Kullanıcıya bildir"
         add_to_calendar: "Takvime ekle"
+        upcoming_events: "Yaklaşan etkinlikler"
         send_pm_to_creator: "%{username} adlı kullanıcıya özel mesaj gönder"
         leave: "Etkinlikten ayrıl"
         edit_event: "Etkinliği düzenle"

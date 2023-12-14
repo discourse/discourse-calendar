@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # name: discourse-calendar
-# about: Display a calendar in the first post of a topic
+# about: Adds the ability to create a dynamic calendar with events in a topic.
+# meta_topic_id: 97376
 # version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
@@ -21,7 +22,7 @@ register_asset "stylesheets/common/discourse-calendar-holidays.scss"
 register_asset "stylesheets/common/upcoming-events-calendar.scss"
 register_asset "stylesheets/common/discourse-post-event.scss"
 register_asset "stylesheets/common/discourse-post-event-preview.scss"
-register_asset "stylesheets/common/discourse-post-event-builder.scss"
+register_asset "stylesheets/common/post-event-builder.scss"
 register_asset "stylesheets/common/discourse-post-event-invitees.scss"
 register_asset "stylesheets/common/discourse-post-event-upcoming-events.scss"
 register_asset "stylesheets/common/discourse-post-event-core-ext.scss"
@@ -76,15 +77,21 @@ end
 
 require_relative "lib/discourse_calendar/engine"
 
+Dir
+  .glob(File.expand_path("../lib/discourse_calendar/site_settings/*.rb", __FILE__))
+  .each { |f| require(f) }
+
 after_initialize do
   reloadable_patch do
     Category.register_custom_field_type("sort_topics_by_event_start_date", :boolean)
     Category.register_custom_field_type("disable_topic_resorting", :boolean)
-    Site.preloaded_category_custom_fields << "sort_topics_by_event_start_date"
-    Site.preloaded_category_custom_fields << "disable_topic_resorting"
-    if defined?(register_category_list_preloaded_category_custom_fields)
-      register_category_list_preloaded_category_custom_fields("sort_topics_by_event_start_date")
-      register_category_list_preloaded_category_custom_fields("disable_topic_resorting")
+    if respond_to?(:register_preloaded_category_custom_fields)
+      register_preloaded_category_custom_fields("sort_topics_by_event_start_date")
+      register_preloaded_category_custom_fields("disable_topic_resorting")
+    else
+      # TODO: Drop the if-statement and this if-branch in Discourse v3.2
+      Site.preloaded_category_custom_fields << "sort_topics_by_event_start_date"
+      Site.preloaded_category_custom_fields << "disable_topic_resorting"
     end
   end
 
@@ -103,12 +110,17 @@ after_initialize do
         category = Category.find_by(id: topic_query.options[:category_id])
         if category && category.custom_fields &&
              category.custom_fields["sort_topics_by_event_start_date"]
+          reorder_sql = <<~SQL
+           CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN 0 ELSE 1 END,
+           CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) ELSE NULL END,
+           CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) < NOW() THEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) ELSE NULL END DESC
+          SQL
           results =
             results.joins(
               "LEFT JOIN topic_custom_fields AS custom_fields on custom_fields.topic_id = topics.id
-            AND custom_fields.name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'
-            ",
-            ).reorder("topics.pinned_at ASC, custom_fields.value ASC")
+         AND custom_fields.name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'
+         ",
+            ).reorder(reorder_sql)
         end
       end
       results
@@ -132,6 +144,7 @@ after_initialize do
   require_relative "lib/discourse_post_event/export_csv_file_extension"
   require_relative "lib/discourse_post_event/post_extension"
   require_relative "lib/discourse_post_event/rrule_generator"
+  require_relative "lib/discourse_post_event/rrule_configurator"
 
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 
@@ -368,7 +381,13 @@ after_initialize do
         else
           identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
 
-          grouped[identifier] ||= { type: :grouped, from: event.start_date, name: [], users: [] }
+          grouped[identifier] ||= {
+            type: :grouped,
+            from: event.start_date,
+            timezone: event.timezone,
+            name: [],
+            users: [],
+          }
 
           user = User.find_by_username(event.username)
 

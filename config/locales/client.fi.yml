@@ -309,6 +309,137 @@ fi:
         month: "Kuukausi"
         week: "Viikko"
         day: "Päivä"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "%{username} on asettanut osallistumisesi automaattisesti ja kutsunut sinut tapahtumaan"
+          before_event_reminder: "Tapahtuma on alkamassa"
+          after_event_reminder: "Tapahtuma on päättynyt"
+          ongoing_event_reminder: "Tapahtuma on käynnissä"
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} on asettanut osallistumisesi automaattisesti ja kutsunut sinut tapahtumaan %{description}"
+          before_event_reminder_html: "Tapahtuma on alkamassa %{description}"
+          after_event_reminder_html: "Tapahtuma on päättynyt %{description}"
+          ongoing_event_reminder_html: "Tapahtuma on käynnissä  %{description}"
+        preview:
+          more_than_one_event: "Sinulla ei voi olla enempää kuin yksi tapahtuma."
+        edit_reason: "Tapahtuma päivitetty"
+        topic_title:
+          starts_at: "Tapahtuma alkaa: %{date}"
+          ended_at: "Tapahtuma päättyi: %{date}"
+          ends_in_duration: "Päättyy %{duration}"
+        models:
+          invitee:
+            no_users: "Tämän tyyppisiä käyttäjiä ei ole."
+            status:
+              unknown: "Ei kiinnostunut"
+              going: "Menossa"
+              not_going: "Ei menossa"
+              interested: "Kiinnostunut"
+          event:
+            expired: "Vanhentunut"
+            status:
+              standalone:
+                title: "Erillinen"
+                description: "Erilliseen tapahtumaan ei voi liittyä."
+              public:
+                title: "Julkinen"
+                description: "Julkiseen tapahtumaan voi liittyä kuka tahansa."
+              private:
+                title: "Yksityinen"
+                description: "Yksityiseen tapahtumaan voivat liittyä vain kutsutut käyttäjät."
+        event_ui:
+          show_all: "Näytä kaikki"
+          participants:
+            one: "%{count} käyttäjä osallistui."
+            other: "%{count} käyttäjää osallistui."
+          invite: "Ilmoita käyttäjälle"
+          add_to_calendar: "Lisää kalenteriin"
+          send_pm_to_creator: "Lähetä yksityisviesti käyttäjälle %{username}"
+          leave: "Poistu tapahtumasta"
+          edit_event: "Muokkaa tapahtumaa"
+          export_event: "Vie tapahtuma"
+          created_by: "Luonut"
+          bulk_invite: "Joukkokutsu"
+          close_event: "Sulje tapahtuma"
+        invitees_modal:
+          title_invited: "Vastanneiden käyttäjien luettelo"
+          title_participated: "Osallistuneiden käyttäjien luettelo"
+          filter_placeholder: "Suodata käyttäjiä"
+        bulk_invite_modal:
+          confirm: "vahvista"
+          text: "Lataa CSV-tiedosto"
+          title: "Joukkokutsu"
+          success: "Tiedoston lataaminen onnistui. Saat viestin, kun prosessi on valmis."
+          error: "Tiedoston tulee olla CSV-muodossa."
+          confirmation_message: "Olet ilmoittamassa kaikille, jotka sisältyvät ladattuun tiedostoon."
+          description_public: "Julkiset tapahtumat hyväksyvät vain käyttäjätunnuksia joukkokutsuissa."
+          description_private: "Yksityiset tapahtumat hyväksyvät vain ryhmien nimiä joukkokutsuissa."
+          download_sample_csv: "Lataa malli-CSV-tiedosto"
+          send_bulk_invites: "Lähetä kutsut"
+          group_selector_placeholder: "Valitse ryhmä..."
+          user_selector_placeholder: "Valitse käyttäjä..."
+          inline_title: "Upotettu joukkokutsu"
+          csv_title: "CSV-joukkokutsu"
+        builder_modal:
+          custom_fields:
+            label: "Mukautetut kentät"
+            placeholder: "Valinnainen"
+            description: "Sallitut mukautetut kentät määritetään sivuston asetuksissa. Mukautettuja kenttiä käytetään tietojen siirtämiseen muille lisäosille."
+          create_event_title: "Luo tapahtuma"
+          update_event_title: "Muokkaa tapahtumaa"
+          confirm_delete: "Haluatko varmasti poistaa tämän tapahtuman?"
+          confirm_close: "Haluatko varmasti sulkea tämän tapahtuman?"
+          create: "Luo"
+          update: "Tallenna"
+          attach: "Luo tapahtuma"
+          add_reminder: "Lisää muistutus"
+          timezone:
+            label: Aikavyöhyke
+            remove_timezone: Ei aikavyöhykettä (UTC)
+          reminders:
+            label: "Muistutukset"
+            types:
+              bump_topic: "nosta ketjua automaattisesti"
+              notification: "Ilmoita osallistujille"
+            units:
+              minutes: "minuuttia"
+              hours: "tuntia"
+              days: "päivää"
+              weeks: "viikkoa"
+            periods:
+              before: "ennen"
+              after: "jälkeen"
+          recurrence:
+            label: "Toistuvuus"
+            none: "Ei toistu"
+            every_day: "Joka päivä"
+            every_month: "Kuukausittain tänä arkipäivänä"
+            every_weekday: "Arkipäivisin"
+            every_week: "Viikoittain tänä arkipäivänä"
+            every_two_weeks: "Kahden viikon välein tänä arkipäivänä"
+          minimal:
+            label: "Minimaalinen tapahtuma"
+            checkbox_label: "Piilota Menossa- ja Ei menossa -painikeet sekä kutsuttujen tila"
+          url:
+            label: "URL"
+            placeholder: "Valinnainen"
+          name:
+            label: "Tapahtuman nimi"
+            placeholder: "Valinnainen, oletuksena ketjun otsikko"
+          invitees:
+            label: "Kutsutut ryhmät"
+          status:
+            label: "Tila"
+        invite_user_or_group:
+          title: "Ilmoita käyttäjille tai ryhmille"
+          invite: "Lähetä"
+        upcoming_events:
+          title: "Tulevat tapahtumat"
+          creator: "Luoja"
+          status: "Tila"
+          starts_at: "Alkaa"
+        upcoming_events_list:
+          title: "Tulevat tapahtumat"
     group_timezones:
       search: "Hae..."
       group_availability: "%{group} – saatavuus"
@@ -357,6 +488,7 @@ fi:
           other: "%{count} käyttäjää osallistui."
         invite: "Ilmoita käyttäjälle"
         add_to_calendar: "Lisää kalenteriin"
+        upcoming_events: "Tulevat tapahtumat"
         send_pm_to_creator: "Lähetä yksityisviesti käyttäjälle %{username}"
         leave: "Poistu tapahtumasta"
         edit_event: "Muokkaa tapahtumaa"

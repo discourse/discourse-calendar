@@ -12,7 +12,7 @@ module("Integration | Component | region-input", function (hooks) {
       { name: "English", value: "en" },
     ]);
 
-    await render(hbs`<RegionInput @allowNoneRegion={{true}} />>`);
+    await render(hbs`<RegionInput @allowNoneRegion={{true}} />`);
     await selectKit().expand();
 
     assert

@@ -305,6 +305,145 @@ en:
         week: "Week"
         day: "Day"
         list: "List"
+      discourse_post_event:
+        notifications:
+          invite_user_predefined_attendance_notification: "%{username} has automatically set your attendance and invited you to"
+          before_event_reminder: "An event is about to start"
+          after_event_reminder: "An event has ended"
+          ongoing_event_reminder: "An event is ongoing"
+          # TODO: delete the following keys (until ongoing_event_reminder_html)
+          # when event-invitation and event-reminder notification item widgets
+          # are removed
+          invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} has automatically set your attendance and invited you to %{description}"
+          before_event_reminder_html: "An event is about to start %{description}"
+          after_event_reminder_html: "An event has ended %{description}"
+          ongoing_event_reminder_html: "An event is ongoing  %{description}"
+        preview:
+          more_than_one_event: "You can’t have more than one event."
+        edit_reason: "Event updated"
+        topic_title:
+          starts_at: "Event will start: %{date}"
+          ended_at: "Event ended: %{date}"
+          ends_in_duration: "Ends %{duration}"
+        models:
+          invitee:
+            no_users: "There are no users of this type."
+            status:
+              unknown: "Not interested"
+              going: "Going"
+              not_going: "Not Going"
+              interested: "Interested"
+          event:
+            expired: "Expired"
+            status:
+              standalone:
+                title: "Standalone"
+                description: "A standalone event can't be joined."
+              public:
+                title: "Public"
+                description: "A public event can be joined by anyone."
+              private:
+                title: "Private"
+                description: "A private event can only be joined by invited users."
+        event_ui:
+          show_all: "Show all"
+          participants:
+            one: "%{count} user participated."
+            other: "%{count} users participated."
+          invite: "Notify user"
+          add_to_calendar: "Add to calendar"
+          send_pm_to_creator: "Send PM to %{username}"
+          leave: "Leave event"
+          edit_event: "Edit event"
+          export_event: "Export event"
+          created_by: "Created by"
+          bulk_invite: "Bulk Invite"
+          close_event: "Close event"
+        invitees_modal:
+          title_invited: "List of RSVPed users"
+          title_participated: "List of users who participated"
+          filter_placeholder: "Filter users"
+        bulk_invite_modal:
+          confirm: "confirm"
+          text: "Upload CSV file"
+          title: "Bulk Invite"
+          success: "File uploaded successfully, you will be notified via message when the process is complete."
+          error: "Sorry, file should be CSV format."
+          confirmation_message: "You’re about to notify everyone in the uploaded file."
+          description_public: "Public events only accept usernames for bulk invites."
+          description_private: "Private events only accept group names for bulk invites."
+          download_sample_csv: "Download a sample CSV file"
+          send_bulk_invites: "Send invites"
+          group_selector_placeholder: "Choose a group..."
+          user_selector_placeholder: "Choose user..."
+          inline_title: "Inline bulk invite"
+          csv_title: "CSV bulk invite"
+        builder_modal:
+          custom_fields:
+            label: "Custom Fields"
+            placeholder: "Optional"
+            description: "Allowed custom fields are defined in site settings. Custom fields are used to transmit data to other plugins."
+          create_event_title: "Create Event"
+          update_event_title: "Edit Event"
+          confirm_delete: "Are you sure you want to delete this event?"
+          confirm_close: "Are you sure you want to close this event?"
+          create: "Create"
+          update: "Save"
+          attach: "Create event"
+          add_reminder: "Add reminder"
+          timezone:
+            label: Timezone
+            remove_timezone: No timezone (UTC)
+          reminders:
+            label: "Reminders"
+            types:
+              bump_topic: "auto-bump topic"
+              notification: "notify participants"
+            units:
+              minutes: "minutes"
+              hours: "hours"
+              days: "days"
+              weeks: "weeks"
+            periods:
+              before: "before"
+              after: "after"
+          recurrence:
+            label: "Recurrence"
+            none: "No recurrence"
+            every_day: "Every day"
+            every_month: "Every month at this weekday"
+            every_weekday: "Every weekday"
+            every_week: "Every week at this weekday"
+            every_two_weeks: "Every two weeks at this weekday"
+            every_four_weeks: "Every four weeks at this weekday"
+          minimal:
+            label: "Minimal event"
+            checkbox_label: "Hide Going/Not going buttons and invitees status"
+          url:
+            label: "URL"
+            placeholder: "Optional"
+          name:
+            label: "Event name"
+            placeholder: "Optional, defaults to topic title"
+          invitees:
+            label: "Invited groups"
+          status:
+            label: "Status"
+        invite_user_or_group:
+          title: "Notify user(s) or group(s)"
+          invite: "Send"
+        upcoming_events:
+          title: "Upcoming events"
+          creator: "Creator"
+          status: "Status"
+          starts_at: "Starts at"
+        upcoming_events_list:
+          title: "Upcoming events"
+          empty: "No upcoming events"
+          all_day: "All-day"
+          error: "Failed to retrieve events"
+          try_again: "Try again"
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"
@@ -356,6 +495,7 @@ en:
           other: "%{count} users participated."
         invite: "Notify user"
         add_to_calendar: "Add to calendar"
+        upcoming_events: "Upcoming events"
         send_pm_to_creator: "Send PM to %{username}"
         leave: "Leave event"
         edit_event: "Edit event"

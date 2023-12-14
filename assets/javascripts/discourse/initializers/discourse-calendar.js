@@ -1,5 +1,5 @@
 import { isPresent } from "@ember/utils";
-import { createPopper } from "@popperjs/core";
+import $ from "jquery";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
@@ -14,6 +14,7 @@ import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { buildPopover, destroyPopover } from "../lib/popover";
 
 function loadFullCalendar() {
   return loadScript(
@@ -34,9 +35,6 @@ function getCalendarButtonsText() {
     list: I18n.t("discourse_calendar.toolbar_button.list"),
   };
 }
-
-let eventPopper;
-const EVENT_POPOVER_ID = "event-popover";
 
 function initializeDiscourseCalendar(api) {
   const siteSettings = api.container.lookup("service:site-settings");
@@ -139,26 +137,101 @@ function initializeDiscourseCalendar(api) {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {
+              eventClick: function () {
+                destroyPopover();
+              },
               locale: getCurrentBcp47Locale(),
               buttonText: getCalendarButtonsText(),
+              eventPositioned: (info) => {
+                if (siteSettings.events_max_rows === 0) {
+                  return;
+                }
+
+                let fcContent = info.el.querySelector(".fc-content");
+                let computedStyle = window.getComputedStyle(fcContent);
+                let lineHeight = parseInt(computedStyle.lineHeight, 10);
+
+                if (lineHeight === 0) {
+                  lineHeight = 20;
+                }
+                let maxHeight = lineHeight * siteSettings.events_max_rows;
+
+                if (fcContent) {
+                  fcContent.style.maxHeight = `${maxHeight}px`;
+                }
+
+                let fcTitle = info.el.querySelector(".fc-title");
+                if (fcTitle) {
+                  fcTitle.style.overflow = "hidden";
+                  fcTitle.style.whiteSpace = "pre-wrap";
+                }
+                fullCalendar.updateSize();
+              },
+              eventMouseEnter: function ({ event, jsEvent }) {
+                destroyPopover();
+                const htmlContent = event.title;
+                buildPopover(jsEvent, htmlContent);
+              },
+              eventMouseLeave: function () {
+                destroyPopover();
+              },
             }
           );
-          const loadEvents = ajax(
-            `/discourse-post-event/events.json?category_id=${browsedCategory.id}`
-          );
+          const params = {
+            category_id: browsedCategory.id,
+            include_subcategories: true,
+          };
+          if (siteSettings.include_expired_events_on_calendar) {
+            params.include_expired = true;
+          }
+          const loadEvents = ajax(`/discourse-post-event/events.json`, {
+            data: params,
+          });
 
           Promise.all([loadEvents]).then((results) => {
             const events = results[0];
 
+            const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
+
             events[Object.keys(events)[0]].forEach((event) => {
-              const { starts_at, ends_at, post } = event;
+              const { starts_at, ends_at, post, category_id } = event;
+
+              let backgroundColor;
+
+              if (post.topic.tags) {
+                const tagColorEntry = tagsColorsMap.find(
+                  (entry) =>
+                    entry.type === "tag" && post.topic.tags.includes(entry.slug)
+                );
+                backgroundColor = tagColorEntry ? tagColorEntry.color : null;
+              }
+
+              if (!backgroundColor) {
+                const categoryColorFromMap = tagsColorsMap.find(
+                  (entry) =>
+                    entry.type === "category" &&
+                    entry.slug === post.topic.category_slug
+                )?.color;
+                backgroundColor =
+                  categoryColorFromMap ||
+                  `#${site.categoriesById[category_id]?.color}`;
+              }
+
+              let borderColor, textColor;
+              if (moment(ends_at || starts_at).isBefore(moment())) {
+                borderColor = textColor = backgroundColor;
+                backgroundColor = "unset";
+              }
+
               fullCalendar.addEvent({
                 title: formatEventName(event),
                 start: starts_at,
                 end: ends_at || starts_at,
                 allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
                 url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
-                backgroundColor: `#${browsedCategory.color}`,
+                backgroundColor,
+                borderColor,
+                textColor,
               });
             });
 
@@ -228,7 +301,7 @@ function initializeDiscourseCalendar(api) {
           get label() {
             if (
               this.notification.data.message ===
-              "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+              "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification"
             ) {
               return I18n.t(this.notification.data.message, {
                 username: this.username,
@@ -436,41 +509,6 @@ function initializeDiscourseCalendar(api) {
       });
   }
 
-  function _buildPopover(jsEvent, htmlContent) {
-    const node = document.createElement("div");
-    node.setAttribute("id", EVENT_POPOVER_ID);
-    node.innerHTML = htmlContent;
-
-    const arrow = document.createElement("span");
-    arrow.dataset.popperArrow = true;
-    node.appendChild(arrow);
-    document.body.appendChild(node);
-
-    eventPopper = createPopper(
-      jsEvent.target,
-      document.getElementById(EVENT_POPOVER_ID),
-      {
-        placement: "bottom",
-        modifiers: [
-          {
-            name: "arrow",
-          },
-          {
-            name: "offset",
-            options: {
-              offset: [20, 10],
-            },
-          },
-        ],
-      }
-    );
-  }
-
-  function _destroyPopover() {
-    eventPopper?.destroy();
-    document.getElementById(EVENT_POPOVER_ID)?.remove();
-  }
-
   function _setDynamicCalendarOptions(calendar, $calendar) {
     const skipWeekends = $calendar.attr("data-weekends") === "false";
     const hiddenDays = $calendar.attr("data-hidden-days");
@@ -487,7 +525,7 @@ function initializeDiscourseCalendar(api) {
     }
 
     calendar.setOption("eventClick", ({ event, jsEvent }) => {
-      _destroyPopover();
+      destroyPopover();
       const { htmlContent, postNumber, postUrl } = event.extendedProps;
 
       if (postUrl) {
@@ -497,18 +535,18 @@ function initializeDiscourseCalendar(api) {
           _topicController || api.container.lookup("controller:topic");
         _topicController.send("jumpToPost", postNumber);
       } else if (isMobileView && htmlContent) {
-        _buildPopover(jsEvent, htmlContent);
+        buildPopover(jsEvent, htmlContent);
       }
     });
 
     calendar.setOption("eventMouseEnter", ({ event, jsEvent }) => {
-      _destroyPopover();
+      destroyPopover();
       const { htmlContent } = event.extendedProps;
-      _buildPopover(jsEvent, htmlContent);
+      buildPopover(jsEvent, htmlContent);
     });
 
     calendar.setOption("eventMouseLeave", () => {
-      _destroyPopover();
+      destroyPopover();
     });
   }
 
@@ -720,6 +758,11 @@ function initializeDiscourseCalendar(api) {
     (post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
         case "grouped":
+          if (fullDay && detail.timezone) {
+            detail.from = moment
+              .tz(detail.from, detail.timezone)
+              .format("YYYY-MM-DD");
+          }
           groupedEvents.push(detail);
           break;
         case "standalone":

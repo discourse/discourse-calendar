@@ -9,7 +9,8 @@ lt:
     currently_away:
       labels:
         username: Vartotojo vardas
-  discourse_post_event:
-    errors:
-      bulk_invite:
-        error: "Įkeliant failą įvyko klaida. Pabandykite dar kartą vėliau."
+  discourse_calendar:
+    discourse_post_event:
+      errors:
+        bulk_invite:
+          error: "Įkeliant failą įvyko klaida. Pabandykite dar kartą vėliau."

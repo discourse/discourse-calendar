@@ -1,33 +1,57 @@
+import EmberObject from "@ember/object";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import showModal from "discourse/lib/show-modal";
+import PostEventBuilder from "../components/modal/post-event-builder";
+import {
+  addReminder,
+  onChangeDates,
+  removeReminder,
+  updateCustomField,
+  updateEventRawInvitees,
+  updateEventStatus,
+  updateTimezone,
+} from "../widgets/discourse-post-event";
 
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
   const store = api.container.lookup("service:store");
+  const modal = api.container.lookup("service:modal");
 
   api.addComposerToolbarPopupMenuOption({
     action: (toolbarEvent) => {
       const eventModel = store.createRecord("discourse-post-event-event");
-      eventModel.set("status", "public");
-      eventModel.set("custom_fields", {});
-      eventModel.set("starts_at", moment());
-      eventModel.set("timezone", moment.tz.guess());
+      eventModel.setProperties({
+        status: "public",
+        custom_fields: EmberObject.create({}),
+        starts_at: moment(),
+        timezone: moment.tz.guess(),
+      });
 
-      showModal("discourse-post-event-builder").setProperties({
-        toolbarEvent,
-        model: { eventModel },
+      modal.show(PostEventBuilder, {
+        model: {
+          event: eventModel,
+          toolbarEvent,
+          updateCustomField: (field, value) =>
+            updateCustomField(eventModel, field, value),
+          updateEventStatus: (status) => updateEventStatus(eventModel, status),
+          updateEventRawInvitees: (rawInvitees) =>
+            updateEventRawInvitees(eventModel, rawInvitees),
+          removeReminder: (reminder) => removeReminder(eventModel, reminder),
+          addReminder: () => addReminder(eventModel),
+          onChangeDates: (changes) => onChangeDates(eventModel, changes),
+          updateTimezone: (newTz, startsAt, endsAt) =>
+            updateTimezone(eventModel, newTz, startsAt, endsAt),
+        },
       });
     },
     group: "insertions",
     icon: "calendar-day",
-    label: "discourse_post_event.builder_modal.attach",
+    label: "discourse_calendar.discourse_post_event.builder_modal.attach",
     condition: (composer) => {
       if (!currentUser || !currentUser.can_create_discourse_post_event) {
         return false;
       }
 
       const composerModel = composer.model;
-
       return (
         composerModel &&
         !composerModel.replyingToTopic &&
@@ -42,8 +66,7 @@ function initializeEventBuilder(api) {
 }
 
 export default {
-  name: "add-discourse-post-event-builder",
-
+  name: "add-post-event-builder",
   initialize(container) {
     const siteSettings = container.lookup("service:site-settings");
     if (siteSettings.discourse_post_event_enabled) {

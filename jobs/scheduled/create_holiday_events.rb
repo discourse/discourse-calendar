@@ -75,13 +75,24 @@ module Jobs
                   holiday[:date]
                 end
 
-              CalendarEvent.find_or_create_by(
+              event =
+                CalendarEvent
+                  .where(topic_id: topic_id, user_id: user_id, description: holiday[:name])
+                  .where(
+                    "start_date >= :from AND start_date <= :to",
+                    from: date - 1.day,
+                    to: date + 1.day,
+                  )
+                  .first_or_initialize
+
+              event.update!(
                 topic_id: topic_id,
                 user_id: user_id,
-                username: usernames[user_id],
                 description: holiday[:name],
                 start_date: date,
                 region: region,
+                username: usernames[user_id],
+                timezone: tz&.name,
               )
             end
           end

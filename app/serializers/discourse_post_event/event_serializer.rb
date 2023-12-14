@@ -28,6 +28,7 @@ module DiscoursePostEvent
     attributes :recurrence
     attributes :minimal
     attributes :category_id
+    attributes :recurrence_rule
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)
@@ -129,8 +130,18 @@ module DiscoursePostEvent
       (object.public? && object.invitees.count > 0) ||
         (object.private? && object.raw_invitees.count > 0)
     end
+
     def category_id
       object.post.topic.category_id
+    end
+
+    def include_recurrence_rule?
+      object.recurring?
+    end
+
+    def recurrence_rule
+      localized_start ||= self.starts_at.in_time_zone(self.timezone)
+      RRuleConfigurator.rule(object.recurrence, localized_start)
     end
   end
 end

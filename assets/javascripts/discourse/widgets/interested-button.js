@@ -11,7 +11,7 @@ export default createWidget("interested-button", {
   template: hbs`
     {{d-icon "star"}}
     <span class="label">
-      {{i18n "discourse_post_event.models.invitee.status.interested"}}
+      {{i18n "discourse_calendar.discourse_post_event.models.invitee.status.interested"}}
     </span>
   `,
 });

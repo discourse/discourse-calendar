@@ -88,7 +88,7 @@ module DiscoursePostEvent
     scope :visible, -> { where(deleted_at: nil) }
 
     def expired?
-      !!(self.ends_at && Time.now > self.ends_at)
+      (ends_at || starts_at.end_of_day) <= Time.now
     end
 
     def starts_at
@@ -129,8 +129,7 @@ module DiscoursePostEvent
         errors.add(
           :base,
           I18n.t(
-            "discourse_post_event.errors.models.event.raw_invitees_length
-",
+            "discourse_calendar.discourse_post_event.errors.models.event.raw_invitees_length",
             count: 10,
           ),
         )
@@ -142,7 +141,9 @@ module DiscoursePostEvent
       if self.raw_invitees && User.select(:id).where(username: self.raw_invitees).limit(1).count > 0
         errors.add(
           :base,
-          I18n.t("discourse_post_event.errors.models.event.raw_invitees.only_group"),
+          I18n.t(
+            "discourse_calendar.discourse_post_event.errors.models.event.raw_invitees.only_group",
+          ),
         )
       end
     end
@@ -153,7 +154,9 @@ module DiscoursePostEvent
            self.original_starts_at >= self.original_ends_at
         errors.add(
           :base,
-          I18n.t("discourse_post_event.errors.models.event.ends_at_before_starts_at"),
+          I18n.t(
+            "discourse_calendar.discourse_post_event.errors.models.event.ends_at_before_starts_at",
+          ),
         )
       end
     end
@@ -165,7 +168,10 @@ module DiscoursePostEvent
         if !allowed_custom_fields.include?(key)
           errors.add(
             :base,
-            I18n.t("discourse_post_event.errors.models.event.custom_field_is_invalid", field: key),
+            I18n.t(
+              "discourse_calendar.discourse_post_event.errors.models.event.custom_field_is_invalid",
+              field: key,
+            ),
           )
         end
       end
@@ -203,9 +209,9 @@ module DiscoursePostEvent
 
       message =
         if predefined_attendance
-          "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
+          "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification"
         else
-          "discourse_post_event.notifications.invite_user_notification"
+          "discourse_calendar.discourse_post_event.notifications.invite_user_notification"
         end
 
       attrs = {
@@ -243,6 +249,10 @@ module DiscoursePostEvent
 
     def private?
       status == Event.statuses[:private]
+    end
+
+    def recurring?
+      recurrence.present?
     end
 
     def most_likely_going(limit = SiteSetting.displayed_invitees_limit)
@@ -364,45 +374,26 @@ module DiscoursePostEvent
       self.publish_update!
     end
 
-    def calculate_next_date
-      if !original_ends_at || self.recurrence.blank? || original_starts_at > Time.current
+    def calculate_next_date(start_date: nil)
+      localized_start = start_date || original_starts_at.in_time_zone(timezone)
+
+      if self.recurrence.blank? || original_starts_at > Time.current
         return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
 
-      localized_start = original_starts_at.in_time_zone(timezone)
+      next_starts_at =
+        RRuleGenerator.generate(
+          localized_start,
+          tzid: self.timezone,
+          recurrence_type: self.recurrence,
+        ).first
 
-      recurrence = nil
-
-      case self.recurrence
-      when "every_day"
-        recurrence = "FREQ=DAILY"
-      when "every_month"
-        start_date = localized_start.beginning_of_month.to_date
-        end_date = localized_start.end_of_month.to_date
-        weekday = localized_start.strftime("%A")
-
-        count = 0
-        (start_date..end_date).each do |date|
-          count += 1 if date.strftime("%A") == weekday
-          break if date.day == localized_start.day
-        end
-
-        recurrence = "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
-      when "every_weekday"
-        recurrence = "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR"
-      when "every_two_weeks"
-        recurrence = "FREQ=WEEKLY;INTERVAL=2;"
-      when "every_four_weeks"
-        recurrence = "FREQ=WEEKLY;INTERVAL=4;"
+      if original_ends_at
+        difference = original_ends_at - original_starts_at
+        next_ends_at = next_starts_at + difference.seconds
       else
-        byday = localized_start.strftime("%A").upcase[0, 2]
-        recurrence = "FREQ=WEEKLY;BYDAY=#{byday}"
+        next_ends_at = nil
       end
-
-      next_starts_at = RRuleGenerator.generate(recurrence, localized_start, tzid: self.timezone)
-
-      difference = original_ends_at - original_starts_at
-      next_ends_at = next_starts_at + difference.seconds
 
       { starts_at: next_starts_at, ends_at: next_ends_at, rescheduled: true }
     end

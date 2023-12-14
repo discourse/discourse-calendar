@@ -10,6 +10,9 @@ export default Route.extend({
   }),
 
   model(params) {
+    if (this.siteSettings.include_expired_events_on_calendar) {
+      params.include_expired = true;
+    }
     return this.store.findAll("discourse-post-event-event", params);
   },
 });

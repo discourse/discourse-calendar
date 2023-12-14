@@ -59,8 +59,6 @@ discourse_calendar:
     default: false
     client: true
     hidden: true
-
-discourse_post_event:
   discourse_post_event_enabled:
     default: false
     client: true
@@ -104,4 +102,14 @@ discourse_post_event:
     client: true
   sidebar_show_upcoming_events:
     default: true
+    client: true
+  events_max_rows:
+    default: 2
+    client: true
+  map_events_to_color:
+    client: true
+    default: "[]"
+    json_schema: DiscourseCalendar::SiteSettings::MapEventTagColorsJsonSchema
+  include_expired_events_on_calendar:
+    default: false
     client: true

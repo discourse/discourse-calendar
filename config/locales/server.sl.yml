@@ -48,26 +48,26 @@ sl:
     more_than_one_calendar: "V objavi sme biti največ en koledar."
     more_than_two_dates: "Posamezna objava v temi s koledarjem sme vsebovati največ dva datuma."
     event_expired: "Dogodek je končan"
-  discourse_post_event:
-    notifications:
-      before_event_reminder: "%{title} se bo pričel."
-      after_event_reminder: "%{title} je končan."
-      ongoing_event_reminder: "%{title} je v teku."
-    errors:
-      bulk_invite:
-        max_invitees: "Ustvarjenih je bilo prvih %{max_invittes} povabljencev. Poskusite razbiti datoteko na manjše dele."
-        error: "Pri nalaganju te datoteke je prišlo do napake. Prosimo, poskusite ponovno."
-      models:
-        event:
-          only_one_event: "Objava lahko vsebuje samo en dogodek."
-          only_group: "Dogodek sprejema samo grupe."
-          must_be_in_first_post: "Dogodek sme biti samo v prvi objavi teme."
-          raw_invitees_length: "Dogodek je omejen na %{count} uporabnikov/skupin."
-          ends_at_before_starts_at: "Dogodek se ne more končati preden se začne."
-          start_must_be_present_and_a_valid_date: "Dogodek zahteva začetni datum veljavne oblike."
-          end_must_be_a_valid_date: "Končni datum mora biti veljavne oblike."
-          acting_user_not_allowed_to_create_event: "Trenutni uporabnik nima pravic za ustvarjanje dogodkov."
-          acting_user_not_allowed_to_act_on_this_event: "Trenutni uporabnik nima pravic za upravljanje tega dogodka."
-          custom_field_is_invalid: "Polje po meri `%{field}` ni dovoljeno."
-          name:
-            length: "Ime dogodka sme vsebovati od %{minimum} do %{maximum} znakov."
+    discourse_post_event:
+      notifications:
+        before_event_reminder: "%{title} se bo pričel."
+        after_event_reminder: "%{title} je končan."
+        ongoing_event_reminder: "%{title} je v teku."
+      errors:
+        bulk_invite:
+          max_invitees: "Ustvarjenih je bilo prvih %{max_invittes} povabljencev. Poskusite razbiti datoteko na manjše dele."
+          error: "Pri nalaganju te datoteke je prišlo do napake. Prosimo, poskusite ponovno."
+        models:
+          event:
+            only_one_event: "Objava lahko vsebuje samo en dogodek."
+            only_group: "Dogodek sprejema samo grupe."
+            must_be_in_first_post: "Dogodek sme biti samo v prvi objavi teme."
+            raw_invitees_length: "Dogodek je omejen na %{count} uporabnikov/skupin."
+            ends_at_before_starts_at: "Dogodek se ne more končati preden se začne."
+            start_must_be_present_and_a_valid_date: "Dogodek zahteva začetni datum veljavne oblike."
+            end_must_be_a_valid_date: "Končni datum mora biti veljavne oblike."
+            acting_user_not_allowed_to_create_event: "Trenutni uporabnik nima pravic za ustvarjanje dogodkov."
+            acting_user_not_allowed_to_act_on_this_event: "Trenutni uporabnik nima pravic za upravljanje tega dogodka."
+            custom_field_is_invalid: "Polje po meri `%{field}` ni dovoljeno."
+            name:
+              length: "Ime dogodka sme vsebovati od %{minimum} do %{maximum} znakov."

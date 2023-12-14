@@ -23,6 +23,55 @@ ur:
         month: "مہینہ"
         week: "ہفتہ"
         day: "دن"
+      discourse_post_event:
+        notifications:
+          invite_user_notification: "%{username} %{description}"
+        models:
+          event:
+            expired: "میعاد ختم ہوگئی"
+            status:
+              public:
+                title: "عوامی"
+              private:
+                title: "ذاتی"
+        event_ui:
+          show_all: "تمام دکھائیں"
+          add_to_calendar: "کیلنڈر میں شامل کریں"
+          created_by: "بنائی گئی"
+          bulk_invite: "مجموئی دعوت نامہ"
+        bulk_invite_modal:
+          confirm: "تصدیق کریں"
+          title: "مجموئی دعوت نامہ"
+          success: "فائل کامیابی سے اَپ لوڈ کر دی گئی، عمل مکمل ہونے پر آپ کو پیغام کے ذریعے مطلع کر دیا جائے گا۔"
+          error: "معذرت، فائل CSV فارمیٹ میں ہونا ضروری ہے۔"
+        builder_modal:
+          custom_fields:
+            placeholder: "اختیاری"
+          create: "بنائیں"
+          update: "محفوظ کریں"
+          timezone:
+            label: ٹائم زون
+          reminders:
+            units:
+              minutes: "منٹ"
+              hours: "گھنٹے"
+              days: "دن"
+            periods:
+              before: "سے پہلے"
+              after: "کے بعد"
+          recurrence:
+            label: "تَقْلِید"
+            none: "تَقْلِید نہیں"
+            every_day: "ہر دن"
+          url:
+            label: "URL"
+            placeholder: "اختیاری"
+          status:
+            label: "سٹیٹس"
+        invite_user_or_group:
+          invite: "بھیجیں"
+        upcoming_events:
+          status: "سٹیٹس"
     group_timezones:
       search: "تلاش کریں..."
     discourse_post_event:

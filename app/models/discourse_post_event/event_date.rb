@@ -6,11 +6,11 @@ module DiscoursePostEvent
     belongs_to :event
 
     scope :pending,
-          -> {
+          -> do
             where(finished_at: nil).joins(:event).where(
               "discourse_post_event_events.deleted_at is NULL",
             )
-          }
+          end
     scope :expired, -> { where("ends_at IS NOT NULL AND ends_at < ?", Time.now) }
     scope :not_expired, -> { where("ends_at IS NULL OR ends_at > ?", Time.now) }
 
@@ -51,8 +51,7 @@ module DiscoursePostEvent
     end
 
     def ended?
-      return false if ends_at.nil?
-      ends_at <= Time.current
+      (ends_at || starts_at.end_of_day) <= Time.current
     end
   end
 end

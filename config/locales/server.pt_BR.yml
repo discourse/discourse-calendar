@@ -64,32 +64,32 @@ pt_BR:
     event_expired: "Evento expirado"
     holiday_status:
       description: "De férias"
+    discourse_post_event:
+      notifications:
+        before_event_reminder: "%{title} está prestes a começar."
+        after_event_reminder: "%{title} terminou."
+        ongoing_event_reminder: "%{title} está em andamento."
+      errors:
+        bulk_invite:
+          max_invitees: "Os primeiros %{max_invittes} convites foram enviados. Tente dividir o arquivo em partes menores."
+          error: "Houve um erro ao tentar enviar este arquivo. Tente novamente mais tarde."
+        models:
+          event:
+            only_one_event: "Uma postagem só pode ter um evento."
+            only_group: "Um evento aceita apenas nomes de grupos."
+            must_be_in_first_post: "Um evento só pode estar na primeira postagem de um tópico."
+            raw_invitees_length: "Um evento é limitado a %{count} usuários(as)/grupos."
+            ends_at_before_starts_at: "Um evento não pode terminar antes de começar."
+            start_must_be_present_and_a_valid_date: "Um evento requer uma data de início válida."
+            end_must_be_a_valid_date: "A data final deve ser uma data válida."
+            invalid_timezone: "Fuso horário não reconhecido."
+            acting_user_not_allowed_to_create_event: "O(a) usuário(a) atual não tem permissão para criar eventos."
+            acting_user_not_allowed_to_act_on_this_event: "O(a) usuário(a) atual não tem permissão para agir neste evento."
+            invalid_allowed_groups: "Grupos permitidos inválidos."
+            acting_user_not_allowed_to_invite_these_groups: "O(a) usuário(a) atual não tem permissão para convidar estes grupos."
+            custom_field_is_invalid: "O campo personalizado `%{field}` não é permitido."
+            name:
+              length: "A duração do nome do evento deve estar entre %{minimum} e %{maximum} caracteres."
   discourse_push_notifications:
     popup:
       event_reminder: "Lembrete de evento"
-  discourse_post_event:
-    notifications:
-      before_event_reminder: "%{title} está prestes a começar."
-      after_event_reminder: "%{title} terminou."
-      ongoing_event_reminder: "%{title} está em andamento."
-    errors:
-      bulk_invite:
-        max_invitees: "Os primeiros %{max_invittes} convites foram enviados. Tente dividir o arquivo em partes menores."
-        error: "Houve um erro ao tentar enviar este arquivo. Tente novamente mais tarde."
-      models:
-        event:
-          only_one_event: "Uma postagem só pode ter um evento."
-          only_group: "Um evento aceita apenas nomes de grupos."
-          must_be_in_first_post: "Um evento só pode estar na primeira postagem de um tópico."
-          raw_invitees_length: "Um evento é limitado a %{count} usuários(as)/grupos."
-          ends_at_before_starts_at: "Um evento não pode terminar antes de começar."
-          start_must_be_present_and_a_valid_date: "Um evento requer uma data de início válida."
-          end_must_be_a_valid_date: "A data final deve ser uma data válida."
-          invalid_timezone: "Fuso horário não reconhecido."
-          acting_user_not_allowed_to_create_event: "O(a) usuário(a) atual não tem permissão para criar eventos."
-          acting_user_not_allowed_to_act_on_this_event: "O(a) usuário(a) atual não tem permissão para agir neste evento."
-          invalid_allowed_groups: "Grupos permitidos inválidos."
-          acting_user_not_allowed_to_invite_these_groups: "O(a) usuário(a) atual não tem permissão para convidar estes grupos."
-          custom_field_is_invalid: "O campo personalizado `%{field}` não é permitido."
-          name:
-            length: "A duração do nome do evento deve estar entre %{minimum} e %{maximum} caracteres."

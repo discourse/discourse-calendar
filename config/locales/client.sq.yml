@@ -22,6 +22,17 @@ sq:
         month: "Këtë muaj"
         week: "Këtë javë"
         day: "Dit"
+      discourse_post_event:
+        bulk_invite_modal:
+          success: "Skedari u ngarkua, do njoftoheni me mesazh kur procesi të mbarojë. "
+          error: "Na vjen keq, skedari duhet të jete i formatit CSV."
+        builder_modal:
+          update: "Ruaj"
+          reminders:
+            units:
+              days: "ditë"
+          url:
+            label: "URL"
     discourse_post_event:
       bulk_invite_modal:
         success: "Skedari u ngarkua, do njoftoheni me mesazh kur procesi të mbarojë. "

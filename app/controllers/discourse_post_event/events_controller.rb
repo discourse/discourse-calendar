@@ -5,10 +5,13 @@ module DiscoursePostEvent
     def index
       @events = DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params)
 
+      # The detailed serializer is currently not used anywhere in the frontend, but available via API
+      serializer = params[:include_details] == "true" ? EventSerializer : EventSummarySerializer
+
       render json:
                ActiveModel::ArraySerializer.new(
                  @events,
-                 each_serializer: EventSerializer,
+                 each_serializer: serializer,
                  scope: guardian,
                ).as_json
     end
@@ -68,14 +71,18 @@ module DiscoursePostEvent
           else
             render json:
                      failed_json.merge(
-                       errors: [I18n.t("discourse_post_event.errors.bulk_invite.error")],
+                       errors: [
+                         I18n.t("discourse_calendar.discourse_post_event.errors.bulk_invite.error"),
+                       ],
                      ),
                    status: 422
           end
         rescue StandardError
           render json:
                    failed_json.merge(
-                     errors: [I18n.t("discourse_post_event.errors.bulk_invite.error")],
+                     errors: [
+                       I18n.t("discourse_calendar.discourse_post_event.errors.bulk_invite.error"),
+                     ],
                    ),
                  status: 422
         end
@@ -101,7 +108,9 @@ module DiscoursePostEvent
       rescue StandardError
         render json:
                  failed_json.merge(
-                   errors: [I18n.t("discourse_post_event.errors.bulk_invite.error")],
+                   errors: [
+                     I18n.t("discourse_calendar.discourse_post_event.errors.bulk_invite.error"),
+                   ],
                  ),
                status: 422
       end
@@ -110,7 +119,7 @@ module DiscoursePostEvent
     private
 
     def filtered_events_params
-      params.permit(:post_id, :category_id)
+      params.permit(:post_id, :category_id, :include_subcategories, :include_expired)
     end
   end
 end
