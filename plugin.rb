@@ -111,8 +111,9 @@ after_initialize do
         if category && category.custom_fields &&
              category.custom_fields["sort_topics_by_event_start_date"]
           reorder_sql = <<~SQL
-            CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN 0 ELSE 1 END,
-            COALESCE(custom_fields.value::timestamptz, topics.bumped_at) DESC
+           CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN 0 ELSE 1 END,
+           CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) > NOW() THEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) ELSE NULL END,
+           CASE WHEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) < NOW() THEN COALESCE(custom_fields.value::timestamptz, topics.bumped_at) ELSE NULL END DESC
           SQL
           results =
             results.joins(
