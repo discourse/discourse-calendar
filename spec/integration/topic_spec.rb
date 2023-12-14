@@ -12,7 +12,7 @@ describe Topic do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  let(:user) { Fabricate(:user) }
+  let(:user) { Fabricate(:user, refresh_auto_groups: true) }
 
   context "when a topic is created" do
     context "with a date in title" do

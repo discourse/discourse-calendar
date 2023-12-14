@@ -11,7 +11,7 @@ describe Post do
     SiteSetting.discourse_post_event_enabled = true
   end
 
-  let(:user) { Fabricate(:user, admin: true) }
+  let(:user) { Fabricate(:user, admin: true, refresh_auto_groups: true) }
 
   context "with a public event" do
     let(:post_1) { Fabricate(:post) }
@@ -304,7 +304,7 @@ describe Post do
         end
 
         context "when the acting user has rights to create events" do
-          let(:user_with_rights) { Fabricate(:user) }
+          let(:user_with_rights) { Fabricate(:user, refresh_auto_groups: true) }
           let(:group) { Fabricate(:group, users: [user_with_rights]) }
 
           before { SiteSetting.discourse_post_event_allowed_on_groups = group.id.to_s }
@@ -326,7 +326,7 @@ describe Post do
         end
 
         context "when the acting user doesn’t have rights to create events" do
-          let(:user_without_rights) { Fabricate(:user) }
+          let(:user_without_rights) { Fabricate(:user, refresh_auto_groups: true) }
           let(:group) { Fabricate(:group, users: [user]) }
 
           before { SiteSetting.discourse_post_event_allowed_on_groups = group.id.to_s }
