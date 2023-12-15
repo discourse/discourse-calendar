@@ -33,7 +33,7 @@ acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
   });
 
   needs.pretender((server, helper) => {
-    server.get("/discourse-post-event/events.json", () => {
+    server.get("/discourse-post-event/events", () => {
       return helper.response({
         events: [
           {

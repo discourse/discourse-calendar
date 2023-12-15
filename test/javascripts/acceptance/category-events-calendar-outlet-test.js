@@ -3,7 +3,7 @@ import { test } from "qunit";
 import { acceptance, exists } from "discourse/tests/helpers/qunit-helpers";
 
 const eventsPretender = (server, helper) => {
-  server.get("/discourse-post-event/events.json", () => {
+  server.get("/discourse-post-event/events", () => {
     return helper.response({
       events: [
         {
