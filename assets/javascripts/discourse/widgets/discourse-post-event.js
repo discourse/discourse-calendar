@@ -1,5 +1,5 @@
+import getOwner from "@ember/application";
 import EmberObject from "@ember/object";
-import { routeAction } from "discourse/helpers/route-action";
 import { exportEntity } from "discourse/lib/export-csv";
 import { cook, emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
@@ -159,13 +159,13 @@ export default createWidget("discourse-post-event", {
   },
 
   sendPMToCreator() {
-    const router = this.register.lookup("service:router")._router;
-    routeAction(
-      "composePrivateMessage",
-      router,
-      EmberObject.create(this.state.eventModel.creator),
-      EmberObject.create(this.state.eventModel.post)
-    ).call();
+    getOwner(this)
+      .lookup("route:application")
+      .send(
+        "composePrivateMessage",
+        EmberObject.create(this.state.eventModel.creator),
+        EmberObject.create(this.state.eventModel.post)
+      );
   },
 
   addToCalendar() {
