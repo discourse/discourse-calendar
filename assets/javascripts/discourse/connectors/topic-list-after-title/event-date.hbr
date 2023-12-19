@@ -1,1 +1,7 @@
-{{~raw "event-date-container" topic=context.topic}}
+{{#if context.siteSettings.discourse_post_event_enabled}}
+    {{#if context.topic.event_starts_at}}
+        {{#if context.topic.event_ends_at}}
+            {{~raw "event-date-container" topic=context.topic}}
+        {{/if}}
+    {{/if}}
+{{/if}}
