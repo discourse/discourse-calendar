@@ -436,9 +436,7 @@ after_initialize do
     result
   end
 
-  add_to_serializer(:site, :users_on_holiday) do
-    DiscourseCalendar.users_on_holiday
-  end
+  add_to_serializer(:site, :users_on_holiday) { DiscourseCalendar.users_on_holiday }
 
   on(:reduce_cooked) do |fragment, post|
     if SiteSetting.discourse_post_event_enabled

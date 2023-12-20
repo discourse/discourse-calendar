@@ -12,12 +12,12 @@ describe "calendar site additions" do
   it "includes users_on_holiday for staff only" do
     get "/site.json"
     expect(response.status).to eq(200)
-    expect(response.parsed_body["users_on_holiday"]).to eq(nil)
+    expect(response.parsed_body["users_on_holiday"]).to eq([user.username])
 
     sign_in(user)
     get "/site.json"
     expect(response.status).to eq(200)
-    expect(response.parsed_body["users_on_holiday"]).to eq(nil)
+    expect(response.parsed_body["users_on_holiday"]).to eq([user.username])
 
     sign_in(admin)
     get "/site.json"
