@@ -436,7 +436,7 @@ after_initialize do
     result
   end
 
-  add_to_serializer(:site, :users_on_holiday, include_condition: -> { scope.is_staff? }) do
+  add_to_serializer(:site, :users_on_holiday) do
     DiscourseCalendar.users_on_holiday
   end
 
