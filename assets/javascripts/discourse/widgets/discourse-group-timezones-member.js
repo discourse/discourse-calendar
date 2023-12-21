@@ -7,9 +7,7 @@ export default createWidget("discourse-group-timezones-member", {
   tagName: "li.group-timezones-member",
 
   buildClasses(attrs) {
-    return attrs.usersOnHoliday.includes(attrs.member.username)
-      ? "on-holiday"
-      : "not-on-holiday";
+    return attrs.member.on_holiday ? "on-holiday" : "not-on-holiday";
   },
 
   html(attrs) {
