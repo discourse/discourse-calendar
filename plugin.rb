@@ -427,9 +427,15 @@ after_initialize do
           .where("groups.name": group_names)
           .select("users.*", "groups.name AS group_name", "user_options.timezone")
 
+      usernames_on_holiday = DiscourseCalendar.users_on_holiday
+
       users.each do |u|
         result[u.group_name] ||= []
-        result[u.group_name] << UserTimezoneSerializer.new(u, root: false).as_json
+        result[u.group_name] << UserTimezoneSerializer.new(
+          u,
+          root: false,
+          on_holiday: usernames_on_holiday&.include?(u.username),
+        ).as_json
       end
     end
 
