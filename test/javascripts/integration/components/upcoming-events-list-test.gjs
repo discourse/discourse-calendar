@@ -229,7 +229,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
   test("with events, overridden count parameter", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
-    await render(<template><UpcomingEventsList @params={{hash count=1}} /></template>);
+    await render(<template>
+      <UpcomingEventsList @params={{hash count=1}} />
+    </template>);
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
@@ -295,9 +297,9 @@ function twoEventsResponseHandler({ queryParams }) {
       name: "Another Awesome Event",
       category_id: 2,
     },
-  ]
+  ];
 
   return response({
-    events: queryParams.limit ? events.slice(0, queryParams.limit) : events
+    events: queryParams.limit ? events.slice(0, queryParams.limit) : events,
   });
 }
