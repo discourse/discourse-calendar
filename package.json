@@ -1,7 +1,7 @@
 {
   "name": "discourse-calendar",
   "version": "0.3.0",
-  "repository": "https://github.com/discourse/discourse-calendar",
+  "repository": "https://github.com/Zuzagora/discourse-calendar",
   "author": "Discourse",
   "license": "MIT",
   "devDependencies": {

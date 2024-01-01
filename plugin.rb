@@ -5,7 +5,7 @@
 # meta_topic_id: 97376
 # version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
-# url: https://github.com/discourse/discourse-calendar
+# url: https://github.com/Zuzagora/discourse-calendar
 
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
@@ -299,7 +299,7 @@ after_initialize do
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
   register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
   TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
-  
+
   DiscourseCalendar::Engine.routes.draw do
     get '/calendar/topic-calendar/:id' => 'discourse_calendar#topic_calendar',
         constraints: { format: /ics/ }
