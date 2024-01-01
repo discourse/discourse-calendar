@@ -4,8 +4,13 @@
 months:
   1:
   - name: New Year's Day
-    regions: [in_tn]
+    regions: [in_tn, in_ka]
     mday: 1
+  - name: Pongal
+    regions: [in_ka]
+    mday: 15
+    year_ranges:
+      limited: [2024]
   - name: Thiruvalluvar Day
     regions: [in_tn]
     mday: 16
@@ -21,16 +26,6 @@ months:
     mday: 26
     observed: to_weekday_if_weekend(date)
   3:
-  - name: Holi
-    regions: [in_rj]
-    mday: 7
-    year_ranges:
-      limited: [2023]
-  - name: Holi 2nd Day
-    regions: [in_mh, in_gj]
-    mday: 8
-    year_ranges:
-      limited: [2023]
   - name: Cheti Chand
     regions: [in_gj]
     mday: 22
@@ -41,50 +36,58 @@ months:
     mday: 22
     year_ranges:
       limited: [2023]
-  - name: Ramnavmi
-    regions: [in_rj, in_mh, in_gj]
-    mday: 30
+  - name: Holi
+    regions: [in_rj, in_mh, in_gj, in_ka]
+    mday: 25
     year_ranges:
-      limited: [2023]
-  4:
-  - name: Mahavir Jayanti
-    regions: [in_rj, in_tn, in_gj]
-    mday: 4
+      limited: [2024]
   - name: Good Friday
     regions: [in_rj, in_mh, in_tn, in_gj]
-    mday: 7
+    mday: 29
     year_ranges:
-      limited: [2023]
+      limited: [2024]
+  4:
+  - name: Ugadi
+    regions: [in_ka]
+    mday: 09
+  - name: Eid al-Fitr
+    regions: [in_rj, in_mh, in_gj]
+    mday: 11
   - name: Ambedkar Jayanti
     regions: [in_rj, in_mh, in_gj]
     mday: 14
   - name: Tamil New Year's Day
     regions: [in_tn]
     mday: 14
+  - name: Ramnavmi
+    regions: [in_rj, in_mh, in_gj]
+    mday: 17
+    year_ranges:
+      limited: [2024]
+  - name: Mahavir Jayanti
+    regions: [in_rj, in_tn, in_gj]
+    mday: 21
+    year_ranges:
+      limited: [2024]
   5:
   - name: Maharashtra Day
     regions: [in_mh]
     mday: 1
   - name: Labour's Day
-    regions: [in_tn]
+    regions: [in_tn, in_ka]
     mday: 1
-  - name: Buddha Purnima
-    regions: [in_rj]
-    mday: 5
-    year_ranges:
-      limited: [2023]
   6:
   - name: Eid al-Adha
     regions: [in_rj, in_tn, in_gj, in_mh]
-    mday: 29
+    mday: 17
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   7:
   - name: Muharram
-    regions: [in_gj]
-    mday: 28
+    regions: [in_gj, in_rj, in_tn, in_mh]
+    mday: 17
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   8:
   - name: Independence Day
     regions: [in]
@@ -97,66 +100,74 @@ months:
       limited: [2023]
   - name: Raksha Bandhan
     regions: [in_rj, in_mh, in_gj]
-    mday: 30
+    mday: 19
     year_ranges:
-      limited: [2023]
+      limited: [2024]
+  - name: Janmashtami
+    regions: [in_rj, in_mh, in_gj]
+    mday: 26
+    year_ranges:
+      limited: [2024]
   9:
   - name: Krishna Jayanthi
     regions: [in_tn]
     mday: 6
     year_ranges:
       limited: [2023]
-  - name: Janmashtami
+  - name: Ganesh Chaturthi
     regions: [in_rj, in_mh, in_gj]
     mday: 7
     year_ranges:
-      limited: [2023]
-  - name: Ganesh Chaturthi
-    regions: [in_rj, in_mh, in_gj]
-    mday: 19
-    year_ranges:
-      limited: [2023]
+      limited: [2024]
   - name: Milad-un-Nabi
     regions: [in_rj, in_tn, in_gj]
-    mday: 28
+    mday: 16
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   10:
   - name: Gandhi Jayanti
     regions: [in]
     mday: 2
     observed: to_weekday_if_weekend(date)
+  - name: Navratri Sthapana
+    regions: [in_rj]
+    mday: 3
+    year_ranges:
+      limited: [2024]
+  - name: Dussehra
+    regions: [in_rj, in_mh, in_tn, in_gj]
+    mday: 12
+    year_ranges:
+      limited: [2024]
   - name: Ayutha Pooja
     regions: [in_tn]
     mday: 23
     year_ranges:
       limited: [2023]
-  - name: Dussehra
-    regions: [in_rj, in_mh, in_tn, in_gj]
-    mday: 24
-    year_ranges:
-      limited: [2023]
   - name: Sardar Vallabhbhai Patel Jayanti
     regions: [in_gj]
     mday: 31
+  - name: Diwali
+    regions: [in]
+    mday: 31
+    year_ranges:
+      limited: [2024]
   11:
+  - name: Kannada Rajyothsava
+    regions: [in_ka]
+    mday: 1
   - name: Govardhan Puja
     regions: [in_rj, in_gj]
     mday: 13
     year_ranges:
       limited: [2023]
-  - name: Bhai Dooj
-    regions: [in_rj, in_gj]
-    mday: 15
-    year_ranges:
-      limited: [2023]
   - name: Guru Nanak Jayanti
     regions: [in_rj, in_mh, in_gj]
-    mday: 27
+    mday: 15
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   12:
   - name: Christmas Day
-    regions: [in_rj, in_mh, in_tn, in_gj]
+    regions: [in]
     mday: 25
     observed: to_weekday_if_weekend(date)
