@@ -26,6 +26,11 @@ months:
     mday: 26
     observed: to_weekday_if_weekend(date)
   3:
+  - name: Mahashivratri
+    regions: [in_mh]
+    mday: 8
+    year_ranges:
+      limited: [2024]
   - name: Cheti Chand
     regions: [in_gj]
     mday: 22
