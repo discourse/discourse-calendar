@@ -134,7 +134,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     );
   });
 
-  test("with events, overriden formats", async function (assert) {
+  test("with events, overridden formats", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
     await render(<template>
@@ -225,45 +225,81 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       "it displays the try again button"
     );
   });
+
+  test("with events, overridden count parameter", async function (assert) {
+    pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
+
+    await render(<template>
+      <UpcomingEventsList @params={{hash count=1}} />
+    </template>);
+
+    this.appEvents.trigger("page:changed", { url: "/" });
+
+    assert.strictEqual(
+      query(".upcoming-events-list__heading").innerText,
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+      ),
+      "it displays the title"
+    );
+
+    await waitFor(".loading-container .spinner", { count: 0 });
+
+    assert.strictEqual(
+      queryAll(".upcoming-events-list__event").length,
+      1,
+      "it limits the resulting items to the count parameter"
+    );
+
+    assert.deepEqual(
+      [...queryAll(".upcoming-events-list__event-name")].map(
+        (el) => el.innerText
+      ),
+      ["Awesome Event"],
+      "it displays the event name"
+    );
+  });
 });
 
-function twoEventsResponseHandler() {
-  return response({
-    events: [
-      {
+function twoEventsResponseHandler({ queryParams }) {
+  const events = [
+    {
+      id: 67501,
+      starts_at: tomorrowAllDay,
+      ends_at: null,
+      timezone: "Asia/Calcutta",
+      post: {
         id: 67501,
-        starts_at: tomorrowAllDay,
-        ends_at: null,
-        timezone: "Asia/Calcutta",
-        post: {
-          id: 67501,
-          post_number: 1,
-          url: "/t/this-is-an-event/18449/1",
-          topic: {
-            id: 18449,
-            title: "This is an event",
-          },
+        post_number: 1,
+        url: "/t/this-is-an-event/18449/1",
+        topic: {
+          id: 18449,
+          title: "This is an event",
         },
-        name: "Awesome Event",
-        category_id: 1,
       },
-      {
-        id: 67502,
-        starts_at: nextMonth,
-        ends_at: null,
-        timezone: "Asia/Calcutta",
-        post: {
-          id: 67501,
-          post_number: 1,
-          url: "/t/this-is-an-event-2/18450/1",
-          topic: {
-            id: 18449,
-            title: "This is an event 2",
-          },
+      name: "Awesome Event",
+      category_id: 1,
+    },
+    {
+      id: 67502,
+      starts_at: nextMonth,
+      ends_at: null,
+      timezone: "Asia/Calcutta",
+      post: {
+        id: 67501,
+        post_number: 1,
+        url: "/t/this-is-an-event-2/18450/1",
+        topic: {
+          id: 18449,
+          title: "This is an event 2",
         },
-        name: "Another Awesome Event",
-        category_id: 2,
       },
-    ],
+      name: "Another Awesome Event",
+      category_id: 2,
+    },
+  ];
+
+  return response({
+    events: queryParams.limit ? events.slice(0, queryParams.limit) : events,
   });
 }

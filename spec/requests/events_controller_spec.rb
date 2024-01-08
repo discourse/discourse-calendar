@@ -290,6 +290,15 @@ module DiscoursePostEvent
               ],
             )
           end
+
+          it "limits the number of events returned when limit param provided" do
+            get "/discourse-post-event/events.json?category_id=#{category.id}&include_subcategories=true&limit=1"
+
+            expect(response.status).to eq(200)
+            events = response.parsed_body["events"]
+            expect(events.length).to eq(1)
+            expect(events[0]["id"]).to eq(event_1.id)
+          end
         end
       end
     end

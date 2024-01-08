@@ -16,7 +16,7 @@ module DiscoursePostEvent
           ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY finished_at DESC NULLS FIRST) as row_num
         FROM discourse_calendar_post_event_dates
       ) dcped ON dcped.event_id = discourse_post_event_events.id AND dcped.row_num = 1
-        
+
       SQL
       events =
         DiscoursePostEvent::Event
@@ -45,6 +45,8 @@ module DiscoursePostEvent
           events = events.where(topics: { category_id: params[:category_id].to_i })
         end
       end
+
+      events = events.limit(params[:limit].to_i) if params[:limit].present?
 
       events
     end

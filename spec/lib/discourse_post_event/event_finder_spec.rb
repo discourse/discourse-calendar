@@ -172,5 +172,15 @@ describe DiscoursePostEvent::EventFinder do
         end
       end
     end
+
+    describe "with a limit parameter provided" do
+      let!(:event1) { Fabricate(:event) }
+      let!(:event2) { Fabricate(:event) }
+      let!(:event3) { Fabricate(:event) }
+
+      it "returns the correct number of events" do
+        expect(finder.search(current_user, { limit: 2 })).to match_array([event1, event2])
+      end
+    end
   end
 end
