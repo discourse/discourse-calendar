@@ -188,7 +188,10 @@ export default class UpcomingEventsList extends Component {
         </div>
 
         <div class="upcoming-events-list__footer">
-          <LinkTo @route="discourse-post-event-upcoming-events" class="upcoming-events-list__view-all">
+          <LinkTo
+            @route="discourse-post-event-upcoming-events"
+            class="upcoming-events-list__view-all"
+          >
             {{this.viewAllLabel}}
           </LinkTo>
         </div>
