@@ -444,6 +444,7 @@ en:
           all_day: "All-day"
           error: "Failed to retrieve events"
           try_again: "Try again"
+          view_all: "View all"
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"

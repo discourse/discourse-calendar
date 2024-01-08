@@ -1,6 +1,6 @@
 import { hash } from "@ember/helper";
 import Service from "@ember/service";
-import { render, waitFor } from "@ember/test-helpers";
+import { click, currentURL, render, waitFor } from "@ember/test-helpers";
 import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import pretender, { response } from "discourse/tests/helpers/create-pretender";
@@ -19,6 +19,9 @@ import UpcomingEventsList, {
 
 class RouterStub extends Service {
   currentRoute = { attributes: { category: { id: 1 } } };
+  currentRouteName = "discovery.latest";
+  on() {}
+  off() {}
 }
 
 const today = "2100-02-01T08:00:00";
@@ -131,6 +134,37 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       ),
       ["Awesome Event", "Another Awesome Event"],
       "it displays the event name"
+    );
+
+    assert.ok(
+      exists(".upcoming-events-list__view-all"),
+      "it displays the view-all link"
+    );
+  });
+
+  test("with events, view-all navigation", async function (assert) {
+    pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
+
+    await render(<template><UpcomingEventsList /></template>);
+
+    this.appEvents.trigger("page:changed", { url: "/" });
+
+    await waitFor(".loading-container .spinner", { count: 0 });
+
+    assert.strictEqual(
+      query(".upcoming-events-list__view-all").innerText,
+      I18n.t(
+        "discourse_calendar.discourse_post_event.upcoming_events_list.view_all"
+      ),
+      "it displays the view-all link"
+    );
+
+    await click(".upcoming-events-list__view-all");
+
+    assert.strictEqual(
+      currentURL(),
+      "/upcoming-events",
+      "view-all link navigates to the upcoming-events page"
     );
   });
 
