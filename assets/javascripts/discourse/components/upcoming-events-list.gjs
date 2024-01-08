@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { LinkTo } from "@ember/routing";
 import { inject as service } from "@ember/service";
 import ConditionalLoadingSpinner from "discourse/components/conditional-loading-spinner";
 import DButton from "discourse/components/d-button";
@@ -39,6 +40,9 @@ export default class UpcomingEventsList extends Component {
   );
   errorMessage = I18n.t(
     "discourse_calendar.discourse_post_event.upcoming_events_list.error"
+  );
+  viewAllLabel = I18n.t(
+    "discourse_calendar.discourse_post_event.upcoming_events_list.view_all"
   );
 
   constructor() {
@@ -181,6 +185,12 @@ export default class UpcomingEventsList extends Component {
               {{/each-in}}
             {{/each-in}}
           {{/unless}}
+        </div>
+
+        <div class="upcoming-events-list__view-all">
+          <LinkTo @route="discourse-post-event-upcoming-events">
+            {{this.viewAllLabel}}
+          </LinkTo>
         </div>
       </div>
     {{/if}}
