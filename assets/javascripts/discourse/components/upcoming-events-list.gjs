@@ -13,6 +13,7 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 export const DEFAULT_MONTH_FORMAT = "MMMM YYYY";
 export const DEFAULT_DATE_FORMAT = "dddd, MMM D";
 export const DEFAULT_TIME_FORMAT = "LT";
+const DEFAULT_UPCOMING_DAYS = 180;
 const DEFAULT_COUNT = 8;
 
 export default class UpcomingEventsList extends Component {
@@ -28,6 +29,7 @@ export default class UpcomingEventsList extends Component {
   dateFormat = this.args.params?.dateFormat ?? DEFAULT_DATE_FORMAT;
   timeFormat = this.args.params?.timeFormat ?? DEFAULT_TIME_FORMAT;
   count = this.args.params?.count ?? DEFAULT_COUNT;
+  upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
   title = I18n.t(
     "discourse_calendar.discourse_post_event.upcoming_events_list.title"
@@ -81,7 +83,11 @@ export default class UpcomingEventsList extends Component {
 
     try {
       const { events } = await ajax("/discourse-post-event/events", {
-        data: { category_id: this.categoryId, limit: this.count },
+        data: {
+          category_id: this.categoryId,
+          limit: this.count,
+          before: moment().add(this.upcomingDays, "days").toISOString()
+        },
       });
 
       this.eventsByMonth = this.groupByMonthAndDay(events);

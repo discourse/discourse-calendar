@@ -46,6 +46,10 @@ module DiscoursePostEvent
         end
       end
 
+      if params[:before].present?
+        events = events.where("dcped.starts_at < ?", params[:before].to_datetime)
+      end
+
       events = events.limit(params[:limit].to_i) if params[:limit].present?
 
       events
