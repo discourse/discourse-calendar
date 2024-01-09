@@ -113,24 +113,26 @@ export default Component.extend({
             (entry) =>
               entry.type === "tag" && post.topic.tags.includes(entry.slug)
           );
-          backgroundColor = tagColorEntry ? tagColorEntry.color : null;
+          backgroundColor = tagColorEntry?.color;
         }
 
         if (!backgroundColor) {
-          const categoryColorFromMap = tagsColorsMap.find(
+          const categoryColorEntry = tagsColorsMap.find(
             (entry) =>
               entry.type === "category" &&
               entry.slug === post.topic.category_slug
-          )?.color;
-          backgroundColor =
-            categoryColorFromMap ||
-            `#${this.site.categoriesById[category_id]?.color}`;
+          );
+          backgroundColor = categoryColorEntry?.color;
         }
 
-        let borderColor, textColor;
+        const categoryColor = this.site.categoriesById[category_id]?.color;
+        if (!backgroundColor && categoryColor) {
+          backgroundColor = `#${categoryColor}`;
+        }
+
+        let classNames;
         if (moment(ends_at || starts_at).isBefore(moment())) {
-          borderColor = textColor = backgroundColor;
-          backgroundColor = "unset";
+          classNames = "fc-past-event";
         }
 
         this._calendar.addEvent({
@@ -140,8 +142,7 @@ export default Component.extend({
           allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
           backgroundColor,
-          borderColor,
-          textColor,
+          classNames,
         });
       });
 
