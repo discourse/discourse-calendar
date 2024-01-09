@@ -54,7 +54,7 @@ months:
   4:
   - name: Ugadi
     regions: [in_ka]
-    mday: 09
+    mday: 9
   - name: Eid al-Fitr
     regions: [in_rj, in_mh, in_gj, in_tn]
     mday: 11
