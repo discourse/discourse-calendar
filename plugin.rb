@@ -5,7 +5,7 @@
 # meta_topic_id: 97376
 # version: 0.3
 # author: Daniel Waterworth, Joffrey Jaffeux
-# url: https://github.com/discourse/discourse-calendar
+# url: https://github.com/Zuzagora/discourse-calendar
 
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
@@ -275,7 +275,7 @@ after_initialize do
     end,
   ) { object.event_ends_at }
 
-  # DISCOURSE CALENDAR
+    # DISCOURSE CALENDAR
 
   require_relative "jobs/scheduled/create_holiday_events"
   require_relative "jobs/scheduled/delete_expired_event_posts"
@@ -289,9 +289,25 @@ after_initialize do
   require_relative "lib/time_sniffer"
   require_relative "lib/users_on_holiday"
 
+  # ICS 
+  require_relative "app/controllers/discourse_calendar_controller"
+  require_relative "app/models/calendar_event"
+  require_relative "app/serializers/user_timezone_serializer"
+  require_relative "jobs/scheduled/destroy_past_events"
+
+
   register_post_custom_field_type(DiscourseCalendar::CALENDAR_CUSTOM_FIELD, :string)
   register_post_custom_field_type(DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD, :json)
   TopicView.default_post_custom_fields << DiscourseCalendar::GROUP_TIMEZONES_CUSTOM_FIELD
+
+  DiscourseCalendar::Engine.routes.draw do
+    get '/calendar/topic-calendar/:id' => 'discourse_calendar#topic_calendar',
+        constraints: { format: /ics/ }
+    get '/calendar/topic/:id' => 'discourse_calendar#topic_dates',
+        constraints: { format: /ics/ }
+    get '/calendar/post/:id' => 'discourse_calendar#post_dates',
+        constraints: { format: /ics/ }
+  end
 
   register_user_custom_field_type(DiscourseCalendar::HOLIDAY_CUSTOM_FIELD, :boolean)
 
