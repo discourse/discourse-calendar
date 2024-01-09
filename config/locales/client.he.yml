@@ -449,6 +449,7 @@ he:
           all_day: "יום שלם"
           error: "משיכת האירועים נכשלה"
           try_again: "לנסות שוב"
+          view_all: "להציג הכול"
     group_timezones:
       search: "חיפוש…"
       group_availability: "זמינות %{group}"
