@@ -360,7 +360,7 @@ function twoEventsResponseHandler({ queryParams }) {
   ];
 
   if (queryParams.limit) {
-    events.splice(queryParams.limit)
+    events.splice(queryParams.limit);
   }
 
   if (queryParams.before) {

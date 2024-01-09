@@ -86,7 +86,7 @@ export default class UpcomingEventsList extends Component {
         data: {
           category_id: this.categoryId,
           limit: this.count,
-          before: moment().add(this.upcomingDays, "days").toISOString()
+          before: moment().add(this.upcomingDays, "days").toISOString(),
         },
       });
 
