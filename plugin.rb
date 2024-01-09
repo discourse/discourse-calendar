@@ -365,6 +365,7 @@ after_initialize do
 
     CalendarEvent
       .where(topic_id: object.topic_id)
+      .where("post_id IS NOT NULL OR start_date >= ?", 6.months.ago)
       .order(:start_date, :end_date)
       .each do |event|
         if event.post_id
@@ -380,7 +381,7 @@ after_initialize do
             timezone: event.timezone,
           }
         else
-          identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%j")}"
+          identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%Y-%j")}"
 
           grouped[identifier] ||= {
             type: :grouped,
