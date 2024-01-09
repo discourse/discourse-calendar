@@ -383,6 +383,7 @@ fa_IR:
           status: "وضعیت"
         upcoming_events_list:
           title: "رویدادهای آینده"
+          view_all: "مشاهده همه"
     group_timezones:
       search: "جستجو..."
     discourse_post_event:

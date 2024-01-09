@@ -60,6 +60,7 @@ uk:
     disable_resorting_on_categories_enabled: "Дозволити категоріям вимкнути можливість для користувачів сортувати за категорією події."
     calendar_automatic_holidays_enabled: "Автоматично визначати стан свята на основі регіону користувачів (зверніть увагу: ви можете відключити певні автоматичні свята в налаштуваннях плагінів)"
     sidebar_show_upcoming_events: "Показати посилання на майбутні події на бічній панелі в розділі «Більше»."
+    include_expired_events_on_calendar: "Включати минулі/завершені події в перегляд календаря категорій і майбутніх подій."
   discourse_calendar:
     invite_user_notification: "%{username} запросили Вас на: %{description}"
     calendar_must_be_in_first_post: "Тег календаря можна використовувати лише в першому дописі теми."
