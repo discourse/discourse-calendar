@@ -7,7 +7,7 @@ months:
     regions: [in_tn, in_ka]
     mday: 1
   - name: Pongal
-    regions: [in_ka]
+    regions: [in_tn, in_ka]
     mday: 15
     year_ranges:
       limited: [2024]
@@ -15,12 +15,17 @@ months:
     regions: [in_tn]
     mday: 16
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   - name: Uzhavar Thirunal
     regions: [in_tn]
     mday: 17
     year_ranges:
-      limited: [2023]
+      limited: [2024]
+  - name: Thai Poosam
+    regions: [in_tn]
+    mday: 25
+    year_ranges:
+      limited: [2024]
   - name: Republic Day
     regions: [in]
     mday: 26
@@ -33,11 +38,6 @@ months:
       limited: [2024]
   - name: Cheti Chand
     regions: [in_gj]
-    mday: 22
-    year_ranges:
-      limited: [2023]
-  - name: Telugu New Year's Day
-    regions: [in_tn]
     mday: 22
     year_ranges:
       limited: [2023]
@@ -56,7 +56,7 @@ months:
     regions: [in_ka]
     mday: 09
   - name: Eid al-Fitr
-    regions: [in_rj, in_mh, in_gj]
+    regions: [in_rj, in_mh, in_gj, in_tn]
     mday: 11
   - name: Ambedkar Jayanti
     regions: [in_rj, in_mh, in_gj]
@@ -70,7 +70,7 @@ months:
     year_ranges:
       limited: [2024]
   - name: Mahavir Jayanti
-    regions: [in_rj, in_tn, in_gj]
+    regions: [in_rj, in_gj]
     mday: 21
     year_ranges:
       limited: [2024]
@@ -113,12 +113,12 @@ months:
     mday: 26
     year_ranges:
       limited: [2024]
-  9:
   - name: Krishna Jayanthi
     regions: [in_tn]
-    mday: 6
+    mday: 26
     year_ranges:
-      limited: [2023]
+      limited: [2024]
+  9:
   - name: Ganesh Chaturthi
     regions: [in_rj, in_mh, in_gj]
     mday: 7
@@ -139,16 +139,16 @@ months:
     mday: 3
     year_ranges:
       limited: [2024]
+  - name: Ayutha Pooja
+    regions: [in_tn]
+    mday: 11
+    year_ranges:
+      limited: [2024]
   - name: Dussehra
     regions: [in_rj, in_mh, in_tn, in_gj]
     mday: 12
     year_ranges:
       limited: [2024]
-  - name: Ayutha Pooja
-    regions: [in_tn]
-    mday: 23
-    year_ranges:
-      limited: [2023]
   - name: Sardar Vallabhbhai Patel Jayanti
     regions: [in_gj]
     mday: 31
