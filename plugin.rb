@@ -561,7 +561,7 @@ after_initialize do
     group_filter = report.filters.dig(:group) || Group::AUTO_GROUPS[:staff]
     report.add_filter("group", type: "group", default: group_filter)
 
-    return unless group = Group.find_by(id: group_filter)
+    break unless group = Group.find_by(id: group_filter)
 
     report.labels = [
       { property: :username, title: I18n.t("reports.currently_away.labels.username") },

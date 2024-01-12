@@ -119,7 +119,7 @@ describe Post do
               event_1.reload
 
               # we stop processing jobs immediately at this point to prevent infinite loop
-              # as future event ended job would finish now, trigger next recurrence, and anodther job...
+              # as future event ended job would finish now, trigger next recurrence, and other job...
               Jobs.run_later!
             end
 
@@ -143,7 +143,7 @@ describe Post do
                 expect(event_1.invitees.pluck(:status).compact).to eq([])
               end
 
-              # that will be handled by new job, uncomment when finishedh
+              # that will be handled by new job, uncomment when finished
               it "doesn’t resend event creation notification to invitees" do
                 expect { event_1.update_with_params!(original_ends_at: Time.now) }.not_to change {
                   going_user.notifications.count
@@ -490,7 +490,7 @@ describe Post do
 
       before do
         # we stop processing jobs immediately at this point to prevent infinite loop
-        # as future event ended job would finish now, trigger next recurrence, and anodther job...
+        # as future event ended job would finish now, trigger next recurrence, and other job...
         Jobs.run_later!
       end
 

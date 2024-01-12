@@ -22,7 +22,7 @@
         />
 
         <EventField
-          @class="name"
+          class="name"
           @label="discourse_calendar.discourse_post_event.builder_modal.name.label"
         >
           <Input
@@ -34,7 +34,7 @@
         </EventField>
 
         <EventField
-          @class="url"
+          class="url"
           @label="discourse_calendar.discourse_post_event.builder_modal.url.label"
         >
           <Input
@@ -46,13 +46,13 @@
         </EventField>
 
         <EventField
-          @class="timezone"
+          class="timezone"
           @label="discourse_calendar.discourse_post_event.builder_modal.timezone.label"
         >
           <TimezoneInput
             @value={{@model.event.timezone}}
             @onChange={{this.setNewTimezone}}
-            @class="input-xxlarge"
+            class="input-xxlarge"
             @none="discourse_calendar.discourse_post_event.builder_modal.timezone.remove_timezone"
           />
         </EventField>
@@ -136,14 +136,14 @@
         </EventField>
 
         <EventField
-          @class="reminders"
+          class="reminders"
           @label="discourse_calendar.discourse_post_event.builder_modal.reminders.label"
         >
           <div class="reminders-list">
             {{#each @model.event.reminders as |reminder|}}
               <div class="reminder-item">
                 <ComboBox
-                  @class="reminder-type"
+                  class="reminder-type"
                   @value={{reminder.type}}
                   @nameProperty="name"
                   @valueProperty="value"
@@ -160,7 +160,7 @@
                 />
 
                 <ComboBox
-                  @class="reminder-unit"
+                  class="reminder-unit"
                   @value={{reminder.unit}}
                   @nameProperty="name"
                   @valueProperty="value"
@@ -168,7 +168,7 @@
                 />
 
                 <ComboBox
-                  @class="reminder-period"
+                  class="reminder-period"
                   @value={{reminder.period}}
                   @nameProperty="name"
                   @valueProperty="value"
@@ -195,11 +195,11 @@
         </EventField>
 
         <EventField
-          @class="recurrence"
+          class="recurrence"
           @label="discourse_calendar.discourse_post_event.builder_modal.recurrence.label"
         >
           <ComboBox
-            @class="available-recurrences"
+            class="available-recurrences"
             @value={{@model.event.recurrence}}
             @content={{this.availableRecurrences}}
             @options={{hash
@@ -209,7 +209,7 @@
         </EventField>
 
         <EventField
-          @class="minimal-event"
+          class="minimal-event"
           @label="discourse_calendar.discourse_post_event.builder_modal.minimal.label"
         >
           <label class="checkbox-label">

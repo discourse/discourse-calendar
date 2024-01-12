@@ -98,7 +98,6 @@ describe Jobs::DiscoursePostEventBulkInvite do
                 processed: 1,
                 failed: 3,
                 logs:
-                  # rubocop:disable Layout/LineLength
                   "[#{Time.zone.now}] Couldn't find user or group: '#{invitee_3.username}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: '#{invitee_4.username}' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.\n[#{Time.zone.now}] Couldn't find user or group: 'non_existent' or the groups provided contained no users. Note that public events can't bulk invite groups. And other events can't bulk invite usernames.",
                 # rubocop:enable Layout/LineLength
               )
