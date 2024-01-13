@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require "rails_helper"
 
 describe DiscoursePostEvent::EventSerializer do
   Event ||= DiscoursePostEvent::Event

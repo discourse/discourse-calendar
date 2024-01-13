@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe Jobs::DiscoursePostEventBulkInvite do
   let(:user_1) { Fabricate(:user, admin: true) }
   let(:topic_1) { Fabricate(:topic, user: user_1) }

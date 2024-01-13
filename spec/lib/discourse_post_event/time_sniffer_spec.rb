@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe TimeSniffer do
   before { freeze_time DateTime.parse("2020-04-24 14:10") }
 

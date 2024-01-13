@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe "currently_away report" do
   fab!(:user_1) { Fabricate(:user) }
   fab!(:user_2) { Fabricate(:user) }
