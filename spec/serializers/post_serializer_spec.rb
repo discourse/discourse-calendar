@@ -57,12 +57,12 @@ describe PostSerializer do
       { 2021 => "Feriado puente turístico" },
       { 2021 => "Día de la Independencia" },
     )
-    expect(json[:post][:calendar_details].map { |x| x[:users] }).to all (
-          contain_exactly(
-            { username: user.username, timezone: "America/Buenos_Aires" },
-            { username: user2.username, timezone: "America/Buenos_Aires" },
-          )
-        )
+    expect(json[:post][:calendar_details].map { |x| x[:users] }).to all(
+      contain_exactly(
+        { username: user.username, timezone: "America/Buenos_Aires" },
+        { username: user2.username, timezone: "America/Buenos_Aires" },
+      ),
+    )
 
     freeze_time Date.new(2022, 4, 1)
     ::DiscourseCalendar::CreateHolidayEvents.new.execute({})

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe TimeSniffer do
   before { freeze_time DateTime.parse("2020-04-24 14:10") }
 
@@ -175,7 +173,7 @@ describe TimeSniffer do
     expect_parsed_as_nil("15😊00")
   end
 
-  it "shouldnt match a date starting with the year" do
+  it "shouldn't match a date starting with the year" do
     expect_parsed_as_nil("2020-03-27")
     expect_parsed_as_nil("foo 2020-03-27")
   end

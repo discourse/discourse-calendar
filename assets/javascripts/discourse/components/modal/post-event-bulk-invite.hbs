@@ -25,7 +25,7 @@
           <div class="bulk-invite-row">
             {{#if @model.event.is_private}}
               <GroupSelector
-                @class="bulk-invite-identifier"
+                class="bulk-invite-identifier"
                 @single={{true}}
                 @groupFinder={{this.groupFinder}}
                 @groupNames={{bulkInvite.identifier}}
@@ -38,7 +38,7 @@
             {{/if}}
             {{#if @model.event.is_public}}
               <EmailGroupUserChooser
-                @class="bulk-invite-identifier"
+                class="bulk-invite-identifier"
                 @value={{bulkInvite.identifier}}
                 @onChange={{fn this.updateInviteIdentifier bulkInvite}}
                 @options={{hash
@@ -49,7 +49,7 @@
             {{/if}}
 
             <ComboBox
-              @class="bulk-invite-attendance"
+              class="bulk-invite-attendance"
               @value={{bulkInvite.attendance}}
               @content={{this.bulkInviteStatuses}}
               @nameProperty="name"

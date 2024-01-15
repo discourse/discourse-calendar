@@ -182,7 +182,7 @@ module Admin::DiscourseCalendar
             end
           end
 
-          it "returns a 422 (unprocessable enity) status code when a holiday can't be enabled" do
+          it "returns a 422 (unprocessable entity) status code when a holiday can't be enabled" do
             delete "/admin/discourse-calendar/holidays/enable.json",
                    params: {
                      disabled_holiday: {

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require "rails_helper"
 
 describe DiscourseCalendar::MonitorEventDates do
   fab!(:post_1) { Fabricate(:post) }
@@ -36,7 +35,7 @@ describe DiscourseCalendar::MonitorEventDates do
         described_class.new.execute({})
       end
 
-      freeze_time (7.days.after - 59.minutes)
+      freeze_time(7.days.after - 59.minutes)
       expect_enqueued_with(
         job: :discourse_post_event_send_reminder,
         args: {
@@ -45,7 +44,7 @@ describe DiscourseCalendar::MonitorEventDates do
         },
       ) { described_class.new.execute({}) }
 
-      freeze_time (7.days.after - 14.minutes)
+      freeze_time(7.days.after - 14.minutes)
       expect_enqueued_with(
         job: :discourse_post_event_send_reminder,
         args: {
@@ -54,7 +53,7 @@ describe DiscourseCalendar::MonitorEventDates do
         },
       ) { described_class.new.execute({}) }
 
-      freeze_time (7.days.after - 9.minutes)
+      freeze_time(7.days.after - 9.minutes)
       expect_not_enqueued_with(
         job: :discourse_post_event_send_reminder,
         args: {
@@ -70,7 +69,7 @@ describe DiscourseCalendar::MonitorEventDates do
     end
 
     it "does not lodge reminder jobs when event is deleted" do
-      freeze_time (7.days.after - 59.minutes)
+      freeze_time(7.days.after - 59.minutes)
       past_event.update!(deleted_at: Time.now)
       expect_not_enqueued_with(job: :discourse_post_event_send_reminder) do
         described_class.new.execute({})
@@ -92,7 +91,7 @@ describe DiscourseCalendar::MonitorEventDates do
 
       events = DiscourseEvent.track_events { described_class.new.execute({}) }
 
-      freeze_time (7.days.after - 59.minutes)
+      freeze_time(7.days.after - 59.minutes)
       events = DiscourseEvent.track_events { described_class.new.execute({}) }
       expect(events).to include(
         event_name: :discourse_post_event_event_will_start,
@@ -103,7 +102,7 @@ describe DiscourseCalendar::MonitorEventDates do
         params: [past_event],
       )
 
-      freeze_time (7.days.after)
+      freeze_time(7.days.after)
       events = DiscourseEvent.track_events { described_class.new.execute({}) }
       expect(events).not_to include(
         event_name: :discourse_post_event_event_will_start,
@@ -193,7 +192,7 @@ describe DiscourseCalendar::MonitorEventDates do
     end
 
     it "doesn’t list events with invalid reminders" do
-      freeze_time (7.days.after - 1.minutes)
+      freeze_time(7.days.after - 1.minutes)
       event_dates_monitor = DiscourseCalendar::MonitorEventDates.new
 
       expect(event_dates_monitor.due_reminders(invalid_event.event_dates.first)).to be_blank

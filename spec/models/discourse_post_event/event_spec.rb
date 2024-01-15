@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe DiscoursePostEvent::Event do
   Event ||= DiscoursePostEvent::Event
   Invitee ||= DiscoursePostEvent::Invitee
