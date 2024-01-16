@@ -28,12 +28,12 @@ pl_PL:
               label: ID tematu
     discourse_calendar:
       invite_user_notification: "%{username} zaprosił Cię do: %{description}"
-      on_holiday: "Na wakacjach"
+      on_holiday: "Na świętach"
       disable_holiday: "Wyłącz"
       enable_holiday: "Włącz"
-      holiday: "Wakacje"
+      holiday: "Świeto"
       holidays:
-        header_title: "Wakacje"
+        header_title: "Święta"
         pick_region_description: "Wybierz region, aby zobaczyć święta dla tego regionu."
         disabled_holidays_description: "Wyłączone wakacje zostaną wyłączone z kalendarza wakacyjnego personelu."
       date: "Data"
@@ -196,6 +196,7 @@ pl_PL:
           it_vi: "Włochy (it_vi)"
           it_vr: "Włochy (it_vr)"
           it: "Włochy"
+          je: "Jersey"
           jp: "Japonia"
           ke: "Kenia"
           kr: "Korea (Republika)"
@@ -312,10 +313,12 @@ pl_PL:
         list: "Lista"
       discourse_post_event:
         notifications:
+          invite_user_predefined_attendance_notification: "%{username} automatycznie ustawił Twoją obecność i zaprosił Cię do"
           before_event_reminder: "Wydarzenie wkrótce się rozpocznie"
           after_event_reminder: "Wydarzenie zakończyło się"
           ongoing_event_reminder: "Wydarzenie trwa"
           invite_user_notification: "%{username} %{description}"
+          invite_user_predefined_attendance_notification_html: "%{username} automatycznie ustawił Twoją obecność i zaprosił Cię do %{description}"
           before_event_reminder_html: "Wydarzenie wkrótce się rozpocznie %{description}"
           after_event_reminder_html: "Wydarzenie zakończyło się %{description}"
           ongoing_event_reminder_html: "Wydarzenie trwa  %{description}"
@@ -384,6 +387,7 @@ pl_PL:
           custom_fields:
             label: "Pola niestandardowe"
             placeholder: "Opcjonalnie"
+            description: "Dozwolone pola niestandardowe są zdefiniowane w ustawieniach witryny. Pola niestandardowe służą do przesyłania danych do innych wtyczek."
           create_event_title: "Utwórz wydarzenie"
           update_event_title: "Edytuj wydarzenie"
           confirm_delete: "Czy na pewno chcesz usunąć to wydarzenie?"
@@ -412,8 +416,14 @@ pl_PL:
             label: "Powtarzanie"
             none: "Brak powtarzania"
             every_day: "Codziennie"
+            every_month: "Co miesiąc w ten dzień tygodnia"
+            every_weekday: "Każdego dnia roboczego"
+            every_week: "Co tydzień w ten dzień tygodnia"
+            every_two_weeks: "Co dwa tygodnie w ten dzień tygodnia"
+            every_four_weeks: "Co cztery tygodnie w ten dzień tygodnia"
           minimal:
             label: "Minimalne wydarzenie"
+            checkbox_label: "Ukryj przyciski Wezmę udział/Nie biorę udziału oraz status zaproszeń"
           url:
             label: "URL"
             placeholder: "Opcjonalnie"
@@ -431,12 +441,14 @@ pl_PL:
           title: "Nadchodzące wydarzenia"
           creator: "Twórca"
           status: "Status"
+          starts_at: "Zaczyna się o"
         upcoming_events_list:
           title: "Nadchodzące wydarzenia"
           empty: "Brak nadchodzących wydarzeń"
           all_day: "Cały dzień"
           error: "Nie udało się pobrać wydarzeń"
           try_again: "Spróbuj ponownie"
+          view_all: "Zobacz wszystkie"
     group_timezones:
       search: "Wyszukiwanie..."
       group_availability: "Dostępność %{group}"
@@ -543,8 +555,14 @@ pl_PL:
           label: "Powtarzanie"
           none: "Brak powtarzania"
           every_day: "Codziennie"
+          every_month: "Co miesiąc w ten dzień tygodnia"
+          every_weekday: "Każdego dnia roboczego"
+          every_week: "Co tydzień w ten dzień tygodnia"
+          every_two_weeks: "Co dwa tygodnie w ten dzień tygodnia"
+          every_four_weeks: "Co cztery tygodnie w ten dzień tygodnia"
         minimal:
           label: "Minimalne wydarzenie"
+          checkbox_label: "Ukryj przyciski Wezmę udział/Nie biorę udziału oraz status zaproszeń"
         url:
           label: "URL"
           placeholder: "Opcjonalnie"
@@ -562,6 +580,7 @@ pl_PL:
         title: "Nadchodzące wydarzenia"
         creator: "Twórca"
         status: "Status"
+        starts_at: "Zaczyna się o"
       upcoming_events_list:
         title: "Nadchodzące wydarzenia"
         empty: "Brak nadchodzących wydarzeń"
