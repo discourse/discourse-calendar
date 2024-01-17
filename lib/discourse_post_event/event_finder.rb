@@ -33,6 +33,10 @@ module DiscoursePostEvent
 
       events = events.where(id: Array(params[:post_id])) if params[:post_id]
 
+      if params[:before].present?
+        events = events.where("dcped.starts_at < ?", params[:before].to_datetime)
+      end
+
       if params[:category_id].present?
         if params[:include_subcategories].present?
           events =
@@ -44,10 +48,6 @@ module DiscoursePostEvent
         else
           events = events.where(topics: { category_id: params[:category_id].to_i })
         end
-      end
-
-      if params[:before].present?
-        events = events.where("dcped.starts_at < ?", params[:before].to_datetime)
       end
 
       events = events.limit(params[:limit].to_i) if params[:limit].present?

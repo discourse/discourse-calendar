@@ -50,7 +50,7 @@ export default class UpcomingEventsList extends Component {
   constructor() {
     super(...arguments);
 
-    this.appEvents.on("page:changed", this, this.updateEventsByMonth);
+    this.appEvents.on("page:changed", this, this.updateEventsList);
   }
 
   get shouldRender() {
@@ -77,7 +77,7 @@ export default class UpcomingEventsList extends Component {
   }
 
   @action
-  async updateEventsByMonth() {
+  async updateEventsList() {
     this.isLoading = true;
     this.hasError = false;
 
@@ -154,7 +154,7 @@ export default class UpcomingEventsList extends Component {
               {{this.errorMessage}}
             </div>
             <DButton
-              @action={{this.updateEventsByMonth}}
+              @action={{this.updateEventsList}}
               @label="discourse_calendar.discourse_post_event.upcoming_events_list.try_again"
               class="btn-link upcoming-events-list__try-again"
             />
