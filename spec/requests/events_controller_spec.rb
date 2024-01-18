@@ -216,12 +216,14 @@ module DiscoursePostEvent
           fab!(:event_1) do
             Fabricate(
               :event,
+              original_starts_at: 2.days.from_now,
               post: Fabricate(:post, post_number: 1, topic: Fabricate(:topic, category: category)),
             )
           end
           fab!(:event_2) do
             Fabricate(
               :event,
+              original_starts_at: 1.day.from_now,
               post:
                 Fabricate(:post, post_number: 1, topic: Fabricate(:topic, category: subcategory)),
             )
@@ -296,7 +298,7 @@ module DiscoursePostEvent
             expect(response.status).to eq(200)
             events = response.parsed_body["events"]
             expect(events.length).to eq(1)
-            expect(events[0]["id"]).to eq(event_1.id)
+            expect(events[0]["id"]).to eq(event_2.id)
           end
 
           it "filters events before the provided datetime if before param provided" do
