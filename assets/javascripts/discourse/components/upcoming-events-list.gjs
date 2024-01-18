@@ -13,6 +13,7 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 export const DEFAULT_MONTH_FORMAT = "MMMM YYYY";
 export const DEFAULT_DATE_FORMAT = "dddd, MMM D";
 export const DEFAULT_TIME_FORMAT = "LT";
+const DEFAULT_UPCOMING_DAYS = 180;
 const DEFAULT_COUNT = 8;
 
 export default class UpcomingEventsList extends Component {
@@ -28,6 +29,7 @@ export default class UpcomingEventsList extends Component {
   dateFormat = this.args.params?.dateFormat ?? DEFAULT_DATE_FORMAT;
   timeFormat = this.args.params?.timeFormat ?? DEFAULT_TIME_FORMAT;
   count = this.args.params?.count ?? DEFAULT_COUNT;
+  upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
   title = I18n.t(
     "discourse_calendar.discourse_post_event.upcoming_events_list.title"
@@ -48,7 +50,7 @@ export default class UpcomingEventsList extends Component {
   constructor() {
     super(...arguments);
 
-    this.appEvents.on("page:changed", this, this.updateEventsByMonth);
+    this.appEvents.on("page:changed", this, this.updateEventsList);
   }
 
   get shouldRender() {
@@ -75,13 +77,17 @@ export default class UpcomingEventsList extends Component {
   }
 
   @action
-  async updateEventsByMonth() {
+  async updateEventsList() {
     this.isLoading = true;
     this.hasError = false;
 
     try {
       const { events } = await ajax("/discourse-post-event/events", {
-        data: { category_id: this.categoryId, limit: this.count },
+        data: {
+          category_id: this.categoryId,
+          limit: this.count,
+          before: moment().add(this.upcomingDays, "days").toISOString(),
+        },
       });
 
       this.eventsByMonth = this.groupByMonthAndDay(events);
@@ -148,7 +154,7 @@ export default class UpcomingEventsList extends Component {
               {{this.errorMessage}}
             </div>
             <DButton
-              @action={{this.updateEventsByMonth}}
+              @action={{this.updateEventsList}}
               @label="discourse_calendar.discourse_post_event.upcoming_events_list.try_again"
               class="btn-link upcoming-events-list__try-again"
             />

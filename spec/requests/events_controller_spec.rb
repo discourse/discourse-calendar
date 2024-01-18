@@ -298,6 +298,15 @@ module DiscoursePostEvent
             expect(events.length).to eq(1)
             expect(events[0]["id"]).to eq(event_1.id)
           end
+
+          it "filters events before the provided datetime if before param provided" do
+            get "/discourse-post-event/events.json?category_id=#{category.id}&include_subcategories=true&include_expired=true&before=#{event_2.starts_at}"
+
+            expect(response.status).to eq(200)
+            events = response.parsed_body["events"]
+            expect(events.length).to eq(1)
+            expect(events[0]["id"]).to eq(event_3.id)
+          end
         end
       end
     end

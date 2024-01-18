@@ -293,10 +293,36 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       "it displays the event name"
     );
   });
+
+  test("with events, overridden upcomingDays parameter", async function (assert) {
+    pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
+
+    await render(<template>
+      <UpcomingEventsList @params={{hash upcomingDays=1}} />
+    </template>);
+
+    this.appEvents.trigger("page:changed", { url: "/" });
+
+    await waitFor(".loading-container .spinner", { count: 0 });
+
+    assert.strictEqual(
+      queryAll(".upcoming-events-list__event").length,
+      1,
+      "it limits the results to started_at before the provided parameter"
+    );
+
+    assert.deepEqual(
+      [...queryAll(".upcoming-events-list__event-name")].map(
+        (el) => el.innerText
+      ),
+      ["Awesome Event"],
+      "it displays the event name"
+    );
+  });
 });
 
 function twoEventsResponseHandler({ queryParams }) {
-  const events = [
+  let events = [
     {
       id: 67501,
       starts_at: tomorrowAllDay,
@@ -333,7 +359,15 @@ function twoEventsResponseHandler({ queryParams }) {
     },
   ];
 
-  return response({
-    events: queryParams.limit ? events.slice(0, queryParams.limit) : events,
-  });
+  if (queryParams.limit) {
+    events.splice(queryParams.limit);
+  }
+
+  if (queryParams.before) {
+    events = events.filter((event) => {
+      return moment(event.starts_at).isBefore(queryParams.before);
+    });
+  }
+
+  return response({ events });
 }

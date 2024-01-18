@@ -182,5 +182,17 @@ describe DiscoursePostEvent::EventFinder do
         expect(finder.search(current_user, { limit: 2 })).to match_array([event1, event2])
       end
     end
+
+    describe "with a before  parameter provided" do
+      let!(:event1) { Fabricate(:event) }
+      let!(:event2) { Fabricate(:event) }
+      let!(:event3) { Fabricate(:event, original_starts_at: 2.hours.ago) }
+
+      it "returns the events started before the provided value" do
+        expect(finder.search(current_user, { before: event2.starts_at.to_s })).to match_array(
+          [event3],
+        )
+      end
+    end
   end
 end
