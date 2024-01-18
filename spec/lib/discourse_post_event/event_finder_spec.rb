@@ -184,8 +184,8 @@ describe DiscoursePostEvent::EventFinder do
     end
 
     describe "with a before  parameter provided" do
-      let!(:event1) { Fabricate(:event) }
-      let!(:event2) { Fabricate(:event) }
+      let!(:event1) { Fabricate(:event, original_starts_at: 2.minutes.from_now) }
+      let!(:event2) { Fabricate(:event, original_starts_at: 1.minute.from_now) }
       let!(:event3) { Fabricate(:event, original_starts_at: 2.hours.ago) }
 
       it "returns the events started before the provided value" do
