@@ -24,6 +24,10 @@ module DiscoursePostEvent
         },
       }
 
+      if post_hash[:topic][:title].match?(/:[\w\-+]+:/)
+        post_hash[:topic][:title] = Emoji.gsub_emoji_to_unicode(post_hash[:topic][:title])
+      end
+
       if JSON.parse(SiteSetting.map_events_to_color).size > 0
         post_hash[:topic][:category_slug] = object.post.topic&.category&.slug
         post_hash[:topic][:tags] = object.post.topic.tags&.map(&:name)
