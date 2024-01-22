@@ -12,18 +12,16 @@ module Holidays
 
     def self.holidays_by_month
       {
-                1 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "New Year's Day", :regions => [:sg]},
-            {:mday => 23, :year_ranges => { :limited => [2023] },:name => "First day of Chinese New Year (Observed)", :regions => [:sg]},
-            {:mday => 24, :year_ranges => { :limited => [2023] },:name => "Second day of Chinese New Year", :regions => [:sg]}],
-      2 => [{:mday => 14, :type => :informal, :name => "Valentine's Day", :regions => [:sg]},
-            {:mday => 15, :type => :informal, :name => "Total Defence Day", :regions => [:sg]}],
-      4 => [{:mday => 7, :year_ranges => { :limited => [2023] },:name => "Good Friday", :regions => [:sg]},
-            {:mday => 24, :year_ranges => { :limited => [2023] },:name => "Hari Raya Puasa (Observed)", :regions => [:sg]}],
-      5 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Labour Day", :regions => [:sg]}],
-      6 => [{:mday => 2, :year_ranges => { :limited => [2023] },:name => "Vesak Day", :regions => [:sg]},
-            {:mday => 29, :year_ranges => { :limited => [2023] },:name => "Hari Raya Haji", :regions => [:sg]}],
+                1 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "New Year's Day", :regions => [:sg]}],
+      2 => [{:mday => 10, :year_ranges => { :limited => [2024] },:observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "First day of Chinese New Year (Observed)", :regions => [:sg]},
+            {:mday => 11, :year_ranges => { :limited => [2024] },:observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Second day of Chinese New Year", :regions => [:sg]}],
+      3 => [{:mday => 29, :year_ranges => { :limited => [2024] },:name => "Good Friday", :regions => [:sg]}],
+      4 => [{:mday => 10, :year_ranges => { :limited => [2024] },:name => "Hari Raya Puasa (Observed)", :regions => [:sg]}],
+      5 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Labour Day", :regions => [:sg]},
+            {:mday => 22, :year_ranges => { :limited => [2024] },:name => "Vesak Day", :regions => [:sg]}],
+      6 => [{:mday => 17, :year_ranges => { :limited => [2024] },:name => "Hari Raya Haji", :regions => [:sg]}],
       8 => [{:mday => 9, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "National Day", :regions => [:sg]}],
-      11 => [{:mday => 13, :year_ranges => { :limited => [2023] },:name => "Deepavali (Observed)", :regions => [:sg]}],
+      10 => [{:mday => 31, :year_ranges => { :limited => [2024] },:name => "Deepavali (Observed)", :regions => [:sg]}],
       12 => [{:mday => 25, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Christmas Day", :regions => [:sg]}]
       }
     end

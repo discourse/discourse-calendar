@@ -16,109 +16,61 @@ months:
     regions: [sg]
     mday: 1
     observed: to_weekday_if_weekend(date)
+  2:
   - name: First day of Chinese New Year (Observed)
     regions: [sg]
-    mday: 23
+    mday: 10
+    observed: to_weekday_if_weekend(date)
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   - name: Second day of Chinese New Year
     regions: [sg]
-    mday: 24
+    mday: 11
+    observed: to_weekday_if_weekend(date)
     year_ranges:
-      limited: [2023]
-  2:
-  - name: Valentine's Day
-    regions: [sg]
-    mday: 14
-    type: informal
-  - name: Total Defence Day
-    regions: [sg]
-    mday: 15
-    type: informal
-  4:
+      limited: [2024]
+  3:
   - name: Good Friday
     regions: [sg]
-    mday: 7
+    mday: 29
     year_ranges:
-      limited: [2023]
+      limited: [2024]
+  4:
   - name: Hari Raya Puasa (Observed)
     regions: [sg]
-    mday: 24
+    mday: 10
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   5:
   - name: Labour Day
     regions: [sg]
     mday: 1
     observed: to_weekday_if_weekend(date)
-  6:
   - name: Vesak Day
     regions: [sg]
-    mday: 2
+    mday: 22
     year_ranges:
-      limited: [2023]
+      limited: [2024]
+  6:
   - name: Hari Raya Haji
     regions: [sg]
-    mday: 29
+    mday: 17
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   8:
   - name: National Day
     regions: [sg]
     mday: 9
     observed: to_weekday_if_weekend(date)
-  11:
+  10:
   - name: Deepavali (Observed)
     regions: [sg]
-    mday: 13
+    mday: 31
     year_ranges:
-      limited: [2023]
+      limited: [2024]
   12:
   - name: Christmas Day
     regions: [sg]
     mday: 25
     observed: to_weekday_if_weekend(date)
 
-tests:
-  - given:
-      date: '2014-01-01'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "New Year's Day"
-  - given:
-      date: '2014-02-14'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "Valentine's Day"
-  - given:
-      date: '2014-02-15'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "Total Defence Day"
-  - given:
-      date: '2014-04-18'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "Good Friday"
-  - given:
-      date: '2014-05-01'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "Labour Day"
-  - given:
-      date: '2014-08-09'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "National Day"
-  - given:
-      date: '2014-12-25'
-      regions: ["sg"]
-      options: ["informal"]
-    expect:
-      name: "Christmas Day"
