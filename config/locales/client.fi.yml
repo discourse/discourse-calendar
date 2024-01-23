@@ -38,6 +38,7 @@ fi:
         disabled_holidays_description: "Käytöstä poistetut pyhäpäivät jätetään pois henkilökunnan lomakalenterista."
       date: "Päivämäärä"
       add_to_calendar: "Lisää Google-kalenteriin"
+      toggle_timezone_offset_title: "Vaihda aikavyöhykesiirtymä"
       region:
         title: "Alue"
         none: "Ei valittu"
@@ -309,6 +310,7 @@ fi:
         month: "Kuukausi"
         week: "Viikko"
         day: "Päivä"
+        list: "Luettelo"
       discourse_post_event:
         notifications:
           invite_user_predefined_attendance_notification: "%{username} on asettanut osallistumisesi automaattisesti ja kutsunut sinut tapahtumaan"
@@ -370,7 +372,7 @@ fi:
           text: "Lataa CSV-tiedosto"
           title: "Joukkokutsu"
           success: "Tiedoston lataaminen onnistui. Saat viestin, kun prosessi on valmis."
-          error: "Tiedoston tulee olla CSV-muodossa."
+          error: "Tiedoston täytyy olla CSV-muodossa."
           confirmation_message: "Olet ilmoittamassa kaikille, jotka sisältyvät ladattuun tiedostoon."
           description_public: "Julkiset tapahtumat hyväksyvät vain käyttäjätunnuksia joukkokutsuissa."
           description_private: "Yksityiset tapahtumat hyväksyvät vain ryhmien nimiä joukkokutsuissa."
@@ -417,6 +419,7 @@ fi:
             every_weekday: "Arkipäivisin"
             every_week: "Viikoittain tänä arkipäivänä"
             every_two_weeks: "Kahden viikon välein tänä arkipäivänä"
+            every_four_weeks: "Neljän viikon välein tänä arkipäivänä"
           minimal:
             label: "Minimaalinen tapahtuma"
             checkbox_label: "Piilota Menossa- ja Ei menossa -painikeet sekä kutsuttujen tila"
@@ -440,6 +443,11 @@ fi:
           starts_at: "Alkaa"
         upcoming_events_list:
           title: "Tulevat tapahtumat"
+          empty: "Ei tulevia tapahtumia"
+          all_day: "Koko päivä"
+          error: "Tapahtumien hakeminen epäonnistui"
+          try_again: "Yritä uudelleen"
+          view_all: "Näytä kaikki"
     group_timezones:
       search: "Hae..."
       group_availability: "%{group} – saatavuus"
@@ -552,6 +560,7 @@ fi:
           every_weekday: "Arkipäivisin"
           every_week: "Viikoittain tänä arkipäivänä"
           every_two_weeks: "Kahden viikon välein tänä arkipäivänä"
+          every_four_weeks: "Neljän viikon välein tänä arkipäivänä"
         minimal:
           label: "Minimaalinen tapahtuma"
           checkbox_label: "Piilota Menossa- ja Ei menossa -painikeet sekä kutsuttujen tila"
@@ -575,6 +584,10 @@ fi:
         starts_at: "Alkaa"
       upcoming_events_list:
         title: "Tulevat tapahtumat"
+        empty: "Ei tulevia tapahtumia"
+        all_day: "Koko päivä"
+        error: "Tapahtumien hakeminen epäonnistui"
+        try_again: "Yritä uudelleen"
     category:
       sort_topics_by_event_start_date: "Lajittele ketjun tapahtuman alkamispäivän mukaan."
       disable_topic_resorting: "Poista ketjujen lajittelu uudelleen käytöstä."

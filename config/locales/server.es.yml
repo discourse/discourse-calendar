@@ -33,7 +33,10 @@ es:
         %{logs}
         ```
   site_settings:
+    events_max_rows: "Máximo de filas de texto por evento en el Calendario."
+    map_events_to_color: "Asigna un color a cada etiqueta o categoría."
     calendar_enabled: "Habilitar el complemento de calendario de Discourse. Esto añadirá soporte para una etiqueta [calendar][/calendar] en la primera entrada de un tema."
+    discourse_post_event_enabled: "Activa las funciones de Eventos. Nota: también es necesario que esté «activado el calendario» para activarlo."
     displayed_invitees_limit: "Limita el número de invitados que se muestran en un evento."
     display_post_event_date_on_topic_title: "Muestra la fecha del evento después del título del tema."
     use_local_event_date: "Utiliza la fecha local después del título del tema en lugar de la hora relativa."
@@ -56,6 +59,8 @@ es:
     sort_categories_by_event_start_date_enabled: "Habilitar la clasificación de los temas de las categorías por fecha de inicio del evento."
     disable_resorting_on_categories_enabled: "Permitir que las categorías deshabiliten la posibilidad de que los usuarios clasifiquen en la categoría del evento."
     calendar_automatic_holidays_enabled: "Establecer automáticamente el estado de vacaciones en función de la región del usuario (nota: puedes desactivar las vacaciones automáticas específicas en la configuración del plugin)"
+    sidebar_show_upcoming_events: "Muestra el enlace de los próximos eventos en la barra lateral en «Más»."
+    include_expired_events_on_calendar: "Incluir eventos pasados/vencidos en las vistas Calendario de categorías y Próximos eventos."
   discourse_calendar:
     invite_user_notification: "%{username} te invitó a: %{description}"
     calendar_must_be_in_first_post: "La etiqueta de calendario solo se puede utilizar en la primera publicación de un tema."
@@ -82,12 +87,13 @@ es:
             ends_at_before_starts_at: "Un evento no puede terminar antes de que comience."
             start_must_be_present_and_a_valid_date: "Un evento requiere una fecha de inicio válida."
             end_must_be_a_valid_date: "La fecha de finalización debe ser una fecha válida."
+            invalid_recurrence: "La recurrencia debe ser una de las siguientes: cada mes, cada semana, cada dos semanas, cada cuatro semanas, cada día, cada día de la semana."
             invalid_timezone: "Zona horaria no reconocida."
             acting_user_not_allowed_to_create_event: "El usuario actual no tiene permiso para crear eventos."
             acting_user_not_allowed_to_act_on_this_event: "El usuario actual no puede actuar en este evento."
             invalid_allowed_groups: "Grupos permitidos no válidos."
             acting_user_not_allowed_to_invite_these_groups: "El usuario actual no puede invitar a estos grupos."
-            custom_field_is_invalid: "El campo personalizado `%{field}` no está permitido."
+            custom_field_is_invalid: "El campo personalizado «%{field}» no está permitido."
             name:
               length: "La longitud del nombre del evento debe tener entre %{minimum} y %{maximum} caracteres."
   discourse_push_notifications:

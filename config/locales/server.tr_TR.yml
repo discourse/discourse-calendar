@@ -33,7 +33,10 @@ tr_TR:
         %{logs}
         ```
   site_settings:
+    events_max_rows: "Takvimdeki etkinlik başına maksimum metin satırı."
+    map_events_to_color: "Her etikete veya kategoriye bir renk atayın."
     calendar_enabled: "discourse-calendar eklentisini etkinleştirin. Bu, bir konunun ilk gönderisine [calendar][/calendar] etiketi için destek ekleyecektir."
+    discourse_post_event_enabled: "Etkinlik özelliklerini etkinleştirir. Not: `takvim etkin` özelliğinin de etkinleştirilmesi gerekir."
     displayed_invitees_limit: "Bir etkinlikte gösterilen davetlilerin sayısını sınırlar."
     display_post_event_date_on_topic_title: "Konu başlığından sonra olayın tarihini gösterir."
     use_local_event_date: "Konu başlığından sonra göreli zaman yerine yerel tarih kullanın."
@@ -56,6 +59,8 @@ tr_TR:
     sort_categories_by_event_start_date_enabled: "Kategori konularının etkinlik başlangıç tarihine göre sıralanmasını etkinleştirin."
     disable_resorting_on_categories_enabled: "Kategorilerin, kullanıcıların etkinlik kategorisine göre sıralama yapma özelliğini devre dışı bırakmasına izin verin."
     calendar_automatic_holidays_enabled: "Kullanıcı bölgesine göre tatil durumunu otomatik olarak ayarla (not: belirli otomatik tatilleri eklenti ayarlarından devre dışı bırakabilirsiniz)"
+    sidebar_show_upcoming_events: "Kenar çubuğunda 'Daha Fazla' altında yaklaşan etkinlikler bağlantısını gösterin."
+    include_expired_events_on_calendar: "Kategori Takvimi ve Yaklaşan Etkinlikler görünümlerine geçmiş/süresi dolmuş etkinlikleri ekleyin."
   discourse_calendar:
     invite_user_notification: "%{username} sizi şuraya davet etti: %{description}"
     calendar_must_be_in_first_post: "Takvim etiketi, bir konunun yalnızca ilk gönderisinde kullanılabilir."
@@ -82,6 +87,7 @@ tr_TR:
             ends_at_before_starts_at: "Bir etkinlik başlamadan bitemez."
             start_must_be_present_and_a_valid_date: "Bir etkinlik için geçerli bir başlangıç tarihi gerekir."
             end_must_be_a_valid_date: "Bitiş tarihi geçerli bir tarih olmalıdır."
+            invalid_recurrence: "Yineleme şunlardan biri olmalıdır: her_ay, her_hafta, her_iki_hafta, her_dört_hafta, her_gün, her_hafta içi."
             invalid_timezone: "Saat dilimi tanınmadı."
             acting_user_not_allowed_to_create_event: "Mevcut kullanıcının etkinlik oluşturmasına izin verilmiyor."
             acting_user_not_allowed_to_act_on_this_event: "Mevcut kullanıcının bu etkinlik üzerinde işlem yapmasına izin verilmiyor."

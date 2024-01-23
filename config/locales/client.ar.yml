@@ -38,6 +38,7 @@ ar:
         disabled_holidays_description: "سيتم استبعاد العطلات المتوقفة من تقويم عطلات فريق العمل."
       date: "التاريخ"
       add_to_calendar: "الإضافة إلى تقويم Google"
+      toggle_timezone_offset_title: "تبديل إزاحة المنطقة الزمنية"
       region:
         title: "المنطقة"
         none: "لا يوجد"
@@ -309,6 +310,7 @@ ar:
         month: "الشهر"
         week: "الأسبوع"
         day: "اليوم"
+        list: "إدراج"
       discourse_post_event:
         notifications:
           invite_user_predefined_attendance_notification: "حدَّد %{username} حضورك تلقائيًا ودعاك إلى"
@@ -339,7 +341,7 @@ ar:
             expired: "انتهى"
             status:
               standalone:
-                title: "قائم بذاته"
+                title: "مستقل"
                 description: "لا يمكن الانضمام إلى حدثٍ مستقل."
               public:
                 title: "عام"
@@ -350,12 +352,12 @@ ar:
         event_ui:
           show_all: "عرض الكل"
           participants:
-            zero: "شارك %{count} مستخدمًا."
+            zero: "شارك %{count} مستخدم."
             one: "شارك مستخدم واحد (%{count})."
             two: "شارك مستخدمان (%{count})."
             few: "شارك %{count} مستخدمين."
             many: "شارك %{count} مستخدمًا."
-            other: "شارك %{count} مستخدمًا."
+            other: "شارك %{count} مستخدم."
           invite: "إرسال إشعار إلى المستخدم"
           add_to_calendar: "إضافة إلى التقويم"
           send_pm_to_creator: "إرسال رسالة خاصة إلى %{username}"
@@ -376,12 +378,12 @@ ar:
           success: "تم تحميل الملف بنجاح، وسيتم إرسال إشعار إليك عبر رسالة عند اكتمال العملية."
           error: "عذرًا، يجب أن يكون الملف بتنسيق CSV."
           confirmation_message: "أنت على وشك إرسال إشعار إلى جميع الأشخاص في الملف الذي تم رفعه."
-          description_public: "لا تقبل الأحداث العامة أسماء المستخدمين إلا للدعوات الجماعية."
-          description_private: "لا تقبل الأحداث العامة إلا أسماء المجموعات للدعوات الجماعية."
+          description_public: "لا تقبل الأحداث العامة إلا أسماء المستخدمين للدعوات الجماعية."
+          description_private: "لا تقبل الأحداث الخاصة إلا أسماء المجموعات للدعوات الجماعية."
           download_sample_csv: "تنزيل نموذج ملف CSV"
           send_bulk_invites: "إرسال دعوات"
           group_selector_placeholder: "اختر مجموعة..."
-          user_selector_placeholder: "اختر المستخدم..."
+          user_selector_placeholder: "اختر مستخدمًا..."
           inline_title: "دعوة جماعية مضمَّنة"
           csv_title: "دعوة جماعية باستخدام ملف CSV"
         builder_modal:
@@ -421,9 +423,10 @@ ar:
             every_weekday: "كل أيام الأسبوع"
             every_week: "كل أسبوع في هذا اليوم"
             every_two_weeks: "كل أسبوعين في هذا اليوم"
+            every_four_weeks: "كل أربعة أسابيع في هذا اليوم"
           minimal:
             label: "حدث صغير"
-            checkbox_label: "إخفاء زريِّ ذاهب/غير ذاهب وحالة المدعوين"
+            checkbox_label: "إخفاء زرَّي ذاهب/غير ذاهب وحالة المدعوين"
           url:
             label: "عنوان URL"
             placeholder: "اختياري"
@@ -444,6 +447,11 @@ ar:
           starts_at: "يبدأ في"
         upcoming_events_list:
           title: "الأحداث القادمة"
+          empty: "لا توجد أحداث قادمة"
+          all_day: "طوال اليوم"
+          error: "فشل استرداد الأحداث"
+          try_again: "إعادة المحاولة"
+          view_all: "عرض الكل"
     group_timezones:
       search: "بحث..."
       group_availability: "توافر %{group}"
@@ -560,6 +568,7 @@ ar:
           every_weekday: "كل أيام الأسبوع"
           every_week: "كل أسبوع في هذا اليوم"
           every_two_weeks: "كل أسبوعين في هذا اليوم"
+          every_four_weeks: "كل أربعة أسابيع في هذا اليوم"
         minimal:
           label: "حدث صغير"
           checkbox_label: "إخفاء زريِّ ذاهب/غير ذاهب وحالة المدعوين"
@@ -583,6 +592,10 @@ ar:
         starts_at: "يبدأ في"
       upcoming_events_list:
         title: "الأحداث القادمة"
+        empty: "لا توجد أحداث قادمة"
+        all_day: "طوال اليوم"
+        error: "فشل استرداد الأحداث"
+        try_again: "إعادة المحاولة"
     category:
       sort_topics_by_event_start_date: "ترتيب الموضوعات حسب تاريخ بدء الحدث."
       disable_topic_resorting: "إيقاف الرجوع إلى الموضوع."
