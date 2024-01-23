@@ -38,6 +38,7 @@ zh_CN:
         disabled_holidays_description: "已禁用的假期将被排除在管理人员假期日历之外。"
       date: "日期"
       add_to_calendar: "添加到 Google 日历"
+      toggle_timezone_offset_title: "切换时区偏移"
       region:
         title: "区域"
         none: "无"
@@ -309,6 +310,7 @@ zh_CN:
         month: "月"
         week: "周"
         day: "天"
+        list: "列表"
       discourse_post_event:
         notifications:
           invite_user_predefined_attendance_notification: "%{username} 已自动设置您的出席并邀请您加入"
@@ -353,7 +355,7 @@ zh_CN:
             other: "%{count} 位用户参与。"
           invite: "通知用户"
           add_to_calendar: "添加到日历"
-          send_pm_to_creator: "将 PM 发送到 %{username}"
+          send_pm_to_creator: "将私信发送给 %{username}"
           leave: "离开活动"
           edit_event: "编辑活动"
           export_event: "导出活动"
@@ -398,7 +400,7 @@ zh_CN:
           reminders:
             label: "提醒"
             types:
-              bump_topic: "自动提升话题"
+              bump_topic: "自动顶帖话题"
               notification: "通知参与者"
             units:
               minutes: "分钟"
@@ -416,6 +418,7 @@ zh_CN:
             every_weekday: "每个工作日"
             every_week: "每周的这个工作日"
             every_two_weeks: "每两周的这个工作日"
+            every_four_weeks: "每四周的这个工作日"
           minimal:
             label: "最低限度活动"
             checkbox_label: "隐藏“参加/不参加”按钮和受邀者状态"
@@ -433,12 +436,17 @@ zh_CN:
           title: "通知用户或群组"
           invite: "发送"
         upcoming_events:
-          title: "即将到来的活动"
+          title: "近期活动"
           creator: "创建者"
           status: "状态"
           starts_at: "开始时间"
         upcoming_events_list:
-          title: "即将到来的活动"
+          title: "近期活动"
+          empty: "无近期活动"
+          all_day: "全天"
+          error: "无法检索活动"
+          try_again: "重试"
+          view_all: "查看全部"
     group_timezones:
       search: "搜索…"
       group_availability: "%{group} 可用性"
@@ -486,7 +494,7 @@ zh_CN:
           other: "%{count} 位用户参与。"
         invite: "通知用户"
         add_to_calendar: "添加到日历"
-        upcoming_events: "即将到来的活动"
+        upcoming_events: "近期活动"
         send_pm_to_creator: "将 PM 发送到 %{username}"
         leave: "离开活动"
         edit_event: "编辑活动"
@@ -550,6 +558,7 @@ zh_CN:
           every_weekday: "每个工作日"
           every_week: "每周的这个工作日"
           every_two_weeks: "每两周的这个工作日"
+          every_four_weeks: "每四周的这个工作日"
         minimal:
           label: "最低限度活动"
           checkbox_label: "隐藏“参加/不参加”按钮和受邀者状态"
@@ -572,7 +581,11 @@ zh_CN:
         status: "状态"
         starts_at: "开始时间"
       upcoming_events_list:
-        title: "即将到来的活动"
+        title: "近期活动"
+        empty: "无近期活动"
+        all_day: "全天"
+        error: "无法检索活动"
+        try_again: "重试"
     category:
       sort_topics_by_event_start_date: "按活动开始日期对话题进行排序。"
       disable_topic_resorting: "禁用话题重新排序。"

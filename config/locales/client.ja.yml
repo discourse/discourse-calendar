@@ -38,6 +38,7 @@ ja:
         disabled_holidays_description: "無効化された祝祭日は、スタッフの祝祭日カレンダーから除外されます。"
       date: "日付"
       add_to_calendar: "Google カレンダーに追加"
+      toggle_timezone_offset_title: "タイムゾーンオフセットの切り替え"
       region:
         title: "地域"
         none: "なし"
@@ -309,6 +310,7 @@ ja:
         month: "今月"
         week: "今週"
         day: "日"
+        list: "リスト"
       discourse_post_event:
         notifications:
           invite_user_predefined_attendance_notification: "%{username} はあなたの出席を自動的に設定して次に招待しました:"
@@ -416,6 +418,7 @@ ja:
             every_weekday: "すべての平日"
             every_week: "毎週この平日"
             every_two_weeks: "隔週この平日"
+            every_four_weeks: "4 週間ごとのこの平日"
           minimal:
             label: "ミニマルイベント"
             checkbox_label: "参加/不参加ボタンと招待者のステータスを非表示にする"
@@ -439,6 +442,11 @@ ja:
           starts_at: "開始時刻"
         upcoming_events_list:
           title: "今後のイベント"
+          empty: "今後のイベントはありません"
+          all_day: "終日"
+          error: "イベントの取得に失敗しました"
+          try_again: "やり直す"
+          view_all: "すべて表示"
     group_timezones:
       search: "検索..."
       group_availability: "%{group} の空き状況"
@@ -550,6 +558,7 @@ ja:
           every_weekday: "すべての平日"
           every_week: "毎週この平日"
           every_two_weeks: "隔週この平日"
+          every_four_weeks: "4 週間ごとのこの平日"
         minimal:
           label: "ミニマルイベント"
           checkbox_label: "参加/不参加ボタンと招待者のステータスを非表示にする"
@@ -573,6 +582,10 @@ ja:
         starts_at: "開始時刻"
       upcoming_events_list:
         title: "今後のイベント"
+        empty: "今後のイベントはありません"
+        all_day: "終日"
+        error: "イベントの取得に失敗しました"
+        try_again: "やり直す"
     category:
       sort_topics_by_event_start_date: "イベント開始日順にトピックを並べ替えます。"
       disable_topic_resorting: "トピックの並べ替え直しを無効にします。"

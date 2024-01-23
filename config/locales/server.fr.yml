@@ -33,7 +33,10 @@ fr:
         %{logs}
         ```
   site_settings:
+    events_max_rows: "Nombre maximal de lignes de texte par événement dans le calendrier."
+    map_events_to_color: "Assigner une couleur à chaque étiquette ou catégorie."
     calendar_enabled: "Activer l'extension discourse-calendar. Ceci ajoutera la prise en charge de l'étiquette [calendar][/calendar] dans le premier message d'un sujet."
+    discourse_post_event_enabled: "Active les fonctionnalités d'événement. Remarque : il faut également que « calendrier activé » soit activé."
     displayed_invitees_limit: "Limite le nombre d'invités affichés sur un événement."
     display_post_event_date_on_topic_title: "Affiche la date de l'événement après le titre du sujet."
     use_local_event_date: "Utiliser la date locale après le titre du sujet au lieu de l'heure relative."
@@ -56,6 +59,8 @@ fr:
     sort_categories_by_event_start_date_enabled: "Activer le tri des rubriques de la catégorie par date de début de l'événement."
     disable_resorting_on_categories_enabled: "Autoriser les catégories pour désactiver la possibilité pour les utilisateurs de trier la catégorie d'événement."
     calendar_automatic_holidays_enabled: "Définir automatiquement le statut des vacances en fonction de la région de l'utilisateur (note : il est possible de désactiver des vacances automatiques spécifiques dans les paramètres de l'extension)"
+    sidebar_show_upcoming_events: "Afficher le lien des événements à venir dans la barre latérale sous « Plus »."
+    include_expired_events_on_calendar: "Inclure les événements passés ou expirés dans le calendrier des catégories et les vues des événements à venir."
   discourse_calendar:
     invite_user_notification: "%{username} vous a invité(e) à rejoindre : %{description}"
     calendar_must_be_in_first_post: "L'étiquette du calendrier ne peut être utilisée que dans le premier message d'un sujet."
@@ -71,7 +76,7 @@ fr:
         ongoing_event_reminder: "L'événement %{title} est en cours."
       errors:
         bulk_invite:
-          max_invitees: "Les %{max_invittes} premières invitations ont été créés. Essayez de diviser le fichier en plus petites parties."
+          max_invitees: "Les %{max_invittes} premières invitations ont été créées. Essayez de diviser le fichier en plus petites parties."
           error: "Une erreur s'est produite lors du téléversement du fichier. Veuillez réessayer plus tard."
         models:
           event:
@@ -82,6 +87,7 @@ fr:
             ends_at_before_starts_at: "Un événement ne peut pas se terminer avant d'avoir commencé."
             start_must_be_present_and_a_valid_date: "Un événement nécessite une date de début valide."
             end_must_be_a_valid_date: "La date de fin doit être une date valide."
+            invalid_recurrence: "La récurrence doit être l'une des suivantes : every_month, every_week, every_two_weeks, every_four_weeks, every_day, every_weekday."
             invalid_timezone: "Fuseau horaire non reconnu."
             acting_user_not_allowed_to_create_event: "L'utilisateur actuel n'est pas autorisé à créer des événements."
             acting_user_not_allowed_to_act_on_this_event: "L'utilisateur actuel n'est pas autorisé à agir sur cet événement."
