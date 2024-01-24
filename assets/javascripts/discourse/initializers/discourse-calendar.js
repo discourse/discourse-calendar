@@ -118,7 +118,7 @@ function initializeDiscourseCalendar(api) {
         Promise.all([cookRaw, loadPost]).then((results) => {
           const cooked = results[0];
           const post = results[1];
-          categoryCalendarNode.innerHTML = cooked.string;
+          categoryCalendarNode.innerHTML = cooked.toString();
           render($(".calendar"), post);
         });
       });
