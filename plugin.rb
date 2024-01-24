@@ -425,6 +425,7 @@ after_initialize do
     if group_names.present?
       users =
         User
+          .human_users
           .joins(:groups, :user_option)
           .where("groups.name": group_names)
           .select("users.*", "groups.name AS group_name", "user_options.timezone")
