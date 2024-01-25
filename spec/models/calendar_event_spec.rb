@@ -129,8 +129,7 @@ describe CalendarEvent do
     end
 
     it "includes group timezones detail" do
-      Fabricate(:admin)
-      Group.refresh_automatic_groups!(:admins)
+      Fabricate(:admin, refresh_auto_groups: true)
 
       timezones_post =
         create_post(

@@ -19,7 +19,7 @@ describe PostSerializer do
   end
 
   it "includes group timezones" do
-    Fabricate(:admin)
+    Fabricate(:admin, refresh_auto_groups: true)
 
     calendar_post =
       create_post(
