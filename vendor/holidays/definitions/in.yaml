@@ -174,6 +174,8 @@ months:
   - name: Vikram Samvant New Year Day
     regions: [in_gj]
     mday: 2
+    year_ranges:
+      limited: [2024]
   - name: Govardhan Puja
     regions: [in_rj, in_gj]
     mday: 13
