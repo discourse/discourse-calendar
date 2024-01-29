@@ -8,7 +8,7 @@ describe DiscoursePostEvent::EventSummarySerializer do
   end
 
   fab!(:category)
-  fab!(:topic) { Fabricate(:topic, category: category) }
+  fab!(:topic) { Fabricate(:topic, category: category, title: "Topic title :tada:") }
   fab!(:post) { Fabricate(:post, topic: topic) }
   fab!(:event) { Fabricate(:event, post: post) }
 
@@ -20,7 +20,7 @@ describe DiscoursePostEvent::EventSummarySerializer do
     expect(summary[:timezone]).to eq(event.timezone)
     expect(summary[:name]).to eq(event.name)
     expect(summary[:post][:url]).to eq(post.url)
-    expect(summary[:post][:topic][:title]).to eq(topic.title)
+    expect(summary[:post][:topic][:title]).to eq("Topic title 🎉")
     expect(summary[:category_id]).to eq(category.id)
   end
 
