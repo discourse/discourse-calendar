@@ -10,8 +10,8 @@ zh_CN:
       calendar: "日历"
       site_settings:
         categories:
-          discourse_post_event: "Discourse 活动"
-          discourse_calendar: "Discourse 日历"
+          discourse_post_event: "Discourse Event"
+          discourse_calendar: "Discourse Calendar"
   js:
     notifications:
       titles:
