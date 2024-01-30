@@ -306,19 +306,19 @@ ru:
           vi: "Виргинские острова (США)"
           za: "Южная Африка"
       toolbar_button:
-        today: "Сегодня"
+        today: "За сегодня"
         month: "За месяц"
         week: "За неделю"
         day: "Дата"
         list: "Список"
       discourse_post_event:
         notifications:
-          invite_user_predefined_attendance_notification: "%{username} автоматически определил(а) ваше присутствие и пригласил(а) вас на мероприятие:"
+          invite_user_predefined_attendance_notification: "%{username} автоматически определил(-а) ваше присутствие и пригласил(-а) вас на мероприятие:"
           before_event_reminder: "Мероприятие скоро начнется"
           after_event_reminder: "Мероприятие закончилось"
           ongoing_event_reminder: "Мероприятие идет"
           invite_user_notification: "%{username} %{description}"
-          invite_user_predefined_attendance_notification_html: "%{username} автоматически определил(а) ваше присутствие и пригласил(а) вас на мероприятие «%{description}»"
+          invite_user_predefined_attendance_notification_html: "%{username} автоматически определил(-а) ваше присутствие и пригласил(-а) вас на мероприятие «%{description}»"
           before_event_reminder_html: "Мероприятие скоро начнется: %{description}"
           after_event_reminder_html: "Мероприятие закончилось: %{description}"
           ongoing_event_reminder_html: "Мероприятие идет: %{description}"
@@ -327,7 +327,7 @@ ru:
         edit_reason: "Мероприятие обновлено"
         topic_title:
           starts_at: "Мероприятие начнется %{date}"
-          ended_at: "Мероприятие завершится: %{date}"
+          ended_at: "Мероприятие завершится %{date}"
           ends_in_duration: "Окончание %{duration}"
         models:
           invitee:
@@ -336,18 +336,18 @@ ru:
               unknown: "Не интересует"
               going: "Участвую"
               not_going: "Не участвую"
-              interested: "Заинтересован"
+              interested: "Интересно"
           event:
             expired: "Истекший срок"
             status:
               standalone:
-                title: "Автономное"
-                description: "К автономному мероприятию нельзя присоединиться."
+                title: "Обособленное"
+                description: "К обособленному мероприятию нельзя присоединиться."
               public:
-                title: "Публичная"
+                title: "Публичное"
                 description: "К публичному мероприятию может присоединиться любой желающий."
               private:
-                title: "Закрытое сообщество"
+                title: "Закрытое"
                 description: "К закрытому мероприятию могут присоединиться только приглашенные пользователи."
         event_ui:
           show_all: "Показать все"
@@ -355,7 +355,7 @@ ru:
             one: "Участвовал %{count} пользователь."
             few: "Участвовало %{count} пользователя."
             many: "Участвовало %{count} пользователей."
-            other: "Участвовало %{count} пользователей."
+            other: "Участвовало пользователей: %{count}."
           invite: "Уведомлять пользователя"
           add_to_calendar: "Добавить в календарь"
           send_pm_to_creator: "Отправить ЛС пользователю %{username}"
@@ -426,7 +426,7 @@ ru:
             label: "Минимальное мероприятие"
             checkbox_label: "Скрыть кнопки «Участвую», «Не участвую» и статус приглашенных"
           url:
-            label: "URL"
+            label: "URL-адрес"
             placeholder: "Опционально"
           name:
             label: "Название мероприятия"
@@ -469,7 +469,7 @@ ru:
       edit_reason: "Мероприятие обновлено"
       topic_title:
         starts_at: "Мероприятие начнется %{date}"
-        ended_at: "Событие завершится: %{date}"
+        ended_at: "Мероприятие завершится %{date}"
         ends_in_duration: "Окончание %{duration}"
       models:
         invitee:
@@ -502,7 +502,7 @@ ru:
         add_to_calendar: "Добавить в календарь"
         upcoming_events: "Предстоящие мероприятия"
         send_pm_to_creator: "Отправить ЛС пользователю %{username}"
-        leave: "Покинуть событие"
+        leave: "Покинуть мероприятие"
         edit_event: "Изменить мероприятие"
         export_event: "Экспорт мероприятия"
         created_by: "Создано"
@@ -532,7 +532,7 @@ ru:
           label: "Настраиваемые поля"
           placeholder: "Необязательно"
           description: "Настраиваемые поля разрешены в настройках сайта. Поля используются для передачи данных в другие плагины."
-        create_event_title: "Создать событие"
+        create_event_title: "Создать мероприятие"
         update_event_title: "Изменить мероприятие"
         confirm_delete: "Действительно удалить это мероприятие ?"
         confirm_close: "Действительно закрыть это мероприятие ?"
