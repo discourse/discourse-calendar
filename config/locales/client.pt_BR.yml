@@ -336,7 +336,7 @@ pt_BR:
               unknown: "Não tenho interesse"
               going: "Indo para"
               not_going: "Não vou"
-              interested: "Tenho interesse"
+              interested: "Interessado"
           event:
             expired: "Expirou"
             status:
@@ -476,7 +476,7 @@ pt_BR:
             unknown: "Não tenho interesse"
             going: "Indo para"
             not_going: "Não vou"
-            interested: "Tenho interesse"
+            interested: "Interessado"
         event:
           expired: "Expirou"
           status:
