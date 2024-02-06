@@ -80,7 +80,7 @@ it:
             ends_at_before_starts_at: "Un evento non può finire prima di iniziare."
             start_must_be_present_and_a_valid_date: "Un evento richiede una data iniziale valida."
             end_must_be_a_valid_date: "La data finale deve essere una data valida."
-            invalid_recurrence: "La ricorrenza deve essere una tra: ogni_mese, ogni_settimana, ogni_due_settimane, ogni_quattro_settimane, ogni_giorno, ogni_giorno_feriale."
+            invalid_recurrence: "La ricorrenza deve essere una tra: every_month, every_week, every_two_weeks, every_four_weeks, every_day, every_weekday."
             invalid_timezone: "Fuso orario non riconosciuto."
             acting_user_not_allowed_to_create_event: "L'utente corrente non è autorizzato a creare eventi."
             acting_user_not_allowed_to_act_on_this_event: "L'utente corrente non è autorizzato ad agire su questo evento."
