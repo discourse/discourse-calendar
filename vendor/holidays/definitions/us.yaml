@@ -1,7 +1,10 @@
 # United States holiday definitions for the Ruby Holiday gem.
 #
-# Updated: 2008-11-24.
+# Updated: 2024-02-05.
 #
+# Changed: 2024-02-05
+# - Remove Lee-Jackson Day
+# 
 # Changed: 2017-06-15 to 2017-06-20
 # - Add missing holiday information for a whole bunch of US states
 # - Correct some existing holiday information
@@ -29,7 +32,6 @@
 # - https://publicholidays.us/Ohio/
 # - http://www.sos.ms.gov/education-publications/pages/state-holidays.aspx
 # - http://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&Search_String=&URL=0100-0199/0110/Sections/0110.117.html
-# - https://en.wikipedia.org/wiki/Lee–Jackson_Day
 # - http://www.statutes.legis.state.tx.us/Docs/GV/htm/GV.662.htm
 # - https://en.wikipedia.org/wiki/Lincoln%27s_Birthday
 # - https://en.wikipedia.org/wiki/Washington%27s_Birthday
@@ -118,9 +120,6 @@ months:
   - name: Inauguration Day
     function: us_inauguration_day(year)
     regions: [us_tx, us_dc, us_la, us_md, us_va]
-  - name: Lee-Jackson Day
-    regions: [us_va]
-    function: lee_jackson_day(year, month)
   - name: Confederate Heroes Day # fixed
     regions: [us_tx]
     mday: 19
@@ -346,14 +345,6 @@ methods:
       beginning_of_month = Date.civil(year, month, 1)
       state_holiday = Date.civil(year, month, 26)
       state_holiday.downto(beginning_of_month).find {|date| date if date.wday == 1 }
-  lee_jackson_day:
-    # Friday before Martin Luther King, Jr. Day
-    arguments: year, month
-    ruby: |
-      day_of_holiday = Holidays::Factory::DateCalculator.day_of_month_calculator.call(year, month, 3, 1)
-      beginning_of_month = Date.civil(year, month, 1)
-      king_day = Date.civil(year, month, day_of_holiday)
-      king_day.downto(beginning_of_month).find {|date| date if date.wday == 5 }
   election_day:
     # Tuesday after the first Monday of November
     arguments: year
@@ -470,11 +461,6 @@ tests:
       regions: ["us"]
     expect:
       holiday: false
-  - given:
-      date: ['2017-1-13', '2018-1-12', '2019-1-18']
-      regions: ["us_va"]
-    expect:
-      name: "Lee-Jackson Day"
 
   - given:
       date: ['2017-1-19']
