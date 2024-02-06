@@ -24,7 +24,6 @@ module Holidays
             {:wday => 1, :week => 3, :name => "Civil Rights Day", :regions => [:us_ar]},
             {:wday => 1, :week => 3, :name => "Martin Luther King, Jr. Day", :regions => [:us]},
             {:function => "us_inauguration_day(year)", :function_arguments => [:year], :name => "Inauguration Day", :regions => [:us_tx, :us_dc, :us_la, :us_md, :us_va]},
-            {:function => "lee_jackson_day(year, month)", :function_arguments => [:year, :month], :name => "Lee-Jackson Day", :regions => [:us_va]},
             {:mday => 19, :name => "Confederate Heroes Day", :regions => [:us_tx]}],
       2 => [{:wday => 1, :week => 3, :name => "Presidents' Day", :regions => [:us]},
             {:mday => 2, :type => :informal, :name => "Groundhog Day", :regions => [:us, :ca]},
@@ -124,13 +123,6 @@ yom_kippur_dates[year.to_s]
 beginning_of_month = Date.civil(year, month, 1)
 state_holiday = Date.civil(year, month, 26)
 state_holiday.downto(beginning_of_month).find {|date| date if date.wday == 1 }
-},
-
-"lee_jackson_day(year, month)" => Proc.new { |year, month|
-day_of_holiday = Holidays::Factory::DateCalculator.day_of_month_calculator.call(year, month, 3, 1)
-beginning_of_month = Date.civil(year, month, 1)
-king_day = Date.civil(year, month, day_of_holiday)
-king_day.downto(beginning_of_month).find {|date| date if date.wday == 5 }
 },
 
 "election_day(year)" => Proc.new { |year|

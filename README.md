@@ -27,7 +27,7 @@ Generate updated holidays as follows.
 cd vendor/holidays
 
 # Generate holiday definitions
-bin/rails generate:definitions
+rake generate:definitions
 ```
 
 Install the plugin and switch to the discourse root(not the plugin directory).
