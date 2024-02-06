@@ -55,6 +55,7 @@ describe PostSerializer do
       { 2021 => "Día de la Revolución de Mayo" },
       { 2021 => "Feriado puente turístico" },
       { 2021 => "Día de la Independencia" },
+      { 2021 => "Paso a la Inmortalidad del General José de San Martín" },
     )
     expect(json[:post][:calendar_details].map { |x| x[:users] }).to all(
       contain_exactly(
