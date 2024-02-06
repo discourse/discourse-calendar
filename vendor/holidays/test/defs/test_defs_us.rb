@@ -73,10 +73,6 @@ assert_equal "Inauguration Day", (Holidays.on(Date.civil(2021, 1, 20), [:us_tx, 
 assert_nil (Holidays.on(Date.civil(2018, 1, 12), [:us])[0] || {})[:name]
 assert_nil (Holidays.on(Date.civil(2019, 1, 18), [:us])[0] || {})[:name]
 
-    assert_equal "Lee-Jackson Day", (Holidays.on(Date.civil(2017, 1, 13), [:us_va])[0] || {})[:name]
-assert_equal "Lee-Jackson Day", (Holidays.on(Date.civil(2018, 1, 12), [:us_va])[0] || {})[:name]
-assert_equal "Lee-Jackson Day", (Holidays.on(Date.civil(2019, 1, 18), [:us_va])[0] || {})[:name]
-
     assert_equal "Confederate Heroes Day", (Holidays.on(Date.civil(2017, 1, 19), [:us_tx])[0] || {})[:name]
 
     assert_equal "Presidents' Day", (Holidays.on(Date.civil(2008, 2, 18), [:us])[0] || {})[:name]

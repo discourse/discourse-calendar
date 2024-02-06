@@ -76,7 +76,7 @@ module Holidays
             {:mday => 29, :name => "Segundo Día de la Independencia", :regions => [:pe]},
             {:mday => 5, :name => "Día de la Independencia", :regions => [:ve]},
             {:mday => 24, :name => "Natalicio de Simón Bolívar", :regions => [:ve]}],
-      8 => [{:mday => 15, :name => "Paso a la Inmortalidad del General José de San Martín", :regions => [:ar]},
+      8 => [{:mday => 17, :name => "Paso a la Inmortalidad del General José de San Martín", :regions => [:ar]},
             {:mday => 15, :name => "Asunción de la Virgen", :regions => [:cl]},
             {:mday => 7, :name => "Batalla de Boyacá", :regions => [:co]},
             {:function => "assumption_of_mary(year)", :function_arguments => [:year], :name => "La Asunción de la Virgen", :regions => [:co]},

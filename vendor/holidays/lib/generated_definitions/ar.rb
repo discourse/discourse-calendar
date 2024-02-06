@@ -23,7 +23,7 @@ module Holidays
       6 => [{:mday => 20, :name => "Día de la Bandera", :regions => [:ar]}],
       7 => [{:mday => 8, :name => "Feriado puente turístico", :regions => [:ar]},
             {:mday => 9, :name => "Día de la Independencia", :regions => [:ar]}],
-      8 => [{:mday => 15, :name => "Paso a la Inmortalidad del General José de San Martín", :regions => [:ar]}],
+      8 => [{:mday => 17, :name => "Paso a la Inmortalidad del General José de San Martín", :regions => [:ar]}],
       10 => [{:mday => 12, :name => "Día del Respeto a la Diversidad Cultural", :regions => [:ar]}],
       11 => [{:mday => 20, :name => "Día de la Soberanía Nacional", :regions => [:ar]}],
       12 => [{:mday => 8, :name => "Inmaculada Concepción de María", :regions => [:ar]},
