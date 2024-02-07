@@ -15,6 +15,32 @@ module DiscoursePostEvent
     let(:post_1) { Fabricate(:post, user: user, topic: topic_1) }
 
     describe "#index" do
+      context "for a post in a private category" do
+        let(:outside_user) { Fabricate(:user) }
+        let(:in_group_user) { Fabricate(:user) }
+        let(:group) { Fabricate(:group, users: [in_group_user]) }
+        let(:private_category) { Fabricate(:private_category, group:) }
+        let(:topic_1) { Fabricate(:topic, user: user, category: private_category) }
+        let(:post_1) { Fabricate(:post, user: user, topic: topic_1) }
+        let(:post_event_1) { Fabricate(:event, post: post_1) }
+
+        it "forbids non group user from seeing the list of invitees" do
+          sign_in(outside_user)
+
+          get "/discourse-post-event/events/#{post_event_1.id}/invitees.json"
+
+          expect(response.status).to eq(403)
+        end
+
+        it "allows group user to see the list of invitees" do
+          sign_in(in_group_user)
+
+          get "/discourse-post-event/events/#{post_event_1.id}/invitees.json"
+
+          expect(response.status).to eq(200)
+        end
+      end
+
       context "when params are included" do
         let(:invitee1) { Fabricate(:user, username: "Francis", name: "Francis") }
         let(:invitee2) { Fabricate(:user, username: "Francisco", name: "Francisco") }
