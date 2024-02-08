@@ -119,7 +119,7 @@ describe Jobs::ExportCsvFile do
     end
 
     context "when the requesting user is not admin but can act on this event" do
-      let(:user) { Fabricate(:user, admin: false) }
+      let(:user) { Fabricate(:user, admin: false, refresh_auto_groups: true) }
       let(:user_1) { Fabricate(:user) }
       let(:user_2) { Fabricate(:user) }
       let(:topic) { Fabricate(:topic, user: user) }
