@@ -24,7 +24,7 @@ describe User do
     end
 
     context "when user is not staff" do
-      let(:user_1) { Fabricate(:user) }
+      let(:user_1) { Fabricate(:user, refresh_auto_groups: true) }
 
       context "when user is in list of allowed groups" do
         let(:group_1) do
