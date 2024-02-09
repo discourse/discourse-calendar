@@ -4,8 +4,13 @@
 months:
   1:
   - name: New Year's Day
-    regions: [in_tn, in_ka]
+    regions: [in_tn, in_ka. in_gj]
     mday: 1
+  - name: Makar Sankranti
+    regions: [in_gj]
+    mday: 15
+    year_ranges:
+      limited: [2024]
   - name: Pongal
     regions: [in_tn, in_ka]
     mday: 15
@@ -32,15 +37,10 @@ months:
     observed: to_weekday_if_weekend(date)
   3:
   - name: Mahashivratri
-    regions: [in_mh]
+    regions: [in_mh, in_gj]
     mday: 8
     year_ranges:
       limited: [2024]
-  - name: Cheti Chand
-    regions: [in_gj]
-    mday: 22
-    year_ranges:
-      limited: [2023]
   - name: Holi
     regions: [in_rj, in_mh, in_gj, in_ka]
     mday: 25
@@ -55,6 +55,11 @@ months:
   - name: Ugadi
     regions: [in_ka]
     mday: 9
+  - name: Cheti Chand
+    regions: [in_gj]
+    mday: 10
+    year_ranges:
+      limited: [2024]
   - name: Eid al-Fitr
     regions: [in_rj, in_mh, in_gj, in_tn]
     mday: 11
@@ -81,6 +86,11 @@ months:
   - name: Labour's Day
     regions: [in_tn, in_ka]
     mday: 1
+  - name: Bhagwan Shree Parshuram Jayanti
+    regions: [in_gj]
+    mday: 10
+    year_ranges:
+      limited: [2024]
   6:
   - name: Eid al-Adha
     regions: [in_rj, in_tn, in_gj, in_mh]
@@ -161,6 +171,11 @@ months:
   - name: Kannada Rajyothsava
     regions: [in_ka]
     mday: 1
+  - name: Vikram Samvant New Year Day
+    regions: [in_gj]
+    mday: 2
+    year_ranges:
+      limited: [2024]
   - name: Govardhan Puja
     regions: [in_rj, in_gj]
     mday: 13
