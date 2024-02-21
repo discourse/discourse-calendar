@@ -35,6 +35,8 @@ module DiscoursePostEvent
       event = Event.find(params[:post_id])
       guardian.ensure_can_see!(event.post)
 
+      raise Discourse::InvalidAccess if !event.can_user_update_attendance(current_user)
+
       invitee =
         Invitee.create_attendance!(current_user.id, params[:post_id], invitee_params[:status])
       render json: InviteeSerializer.new(invitee)

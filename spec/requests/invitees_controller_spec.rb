@@ -173,7 +173,6 @@ module DiscoursePostEvent
           post "/discourse-post-event/events/#{post_event_2.id}/invitees.json",
                params: {
                  invitee: {
-                   user_id: user.id,
                    status: "not_going",
                  },
                }
@@ -185,7 +184,6 @@ module DiscoursePostEvent
           post "/discourse-post-event/events/#{post_event_2.id}/invitees.json",
                params: {
                  invitee: {
-                   user_id: user.id,
                    status: "going",
                  },
                }
@@ -194,6 +192,24 @@ module DiscoursePostEvent
 
           tu = TopicUser.get(invitee.event.post.topic, user)
           expect(tu.notification_level).to eq(TopicUser.notification_levels[:watching])
+        end
+
+        context "when someone is trying to invite themselves to a private event (creepy)" do
+          let(:post_event_2) { Fabricate(:event, post: post_1, status: "private") }
+          let(:other_user) { Fabricate(:user, username: "creep") }
+
+          before { sign_in(other_user) }
+
+          it "does not create an invitee" do
+            expect do
+              post "/discourse-post-event/events/#{post_event_2.id}/invitees.json",
+                   params: {
+                     invitee: {
+                       status: "going",
+                     },
+                   }
+            end.not_to change { post_event_2.invitees.count }
+          end
         end
 
         context "when the invitee is the event owner" do
