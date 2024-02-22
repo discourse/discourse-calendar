@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe UserSerializer do
-  fab!(:user) { Fabricate(:user) }
+  fab!(:user)
 
   subject(:json) { described_class.new(user, scope: guardian).as_json }
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe ListController do
-  fab!(:admin) { Fabricate(:admin) }
-  fab!(:user) { Fabricate(:user) }
-  fab!(:category) { Fabricate(:category) }
+  fab!(:admin)
+  fab!(:user)
+  fab!(:category)
   fab!(:topic_1) do
     Fabricate(:topic, title: "This is the first topic", user: user, category: category)
   end

@@ -2,15 +2,12 @@
 
 module DiscoursePostEvent
   module PostExtension
-    def self.prepended(base)
-      base.class_eval do
-        has_one :event,
-                dependent: :destroy,
-                class_name: "DiscoursePostEvent::Event",
-                foreign_key: :id
+    extend ActiveSupport::Concern
 
-        validate :valid_event
-      end
+    prepended do
+      has_one :event, dependent: :destroy, class_name: "DiscoursePostEvent::Event", foreign_key: :id
+
+      validate :valid_event
     end
 
     def valid_event
