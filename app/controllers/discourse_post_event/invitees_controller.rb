@@ -4,6 +4,7 @@ module DiscoursePostEvent
   class InviteesController < DiscoursePostEventController
     def index
       event = Event.find(params[:post_id])
+      guardian.ensure_can_see!(event.post)
 
       event_invitees = event.invitees
 
