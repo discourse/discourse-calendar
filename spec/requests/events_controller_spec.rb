@@ -209,7 +209,7 @@ module DiscoursePostEvent
         end
 
         context "when filtering by category" do
-          fab!(:category) { Fabricate(:category) }
+          fab!(:category)
           fab!(:subcategory) do
             Fabricate(:category, parent_category: category, name: "category subcategory")
           end

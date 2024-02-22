@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-VALID_OPTIONS = [
-  :start,
-  :end,
-  :status,
-  :"allowed-groups",
-  :url,
-  :name,
-  :reminders,
-  :recurrence,
-  :timezone,
-  :minimal,
-]
-
 module DiscoursePostEvent
   class EventParser
+    VALID_OPTIONS = [
+      :start,
+      :end,
+      :status,
+      :"allowed-groups",
+      :url,
+      :name,
+      :reminders,
+      :recurrence,
+      :timezone,
+      :minimal,
+    ]
+
     def self.extract_events(post)
       cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)
       valid_options = VALID_OPTIONS.map { |o| "data-#{o}" }

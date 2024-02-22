@@ -149,9 +149,9 @@ after_initialize do
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 
   reloadable_patch do
-    ExportCsvController.class_eval { prepend DiscoursePostEvent::ExportCsvControllerExtension }
-    Jobs::ExportCsvFile.class_eval { prepend DiscoursePostEvent::ExportPostEventCsvReportExtension }
-    Post.class_eval { prepend DiscoursePostEvent::PostExtension }
+    ExportCsvController.prepend(DiscoursePostEvent::ExportCsvControllerExtension)
+    Jobs::ExportCsvFile.prepend(DiscoursePostEvent::ExportPostEventCsvReportExtension)
+    Post.prepend(DiscoursePostEvent::PostExtension)
   end
 
   add_to_class(:user, :can_create_discourse_post_event?) do

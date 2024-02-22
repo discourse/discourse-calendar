@@ -3,7 +3,7 @@ require "rails_helper"
 
 describe DiscoursePostEvent::EventFinder do
   fab!(:current_user) { Fabricate(:user) }
-  fab!(:user) { Fabricate(:user) }
+  fab!(:user)
 
   subject(:finder) { DiscoursePostEvent::EventFinder }
 
