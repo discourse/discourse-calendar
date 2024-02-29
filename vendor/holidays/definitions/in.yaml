@@ -4,7 +4,7 @@
 months:
   1:
   - name: New Year's Day
-    regions: [in_tn, in_ka. in_gj]
+    regions: [in]
     mday: 1
   - name: Makar Sankranti
     regions: [in_gj]
@@ -37,7 +37,7 @@ months:
     observed: to_weekday_if_weekend(date)
   3:
   - name: Mahashivratri
-    regions: [in_mh, in_gj]
+    regions: [in_mh, in_gj, in_rj]
     mday: 8
     year_ranges:
       limited: [2024]
@@ -171,16 +171,16 @@ months:
   - name: Kannada Rajyothsava
     regions: [in_ka]
     mday: 1
+  - name: Govardhan Puja
+    regions: [in_rj, in_gj]
+    mday: 1
+    year_ranges:
+      limited: [2024]
   - name: Vikram Samvant New Year Day
     regions: [in_gj]
     mday: 2
     year_ranges:
       limited: [2024]
-  - name: Govardhan Puja
-    regions: [in_rj, in_gj]
-    mday: 13
-    year_ranges:
-      limited: [2023]
   - name: Guru Nanak Jayanti
     regions: [in_rj, in_mh, in_gj]
     mday: 15
