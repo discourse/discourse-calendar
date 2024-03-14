@@ -5,6 +5,7 @@ import { cook, emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
+import { getAbsoluteURL } from "discourse-common/lib/get-url";
 import I18n from "I18n";
 import PostEventBuilder from "../components/modal/post-event-builder";
 import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
@@ -178,7 +179,11 @@ export default createWidget("discourse-post-event", {
           endsAt: event.ends_at,
         },
       ],
-      event.recurrence_rule
+      {
+        recurrenceRule: event.recurrence_rule,
+        location: event.url,
+        details: getAbsoluteURL(event.post.url),
+      }
     );
   },
 
