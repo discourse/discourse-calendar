@@ -337,7 +337,7 @@ export function updateEventRawInvitees(event, rawInvitees) {
   return event.set("raw_invitees", rawInvitees);
 }
 export function updateCustomField(event, field, value) {
-  event.custom_fields.set(field, value);
+  event.custom_fields[field] = value;
 }
 export function removeReminder(event, reminder) {
   return event.reminders.removeObject(reminder);
