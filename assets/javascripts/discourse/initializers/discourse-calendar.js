@@ -214,7 +214,7 @@ function initializeDiscourseCalendar(api) {
                 )?.color;
                 backgroundColor =
                   categoryColorFromMap ||
-                  `#${site.categoriesById[category_id]?.color}`;
+                  `#${Category.findById(category_id)?.color}`;
               }
 
               let borderColor, textColor;
