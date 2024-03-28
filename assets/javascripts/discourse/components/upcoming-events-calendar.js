@@ -2,6 +2,7 @@ import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
 import { Promise } from "rsvp";
 import loadScript from "discourse/lib/load-script";
+import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
 import { formatEventName } from "../helpers/format-event-name";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
@@ -125,7 +126,7 @@ export default Component.extend({
           backgroundColor = categoryColorEntry?.color;
         }
 
-        const categoryColor = this.site.categoriesById[category_id]?.color;
+        const categoryColor = Category.findById(category_id)?.color;
         if (!backgroundColor && categoryColor) {
           backgroundColor = `#${categoryColor}`;
         }
