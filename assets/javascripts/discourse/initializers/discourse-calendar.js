@@ -217,10 +217,9 @@ function initializeDiscourseCalendar(api) {
                   `#${Category.findById(category_id)?.color}`;
               }
 
-              let borderColor, textColor;
+              let classNames;
               if (moment(ends_at || starts_at).isBefore(moment())) {
-                borderColor = textColor = backgroundColor;
-                backgroundColor = "unset";
+                classNames = "fc-past-event";
               }
 
               fullCalendar.addEvent({
@@ -230,8 +229,7 @@ function initializeDiscourseCalendar(api) {
                 allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
                 url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
                 backgroundColor,
-                borderColor,
-                textColor,
+                classNames,
               });
             });
 
