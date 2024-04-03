@@ -13,7 +13,10 @@ module Holidays
     def self.holidays_by_month
       {
                 2 => [{:mday => 22, :name => "Foundation Day", :regions => [:sa]}],
-      4 => [{:mday => 21, :year_ranges => { :limited => [2023] },:name => "Festival of Breaking the Fast", :regions => [:sa]},
+      4 => [{:mday => 9, :year_ranges => { :limited => [2024] },:name => "Festival of Breaking the Fast", :regions => [:sa]},
+            {:mday => 10, :year_ranges => { :limited => [2024] },:name => "Second Day of the Festival of Breaking the Fast", :regions => [:sa]},
+            {:mday => 11, :year_ranges => { :limited => [2024] },:name => "Third Day of the Festival of Breaking the Fast", :regions => [:sa]},
+            {:mday => 21, :year_ranges => { :limited => [2023] },:name => "Festival of Breaking the Fast", :regions => [:sa]},
             {:mday => 22, :year_ranges => { :limited => [2023] },:name => "Second Day of the Festival of Breaking the Fast", :regions => [:sa]},
             {:mday => 23, :year_ranges => { :limited => [2023] },:name => "Third Day of the Festival of Breaking the Fast", :regions => [:sa]}],
       5 => [{:mday => 2, :year_ranges => { :limited => [2022] },:name => "Festival of Breaking the Fast", :regions => [:sa]},
