@@ -108,7 +108,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
 
   test("event reminder and invitation notifications", async function (assert) {
     await visit("/");
-    await click(".d-header-icons .current-user");
+    await click(".d-header-icons .current-user button");
 
     const notifications = queryAll(
       "#quick-access-all-notifications ul li.notification a"
