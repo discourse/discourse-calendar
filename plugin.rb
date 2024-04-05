@@ -10,8 +10,6 @@
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-gem "rrule", "0.4.4", require: false
-
 require_relative "lib/calendar_settings_validator.rb"
 
 enabled_site_setting :calendar_enabled
