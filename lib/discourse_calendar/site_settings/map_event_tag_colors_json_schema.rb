@@ -22,8 +22,9 @@ module DiscourseCalendar
               },
               color: {
                 type: "string",
+                format: "color",
+                default: "#FFFFFF",
                 description: "Color associated with the tag or category",
-                pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$",
               },
             },
             required: %w[slug type color],
