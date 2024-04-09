@@ -17,7 +17,7 @@ module Holidays
       1 => [{:mday => 1, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "New Year's Day", :regions => [:gh]},
             {:mday => 7, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Constitution Day", :regions => [:gh]}],
       3 => [{:mday => 6, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Independence Day", :regions => [:gh]}],
-      4 => [{:mday => 22, :year_ranges => { :limited => [2023] },:observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Eid-ul-Fitr", :regions => [:gh]}],
+      4 => [{:function => "eid_ul_fitr(year)", :function_arguments => [:year], :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Eid-ul-Fitr", :regions => [:gh]}],
       5 => [{:mday => 1, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "May Day (Workers' Day)", :regions => [:gh]},
             {:mday => 25, :type => :informal, :name => "African Union Day", :regions => [:gh]}],
       6 => [{:mday => 28, :year_ranges => { :limited => [2023] },:name => "Eid-ul-Adha", :regions => [:gh]}],
@@ -32,7 +32,15 @@ module Holidays
 
     def self.custom_methods
       {
-          
+          "eid_ul_fitr(year)" => Proc.new { |year|
+eid_ul_fitr_dates = {
+  '2023' => Date.civil(2023, 4, 22),
+  '2024' => Date.civil(2024, 4, 11)
+}
+eid_ul_fitr_dates[year.to_s]
+},
+
+
       }
     end
   end
