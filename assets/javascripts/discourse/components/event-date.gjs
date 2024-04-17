@@ -8,7 +8,7 @@ export default class EventDate extends Component {
 
   <template>
     {{#if this.shouldRender}}
-      <div class="header-topic-title-suffix-outlet event-date-container">
+      <span class="header-topic-title-suffix-outlet event-date-container">
         {{#if this.siteSettings.use_local_event_date}}
           <span
             class="event-date event-local-date past"
@@ -26,14 +26,14 @@ export default class EventDate extends Component {
             data-ends-at={{this.eventEndedAt}}
           >
             {{#if this.isWithinDateRange}}
-              <div class="indicator"></div>
+              <span class="indicator"></span>
               <span class="text">{{this.timeRemainingContent}}</span>
             {{else}}
               {{this.relativeDateContent}}
             {{/if}}
           </span>
         {{/if}}
-      </div>
+      </span>
     {{/if}}
   </template>
 
