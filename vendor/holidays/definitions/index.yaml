@@ -11,6 +11,7 @@ defs:
   CA: ['ca.yaml', 'northamericainformal.yaml']
   CH: ['ch.yaml']
   CL: ['cl.yaml']
+  CN: ['cn.yaml']
   CO: ['co.yaml']
   CR: ['cr.yaml']
   CZ: ['cz.yaml']
