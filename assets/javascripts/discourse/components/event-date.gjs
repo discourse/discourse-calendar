@@ -40,8 +40,7 @@ export default class EventDate extends Component {
   get shouldRender() {
     return (
       this.siteSettings.discourse_post_event_enabled &&
-      this.args.topic.event_starts_at &&
-      this.args.topic.event_ends_at
+      this.args.topic.event_starts_at
     );
   }
 
@@ -50,11 +49,13 @@ export default class EventDate extends Component {
   }
 
   get eventEndedAt() {
-    return this._parsedDate(this.args.topic.event_ends_at);
+    return this.args.topic.event_ends_at
+      ? this._parsedDate(this.args.topic.event_ends_at)
+      : this.eventStartedAt;
   }
 
   get dateRange() {
-    return this.eventEndedAt
+    return this.args.topic.event_ends_at
       ? `${this._formattedDate(this.eventStartedAt)} → ${this._formattedDate(
           this.eventEndedAt
         )}`
