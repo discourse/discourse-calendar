@@ -317,6 +317,7 @@ hu:
               interested: "Érdeklődik"
           event:
             expired: "Lejárt"
+            closed: "Zárt"
             status:
               standalone:
                 title: "Önálló"

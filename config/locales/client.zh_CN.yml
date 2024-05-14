@@ -339,6 +339,7 @@ zh_CN:
               interested: "感兴趣"
           event:
             expired: "已过期"
+            closed: "已关闭"
             status:
               standalone:
                 title: "独立"

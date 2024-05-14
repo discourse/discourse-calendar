@@ -327,6 +327,7 @@ sv:
               interested: "Intresserad"
           event:
             expired: "Utgången"
+            closed: "Stängd"
             status:
               standalone:
                 title: "Fristående"

@@ -28,6 +28,7 @@ el:
           invite_user_notification: "%{username} %{description}"
         models:
           event:
+            closed: "Κλειστό"
             status:
               public:
                 title: "Δημόσια"

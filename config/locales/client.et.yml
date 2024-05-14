@@ -28,6 +28,7 @@ et:
           invite_user_notification: "%{username} %{description}"
         models:
           event:
+            closed: "Suletud"
             status:
               public:
                 title: "Avalik"

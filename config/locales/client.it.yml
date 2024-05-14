@@ -339,6 +339,7 @@ it:
               interested: "Interessato"
           event:
             expired: "Scaduto"
+            closed: "Chiuso"
             status:
               standalone:
                 title: "Evento autonomo"

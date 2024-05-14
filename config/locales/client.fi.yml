@@ -339,6 +339,7 @@ fi:
               interested: "Kiinnostunut"
           event:
             expired: "Vanhentunut"
+            closed: "Suljettu"
             status:
               standalone:
                 title: "Erillinen"

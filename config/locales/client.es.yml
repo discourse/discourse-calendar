@@ -339,6 +339,7 @@ es:
               interested: "Estoy interesado"
           event:
             expired: "Caducado"
+            closed: "Cerrado"
             status:
               standalone:
                 title: "Independiente"

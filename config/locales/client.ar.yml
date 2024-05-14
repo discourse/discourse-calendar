@@ -339,6 +339,7 @@ ar:
               interested: "مهتم"
           event:
             expired: "انتهى"
+            closed: "مغلقة"
             status:
               standalone:
                 title: "مستقل"

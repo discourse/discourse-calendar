@@ -29,6 +29,7 @@ ur:
         models:
           event:
             expired: "میعاد ختم ہوگئی"
+            closed: "بند"
             status:
               public:
                 title: "عوامی"

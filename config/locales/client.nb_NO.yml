@@ -29,6 +29,7 @@ nb_NO:
         models:
           event:
             expired: "Utløpt"
+            closed: "Lukket"
             status:
               public:
                 title: "Offentlig"

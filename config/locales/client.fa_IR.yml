@@ -323,6 +323,7 @@ fa_IR:
         models:
           event:
             expired: "منقضی شده"
+            closed: "بسته شد"
             status:
               public:
                 title: "عمومی"
@@ -333,6 +334,7 @@ fa_IR:
           add_to_calendar: "افزودن به تقویم"
           edit_event: "ویرایش رویداد"
           bulk_invite: "دعوت به تعداد بالا"
+          open_event: "رویداد را باز کنید"
         bulk_invite_modal:
           confirm: "تایید"
           title: "دعوت به تعداد بالا"
@@ -343,6 +345,7 @@ fa_IR:
             placeholder: "اختیاری"
           create_event_title: "ایجاد رویداد"
           update_event_title: "ویرایش رویداد"
+          confirm_open: "آیا برای باز کردن این رویداد مطمئن هستید؟"
           create: "ایجاد"
           update: "ذخیره"
           attach: "ایجاد رویداد"
@@ -398,6 +401,8 @@ fa_IR:
         after_event_reminder_html: "یک رویداد %{description} به پایان رسیده است"
         ongoing_event_reminder_html: "یک رویداد در حال انجام است %{description}"
       edit_reason: "رویداد به‌روز شد"
+      edit_reason_closed: "رویداد بسته شد"
+      edit_reason_opened: "رویداد باز شد"
       models:
         event:
           expired: "منقضی شده"

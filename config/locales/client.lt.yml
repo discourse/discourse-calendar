@@ -29,6 +29,7 @@ lt:
         models:
           event:
             expired: "Baigėsi galiojimo laikas"
+            closed: "Uždaryta"
             status:
               public:
                 title: "Vieša"

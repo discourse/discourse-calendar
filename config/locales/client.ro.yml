@@ -36,6 +36,7 @@ ro:
               interested: "Interesat"
           event:
             expired: "Expirate"
+            closed: "Închis"
             status:
               public:
                 title: "Public"

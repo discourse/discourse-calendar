@@ -339,6 +339,7 @@ fr:
               interested: "Intéressé(e)"
           event:
             expired: "Expiré"
+            closed: "Fermé"
             status:
               standalone:
                 title: "Indépendant"

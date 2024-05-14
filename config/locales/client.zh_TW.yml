@@ -29,6 +29,7 @@ zh_TW:
         models:
           event:
             expired: "已過期"
+            closed: "不公開"
             status:
               public:
                 title: "公開"

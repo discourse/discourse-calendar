@@ -340,6 +340,7 @@ he:
               interested: "מעניין"
           event:
             expired: "לא בתוקף"
+            closed: "סגור"
             status:
               standalone:
                 title: "עצמאי"

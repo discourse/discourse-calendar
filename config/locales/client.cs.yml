@@ -339,6 +339,7 @@ cs:
               interested: "Mám zájem"
           event:
             expired: "Platnost vypršela"
+            closed: "Zavřené"
             status:
               standalone:
                 title: "Samostatná"

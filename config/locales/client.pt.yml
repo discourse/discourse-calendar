@@ -30,6 +30,7 @@ pt:
         models:
           event:
             expired: "Expirado"
+            closed: "Fechado"
             status:
               public:
                 title: "Público"

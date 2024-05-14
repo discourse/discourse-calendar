@@ -26,6 +26,7 @@ sw:
       discourse_post_event:
         models:
           event:
+            closed: "Imefungwa"
             status:
               public:
                 title: "Umma"

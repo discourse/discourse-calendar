@@ -339,6 +339,7 @@ ja:
               interested: "興味あり"
           event:
             expired: "期限切れ"
+            closed: "閉鎖"
             status:
               standalone:
                 title: "単発"
