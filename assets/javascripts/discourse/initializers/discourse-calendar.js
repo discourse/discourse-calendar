@@ -71,7 +71,7 @@ function initializeDiscourseCalendar(api) {
       categoryEventNode.innerHTML = "";
     }
 
-    const browsedCategory = Category.findBySlugPathWithID(url);
+    const browsedCategory = Category.findBySlugPathWithID(url.split("?")[0]);
     if (!browsedCategory) {
       return;
     }
