@@ -152,12 +152,58 @@ export default class PostEventBuilder extends Component {
       markdownParams.push(`${key}="${value}"`);
     });
 
+    // Check if we are from toolbar or composer
+    if (this.args.model.toolbarEvent) {
     this.args.model.toolbarEvent.addText(
       `[event ${markdownParams.join(" ")}]\n[/event]`
     );
+  } else {
+    this.insertTextIntoComposer(
+      `[event ${markdownParams.join(" ")}]\n[/event]`
+    );
+  }
     this.args.closeModal();
   }
 
+  insertTextIntoComposer(text) {
+    const composerController = this.args.model.api.container.lookup('controller:composer');
+    if (composerController && composerController.model) {
+      const composerModel = composerController.get('model');
+      const currentText = composerModel.get('reply') || '';
+      composerModel.set('reply', `${text}\n${currentText}`);
+      const textarea = document.querySelector('.d-editor-input');
+      textarea.focus();
+    } else {
+      console.error('Composer controller or model not found');
+    }
+  }
+
+  // to insert text at the current cursor position
+  // insertTextIntoComposer(text) {
+  //   const composerController = this.args.model.api.container.lookup('controller:composer');
+  //   if (composerController && composerController.model) {
+  //     const composerModel = composerController.get('model');
+  //     const textarea = document.querySelector('.d-editor-input');
+  
+  //     if (textarea) {
+  //       const startPos = textarea.selectionStart;
+  //       const endPos = textarea.selectionEnd;
+  //       const currentText = composerModel.get('reply') || '';
+  
+  //       const newText = `${currentText.substring(0, startPos)}${text}${currentText.substring(endPos)}`;
+  //       composerModel.set('reply', newText);
+  
+  //       // Réfocaliser la zone de texte et repositionner le curseur
+  //       textarea.focus();
+  //       textarea.setSelectionRange(startPos + text.length, startPos + text.length);
+  //     } else {
+  //       console.error('Textarea not found');
+  //     }
+  //   } else {
+  //     console.error('Composer controller or model not found');
+  //   }
+  // }
+  
   @action
   async updateEvent() {
     try {

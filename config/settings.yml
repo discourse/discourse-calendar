@@ -19,6 +19,11 @@ discourse_calendar:
     default: ""
     client: true
     validator: "CalendarSettingsValidator"
+  calendar_categories_button:
+    client: true
+    default: ""
+    type: list
+    list_type: compact
   calendar_categories:
     type: list
     list_type: simple
