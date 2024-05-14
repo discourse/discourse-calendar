@@ -27,6 +27,7 @@ th:
           invite_user_notification: "%{username}%{description}"
         models:
           event:
+            closed: "ปิด"
             status:
               public:
                 title: "สาธารณะ"

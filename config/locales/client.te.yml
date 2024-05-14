@@ -21,6 +21,7 @@ te:
       discourse_post_event:
         models:
           event:
+            closed: "మూసివేయబడినవి"
             status:
               public:
                 title: "బహిరంగం"

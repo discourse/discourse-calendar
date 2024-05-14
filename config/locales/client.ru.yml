@@ -339,6 +339,7 @@ ru:
               interested: "Интересно"
           event:
             expired: "Истекший срок"
+            closed: "Закрытая"
             status:
               standalone:
                 title: "Обособленное"

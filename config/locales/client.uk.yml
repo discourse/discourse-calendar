@@ -183,6 +183,7 @@ uk:
           in_mh: "Індія (in_mh)"
           in_rj: "Індія (in_rj)"
           in_tn: "Індія (in_tn)"
+          in_ka: "Індія (in_ka)"
           is: "Ісландія"
           it_bl: "Італія (it_bl)"
           it_fi: "Італія (it_fi)"
@@ -339,6 +340,7 @@ uk:
               interested: "Цікавить"
           event:
             expired: "Термін дії закінчився"
+            closed: "Закриті"
             status:
               standalone:
                 title: "Автономна"
@@ -365,6 +367,7 @@ uk:
           created_by: "Ким створено"
           bulk_invite: "Масове запрошення"
           close_event: "Закрити подію"
+          open_event: "Відкрити подію"
         invitees_modal:
           title_invited: "Список користувачів RSVPed"
           title_participated: "Список користувачів, які брали участь"
@@ -393,6 +396,7 @@ uk:
           update_event_title: "Редагувати подію"
           confirm_delete: "Ви впевнені, що хочете видалити цю подію?"
           confirm_close: "Ви впевнені, що хочете закрити цю подію?"
+          confirm_open: "Ви впевнені, що хочете відкрити цю подію?"
           create: "Створити"
           update: "Зберегти"
           attach: "Створити подію"
@@ -467,6 +471,8 @@ uk:
       preview:
         more_than_one_event: "Ви не можете мати більше однієї події."
       edit_reason: "Подію оновлено"
+      edit_reason_closed: "Подія закрита"
+      edit_reason_opened: "Подія відкрита"
       topic_title:
         starts_at: "Подія розпочинається: %{date}"
         ended_at: "Подія закінчилася: %{date}"

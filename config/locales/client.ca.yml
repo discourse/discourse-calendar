@@ -28,6 +28,7 @@ ca:
           invite_user_notification: "%{username} %{description}"
         models:
           event:
+            closed: "Tancat"
             status:
               public:
                 title: "Públic"

@@ -23,6 +23,7 @@ be:
       discourse_post_event:
         models:
           event:
+            closed: "Закрыта"
             status:
               public:
                 title: "грамадскага"

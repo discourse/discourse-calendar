@@ -311,6 +311,7 @@ da:
               interested: "Interesseret"
           event:
             expired: "Udløbet"
+            closed: "Lukket"
             status:
               standalone:
                 title: "Enkeltstående"

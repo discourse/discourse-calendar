@@ -307,6 +307,7 @@ sl:
               interested: "Mogoče pridem"
           event:
             expired: "Poteklo"
+            closed: "Zaprto"
             status:
               standalone:
                 title: "Samostojni"

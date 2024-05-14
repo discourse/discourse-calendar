@@ -339,6 +339,7 @@ pt_BR:
               interested: "Interessado"
           event:
             expired: "Expirou"
+            closed: "Fechados"
             status:
               standalone:
                 title: "Independente"

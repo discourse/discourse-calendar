@@ -29,6 +29,7 @@ bg:
         models:
           event:
             expired: "Изтекъл срок"
+            closed: "Затворена"
             status:
               public:
                 title: "Публични"

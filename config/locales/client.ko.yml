@@ -96,6 +96,7 @@ ko:
               interested: "관심"
           event:
             expired: "만료됨"
+            closed: "닫힘"
             status:
               public:
                 title: "공개"
