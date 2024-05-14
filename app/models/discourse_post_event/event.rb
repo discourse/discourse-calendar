@@ -230,9 +230,9 @@ module DiscoursePostEvent
     end
 
     def ongoing?
-      (
-        self.ends_at ? (self.starts_at..self.ends_at).cover?(Time.now) : self.starts_at >= Time.now
-      ) && !self.expired?
+      return false if self.closed || self.expired?
+      finishes_at = self.ends_at || self.starts_at.end_of_day
+      (self.starts_at..finishes_at).cover?(Time.now)
     end
 
     def self.statuses
@@ -284,16 +284,13 @@ module DiscoursePostEvent
     end
 
     def can_user_update_attendance(user)
-      !self.expired? &&
+      return false if self.closed || self.expired?
+      return true if self.public?
+
+      self.private? &&
         (
-          self.public? ||
-            (
-              self.private? &&
-                (
-                  self.invitees.exists?(user_id: user.id) ||
-                    (user.groups.pluck(:name) & self.raw_invitees).any?
-                )
-            )
+          self.invitees.exists?(user_id: user.id) ||
+            (user.groups.pluck(:name) & self.raw_invitees).any?
         )
     end
 
@@ -315,18 +312,11 @@ module DiscoursePostEvent
           url: event_params[:url],
           recurrence: event_params[:recurrence],
           timezone: event_params[:timezone],
-          status:
-            (
-              if event_params[:status].present?
-                Event.statuses[event_params[:status].to_sym]
-              else
-                event.status
-              end
-            ),
+          status: Event.statuses[event_params[:status]&.to_sym] || event.status,
           reminders: event_params[:reminders],
-          raw_invitees:
-            event_params[:"allowed-groups"] ? event_params[:"allowed-groups"].split(",") : nil,
+          raw_invitees: event_params[:"allowed-groups"]&.split(","),
           minimal: event_params[:minimal],
+          closed: event_params[:closed] || false,
         }
 
         params[:custom_fields] = {}
@@ -417,4 +407,5 @@ end
 #  recurrence         :string
 #  timezone           :string
 #  minimal            :boolean          default(FALSE), not null
+#  closed             :boolean          default(FALSE), not null
 #

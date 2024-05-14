@@ -337,6 +337,7 @@ en:
               interested: "Interested"
           event:
             expired: "Expired"
+            closed: "Closed"
             status:
               standalone:
                 title: "Standalone"
@@ -361,6 +362,7 @@ en:
           created_by: "Created by"
           bulk_invite: "Bulk Invite"
           close_event: "Close event"
+          open_event: "Open event"
         invitees_modal:
           title_invited: "List of RSVPed users"
           title_participated: "List of users who participated"
@@ -389,6 +391,7 @@ en:
           update_event_title: "Edit Event"
           confirm_delete: "Are you sure you want to delete this event?"
           confirm_close: "Are you sure you want to close this event?"
+          confirm_open: "Are you sure you want to open this event?"
           create: "Create"
           update: "Save"
           attach: "Create event"
@@ -466,6 +469,8 @@ en:
       preview:
         more_than_one_event: "You can’t have more than one event."
       edit_reason: "Event updated"
+      edit_reason_closed: "Event closed"
+      edit_reason_opened: "Event opened"
       topic_title:
         starts_at: "Event will start: %{date}"
         ended_at: "Event ended: %{date}"

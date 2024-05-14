@@ -2,33 +2,34 @@
 
 module DiscoursePostEvent
   class EventSerializer < ApplicationSerializer
-    attributes :id
-    attributes :creator
-    attributes :sample_invitees
-    attributes :watching_invitee
-    attributes :starts_at
-    attributes :ends_at
-    attributes :timezone
-    attributes :stats
-    attributes :status
-    attributes :raw_invitees
-    attributes :post
-    attributes :name
     attributes :can_act_on_discourse_post_event
     attributes :can_update_attendance
+    attributes :category_id
+    attributes :creator
+    attributes :custom_fields
+    attributes :ends_at
+    attributes :id
+    attributes :is_closed
     attributes :is_expired
     attributes :is_ongoing
-    attributes :should_display_invitees
-    attributes :url
-    attributes :custom_fields
-    attributes :is_public
     attributes :is_private
+    attributes :is_public
     attributes :is_standalone
-    attributes :reminders
-    attributes :recurrence
     attributes :minimal
-    attributes :category_id
+    attributes :name
+    attributes :post
+    attributes :raw_invitees
+    attributes :recurrence
     attributes :recurrence_rule
+    attributes :reminders
+    attributes :sample_invitees
+    attributes :should_display_invitees
+    attributes :starts_at
+    attributes :stats
+    attributes :status
+    attributes :timezone
+    attributes :url
+    attributes :watching_invitee
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)
@@ -55,15 +56,19 @@ module DiscoursePostEvent
     end
 
     def is_public
-      object.status === Event.statuses[:public]
+      object.public?
     end
 
     def is_private
-      object.status === Event.statuses[:private]
+      object.private?
     end
 
     def is_standalone
-      object.status === Event.statuses[:standalone]
+      object.standalone?
+    end
+
+    def is_closed
+      object.closed
     end
 
     def status
