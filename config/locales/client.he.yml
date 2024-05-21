@@ -367,6 +367,7 @@ he:
           created_by: "נוצר על ידי"
           bulk_invite: "הזמנה מרוכזת"
           close_event: "סגירת אירוע"
+          open_event: "פתיחת אירוע?"
         invitees_modal:
           title_invited: "רשימת המשתמשים שענו להזמנה"
           title_participated: "רשימת משתמשים שהשתתפו"
@@ -395,6 +396,7 @@ he:
           update_event_title: "עריכת אירוע"
           confirm_delete: "למחוק את האירוע הזה?"
           confirm_close: "לסגור את האירוע הזה?"
+          confirm_open: "לפתוח את האירוע הזה?"
           create: "יצירה"
           update: "שמירה"
           attach: "יצירת אירוע"
@@ -469,6 +471,8 @@ he:
       preview:
         more_than_one_event: "לא יכול להיות לך יותר מאירוע אחד."
       edit_reason: "האירוע עודכן"
+      edit_reason_closed: "אירוע נסגר"
+      edit_reason_opened: "אירוע נפתח"
       topic_title:
         starts_at: "האירוע יתחיל: %{date}"
         ended_at: "האירוע הסתיים: %{date}"
