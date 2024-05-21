@@ -24,11 +24,5 @@ export function colorToHex(color) {
 
 export function contrastColor(color) {
   const luminance = 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2];
-  const multiplier = luminance >= 128 ? 0.25 : 4.0;
-
-  return [
-    Math.min(Math.max(multiplier * color[0], 0), 255),
-    Math.min(Math.max(multiplier * color[1], 0), 255),
-    Math.min(Math.max(multiplier * color[2], 0), 255),
-  ];
+  return luminance / 255 >= 0.5 ? "#000d" : "#fffd";
 }

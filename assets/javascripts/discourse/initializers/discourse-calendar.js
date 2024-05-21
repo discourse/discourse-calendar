@@ -601,7 +601,7 @@ function initializeDiscourseCalendar(api) {
 
       event.title = detail.username;
       event.backgroundColor = colorToHex(color);
-      event.textColor = colorToHex(contrastColor(color));
+      event.textColor = contrastColor(color);
     }
 
     let popupText = detail.message.slice(0, 100);
