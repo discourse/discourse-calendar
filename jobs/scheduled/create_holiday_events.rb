@@ -8,11 +8,11 @@ module Jobs
       return if !SiteSetting.calendar_enabled
       return if !SiteSetting.calendar_automatic_holidays_enabled
 
-      topic_id = SiteSetting.holiday_calendar_topic_id.presence
-
-      return if !topic_id
+      return unless topic_id = SiteSetting.holiday_calendar_topic_id.presence
 
       require "holidays" if !defined?(Holidays)
+
+      today = Date.today
 
       regions_and_user_ids = Hash.new { |h, k| h[k] = [] }
 
@@ -51,13 +51,23 @@ module Jobs
           .to_h
 
       # Remove holidays for deactivated/suspended/silenced users
-      CalendarEvent.where(post_id: nil).where.not(user_id: usernames.keys).delete_all
+      CalendarEvent.where(post_id: nil).where.not(user_id: usernames.keys).destroy_all
+
+      # Remove future holidays when users changed their region
+      CalendarEvent
+        .joins(user: :_custom_fields)
+        .where(post_id: nil)
+        .where("start_date > ?", today)
+        .where("user_custom_fields.name = ?", ::DiscourseCalendar::REGION_CUSTOM_FIELD)
+        .where("LENGTH(COALESCE(user_custom_fields.value, '')) > 0")
+        .where("user_custom_fields.value != calendar_events.region")
+        .destroy_all
 
       regions_and_user_ids.each do |region, user_ids|
         DiscourseCalendar::Holiday
           .find_holidays_for(
             region_code: region,
-            start_date: Date.today,
+            start_date: today,
             end_date: 6.months.from_now,
             show_holiday_observed_on_dates: true,
           )
@@ -66,14 +76,12 @@ module Jobs
             user_ids.each do |user_id|
               next unless usernames[user_id]
 
-              date =
-                if tz = timezones[user_id]
-                  datetime = holiday[:date].in_time_zone(tz)
-                  datetime = datetime.change(hour_adjustment) if hour_adjustment
-                  datetime
-                else
-                  holiday[:date]
-                end
+              date = holiday[:date]
+
+              if tz = timezones[user_id]
+                date = holiday[:date].in_time_zone(tz)
+                date = date.change(hour_adjustment) if hour_adjustment
+              end
 
               event =
                 CalendarEvent
