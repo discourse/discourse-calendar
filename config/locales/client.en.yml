@@ -38,6 +38,7 @@ en:
         none: "None"
         use_current_region: "Use Current Region"
         names:
+          ae: "United Arab Emirates"
           ar: "Argentina"
           at: "Austria"
           au_act: "Australia (au_act)"
