@@ -2,6 +2,7 @@
 // Update it by running `rake javascript:update_constants`
 
 export const HOLIDAY_REGIONS = [
+  "ae",
   "ar",
   "at",
   "au",
@@ -381,6 +382,7 @@ export const TIME_ZONE_TO_REGION = {
   "Asia/Bangkok": "th",
   "Asia/Barnaul": "ru",
   "Asia/Chita": "ru",
+  "Asia/Dubai": "ae",
   "Asia/Hong_Kong": "hk",
   "Asia/Irkutsk": "ru",
   "Asia/Jakarta": "id",
