@@ -8,7 +8,7 @@
 # url: https://github.com/discourse/discourse-calendar
 
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
-$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+$LOAD_PATH.unshift(libdir) if $LOAD_PATH.exclude?(libdir)
 
 require_relative "lib/calendar_settings_validator.rb"
 
@@ -299,7 +299,7 @@ after_initialize do
   register_user_custom_field_type(DiscourseCalendar::REGION_CUSTOM_FIELD, :string, max_length: 40)
 
   on(:site_setting_changed) do |name, old_value, new_value|
-    next unless %i[all_day_event_start_time all_day_event_end_time].include? name
+    next if %i[all_day_event_start_time all_day_event_end_time].exclude? name
 
     Post
       .where(id: CalendarEvent.select(:post_id).distinct)
