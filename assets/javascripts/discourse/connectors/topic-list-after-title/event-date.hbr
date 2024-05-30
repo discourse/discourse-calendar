@@ -1,5 +1,5 @@
 {{#if context.siteSettings.discourse_post_event_enabled}}
     {{#if context.topic.event_starts_at}}
-        {{~raw "event-date-container" topic=context.topic}}
+        {{~raw "event-date-container" topic=context.topic~}}
     {{/if}}
 {{/if}}
