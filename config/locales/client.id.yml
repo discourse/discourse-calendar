@@ -105,11 +105,13 @@ id:
             private:
               title: "Pribadi"
       bulk_invite_modal:
+        confirm: "konfirmasi"
         success: "File telah sukses diunggah, anda akan mendapat pesan pemberitahuan saat proses telah selesai."
         error: "Maaf, file harus dalam format CSV"
       builder_modal:
         custom_fields:
           placeholder: "Opsional"
+        create: "Buat"
         update: "Simpan"
         timezone:
           label: Zona Waktu

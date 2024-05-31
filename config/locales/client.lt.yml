@@ -9,6 +9,7 @@ lt:
     discourse_automation:
       triggerables:
         event_started:
+          title: Įvykis prasidėjo
           fields:
             topic_id:
               label: Temos ID

@@ -81,9 +81,10 @@ cs:
         models:
           event:
             only_one_event: "Příspěvek může obsahovat jen jednu událost."
-            only_group: "Událost přijímá pouze názvy skupin."
             must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
             raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
+            raw_invitees:
+              only_group: "Událost přijímá pouze názvy skupin."
             ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
             start_must_be_present_and_a_valid_date: "Událost vyžaduje platné datum začátku."
             end_must_be_a_valid_date: "Datum konce musí být platné datum."

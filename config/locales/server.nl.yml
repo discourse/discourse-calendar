@@ -81,9 +81,10 @@ nl:
         models:
           event:
             only_one_event: "Een bericht kan slechts één evenement hebben."
-            only_group: "Een evenement accepteert alleen groepsnamen."
             must_be_in_first_post: "Een evenement kan alleen in het eerste bericht van een topic staan."
             raw_invitees_length: "Een evenement is beperkt tot %{count} gebruikers/groepen."
+            raw_invitees:
+              only_group: "Een evenement accepteert alleen groepsnamen."
             ends_at_before_starts_at: "Een evenement kan niet eindigen voordat het begint."
             start_must_be_present_and_a_valid_date: "Een evenement vereist een geldige begindatum."
             end_must_be_a_valid_date: "Einddatum moet een geldige datum zijn."

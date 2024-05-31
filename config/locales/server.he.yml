@@ -81,9 +81,10 @@ he:
         models:
           event:
             only_one_event: "לפוסט יכול להיות רק אירוע אחד."
-            only_group: "אירוע מקבל רק שמות קבוצות."
             must_be_in_first_post: "אירוע יכול להיות רק בפוסט הראשון של נושא."
             raw_invitees_length: "אירוע מוגבל ל־%{count} משתמשים/קבוצות."
+            raw_invitees:
+              only_group: "אירוע מקבל רק שמות קבוצות."
             ends_at_before_starts_at: "אירוע לא יכול להסתיים לפני שהתחיל."
             start_must_be_present_and_a_valid_date: "לאירוע נחוץ תאריך התחלה תקף."
             end_must_be_a_valid_date: "תאריך הסיום חייב להיות תאריך תקף."

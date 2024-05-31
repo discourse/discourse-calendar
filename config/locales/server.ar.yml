@@ -81,9 +81,10 @@ ar:
         models:
           event:
             only_one_event: "لا يمكن أن يتضمَّن المنشور أكثر من حدثٍ واحد."
-            only_group: "لا يقبل الحدث إلا أسماء المجموعات."
             must_be_in_first_post: "لا يمكن إلا للمنشور الأول في موضوع أن يتضمَّن حدثًا."
             raw_invitees_length: "يقتصر الحدث على %{count} من المستخدمين/المجموعات."
+            raw_invitees:
+              only_group: "لا يقبل الحدث إلا أسماء المجموعات."
             ends_at_before_starts_at: "لا يمكن أن ينتهي الحدث قبل أن يبدأ."
             start_must_be_present_and_a_valid_date: "يتطلب الحدث تاريخ بدء صالحًا."
             end_must_be_a_valid_date: "يجب أن يكون تاريخ الانتهاء تاريخًا صالحًا."

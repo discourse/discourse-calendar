@@ -54,6 +54,8 @@ et:
             periods:
               before: "enne"
               after: "pärast"
+          recurrence:
+            every_day: "Iga päev"
           url:
             label: "URL"
             placeholder: "Valikuline"
@@ -95,6 +97,8 @@ et:
           periods:
             before: "enne"
             after: "pärast"
+        recurrence:
+          every_day: "Iga päev"
         url:
           label: "URL"
           placeholder: "Valikuline"

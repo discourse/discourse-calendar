@@ -455,10 +455,12 @@ pl_PL:
       group_availability: "Dostępność %{group}"
     discourse_post_event:
       notifications:
+        invite_user_predefined_attendance_notification: "%{username} automatycznie ustawił Twoją obecność i zaprosił Cię do"
         before_event_reminder: "Wydarzenie wkrótce się rozpocznie"
         after_event_reminder: "Wydarzenie zakończyło się"
         ongoing_event_reminder: "Wydarzenie trwa"
         invite_user_notification: "%{username} %{description}"
+        invite_user_predefined_attendance_notification_html: "%{username} automatycznie ustawił Twoją obecność i zaprosił Cię do %{description}"
         before_event_reminder_html: "Wydarzenie wkrótce się rozpocznie %{description}"
         after_event_reminder_html: "Wydarzenie zakończyło się %{description}"
         ongoing_event_reminder_html: "Wydarzenie trwa  %{description}"
@@ -528,6 +530,7 @@ pl_PL:
         custom_fields:
           label: "Pola niestandardowe"
           placeholder: "Opcjonalnie"
+          description: "Dozwolone pola niestandardowe są zdefiniowane w ustawieniach witryny. Pola niestandardowe służą do przesyłania danych do innych wtyczek."
         create_event_title: "Utwórz wydarzenie"
         update_event_title: "Edytuj wydarzenie"
         confirm_delete: "Czy na pewno chcesz usunąć to wydarzenie?"

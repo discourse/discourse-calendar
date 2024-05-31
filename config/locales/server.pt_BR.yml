@@ -81,9 +81,10 @@ pt_BR:
         models:
           event:
             only_one_event: "Uma postagem só pode ter um evento."
-            only_group: "Um evento aceita apenas nomes de grupos."
             must_be_in_first_post: "Um evento só pode estar na primeira postagem de um tópico."
             raw_invitees_length: "Um evento é limitado a %{count} usuários(as)/grupos."
+            raw_invitees:
+              only_group: "Um evento aceita apenas nomes de grupos."
             ends_at_before_starts_at: "Um evento não pode terminar antes de começar."
             start_must_be_present_and_a_valid_date: "Um evento requer uma data de início válida."
             end_must_be_a_valid_date: "A data final deve ser uma data válida."

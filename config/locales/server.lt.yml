@@ -30,7 +30,8 @@ lt:
           error: "Įkeliant failą įvyko klaida. Pabandykite dar kartą vėliau."
         models:
           event:
-            only_group: "Įvykiui priimami tik grupių pavadinimai."
+            raw_invitees:
+              only_group: "Įvykiui priimami tik grupių pavadinimai."
             invalid_timezone: "Laiko juosta neatpažinta."
             acting_user_not_allowed_to_act_on_this_event: "Dabartiniam naudotojui neleidžiama veikti su šiuo įvykiu."
             invalid_allowed_groups: "Netinkamos leidžiamos grupės."

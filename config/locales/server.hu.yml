@@ -51,9 +51,10 @@ hu:
         models:
           event:
             only_one_event: "Egy bejegyzésnek csak egy eseménye lehet."
-            only_group: "Egy esemény csak csoportneveket fogad el."
             must_be_in_first_post: "Esemény csak a téma első bejegyzésében lehet."
             raw_invitees_length: "Egy esemény %{count} felhasználóra/csoportra korlátozódik."
+            raw_invitees:
+              only_group: "Egy esemény csak csoportneveket fogad el."
             ends_at_before_starts_at: "Egy esemény nem érhet véget, mielőtt elkezdődne."
             start_must_be_present_and_a_valid_date: "Az eseményhez érvényes kezdési dátum szükséges."
             end_must_be_a_valid_date: "A befejezés dátumának érvényes dátumnak kell lennie."
