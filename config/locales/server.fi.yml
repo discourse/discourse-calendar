@@ -81,9 +81,10 @@ fi:
         models:
           event:
             only_one_event: "Viestissä voi olla vain yksi tapahtuma."
-            only_group: "Tapahtuma hyväksyy vain ryhmien nimiä."
             must_be_in_first_post: "Tapahtuma voi olla vain ketjun ensimmäisessä viestissä."
             raw_invitees_length: "Tapahtuma on rajoitettu %{count} käyttäjään/ryhmään."
+            raw_invitees:
+              only_group: "Tapahtuma hyväksyy vain ryhmien nimiä."
             ends_at_before_starts_at: "Tapahtuma ei voi päättyä ennen kuin se alkaa."
             start_must_be_present_and_a_valid_date: "Tapahtuma vaatii kelvollisen alkamispäivän."
             end_must_be_a_valid_date: "Päättymispäivän täytyy olla kelvollinen päivämäärä."

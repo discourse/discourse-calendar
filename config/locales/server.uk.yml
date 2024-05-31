@@ -81,9 +81,10 @@ uk:
         models:
           event:
             only_one_event: "У дописі може бути лише одна подія."
-            only_group: "Подія приймає лише назви груп."
             must_be_in_first_post: "Подія може бути лише в першому дописі теми."
             raw_invitees_length: "Подія обмежена %{count} користувачами/групами."
+            raw_invitees:
+              only_group: "Подія приймає лише назви груп."
             ends_at_before_starts_at: "Подія не може закінчитися до початку."
             start_must_be_present_and_a_valid_date: "Подія вимагає дійсної дати початку."
             end_must_be_a_valid_date: "Дата закінчення повинна бути дійсною датою."
