@@ -7,9 +7,9 @@ export default class EventDate extends Component {
   @service siteSettings;
 
   <template>
-    {{#if this.shouldRender}}
+    {{~#if this.shouldRender~}}
       <span class="header-topic-title-suffix-outlet event-date-container">
-        {{#if this.siteSettings.use_local_event_date}}
+        {{~#if this.siteSettings.use_local_event_date~}}
           <span
             class="event-date event-local-date past"
             title={{this.dateRange}}
@@ -25,16 +25,16 @@ export default class EventDate extends Component {
             data-starts-at={{this.eventStartedAt}}
             data-ends-at={{this.eventEndedAt}}
           >
-            {{#if this.isWithinDateRange}}
+            {{~#if this.isWithinDateRange~}}
               <span class="indicator"></span>
               <span class="text">{{this.timeRemainingContent}}</span>
             {{else}}
               {{this.relativeDateContent}}
-            {{/if}}
+            {{~/if~}}
           </span>
-        {{/if}}
+        {{~/if~}}
       </span>
-    {{/if}}
+    {{~/if~}}
   </template>
 
   get shouldRender() {
