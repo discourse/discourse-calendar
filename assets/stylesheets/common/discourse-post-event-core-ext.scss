@@ -6,10 +6,12 @@
   }
 }
 
-.link-top-line {
+.main-link {
   .event-date-container-wrapper {
     // prevents new dot from breaking separately onto next line
     white-space: nowrap;
+    // hack to hide extra whitespace in event-relative-date
+    margin-right: -0.25em;
   }
 }
 
