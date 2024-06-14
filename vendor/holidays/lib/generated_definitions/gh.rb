@@ -20,7 +20,7 @@ module Holidays
       4 => [{:function => "eid_ul_fitr(year)", :function_arguments => [:year], :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Eid-ul-Fitr", :regions => [:gh]}],
       5 => [{:mday => 1, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "May Day (Workers' Day)", :regions => [:gh]},
             {:mday => 25, :type => :informal, :name => "African Union Day", :regions => [:gh]}],
-      6 => [{:mday => 28, :year_ranges => { :limited => [2023] },:name => "Eid-ul-Adha", :regions => [:gh]}],
+      6 => [{:function => "eid_ul_adha(year)", :function_arguments => [:year], :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Eid-ul-Adha", :regions => [:gh]}],
       7 => [{:mday => 1, :type => :informal, :name => "Republic Day", :regions => [:gh]}],
       8 => [{:mday => 4, :year_ranges => { :from => 2019 },:observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Founders' Day", :regions => [:gh]}],
       9 => [{:mday => 21, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Kwame Nkrumah Memorial Day", :regions => [:gh]}],
@@ -38,6 +38,14 @@ eid_ul_fitr_dates = {
   '2024' => Date.civil(2024, 4, 11)
 }
 eid_ul_fitr_dates[year.to_s]
+},
+
+"eid_ul_adha(year)" => Proc.new { |year|
+eid_ul_adha_dates = {
+  '2023' => Date.civil(2024, 6, 28)
+  '2024' => Date.civil(2024, 6, 16)
+}
+eid_ul_adha_dates[year.to_s]
 },
 
 
