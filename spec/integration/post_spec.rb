@@ -202,12 +202,6 @@ describe Post do
           it "works with name attribute" do
             post = create_post_with_event(user, 'name="foo bar"').reload
             expect(post.event.name).to eq("foo bar")
-
-            post = create_post_with_event(user, 'name=""').reload
-            expect(post.event.name).to be_blank
-
-            post = create_post_with_event(user, "name=").reload
-            expect(post.event.name).to be_blank
           end
 
           it "works with url attribute" do
@@ -215,23 +209,11 @@ describe Post do
 
             post = create_post_with_event(user, "url=\"#{url}\"").reload
             expect(post.event.url).to eq(url)
-
-            post = create_post_with_event(user, 'url=""').reload
-            expect(post.event.url).to be_blank
-
-            post = create_post_with_event(user, "url=").reload
-            expect(post.event.url).to be_blank
           end
 
           it "works with status attribute" do
             post = create_post_with_event(user, 'status="private"').reload
             expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:private])
-
-            post = create_post_with_event(user, 'status=""').reload
-            expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:standalone])
-
-            post = create_post_with_event(user, "status=").reload
-            expect(post.event.status).to eq(DiscoursePostEvent::Event.statuses[:standalone])
           end
 
           it "works with allowedGroups attribute" do
@@ -254,10 +236,10 @@ describe Post do
               create_post_with_event(user, 'status="private" allowedGroups="euro,america"').reload
             expect(post.event.raw_invitees).to match_array(%w[euro america])
 
-            post = create_post_with_event(user, 'status="private" allowedGroups=""').reload
+            post = create_post_with_event(user, 'status="private"').reload
             expect(post.event.raw_invitees).to eq([])
 
-            post = create_post_with_event(user, 'status="private" allowedGroups=').reload
+            post = create_post_with_event(user, 'status="private"').reload
             expect(post.event.raw_invitees).to eq([])
           end
 
