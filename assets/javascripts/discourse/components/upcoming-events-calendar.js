@@ -4,10 +4,10 @@ import { Promise } from "rsvp";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
+import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
-import I18n from "I18n";
 
 function getCurrentBcp47Locale() {
   return I18n.currentLocale().replace("_", "-");
