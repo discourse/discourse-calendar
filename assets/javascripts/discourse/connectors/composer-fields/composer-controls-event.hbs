@@ -1,0 +1,8 @@
+{{#if (or
+  (eq siteSettings.calendar_categories_button.length 0)
+  (includes siteSettings.calendar_categories_button (or model.category.parent_category_id model.category.id))
+)}}
+  {{#if (or (not model.post) (eq model.post.post_number 1))}}
+    {{add-event-button class="add-event-button" model=model}}
+  {{/if}}
+{{/if}}
