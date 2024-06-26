@@ -4,9 +4,25 @@ import { Promise } from "rsvp";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
+import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
+
+function getCurrentBcp47Locale() {
+  return I18n.currentLocale().replace("_", "-");
+}
+
+function getCalendarButtonsText() {
+  return {
+    today: I18n.t("discourse_calendar.toolbar_button.today"),
+    month: I18n.t("discourse_calendar.toolbar_button.month"),
+    week: I18n.t("discourse_calendar.toolbar_button.week"),
+    day: I18n.t("discourse_calendar.toolbar_button.day"),
+    list: I18n.t("discourse_calendar.toolbar_button.list"),
+  };
+}
+
 
 export default Component.extend({
   tagName: "",
@@ -95,6 +111,8 @@ export default Component.extend({
         eventMouseLeave: function () {
           destroyPopover();
         },
+        locale: getCurrentBcp47Locale(),
+        buttonText: getCalendarButtonsText(),
       });
       this._calendar = fullCalendar;
 
