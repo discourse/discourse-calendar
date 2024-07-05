@@ -42,7 +42,7 @@ eid_ul_fitr_dates[year.to_s]
 
 "eid_ul_adha(year)" => Proc.new { |year|
 eid_ul_adha_dates = {
-  '2023' => Date.civil(2024, 6, 28)
+  '2023' => Date.civil(2024, 6, 28),
   '2024' => Date.civil(2024, 6, 16)
 }
 eid_ul_adha_dates[year.to_s]
