@@ -197,10 +197,9 @@ a.holiday {
 }
 
 .group-timezones {
-  display: flex;
+  display: grid;
   width: 100%;
   box-sizing: border-box;
-  flex-direction: column;
 
   &[data-size="auto"],
   &.auto {
@@ -383,8 +382,9 @@ a.holiday {
         &.on-holiday::after {
           content: "📅";
           position: absolute;
-          bottom: -8px;
-          left: 14px;
+          bottom: -0.15em;
+          left: 1em;
+          font-size: var(--font-down-2);
         }
       }
     }
