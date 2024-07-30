@@ -58,7 +58,7 @@ de:
     events_calendar_categories: "Zeige einen Ereigniskalender oben in einer Kategorie an."
     sort_categories_by_event_start_date_enabled: "Aktiviere die Sortierung der Kategoriethemen nach dem Startdatum des Ereignisses."
     disable_resorting_on_categories_enabled: "Erlaube Kategorien, die Möglichkeit der Sortierung nach Ereigniskategorie für Benutzer zu deaktivieren."
-    calendar_automatic_holidays_enabled: "Feiertagsstatus automatisch basierend auf der Region eines Benutzers festlegen (Hinweis: Sie können bestimmte automatische Feiertage in den Plug-in-Einstellungen deaktivieren)"
+    calendar_automatic_holidays_enabled: "Feiertagsstatus automatisch basierend auf der Region eines Benutzers festlegen (Hinweis: Du kannst bestimmte automatische Feiertage in den Plug-in-Einstellungen deaktivieren)"
     sidebar_show_upcoming_events: "Zeige den Link für anstehende Ereignisse in der Seitenleiste unter „Mehr“."
     include_expired_events_on_calendar: "Schließe vergangene/abgelaufene Ereignisse in die Ansichten „Kategoriekalender“ und „Anstehende Ereignisse“ ein."
   discourse_calendar:

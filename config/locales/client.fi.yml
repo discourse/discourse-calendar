@@ -44,6 +44,7 @@ fi:
         none: "Ei valittu"
         use_current_region: "Käytä nykyistä aluetta"
         names:
+          ae: "Yhdistyneet arabiemiirikunnat"
           ar: "Argentiina"
           at: "Itävalta"
           au_act: "Australia (au_act)"
@@ -183,6 +184,7 @@ fi:
           in_mh: "Intia (in_mh)"
           in_rj: "Intia (in_rj)"
           in_tn: "Intia (in_tn)"
+          in_ka: "Intia (in_ka)"
           is: "Islanti"
           it_bl: "Italia (it_bl)"
           it_fi: "Italia (it_fi)"
@@ -364,6 +366,7 @@ fi:
           created_by: "Luonut"
           bulk_invite: "Joukkokutsu"
           close_event: "Sulje tapahtuma"
+          open_event: "Avaa tapahtuma"
         invitees_modal:
           title_invited: "Vastanneiden käyttäjien luettelo"
           title_participated: "Osallistuneiden käyttäjien luettelo"
@@ -392,6 +395,7 @@ fi:
           update_event_title: "Muokkaa tapahtumaa"
           confirm_delete: "Haluatko varmasti poistaa tämän tapahtuman?"
           confirm_close: "Haluatko varmasti sulkea tämän tapahtuman?"
+          confirm_open: "Haluatko varmasti avata tämän tapahtuman?"
           create: "Luo"
           update: "Tallenna"
           attach: "Luo tapahtuma"
@@ -466,6 +470,8 @@ fi:
       preview:
         more_than_one_event: "Sinulla ei voi olla enempää kuin yksi tapahtuma."
       edit_reason: "Tapahtuma päivitetty"
+      edit_reason_closed: "Tapahtuma suljettu"
+      edit_reason_opened: "Tapahtuma avattu"
       topic_title:
         starts_at: "Tapahtuma alkaa: %{date}"
         ended_at: "Tapahtuma päättyi: %{date}"
