@@ -44,6 +44,7 @@ fr:
         none: "Aucune"
         use_current_region: "Utiliser la région actuelle"
         names:
+          ae: "Émirats arabes unis"
           ar: "Argentine"
           at: "Autriche"
           au_act: "Australie (au_act)"
@@ -183,6 +184,7 @@ fr:
           in_mh: "Inde (in_mh)"
           in_rj: "Inde (in_rj)"
           in_tn: "Inde (in_tn)"
+          in_ka: "Inde (in_ka)"
           is: "Islande"
           it_bl: "Italie (it_bl)"
           it_fi: "Italie (it_fi)"
@@ -364,6 +366,7 @@ fr:
           created_by: "Créé par "
           bulk_invite: "Invitation groupée"
           close_event: "Fermer l'événement"
+          open_event: "Ouvrir l'événement"
         invitees_modal:
           title_invited: "Liste des utilisateurs invités"
           title_participated: "Liste des utilisateurs ayant participé"
@@ -392,6 +395,7 @@ fr:
           update_event_title: "Modifier l'événement"
           confirm_delete: "Voulez-vous vraiment supprimer cet événement ?"
           confirm_close: "Voulez-vous vraiment fermer cet événement ?"
+          confirm_open: "Voulez-vous vraiment ouvrir cet événement ?"
           create: "Créer"
           update: "Enregistrer"
           attach: "Créer un événement"
@@ -466,6 +470,8 @@ fr:
       preview:
         more_than_one_event: "Vous ne pouvez pas avoir plus d'un événement."
       edit_reason: "Événement mis à jour"
+      edit_reason_closed: "Événement fermé"
+      edit_reason_opened: "Événement ouvert"
       topic_title:
         starts_at: "Début de l'événement : %{date}"
         ended_at: "Événement terminé : %{date}"

@@ -341,7 +341,7 @@ tr_TR:
               interested: "İlgileniyorum"
           event:
             expired: "Süresi doldu"
-            closed: "Kapanmış"
+            closed: "Kapalı"
             status:
               standalone:
                 title: "Bağımsız"

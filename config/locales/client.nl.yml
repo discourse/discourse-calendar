@@ -44,6 +44,7 @@ nl:
         none: "Geen"
         use_current_region: "Huidige regio gebruiken"
         names:
+          ae: "Verenigde Arabische Emiraten"
           ar: "Argentinië"
           at: "Oostenrijk"
           au_act: "Australië (au_act)"
@@ -183,6 +184,7 @@ nl:
           in_mh: "India (in_mh)"
           in_rj: "India (in_rj)"
           in_tn: "India (in_tn)"
+          in_ka: "India (in_ka)"
           is: "IJsland"
           it_bl: "Italië (it_bl)"
           it_fi: "Italië (it_fi)"
@@ -364,6 +366,7 @@ nl:
           created_by: "Gemaakt door"
           bulk_invite: "Bulkuitnodiging"
           close_event: "Evenement sluiten"
+          open_event: "Evenement openen"
         invitees_modal:
           title_invited: "Lijst van uitgenodigde gebruikers"
           title_participated: "Lijst van deelnemende gebruikers"
@@ -392,6 +395,7 @@ nl:
           update_event_title: "Evenement bewerken"
           confirm_delete: "Weet je zeker dat je dit evenement wilt verwijderen?"
           confirm_close: "Weet je zeker dat je dit evenement wilt sluiten?"
+          confirm_open: "Weet je zeker dat je dit evenement wilt openen?"
           create: "Maken"
           update: "Opslaan"
           attach: "Evenement maken"
@@ -466,6 +470,8 @@ nl:
       preview:
         more_than_one_event: "Je kunt niet meer dan één evenement hebben."
       edit_reason: "Evenement bijgewerkt"
+      edit_reason_closed: "Evenement gesloten"
+      edit_reason_opened: "Evenement geopend"
       topic_title:
         starts_at: "Evenement begint: %{datum}"
         ended_at: "Evenement eindigt: %{datum}"
