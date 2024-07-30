@@ -12,6 +12,10 @@ import getURL from "discourse-common/lib/get-url";
 import { iconHTML } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
+import {
+  getCalendarButtonsText,
+  getCurrentBcp47Locale,
+} from "../lib/calendar-locale";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
@@ -20,20 +24,6 @@ function loadFullCalendar() {
   return loadScript(
     "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
   );
-}
-
-function getCurrentBcp47Locale() {
-  return I18n.currentLocale().replace("_", "-");
-}
-
-function getCalendarButtonsText() {
-  return {
-    today: I18n.t("discourse_calendar.toolbar_button.today"),
-    month: I18n.t("discourse_calendar.toolbar_button.month"),
-    week: I18n.t("discourse_calendar.toolbar_button.week"),
-    day: I18n.t("discourse_calendar.toolbar_button.day"),
-    list: I18n.t("discourse_calendar.toolbar_button.list"),
-  };
 }
 
 function initializeDiscourseCalendar(api) {
