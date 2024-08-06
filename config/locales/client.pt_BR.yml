@@ -44,6 +44,7 @@ pt_BR:
         none: "Nenhum"
         use_current_region: "Usar região atual"
         names:
+          ae: "Emirados Árabes Unidos"
           ar: "Argentina"
           at: "Áustria"
           au_act: "Austrália (au_act)"
@@ -183,6 +184,7 @@ pt_BR:
           in_mh: "Índia (in_mh)"
           in_rj: "Índia (in_rj)"
           in_tn: "Índia (in_tn)"
+          in_ka: "Índia (in_ka)"
           is: "Islândia"
           it_bl: "Itália (it_bl)"
           it_fi: "Itália (it_fi)"
@@ -334,9 +336,9 @@ pt_BR:
             no_users: "Não há usuários(as) deste tipo."
             status:
               unknown: "Não tenho interesse"
-              going: "Vou!"
+              going: "Estou indo"
               not_going: "Não vou"
-              interested: "Interessado"
+              interested: "Tenho interesse"
           event:
             expired: "Expirou"
             closed: "Fechados"
@@ -364,6 +366,7 @@ pt_BR:
           created_by: "Criador(a):"
           bulk_invite: "Convite em massa"
           close_event: "Encerrar evento"
+          open_event: "Evento aberto"
         invitees_modal:
           title_invited: "Lista de usuários(as) RSVPed"
           title_participated: "Lista de usuários(as) que participaram"
@@ -392,6 +395,7 @@ pt_BR:
           update_event_title: "Editar evento"
           confirm_delete: "Você tem certeza de que quer excluir este evento?"
           confirm_close: "Você tem certeza de que deseja fechar este evento?"
+          confirm_open: "Você tem certeza de que deseja abrir este evento?"
           create: "Criar"
           update: "Salvar"
           attach: "Criar evento"
@@ -466,6 +470,8 @@ pt_BR:
       preview:
         more_than_one_event: "Você não pode ter mais de um evento."
       edit_reason: "Evento atualizado"
+      edit_reason_closed: "Evento fechado"
+      edit_reason_opened: "Evento aberto"
       topic_title:
         starts_at: "O evento terá início: %{date}"
         ended_at: "O evento terminou: %{date}"
