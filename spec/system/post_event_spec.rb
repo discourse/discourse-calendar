@@ -32,6 +32,9 @@ describe "Post event", type: :system do
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.closed")
 
+    page.find(".status-and-creators .status.closed").click
+    # move active element away from dropdown
+    # so that clicking it again below always opens the dropdown
     page.find("#more-dropdown").click
     page.find(".item-openEvent").click
     page.find("#dialog-holder .btn-primary").click
