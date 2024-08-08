@@ -32,6 +32,8 @@ describe "Post event", type: :system do
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.closed")
 
+    # click on a different button to ensure more dropdown is collapsed before reopening
+    page.find(".btn-primary.create").click
     page.find("#more-dropdown").click
     page.find(".item-openEvent").click
     page.find("#dialog-holder .btn-primary").click
