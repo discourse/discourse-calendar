@@ -36,3 +36,7 @@ Install the plugin and switch to the discourse root(not the plugin directory).
 # Collect all holiday regions into assets/javascripts/lib/regions.js
 bin/rails javascript:update_constants
 ```
+
+### Interactions with Other Plugins
+
+You can use the an element of this component with [Right Sidebar Blocks](https://github.com/discourse/discourse-right-sidebar-blocks). You'll want to ensure the desired route is enabled via the `events calendar categories` setting. In Right Sidebar Block's settings, the block name will be `upcoming-events-list`, and the params use this [syntax](https://momentjs.com/docs/#/displaying/format/), for example `MMMM D, YYYY`.
