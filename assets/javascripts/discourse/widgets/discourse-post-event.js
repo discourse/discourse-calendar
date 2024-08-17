@@ -11,7 +11,6 @@ import PostEventBuilder from "../components/modal/post-event-builder";
 import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
-import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
 const DEFAULT_REMINDER = {
@@ -257,11 +256,7 @@ export default createWidget("discourse-post-event", {
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
       eventName: emojiUnescape(
-        escapeExpression(eventModel.name) ||
-          this._cleanTopicTitle(
-            eventModel.post.topic.title,
-            eventModel.starts_at
-          )
+        escapeExpression(eventModel.name) || eventModel.post.topic.title
       ),
       statusClass: `status ${eventModel.status}`,
       isPublicEvent: eventModel.status === "public",
@@ -357,16 +352,6 @@ export default createWidget("discourse-post-event", {
       {{/unless}}
     {{/if}}
   `,
-
-  _cleanTopicTitle(topicTitle, startsAt) {
-    topicTitle = escapeExpression(topicTitle);
-    const cleaned = cleanTitle(topicTitle, startsAt);
-    if (cleaned) {
-      return topicTitle.replace(cleaned, "");
-    }
-
-    return topicTitle;
-  },
 });
 
 function replaceTimezone(val, newTimezone) {
