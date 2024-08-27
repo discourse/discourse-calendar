@@ -11,11 +11,8 @@ import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
 import { iconHTML } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
+import fullCalendarDefaultOptions from "../components/full-calendar-default-options";
 import { formatEventName } from "../helpers/format-event-name";
-import {
-  getCalendarButtonsText,
-  getCurrentBcp47Locale,
-} from "../lib/calendar-locale";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
@@ -127,11 +124,7 @@ function initializeDiscourseCalendar(api) {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {
-              eventClick: function () {
-                destroyPopover();
-              },
-              locale: getCurrentBcp47Locale(),
-              buttonText: getCalendarButtonsText(),
+              ...fullCalendarDefaultOptions(),
               eventPositioned: (info) => {
                 if (siteSettings.events_max_rows === 0) {
                   return;
@@ -156,14 +149,6 @@ function initializeDiscourseCalendar(api) {
                   fcTitle.style.whiteSpace = "pre-wrap";
                 }
                 fullCalendar.updateSize();
-              },
-              eventMouseEnter: function ({ event, jsEvent }) {
-                destroyPopover();
-                const htmlContent = event.title;
-                buildPopover(jsEvent, htmlContent);
-              },
-              eventMouseLeave: function () {
-                destroyPopover();
               },
             }
           );
@@ -360,10 +345,9 @@ function initializeDiscourseCalendar(api) {
       $calendar.attr("data-calendar-show-add-to-calendar") !== "false";
 
     return new window.FullCalendar.Calendar($calendar[0], {
+      ...fullCalendarDefaultOptions(),
       timeZone,
       timeZoneImpl: "moment-timezone",
-      locale: getCurrentBcp47Locale(),
-      buttonText: getCalendarButtonsText(),
       nextDayThreshold: "06:00:00",
       displayEventEnd: true,
       height: 650,
@@ -395,7 +379,6 @@ function initializeDiscourseCalendar(api) {
 
         $calendarTitle.innerText = info.view.title;
       },
-
       eventPositioned: (info) => {
         _setTimezoneOffset(info);
       },

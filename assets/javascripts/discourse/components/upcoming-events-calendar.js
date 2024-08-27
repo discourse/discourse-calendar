@@ -5,12 +5,8 @@ import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
 import { formatEventName } from "../helpers/format-event-name";
-import {
-  getCalendarButtonsText,
-  getCurrentBcp47Locale,
-} from "../lib/calendar-locale";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import { buildPopover, destroyPopover } from "../lib/popover";
+import fullCalendarDefaultOptions from "./full-calendar-default-options";
 
 export default Component.extend({
   tagName: "",
@@ -63,11 +59,7 @@ export default Component.extend({
 
     this._loadCalendar().then(() => {
       const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
-        locale: getCurrentBcp47Locale(),
-        buttonText: getCalendarButtonsText(),
-        eventClick: function () {
-          destroyPopover();
-        },
+        ...fullCalendarDefaultOptions(),
         eventPositioned: (info) => {
           if (siteSettings.events_max_rows === 0) {
             return;
@@ -92,14 +84,6 @@ export default Component.extend({
             fcTitle.style.whiteSpace = "pre-wrap";
           }
           fullCalendar.updateSize();
-        },
-        eventMouseEnter: function ({ event, jsEvent }) {
-          destroyPopover();
-          const htmlContent = event.title;
-          buildPopover(jsEvent, htmlContent);
-        },
-        eventMouseLeave: function () {
-          destroyPopover();
         },
       });
       this._calendar = fullCalendar;
