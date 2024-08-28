@@ -11,9 +11,9 @@ import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
 import { iconHTML } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
-import fullCalendarDefaultOptions from "../components/full-calendar-default-options";
 import { formatEventName } from "../helpers/format-event-name";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
+import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
 

@@ -5,8 +5,8 @@ import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
 import { formatEventName } from "../helpers/format-event-name";
+import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import fullCalendarDefaultOptions from "./full-calendar-default-options";
 
 export default Component.extend({
   tagName: "",

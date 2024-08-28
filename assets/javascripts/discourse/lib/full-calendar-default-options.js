@@ -1,8 +1,8 @@
 import {
   getCalendarButtonsText,
   getCurrentBcp47Locale,
-} from "../lib/calendar-locale";
-import { buildPopover, destroyPopover } from "../lib/popover";
+} from "./calendar-locale";
+import { buildPopover, destroyPopover } from "./popover";
 
 export default function fullCalendarDefaultOptions() {
   return {
