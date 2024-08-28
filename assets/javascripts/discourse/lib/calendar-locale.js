@@ -1,7 +1,7 @@
 import I18n from "I18n";
 
 export function getCurrentBcp47Locale() {
-  return I18n.currentLocale().replace("_", "-");
+  return I18n.currentLocale().replace("_", "-").toLowerCase();
 }
 
 export function getCalendarButtonsText() {
