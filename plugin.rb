@@ -3,7 +3,7 @@
 # name: discourse-calendar
 # about: Adds the ability to create a dynamic calendar with events in a topic.
 # meta_topic_id: 97376
-# version: 0.4
+# version: 0.5
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
