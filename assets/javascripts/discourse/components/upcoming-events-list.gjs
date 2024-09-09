@@ -183,7 +183,7 @@ export default class UpcomingEventsList extends Component {
                       >
                         {{#if this.timeFormat}}
                           <div class="upcoming-events-list__event-time">
-                            {{this.timeFormat event}}
+                            {{this.formatTime event}}
                           </div>
                         {{/if}}
 
