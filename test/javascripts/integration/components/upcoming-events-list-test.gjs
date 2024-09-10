@@ -227,13 +227,14 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      I18n.t(
-        "discourse_calendar.discourse_post_event.upcoming_events_list.title"
-      ),
-      "it displays the title"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t(
+          "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+        ),
+        "it displays the title"
+      );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
