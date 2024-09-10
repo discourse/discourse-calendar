@@ -237,15 +237,13 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.ok(
-      !exists(".upcoming-events-list__formatted-month"),
-      "it omits the formatted month when empty"
-    );
+    assert
+      .dom(".upcoming-events-list__formatted-month")
+      .doesNotExist("it omits the formatted month when empty");
 
-    assert.ok(
-      !exists(".upcoming-events-list__formatted-time"),
-      "it omits the formatted time when empty"
-    );
+    assert
+      .dom(".upcoming-events-list__formatted-time")
+      .doesNotExist("it omits the formatted time when empty");
   });
 
   test("with an error response", async function (assert) {
