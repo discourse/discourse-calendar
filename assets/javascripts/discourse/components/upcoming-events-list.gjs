@@ -181,9 +181,12 @@ export default class UpcomingEventsList extends Component {
                         class="upcoming-events-list__event"
                         href={{event.post.url}}
                       >
-                        <div class="upcoming-events-list__event-time">
-                          {{this.formatTime event}}
-                        </div>
+                        {{#if this.timeFormat}}
+                          <div class="upcoming-events-list__event-time">
+                            {{this.formatTime event}}
+                          </div>
+                        {{/if}}
+
                         <div class="upcoming-events-list__event-name">
                           {{or event.name event.post.topic.title}}
                         </div>

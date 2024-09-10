@@ -189,11 +189,6 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.ok(
-      !exists(".upcoming-events-list__formatted-month"),
-      "it omits the formatted month when empty"
-    );
-
     assert.deepEqual(
       [...queryAll(".upcoming-events-list__formatted-day")].map(
         (el) => el.innerText
@@ -222,6 +217,34 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       ["Awesome Event", "Another Awesome Event"],
       "it displays the event name"
     );
+  });
+
+  test("with events, omitted formats", async function (assert) {
+    pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
+    await render(<template>
+      <UpcomingEventsList @params={{hash monthFormat="" timeFormat=""}} />
+    </template>);
+
+    this.appEvents.trigger("page:changed", { url: "/" });
+
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t(
+          "discourse_calendar.discourse_post_event.upcoming_events_list.title"
+        ),
+        "it displays the title"
+      );
+
+    await waitFor(".loading-container .spinner", { count: 0 });
+
+    assert
+      .dom(".upcoming-events-list__formatted-month")
+      .doesNotExist("it omits the formatted month when empty");
+
+    assert
+      .dom(".upcoming-events-list__formatted-time")
+      .doesNotExist("it omits the formatted time when empty");
   });
 
   test("with an error response", async function (assert) {
