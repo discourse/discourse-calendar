@@ -1,5 +1,6 @@
 import { isPresent } from "@ember/utils";
 import $ from "jquery";
+import { escape } from "pretty-text/sanitizer";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
@@ -581,7 +582,7 @@ function initializeDiscourseCalendar(api) {
     if (detail.message.length > 100) {
       popupText += "…";
     }
-    event.extendedProps.htmlContent = popupText;
+    event.extendedProps.htmlContent = escape(popupText);
     event.title = event.title.replace(/<img[^>]*>/g, "");
     calendar.addEvent(event);
   }

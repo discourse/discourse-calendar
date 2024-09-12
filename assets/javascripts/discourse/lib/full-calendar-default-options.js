@@ -1,3 +1,4 @@
+import { escape } from "pretty-text/sanitizer";
 import {
   getCalendarButtonsText,
   getCurrentBcp47Locale,
@@ -13,7 +14,8 @@ export default function fullCalendarDefaultOptions() {
     buttonText: getCalendarButtonsText(),
     eventMouseEnter: function ({ event, jsEvent }) {
       destroyPopover();
-      const htmlContent = event.title;
+
+      const htmlContent = escape(event.title);
       buildPopover(jsEvent, htmlContent);
     },
     eventMouseLeave: function () {

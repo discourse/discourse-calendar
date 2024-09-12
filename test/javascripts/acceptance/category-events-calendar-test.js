@@ -74,9 +74,43 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
             },
             name: "Awesome Event 2",
           },
+          {
+            id: 67502,
+            starts_at: moment()
+              .tz("Asia/Calcutta")
+              .add(2, "days")
+              .format("YYYY-MM-DDT15:14:00.000Z"),
+            ends_at: moment()
+              .tz("Asia/Calcutta")
+              .add(2, "days")
+              .format("YYYY-MM-DDT16:14:00.000Z"),
+            timezone: "Asia/Calcutta",
+            post: {
+              id: 67502,
+              post_number: 1,
+              url: "/t/this-is-an-event/18451/1",
+              topic: {
+                id: 18451,
+                title: "This is an event",
+                category_slug: "awesome-category",
+              },
+            },
+            name: "Awesome Event 3<script>alert('my awesome event');</script>",
+          },
         ],
       });
     });
+  });
+
+  test("event name is escaped correctly", async (assert) => {
+    await visit("/c/bug/1");
+
+    assert
+      .dom(".fc-event[href='/t/-/18451/1'] .fc-title")
+      .hasText(
+        "Awesome Event 3<script>alert('my awesome event');</script>",
+        "Elements should be escaped and appear as text rather than be the actual element."
+      );
   });
 
   test("events display the color configured in the map_events_to_color site setting", async (assert) => {
@@ -84,7 +118,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
 
     assert
       .dom(".fc-event")
-      .exists({ count: 2 }, "One event is displayed on the calendar");
+      .exists({ count: 3 }, "One event is displayed on the calendar");
 
     assert.dom(".fc-event[href='/t/-/18449/1']").hasStyle({
       "background-color": "rgb(231, 76, 60)",
