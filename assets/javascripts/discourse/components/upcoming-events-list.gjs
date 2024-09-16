@@ -108,12 +108,19 @@ export default class UpcomingEventsList extends Component {
 
   groupByMonthAndDay(data) {
     return data.reduce((result, item) => {
-      const date = new Date(item.starts_at);
+      const startDate = moment(item.starts_at);
+      const endDate = moment(item.ends_at);
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDate();
-
       const monthKey = `${year}-${month}`;
+
+      if (startDate.isSameOrBefore(endDate, "day")) {
+        result[monthKey][day].push(item);
+
+        // Move to the next day
+        startDate.add(1, "day");
+      }
 
       result[monthKey] = result[monthKey] ?? {};
       result[monthKey][day] = result[monthKey][day] ?? [];
@@ -164,6 +171,7 @@ export default class UpcomingEventsList extends Component {
                   <div class="upcoming-events-list__day-section">
                     <div class="upcoming-events-list__formatted-day">
                       {{this.formatDate month day}}
+                      {{log events}}
                     </div>
 
                     {{#each events as |event|}}

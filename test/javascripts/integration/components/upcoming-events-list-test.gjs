@@ -132,6 +132,35 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       exists(".upcoming-events-list__view-all"),
       "it displays the view-all link"
     );
+
+    test("with multi-day events, standard formats", async function (assert) {
+      pretender.get(
+        "/discourse-post-event/events",
+        multiDayEventResponseHandler
+      );
+
+      await render(<template><UpcomingEventsList /></template>);
+
+      this.appEvents.trigger("page:changed", { url: "/" });
+
+      await waitFor(".loading-container .spinner", { count: 0 });
+
+      assert.deepEqual(
+        [...queryAll(".upcoming-events-list__event-name")].map(
+          (el) => el.innerText
+        ),
+        ["Awesome Event", "Another Awesome Event"],
+        "it displays the multiday event on all scheduled dates"
+      );
+
+      assert.deepEqual(
+        [...queryAll(".upcoming-events-list__event-name")].map(
+          (el) => el.innerText
+        ),
+        ["Awesome Event", "Another Awesome Event"],
+        "it displays the multiday event that has two different months"
+      );
+    });
   });
 
   test("with events, view-all navigation", async function (assert) {
@@ -355,6 +384,40 @@ function twoEventsResponseHandler({ queryParams }) {
       },
       name: "Another Awesome Event",
       category_id: 2,
+    },
+  ];
+
+  if (queryParams.limit) {
+    events.splice(queryParams.limit);
+  }
+
+  if (queryParams.before) {
+    events = events.filter((event) => {
+      return moment(event.starts_at).isBefore(queryParams.before);
+    });
+  }
+
+  return response({ events });
+}
+
+function multiDayEventResponseHandler({ queryParams }) {
+  let events = [
+    {
+      id: 67503,
+      starts_at: tomorrowAllDay,
+      ends_at: nextMonth,
+      timezone: "Asia/Calcutta",
+      post: {
+        id: 67501,
+        post_number: 1,
+        url: "/t/this-is-an-event/18451/1",
+        topic: {
+          id: 18449,
+          title: "This is a multiday event",
+        },
+      },
+      name: "Awesome MultiDay Event",
+      category_id: 1,
     },
   ];
 
