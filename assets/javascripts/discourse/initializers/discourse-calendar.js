@@ -372,7 +372,14 @@ function initializeDiscourseCalendar(api) {
         center: "title",
         right: "month,basicWeek,listNextYear",
       },
-      eventOrder: ["start", _orderByTz, "-duration", "allDay", "title"],
+      eventOrder: [
+        "start",
+        _orderByTz,
+        "-participantCount",
+        "-duration",
+        "allDay",
+        "title",
+      ],
       datesRender: (info) => {
         if (showAddToCalendar) {
           _insertAddToCalendarLinks(info);
@@ -584,6 +591,7 @@ function initializeDiscourseCalendar(api) {
     }
     event.extendedProps.htmlContent = escape(popupText);
     event.title = event.title.replace(/<img[^>]*>/g, "");
+    event.participantCount = 1;
     calendar.addEvent(event);
   }
 
@@ -634,6 +642,8 @@ function initializeDiscourseCalendar(api) {
           event.extendedProps.htmlContent = localEventNames[0];
         }
       }
+
+      event.participantCount = users.length;
 
       calendar.addEvent(event);
     });
