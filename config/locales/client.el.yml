@@ -28,6 +28,7 @@ el:
           invite_user_notification: "%{username} %{description}"
         models:
           event:
+            closed: "Κλειστό"
             status:
               public:
                 title: "Δημόσια"
@@ -82,6 +83,8 @@ el:
             private:
               title: "Ιδιωτική"
       event_ui:
+        show_all: "Εμφάνιση όλων"
+        add_to_calendar: "Προσθήκη στο ημερολόγιο"
         created_by: "Δημιουργήθηκε από"
         bulk_invite: "Μαζική πρόσκληση"
       bulk_invite_modal:

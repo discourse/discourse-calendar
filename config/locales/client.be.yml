@@ -23,6 +23,7 @@ be:
       discourse_post_event:
         models:
           event:
+            closed: "Закрыта"
             status:
               public:
                 title: "грамадскага"
@@ -64,5 +65,9 @@ be:
             after: "пасля"
         url:
           label: "URL спасылка"
+        status:
+          label: "Статус"
       invite_user_or_group:
         invite: "адправіць"
+      upcoming_events:
+        status: "Статус"

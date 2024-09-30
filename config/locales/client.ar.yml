@@ -44,6 +44,7 @@ ar:
         none: "لا يوجد"
         use_current_region: "استخدام المنطقة الحالية"
         names:
+          ae: "الإمارات العربية المتحدة"
           ar: "الأرجنتين"
           at: "النمسا"
           au_act: "أستراليا (au_act)"
@@ -183,6 +184,7 @@ ar:
           in_mh: "الهند (in_mh)"
           in_rj: "الهند (in_rj)"
           in_tn: "الهند (in_tn)"
+          in_ka: "الهند (in_ka)"
           is: "أيسلندا"
           it_bl: "إيطاليا (it_bl)"
           it_fi: "إيطاليا (it_fi)"
@@ -339,6 +341,7 @@ ar:
               interested: "مهتم"
           event:
             expired: "انتهى"
+            closed: "مغلق"
             status:
               standalone:
                 title: "مستقل"
@@ -367,6 +370,7 @@ ar:
           created_by: "تم إنشاؤه بواسطة"
           bulk_invite: "دعوة جماعية"
           close_event: "إغلاق الحدث"
+          open_event: "فتح الحدث"
         invitees_modal:
           title_invited: "قائمة المستخدمين الذين تمت مطالبتهم بتأكيد الدعوة"
           title_participated: "قائمة المستخدمين الذين شاركوا"
@@ -395,6 +399,7 @@ ar:
           update_event_title: "تعديل الحدث"
           confirm_delete: "هل تريد بالتأكيد حذف هذا الحدث؟"
           confirm_close: "هل تريد بالتأكيد إغلاق هذا الحدث؟"
+          confirm_open: "هل تريد بالتأكيد فتح هذا الحدث؟"
           create: "إنشاء"
           update: "حفظ"
           attach: "إنشاء حدث"
@@ -469,6 +474,8 @@ ar:
       preview:
         more_than_one_event: "لا يمكن أن يكون لديك أكثر من حدثٍ واحد."
       edit_reason: "تم تحديث الحدث"
+      edit_reason_closed: "تم إغلاق الحدث"
+      edit_reason_opened: "تم فتح الحدث"
       topic_title:
         starts_at: "سيبدأ الحدث: %{date}"
         ended_at: "انتهى الحدث: %{date}"

@@ -3,12 +3,12 @@
 # name: discourse-calendar
 # about: Adds the ability to create a dynamic calendar with events in a topic.
 # meta_topic_id: 97376
-# version: 0.4
+# version: 0.5
 # author: Daniel Waterworth, Joffrey Jaffeux
 # url: https://github.com/discourse/discourse-calendar
 
 libdir = File.join(File.dirname(__FILE__), "vendor/holidays/lib")
-$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+$LOAD_PATH.unshift(libdir) if $LOAD_PATH.exclude?(libdir)
 
 require_relative "lib/calendar_settings_validator.rb"
 
@@ -299,7 +299,7 @@ after_initialize do
   register_user_custom_field_type(DiscourseCalendar::REGION_CUSTOM_FIELD, :string, max_length: 40)
 
   on(:site_setting_changed) do |name, old_value, new_value|
-    next unless %i[all_day_event_start_time all_day_event_end_time].include? name
+    next if %i[all_day_event_start_time all_day_event_end_time].exclude? name
 
     Post
       .where(id: CalendarEvent.select(:post_id).distinct)
@@ -358,52 +358,81 @@ after_initialize do
   end
 
   add_to_serializer(:post, :calendar_details, include_condition: -> { object.is_first_post? }) do
-    grouped = {}
-    standalones = []
+    start_date = 6.months.ago
 
-    CalendarEvent
-      .where(topic_id: object.topic_id)
-      .where("post_id IS NOT NULL OR start_date >= ?", 6.months.ago)
-      .order(:start_date, :end_date)
-      .each do |event|
-        if event.post_id
-          standalones << {
+    standalone_sql = <<~SQL
+      SELECT post_number, description, start_date, end_date, username, recurrence, timezone
+        FROM calendar_events
+       WHERE topic_id = :topic_id
+         AND post_id IS NOT NULL
+       ORDER BY start_date, end_date
+    SQL
+
+    standalones =
+      DB
+        .query(standalone_sql, topic_id: object.topic_id)
+        .map do |row|
+          {
             type: :standalone,
-            post_number: event.post_number,
-            message: event.description,
-            from: event.start_date,
-            to: event.end_date,
-            username: event.username,
-            recurring: event.recurrence,
-            post_url: Post.url("-", event.topic_id, event.post_number),
-            timezone: event.timezone,
-          }
-        else
-          identifier = "#{event.region.split("_").first}-#{event.start_date.strftime("%Y-%j")}"
-
-          grouped[identifier] ||= {
-            type: :grouped,
-            from: event.start_date,
-            timezone: event.timezone,
-            name: [],
-            users: [],
-          }
-
-          user = User.find_by_username(event.username)
-
-          grouped[identifier][:name] << event.description
-          grouped[identifier][:users] << {
-            username: event.username,
-            timezone: user.present? ? user.user_option.timezone : nil,
+            post_number: row.post_number,
+            message: row.description,
+            from: row.start_date,
+            to: row.end_date,
+            username: row.username,
+            recurring: row.recurrence,
+            post_url: Post.url("-", object.topic_id, row.post_number),
+            timezone: row.timezone,
           }
         end
+
+    timezones =
+      UserOption
+        .where(
+          user_id:
+            CalendarEvent.where(
+              topic_id: object.topic_id,
+              post_id: nil,
+              start_date: start_date..,
+            ).select(:user_id),
+        )
+        .where("LENGTH(COALESCE(timezone, '')) > 0")
+        .pluck(:user_id, :timezone)
+        .to_h
+
+    grouped = {}
+
+    grouped_sql = <<~SQL
+      SELECT region, start_date, timezone, user_id, username, description
+        FROM calendar_events
+       WHERE topic_id = :topic_id
+         AND post_id IS NULL
+         AND start_date >= :start_date
+       ORDER BY region, start_date
+    SQL
+
+    DB
+      .query(grouped_sql, topic_id: object.topic_id, start_date: start_date)
+      .each do |row|
+        identifier = "#{row.region.split("_").first}-#{row.start_date.strftime("%Y-%j")}"
+
+        grouped[identifier] ||= {
+          type: :grouped,
+          from: row.start_date,
+          timezone: row.timezone,
+          name: [],
+          users: [],
+        }
+
+        grouped[identifier][:name] << row.description
+        grouped[identifier][:users] << { username: row.username, timezone: timezones[row.user_id] }
       end
 
     grouped.each do |_, v|
-      v[:name].sort!.uniq!
+      v[:name].uniq!
+      v[:name].sort!
       v[:name] = v[:name].join(", ")
-      v[:users].sort! { |a, b| a[:username] <=> b[:username] }
       v[:users].uniq! { |u| u[:username] }
+      v[:users].sort! { |a, b| a[:username] <=> b[:username] }
     end
 
     standalones + grouped.values

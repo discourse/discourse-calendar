@@ -133,7 +133,8 @@ $interested: #fb985d;
       }
 
       .status {
-        &.expired {
+        &.expired,
+        &.closed {
           color: var(--danger-medium);
         }
 

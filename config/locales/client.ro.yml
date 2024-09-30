@@ -36,6 +36,7 @@ ro:
               interested: "Interesat"
           event:
             expired: "Expirate"
+            closed: "Închis"
             status:
               public:
                 title: "Public"
@@ -81,6 +82,7 @@ ro:
           title: "Notifică utilizatorul (utilizatorii) sau grupul (grupurile)"
           invite: "Trimite"
         upcoming_events:
+          creator: "Creator"
           status: "Stare"
     group_timezones:
       search: "Caută..."
@@ -141,4 +143,5 @@ ro:
         title: "Notifică utilizatorul (utilizatorii) sau grupul (grupurile)"
         invite: "Trimite"
       upcoming_events:
+        creator: "Creator"
         status: "Status"

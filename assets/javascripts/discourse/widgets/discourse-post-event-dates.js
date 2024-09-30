@@ -15,27 +15,28 @@ export default createWidget("discourse-post-event-dates", {
     });
   },
 
-  html(attrs) {
+  html({ localDates, eventModel }) {
     const content = [
       iconNode("clock"),
-      h("span.date", new RawHtml({ html: `<span>${attrs.localDates}</span>` })),
+      h("span.date", new RawHtml({ html: `<span>${localDates}</span>` })),
     ];
 
     if (
-      attrs.eventModel.is_expired &&
-      attrs.eventModel.status !== "standalone"
+      eventModel.is_expired &&
+      !eventModel.is_closed &&
+      !eventModel.is_standalone
     ) {
       let participants;
       const label = I18n.t(
         "discourse_calendar.discourse_post_event.event_ui.participants",
         {
-          count: attrs.eventModel.stats.going,
+          count: eventModel.stats.going,
         }
       );
-      if (attrs.eventModel.stats.going > 0) {
+      if (eventModel.stats.going > 0) {
         participants = this.attach("link", {
           action: "showAllParticipatingInvitees",
-          actionParam: attrs.eventModel.id,
+          actionParam: eventModel.id,
           contents: () => label,
         });
       } else {

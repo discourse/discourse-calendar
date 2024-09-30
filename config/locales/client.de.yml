@@ -44,6 +44,7 @@ de:
         none: "Keine"
         use_current_region: "Aktuelle Region verwenden"
         names:
+          ae: "Vereinigte Arabische Emirate"
           ar: "Argentinien"
           at: "Österreich"
           au_act: "Australien (au_act)"
@@ -340,6 +341,7 @@ de:
               interested: "Interessiert"
           event:
             expired: "Abgelaufen"
+            closed: "Geschlossen"
             status:
               standalone:
                 title: "Einzeln"
@@ -364,6 +366,7 @@ de:
           created_by: "Erstellt von"
           bulk_invite: "Masseneinladung"
           close_event: "Ereignis beenden"
+          open_event: "Ereignis öffnen"
         invitees_modal:
           title_invited: "Liste der Benutzer, die zugesagt haben"
           title_participated: "Liste von Benutzern, die teilgenommen haben"
@@ -392,6 +395,7 @@ de:
           update_event_title: "Ereignis bearbeiten"
           confirm_delete: "Bist du sicher, dass du dieses Ereignis löschen möchtest?"
           confirm_close: "Bist du sicher, dass du dieses Ereignis beenden möchtest?"
+          confirm_open: "Bist du sicher, dass du dieses Ereignis öffnen möchtest?"
           create: "Erstellen"
           update: "Speichern"
           attach: "Ereignis erstellen"
@@ -466,6 +470,8 @@ de:
       preview:
         more_than_one_event: "Du kannst nicht mehr als ein Ereignis haben."
       edit_reason: "Ereignis aktualisiert"
+      edit_reason_closed: "Ereignis geschlossen"
+      edit_reason_opened: "Ereignis geöffnet"
       topic_title:
         starts_at: "Ereignisbeginn: %{date}"
         ended_at: "Ereignisende: %{date}"

@@ -5,6 +5,7 @@ import { LinkTo } from "@ember/routing";
 import { inject as service } from "@ember/service";
 import ConditionalLoadingSpinner from "discourse/components/conditional-loading-spinner";
 import DButton from "discourse/components/d-button";
+import PluginOutlet from "discourse/components/plugin-outlet";
 import { ajax } from "discourse/lib/ajax";
 import I18n from "discourse-i18n";
 import or from "truth-helpers/helpers/or";
@@ -161,35 +162,40 @@ export default class UpcomingEventsList extends Component {
           {{/if}}
 
           {{#unless this.isLoading}}
-            {{#each-in this.eventsByMonth as |month monthData|}}
-              {{#if this.monthFormat}}
-                <h4 class="upcoming-events-list__formatted-month">
-                  {{this.formatMonth month}}
-                </h4>
-              {{/if}}
+            <PluginOutlet @name="upcoming-events-list-container">
+              {{#each-in this.eventsByMonth as |month monthData|}}
+                {{#if this.monthFormat}}
+                  <h4 class="upcoming-events-list__formatted-month">
+                    {{this.formatMonth month}}
+                  </h4>
+                {{/if}}
 
-              {{#each-in monthData as |day events|}}
-                <div class="upcoming-events-list__day-section">
-                  <div class="upcoming-events-list__formatted-day">
-                    {{this.formatDate month day}}
+                {{#each-in monthData as |day events|}}
+                  <div class="upcoming-events-list__day-section">
+                    <div class="upcoming-events-list__formatted-day">
+                      {{this.formatDate month day}}
+                    </div>
+
+                    {{#each events as |event|}}
+                      <a
+                        class="upcoming-events-list__event"
+                        href={{event.post.url}}
+                      >
+                        {{#if this.timeFormat}}
+                          <div class="upcoming-events-list__event-time">
+                            {{this.formatTime event}}
+                          </div>
+                        {{/if}}
+
+                        <div class="upcoming-events-list__event-name">
+                          {{or event.name event.post.topic.title}}
+                        </div>
+                      </a>
+                    {{/each}}
                   </div>
-
-                  {{#each events as |event|}}
-                    <a
-                      class="upcoming-events-list__event"
-                      href={{event.post.url}}
-                    >
-                      <div class="upcoming-events-list__event-time">
-                        {{this.formatTime event}}
-                      </div>
-                      <div class="upcoming-events-list__event-name">
-                        {{or event.name event.post.topic.title}}
-                      </div>
-                    </a>
-                  {{/each}}
-                </div>
+                {{/each-in}}
               {{/each-in}}
-            {{/each-in}}
+            </PluginOutlet>
           {{/unless}}
         </div>
 

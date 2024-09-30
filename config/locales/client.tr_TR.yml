@@ -44,6 +44,7 @@ tr_TR:
         none: "Hiçbiri"
         use_current_region: "Geçerli Bölgeyi Kullan"
         names:
+          ae: "Birleşik Arap Emirlikleri"
           ar: "Arjantin"
           at: "Avusturya"
           au_act: "Avustralya (au_act)"
@@ -183,6 +184,7 @@ tr_TR:
           in_mh: "Hindistan (in_mh)"
           in_rj: "Hindistan (in_rj)"
           in_tn: "Hindistan (in_tn)"
+          in_ka: "Hindistan (in_ka)"
           is: "İzlanda"
           it_bl: "İtalya (it_bl)"
           it_fi: "İtalya (it_fi)"
@@ -339,6 +341,7 @@ tr_TR:
               interested: "İlgileniyorum"
           event:
             expired: "Süresi doldu"
+            closed: "Kapalı"
             status:
               standalone:
                 title: "Bağımsız"
@@ -363,6 +366,7 @@ tr_TR:
           created_by: "Oluşturan:"
           bulk_invite: "Toplu Davet"
           close_event: "Etkinliği kapat"
+          open_event: "Etkinliği aç"
         invitees_modal:
           title_invited: "Yanıt veren kullanıcıların listesi"
           title_participated: "Katılan kullanıcıların listesi"
@@ -391,6 +395,7 @@ tr_TR:
           update_event_title: "Etkinliği düzenleyin"
           confirm_delete: "Bu etkinliği silmek istediğinizden emin misiniz?"
           confirm_close: "Bu etkinliği kapatmak istediğinizden emin misiniz?"
+          confirm_open: "Bu etkinliği açmak istediğinizden emin misiniz?"
           create: "Oluştur"
           update: "Kaydet"
           attach: "Etkinlik oluştur"
@@ -465,6 +470,8 @@ tr_TR:
       preview:
         more_than_one_event: "Birden fazla etkinliğiniz olamaz."
       edit_reason: "Etkinlik güncellendi"
+      edit_reason_closed: "Etkinlik kapatıldı"
+      edit_reason_opened: "Etkinlik açıldı"
       topic_title:
         starts_at: "Etkinlik başlayacak: %{date}"
         ended_at: "Etkinlik sona erdi: %{date}"

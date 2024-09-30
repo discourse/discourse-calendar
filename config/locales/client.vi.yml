@@ -29,6 +29,7 @@ vi:
         models:
           event:
             expired: "Hết hạn"
+            closed: "Đã "
             status:
               public:
                 title: "Công khai"
@@ -91,6 +92,7 @@ vi:
         created_by: "Tạo bởi"
         bulk_invite: "Mời hàng loạt"
       bulk_invite_modal:
+        confirm: "xác nhận"
         title: "Mời hàng loạt"
         success: "Tải lên thành công, bạn sẽ được thông báo qua tin nhắn khi quá trình hoàn tất."
         error: "Xin lỗi, file phải ở định dạng CSV."

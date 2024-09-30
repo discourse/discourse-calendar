@@ -6,6 +6,13 @@
   }
 }
 
+.main-link {
+  .event-date-container-wrapper {
+    // prevents new dot from breaking separately onto next line
+    white-space: nowrap;
+  }
+}
+
 .link-top-line,
 .header-title {
   .event-date {
@@ -17,6 +24,7 @@
     padding: 0 0.25em;
     border-radius: 3px;
     pointer-events: auto; // needed to show title attribute on hover
+    vertical-align: text-bottom;
 
     .indicator {
       display: flex;

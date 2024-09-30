@@ -11,7 +11,6 @@ import PostEventBuilder from "../components/modal/post-event-builder";
 import PostEventBulkInvite from "../components/modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../components/modal/post-event-invite-user-or-group";
 import PostEventInvitees from "../components/modal/post-event-invitees";
-import cleanTitle from "../lib/clean-title";
 import { buildParams, replaceRaw } from "../lib/raw-event-helper";
 
 const DEFAULT_REMINDER = {
@@ -82,23 +81,58 @@ export default createWidget("discourse-post-event", {
       ),
       didConfirm: () => {
         return this.store.find("post", eventModel.id).then((post) => {
-          const raw = post.raw;
-          const startsAt = eventModel.starts_at
-            ? moment(eventModel.starts_at)
-            : moment();
+          eventModel.closed = true;
+
           const eventParams = buildParams(
-            moment().isBefore(startsAt) ? moment() : startsAt,
-            moment().isBefore(startsAt) ? moment().add(1, "minute") : moment(),
+            eventModel.starts_at,
+            eventModel.ends_at,
             eventModel,
             this.siteSettings
           );
-          const newRaw = replaceRaw(eventParams, raw);
+
+          const newRaw = replaceRaw(eventParams, post.raw);
 
           if (newRaw) {
             const props = {
               raw: newRaw,
               edit_reason: I18n.t(
-                "discourse_calendar.discourse_post_event.edit_reason"
+                "discourse_calendar.discourse_post_event.edit_reason_closed"
+              ),
+            };
+
+            return cook(newRaw).then((cooked) => {
+              props.cooked = cooked.string;
+              return post.save(props);
+            });
+          }
+        });
+      },
+    });
+  },
+
+  openEvent(eventModel) {
+    this.dialog.yesNoConfirm({
+      message: I18n.t(
+        "discourse_calendar.discourse_post_event.builder_modal.confirm_open"
+      ),
+      didConfirm: () => {
+        return this.store.find("post", eventModel.id).then((post) => {
+          eventModel.closed = false;
+
+          const eventParams = buildParams(
+            eventModel.starts_at,
+            eventModel.ends_at,
+            eventModel,
+            this.siteSettings
+          );
+
+          const newRaw = replaceRaw(eventParams, post.raw);
+
+          if (newRaw) {
+            const props = {
+              raw: newRaw,
+              edit_reason: I18n.t(
+                "discourse_calendar.discourse_post_event.edit_reason_opened"
               ),
             };
 
@@ -222,11 +256,7 @@ export default createWidget("discourse-post-event", {
       startsAtMonth: moment(eventModel.starts_at).format("MMM"),
       startsAtDay: moment(eventModel.starts_at).format("D"),
       eventName: emojiUnescape(
-        escapeExpression(eventModel.name) ||
-          this._cleanTopicTitle(
-            eventModel.post.topic.title,
-            eventModel.starts_at
-          )
+        escapeExpression(eventModel.name) || eventModel.post.topic.title
       ),
       statusClass: `status ${eventModel.status}`,
       isPublicEvent: eventModel.status === "public",
@@ -249,18 +279,20 @@ export default createWidget("discourse-post-event", {
             {{{transformed.eventName}}}
           </span>
           <div class="status-and-creators">
-            {{#unless transformed.isStandaloneEvent}}
-              {{#if state.eventModel.is_expired}}
-                <span class="status expired">
-                  {{i18n "discourse_calendar.discourse_post_event.models.event.expired"}}
-                </span>
-              {{else}}
-                <span class={{transformed.statusClass}} title={{transformed.eventStatusDescription}}>
-                  {{transformed.eventStatusLabel}}
-                </span>
-              {{/if}}
-              <span class="separator">·</span>
-            {{/unless}}
+            {{#if state.eventModel.is_expired}}
+              <span class="status expired">
+                {{i18n "discourse_calendar.discourse_post_event.models.event.expired"}}
+              </span>
+            {{else if state.eventModel.is_closed}}
+              <span class="status closed">
+                {{i18n "discourse_calendar.discourse_post_event.models.event.closed"}}
+              </span>
+            {{else}}
+              <span class={{transformed.statusClass}} title={{transformed.eventStatusDescription}}>
+                {{transformed.eventStatusLabel}}
+              </span>
+            {{/if}}
+            <span class="separator">·</span>
             <span class="creators">
               <span class="created-by">{{i18n "discourse_calendar.discourse_post_event.event_ui.created_by"}}</span>
               {{attach widget="discourse-post-event-creator" attrs=(hash user=state.eventModel.creator)}}
@@ -320,16 +352,6 @@ export default createWidget("discourse-post-event", {
       {{/unless}}
     {{/if}}
   `,
-
-  _cleanTopicTitle(topicTitle, startsAt) {
-    topicTitle = escapeExpression(topicTitle);
-    const cleaned = cleanTitle(topicTitle, startsAt);
-    if (cleaned) {
-      return topicTitle.replace(cleaned, "");
-    }
-
-    return topicTitle;
-  },
 });
 
 function replaceTimezone(val, newTimezone) {

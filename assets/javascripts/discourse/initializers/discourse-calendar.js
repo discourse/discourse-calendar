@@ -1,5 +1,6 @@
 import { isPresent } from "@ember/utils";
 import $ from "jquery";
+import { escape } from "pretty-text/sanitizer";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
@@ -13,6 +14,7 @@ import { iconHTML } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
+import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
 
@@ -20,20 +22,6 @@ function loadFullCalendar() {
   return loadScript(
     "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
   );
-}
-
-function getCurrentBcp47Locale() {
-  return I18n.currentLocale().replace("_", "-");
-}
-
-function getCalendarButtonsText() {
-  return {
-    today: I18n.t("discourse_calendar.toolbar_button.today"),
-    month: I18n.t("discourse_calendar.toolbar_button.month"),
-    week: I18n.t("discourse_calendar.toolbar_button.week"),
-    day: I18n.t("discourse_calendar.toolbar_button.day"),
-    list: I18n.t("discourse_calendar.toolbar_button.list"),
-  };
 }
 
 function initializeDiscourseCalendar(api) {
@@ -71,7 +59,7 @@ function initializeDiscourseCalendar(api) {
       categoryEventNode.innerHTML = "";
     }
 
-    const browsedCategory = Category.findBySlugPathWithID(url);
+    const browsedCategory = Category.findBySlugPathWithID(url.split("?")[0]);
     if (!browsedCategory) {
       return;
     }
@@ -137,11 +125,7 @@ function initializeDiscourseCalendar(api) {
           let fullCalendar = new window.FullCalendar.Calendar(
             categoryEventNode,
             {
-              eventClick: function () {
-                destroyPopover();
-              },
-              locale: getCurrentBcp47Locale(),
-              buttonText: getCalendarButtonsText(),
+              ...fullCalendarDefaultOptions(),
               eventPositioned: (info) => {
                 if (siteSettings.events_max_rows === 0) {
                   return;
@@ -166,14 +150,6 @@ function initializeDiscourseCalendar(api) {
                   fcTitle.style.whiteSpace = "pre-wrap";
                 }
                 fullCalendar.updateSize();
-              },
-              eventMouseEnter: function ({ event, jsEvent }) {
-                destroyPopover();
-                const htmlContent = event.title;
-                buildPopover(jsEvent, htmlContent);
-              },
-              eventMouseLeave: function () {
-                destroyPopover();
               },
             }
           );
@@ -370,10 +346,9 @@ function initializeDiscourseCalendar(api) {
       $calendar.attr("data-calendar-show-add-to-calendar") !== "false";
 
     return new window.FullCalendar.Calendar($calendar[0], {
+      ...fullCalendarDefaultOptions(),
       timeZone,
       timeZoneImpl: "moment-timezone",
-      locale: getCurrentBcp47Locale(),
-      buttonText: getCalendarButtonsText(),
       nextDayThreshold: "06:00:00",
       displayEventEnd: true,
       height: 650,
@@ -405,7 +380,6 @@ function initializeDiscourseCalendar(api) {
 
         $calendarTitle.innerText = info.view.title;
       },
-
       eventPositioned: (info) => {
         _setTimezoneOffset(info);
       },
@@ -601,14 +575,14 @@ function initializeDiscourseCalendar(api) {
 
       event.title = detail.username;
       event.backgroundColor = colorToHex(color);
-      event.textColor = colorToHex(contrastColor(color));
+      event.textColor = contrastColor(color);
     }
 
     let popupText = detail.message.slice(0, 100);
     if (detail.message.length > 100) {
       popupText += "…";
     }
-    event.extendedProps.htmlContent = popupText;
+    event.extendedProps.htmlContent = escape(popupText);
     event.title = event.title.replace(/<img[^>]*>/g, "");
     calendar.addEvent(event);
   }

@@ -29,6 +29,7 @@ zh_TW:
         models:
           event:
             expired: "已過期"
+            closed: "不公開"
             status:
               public:
                 title: "公開"
@@ -80,6 +81,8 @@ zh_TW:
               title: "公開"
             private:
               title: "私密"
+      event_ui:
+        show_all: "顯示全部"
       bulk_invite_modal:
         success: "檔案已上傳成功，處理完畢後將以私人訊息通知你。"
         error: "上傳的檔案必須是 csv 格式。"

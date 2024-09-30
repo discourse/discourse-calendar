@@ -26,6 +26,7 @@ lv:
       discourse_post_event:
         models:
           event:
+            closed: "Slēgts"
             status:
               public:
                 title: "Publisks"

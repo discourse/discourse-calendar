@@ -44,6 +44,7 @@ ru:
         none: "Не выбран"
         use_current_region: "Использовать текущий регион"
         names:
+          ae: "Объединенные Арабские Эмираты"
           ar: "Аргентина"
           at: "Австрия"
           au_act: "Австралия (au_act)"
@@ -183,6 +184,7 @@ ru:
           in_mh: "Индия (in_mh)"
           in_rj: "Индия (in_rj)"
           in_tn: "Индия (in_tn)"
+          in_ka: "Индия (in_ka)"
           is: "Исландия"
           it_bl: "Италия (it_bl)"
           it_fi: "Италия (it_fi)"
@@ -339,6 +341,7 @@ ru:
               interested: "Интересно"
           event:
             expired: "Истекший срок"
+            closed: "Закрытое"
             status:
               standalone:
                 title: "Обособленное"
@@ -365,6 +368,7 @@ ru:
           created_by: "Создано"
           bulk_invite: "Массовое приглашение"
           close_event: "Закрыть мероприятие"
+          open_event: "Открыть мероприятие"
         invitees_modal:
           title_invited: "Список пользователей, ответивших на приглашение"
           title_participated: "Список участвовавших пользователей"
@@ -393,6 +397,7 @@ ru:
           update_event_title: "Изменить мероприятие"
           confirm_delete: "Действительно удалить это мероприятие ?"
           confirm_close: "Действительно закрыть это мероприятие ?"
+          confirm_open: "Действительно открыть это мероприятие ?"
           create: "Создать"
           update: "Сохранить"
           attach: "Создать мероприятие"
@@ -467,6 +472,8 @@ ru:
       preview:
         more_than_one_event: "У вас не может быть более одного мероприятия."
       edit_reason: "Мероприятие обновлено"
+      edit_reason_closed: "Мероприятие закрыто"
+      edit_reason_opened: "Мероприятие открыто"
       topic_title:
         starts_at: "Мероприятие начнется %{date}"
         ended_at: "Мероприятие завершится %{date}"

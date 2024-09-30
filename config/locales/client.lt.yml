@@ -9,6 +9,7 @@ lt:
     discourse_automation:
       triggerables:
         event_started:
+          title: Įvykis prasidėjo
           fields:
             topic_id:
               label: Temos ID
@@ -29,6 +30,7 @@ lt:
         models:
           event:
             expired: "Baigėsi galiojimo laikas"
+            closed: "Uždaryta"
             status:
               public:
                 title: "Vieša"

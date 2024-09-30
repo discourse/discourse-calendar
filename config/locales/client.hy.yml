@@ -28,6 +28,7 @@ hy:
           invite_user_notification: "%{username} %{description}"
         models:
           event:
+            closed: "Փակված"
             status:
               public:
                 title: "Հանրային"

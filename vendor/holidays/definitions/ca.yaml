@@ -132,42 +132,10 @@ months:
     year_ranges:
       from: 2020
   8:
-  - name: B.C. Day
-    week: 1
-    regions: [ca_bc]
-    wday: 1
-  - name: Saskatchewan Day
-    week: 1
-    regions: [ca_sk]
-    wday: 1
-  - name: Heritage Day
-    week: 1
-    regions: [ca_ab]
-    type: informal
-    wday: 1
-  - name: Natal Day
-    week: 1
-    regions: [ca_ns]
-    wday: 1
-    type: informal
   - name: Civic Holiday
     week: 1
-    regions: [ca_nt, ca_nu]
+    regions: [ca_ab, ca_bc, ca_mb, ca_nb, ca_ns, ca_nt, ca_nu, ca_on, ca_pe, ca_sk]
     wday: 1
-  - name: Civic Holiday
-    week: 1
-    regions: [ca_on, ca_pe]
-    wday: 1
-    type: informal
-  - name: New Brunswick Day
-    week: 1
-    regions: [ca_nb]
-    wday: 1
-  - name: Terry Fox Day
-    week: 1
-    regions: [ca_mb]
-    wday: 1
-    type: informal
   - name: Discovery Day
     week: 3
     regions: [ca_yt]
@@ -550,140 +518,10 @@ tests:
 
   # First Monday in August
   - given:
-      date: '2013-08-05'
-      regions: ["ca_bc"]
-    expect:
-      name: "B.C. Day"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_sk"]
-    expect:
-      name: "Saskatchewan Day"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_ab"]
-      options: ["informal"]
-    expect:
-      name: "Heritage Day"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_ns"]
-      options: ["informal"]
-    expect:
-      name: "Natal Day"
-  - given:
-      date: ['2013-08-05', '2014-8-4', '2015-8-3']
-      regions: ["ca_on"]
-      options: ["informal"]
+      date: ['2024-08-05', '2025-08-04', '2026-08-03']
+      regions: ["ca_ab", "ca_bc", "ca_mb", "ca_nb", "ca_ns", "ca_nt", "ca_nu", "ca_on", "ca_pe", "ca_sk"]
     expect:
       name: "Civic Holiday"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_nt"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_nu"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_pe"]
-      options: ["informal"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2013-08-05'
-      regions: ["ca_nb"]
-    expect:
-      name: "New Brunswick Day"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_bc"]
-    expect:
-      name: "B.C. Day"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_sk"]
-    expect:
-      name: "Saskatchewan Day"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_ab"]
-      options: ["informal"]
-    expect:
-      name: "Heritage Day"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_ns"]
-      options: ["informal"]
-    expect:
-      name: "Natal Day"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_nt"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_nu"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_pe"]
-      options: ["informal"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2014-08-04'
-      regions: ["ca_nb"]
-    expect:
-      name: "New Brunswick Day"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_bc"]
-    expect:
-      name: "B.C. Day"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_sk"]
-    expect:
-      name: "Saskatchewan Day"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_ab"]
-      options: ["informal"]
-    expect:
-      name: "Heritage Day"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_ns"]
-      options: ["informal"]
-    expect:
-      name: "Natal Day"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_nt"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_nu"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_pe"]
-      options: ["informal"]
-    expect:
-      name: "Civic Holiday"
-  - given:
-      date: '2015-08-03'
-      regions: ["ca_nb"]
-    expect:
-      name: "New Brunswick Day"
 
   # Remembrance Day in all Canadian provinces
   # except (Nova Scotia, Manitoba, Ontario, and Quebec)
@@ -823,35 +661,6 @@ tests:
       regions: ['ca_yt']
     expect:
       name: 'National Aboriginal Day'
-  - given:
-      date: '2019-08-05'
-      regions: ['ca_mb']
-      options: ['informal']
-    expect:
-      name: 'Terry Fox Day'
-  - given:
-      date: '2020-08-03'
-      regions: ['ca_mb']
-      options: ['informal']
-    expect:
-      name: 'Terry Fox Day'
-  - given:
-      date: '2020-08-03'
-      regions: ['ca_mb']
-    expect:
-      holiday: false
-  - given:
-      date: '2015-08-03'
-      regions: ['ca_mb']
-      options: ['informal']
-    expect:
-      name: 'Terry Fox Day'
-  - given:
-      date: '2045-08-07'
-      regions: ['ca_mb']
-      options: ['informal']
-    expect:
-      name: 'Terry Fox Day'
   # Nunavut Day, July 9 - Should only be active on 2020 or later
   - given:
       date: '2020-07-09'

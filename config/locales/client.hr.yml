@@ -29,6 +29,7 @@ hr:
         models:
           event:
             expired: "Isteklo"
+            closed: "Zatvoreno"
             status:
               public:
                 title: "Javnost"

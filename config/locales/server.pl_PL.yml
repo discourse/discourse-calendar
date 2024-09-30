@@ -59,9 +59,10 @@ pl_PL:
         models:
           event:
             only_one_event: "Post może mieć tylko jedno wydarzenie."
-            only_group: "Wydarzenie akceptuje tylko nazwy grup."
             must_be_in_first_post: "Wydarzenie może znajdować się tylko w pierwszym poście tematu."
             raw_invitees_length: "Wydarzenie jest ograniczone do %{count} użytkowników/grup."
+            raw_invitees:
+              only_group: "Wydarzenie akceptuje tylko nazwy grup."
             ends_at_before_starts_at: "Wydarzenie nie może zakończyć się zanim się zacznie."
             start_must_be_present_and_a_valid_date: "Wydarzenie wymaga prawidłowej daty rozpoczęcia."
             end_must_be_a_valid_date: "Data zakończenia musi być prawidłową datą."

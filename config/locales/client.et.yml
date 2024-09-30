@@ -28,6 +28,7 @@ et:
           invite_user_notification: "%{username} %{description}"
         models:
           event:
+            closed: "Suletud"
             status:
               public:
                 title: "Avalik"
@@ -53,6 +54,8 @@ et:
             periods:
               before: "enne"
               after: "pärast"
+          recurrence:
+            every_day: "Iga päev"
           url:
             label: "URL"
             placeholder: "Valikuline"
@@ -94,6 +97,8 @@ et:
           periods:
             before: "enne"
             after: "pärast"
+        recurrence:
+          every_day: "Iga päev"
         url:
           label: "URL"
           placeholder: "Valikuline"

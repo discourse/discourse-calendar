@@ -81,9 +81,10 @@ zh_CN:
         models:
           event:
             only_one_event: "一个帖子只能有一个活动。"
-            only_group: "活动只接受群组名。"
             must_be_in_first_post: "活动只能出现在话题的第一个帖子中。"
             raw_invitees_length: "活动仅限于 %{count} 个用户/群组。"
+            raw_invitees:
+              only_group: "活动只接受群组名。"
             ends_at_before_starts_at: "活动的结束日期不能早于开始日期。"
             start_must_be_present_and_a_valid_date: "活动需要有效的开始日期。"
             end_must_be_a_valid_date: "结束日期必须是有效日期。"

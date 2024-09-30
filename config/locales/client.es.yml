@@ -44,6 +44,7 @@ es:
         none: "Ninguna"
         use_current_region: "Usar región actual"
         names:
+          ae: "Emiratos Árabes Unidos"
           ar: "Argentina"
           at: "Austria"
           au_act: "Australia (au_act)"
@@ -183,6 +184,7 @@ es:
           in_mh: "India (in_mh)"
           in_rj: "India (in_rj)"
           in_tn: "India (in_tn)"
+          in_ka: "India (in_ka)"
           is: "Islandia"
           it_bl: "Italia (it_bl)"
           it_fi: "Italia (it_fi)"
@@ -339,6 +341,7 @@ es:
               interested: "Estoy interesado"
           event:
             expired: "Caducado"
+            closed: "Cerrado"
             status:
               standalone:
                 title: "Independiente"
@@ -363,6 +366,7 @@ es:
           created_by: "Creado por"
           bulk_invite: "Invitaciones en masa"
           close_event: "Cerrar evento"
+          open_event: "Abrir evento"
         invitees_modal:
           title_invited: "Lista de usuarios que han respondido"
           title_participated: "Lista de usuarios que participaron"
@@ -391,6 +395,7 @@ es:
           update_event_title: "Editar evento"
           confirm_delete: "¿Seguro que quieres eliminar este evento?"
           confirm_close: "¿Seguro que quieres cerrar ese evento?"
+          confirm_open: "¿Seguro que quieres abrir ese evento?"
           create: "Crear"
           update: "Guardar"
           attach: "Crear evento"
@@ -465,6 +470,8 @@ es:
       preview:
         more_than_one_event: "No puedes tener más de un evento."
       edit_reason: "Evento actualizado"
+      edit_reason_closed: "Evento cerrado"
+      edit_reason_opened: "Evento abierto"
       topic_title:
         starts_at: "El evento comenzará: %{date}"
         ended_at: "Evento terminó: %{date}"

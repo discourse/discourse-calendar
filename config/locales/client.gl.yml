@@ -29,6 +29,7 @@ gl:
         models:
           event:
             expired: "Caducou"
+            closed: "Pechado"
             status:
               public:
                 title: "Pública"

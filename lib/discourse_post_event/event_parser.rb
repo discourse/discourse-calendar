@@ -13,6 +13,7 @@ module DiscoursePostEvent
       :recurrence,
       :timezone,
       :minimal,
+      :closed,
     ]
 
     def self.extract_events(post)

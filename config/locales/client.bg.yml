@@ -29,6 +29,7 @@ bg:
         models:
           event:
             expired: "Изтекъл срок"
+            closed: "Затворена"
             status:
               public:
                 title: "Публични"
@@ -65,6 +66,8 @@ bg:
     group_timezones:
       search: "Търсене ... "
     discourse_post_event:
+      notifications:
+        invite_user_notification: "%{username} %{description}"
       models:
         event:
           expired: "Изтекъл срок"
@@ -73,11 +76,16 @@ bg:
               title: "Публични"
             private:
               title: "Затворени"
+      event_ui:
+        bulk_invite: "Групова покана"
       bulk_invite_modal:
+        title: "Групова покана"
         success: "Файлът е качен успешно. Ще бъдете информирани чрез съобщение, когато процесът завърши."
+        error: "За съжаление файлът трябва да е във формат CSV."
       builder_modal:
         custom_fields:
           placeholder: "По избор"
+        create: "Създай"
         update: "Запази "
         timezone:
           label: Часова зона

@@ -5,6 +5,10 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
 
   params.start = moment(startsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
 
+  if (eventModel.closed) {
+    params.closed = "true";
+  }
+
   if (eventModel.status) {
     params.status = eventModel.status;
   }
