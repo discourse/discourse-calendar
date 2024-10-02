@@ -35,7 +35,7 @@ pt_BR:
   site_settings:
     events_max_rows: "Máximo de linhas de texto por evento no Calendário."
     map_events_to_color: "Atribua uma cor a cada etiqueta ou categoria."
-    calendar_enabled: "Ative o plugin do calendário discursivo. Isso adicionará suporte para uma etiqueta de [calendar][/calendar] na primeira postagem de um tópico."
+    calendar_enabled: "Ativar o plugin discourse-calendar. Isso adicionará suporte a uma tag [calendar][/calendar] na primeira postagem de um tópico."
     discourse_post_event_enabled: "Habilita os recursos de Evento. Observação: também é preciso habilitar \"calendário habilidado\""
     displayed_invitees_limit: "Limita o número de convidados(as) exibidos(as) em um evento."
     display_post_event_date_on_topic_title: "Exibe a data do evento após o título do tópico."
