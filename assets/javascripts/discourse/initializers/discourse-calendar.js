@@ -66,7 +66,9 @@ function initializeDiscourseCalendar(api) {
       return;
     }
 
-    const browsedCategory = Category.findBySlugPathWithID(route.params.category_slug_path_with_id);
+    const browsedCategory = Category.findBySlugPathWithID(
+      route.params.category_slug_path_with_id
+    );
     if (!browsedCategory) {
       return;
     }
