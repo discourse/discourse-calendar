@@ -44,6 +44,7 @@ cs:
         none: "Žádná"
         use_current_region: "Použít současný region"
         names:
+          ae: "Spojené arabské emiráty"
           ar: "Argentina"
           at: "Rakousko"
           au_act: "Austrálie (au_act)"
@@ -183,6 +184,7 @@ cs:
           in_mh: "Indie (in_mh)"
           in_rj: "Indie (in_rj)"
           in_tn: "Indie (in_tn)"
+          in_ka: "Indie (in_ka)"
           is: "Island"
           it_bl: "Itálie (it_bl)"
           it_fi: "Itálie (it_fi)"
@@ -366,6 +368,7 @@ cs:
           created_by: "Vytvořil/a"
           bulk_invite: "Hromadné pozvání"
           close_event: "Zavřít událost"
+          open_event: "Otevřít událost"
         invitees_modal:
           title_invited: "Seznam pozvaných uživatelů"
           title_participated: "Seznam uživatelů, kteří se zúčastnili"
@@ -394,6 +397,7 @@ cs:
           update_event_title: "Upravit událost"
           confirm_delete: "Určitě chcete tuto událost smazat?"
           confirm_close: "Opravdu chcete uzavřít tuto událost?"
+          confirm_open: "Opravdu chcete otevřít tuto událost?"
           create: "Vytvořit"
           update: "Uložit"
           attach: "Vytvořit událost"
@@ -468,6 +472,8 @@ cs:
       preview:
         more_than_one_event: "Nemůžete mít více než jednu událost."
       edit_reason: "Událost aktualizována"
+      edit_reason_closed: "Akce uzavřena"
+      edit_reason_opened: "Událost otevřena"
       topic_title:
         starts_at: "Událost začne: %{date}"
         ended_at: "Událost skončila: %{date}"
