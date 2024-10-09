@@ -5,6 +5,7 @@ import { inject as service } from "@ember/service";
 import { extractError } from "discourse/lib/ajax-error";
 import { cook } from "discourse/lib/text";
 import Group from "discourse/models/group";
+import I18n from "I18n";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default class PostEventBuilder extends Component {
@@ -25,35 +26,105 @@ export default class PostEventBuilder extends Component {
 
   get reminderTypes() {
     return [
-      { value: "notification", name: "Notification" },
-      { value: "bumpTopic", name: "Bump Topic" },
+      {
+        value: "notification",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.types.notification"
+        ),
+      },
+      {
+        value: "bumpTopic",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.types.bump_topic"
+        ),
+      },
     ];
   }
 
   get reminderUnits() {
     return [
-      { value: "minutes", name: "Minutes" },
-      { value: "hours", name: "Hours" },
-      { value: "days", name: "Days" },
-      { value: "weeks", name: "Weeks" },
+      {
+        value: "minutes",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.units.minutes"
+        ),
+      },
+      {
+        value: "hours",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.units.hours"
+        ),
+      },
+      {
+        value: "days",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.units.days"
+        ),
+      },
+      {
+        value: "weeks",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.units.weeks"
+        ),
+      },
     ];
   }
 
   get reminderPeriods() {
     return [
-      { value: "before", name: "Before" },
-      { value: "after", name: "After" },
+      {
+        value: "before",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.periods.before"
+        ),
+      },
+      {
+        value: "after",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.reminders.periods.after"
+        ),
+      },
     ];
   }
 
   get availableRecurrences() {
     return [
-      { id: "every_day", name: "Every Day" },
-      { id: "every_month", name: "Every Month" },
-      { id: "every_weekday", name: "Every Weekday" },
-      { id: "every_week", name: "Every Week" },
-      { id: "every_two_weeks", name: "Every Two Weeks" },
-      { id: "every_four_weeks", name: "Every Four Weeks" },
+      {
+        id: "every_day",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.recurrence.every_day"
+        ),
+      },
+      {
+        id: "every_month",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.recurrence.every_month"
+        ),
+      },
+      {
+        id: "every_weekday",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.recurrence.every_weekday"
+        ),
+      },
+      {
+        id: "every_week",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.recurrence.every_week"
+        ),
+      },
+      {
+        id: "every_two_weeks",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.recurrence.every_two_weeks"
+        ),
+      },
+      {
+        id: "every_four_weeks",
+        name: I18n.t(
+          "discourse_calendar.discourse_post_event.builder_modal.recurrence.every_four_weeks"
+        ),
+      },
     ];
   }
 
@@ -174,7 +245,9 @@ export default class PostEventBuilder extends Component {
       if (newRaw) {
         const props = {
           raw: newRaw,
-          edit_reason: "Edit reason",
+          edit_reason: I18n.t(
+            "discourse_calendar.discourse_post_event.edit_reason"
+          ),
         };
 
         const cooked = await cook(newRaw);
