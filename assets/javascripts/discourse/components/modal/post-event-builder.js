@@ -5,7 +5,7 @@ import { inject as service } from "@ember/service";
 import { extractError } from "discourse/lib/ajax-error";
 import { cook } from "discourse/lib/text";
 import Group from "discourse/models/group";
-import I18n from "I18n";
+import I18n from "discourse-i18n";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default class PostEventBuilder extends Component {
