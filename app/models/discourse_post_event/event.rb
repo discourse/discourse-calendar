@@ -337,11 +337,19 @@ module DiscoursePostEvent
     end
 
     def missing_users(excluded_ids = self.invitees.select(:user_id))
-      User
-        .joins(:groups)
-        .where("groups.name" => self.raw_invitees)
-        .where.not(id: excluded_ids)
-        .distinct
+      users = User.real.activated.not_silenced.not_suspended.not_staged
+
+      if self.raw_invitees.present?
+        user_ids =
+          users
+            .joins(:groups)
+            .where("groups.name" => self.raw_invitees)
+            .where.not(id: excluded_ids)
+            .select(:id)
+        User.where(id: user_ids)
+      else
+        users.where.not(id: excluded_ids)
+      end
     end
 
     def update_with_params!(params)
