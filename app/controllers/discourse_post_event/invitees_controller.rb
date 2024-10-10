@@ -16,7 +16,11 @@ module DiscoursePostEvent
         missing_users = event.missing_users(event_invitees.select(:user_id))
 
         if filter
-          missing_users = missing_users.where("LOWER(username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
+          missing_users =
+            missing_users.where(
+              "LOWER(username) LIKE :filter",
+              filter: "%#{params[:filter].downcase}%",
+            )
 
           custom_order = <<~SQL
             CASE
@@ -73,13 +77,10 @@ module DiscoursePostEvent
       raise Discourse::InvalidAccess if !event.can_user_update_attendance(user)
 
       if current_user.id != user.id
-        if !guardian.can_act_on_discourse_post_event?(event)
-          raise Discourse::InvalidAccess
-        end
+        raise Discourse::InvalidAccess if !guardian.can_act_on_discourse_post_event?(event)
       end
 
-      invitee =
-        Invitee.create_attendance!(user.id, params[:post_id], invitee_params[:status])
+      invitee = Invitee.create_attendance!(user.id, params[:post_id], invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
