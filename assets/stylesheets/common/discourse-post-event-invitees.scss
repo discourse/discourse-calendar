@@ -8,7 +8,6 @@
   .loading-container {
     height: 40vh;
     overflow-y: scroll;
-    padding: 0 1em 9px 1em;
     .no-users {
       text-align: center;
       font-size: var(--font-up-1);
@@ -26,9 +25,10 @@
   }
   .filter {
     width: calc(100% - 2em);
-    margin: 1em;
+    margin-bottom: 1em;
   }
-  .invitees {
+
+  .invitees, .possible-invitees {
     display: flex;
     margin: 0;
     flex-direction: column;
@@ -73,5 +73,10 @@
         }
       }
     }
+  }
+
+  .possible-invitees {
+    margin-top: 1em;
+    background-color: var(--primary-very-low);
   }
 }

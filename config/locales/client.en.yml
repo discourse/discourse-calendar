@@ -330,7 +330,7 @@ en:
           ends_in_duration: "Ends %{duration}"
         models:
           invitee:
-            no_users: "There are no users of this type."
+            no_users: "No users found"
             status:
               unknown: "Not interested"
               going: "Going"
@@ -365,7 +365,7 @@ en:
           close_event: "Close event"
           open_event: "Open event"
         invitees_modal:
-          title_invited: "List of RSVPed users"
+          title_invited: "Event Participation"
           title_participated: "List of users who participated"
           filter_placeholder: "Filter users"
         bulk_invite_modal:

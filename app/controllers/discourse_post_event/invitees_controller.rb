@@ -6,23 +6,50 @@ module DiscoursePostEvent
       event = Event.find(params[:post_id])
       guardian.ensure_can_see!(event.post)
 
-      event_invitees = event.invitees
+      filter = params[:filter].downcase if params[:filter]
 
-      if params[:filter]
+      event_invitees = event.invitees
+      event_invitees = event_invitees.with_status(params[:type].to_sym) if params[:type]
+
+      possible_invitees = []
+      if filter.present? && guardian.can_act_on_discourse_post_event?(event)
+        missing_users = event.missing_users(event_invitees.select(:user_id))
+
+        if filter
+          missing_users = missing_users.where("LOWER(username) LIKE :filter", filter: "%#{params[:filter].downcase}%")
+
+          custom_order = <<~SQL
+            CASE
+              WHEN LOWER(username) = ? THEN 0
+              ELSE 1
+            END ASC,
+            LOWER(username) ASC
+          SQL
+
+          custom_order = ActiveRecord::Base.sanitize_sql_array([custom_order, filter])
+          missing_users = missing_users.order(custom_order).limit(10)
+        else
+          missing_users = missing_users.order(:username_lower).limit(10)
+        end
+
+        possible_invitees = missing_users
+      end
+
+      if filter
         event_invitees =
           event_invitees.joins(:user).where(
             "LOWER(users.username) LIKE :filter",
-            filter: "%#{params[:filter].downcase}%",
+            filter: "%#{filter}%",
           )
       end
 
-      event_invitees = event_invitees.with_status(params[:type].to_sym) if params[:type]
+      event_invitees = event_invitees.order(%i[status username_lower]).limit(200)
 
       render json:
-               ActiveModel::ArraySerializer.new(
-                 event_invitees.order(%i[status user_id]).limit(200),
-                 each_serializer: InviteeSerializer,
-               ).as_json
+               InviteeListSerializer.new(
+                 invitees: event_invitees,
+                 possible_invitees: possible_invitees,
+               )
     end
 
     def update
@@ -36,10 +63,23 @@ module DiscoursePostEvent
       event = Event.find(params[:post_id])
       guardian.ensure_can_see!(event.post)
 
-      raise Discourse::InvalidAccess if !event.can_user_update_attendance(current_user)
+      invitee_params = invitee_params(event)
+
+      user = current_user
+      if user_id = invitee_params[:user_id]
+        user = User.find(user_id.to_i)
+      end
+
+      raise Discourse::InvalidAccess if !event.can_user_update_attendance(user)
+
+      if current_user.id != user.id
+        if !guardian.can_act_on_discourse_post_event?(event)
+          raise Discourse::InvalidAccess
+        end
+      end
 
       invitee =
-        Invitee.create_attendance!(current_user.id, params[:post_id], invitee_params[:status])
+        Invitee.create_attendance!(user.id, params[:post_id], invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
@@ -54,8 +94,12 @@ module DiscoursePostEvent
 
     private
 
-    def invitee_params
-      params.require(:invitee).permit(:status)
+    def invitee_params(event = nil)
+      if event && guardian.can_act_on_discourse_post_event?(event)
+        params.require(:invitee).permit(:status, :user_id)
+      else
+        params.require(:invitee).permit(:status)
+      end
     end
   end
 end
