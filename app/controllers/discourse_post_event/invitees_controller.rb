@@ -19,7 +19,7 @@ module DiscoursePostEvent
           missing_users =
             missing_users.where(
               "LOWER(username) LIKE :filter",
-              filter: "%#{params[:filter].downcase}%",
+              filter: "%#{filter}%",
             )
 
           custom_order = <<~SQL
