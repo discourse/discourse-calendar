@@ -39,6 +39,8 @@ function initializeDiscourseCalendar(api) {
   const site = api.container.lookup("service:site");
   const isMobileView = site && site.mobileView;
 
+  const router = api.container.lookup("service:router");
+
   let selector = `.${outletName}-outlet`;
   if (outletName === "before-topic-list-body") {
     selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
@@ -59,7 +61,14 @@ function initializeDiscourseCalendar(api) {
       categoryEventNode.innerHTML = "";
     }
 
-    const browsedCategory = Category.findBySlugPathWithID(url.split("?")[0]);
+    const route = router.recognize(url);
+    if (!route?.params?.category_slug_path_with_id) {
+      return;
+    }
+
+    const browsedCategory = Category.findBySlugPathWithID(
+      route.params.category_slug_path_with_id
+    );
     if (!browsedCategory) {
       return;
     }
