@@ -124,6 +124,7 @@ export default class PostEventInvitees extends Component {
                   {{renderInvitee invitee}}
                   {{#if @model.event.can_act_on_discourse_post_event}}
                     <DButton
+                      class="remove-invitee"
                       @icon="trash-alt"
                       @action={{fn this.removeInvitee invitee}}
                       title={{i18n
@@ -140,6 +141,7 @@ export default class PostEventInvitees extends Component {
                   <li class="invitee">
                     {{renderInvitee invitee}}
                     <DButton
+                      class="add-invitee"
                       @icon="plus"
                       @action={{fn this.addInvitee invitee}}
                       title={{i18n
