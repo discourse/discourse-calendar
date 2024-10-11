@@ -16,11 +16,7 @@ module DiscoursePostEvent
         missing_users = event.missing_users(event_invitees.select(:user_id))
 
         if filter
-          missing_users =
-            missing_users.where(
-              "LOWER(username) LIKE :filter",
-              filter: "%#{filter}%",
-            )
+          missing_users = missing_users.where("LOWER(username) LIKE :filter", filter: "%#{filter}%")
 
           custom_order = <<~SQL
             CASE
