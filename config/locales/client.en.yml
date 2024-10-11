@@ -368,6 +368,8 @@ en:
           title_invited: "Event Participation"
           title_participated: "List of users who participated"
           filter_placeholder: "Filter users"
+          remove_invitee: "Remove invitee from list"
+          add_invitee: "Add invitee to list"
         bulk_invite_modal:
           confirm: "confirm"
           text: "Upload CSV file"

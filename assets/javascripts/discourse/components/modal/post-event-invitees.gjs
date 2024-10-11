@@ -1,6 +1,5 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { Input } from "@ember/component";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
@@ -53,7 +52,8 @@ export default class PostEventInvitees extends Component {
   }
 
   @debounce(250)
-  onFilterChanged() {
+  onFilterChanged(event) {
+    this.filter = event.target.value;
     this._fetchInvitees(this.filter);
   }
 
@@ -106,14 +106,15 @@ export default class PostEventInvitees extends Component {
       }}
     >
       <:body>
-        <Input
-          @value={{this.filter}}
+        <input
           {{on "input" this.onFilterChanged}}
-          class="filter"
+          type="text"
           placeholder={{i18n
             "discourse_calendar.discourse_post_event.invitees_modal.filter_placeholder"
           }}
+          class="filter"
         />
+
         <ToggleInvitees @viewType={{this.type}} @toggle={{this.toggleType}} />
         <ConditionalLoadingSpinner @condition={{this.isLoading}}>
           {{#if this.hasResults}}
@@ -125,6 +126,9 @@ export default class PostEventInvitees extends Component {
                     <DButton
                       @icon="trash-alt"
                       @action={{fn this.removeInvitee invitee}}
+                      title={{i18n
+                        "discourse_calendar.discourse_post_event.invitees_modal.remove_invitee"
+                      }}
                     />
                   {{/if}}
                 </li>
@@ -138,6 +142,9 @@ export default class PostEventInvitees extends Component {
                     <DButton
                       @icon="plus"
                       @action={{fn this.addInvitee invitee}}
+                      title={{i18n
+                        "discourse_calendar.discourse_post_event.invitees_modal.add_invitee"
+                      }}
                     />
                   </li>
                 {{/each}}
