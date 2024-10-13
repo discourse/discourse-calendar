@@ -5,6 +5,7 @@ import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
 import getURL from "discourse-common/lib/get-url";
 import { formatEventName } from "../helpers/format-event-name";
+import addRecurrentEvents from "../lib/add-recurrent-events";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
@@ -29,22 +30,6 @@ export default Component.extend({
     this._super(...arguments);
 
     this._renderCalendar();
-  },
-
-  addRecurrentEvents(events) {
-    events.forEach((event) => {
-      event.upcoming_dates?.forEach((upcomingDate) => {
-        events.push(
-          Object.assign({}, event, {
-            starts_at: upcomingDate.starts_at,
-            ends_at: upcomingDate.ends_at,
-            upcoming_dates: [],
-          })
-        );
-      });
-    });
-
-    return events;
   },
 
   _renderCalendar() {
@@ -90,7 +75,7 @@ export default Component.extend({
 
       const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-      const originalEventAndRecurrents = this.addRecurrentEvents(
+      const originalEventAndRecurrents = addRecurrentEvents(
         this.events.content
       );
 
