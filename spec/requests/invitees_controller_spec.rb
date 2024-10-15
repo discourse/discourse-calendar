@@ -46,6 +46,7 @@ module DiscoursePostEvent
         let(:invitee2) { Fabricate(:user, username: "Francisco", name: "Francisco") }
         let(:invitee3) { Fabricate(:user, username: "Frank", name: "Frank") }
         let(:invitee4) { Fabricate(:user, username: "Franchesca", name: "Franchesca") }
+        let!(:random_user) { Fabricate(:user, username: "Franny") }
         let(:post_event_1) do
           pe = Fabricate(:event, post: post_1)
           pe.create_invitees(
@@ -57,6 +58,28 @@ module DiscoursePostEvent
             ],
           )
           pe
+        end
+
+        context "when user is allowed to act on post event" do
+          it "returns users extra possible users when filtering the invitees by name" do
+            get "/discourse-post-event/events/#{post_event_1.id}/invitees.json",
+                params: {
+                  filter: "Fran",
+                  type: "going",
+                }
+
+            possible = response.parsed_body[:meta][:possible_invitees].map { |u| u[:username] }.sort
+            expect(possible).to eq(%w[Francisco Frank Franny])
+
+            get "/discourse-post-event/events/#{post_event_1.id}/invitees.json",
+                params: {
+                  filter: "",
+                  type: "going",
+                }
+
+            possible = response.parsed_body.dig(:meta, :possible_invitees)
+            expect(possible).to be_blank
+          end
         end
 
         it "returns the correct amount of users when filtering the invitees by name" do
@@ -240,6 +263,26 @@ module DiscoursePostEvent
 
         context "when the invitee is the event owner" do
           let(:post_event_2) { Fabricate(:event, post: post_1) }
+
+          it "allows inviting other users" do
+            user = Fabricate(:user)
+
+            post "/discourse-post-event/events/#{post_event_2.id}/invitees.json",
+                 params: {
+                   invitee: {
+                     status: "interested",
+                     user_id: user.id,
+                   },
+                 }
+
+            post_event_2.reload
+
+            expect(post_event_2.invitees.length).to eq(1)
+            invitee = post_event_2.invitees.first
+            expect(invitee.status).to eq(1)
+            expect(invitee.post_id).to eq(post_1.id)
+            expect(invitee.user_id).to eq(user.id)
+          end
 
           it "creates an invitee" do
             expect(post_event_2.invitees.length).to eq(0)

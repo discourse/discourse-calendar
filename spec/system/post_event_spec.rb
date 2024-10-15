@@ -2,6 +2,7 @@
 
 describe "Post event", type: :system do
   fab!(:admin)
+  fab!(:user) { Fabricate(:admin, username: "jane") }
   let(:composer) { PageObjects::Components::Composer.new }
 
   before do
@@ -39,5 +40,19 @@ describe "Post event", type: :system do
     page.find("#dialog-holder .btn-primary").click
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.public")
+
+    page.find(".going-button").click
+    page.find(".event-invitees .show-all").click
+
+    page.find(".d-modal input.filter").fill_in(with: "jan")
+    page.find(".d-modal .add-invitee").click
+
+    topic_page = PageObjects::Pages::Topic.new
+
+    topic = Topic.find(topic_page.current_topic_id)
+
+    event = topic.posts.first.event
+
+    expect(event.invitees.count).to eq(2)
   end
 end

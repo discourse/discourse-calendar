@@ -5,13 +5,14 @@ import { formatUsername } from "discourse/lib/utilities";
 import { htmlHelper } from "discourse-common/lib/helpers";
 
 export default htmlHelper((invitee) => {
-  const path = userPath(invitee.user.username);
+  const user = invitee.user || invitee;
+  const path = userPath(user.username);
   const template = `
-    <a href="${path}" data-user-card="${invitee.user.username}">
+    <a href="${path}" data-user-card="${user.username}">
       <span class="user">
-        ${renderAvatar(invitee.user, { imageSize: "medium" })}
+        ${renderAvatar(user, { imageSize: "medium" })}
         <span class="username">
-         ${formatUsername(invitee.user.username)}
+         ${formatUsername(user.username)}
         </span>
       </span>
     </a>
