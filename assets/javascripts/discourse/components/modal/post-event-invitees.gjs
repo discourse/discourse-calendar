@@ -17,24 +17,25 @@ import ToggleInvitees from "../toggle-invitees";
 
 export default class PostEventInvitees extends Component {
   @service store;
+  @service discoursePostEventApi;
 
   @tracked invitees;
   @tracked filter;
   @tracked isLoading = false;
   @tracked type = "going";
-  @tracked possibleInvitees = [];
+  @tracked suggestedUsers = [];
 
   constructor() {
     super(...arguments);
     this._fetchInvitees();
   }
 
-  get hasPossibleInvitees() {
-    return this.possibleInvitees.length > 0;
+  get hasSuggestedUsers() {
+    return this.suggestedUsers.length > 0;
   }
 
   get hasResults() {
-    return this.invitees?.length > 0 || this.hasPossibleInvitees;
+    return this.invitees?.length > 0 || this.hasSuggestedUsers;
   }
 
   get title() {
@@ -73,25 +74,20 @@ export default class PostEventInvitees extends Component {
     });
 
     this.invitees.pushObject(invitee);
-    this.possibleInvitees = this.possibleInvitees.filter(
-      (i) => i.id !== user.id
-    );
+    this.suggestedUsers = this.suggestedUsers.filter((i) => i.id !== user.id);
   }
 
   async _fetchInvitees(filter) {
     try {
       this.isLoading = true;
-      const invitees = await this.store.findAll(
-        "discourse-post-event-invitee",
-        {
-          filter,
-          post_id: this.args.model.event.id,
-          type: this.type,
-        }
+
+      const inviteesList = await this.discoursePostEventApi.listEventInvitees(
+        this.args.model.event,
+        { type: this.type, filter }
       );
 
-      this.possibleInvitees = invitees.resultSetMeta?.possible_invitees || [];
-      this.invitees = invitees;
+      this.suggestedUsers = inviteesList.suggestedUsers;
+      this.invitees = inviteesList.invitees;
     } finally {
       this.isLoading = false;
     }
@@ -135,15 +131,15 @@ export default class PostEventInvitees extends Component {
                 </li>
               {{/each}}
             </ul>
-            {{#if this.hasPossibleInvitees}}
+            {{#if this.hasSuggestedUsers}}
               <ul class="possible-invitees">
-                {{#each this.possibleInvitees as |invitee|}}
+                {{#each this.suggestedUsers as |user|}}
                   <li class="invitee">
-                    {{renderInvitee invitee}}
+                    {{renderInvitee user}}
                     <DButton
                       class="add-invitee"
                       @icon="plus"
-                      @action={{fn this.addInvitee invitee}}
+                      @action={{fn this.addInvitee user}}
                       title={{i18n
                         "discourse_calendar.discourse_post_event.invitees_modal.add_invitee"
                       }}

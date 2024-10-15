@@ -11,7 +11,7 @@ module DiscoursePostEvent
       event_invitees = event.invitees
       event_invitees = event_invitees.with_status(params[:type].to_sym) if params[:type]
 
-      possible_invitees = []
+      suggested_users = []
       if filter.present? && guardian.can_act_on_discourse_post_event?(event)
         missing_users = event.missing_users(event_invitees.select(:user_id))
 
@@ -32,7 +32,7 @@ module DiscoursePostEvent
           missing_users = missing_users.order(:username_lower).limit(10)
         end
 
-        possible_invitees = missing_users
+        suggested_users = missing_users
       end
 
       if filter
@@ -46,10 +46,7 @@ module DiscoursePostEvent
       event_invitees = event_invitees.order(%i[status username_lower]).limit(200)
 
       render json:
-               InviteeListSerializer.new(
-                 invitees: event_invitees,
-                 possible_invitees: possible_invitees,
-               )
+               InviteeListSerializer.new(invitees: event_invitees, suggested_users: suggested_users)
     end
 
     def update

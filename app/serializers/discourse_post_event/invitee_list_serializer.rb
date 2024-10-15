@@ -12,9 +12,9 @@ module DiscoursePostEvent
 
     def meta
       {
-        possible_invitees:
+        suggested_users:
           ActiveModel::ArraySerializer.new(
-            possible_invitees,
+            suggested_users,
             each_serializer: BasicUserSerializer,
             scope: scope,
           ),
@@ -22,11 +22,11 @@ module DiscoursePostEvent
     end
 
     def include_meta?
-      possible_invitees.present?
+      suggested_users.present?
     end
 
-    def possible_invitees
-      object[:possible_invitees]
+    def suggested_users
+      object[:suggested_users]
     end
   end
 end

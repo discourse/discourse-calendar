@@ -3,6 +3,7 @@ import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { ajax } from "discourse/lib/ajax";
 import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import DiscoursePostEventInvitee from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-invitee";
+import DiscoursePostEventInvitees from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-invitees";
 
 /**
  * Discoure post event API service. Provides methods to interact with the discourse post event API.
@@ -18,10 +19,7 @@ export default class DiscoursePostEventApi extends Service {
 
   async listEventInvitees(event, data = {}) {
     const result = await this.#getRequest(`/events/${event.id}/invitees`, data);
-
-    return (result.invitees || []).map((invitee) => {
-      return DiscoursePostEventInvitee.create(invitee);
-    });
+    return DiscoursePostEventInvitees.create(result);
   }
 
   async updateEvent(event, data = {}) {

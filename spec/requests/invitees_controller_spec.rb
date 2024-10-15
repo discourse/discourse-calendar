@@ -61,15 +61,15 @@ module DiscoursePostEvent
         end
 
         context "when user is allowed to act on post event" do
-          it "returns users extra possible users when filtering the invitees by name" do
+          it "returns users extra suggested users when filtering the invitees by name" do
             get "/discourse-post-event/events/#{post_event_1.id}/invitees.json",
                 params: {
                   filter: "Fran",
                   type: "going",
                 }
 
-            possible = response.parsed_body[:meta][:possible_invitees].map { |u| u[:username] }.sort
-            expect(possible).to eq(%w[Francisco Frank Franny])
+            suggested = response.parsed_body[:meta][:suggested_users].map { |u| u[:username] }.sort
+            expect(suggested).to eq(%w[Francisco Frank Franny])
 
             get "/discourse-post-event/events/#{post_event_1.id}/invitees.json",
                 params: {
@@ -77,8 +77,8 @@ module DiscoursePostEvent
                   type: "going",
                 }
 
-            possible = response.parsed_body.dig(:meta, :possible_invitees)
-            expect(possible).to be_blank
+            suggested = response.parsed_body.dig(:meta, :suggested_users)
+            expect(suggested).to be_blank
           end
         end
 
