@@ -1,16 +1,8 @@
-import { schedule } from "@ember/runloop";
-import $ from "jquery";
-import { applyLocalDates } from "discourse/lib/local-dates";
+import hbs from "htmlbars-inline-precompile";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { cook } from "discourse/lib/text";
-import WidgetGlue from "discourse/widgets/glue";
-import { getRegister } from "discourse-common/lib/get-owner";
 import I18n from "I18n";
+import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import guessDateFormat from "../lib/guess-best-date-format";
-
-function _decorateEvent(api, cooked, post) {
-  _attachWidget(api, cooked, post);
-}
 
 function _validEventPreview(eventContainer) {
   eventContainer.innerHTML = "";
@@ -80,117 +72,7 @@ function _decorateEventPreview(api, cooked) {
   });
 }
 
-let _glued = [];
-
-function cleanUp() {
-  _glued.forEach((g) => g.cleanUp());
-  _glued = [];
-}
-
-function _attachWidget(api, cooked, eventModel) {
-  const eventContainer = cooked.querySelector(".discourse-post-event");
-
-  if (eventModel && eventContainer) {
-    eventContainer.innerHTML = "";
-
-    const datesHeight = 50;
-    const urlHeight = 50;
-    const headerHeight = 75;
-    const bordersHeight = 10;
-    const separatorsHeight = 4;
-    const margins = 10;
-    let widgetHeight =
-      datesHeight + headerHeight + bordersHeight + separatorsHeight + margins;
-
-    if (eventModel.should_display_invitees && !eventModel.minimal) {
-      widgetHeight += 110;
-    }
-
-    if (eventModel.can_update_attendance) {
-      widgetHeight += 60;
-    }
-
-    if (eventModel.url) {
-      widgetHeight += urlHeight;
-    }
-
-    eventContainer.classList.add("is-loading");
-    eventContainer.style.height = `${widgetHeight}px`;
-
-    const glueContainer = document.createElement("div");
-    glueContainer.innerHTML = '<div class="spinner medium"></div>';
-    eventContainer.appendChild(glueContainer);
-
-    const timezone = eventModel.timezone || "UTC";
-    const startsAt = moment(eventModel.starts_at).tz(timezone);
-    const endsAt =
-      eventModel.ends_at && moment(eventModel.ends_at).tz(timezone);
-    const format = guessDateFormat(startsAt, endsAt);
-
-    const siteSettings = api.container.lookup("service:site-settings");
-    if (siteSettings.discourse_local_dates_enabled) {
-      const dates = [];
-      dates.push(
-        `[date=${startsAt.format("YYYY-MM-DD")} time=${startsAt.format(
-          "HH:mm"
-        )} format=${format} timezone=${timezone}]`
-      );
-
-      if (endsAt) {
-        dates.push(
-          `[date=${endsAt.format("YYYY-MM-DD")} time=${endsAt.format(
-            "HH:mm"
-          )} format=${format} timezone=${timezone}]`
-        );
-      }
-
-      cook(dates.join("<span> → </span>")).then((result) => {
-        eventContainer.classList.remove("is-loading");
-        eventContainer.classList.add("is-loaded");
-
-        const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
-          eventModel,
-          widgetHeight,
-          localDates: $(result.toString()).html(),
-          api,
-        });
-
-        glue.appendTo(glueContainer);
-        _glued.push(glue);
-        schedule("afterRender", () =>
-          applyLocalDates(
-            document.querySelectorAll(
-              `[data-post-id="${eventModel.id}"] .discourse-local-date`
-            ),
-            siteSettings
-          )
-        );
-      });
-    } else {
-      let localDates = `${startsAt.format(format)}`;
-      if (eventModel.ends_at) {
-        localDates += ` → ${moment(eventModel.ends_at).format(format)}`;
-      }
-
-      const glue = new WidgetGlue("discourse-post-event", getRegister(api), {
-        eventModel,
-        widgetHeight,
-        localDates,
-        api,
-      });
-
-      glue.appendTo(glueContainer);
-      _glued.push(glue);
-    }
-  } else if (!eventModel) {
-    const loadedEventContainer = cooked.querySelector(".discourse-post-event");
-    loadedEventContainer && loadedEventContainer.remove();
-  }
-}
-
 function initializeDiscoursePostEventDecorator(api) {
-  api.cleanupStream(cleanUp);
-
   api.decorateCookedElement(
     (cooked, helper) => {
       if (cooked.classList.contains("d-editor-preview")) {
@@ -201,9 +83,20 @@ function initializeDiscoursePostEventDecorator(api) {
       if (helper) {
         const post = helper.getModel();
 
-        if (post && post.event) {
-          _decorateEvent(api, cooked, post.event);
+        if (!post?.event) {
+          return;
         }
+
+        const div = document.createElement("div");
+        cooked.querySelector(".discourse-post-event").before(div);
+
+        helper.renderGlimmer(
+          div,
+          hbs`<DiscoursePostEvent @event={{@data.event}} />`,
+          {
+            event: DiscoursePostEventEvent.create(post.event),
+          }
+        );
       }
     },
     {
@@ -245,34 +138,6 @@ function initializeDiscoursePostEventDecorator(api) {
     "notification.discourse_post_event.notifications.ongoing_event_reminder",
     "calendar-day"
   );
-
-  api.modifyClass("controller:topic", {
-    pluginId: "discourse-calendar",
-
-    subscribe() {
-      this._super(...arguments);
-
-      this.messageBus.subscribe(
-        "/discourse-post-event/" + this.get("model.id"),
-        (msg) => {
-          const postNode = document.querySelector(
-            `.onscreen-post[data-post-id="${msg.id}"] .cooked`
-          );
-
-          if (postNode) {
-            this.store
-              .find("discourse-post-event-event", msg.id)
-              .then((eventModel) => _decorateEvent(api, postNode, eventModel))
-              .catch(() => _decorateEvent(api, postNode));
-          }
-        }
-      );
-    },
-    unsubscribe() {
-      this.messageBus.unsubscribe("/discourse-post-event/*");
-      this._super(...arguments);
-    },
-  });
 }
 
 export default {

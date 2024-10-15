@@ -6,6 +6,15 @@ import { extractError } from "discourse/lib/ajax-error";
 import { cook } from "discourse/lib/text";
 import Group from "discourse/models/group";
 import I18n from "discourse-i18n";
+import {
+  addReminder,
+  onChangeDates,
+  removeReminder,
+  updateCustomField,
+  updateEventRawInvitees,
+  updateEventStatus,
+  updateTimezone,
+} from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default class PostEventBuilder extends Component {
@@ -14,13 +23,13 @@ export default class PostEventBuilder extends Component {
   @service store;
 
   @tracked flash = null;
-  @tracked startsAt = moment(this.args.model.event.starts_at).tz(
+  @tracked startsAt = moment(this.args.model.event.startsAt).tz(
     this.args.model.event.timezone || "UTC"
   );
   @tracked
   endsAt =
-    this.args.model.event.ends_at &&
-    moment(this.args.model.event.ends_at).tz(
+    this.args.model.event.endsAt &&
+    moment(this.args.model.event.endsAt).tz(
       this.args.model.event.timezone || "UTC"
     );
 
@@ -145,32 +154,32 @@ export default class PostEventBuilder extends Component {
 
   @action
   setCustomField(field, e) {
-    this.args.model.updateCustomField(field, e.target.value);
+    updateCustomField(this.args.model, field, e.target.value);
   }
 
   @action
   onChangeDates(dates) {
-    this.args.model.onChangeDates(dates);
+    onChangeDates(this.args.model, dates);
     this.startsAt = dates.from;
     this.endsAt = dates.to;
   }
 
   @action
   onChangeStatus(newStatus) {
-    this.args.model.updateEventRawInvitees([]);
-    this.args.model.updateEventStatus(newStatus);
+    updateEventRawInvitees(this.args.model, []);
+    updateEventStatus(this.args.model, newStatus);
   }
 
   @action
   setRawInvitees(_, newInvitees) {
-    this.args.model.updateEventRawInvitees(newInvitees);
+    updateEventRawInvitees(this.args.model, newInvitees);
   }
 
   @action
   setNewTimezone(newTz) {
-    this.args.model.updateTimezone(newTz, this.startsAt, this.endsAt);
-    this.startsAt = moment(this.args.model.event.starts_at).tz(newTz);
-    this.endsAt = moment(this.args.model.event.ends_at).tz(
+    updateTimezone(this.args.model, newTz, this.startsAt, this.endsAt);
+    this.startsAt = moment(this.args.model.event.startsAt).tz(newTz);
+    this.endsAt = moment(this.args.model.event.endsAt).tz(
       this.args.model.event.timezone
     );
   }
@@ -202,6 +211,16 @@ export default class PostEventBuilder extends Component {
     } catch (e) {
       this.flash = extractError(e);
     }
+  }
+
+  @action
+  addReminder(reminder) {
+    addReminder(this.args.model.event, reminder);
+  }
+
+  @action
+  removeReminder(reminder) {
+    removeReminder(this.args.model.event, reminder);
   }
 
   @action

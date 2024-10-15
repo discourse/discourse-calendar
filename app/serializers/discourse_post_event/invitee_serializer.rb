@@ -2,7 +2,7 @@
 
 module DiscoursePostEvent
   class InviteeSerializer < ApplicationSerializer
-    attributes :id, :status, :user, :post_id
+    attributes :id, :status, :user, :post_id, :meta
 
     def status
       object.status ? Invitee.statuses[object.status] : nil
@@ -14,6 +14,10 @@ module DiscoursePostEvent
 
     def user
       BasicUserSerializer.new(object.user, embed: :objects, root: false)
+    end
+
+    def meta
+      { event_stats: EventStatsSerializer.new(object.event, root: false) }
     end
   end
 end

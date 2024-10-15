@@ -7,6 +7,7 @@ import I18n from "discourse-i18n";
 
 export default class PostEventInvitees extends Component {
   @service store;
+  @service discoursePostEventApi;
 
   @tracked invitees;
   @tracked filter;
@@ -46,16 +47,14 @@ export default class PostEventInvitees extends Component {
   async _fetchInvitees(filter) {
     try {
       this.isLoading = true;
-      const invitees = await this.store.findAll(
-        "discourse-post-event-invitee",
+
+      this.invitees = await this.discoursePostEventApi.listEventInvitees(
+        this.args.model.event,
         {
           filter,
-          post_id: this.args.model.event.id,
           type: this.type,
         }
       );
-
-      this.invitees = invitees;
     } finally {
       this.isLoading = false;
     }

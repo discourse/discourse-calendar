@@ -26,20 +26,20 @@ module DiscoursePostEvent
     end
 
     def update
-      invitee = Invitee.find_by(id: params[:id], post_id: params[:post_id])
+      invitee = Invitee.find_by(id: params[:invitee_id], post_id: params[:event_id])
       guardian.ensure_can_act_on_invitee!(invitee)
       invitee.update_attendance!(invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
     def create
-      event = Event.find(params[:post_id])
+      event = Event.find(params[:event_id])
       guardian.ensure_can_see!(event.post)
 
       raise Discourse::InvalidAccess if !event.can_user_update_attendance(current_user)
 
       invitee =
-        Invitee.create_attendance!(current_user.id, params[:post_id], invitee_params[:status])
+        Invitee.create_attendance!(current_user.id, params[:event_id], invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
