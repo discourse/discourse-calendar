@@ -33,7 +33,6 @@ export default class DiscoursePostEventEvent {
   @tracked _reminders;
 
   constructor(args = {}) {
-    console.log(args);
     this.id = args.id;
     this.name = args.name;
     this.startsAt = args.starts_at;

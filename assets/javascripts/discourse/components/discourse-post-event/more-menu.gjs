@@ -328,10 +328,9 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 <dropdown.item>
                   <DButton
                     @icon="times"
-                    class="btn-transparent"
                     @label="discourse_calendar.discourse_post_event.event_ui.close_event"
                     @action={{fn this.closeEvent @event}}
-                    class="btn-danger"
+                    class="btn-transparent btn-danger"
                   />
                 </dropdown.item>
               {{/unless}}

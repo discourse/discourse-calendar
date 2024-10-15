@@ -48,16 +48,13 @@ export default class DiscoursePostEventInvitee extends Component {
         (if (eq this.currentUser.id @invitee.user.id) "is-current-user")
       }}
     >
-      <a
-        class="topic-invitee-avatar"
-        data-user-card={{this.args.invitee.user.username}}
-      >
+      <a class="topic-invitee-avatar" data-user-card={{@invitee.user.username}}>
         {{this.avatarImage}}
         {{#if this.statusIcon}}
           <AvatarFlair
             @flairName={{concat
               "discourse_calendar.discourse_post_event.models.invitee.status."
-              this.args.invitee.status
+              @invitee.status
             }}
             @flairUrl={{this.statusIcon}}
           />
