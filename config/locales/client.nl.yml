@@ -333,7 +333,6 @@ nl:
           ends_in_duration: "Eindigt %{duration}"
         models:
           invitee:
-            no_users: "Er zijn geen gebruikers van dit type."
             status:
               unknown: "Niet geïnteresseerd"
               going: "Gaan"
@@ -368,7 +367,6 @@ nl:
           close_event: "Evenement sluiten"
           open_event: "Evenement openen"
         invitees_modal:
-          title_invited: "Lijst van uitgenodigde gebruikers"
           title_participated: "Lijst van deelnemende gebruikers"
           filter_placeholder: "Gebruikers filteren"
         bulk_invite_modal:

@@ -334,7 +334,6 @@ sl:
           bulk_invite: "Skupinsko vabilo"
           close_event: "Zapri dogodek"
         invitees_modal:
-          title_invited: "Seznam potrditev"
           title_participated: "Seznam udeležencev"
           filter_placeholder: "Filtriraj uporabnike"
         bulk_invite_modal:

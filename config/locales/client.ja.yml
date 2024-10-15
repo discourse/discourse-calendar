@@ -333,7 +333,6 @@ ja:
           ends_in_duration: "終了まで %{duration}"
         models:
           invitee:
-            no_users: "このタイプのユーザーはいません。"
             status:
               unknown: "興味なし"
               going: "出席"
@@ -367,7 +366,6 @@ ja:
           close_event: "イベントを終了"
           open_event: "イベントを開く"
         invitees_modal:
-          title_invited: "出欠確認済みユーザーのリスト"
           title_participated: "参加したユーザーのリスト"
           filter_placeholder: "ユーザーをフィルタ"
         bulk_invite_modal:

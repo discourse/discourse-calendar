@@ -333,7 +333,6 @@ ar:
           ends_in_duration: "ينتهي بعد %{duration}"
         models:
           invitee:
-            no_users: "لا يوجد مستخدمون من هذا النوع."
             status:
               unknown: "غير مهتم"
               going: "ذاهب"
@@ -372,7 +371,6 @@ ar:
           close_event: "إغلاق الحدث"
           open_event: "فتح الحدث"
         invitees_modal:
-          title_invited: "قائمة المستخدمين الذين تمت مطالبتهم بتأكيد الدعوة"
           title_participated: "قائمة المستخدمين الذين شاركوا"
           filter_placeholder: "تصفية المستخدمين"
         bulk_invite_modal:

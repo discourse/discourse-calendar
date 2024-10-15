@@ -333,7 +333,6 @@ fr:
           ends_in_duration: "Se termine dans %{duration}"
         models:
           invitee:
-            no_users: "Il n'y a aucun utilisateur de ce type."
             status:
               unknown: "Pas intéressé(e)"
               going: "Participera"
@@ -368,7 +367,6 @@ fr:
           close_event: "Fermer l'événement"
           open_event: "Ouvrir l'événement"
         invitees_modal:
-          title_invited: "Liste des utilisateurs invités"
           title_participated: "Liste des utilisateurs ayant participé"
           filter_placeholder: "Filtrer les utilisateurs"
         bulk_invite_modal:

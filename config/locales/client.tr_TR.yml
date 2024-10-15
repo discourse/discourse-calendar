@@ -333,7 +333,6 @@ tr_TR:
           ends_in_duration: "Sona erme zamanı: %{duration}"
         models:
           invitee:
-            no_users: "Bu türde kullanıcı yok."
             status:
               unknown: "İlgilenmiyorum"
               going: "Gidiyorum"
@@ -368,7 +367,6 @@ tr_TR:
           close_event: "Etkinliği kapat"
           open_event: "Etkinliği aç"
         invitees_modal:
-          title_invited: "Yanıt veren kullanıcıların listesi"
           title_participated: "Katılan kullanıcıların listesi"
           filter_placeholder: "Kullanıcıları filtrele"
         bulk_invite_modal:

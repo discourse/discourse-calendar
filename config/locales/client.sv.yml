@@ -319,7 +319,6 @@ sv:
           ends_in_duration: "Slutar %{duration}"
         models:
           invitee:
-            no_users: "Det finns inga användare av den här typen."
             status:
               unknown: "Inte intresserad"
               going: "Kommer"
@@ -352,7 +351,6 @@ sv:
           bulk_invite: "Massinbjudan"
           close_event: "Stäng evenemang"
         invitees_modal:
-          title_invited: "Lista över användare som bekräftat att de kommer"
           title_participated: "Lista över användare som deltog"
           filter_placeholder: "Filtrera användare"
         bulk_invite_modal:
