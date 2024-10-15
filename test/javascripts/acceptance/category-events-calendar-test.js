@@ -50,6 +50,18 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
               },
             },
             name: "Awesome Event",
+            upcoming_dates: [
+              {
+                starts_at: moment()
+                  .tz("Asia/Calcutta")
+                  .add(2, "days")
+                  .format("YYYY-MM-DDT15:14:00.000Z"),
+                ends_at: moment()
+                  .tz("Asia/Calcutta")
+                  .add(2, "days")
+                  .format("YYYY-MM-DDT16:14:00.000Z"),
+              },
+            ],
           },
           {
             id: 67502,
@@ -118,7 +130,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
 
     assert
       .dom(".fc-event")
-      .exists({ count: 3 }, "One event is displayed on the calendar");
+      .exists({ count: 4 }, "Events are displayed on the calendar");
 
     assert.dom(".fc-event[href='/t/-/18449/1']").hasStyle({
       "background-color": "rgb(231, 76, 60)",
@@ -150,5 +162,23 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
     );
 
     I18n.locale = "en";
+  });
+
+  test("event calendar shows recurrent events", async (assert) => {
+    await visit("/c/bug/1");
+
+    const [first, second] = queryAll(".fc-event .fc-title");
+
+    assert.equal(first.textContent, "Awesome Event");
+    assert.equal(second.textContent, "Awesome Event");
+
+    const firstCell = first.closest("td");
+    const secondCell = second.closest("td");
+
+    assert.notEqual(
+      firstCell,
+      secondCell,
+      "events should be in different days"
+    );
   });
 });
