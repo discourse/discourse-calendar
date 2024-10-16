@@ -53,11 +53,11 @@ export default class DiscoursePostEvent extends Component {
   }
 
   get startsAtMonth() {
-    return moment(this.args.event.starts_at).format("MMM");
+    return moment(this.args.event.startsAt).format("MMM");
   }
 
   get startsAtDay() {
-    return moment(this.args.event.starts_at).format("D");
+    return moment(this.args.event.startsAt).format("D");
   }
 
   get eventName() {
@@ -132,13 +132,13 @@ export default class DiscoursePostEvent extends Component {
                 {{this.eventName}}
               </span>
               <div class="status-and-creators">
-                {{#if @event.is_expired}}
+                {{#if @event.isExpired}}
                   <span class="status expired">
                     {{i18n
                       "discourse_calendar.discourse_post_event.models.event.expired"
                     }}
                   </span>
-                {{else if @event.is_closed}}
+                {{else if @event.isClosed}}
                   <span class="status closed">
                     {{i18n
                       "discourse_calendar.discourse_post_event.models.event.closed"

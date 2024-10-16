@@ -12,6 +12,24 @@ export default class DiscoursePostEventInvitees {
     this.suggestedUsers = args.meta?.suggested_users;
   }
 
+  add(invitee) {
+    this.invitees.push(invitee);
+
+    const index = this.suggestedUsers.findIndex(
+      (su) => su.id === invitee.user.id
+    );
+    if (index > -1) {
+      this.suggestedUsers.splice(index, 1);
+    }
+  }
+
+  remove(invitee) {
+    const index = this.invitees.findIndex((i) => i.user.id === invitee.user.id);
+    if (index > -1) {
+      this.invitees.splice(index, 1);
+    }
+  }
+
   get suggestedUsers() {
     return this._suggestedUsers;
   }

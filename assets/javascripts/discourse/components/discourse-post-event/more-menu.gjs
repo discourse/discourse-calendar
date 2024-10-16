@@ -55,6 +55,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   addToCalendar() {
+    this.menuApi.close();
+
     const event = this.args.event;
 
     downloadCalendar(
@@ -75,6 +77,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   sendPMToCreator() {
+    this.menuApi.close();
+
     this.args.composePrivateMessage(
       EmberObject.create(this.args.event.creator),
       EmberObject.create(this.args.event.post)
@@ -87,7 +91,14 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   @action
+  registerMenuApi(api) {
+    this.menuApi = api;
+  }
+
+  @action
   async inviteUserOrGroup(event) {
+    this.menuApi.close();
+
     try {
       this.modal.show(PostEventInviteUserOrGroup, {
         model: { event },
@@ -99,10 +110,12 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   async leaveEvent(event) {
+    this.menuApi.close();
+
     try {
       const invitee = event.watchingInvitee;
 
-      await this.discoursePostEventApi.leaveEvent(event);
+      await this.discoursePostEventApi.leaveEvent(event, invitee);
 
       this.appEvents.trigger("calendar:invitee-left-event", {
         invitee,
@@ -115,6 +128,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   exportPostEvent(event) {
+    this.menuApi.close();
+
     exportEntity("post_event", {
       name: "post_event",
       id: event.id,
@@ -123,6 +138,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   bulkInvite(event) {
+    this.menuApi.close();
+
     this.modal.show(PostEventBulkInvite, {
       model: { event },
     });
@@ -130,6 +147,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   async openEvent(event) {
+    this.menuApi.close();
+
     this.dialog.yesNoConfirm({
       message: I18n.t(
         "discourse_calendar.discourse_post_event.builder_modal.confirm_open"
@@ -167,6 +186,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   async editPostEvent(event) {
+    this.menuApi.close();
+
     this.modal.show(PostEventBuilder, {
       model: {
         event,
@@ -176,6 +197,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   @action
   async closeEvent(event) {
+    this.menuApi.close();
+
     this.dialog.yesNoConfirm({
       message: I18n.t(
         "discourse_calendar.discourse_post_event.builder_modal.confirm_close"
@@ -216,6 +239,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
       @identifier="discourse-post-event-more-menu"
       @triggerClass="more-dropdown"
       @icon="ellipsis-h"
+      @onRegisterApi={{this.registerMenuApi}}
     >
       <:content>
         <DropdownMenu as |dropdown|>

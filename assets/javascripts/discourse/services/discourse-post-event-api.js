@@ -17,6 +17,11 @@ export default class DiscoursePostEventApi extends Service {
     return DiscoursePostEventEvent.create(result.event);
   }
 
+  async events(data = {}) {
+    const result = await this.#getRequest("/events", data);
+    return result.events.map((e) => DiscoursePostEventEvent.create(e));
+  }
+
   async listEventInvitees(event, data = {}) {
     const result = await this.#getRequest(`/events/${event.id}/invitees`, data);
     return DiscoursePostEventInvitees.create(result);
@@ -53,20 +58,16 @@ export default class DiscoursePostEventApi extends Service {
     return event;
   }
 
-  async leaveEvent(event) {
-    if (!event.watchingInvitee) {
-      return;
-    }
-
-    await this.#deleteRequest(
-      `/events/${event.id}/invitees/${event.watchingInvitee.id}`
-    );
+  async leaveEvent(event, invitee) {
+    await this.#deleteRequest(`/events/${event.id}/invitees/${invitee.id}`);
 
     event.sampleInvitees = new TrackedArray(
-      event.sampleInvitees.filter((i) => i.id !== event.watchingInvitee.id)
+      event.sampleInvitees.filter((i) => i.id !== invitee.id)
     );
 
-    event.watchingInvitee = null;
+    if (event.watchingInvitee?.id === invitee.id) {
+      event.watchingInvitee = null;
+    }
   }
 
   async joinEvent(event, data = {}) {
@@ -74,8 +75,15 @@ export default class DiscoursePostEventApi extends Service {
       invitee: data,
     });
 
-    event.watchingInvitee = DiscoursePostEventInvitee.create(result.invitee);
+    const invitee = DiscoursePostEventInvitee.create(result.invitee);
+
+    if (!data.user_id) {
+      event.watchingInvitee = invitee;
+    }
+
     event.sampleInvitees.push(event.watchingInvitee);
+
+    return invitee;
   }
 
   get #basePath() {

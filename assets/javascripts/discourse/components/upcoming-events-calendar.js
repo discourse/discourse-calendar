@@ -33,7 +33,7 @@ export default Component.extend({
 
   addRecurrentEvents(events) {
     events.forEach((event) => {
-      event.upcoming_dates?.forEach((upcomingDate) => {
+      event.upcomingDates?.forEach((upcomingDate) => {
         events.push(
           Object.assign({}, event, {
             starts_at: upcomingDate.starts_at,
@@ -90,12 +90,9 @@ export default Component.extend({
 
       const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-      const originalEventAndRecurrents = this.addRecurrentEvents(
-        this.events.content
-      );
-
+      const originalEventAndRecurrents = this.addRecurrentEvents(this.events);
       (originalEventAndRecurrents || []).forEach((event) => {
-        const { starts_at, ends_at, post, category_id } = event;
+        const { startsAt, endsAt, post, categoryId } = event;
 
         let backgroundColor;
 
@@ -116,21 +113,21 @@ export default Component.extend({
           backgroundColor = categoryColorEntry?.color;
         }
 
-        const categoryColor = Category.findById(category_id)?.color;
+        const categoryColor = Category.findById(categoryId)?.color;
         if (!backgroundColor && categoryColor) {
           backgroundColor = `#${categoryColor}`;
         }
 
         let classNames;
-        if (moment(ends_at || starts_at).isBefore(moment())) {
+        if (moment(endsAt || startsAt).isBefore(moment())) {
           classNames = "fc-past-event";
         }
 
         this._calendar.addEvent({
           title: formatEventName(event),
-          start: starts_at,
-          end: ends_at || starts_at,
-          allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
+          start: startsAt,
+          end: endsAt || startsAt,
+          allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
           backgroundColor,
           classNames,
