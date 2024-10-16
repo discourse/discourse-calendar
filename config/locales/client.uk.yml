@@ -332,7 +332,6 @@ uk:
           ends_in_duration: "Закінчується %{duration}"
         models:
           invitee:
-            no_users: "Користувачів цього типу немає."
             status:
               unknown: "Не цікавить"
               going: "Йду"
@@ -369,7 +368,6 @@ uk:
           close_event: "Закрити подію"
           open_event: "Відкрити подію"
         invitees_modal:
-          title_invited: "Список користувачів RSVPed"
           title_participated: "Список користувачів, які брали участь"
           filter_placeholder: "Фільтр користувачів"
         bulk_invite_modal:

@@ -333,7 +333,7 @@ he:
           ends_in_duration: "מסתיים %{duration}"
         models:
           invitee:
-            no_users: "אין משתמשים מהסוג הזה."
+            no_users: "לא נמצאו משתמשים"
             status:
               unknown: "לא מעניין"
               going: "אשתתף"
@@ -370,9 +370,11 @@ he:
           close_event: "סגירת אירוע"
           open_event: "פתיחת אירוע?"
         invitees_modal:
-          title_invited: "רשימת המשתמשים שענו להזמנה"
+          title_invited: "השתתפות באירועים"
           title_participated: "רשימת משתמשים שהשתתפו"
           filter_placeholder: "סינון משתמשים"
+          remove_invitee: "הסרת מוזמנים מהרשימה"
+          add_invitee: "הוספת מוזמנים לרשימה"
         bulk_invite_modal:
           confirm: "אישור"
           text: "העלאת קובץ CSV"

@@ -333,7 +333,6 @@ cs:
           ends_in_duration: "Končí %{duration}"
         models:
           invitee:
-            no_users: "Neexistují žádní uživatelé tohoto typu."
             status:
               unknown: "Nemám zájem"
               going: "Zúčastním se"
@@ -370,7 +369,6 @@ cs:
           close_event: "Zavřít událost"
           open_event: "Otevřít událost"
         invitees_modal:
-          title_invited: "Seznam pozvaných uživatelů"
           title_participated: "Seznam uživatelů, kteří se zúčastnili"
           filter_placeholder: "Filtrovat uživatele"
         bulk_invite_modal:

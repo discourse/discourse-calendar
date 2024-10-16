@@ -331,7 +331,6 @@ pl_PL:
           ends_in_duration: "Kończy się %{duration}"
         models:
           invitee:
-            no_users: "Brak użytkowników tego typu."
             status:
               unknown: "Nie zainteresowany"
               going: "Wezmę udział"
@@ -367,7 +366,6 @@ pl_PL:
           bulk_invite: "Zaproszenie zbiorcze"
           close_event: "Zamknij wydarzenie"
         invitees_modal:
-          title_invited: "Lista użytkowników RSVPed"
           title_participated: "Lista użytkowników, którzy wzięli udział"
           filter_placeholder: "Filtruj użytkowników"
         bulk_invite_modal:

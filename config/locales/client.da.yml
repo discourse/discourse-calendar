@@ -336,7 +336,6 @@ da:
           bulk_invite: "Masseinvitation"
           close_event: "Luk begivenhed"
         invitees_modal:
-          title_invited: "Liste over RSVPed-brugere"
           title_participated: "Liste over brugere, der deltog"
           filter_placeholder: "Filtrer brugere"
         bulk_invite_modal:

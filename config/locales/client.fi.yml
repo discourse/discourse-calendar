@@ -333,7 +333,6 @@ fi:
           ends_in_duration: "Päättyy %{duration}"
         models:
           invitee:
-            no_users: "Tämän tyyppisiä käyttäjiä ei ole."
             status:
               unknown: "Ei kiinnostunut"
               going: "Menossa"
@@ -368,7 +367,6 @@ fi:
           close_event: "Sulje tapahtuma"
           open_event: "Avaa tapahtuma"
         invitees_modal:
-          title_invited: "Vastanneiden käyttäjien luettelo"
           title_participated: "Osallistuneiden käyttäjien luettelo"
           filter_placeholder: "Suodata käyttäjiä"
         bulk_invite_modal:

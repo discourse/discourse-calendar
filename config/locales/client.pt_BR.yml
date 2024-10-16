@@ -333,7 +333,6 @@ pt_BR:
           ends_in_duration: "Termina em %{duration}"
         models:
           invitee:
-            no_users: "Não há usuários(as) deste tipo."
             status:
               unknown: "Não tenho interesse"
               going: "Estou indo"
@@ -368,7 +367,6 @@ pt_BR:
           close_event: "Encerrar evento"
           open_event: "Evento aberto"
         invitees_modal:
-          title_invited: "Lista de usuários(as) RSVPed"
           title_participated: "Lista de usuários(as) que participaram"
           filter_placeholder: "Filtrar usuários(as)"
         bulk_invite_modal:

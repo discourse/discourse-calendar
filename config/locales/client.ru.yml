@@ -333,7 +333,6 @@ ru:
           ends_in_duration: "Окончание %{duration}"
         models:
           invitee:
-            no_users: "Пользователи этого типа отсутствуют."
             status:
               unknown: "Не интересует"
               going: "Участвую"
@@ -370,7 +369,6 @@ ru:
           close_event: "Закрыть мероприятие"
           open_event: "Открыть мероприятие"
         invitees_modal:
-          title_invited: "Список пользователей, ответивших на приглашение"
           title_participated: "Список участвовавших пользователей"
           filter_placeholder: "Фильтр пользователей"
         bulk_invite_modal:
