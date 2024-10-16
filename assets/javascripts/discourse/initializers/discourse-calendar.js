@@ -13,6 +13,7 @@ import getURL from "discourse-common/lib/get-url";
 import { iconHTML } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
 import { formatEventName } from "../helpers/format-event-name";
+import addRecurrentEvents from "../lib/add-recurrent-events";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
@@ -173,12 +174,12 @@ function initializeDiscourseCalendar(api) {
             data: params,
           });
 
+          const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
+
           Promise.all([loadEvents]).then((results) => {
-            const events = results[0];
+            const [{ events }] = results;
 
-            const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
-
-            events[Object.keys(events)[0]].forEach((event) => {
+            addRecurrentEvents(events).forEach((event) => {
               const { starts_at, ends_at, post, category_id } = event;
 
               let backgroundColor;
