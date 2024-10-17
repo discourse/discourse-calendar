@@ -2,7 +2,7 @@
   @title={{i18n
     (concat
       "discourse_calendar.discourse_post_event.builder_modal."
-      (if @model.event.isNew "create_event_title" "update_event_title")
+      (if @model.event.id "update_event_title" "create_event_title")
     )
   }}
   class="post-event-builder-modal"
@@ -10,7 +10,7 @@
   @flash={{this.flash}}
 >
   <:body>
-    <ConditionalLoadingSection @isLoading={{@model.event.isSaving}}>
+    <ConditionalLoadingSection @isLoading={{this.isSaving}}>
       <form>
         <DateTimeInputRange
           @from={{this.startsAt}}
@@ -250,15 +250,7 @@
     </ConditionalLoadingSection>
   </:body>
   <:footer>
-    {{#if @model.event.isNew}}
-      <DButton
-        @type="button"
-        class="btn-primary"
-        @label="discourse_calendar.discourse_post_event.builder_modal.create"
-        @icon="calendar-day"
-        @action={{this.createEvent}}
-      />
-    {{else}}
+    {{#if @model.event.id}}
       <DButton
         @type="button"
         class="btn-primary"
@@ -271,6 +263,14 @@
         @icon="trash-alt"
         class="btn-danger"
         @action={{this.destroyPostEvent}}
+      />
+    {{else}}
+      <DButton
+        @type="button"
+        class="btn-primary"
+        @label="discourse_calendar.discourse_post_event.builder_modal.create"
+        @icon="calendar-day"
+        @action={{this.createEvent}}
       />
     {{/if}}
   </:footer>

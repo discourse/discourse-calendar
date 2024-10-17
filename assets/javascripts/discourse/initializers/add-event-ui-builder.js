@@ -1,27 +1,21 @@
-import EmberObject from "@ember/object";
 import { withPluginApi } from "discourse/lib/plugin-api";
+import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import PostEventBuilder from "../components/modal/post-event-builder";
 
 function initializeEventBuilder(api) {
   const currentUser = api.getCurrentUser();
-  const store = api.container.lookup("service:store");
   const modal = api.container.lookup("service:modal");
 
   api.addComposerToolbarPopupMenuOption({
     action: (toolbarEvent) => {
-      const eventModel = store.createRecord("discourse-post-event-event");
-      eventModel.setProperties({
+      const event = DiscoursePostEventEvent.create({
         status: "public",
-        custom_fields: EmberObject.create({}),
         starts_at: moment(),
         timezone: moment.tz.guess(),
       });
 
       modal.show(PostEventBuilder, {
-        model: {
-          event: eventModel,
-          toolbarEvent,
-        },
+        model: { event, toolbarEvent },
       });
     },
     group: "insertions",

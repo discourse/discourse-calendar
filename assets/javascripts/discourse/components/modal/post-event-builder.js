@@ -8,12 +8,7 @@ import Group from "discourse/models/group";
 import I18n from "discourse-i18n";
 import {
   addReminder,
-  onChangeDates,
   removeReminder,
-  updateCustomField,
-  updateEventRawInvitees,
-  updateEventStatus,
-  updateTimezone,
 } from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
@@ -23,15 +18,20 @@ export default class PostEventBuilder extends Component {
   @service store;
 
   @tracked flash = null;
-  @tracked startsAt = moment(this.args.model.event.startsAt).tz(
-    this.args.model.event.timezone || "UTC"
+  @tracked isSaving = false;
+
+  @tracked startsAt = moment(this.event.startsAt).tz(
+    this.event.timezone || "UTC"
   );
+
   @tracked
   endsAt =
-    this.args.model.event.endsAt &&
-    moment(this.args.model.event.endsAt).tz(
-      this.args.model.event.timezone || "UTC"
-    );
+    this.event.endsAt &&
+    moment(this.event.endsAt).tz(this.event.timezone || "UTC");
+
+  get event() {
+    return this.args.model.event;
+  }
 
   get reminderTypes() {
     return [
@@ -144,7 +144,7 @@ export default class PostEventBuilder extends Component {
   }
 
   get addReminderDisabled() {
-    return this.args.model.event.reminders?.length >= 5;
+    return this.event.reminders?.length >= 5;
   }
 
   @action
@@ -154,34 +154,42 @@ export default class PostEventBuilder extends Component {
 
   @action
   setCustomField(field, e) {
-    updateCustomField(this.args.model, field, e.target.value);
+    this.event[field] = e.target.value;
   }
 
   @action
   onChangeDates(dates) {
-    onChangeDates(this.args.model, dates);
+    this.event.startsAt = dates.from;
+    this.event.endsAt = dates.to;
     this.startsAt = dates.from;
     this.endsAt = dates.to;
   }
 
   @action
   onChangeStatus(newStatus) {
-    updateEventRawInvitees(this.args.model, []);
-    updateEventStatus(this.args.model, newStatus);
+    this.event.rawInvitees = [];
+    this.event.status = newStatus;
   }
 
   @action
   setRawInvitees(_, newInvitees) {
-    updateEventRawInvitees(this.args.model, newInvitees);
+    this.event.rawInvitees = newInvitees;
   }
 
   @action
   setNewTimezone(newTz) {
-    updateTimezone(this.args.model, newTz, this.startsAt, this.endsAt);
-    this.startsAt = moment(this.args.model.event.startsAt).tz(newTz);
-    this.endsAt = moment(this.args.model.event.endsAt).tz(
-      this.args.model.event.timezone
+    this.event.timezone = newTz;
+    this.event.startsAt = moment.tz(
+      this.startsAt.format("YYYY-MM-DDTHH:mm"),
+      newTz
     );
+    this.event.endsAt = this.endsAt
+      ? moment.tz(this.endsAt.format("YYYY-MM-DDTHH:mm"), newTz)
+      : null;
+    this.startsAt = moment(this.event.startsAt).tz(newTz);
+    this.endsAt = this.event.endsAt
+      ? moment(this.event.endsAt).tz(newTz)
+      : null;
   }
 
   @action
@@ -192,7 +200,7 @@ export default class PostEventBuilder extends Component {
       });
 
       if (confirmResult) {
-        const post = await this.store.find("post", this.args.model.event.id);
+        const post = await this.store.find("post", this.event.id);
         const raw = post.raw;
         const newRaw = this._removeRawEvent(raw);
         const props = {
@@ -215,12 +223,12 @@ export default class PostEventBuilder extends Component {
 
   @action
   addReminder(reminder) {
-    addReminder(this.args.model.event, reminder);
+    addReminder(this.event, reminder);
   }
 
   @action
   removeReminder(reminder) {
-    removeReminder(this.args.model.event, reminder);
+    removeReminder(this.event, reminder);
   }
 
   @action
@@ -233,7 +241,7 @@ export default class PostEventBuilder extends Component {
     const eventParams = buildParams(
       this.startsAt,
       this.endsAt,
-      this.args.model.event,
+      this.event,
       this.siteSettings
     );
     const markdownParams = [];
@@ -251,12 +259,14 @@ export default class PostEventBuilder extends Component {
   @action
   async updateEvent() {
     try {
-      const post = await this.store.find("post", this.args.model.event.id);
+      this.isSaving = true;
+
+      const post = await this.store.find("post", this.event.id);
       const raw = post.raw;
       const eventParams = buildParams(
         this.startsAt,
         this.endsAt,
-        this.args.model.event,
+        this.event,
         this.siteSettings
       );
 
@@ -279,6 +289,8 @@ export default class PostEventBuilder extends Component {
       }
     } catch (e) {
       this.flash = extractError(e);
+    } finally {
+      this.isSaving = false;
     }
   }
 

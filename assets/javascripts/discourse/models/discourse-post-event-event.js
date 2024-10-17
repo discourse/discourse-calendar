@@ -1,4 +1,5 @@
 import { tracked } from "@glimmer/tracking";
+import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import User from "discourse/models/user";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
@@ -26,6 +27,7 @@ export default class DiscoursePostEventEvent {
   @tracked isExpired;
   @tracked isStandalone;
   @tracked recurrenceRule;
+  @tracked customFields;
 
   @tracked _watchingInvitee;
   @tracked _sampleInvitees;
@@ -58,6 +60,7 @@ export default class DiscoursePostEventEvent {
     this.watchingInvitee = args.watching_invitee;
     this.stats = args.stats;
     this.reminders = args.reminders;
+    this.customFields = EmberObject.create(args.custom_fields || {});
   }
 
   get watchingInvitee() {
@@ -150,7 +153,7 @@ export default class DiscoursePostEventEvent {
   }
 }
 
-// TODO: get rid of all the following
+// TODO (joffrey): get rid of all the following
 const DEFAULT_REMINDER = {
   type: "notification",
   value: 15,
@@ -158,34 +161,10 @@ const DEFAULT_REMINDER = {
   period: "before",
 };
 
-function replaceTimezone(val, newTimezone) {
-  return moment.tz(val.format("YYYY-MM-DDTHH:mm"), newTimezone);
-}
-export function updateEventStatus(event, status) {
-  event.status = status;
-}
-
-export function updateEventRawInvitees(event, rawInvitees) {
-  event.rawInvitees = rawInvitees;
-}
-
-export function updateCustomField(event, field, value) {
-  event.custom_fields[field] = value;
-}
-
 export function removeReminder(event, reminder) {
   return event.reminders.removeObject(reminder);
 }
 
 export function addReminder(event) {
   event.reminders.push(Object.assign({}, DEFAULT_REMINDER));
-}
-export function onChangeDates(event, changes) {
-  event.startsAt = changes.from;
-  event.endsAt = changes.to;
-}
-export function updateTimezone(event, newTz, startsAt, endsAt) {
-  event.timezone = newTz;
-  event.startsAt = replaceTimezone(startsAt, newTz);
-  event.endsAt = replaceTimezone(endsAt, newTz);
 }

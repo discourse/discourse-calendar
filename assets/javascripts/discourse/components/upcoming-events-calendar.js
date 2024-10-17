@@ -75,10 +75,8 @@ export default Component.extend({
 
       const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-      const originalEventAndRecurrents = addRecurrentEvents(
-        this.events
-      );
-      
+      const originalEventAndRecurrents = addRecurrentEvents(this.events);
+
       (originalEventAndRecurrents || []).forEach((event) => {
         const { startsAt, endsAt, post, categoryId } = event;
 
