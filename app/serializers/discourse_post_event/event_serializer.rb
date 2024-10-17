@@ -98,7 +98,7 @@ module DiscoursePostEvent
     end
 
     def stats
-      EventStatsSerializer.new(object, root: false)
+      EventStatsSerializer.new(object, root: false).as_json
     end
 
     def watching_invitee
