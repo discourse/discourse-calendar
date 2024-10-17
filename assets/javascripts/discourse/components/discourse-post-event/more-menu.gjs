@@ -244,7 +244,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
       <:content>
         <DropdownMenu as |dropdown|>
           {{#unless this.expiredOrClosed}}
-            <dropdown.item>
+            <dropdown.item class="add-to-calendar">
               <DButton
                 @icon="file"
                 @label="discourse_calendar.discourse_post_event.event_ui.add_to_calendar"
@@ -254,7 +254,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/unless}}
 
           {{#if this.currentUser}}
-            <dropdown.item>
+            <dropdown.item class="send-pm-to-creator">
               <DButton
                 @icon="envelope"
                 class="btn-transparent"
@@ -268,7 +268,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/if}}
 
           {{#if this.canInvite}}
-            <dropdown.item>
+            <dropdown.item class="invite-user-or-group">
               <DButton
                 @icon="user-plus"
                 class="btn-transparent"
@@ -281,7 +281,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/if}}
 
           {{#if this.canLeave}}
-            <dropdown.item>
+            <dropdown.item class="leave-event">
               <DButton
                 @icon="times"
                 class="btn-transparent"
@@ -294,7 +294,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/if}}
 
           {{#if this.canSeeUpcomingEvents}}
-            <dropdown.item>
+            <dropdown.item class="upcoming-events">
               <DButton
                 @icon="far-calendar-plus"
                 class="btn-transparent"
@@ -309,7 +309,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{#if this.canActOnEvent}}
             <dropdown.divider />
 
-            <dropdown.item>
+            <dropdown.item class="export-event">
               <DButton
                 @icon="file-csv"
                 class="btn-transparent"
@@ -319,7 +319,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             </dropdown.item>
 
             {{#if this.canBulkInvite}}
-              <dropdown.item>
+              <dropdown.item class="bulk-invite">
                 <DButton
                   @icon="file-upload"
                   class="btn-transparent"
@@ -330,7 +330,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             {{/if}}
 
             {{#if @event.isClosed}}
-              <dropdown.item>
+              <dropdown.item class="open-event">
                 <DButton
                   @icon="unlock"
                   class="btn-transparent"
@@ -339,7 +339,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 />
               </dropdown.item>
             {{else}}
-              <dropdown.item>
+              <dropdown.item class="edit-event">
                 <DButton
                   @icon="pencil-alt"
                   class="btn-transparent"
@@ -349,7 +349,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
               </dropdown.item>
 
               {{#unless @event.isExpired}}
-                <dropdown.item>
+                <dropdown.item class="close-event">
                   <DButton
                     @icon="times"
                     @label="discourse_calendar.discourse_post_event.event_ui.close_event"

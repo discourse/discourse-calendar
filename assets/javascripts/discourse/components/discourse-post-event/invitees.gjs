@@ -54,7 +54,7 @@ export default class DiscoursePostEventInvitees extends Component {
         </div>
 
         <DButton
-          ckass="show-all btn-small"
+          class="show-all btn-small"
           @label="discourse_calendar.discourse_post_event.event_ui.show_all"
           @action={{fn this.showAllInvitees @event}}
         />

@@ -54,6 +54,8 @@ export default class DiscoursePostEventApi extends Service {
     });
 
     event.stats = result.invitee.meta.event_stats;
+    event.shouldDisplayInvitees =
+      result.invitee.meta.event_should_display_invitees;
 
     return event;
   }
@@ -82,6 +84,10 @@ export default class DiscoursePostEventApi extends Service {
     }
 
     event.sampleInvitees.push(event.watchingInvitee);
+
+    event.stats = result.invitee.meta.event_stats;
+    event.shouldDisplayInvitees =
+      result.invitee.meta.event_should_display_invitees;
 
     return invitee;
   }

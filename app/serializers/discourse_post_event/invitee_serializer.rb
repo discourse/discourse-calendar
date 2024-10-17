@@ -17,7 +17,12 @@ module DiscoursePostEvent
     end
 
     def meta
-      { event_stats: EventStatsSerializer.new(object.event, root: false) }
+      {
+        event_should_display_invitees:
+          (object.event.public? && object.event.invitees.count > 0) ||
+            (object.event.private? && object.event.raw_invitees.count > 0),
+        event_stats: EventStatsSerializer.new(object.event, root: false),
+      }
     end
   end
 end
