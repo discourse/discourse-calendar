@@ -1,0 +1,38 @@
+#reply-control .composer-fields {
+    .title-and-category {
+        display: flex;
+        align-items: center;
+
+        .category-input {
+        flex: 1 0 30%;
+        }
+
+        .add-event-button {
+        // margin-left: 5px;
+        height: 42px;
+
+        .btn-default {
+            // padding: 0 12px;
+            border: 1px solid var(--primary-medium);
+            border-radius: 2px;
+            &:not(.btn-primary) {
+                background: var(--secondary);
+            }
+
+            &:hover {
+                background-color: var(--primary-medium);
+                color: var(--secondary);
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px var(--tertiary);
+            }
+        }
+
+        .fa {
+            margin: 10;
+        }
+        }
+    }
+}
