@@ -21,23 +21,19 @@ export default class DiscoursePostEvent extends Component {
   @service discoursePostEventApi;
   @service messageBus;
 
-  @action
-  setupMessageBus() {
+  setupMessageBus = modifier(() => {
+    const { event } = this.args;
+    const path = `/discourse-post-event/${event.post.topic.id}`;
     this.messageBus.subscribe(
-      "/discourse-post-event/" + this.args.event.post.topic.id,
+     path,
       async (msg) => {
-        const event = await this.discoursePostEventApi.event(msg.id);
-        this.args.event.updateFromEvent(event);
+        const eventData = await this.discoursePostEventApi.event(msg.id);
+        event.updateFromEvent(eventData);
       }
     );
-  }
 
-  @action
-  teardownMessageBus() {
-    this.messageBus.unsubscribe(
-      "/discourse-post-event/" + this.args.event.post.topic.id
-    );
-  }
+    return () => this.messageBus.unsubscribe(path);
+  });
 
   get eventStatusLabel() {
     return i18n(
