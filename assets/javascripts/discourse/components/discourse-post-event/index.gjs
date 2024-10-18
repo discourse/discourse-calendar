@@ -9,7 +9,6 @@ import routeAction from "discourse/helpers/route-action";
 import { emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
 import i18n from "discourse-common/helpers/i18n";
-import I18n from "discourse-i18n";
 import Creator from "./creator";
 import Dates from "./dates";
 import Invitees from "./invitees";
@@ -41,13 +40,13 @@ export default class DiscoursePostEvent extends Component {
   }
 
   get eventStatusLabel() {
-    return I18n.t(
+    return i18n(
       `discourse_calendar.discourse_post_event.models.event.status.${this.args.event.status}.title`
     );
   }
 
   get eventStatusDescription() {
-    return I18n.t(
+    return i18n(
       `discourse_calendar.discourse_post_event.models.event.status.${this.args.event.status}.description`
     );
   }

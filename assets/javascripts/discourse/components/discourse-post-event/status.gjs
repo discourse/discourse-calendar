@@ -9,7 +9,6 @@ import concatClass from "discourse/helpers/concat-class";
 export default class DiscoursePostEventStatus extends Component {
   @service appEvents;
   @service discoursePostEventApi;
-  @service store;
 
   get watchingInviteeStatus() {
     return this.args.event.watchingInvitee?.status;

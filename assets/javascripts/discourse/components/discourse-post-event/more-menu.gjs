@@ -1,5 +1,5 @@
 import Component from "@glimmer/component";
-import { fn, hash } from "@ember/helper";
+import { hash } from "@ember/helper";
 import EmberObject, { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
@@ -10,7 +10,6 @@ import { exportEntity } from "discourse/lib/export-csv";
 import { cook } from "discourse/lib/text";
 import i18n from "discourse-common/helpers/i18n";
 import { getAbsoluteURL } from "discourse-common/lib/get-url";
-import I18n from "I18n";
 import DMenu from "float-kit/components/d-menu";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 import PostEventBuilder from "../modal/post-event-builder";
@@ -96,12 +95,12 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   @action
-  async inviteUserOrGroup(event) {
+  async inviteUserOrGroup() {
     this.menuApi.close();
 
     try {
       this.modal.show(PostEventInviteUserOrGroup, {
-        model: { event },
+        model: { event: this.args.event },
       });
     } catch (e) {
       popupAjaxError(e);
@@ -109,17 +108,17 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   @action
-  async leaveEvent(event) {
+  async leaveEvent() {
     this.menuApi.close();
 
     try {
-      const invitee = event.watchingInvitee;
+      const invitee = this.args.event.watchingInvitee;
 
-      await this.discoursePostEventApi.leaveEvent(event, invitee);
+      await this.discoursePostEventApi.leaveEvent(this.args.event, invitee);
 
       this.appEvents.trigger("calendar:invitee-left-event", {
         invitee,
-        postId: event.id,
+        postId: this.args.event.id,
       });
     } catch (e) {
       popupAjaxError(e);
@@ -127,40 +126,41 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   @action
-  exportPostEvent(event) {
+  exportPostEvent() {
     this.menuApi.close();
 
     exportEntity("post_event", {
       name: "post_event",
-      id: event.id,
+      id: this.args.event.id,
     });
   }
 
   @action
-  bulkInvite(event) {
+  bulkInvite() {
     this.menuApi.close();
 
     this.modal.show(PostEventBulkInvite, {
-      model: { event },
+      model: { event: this.args.event },
     });
   }
 
   @action
-  async openEvent(event) {
+  async openEvent() {
     this.menuApi.close();
 
     this.dialog.yesNoConfirm({
-      message: I18n.t(
+      message: i18n(
         "discourse_calendar.discourse_post_event.builder_modal.confirm_open"
       ),
-      didConfirm: () => {
-        return this.store.find("post", event.id).then((post) => {
+      didConfirm: async () => {
+        try {
+          const post = await this.store.find("post", event.id);
           event.closed = false;
 
           const eventParams = buildParams(
-            event.startsAt,
-            event.endsAt,
-            event,
+            this.args.event.startsAt,
+            this.args.event.endsAt,
+            this.args.event,
             this.siteSettings
           );
 
@@ -169,38 +169,39 @@ export default class DiscoursePostEventMoreMenu extends Component {
           if (newRaw) {
             const props = {
               raw: newRaw,
-              edit_reason: I18n.t(
+              edit_reason: i18n(
                 "discourse_calendar.discourse_post_event.edit_reason_opened"
               ),
             };
 
-            return cook(newRaw).then((cooked) => {
-              props.cooked = cooked.string;
-              return post.save(props);
-            });
+            const cooked = await cook(newRaw);
+            props.cooked = cooked.string;
+            await post.save(props);
           }
-        });
+        } catch (e) {
+          popupAjaxError(e);
+        }
       },
     });
   }
 
   @action
-  async editPostEvent(event) {
+  async editPostEvent() {
     this.menuApi.close();
 
     this.modal.show(PostEventBuilder, {
       model: {
-        event,
+        event: this.args.event,
       },
     });
   }
 
   @action
-  async closeEvent(event) {
+  async closeEvent() {
     this.menuApi.close();
 
     this.dialog.yesNoConfirm({
-      message: I18n.t(
+      message: i18n(
         "discourse_calendar.discourse_post_event.builder_modal.confirm_close"
       ),
       didConfirm: () => {
@@ -208,9 +209,9 @@ export default class DiscoursePostEventMoreMenu extends Component {
           event.closed = true;
 
           const eventParams = buildParams(
-            event.startsAt,
-            event.endsAt,
-            event,
+            this.args.event.startsAt,
+            this.args.event.endsAt,
+            this.args.event,
             this.siteSettings
           );
 
@@ -219,7 +220,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           if (newRaw) {
             const props = {
               raw: newRaw,
-              edit_reason: I18n.t(
+              edit_reason: i18n(
                 "discourse_calendar.discourse_post_event.edit_reason_closed"
               ),
             };
@@ -275,7 +276,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 @translatedLabel={{i18n
                   "discourse_calendar.discourse_post_event.event_ui.invite"
                 }}
-                @action={{fn this.inviteUserOrGroup @event}}
+                @action={{this.inviteUserOrGroup}}
               />
             </dropdown.item>
           {{/if}}
@@ -288,7 +289,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 @translatedLabel={{i18n
                   "discourse_calendar.discourse_post_event.event_ui.leave"
                 }}
-                @action={{fn this.leaveEvent @event}}
+                @action={{this.leaveEvent}}
               />
             </dropdown.item>
           {{/if}}
@@ -314,7 +315,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 @icon="file-csv"
                 class="btn-transparent"
                 @label="discourse_calendar.discourse_post_event.event_ui.export_event"
-                @action={{fn this.exportPostEvent @event}}
+                @action={{this.exportPostEvent}}
               />
             </dropdown.item>
 
@@ -324,7 +325,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                   @icon="file-upload"
                   class="btn-transparent"
                   @label="discourse_calendar.discourse_post_event.event_ui.bulk_invite"
-                  @action={{fn this.bulkInvite @event}}
+                  @action={{this.bulkInvite}}
                 />
               </dropdown.item>
             {{/if}}
@@ -335,7 +336,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                   @icon="unlock"
                   class="btn-transparent"
                   @label="discourse_calendar.discourse_post_event.event_ui.open_event"
-                  @action={{fn this.openEvent @event}}
+                  @action={{this.openEvent}}
                 />
               </dropdown.item>
             {{else}}
@@ -344,7 +345,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                   @icon="pencil-alt"
                   class="btn-transparent"
                   @label="discourse_calendar.discourse_post_event.event_ui.edit_event"
-                  @action={{fn this.editPostEvent @event}}
+                  @action={{this.editPostEvent}}
                 />
               </dropdown.item>
 
@@ -353,7 +354,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                   <DButton
                     @icon="times"
                     @label="discourse_calendar.discourse_post_event.event_ui.close_event"
-                    @action={{fn this.closeEvent @event}}
+                    @action={{this.closeEvent}}
                     class="btn-transparent btn-danger"
                   />
                 </dropdown.item>

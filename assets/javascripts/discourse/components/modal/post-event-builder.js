@@ -6,10 +6,6 @@ import { extractError } from "discourse/lib/ajax-error";
 import { cook } from "discourse/lib/text";
 import Group from "discourse/models/group";
 import I18n from "discourse-i18n";
-import {
-  addReminder,
-  removeReminder,
-} from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default class PostEventBuilder extends Component {
@@ -219,16 +215,6 @@ export default class PostEventBuilder extends Component {
     } catch (e) {
       this.flash = extractError(e);
     }
-  }
-
-  @action
-  addReminder(reminder) {
-    addReminder(this.event, reminder);
-  }
-
-  @action
-  removeReminder(reminder) {
-    removeReminder(this.event, reminder);
   }
 
   @action

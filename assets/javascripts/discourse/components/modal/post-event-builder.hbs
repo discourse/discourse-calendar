@@ -176,7 +176,7 @@
                 <DButton
                   class="remove-reminder"
                   @icon="times"
-                  @action={{fn this.removeReminder reminder}}
+                  @action={{fn @model.event.removeReminder reminder}}
                 />
 
               </div>
@@ -188,7 +188,7 @@
             @disabled={{this.addReminderDisabled}}
             @icon="plus"
             @label="discourse_calendar.discourse_post_event.builder_modal.add_reminder"
-            @action={{this.addReminder}}
+            @action={{@model.event.addReminder}}
           />
         </EventField>
 
@@ -252,7 +252,6 @@
   <:footer>
     {{#if @model.event.id}}
       <DButton
-        @type="button"
         class="btn-primary"
         @label="discourse_calendar.discourse_post_event.builder_modal.update"
         @icon="calendar-day"
@@ -266,7 +265,6 @@
       />
     {{else}}
       <DButton
-        @type="button"
         class="btn-primary"
         @label="discourse_calendar.discourse_post_event.builder_modal.create"
         @icon="calendar-day"

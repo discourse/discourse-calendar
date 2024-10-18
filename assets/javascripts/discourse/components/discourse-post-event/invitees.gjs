@@ -1,31 +1,23 @@
 import Component from "@glimmer/component";
-import { fn } from "@ember/helper";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
-import { popupAjaxError } from "discourse/lib/ajax-error";
 import i18n from "discourse-common/helpers/i18n";
 import PostEventInvitees from "../modal/post-event-invitees";
 import Invitee from "./invitee";
 
 export default class DiscoursePostEventInvitees extends Component {
-  @service discoursePostEventApi;
-  @service store;
   @service modal;
 
   @action
-  async showAllInvitees(event) {
-    try {
-      this.modal.show(PostEventInvitees, {
-        model: {
-          event,
-          title: event.title,
-          extraClass: event.extraClass,
-        },
-      });
-    } catch (e) {
-      popupAjaxError(e);
-    }
+  showAllInvitees() {
+    this.modal.show(PostEventInvitees, {
+      model: {
+        event: this.args.event,
+        title: event.title,
+        extraClass: event.extraClass,
+      },
+    });
   }
 
   <template>
@@ -56,7 +48,7 @@ export default class DiscoursePostEventInvitees extends Component {
         <DButton
           class="show-all btn-small"
           @label="discourse_calendar.discourse_post_event.event_ui.show_all"
-          @action={{fn this.showAllInvitees @event}}
+          @action={{this.showAllInvitees}}
         />
 
       </div>

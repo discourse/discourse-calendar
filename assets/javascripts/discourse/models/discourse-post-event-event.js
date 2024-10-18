@@ -2,8 +2,16 @@ import { tracked } from "@glimmer/tracking";
 import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import User from "discourse/models/user";
+import { bind } from "discourse-common/utils/decorators";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
 import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
+
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
+};
 
 export default class DiscoursePostEventEvent {
   static create(args = {}) {
@@ -136,6 +144,20 @@ export default class DiscoursePostEventEvent {
     this.reminders = event.reminders;
   }
 
+  @bind
+  removeReminder(reminder) {
+    const index = this.reminders.findIndex((r) => r.id === reminder.id);
+    if (index > -1) {
+      this.reminders.splice(index, 1);
+    }
+  }
+
+  @bind
+  addReminder(reminder) {
+    reminder ??= { ...DEFAULT_REMINDER };
+    this.reminders.push(reminder);
+  }
+
   #initUserModel(user) {
     if (!user || user instanceof User) {
       return user;
@@ -151,20 +173,4 @@ export default class DiscoursePostEventEvent {
 
     return DiscoursePostEventEventStats.create(stats);
   }
-}
-
-// TODO (joffrey): get rid of all the following
-const DEFAULT_REMINDER = {
-  type: "notification",
-  value: 15,
-  unit: "minutes",
-  period: "before",
-};
-
-export function removeReminder(event, reminder) {
-  return event.reminders.removeObject(reminder);
-}
-
-export function addReminder(event) {
-  event.reminders.push(Object.assign({}, DEFAULT_REMINDER));
 }

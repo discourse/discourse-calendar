@@ -1,6 +1,6 @@
-import hbs from "htmlbars-inline-precompile";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n from "I18n";
+import DiscoursePostEvent from "discourse/plugins/discourse-calendar/discourse/components/discourse-post-event";
 import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import guessDateFormat from "../lib/guess-best-date-format";
 
@@ -89,14 +89,11 @@ function initializeDiscoursePostEventDecorator(api) {
 
         const div = document.createElement("div");
         cooked.querySelector(".discourse-post-event").before(div);
+        const event = DiscoursePostEventEvent.create(post.event);
 
-        helper.renderGlimmer(
-          div,
-          hbs`<DiscoursePostEvent @event={{@data.event}} />`,
-          {
-            event: DiscoursePostEventEvent.create(post.event),
-          }
-        );
+        helper.renderGlimmer(div, <template>
+          <DiscoursePostEvent @event={{event}} />
+        </template>);
       }
     },
     {

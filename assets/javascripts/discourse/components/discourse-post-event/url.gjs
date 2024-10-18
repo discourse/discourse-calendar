@@ -3,10 +3,9 @@ import icon from "discourse-common/helpers/d-icon";
 
 export default class DiscoursePostEventUrl extends Component {
   get url() {
-    return this.args.url.indexOf("://") === -1 &&
-      this.args.url.indexOf("mailto:") === -1
-      ? "https://" + this.args.url
-      : this.args.url;
+    return this.args.url.includes("://") || this.args.url.includes("mailto:")
+      ? this.args.url
+      : `https://${this.args.url}`;
   }
 
   <template>

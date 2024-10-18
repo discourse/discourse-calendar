@@ -1,43 +1,24 @@
 import Component from "@glimmer/component";
 import { concat } from "@ember/helper";
 import { service } from "@ember/service";
-import { htmlSafe } from "@ember/template";
 import { eq } from "truth-helpers";
 import AvatarFlair from "discourse/components/avatar-flair";
+import avatar from "discourse/helpers/avatar";
 import concatClass from "discourse/helpers/concat-class";
-import { formatUsername } from "discourse/lib/utilities";
-import { avatarImg } from "discourse-common/lib/avatar-utils";
 
 export default class DiscoursePostEventInvitee extends Component {
   @service site;
   @service currentUser;
 
   get statusIcon() {
-    let statusIcon;
     switch (this.args.invitee.status) {
       case "going":
-        statusIcon = "fa-check";
-        break;
+        return "fa-check";
       case "interested":
-        statusIcon = "fa-star";
-        break;
+        return "fa-star";
       case "not_going":
-        statusIcon = "fa-times";
-        break;
+        return "fa-times";
     }
-    return statusIcon;
-  }
-
-  get avatarImage() {
-    return htmlSafe(
-      avatarImg({
-        avatarTemplate: this.args.invitee.user.avatar_template,
-        size: this.site.mobileView ? "tiny" : "large",
-        title: this.args.invitee.user.name
-          ? formatUsername(this.args.invitee.user.name)
-          : this.args.invitee.user.username,
-      })
-    );
   }
 
   <template>
@@ -49,7 +30,10 @@ export default class DiscoursePostEventInvitee extends Component {
       }}
     >
       <a class="topic-invitee-avatar" data-user-card={{@invitee.user.username}}>
-        {{this.avatarImage}}
+        {{avatar
+          @invitee.user
+          imageSize=(if this.site.mobileView "tiny" "large")
+        }}
         {{#if this.statusIcon}}
           <AvatarFlair
             @flairName={{concat
