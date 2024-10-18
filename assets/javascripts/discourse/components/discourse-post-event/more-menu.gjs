@@ -154,8 +154,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
       ),
       didConfirm: async () => {
         try {
-          const post = await this.store.find("post", event.id);
-          event.closed = false;
+          const post = await this.store.find("post", this.args.event.id);
+          this.args.event.isClosed = false;
 
           const eventParams = buildParams(
             this.args.event.startsAt,
@@ -205,8 +205,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
         "discourse_calendar.discourse_post_event.builder_modal.confirm_close"
       ),
       didConfirm: () => {
-        return this.store.find("post", event.id).then((post) => {
-          event.closed = true;
+        return this.store.find("post", this.args.event.id).then((post) => {
+          this.args.event.isClosed = true;
 
           const eventParams = buildParams(
             this.args.event.startsAt,
