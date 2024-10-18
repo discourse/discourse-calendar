@@ -27,23 +27,22 @@ describe "Post event", type: :system do
 
     expect(page).to have_content(title)
 
-    page.find("#more-dropdown").click
-    page.find(".item-closeEvent").click
+    page.find(".more-dropdown").click
+    page.find(".close-event").click
     page.find("#dialog-holder .btn-primary").click
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.closed")
 
     # click on a different button to ensure more dropdown is collapsed before reopening
     page.find(".btn-primary.create").click
-    page.find("#more-dropdown").click
-    page.find(".item-openEvent").click
+    page.find(".more-dropdown").click
+    page.find(".open-event").click
     page.find("#dialog-holder .btn-primary").click
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.public")
 
     page.find(".going-button").click
     page.find(".event-invitees .show-all").click
-
     page.find(".d-modal input.filter").fill_in(with: "jan")
     page.find(".d-modal .add-invitee").click
 

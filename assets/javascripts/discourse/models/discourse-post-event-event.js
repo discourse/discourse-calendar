@@ -1,70 +1,176 @@
-import { ajax } from "discourse/lib/ajax";
-import RestModel from "discourse/models/rest";
+import { tracked } from "@glimmer/tracking";
+import EmberObject from "@ember/object";
+import { TrackedArray } from "@ember-compat/tracked-built-ins";
+import User from "discourse/models/user";
+import { bind } from "discourse-common/utils/decorators";
+import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
+import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
 
-const ATTRIBUTES = {
-  id: null,
-  name: null,
-  starts_at: null,
-  ends_at: null,
-  raw_invitees: null,
-  url: null,
-  timezone: null,
-  status: {
-    transform(value) {
-      return STATUSES[value];
-    },
-  },
+const DEFAULT_REMINDER = {
+  type: "notification",
+  value: 15,
+  unit: "minutes",
+  period: "before",
 };
 
-const STATUSES = {
-  standalone: 0,
-  public: 1,
-  private: 2,
-};
+export default class DiscoursePostEventEvent {
+  static create(args = {}) {
+    return new DiscoursePostEventEvent(args);
+  }
 
-const Event = RestModel.extend({
-  init() {
-    this._super(...arguments);
+  @tracked title;
+  @tracked name;
+  @tracked categoryId;
+  @tracked startsAt;
+  @tracked endsAt;
+  @tracked rawInvitees;
+  @tracked url;
+  @tracked timezone;
+  @tracked post;
+  @tracked minimal;
+  @tracked canUpdateAttendance;
+  @tracked canActOnDiscoursePostEvent;
+  @tracked shouldDisplayInvitees;
+  @tracked isClosed;
+  @tracked isExpired;
+  @tracked isStandalone;
+  @tracked recurrenceRule;
+  @tracked customFields;
 
-    this.__type = "discourse-post-event-event";
-  },
+  @tracked _watchingInvitee;
+  @tracked _sampleInvitees;
+  @tracked _stats;
+  @tracked _creator;
+  @tracked _reminders;
 
-  update(data) {
-    return ajax(`/discourse-post-event/events/${this.id}.json`, {
-      type: "PUT",
-      dataType: "json",
-      contentType: "application/json",
-      data: JSON.stringify({ event: data }),
-    });
-  },
+  constructor(args = {}) {
+    this.id = args.id;
+    this.name = args.name;
+    this.categoryId = args.category_id;
+    this.upcomingDates = args.upcoming_dates;
+    this.startsAt = args.starts_at;
+    this.endsAt = args.ends_at;
+    this.rawInvitees = args.raw_invitees;
+    this.sampleInvitees = args.sample_invitees;
+    this.url = args.url;
+    this.timezone = args.timezone;
+    this.status = args.status;
+    this.creator = args.creator;
+    this.post = args.post;
+    this.isClosed = args.is_closed;
+    this.isExpired = args.is_expired;
+    this.isStandalone = args.is_standalone;
+    this.minimal = args.minimal;
+    this.recurrenceRule = args.recurrence_rule;
+    this.canUpdateAttendance = args.can_update_attendance;
+    this.canActOnDiscoursePostEvent = args.can_act_on_discourse_post_event;
+    this.shouldDisplayInvitees = args.should_display_invitees;
+    this.watchingInvitee = args.watching_invitee;
+    this.stats = args.stats;
+    this.reminders = args.reminders;
+    this.customFields = EmberObject.create(args.custom_fields || {});
+  }
 
-  updateProperties() {
-    const attributesKeys = Object.keys(ATTRIBUTES);
-    return this.getProperties(attributesKeys);
-  },
+  get watchingInvitee() {
+    return this._watchingInvitee;
+  }
 
-  createProperties() {
-    const attributesKeys = Object.keys(ATTRIBUTES);
-    return this.getProperties(attributesKeys);
-  },
+  set watchingInvitee(invitee) {
+    this._watchingInvitee = invitee
+      ? DiscoursePostEventInvitee.create(invitee)
+      : null;
+  }
 
-  _transformProps(props) {
-    const attributesKeys = Object.keys(ATTRIBUTES);
-    attributesKeys.forEach((key) => {
-      const attribute = ATTRIBUTES[key];
-      if (attribute?.transform) {
-        props[key] = attribute.transform(props[key]);
-      }
-    });
-  },
+  get sampleInvitees() {
+    return this._sampleInvitees;
+  }
 
-  beforeUpdate(props) {
-    this._transformProps(props);
-  },
+  set sampleInvitees(invitees) {
+    this._sampleInvitees = new TrackedArray(
+      (invitees || []).map((u) => DiscoursePostEventInvitee.create(u))
+    );
+  }
 
-  beforeCreate(props) {
-    this._transformProps(props);
-  },
-});
+  get stats() {
+    return this._stats;
+  }
 
-export default Event;
+  set stats(stats) {
+    this._stats = this.#initStatsModel(stats);
+  }
+
+  get reminders() {
+    return this._reminders;
+  }
+
+  set reminders(reminders = []) {
+    this._reminders = new TrackedArray(reminders);
+  }
+
+  get creator() {
+    return this._creator;
+  }
+
+  set creator(user) {
+    this._creator = this.#initUserModel(user);
+  }
+
+  get isPublic() {
+    return this.status === "public";
+  }
+
+  get isPrivate() {
+    return this.status === "private";
+  }
+
+  updateFromEvent(event) {
+    this.name = event.name;
+    this.startsAt = event.startsAt;
+    this.endsAt = event.endsAt;
+    this.url = event.url;
+    this.timezone = event.timezone;
+    this.status = event.status;
+    this.creator = event.creator;
+    this.isClosed = event.isClosed;
+    this.isExpired = event.isExpired;
+    this.isStandalone = event.isStandalone;
+    this.minimal = event.minimal;
+    this.recurrenceRule = event.recurrenceRule;
+    this.canUpdateAttendance = event.canUpdateAttendance;
+    this.canActOnDiscoursePostEvent = event.canActOnDiscoursePostEvent;
+    this.shouldDisplayInvitees = event.shouldDisplayInvitees;
+    this.stats = event.stats;
+    this.sampleInvitees = event.sampleInvitees;
+    this.reminders = event.reminders;
+  }
+
+  @bind
+  removeReminder(reminder) {
+    const index = this.reminders.findIndex((r) => r.id === reminder.id);
+    if (index > -1) {
+      this.reminders.splice(index, 1);
+    }
+  }
+
+  @bind
+  addReminder(reminder) {
+    reminder ??= { ...DEFAULT_REMINDER };
+    this.reminders.push(reminder);
+  }
+
+  #initUserModel(user) {
+    if (!user || user instanceof User) {
+      return user;
+    }
+
+    return User.create(user);
+  }
+
+  #initStatsModel(stats) {
+    if (!stats || stats instanceof DiscoursePostEventEventStats) {
+      return stats;
+    }
+
+    return DiscoursePostEventEventStats.create(stats);
+  }
+}
