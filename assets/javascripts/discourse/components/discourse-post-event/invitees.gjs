@@ -14,8 +14,8 @@ export default class DiscoursePostEventInvitees extends Component {
     this.modal.show(PostEventInvitees, {
       model: {
         event: this.args.event,
-        title: event.title,
-        extraClass: event.extraClass,
+        title: this.args.event.title,
+        extraClass: this.args.event.extraClass,
       },
     });
   }
