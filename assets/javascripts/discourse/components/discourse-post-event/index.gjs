@@ -1,9 +1,9 @@
 import Component from "@glimmer/component";
-import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
+import { modifier } from "ember-modifier";
 import concatClass from "discourse/helpers/concat-class";
 import routeAction from "discourse/helpers/route-action";
 import { emojiUnescape } from "discourse/lib/text";
@@ -24,13 +24,10 @@ export default class DiscoursePostEvent extends Component {
   setupMessageBus = modifier(() => {
     const { event } = this.args;
     const path = `/discourse-post-event/${event.post.topic.id}`;
-    this.messageBus.subscribe(
-     path,
-      async (msg) => {
-        const eventData = await this.discoursePostEventApi.event(msg.id);
-        event.updateFromEvent(eventData);
-      }
-    );
+    this.messageBus.subscribe(path, async (msg) => {
+      const eventData = await this.discoursePostEventApi.event(msg.id);
+      event.updateFromEvent(eventData);
+    });
 
     return () => this.messageBus.unsubscribe(path);
   });
