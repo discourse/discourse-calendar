@@ -11,7 +11,7 @@ module DiscoursePostEvent
       event_invitees = event.invitees
       event_invitees = event_invitees.with_status(params[:type].to_sym) if params[:type]
 
-      possible_invitees = []
+      suggested_users = []
       if filter.present? && guardian.can_act_on_discourse_post_event?(event)
         missing_users = event.missing_users(event_invitees.select(:user_id))
 
@@ -32,7 +32,7 @@ module DiscoursePostEvent
           missing_users = missing_users.order(:username_lower).limit(10)
         end
 
-        possible_invitees = missing_users
+        suggested_users = missing_users
       end
 
       if filter
@@ -46,21 +46,18 @@ module DiscoursePostEvent
       event_invitees = event_invitees.order(%i[status username_lower]).limit(200)
 
       render json:
-               InviteeListSerializer.new(
-                 invitees: event_invitees,
-                 possible_invitees: possible_invitees,
-               )
+               InviteeListSerializer.new(invitees: event_invitees, suggested_users: suggested_users)
     end
 
     def update
-      invitee = Invitee.find_by(id: params[:id], post_id: params[:post_id])
+      invitee = Invitee.find_by(id: params[:invitee_id], post_id: params[:event_id])
       guardian.ensure_can_act_on_invitee!(invitee)
       invitee.update_attendance!(invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 
     def create
-      event = Event.find(params[:post_id])
+      event = Event.find(params[:event_id])
       guardian.ensure_can_see!(event.post)
 
       invitee_params = invitee_params(event)
@@ -76,7 +73,7 @@ module DiscoursePostEvent
         raise Discourse::InvalidAccess if !guardian.can_act_on_discourse_post_event?(event)
       end
 
-      invitee = Invitee.create_attendance!(user.id, params[:post_id], invitee_params[:status])
+      invitee = Invitee.create_attendance!(user.id, params[:event_id], invitee_params[:status])
       render json: InviteeSerializer.new(invitee)
     end
 

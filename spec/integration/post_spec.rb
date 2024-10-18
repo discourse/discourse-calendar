@@ -476,7 +476,7 @@ describe Post do
       end
 
       context "when updating the end" do
-        it "resends event creation notification to invitees and possible invitees" do
+        it "resends event creation notification to invitees and suggested users" do
           expect { event_1.update_with_params!(original_ends_at: 3.hours.from_now) }.to change {
             invitee_1.notifications.count + invitee_2.notifications.count
           }.by(2)
