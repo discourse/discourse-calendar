@@ -110,23 +110,26 @@ export default class UpcomingEventsList extends Component {
     return data.reduce((result, item) => {
       const startDate = moment(item.starts_at);
       const endDate = moment(item.ends_at);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      const monthKey = `${year}-${month}`;
 
-      if (startDate.isSameOrBefore(endDate, "day")) {
+      while (
+        startDate.isSameOrBefore(endDate, "day") &&
+        Object.keys(result).length <= 5 // closer, but still only seeing 1 result in the object.keys...
+      ) {
+        const year = startDate.year();
+        const month = startDate.month() + 1;
+        const day = startDate.date();
+        const monthKey = `${year}-${month}`;
+
+        result[monthKey] = result[monthKey] || {};
+        result[monthKey][day] = result[monthKey][day] || [];
+
         result[monthKey][day].push(item);
 
         // Move to the next day
         startDate.add(1, "day");
       }
 
-      result[monthKey] = result[monthKey] ?? {};
-      result[monthKey][day] = result[monthKey][day] ?? [];
-
-      result[monthKey][day].push(item);
-
+      console.log(Object.keys(result).length);
       return result;
     }, {});
   }
