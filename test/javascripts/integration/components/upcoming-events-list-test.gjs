@@ -132,35 +132,32 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       exists(".upcoming-events-list__view-all"),
       "it displays the view-all link"
     );
+  });
 
-    test("with multi-day events, standard formats", async function (assert) {
-      pretender.get(
-        "/discourse-post-event/events",
-        multiDayEventResponseHandler
-      );
+  test("with multi-day events, standard formats", async function (assert) {
+    pretender.get("/discourse-post-event/events", multiDayEventResponseHandler);
 
-      await render(<template><UpcomingEventsList /></template>);
+    await render(<template><UpcomingEventsList /></template>);
 
-      this.appEvents.trigger("page:changed", { url: "/" });
+    this.appEvents.trigger("page:changed", { url: "/" });
 
-      await waitFor(".loading-container .spinner", { count: 0 });
+    await waitFor(".loading-container .spinner", { count: 0 });
 
-      assert.deepEqual(
-        [...queryAll(".upcoming-events-list__event-name")].map(
-          (el) => el.innerText
-        ),
-        ["Awesome Event", "Another Awesome Event"],
-        "it displays the multiday event on all scheduled dates"
-      );
+    assert.deepEqual(
+      [...queryAll(".upcoming-events-list__event-name")].map(
+        (el) => el.innerText
+      ),
+      ["Awesome Event", "Another Awesome Event"],
+      "it displays the multiday event on all scheduled dates"
+    );
 
-      assert.deepEqual(
-        [...queryAll(".upcoming-events-list__event-name")].map(
-          (el) => el.innerText
-        ),
-        ["Awesome Event", "Another Awesome Event"],
-        "it displays the multiday event that has two different months"
-      );
-    });
+    assert.deepEqual(
+      [...queryAll(".upcoming-events-list__event-name")].map(
+        (el) => el.innerText
+      ),
+      ["Awesome Event", "Another Awesome Event"],
+      "it displays the multiday event that has two different months"
+    );
   });
 
   test("with events, view-all navigation", async function (assert) {
