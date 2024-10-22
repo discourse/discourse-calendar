@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { hash } from "@ember/helper";
 import { service } from "@ember/service";
+import { htmlSafe } from "@ember/template";
 import { modifier } from "ember-modifier";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
@@ -53,8 +54,12 @@ export default class DiscoursePostEvent extends Component {
   }
 
   get eventName() {
-    return emojiUnescape(
-      escapeExpression(this.args.event.name) || this.args.event.post.topic.title
+    return htmlSafe(
+      emojiUnescape(
+        escapeExpression(
+          this.args.event.name || this.args.event.post.topic.title
+        )
+      )
     );
   }
 

@@ -9,10 +9,23 @@ describe "Post event", type: :system do
     SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
     sign_in(admin)
-    visit "/new-topic"
+  end
+
+  it "renders html and emojis in the event name" do
+    post =
+      PostCreator.create(
+        admin,
+        title: "My test meetup event",
+        raw: "[event name=':cat: My test meetup event' start='2222-02-22 00:00']\n[/event]",
+      )
+
+    visit(post.topic.url)
+
+    expect(page).to have_css(".event-info .name img.emoji[title='cat']")
   end
 
   it "can create, close, and open an event" do
+    visit "/new-topic"
     title = "My upcoming l33t event"
     tomorrow = (Time.zone.now + 1.day).strftime("%Y-%m-%d")
 
