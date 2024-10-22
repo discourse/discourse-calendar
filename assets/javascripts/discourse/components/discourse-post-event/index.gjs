@@ -1,7 +1,9 @@
 import Component from "@glimmer/component";
+import { hash } from "@ember/helper";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
 import { modifier } from "ember-modifier";
+import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
 import routeAction from "discourse/helpers/route-action";
 import { emojiUnescape } from "discourse/lib/text";
@@ -13,6 +15,8 @@ import Invitees from "./invitees";
 import MoreMenu from "./more-menu";
 import Status from "./status";
 import Url from "./url";
+
+const Separator = <template><span class="separator">·</span></template>;
 
 export default class DiscoursePostEvent extends Component {
   @service currentUser;
@@ -118,27 +122,34 @@ export default class DiscoursePostEvent extends Component {
                 {{this.eventName}}
               </span>
               <div class="status-and-creators">
-                {{#if @event.isExpired}}
-                  <span class="status expired">
-                    {{i18n
-                      "discourse_calendar.discourse_post_event.models.event.expired"
-                    }}
-                  </span>
-                {{else if @event.isClosed}}
-                  <span class="status closed">
-                    {{i18n
-                      "discourse_calendar.discourse_post_event.models.event.closed"
-                    }}
-                  </span>
-                {{else}}
-                  <span
-                    class={{this.statusClass}}
-                    title={{this.eventStatusDescription}}
-                  >
-                    {{this.eventStatusLabel}}
-                  </span>
-                {{/if}}
-                <span class="separator">·</span>
+                <PluginOutlet
+                  @name="discourse-post-event-status"
+                  @outletArgs={{hash event=@event Separator=Separator}}
+                >
+                  {{#if @event.isExpired}}
+                    <span class="status expired">
+                      {{i18n
+                        "discourse_calendar.discourse_post_event.models.event.expired"
+                      }}
+                    </span>
+                  {{else if @event.isClosed}}
+                    <span class="status closed">
+                      {{i18n
+                        "discourse_calendar.discourse_post_event.models.event.closed"
+                      }}
+                    </span>
+                  {{else}}
+                    <span
+                      class={{this.statusClass}}
+                      title={{this.eventStatusDescription}}
+                    >
+                      {{this.eventStatusLabel}}
+                    </span>
+                  {{/if}}
+                </PluginOutlet>
+
+                <Separator />
+
                 <span class="creators">
                   <span class="created-by">{{i18n
                       "discourse_calendar.discourse_post_event.event_ui.created_by"
