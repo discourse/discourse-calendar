@@ -336,6 +336,18 @@ en:
               going: "Going"
               not_going: "Not Going"
               interested: "Interested"
+              going_count:
+                one: "%{count} going"
+                other: "%{count} going"
+              not_going_count:
+                one: "%{count} not going"
+                other: "%{count} not going"
+              interested_count:
+                one: "%{count} interested"
+                other: "%{count} interested"
+              invited_count:
+                one: "%{count} user invited"
+                other: "%{count} users invited"
           event:
             expired: "Expired"
             closed: "Closed"
@@ -351,6 +363,7 @@ en:
                 description: "A private event can only be joined by invited users."
         event_ui:
           show_all: "Show all"
+          show_participants: "Show participants"
           participants:
             one: "%{count} user participated."
             other: "%{count} users participated."

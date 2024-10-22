@@ -59,6 +59,16 @@ discourse_calendar:
     default: false
     client: true
     hidden: true
+  event_participation_buttons:
+    default: "going"
+    client: true
+    type: list
+    list_type: simple
+    allow_any: false
+    choices:
+      - going
+      - interested
+      - not going
   discourse_post_event_enabled:
     default: false
     client: true

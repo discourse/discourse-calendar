@@ -195,9 +195,14 @@ $interested: #fb985d;
 
       .event-invitees-status {
         font-weight: 700;
-
-        .invited {
-          font-weight: 500;
+        display: flex;
+        span:not(:last-child)::after {
+          content: '-';
+          font-weight: 400;
+          margin: 0 0.3em;
+        }
+        .event-status-invited {
+          font-weight: 600;
           color: var(--primary-medium);
         }
       }

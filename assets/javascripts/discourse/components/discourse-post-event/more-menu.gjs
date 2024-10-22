@@ -15,6 +15,7 @@ import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 import PostEventBuilder from "../modal/post-event-builder";
 import PostEventBulkInvite from "../modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../modal/post-event-invite-user-or-group";
+import PostEventInvitees from "../modal/post-event-invitees";
 
 export default class DiscoursePostEventMoreMenu extends Component {
   @service appEvents;
@@ -197,6 +198,19 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   @action
+  showParticipants() {
+    this.menuApi.close();
+
+    this.modal.show(PostEventInvitees, {
+      model: {
+        event: this.args.event,
+        title: this.args.event.title,
+        extraClass: this.args.event.extraClass,
+      },
+    });
+  }
+
+  @action
   async closeEvent() {
     this.menuApi.close();
 
@@ -308,6 +322,13 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/if}}
 
           {{#if this.canActOnEvent}}
+
+            <DButton
+              @icon="user-group"
+              class="btn-transparent"
+              @label="discourse_calendar.discourse_post_event.event_ui.show_participants"
+              @action={{this.showParticipants}}
+            />
             <dropdown.divider />
 
             <dropdown.item class="export-event">

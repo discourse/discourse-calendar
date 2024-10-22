@@ -9,9 +9,26 @@ import concatClass from "discourse/helpers/concat-class";
 export default class DiscoursePostEventStatus extends Component {
   @service appEvents;
   @service discoursePostEventApi;
+  @service siteSettings;
 
   get watchingInviteeStatus() {
     return this.args.event.watchingInvitee?.status;
+  }
+
+  get eventButtons() {
+    return this.siteSettings.event_participation_buttons.split("|");
+  }
+
+  get showGoingButton() {
+    return !!this.eventButtons.find((button) => button === "going");
+  }
+
+  get showInterestedButton() {
+    return !!this.eventButtons.find((button) => button === "interested");
+  }
+
+  get showNotGoingButton() {
+    return !!this.eventButtons.find((button) => button === "not going");
   }
 
   @action
@@ -55,54 +72,62 @@ export default class DiscoursePostEventStatus extends Component {
         @name="discourse-post-event-status-buttons"
         @outletArgs={{hash event=@event}}
       >
-        {{#unless @event.minimal}}
+        {{#if this.showGoingButton}}
+          {{#unless @event.minimal}}
+            <PluginOutlet
+              @name="discourse-post-event-status-going-button"
+              @outletArgs={{hash
+                event=@event
+                markAsGoing=(fn this.changeWatchingInviteeStatus "going")
+              }}
+            >
+              <DButton
+                class="going-button"
+                @icon="check"
+                @label="discourse_calendar.discourse_post_event.models.invitee.status.going"
+                @action={{fn this.changeWatchingInviteeStatus "going"}}
+              />
+            </PluginOutlet>
+          {{/unless}}
+        {{/if}}
+
+        {{#if this.showInterestedButton}}
           <PluginOutlet
-            @name="discourse-post-event-status-going-button"
+            @name="discourse-post-event-status-interested-button"
             @outletArgs={{hash
               event=@event
-              markAsGoing=(fn this.changeWatchingInviteeStatus "going")
+              markAsInterested=(fn
+                this.changeWatchingInviteeStatus "interested"
+              )
             }}
           >
             <DButton
-              class="going-button"
-              @icon="check"
-              @label="discourse_calendar.discourse_post_event.models.invitee.status.going"
-              @action={{fn this.changeWatchingInviteeStatus "going"}}
+              class="interested-button"
+              @icon="star"
+              @label="discourse_calendar.discourse_post_event.models.invitee.status.interested"
+              @action={{fn this.changeWatchingInviteeStatus "interested"}}
             />
           </PluginOutlet>
-        {{/unless}}
+        {{/if}}
 
-        <PluginOutlet
-          @name="discourse-post-event-status-interested-button"
-          @outletArgs={{hash
-            event=@event
-            markAsInterested=(fn this.changeWatchingInviteeStatus "interested")
-          }}
-        >
-          <DButton
-            class="interested-button"
-            @icon="star"
-            @label="discourse_calendar.discourse_post_event.models.invitee.status.interested"
-            @action={{fn this.changeWatchingInviteeStatus "interested"}}
-          />
-        </PluginOutlet>
-
-        {{#unless @event.minimal}}
-          <PluginOutlet
-            @name="discourse-post-event-status-not-going-button"
-            @outletArgs={{hash
-              event=@event
-              markAsNotGoing=(fn this.changeWatchingInviteeStatus "not_going")
-            }}
-          >
-            <DButton
-              class="not-going-button"
-              @icon="times"
-              @label="discourse_calendar.discourse_post_event.models.invitee.status.not_going"
-              @action={{fn this.changeWatchingInviteeStatus "not_going"}}
-            />
-          </PluginOutlet>
-        {{/unless}}
+        {{#if this.showNotGoingButton}}
+          {{#unless @event.minimal}}
+            <PluginOutlet
+              @name="discourse-post-event-status-not-going-button"
+              @outletArgs={{hash
+                event=@event
+                markAsNotGoing=(fn this.changeWatchingInviteeStatus "not_going")
+              }}
+            >
+              <DButton
+                class="not-going-button"
+                @icon="times"
+                @label="discourse_calendar.discourse_post_event.models.invitee.status.not_going"
+                @action={{fn this.changeWatchingInviteeStatus "not_going"}}
+              />
+            </PluginOutlet>
+          {{/unless}}
+        {{/if}}
       </PluginOutlet>
     </div>
   </template>

@@ -8,6 +8,7 @@ import Invitee from "./invitee";
 
 export default class DiscoursePostEventInvitees extends Component {
   @service modal;
+  @service siteSettings;
 
   @action
   showAllInvitees() {
@@ -20,29 +21,48 @@ export default class DiscoursePostEventInvitees extends Component {
     });
   }
 
+  get statusButtons() {
+    const buttons = [];
+    const allowed_buttons =
+      this.siteSettings.event_participation_buttons.split("|");
+
+    if (this.args.event.isPrivate) {
+      allowed_buttons.push("invited");
+    }
+
+    allowed_buttons.forEach((button) => {
+      const localeKey = button.replace(" ", "_");
+      if (button === "not_going") {
+        button = "notGoing";
+      }
+
+      const count = this.args.event.stats[button] || 0;
+
+      const name = i18n(
+        `discourse_calendar.discourse_post_event.models.invitee.status.${localeKey}_count`,
+        {
+          count,
+        }
+      );
+
+      const className = `event-status-${localeKey}`;
+
+      buttons.push({
+        class: className,
+        name,
+      });
+    });
+
+    return buttons;
+  }
+
   <template>
     <section class="event-invitees">
       <div class="header">
         <div class="event-invitees-status">
-          <span>{{@event.stats.going}}
-            {{i18n
-              "discourse_calendar.discourse_post_event.models.invitee.status.going"
-            }}
-            -</span>
-          <span>{{@event.stats.interested}}
-            {{i18n
-              "discourse_calendar.discourse_post_event.models.invitee.status.interested"
-            }}
-            -</span>
-          <span>{{@event.stats.notGoing}}
-            {{i18n
-              "discourse_calendar.discourse_post_event.models.invitee.status.not_going"
-            }}</span>
-          {{#if @event.isPrivate}}
-            <span class="invited">- on
-              {{@event.stats.invited}}
-              users invited</span>
-          {{/if}}
+          {{#each this.statusButtons as |button|}}
+            <span class={{button.class}}>{{button.name}}</span>
+          {{/each}}
         </div>
 
         <DButton
