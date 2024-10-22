@@ -5,6 +5,7 @@ import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 
 export default class DiscoursePostEventStatus extends Component {
   @service appEvents;
@@ -31,30 +32,77 @@ export default class DiscoursePostEventStatus extends Component {
     return !!this.eventButtons.find((button) => button === "not going");
   }
 
-  @action
-  async changeWatchingInviteeStatus(status) {
-    if (this.args.event.watchingInvitee) {
-      const currentStatus = this.args.event.watchingInvitee.status;
-      let newStatus = status;
-      if (status === currentStatus && status === "interested") {
-        newStatus = null;
-      }
+  get canLeave() {
+    return this.args.event.watchingInvitee && this.args.event.isPublic;
+  }
 
+  @action
+  async leaveEvent() {
+    try {
+      const invitee = this.args.event.watchingInvitee;
+
+      await this.discoursePostEventApi.leaveEvent(this.args.event, invitee);
+
+      this.appEvents.trigger("calendar:invitee-left-event", {
+        invitee,
+        postId: this.args.event.id,
+      });
+    } catch (e) {
+      popupAjaxError(e);
+    }
+  }
+
+  @action
+  async updateEventAttendance(status) {
+    try {
       await this.discoursePostEventApi.updateEventAttendance(this.args.event, {
-        status: newStatus,
+        status,
       });
 
       this.appEvents.trigger("calendar:update-invitee-status", {
-        status: newStatus,
+        status,
         postId: this.args.event.id,
       });
-    } else {
-      await this.discoursePostEventApi.joinEvent(this.args.event, { status });
+    } catch (e) {
+      popupAjaxError(e);
+    }
+  }
+
+  @action
+  async joinEventWithStatus(status) {
+    try {
+      await this.discoursePostEventApi.joinEvent(this.args.event, {
+        status,
+      });
 
       this.appEvents.trigger("calendar:create-invitee-status", {
         status,
         postId: this.args.event.id,
       });
+    } catch (e) {
+      popupAjaxError(e);
+    }
+  }
+
+  @action
+  async changeWatchingInviteeStatus(status) {
+    if (this.args.event.watchingInvitee) {
+      const currentStatus = this.args.event.watchingInvitee.status;
+      if (this.canLeave) {
+        if (status === currentStatus) {
+          await this.leaveEvent();
+        } else {
+          await this.updateEventAttendance(status);
+        }
+      } else {
+        if (status === currentStatus) {
+          status = null;
+        }
+
+        await this.updateEventAttendance(status);
+      }
+    } else {
+      await this.joinEventWithStatus(status);
     }
   }
 

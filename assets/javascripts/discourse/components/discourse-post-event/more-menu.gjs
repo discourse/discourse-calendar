@@ -41,10 +41,6 @@ export default class DiscoursePostEventMoreMenu extends Component {
     );
   }
 
-  get canLeave() {
-    return this.args.event.watchingInvitee && this.args.event.isPublic;
-  }
-
   get canSeeUpcomingEvents() {
     return !this.args.event.isClosed && this.args.event.recurrence;
   }
@@ -102,24 +98,6 @@ export default class DiscoursePostEventMoreMenu extends Component {
     try {
       this.modal.show(PostEventInviteUserOrGroup, {
         model: { event: this.args.event },
-      });
-    } catch (e) {
-      popupAjaxError(e);
-    }
-  }
-
-  @action
-  async leaveEvent() {
-    this.menuApi.close();
-
-    try {
-      const invitee = this.args.event.watchingInvitee;
-
-      await this.discoursePostEventApi.leaveEvent(this.args.event, invitee);
-
-      this.appEvents.trigger("calendar:invitee-left-event", {
-        invitee,
-        postId: this.args.event.id,
       });
     } catch (e) {
       popupAjaxError(e);
