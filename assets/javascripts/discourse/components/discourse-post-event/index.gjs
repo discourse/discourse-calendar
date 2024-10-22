@@ -1,7 +1,6 @@
 import Component from "@glimmer/component";
 import { hash } from "@ember/helper";
 import { service } from "@ember/service";
-import { htmlSafe } from "@ember/template";
 import { modifier } from "ember-modifier";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
@@ -76,39 +75,12 @@ export default class DiscoursePostEvent extends Component {
     return this.currentUser && this.args.event.can_act_on_discourse_post_event;
   }
 
-  get containerHeight() {
-    const datesHeight = 50;
-    const urlHeight = 50;
-    const headerHeight = 75;
-    const bordersHeight = 10;
-    const separatorsHeight = 4;
-    const margins = 10;
-
-    let widgetHeight =
-      datesHeight + headerHeight + bordersHeight + separatorsHeight + margins;
-
-    if (this.args.event.shouldDisplayInvitees && !this.args.event.minimal) {
-      widgetHeight += 110;
-    }
-
-    if (this.args.event.canUpdateAttendance) {
-      widgetHeight += 60;
-    }
-
-    if (this.args.event.url) {
-      widgetHeight += urlHeight;
-    }
-
-    return htmlSafe(`height: ${widgetHeight}px`);
-  }
-
   <template>
     <div
       class={{concatClass
         "discourse-post-event"
         (if @event "is-loaded" "is-loading")
       }}
-      style={{this.containerHeight}}
     >
       <div class="discourse-post-event-widget">
         {{#if @event}}

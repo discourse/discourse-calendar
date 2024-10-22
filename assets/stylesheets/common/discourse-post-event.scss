@@ -292,6 +292,10 @@ $interested: #fb985d;
   }
 
   .event-dates {
+    // hardcoded as cooking date is async and will change height after initial rendering otherwise
+    // not ideal but a decent low tech solution
+    height: 24px;
+
     .participants {
       margin-left: 0.5em;
       color: var(--primary-medium);
