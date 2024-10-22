@@ -23,8 +23,9 @@ export default class DiscoursePostEventInvitees extends Component {
 
   get statsInfo() {
     const stats = [];
-    const visibleStats =
-      this.siteSettings.event_participation_buttons.split("|");
+    const visibleStats = this.siteSettings.event_participation_buttons
+      .split("|")
+      .filter(Boolean);
 
     if (this.args.event.isPrivate) {
       visibleStats.push("invited");
