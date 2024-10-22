@@ -18,7 +18,6 @@ import PostEventInviteUserOrGroup from "../modal/post-event-invite-user-or-group
 import PostEventInvitees from "../modal/post-event-invitees";
 
 export default class DiscoursePostEventMoreMenu extends Component {
-  @service appEvents;
   @service currentUser;
   @service dialog;
   @service discoursePostEventApi;
