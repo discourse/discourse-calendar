@@ -55,6 +55,7 @@ en:
     sort_categories_by_event_start_date_enabled: "Enable the sorting of category topics by event start date."
     disable_resorting_on_categories_enabled: "Allow categories to disable the ability for users to sort on the event category."
     calendar_automatic_holidays_enabled: "Automatically set holiday status based on a users region (note: you can disable specific automatic holidays in plugin settings)"
+    event_participation_buttons: "List of event participation buttons users can use."
     sidebar_show_upcoming_events: "Show upcoming events link in the sidebar under 'More'."
     include_expired_events_on_calendar: "Include past/expired events on Category Calendar and Upcoming Events views."
   discourse_calendar:

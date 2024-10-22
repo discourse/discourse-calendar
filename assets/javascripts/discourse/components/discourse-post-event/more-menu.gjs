@@ -15,9 +15,9 @@ import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 import PostEventBuilder from "../modal/post-event-builder";
 import PostEventBulkInvite from "../modal/post-event-bulk-invite";
 import PostEventInviteUserOrGroup from "../modal/post-event-invite-user-or-group";
+import PostEventInvitees from "../modal/post-event-invitees";
 
 export default class DiscoursePostEventMoreMenu extends Component {
-  @service appEvents;
   @service currentUser;
   @service dialog;
   @service discoursePostEventApi;
@@ -38,10 +38,6 @@ export default class DiscoursePostEventMoreMenu extends Component {
     return (
       !this.expiredOrClosed && this.canActOnEvent && this.args.event.isPublic
     );
-  }
-
-  get canLeave() {
-    return this.args.event.watchingInvitee && this.args.event.isPublic;
   }
 
   get canSeeUpcomingEvents() {
@@ -101,24 +97,6 @@ export default class DiscoursePostEventMoreMenu extends Component {
     try {
       this.modal.show(PostEventInviteUserOrGroup, {
         model: { event: this.args.event },
-      });
-    } catch (e) {
-      popupAjaxError(e);
-    }
-  }
-
-  @action
-  async leaveEvent() {
-    this.menuApi.close();
-
-    try {
-      const invitee = this.args.event.watchingInvitee;
-
-      await this.discoursePostEventApi.leaveEvent(this.args.event, invitee);
-
-      this.appEvents.trigger("calendar:invitee-left-event", {
-        invitee,
-        postId: this.args.event.id,
       });
     } catch (e) {
       popupAjaxError(e);
@@ -192,6 +170,19 @@ export default class DiscoursePostEventMoreMenu extends Component {
     this.modal.show(PostEventBuilder, {
       model: {
         event: this.args.event,
+      },
+    });
+  }
+
+  @action
+  showParticipants() {
+    this.menuApi.close();
+
+    this.modal.show(PostEventInvitees, {
+      model: {
+        event: this.args.event,
+        title: this.args.event.title,
+        extraClass: this.args.event.extraClass,
       },
     });
   }
@@ -281,19 +272,6 @@ export default class DiscoursePostEventMoreMenu extends Component {
             </dropdown.item>
           {{/if}}
 
-          {{#if this.canLeave}}
-            <dropdown.item class="leave-event">
-              <DButton
-                @icon="times"
-                class="btn-transparent"
-                @translatedLabel={{i18n
-                  "discourse_calendar.discourse_post_event.event_ui.leave"
-                }}
-                @action={{this.leaveEvent}}
-              />
-            </dropdown.item>
-          {{/if}}
-
           {{#if this.canSeeUpcomingEvents}}
             <dropdown.item class="upcoming-events">
               <DButton
@@ -308,6 +286,15 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/if}}
 
           {{#if this.canActOnEvent}}
+            <dropdown.item class="show-all-participants">
+              <DButton
+                @icon="user-group"
+                class="btn-transparent"
+                @label="discourse_calendar.discourse_post_event.event_ui.show_participants"
+                @action={{this.showParticipants}}
+              />
+            </dropdown.item>
+
             <dropdown.divider />
 
             <dropdown.item class="export-event">

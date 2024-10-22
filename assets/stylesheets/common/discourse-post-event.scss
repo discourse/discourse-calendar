@@ -3,6 +3,30 @@ $interested: #fb985d;
 .discourse-post-event {
   display: flex;
 
+  .event__section {
+    padding: 0.5em 1em;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--primary-low);
+    }
+
+    &:first-child {
+      border-top: 1px solid var(--primary-low);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    > .d-icon {
+      padding-right: 0.25em;
+    }
+
+    .discourse-local-date .d-icon {
+      padding-right: 0.25em;
+    }
+  }
+
   .discourse-post-event-widget {
     border: 5px solid var(--primary-low);
     display: flex;
@@ -175,8 +199,6 @@ $interested: #fb985d;
 
   .event-invitees {
     display: flex;
-    height: 110px;
-    padding: 0 1em;
     align-items: flex-start;
     justify-content: center;
     overflow-y: auto;
@@ -195,9 +217,14 @@ $interested: #fb985d;
 
       .event-invitees-status {
         font-weight: 700;
-
-        .invited {
-          font-weight: 500;
+        display: flex;
+        span:not(:last-child)::after {
+          content: "-";
+          font-weight: 400;
+          margin: 0 0.3em;
+        }
+        .event-status-invited {
+          font-weight: 600;
           color: var(--primary-medium);
         }
       }
@@ -269,9 +296,6 @@ $interested: #fb985d;
   .event-dates {
     display: flex;
     align-items: center;
-    padding: 0 1em;
-    height: 50px;
-    flex: 1;
 
     .d-icon {
       color: var(--primary-high);
@@ -280,13 +304,16 @@ $interested: #fb985d;
 
   .event-url {
     .url {
-      margin-left: 1em;
       max-width: 80%;
       @include ellipsis;
     }
   }
 
   .event-dates {
+    // hardcoded as cooking date is async and will change height after initial rendering otherwise
+    // not ideal but a decent low tech solution
+    height: 24px;
+
     .participants {
       margin-left: 0.5em;
       color: var(--primary-medium);

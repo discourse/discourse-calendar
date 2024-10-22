@@ -9,16 +9,18 @@ export default class DiscoursePostEventUrl extends Component {
   }
 
   <template>
-    <section class="event-url">
-      {{icon "link"}}
-      <a
-        class="url"
-        href={{this.url}}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {{@url}}
-      </a>
-    </section>
+    {{#if @url}}
+      <section class="event__section event-url">
+        {{icon "link"}}
+        <a
+          class="url"
+          href={{this.url}}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{@url}}
+        </a>
+      </section>
+    {{/if}}
   </template>
 }

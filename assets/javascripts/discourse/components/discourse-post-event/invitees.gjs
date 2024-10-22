@@ -8,6 +8,7 @@ import Invitee from "./invitee";
 
 export default class DiscoursePostEventInvitees extends Component {
   @service modal;
+  @service siteSettings;
 
   @action
   showAllInvitees() {
@@ -20,43 +21,62 @@ export default class DiscoursePostEventInvitees extends Component {
     });
   }
 
+  get statsInfo() {
+    const stats = [];
+    const visibleStats = this.siteSettings.event_participation_buttons
+      .split("|")
+      .filter(Boolean);
+
+    if (this.args.event.isPrivate) {
+      visibleStats.push("invited");
+    }
+
+    visibleStats.forEach((button) => {
+      const localeKey = button.replace(" ", "_");
+      if (button === "not_going") {
+        button = "notGoing";
+      }
+
+      const count = this.args.event.stats[button] || 0;
+
+      const label = i18n(
+        `discourse_calendar.discourse_post_event.models.invitee.status.${localeKey}_count`,
+        { count }
+      );
+
+      stats.push({
+        class: `event-status-${localeKey}`,
+        label,
+      });
+    });
+
+    return stats;
+  }
+
   <template>
-    <section class="event-invitees">
-      <div class="header">
-        <div class="event-invitees-status">
-          <span>{{@event.stats.going}}
-            {{i18n
-              "discourse_calendar.discourse_post_event.models.invitee.status.going"
-            }}
-            -</span>
-          <span>{{@event.stats.interested}}
-            {{i18n
-              "discourse_calendar.discourse_post_event.models.invitee.status.interested"
-            }}
-            -</span>
-          <span>{{@event.stats.notGoing}}
-            {{i18n
-              "discourse_calendar.discourse_post_event.models.invitee.status.not_going"
-            }}</span>
-          {{#if @event.isPrivate}}
-            <span class="invited">- on
-              {{@event.stats.invited}}
-              users invited</span>
-          {{/if}}
-        </div>
+    {{#unless @event.minimal}}
+      {{#if @event.shouldDisplayInvitees}}
+        <section class="event__section event-invitees">
+          <div class="header">
+            <div class="event-invitees-status">
+              {{#each this.statsInfo as |info|}}
+                <span class={{info.class}}>{{info.label}}</span>
+              {{/each}}
+            </div>
 
-        <DButton
-          class="show-all btn-small"
-          @label="discourse_calendar.discourse_post_event.event_ui.show_all"
-          @action={{this.showAllInvitees}}
-        />
-
-      </div>
-      <ul class="event-invitees-avatars">
-        {{#each @event.sampleInvitees as |invitee|}}
-          <Invitee @invitee={{invitee}} />
-        {{/each}}
-      </ul>
-    </section>
+            <DButton
+              class="show-all btn-small"
+              @label="discourse_calendar.discourse_post_event.event_ui.show_all"
+              @action={{this.showAllInvitees}}
+            />
+          </div>
+          <ul class="event-invitees-avatars">
+            {{#each @event.sampleInvitees as |invitee|}}
+              <Invitee @invitee={{invitee}} />
+            {{/each}}
+          </ul>
+        </section>
+      {{/if}}
+    {{/unless}}
   </template>
 }
