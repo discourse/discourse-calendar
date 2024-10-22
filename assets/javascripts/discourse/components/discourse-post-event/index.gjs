@@ -1,13 +1,11 @@
 import Component from "@glimmer/component";
 import { hash } from "@ember/helper";
 import { service } from "@ember/service";
-import { htmlSafe } from "@ember/template";
 import { modifier } from "ember-modifier";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
+import replaceEmoji from "discourse/helpers/replace-emoji";
 import routeAction from "discourse/helpers/route-action";
-import { emojiUnescape } from "discourse/lib/text";
-import { escapeExpression } from "discourse/lib/utilities";
 import icon from "discourse-common/helpers/d-icon";
 import Creator from "./creator";
 import Dates from "./dates";
@@ -54,12 +52,7 @@ export default class DiscoursePostEvent extends Component {
   }
 
   get eventName() {
-    return htmlSafe(
-      emojiUnescape(
-        escapeExpression(this.args.event.name) ||
-          this.args.event.post.topic.title
-      )
-    );
+    return this.args.event.name || this.args.event.post.topic.title;
   }
 
   get isPublicEvent() {
@@ -90,7 +83,7 @@ export default class DiscoursePostEvent extends Component {
             </div>
             <div class="event-info">
               <span class="name">
-                {{this.eventName}}
+                {{replaceEmoji this.eventName}}
               </span>
               <div class="status-and-creators">
                 <PluginOutlet
