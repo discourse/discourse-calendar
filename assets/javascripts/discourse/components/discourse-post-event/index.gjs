@@ -1,6 +1,4 @@
 import Component from "@glimmer/component";
-import didInsert from "@ember/render-modifiers/modifiers/did-insert";
-import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
 import { modifier } from "ember-modifier";
@@ -110,11 +108,7 @@ export default class DiscoursePostEvent extends Component {
     >
       <div class="discourse-post-event-widget">
         {{#if @event}}
-          <header
-            class="event-header"
-            {{didInsert this.setupMessageBus}}
-            {{willDestroy this.teardownMessageBus}}
-          >
+          <header class="event-header" {{this.setupMessageBus}}>
             <div class="event-date">
               <div class="month">{{this.startsAtMonth}}</div>
               <div class="day">{{this.startsAtDay}}</div>
