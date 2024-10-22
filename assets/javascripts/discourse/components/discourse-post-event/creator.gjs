@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import avatar from "discourse/helpers/avatar";
 import { formatUsername } from "discourse/lib/utilities";
+import i18n from "discourse-common/helpers/i18n";
 
 export default class DiscoursePostEventCreator extends Component {
   get username() {
@@ -8,11 +9,17 @@ export default class DiscoursePostEventCreator extends Component {
   }
 
   <template>
-    <span class="event-creator">
-      <a class="topic-invitee-avatar" data-user-card={{@user.username}}>
-        {{avatar @user imageSize="tiny"}}
-        <span class="username">{{this.username}}</span>
-      </a>
+    <span class="creators">
+      <span class="created-by">{{i18n
+          "discourse_calendar.discourse_post_event.event_ui.created_by"
+        }}</span>
+
+      <span class="event-creator">
+        <a class="topic-invitee-avatar" data-user-card={{@user.username}}>
+          {{avatar @user imageSize="tiny"}}
+          <span class="username">{{this.username}}</span>
+        </a>
+      </span>
     </span>
   </template>
 }

@@ -1,5 +1,5 @@
 import Component from "@glimmer/component";
-import { hash } from "@ember/helper";
+import { concat, hash } from "@ember/helper";
 import { service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import PluginOutlet from "discourse/components/plugin-outlet";
@@ -7,15 +7,27 @@ import concatClass from "discourse/helpers/concat-class";
 import routeAction from "discourse/helpers/route-action";
 import { emojiUnescape } from "discourse/lib/text";
 import { escapeExpression } from "discourse/lib/utilities";
-import i18n from "discourse-common/helpers/i18n";
+import icon from "discourse-common/helpers/d-icon";
 import Creator from "./creator";
 import Dates from "./dates";
+import EventStatus from "./event-status";
 import Invitees from "./invitees";
 import MoreMenu from "./more-menu";
 import Status from "./status";
 import Url from "./url";
 
-const Separator = <template><span class="separator">·</span></template>;
+const StatusSeparator = <template><span class="separator">·</span></template>;
+
+const InfoSeparator = <template><hr /></template>;
+const InfoSection = <template>
+  <section class="event__section" ...attributes>
+    {{#if @icon}}
+      {{icon @icon}}
+    {{/if}}
+
+    {{yield}}
+  </section>
+</template>;
 
 export default class DiscoursePostEvent extends Component {
   @service currentUser;
@@ -33,18 +45,6 @@ export default class DiscoursePostEvent extends Component {
     return () => this.messageBus.unsubscribe(path);
   });
 
-  get eventStatusLabel() {
-    return i18n(
-      `discourse_calendar.discourse_post_event.models.event.status.${this.args.event.status}.title`
-    );
-  }
-
-  get eventStatusDescription() {
-    return i18n(
-      `discourse_calendar.discourse_post_event.models.event.status.${this.args.event.status}.description`
-    );
-  }
-
   get startsAtMonth() {
     return moment(this.args.event.startsAt).format("MMM");
   }
@@ -57,10 +57,6 @@ export default class DiscoursePostEvent extends Component {
     return emojiUnescape(
       escapeExpression(this.args.event.name) || this.args.event.post.topic.title
     );
-  }
-
-  get statusClass() {
-    return `status ${this.args.event.status}`;
   }
 
   get isPublicEvent() {
@@ -95,39 +91,18 @@ export default class DiscoursePostEvent extends Component {
               </span>
               <div class="status-and-creators">
                 <PluginOutlet
-                  @name="discourse-post-event-status"
-                  @outletArgs={{hash event=@event Separator=Separator}}
+                  @name="discourse-post-event-status-and-creators"
+                  @outletArgs={{hash
+                    event=@event
+                    Separator=StatusSeparator
+                    Status=(component EventStatus event=@event)
+                    Creator=(component Creator user=@event.creator)
+                  }}
                 >
-                  {{#if @event.isExpired}}
-                    <span class="status expired">
-                      {{i18n
-                        "discourse_calendar.discourse_post_event.models.event.expired"
-                      }}
-                    </span>
-                  {{else if @event.isClosed}}
-                    <span class="status closed">
-                      {{i18n
-                        "discourse_calendar.discourse_post_event.models.event.closed"
-                      }}
-                    </span>
-                  {{else}}
-                    <span
-                      class={{this.statusClass}}
-                      title={{this.eventStatusDescription}}
-                    >
-                      {{this.eventStatusLabel}}
-                    </span>
-                  {{/if}}
-                </PluginOutlet>
-
-                <Separator />
-
-                <span class="creators">
-                  <span class="created-by">{{i18n
-                      "discourse_calendar.discourse_post_event.event_ui.created_by"
-                    }}</span>
+                  <EventStatus @event={{@event}} />
+                  <StatusSeparator />
                   <Creator @user={{@event.creator}} />
-                </span>
+                </PluginOutlet>
               </div>
             </div>
 
@@ -138,28 +113,25 @@ export default class DiscoursePostEvent extends Component {
           </header>
 
           {{#if @event.canUpdateAttendance}}
-            <section class="event-actions">
+            <section class="event__section event-actions">
               <Status @event={{@event}} />
             </section>
           {{/if}}
 
-          {{#if @event.url}}
-            <hr />
-
+          <PluginOutlet
+            @name="discourse-post-event-info"
+            @outletArgs={{hash
+              event=@event
+              Section=(component InfoSection event=@event)
+              Url=(component Url url=@event.url)
+              Dates=(component Dates event=@event)
+              Invitees=(component Invitees event=@event)
+            }}
+          >
             <Url @url={{@event.url}} />
-          {{/if}}
-
-          <hr />
-
-          <Dates @event={{@event}} />
-
-          {{#unless @event.minimal}}
-            {{#if @event.shouldDisplayInvitees}}
-              <hr />
-
-              <Invitees @event={{@event}} />
-            {{/if}}
-          {{/unless}}
+            <Dates @event={{@event}} />
+            <Invitees @event={{@event}} />
+          </PluginOutlet>
         {{/if}}
       </div>
     </div>

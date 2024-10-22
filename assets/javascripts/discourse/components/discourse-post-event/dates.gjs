@@ -77,7 +77,7 @@ export default class DiscoursePostEventDates extends Component {
 
   <template>
     <section
-      class="event-dates"
+      class="event__section event-dates"
       {{didInsert this.computeDates}}
     >{{this.htmlDates}}</section>
   </template>

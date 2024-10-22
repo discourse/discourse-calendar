@@ -54,26 +54,29 @@ export default class DiscoursePostEventInvitees extends Component {
   }
 
   <template>
-    <section class="event-invitees">
-      <div class="header">
-        <div class="event-invitees-status">
-          {{#each this.statsInfo as |info|}}
-            <span class={{info.class}}>{{info.label}}</span>
-          {{/each}}
-        </div>
+    {{#unless @event.minimal}}
+      {{#if @event.shouldDisplayInvitees}}
+        <section class="event__section event-invitees">
+          <div class="header">
+            <div class="event-invitees-status">
+              {{#each this.statsInfo as |info|}}
+                <span class={{info.class}}>{{info.label}}</span>
+              {{/each}}
+            </div>
 
-        <DButton
-          class="show-all btn-small"
-          @label="discourse_calendar.discourse_post_event.event_ui.show_all"
-          @action={{this.showAllInvitees}}
-        />
-
-      </div>
-      <ul class="event-invitees-avatars">
-        {{#each @event.sampleInvitees as |invitee|}}
-          <Invitee @invitee={{invitee}} />
-        {{/each}}
-      </ul>
-    </section>
+            <DButton
+              class="show-all btn-small"
+              @label="discourse_calendar.discourse_post_event.event_ui.show_all"
+              @action={{this.showAllInvitees}}
+            />
+          </div>
+          <ul class="event-invitees-avatars">
+            {{#each @event.sampleInvitees as |invitee|}}
+              <Invitee @invitee={{invitee}} />
+            {{/each}}
+          </ul>
+        </section>
+      {{/if}}
+    {{/unless}}
   </template>
 }
