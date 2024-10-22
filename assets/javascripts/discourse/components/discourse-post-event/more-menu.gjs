@@ -295,19 +295,6 @@ export default class DiscoursePostEventMoreMenu extends Component {
             </dropdown.item>
           {{/if}}
 
-          {{#if this.canLeave}}
-            <dropdown.item class="leave-event">
-              <DButton
-                @icon="times"
-                class="btn-transparent"
-                @translatedLabel={{i18n
-                  "discourse_calendar.discourse_post_event.event_ui.leave"
-                }}
-                @action={{this.leaveEvent}}
-              />
-            </dropdown.item>
-          {{/if}}
-
           {{#if this.canSeeUpcomingEvents}}
             <dropdown.item class="upcoming-events">
               <DButton
