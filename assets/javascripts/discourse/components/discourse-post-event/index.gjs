@@ -1,5 +1,5 @@
 import Component from "@glimmer/component";
-import { concat, hash } from "@ember/helper";
+import { hash } from "@ember/helper";
 import { service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import PluginOutlet from "discourse/components/plugin-outlet";
@@ -18,7 +18,6 @@ import Url from "./url";
 
 const StatusSeparator = <template><span class="separator">·</span></template>;
 
-const InfoSeparator = <template><hr /></template>;
 const InfoSection = <template>
   <section class="event__section" ...attributes>
     {{#if @icon}}
