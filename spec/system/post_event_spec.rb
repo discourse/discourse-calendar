@@ -11,17 +11,18 @@ describe "Post event", type: :system do
     sign_in(admin)
   end
 
-  it "renders html and emojis in the event name" do
+  it "safely renders html and emojis in the event name" do
     post =
       PostCreator.create(
         admin,
         title: "My test meetup event",
-        raw: "[event name=':cat: My test meetup event' start='2222-02-22 00:00']\n[/event]",
+        raw: "[event name=':cat: <script>alert(1);</script>' start='2222-02-22 00:00']\n[/event]",
       )
 
     visit(post.topic.url)
 
     expect(page).to have_css(".event-info .name img.emoji[title='cat']")
+    expect(page).to have_css(".event-info .name", text: "<script>alert(1);</script>")
   end
 
   it "can create, close, and open an event" do

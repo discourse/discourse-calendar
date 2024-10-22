@@ -56,9 +56,8 @@ export default class DiscoursePostEvent extends Component {
   get eventName() {
     return htmlSafe(
       emojiUnescape(
-        escapeExpression(
-          this.args.event.name || this.args.event.post.topic.title
-        )
+        escapeExpression(this.args.event.name) ||
+          this.args.event.post.topic.title
       )
     );
   }
