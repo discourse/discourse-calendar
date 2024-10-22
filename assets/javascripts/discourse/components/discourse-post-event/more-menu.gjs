@@ -322,13 +322,15 @@ export default class DiscoursePostEventMoreMenu extends Component {
           {{/if}}
 
           {{#if this.canActOnEvent}}
+            <dropdown.item class="show-all-participants">
+              <DButton
+                @icon="user-group"
+                class="btn-transparent"
+                @label="discourse_calendar.discourse_post_event.event_ui.show_participants"
+                @action={{this.showParticipants}}
+              />
+            </dropdown.item>
 
-            <DButton
-              @icon="user-group"
-              class="btn-transparent"
-              @label="discourse_calendar.discourse_post_event.event_ui.show_participants"
-              @action={{this.showParticipants}}
-            />
             <dropdown.divider />
 
             <dropdown.item class="export-event">
