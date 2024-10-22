@@ -1,35 +1,35 @@
-export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
+export function buildParams(startsAt, endsAt, event, siteSettings) {
   const params = {};
 
-  const eventTz = eventModel.timezone || "UTC";
+  const eventTz = event.timezone || "UTC";
 
   params.start = moment(startsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
 
-  if (eventModel.closed) {
+  if (event.isClosed) {
     params.closed = "true";
   }
 
-  if (eventModel.status) {
-    params.status = eventModel.status;
+  if (event.status) {
+    params.status = event.status;
   }
 
-  if (eventModel.name) {
-    params.name = eventModel.name;
+  if (event.name) {
+    params.name = event.name;
   }
 
-  if (eventModel.url) {
-    params.url = eventModel.url;
+  if (event.url) {
+    params.url = event.url;
   }
 
-  if (eventModel.timezone) {
-    params.timezone = eventModel.timezone;
+  if (event.timezone) {
+    params.timezone = event.timezone;
   }
 
-  if (eventModel.recurrence) {
-    params.recurrence = eventModel.recurrence;
+  if (event.recurrence) {
+    params.recurrence = event.recurrence;
   }
 
-  if (eventModel.minimal) {
+  if (event.minimal) {
     params.minimal = "true";
   }
 
@@ -37,16 +37,16 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
     params.end = moment(endsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
   }
 
-  if (eventModel.status === "private") {
-    params.allowedGroups = (eventModel.raw_invitees || []).join(",");
+  if (event.status === "private") {
+    params.allowedGroups = (event.rawInvitees || []).join(",");
   }
 
-  if (eventModel.status === "public") {
+  if (event.status === "public") {
     params.allowedGroups = "trust_level_0";
   }
 
-  if (eventModel.reminders && eventModel.reminders.length) {
-    params.reminders = eventModel.reminders
+  if (event.reminders && event.reminders.length) {
+    params.reminders = event.reminders
       .map((r) => {
         // we create a new intermediate object to avoid changes in the UI while
         // we prepare the values for request
@@ -69,8 +69,8 @@ export function buildParams(startsAt, endsAt, eventModel, siteSettings) {
     .filter(Boolean)
     .forEach((setting) => {
       const param = camelCase(setting);
-      if (typeof eventModel.custom_fields[setting] !== "undefined") {
-        params[param] = eventModel.custom_fields[setting];
+      if (typeof event.customFields[setting] !== "undefined") {
+        params[param] = event.customFields[setting];
       }
     });
 

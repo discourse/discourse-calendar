@@ -12,29 +12,29 @@ import concatClass from "discourse/helpers/concat-class";
 import i18n from "discourse-common/helpers/i18n";
 import { debounce } from "discourse-common/utils/decorators";
 import I18n from "discourse-i18n";
-import renderInvitee from "../../helpers/render-invitee";
-import ToggleInvitees from "../toggle-invitees";
+import ToggleInvitees from "../../toggle-invitees";
+import User from "./user";
 
-export default class PostEventInvitees extends Component {
+export default class PostEventInviteesModal extends Component {
   @service store;
+  @service discoursePostEventApi;
 
-  @tracked invitees;
   @tracked filter;
   @tracked isLoading = false;
   @tracked type = "going";
-  @tracked possibleInvitees = [];
+  @tracked inviteesList;
 
   constructor() {
     super(...arguments);
     this._fetchInvitees();
   }
 
-  get hasPossibleInvitees() {
-    return this.possibleInvitees.length > 0;
+  get hasSuggestedUsers() {
+    return this.inviteesList?.suggestedUsers?.length > 0;
   }
 
   get hasResults() {
-    return this.invitees?.length > 0 || this.hasPossibleInvitees;
+    return this.inviteesList?.invitees?.length > 0 || this.hasSuggestedUsers;
   }
 
   get title() {
@@ -59,39 +59,32 @@ export default class PostEventInvitees extends Component {
 
   @action
   async removeInvitee(invitee) {
-    await invitee.destroyRecord();
-    this._fetchInvitees(this.filter);
+    await this.discoursePostEventApi.leaveEvent(this.args.model.event, invitee);
+
+    this.inviteesList.remove(invitee);
   }
 
   @action
   async addInvitee(user) {
-    const invitee = this.store.createRecord("discourse-post-event-invitee");
-    await invitee.save({
-      post_id: this.args.model.event.id,
-      user_id: user.id,
-      status: this.type,
-    });
-
-    this.invitees.pushObject(invitee);
-    this.possibleInvitees = this.possibleInvitees.filter(
-      (i) => i.id !== user.id
+    const invitee = await this.discoursePostEventApi.joinEvent(
+      this.args.model.event,
+      {
+        status: this.type,
+        user_id: user.id,
+      }
     );
+
+    this.inviteesList.add(invitee);
   }
 
   async _fetchInvitees(filter) {
     try {
       this.isLoading = true;
-      const invitees = await this.store.findAll(
-        "discourse-post-event-invitee",
-        {
-          filter,
-          post_id: this.args.model.event.id,
-          type: this.type,
-        }
-      );
 
-      this.possibleInvitees = invitees.resultSetMeta?.possible_invitees || [];
-      this.invitees = invitees;
+      this.inviteesList = await this.discoursePostEventApi.listEventInvitees(
+        this.args.model.event,
+        { type: this.type, filter }
+      );
     } finally {
       this.isLoading = false;
     }
@@ -119,10 +112,10 @@ export default class PostEventInvitees extends Component {
         <ConditionalLoadingSpinner @condition={{this.isLoading}}>
           {{#if this.hasResults}}
             <ul class="invitees">
-              {{#each this.invitees as |invitee|}}
+              {{#each this.inviteesList.invitees as |invitee|}}
                 <li class="invitee">
-                  {{renderInvitee invitee}}
-                  {{#if @model.event.can_act_on_discourse_post_event}}
+                  <User @user={{invitee.user}} />
+                  {{#if @model.event.canActOnDiscoursePostEvent}}
                     <DButton
                       class="remove-invitee"
                       @icon="trash-alt"
@@ -135,15 +128,15 @@ export default class PostEventInvitees extends Component {
                 </li>
               {{/each}}
             </ul>
-            {{#if this.hasPossibleInvitees}}
+            {{#if this.hasSuggestedUsers}}
               <ul class="possible-invitees">
-                {{#each this.possibleInvitees as |invitee|}}
+                {{#each this.inviteesList.suggestedUsers as |user|}}
                   <li class="invitee">
-                    {{renderInvitee invitee}}
+                    <User @user={{user}} />
                     <DButton
                       class="add-invitee"
                       @icon="plus"
-                      @action={{fn this.addInvitee invitee}}
+                      @action={{fn this.addInvitee user}}
                       title={{i18n
                         "discourse_calendar.discourse_post_event.invitees_modal.add_invitee"
                       }}

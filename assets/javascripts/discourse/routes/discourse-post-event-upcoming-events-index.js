@@ -1,18 +1,23 @@
-import { on } from "@ember/object/evented";
-import Route from "@ember/routing/route";
+import { action } from "@ember/object";
+import { service } from "@ember/service";
 import DiscourseURL from "discourse/lib/url";
+import DiscourseRoute from "discourse/routes/discourse";
 
-export default Route.extend({
-  enforcePostEventEnabled: on("activate", function () {
+export default class PostEventUpcomingEventsIndexRoute extends DiscourseRoute {
+  @service discoursePostEventApi;
+
+  @action
+  activate() {
     if (!this.siteSettings.discourse_post_event_enabled) {
       DiscourseURL.redirectTo("/404");
     }
-  }),
+  }
 
-  model(params) {
+  async model(params) {
     if (this.siteSettings.include_expired_events_on_calendar) {
       params.include_expired = true;
     }
-    return this.store.findAll("discourse-post-event-event", params);
-  },
-});
+
+    return await this.discoursePostEventApi.events(params);
+  }
+}
