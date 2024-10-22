@@ -5,6 +5,7 @@ import { eq } from "truth-helpers";
 import AvatarFlair from "discourse/components/avatar-flair";
 import avatar from "discourse/helpers/avatar";
 import concatClass from "discourse/helpers/concat-class";
+import i18n from "discourse-common/helpers/i18n";
 
 export default class DiscoursePostEventInvitee extends Component {
   @service site;
@@ -19,6 +20,12 @@ export default class DiscoursePostEventInvitee extends Component {
       case "not_going":
         return "fa-times";
     }
+  }
+
+  get flairName() {
+    const string = `discourse_calendar.discourse_post_event.models.invitee.status.${this.args.invitee.status}`;
+
+    return i18n(string);
   }
 
   <template>
@@ -36,10 +43,7 @@ export default class DiscoursePostEventInvitee extends Component {
         }}
         {{#if this.statusIcon}}
           <AvatarFlair
-            @flairName={{concat
-              "discourse_calendar.discourse_post_event.models.invitee.status."
-              @invitee.status
-            }}
+            @flairName={{this.flairName}}
             @flairUrl={{this.statusIcon}}
           />
         {{/if}}
