@@ -11,7 +11,7 @@ describe "Post event", type: :system do
     sign_in(admin)
   end
 
-  it "safely renders html and emojis in the event name" do
+  it "safely renders event name" do
     post =
       PostCreator.create(
         admin,
