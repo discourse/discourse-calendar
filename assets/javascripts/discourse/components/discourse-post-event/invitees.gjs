@@ -21,16 +21,16 @@ export default class DiscoursePostEventInvitees extends Component {
     });
   }
 
-  get statusButtons() {
-    const buttons = [];
-    const allowed_buttons =
+  get statsInfo() {
+    const stats = [];
+    const visibleStats =
       this.siteSettings.event_participation_buttons.split("|");
 
     if (this.args.event.isPrivate) {
-      allowed_buttons.push("invited");
+      visibleStats.push("invited");
     }
 
-    allowed_buttons.forEach((button) => {
+    visibleStats.forEach((button) => {
       const localeKey = button.replace(" ", "_");
       if (button === "not_going") {
         button = "notGoing";
@@ -38,30 +38,26 @@ export default class DiscoursePostEventInvitees extends Component {
 
       const count = this.args.event.stats[button] || 0;
 
-      const name = i18n(
+      const label = i18n(
         `discourse_calendar.discourse_post_event.models.invitee.status.${localeKey}_count`,
-        {
-          count,
-        }
+        { count }
       );
 
-      const className = `event-status-${localeKey}`;
-
-      buttons.push({
-        class: className,
-        name,
+      stats.push({
+        class: `event-status-${localeKey}`,
+        label,
       });
     });
 
-    return buttons;
+    return stats;
   }
 
   <template>
     <section class="event-invitees">
       <div class="header">
         <div class="event-invitees-status">
-          {{#each this.statusButtons as |button|}}
-            <span class={{button.class}}>{{button.name}}</span>
+          {{#each this.statsInfo as |info|}}
+            <span class={{info.class}}>{{info.label}}</span>
           {{/each}}
         </div>
 
