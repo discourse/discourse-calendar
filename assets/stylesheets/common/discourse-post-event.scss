@@ -197,7 +197,7 @@ $interested: #fb985d;
         font-weight: 700;
         display: flex;
         span:not(:last-child)::after {
-          content: '-';
+          content: "-";
           font-weight: 400;
           margin: 0 0.3em;
         }
