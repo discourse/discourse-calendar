@@ -59,6 +59,7 @@ he:
     sort_categories_by_event_start_date_enabled: "לאפשר מיון של נושאי קטגוריות לפי תאריך תחילת האירוע."
     disable_resorting_on_categories_enabled: "לאפשר לקטגוריות להשבית את היכולת של משתמשים למיין לפי קטגוריית האירוע."
     calendar_automatic_holidays_enabled: "להגדיר מצב חופשה לפי האזור של המשתמש (לתשומת לבך: ניתן להשבית חגים אוטומטיים מסוימים בהגדרות התוסף)"
+    event_participation_buttons: "רשימת כפתורי השתתפות באירועים לשימוש המשתמשים."
     sidebar_show_upcoming_events: "הצגת קישור לאירועים קרובים בסרגל הצד תחת ‚עוד’."
     include_expired_events_on_calendar: "לכלול אירועי קודמים/שפג תוקפם בתצוגות לוח השנה של הקטגוריה ובאירועים קרבים."
   discourse_calendar:

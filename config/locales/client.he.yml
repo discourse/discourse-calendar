@@ -354,6 +354,7 @@ he:
                 description: "לאירוע פרטי יכולים להצטרף רק משתמשים שהוזמנו."
         event_ui:
           show_all: "להציג הכול"
+          show_participants: "הצגת משתתפים"
           participants:
             one: "משתמש %{count} השתתף."
             two: "%{count} משתמשים השתתפו."
