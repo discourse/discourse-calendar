@@ -52,7 +52,7 @@ export default class DiscoursePostEventEvent {
     this.startsAt = args.starts_at;
     this.endsAt = args.ends_at;
     this.rawInvitees = args.raw_invitees;
-    this.sampleInvitees = args.sample_invitees;
+    this.sampleInvitees = args.sample_invitees || [];
     this.url = args.url;
     this.timezone = args.timezone;
     this.status = args.status;
@@ -87,9 +87,9 @@ export default class DiscoursePostEventEvent {
     return this._sampleInvitees;
   }
 
-  set sampleInvitees(invitees) {
+  set sampleInvitees(invitees = []) {
     this._sampleInvitees = new TrackedArray(
-      (invitees || []).map((u) => DiscoursePostEventInvitee.create(u))
+      invitees.map((i) => DiscoursePostEventInvitee.create(i))
     );
   }
 
@@ -143,7 +143,7 @@ export default class DiscoursePostEventEvent {
     this.canActOnDiscoursePostEvent = event.canActOnDiscoursePostEvent;
     this.shouldDisplayInvitees = event.shouldDisplayInvitees;
     this.stats = event.stats;
-    this.sampleInvitees = event.sampleInvitees;
+    this.sampleInvitees = event.sampleInvitees || [];
     this.reminders = event.reminders;
   }
 

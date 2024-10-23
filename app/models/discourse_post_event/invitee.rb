@@ -25,6 +25,7 @@ module DiscoursePostEvent
       invitee
     rescue ActiveRecord::RecordNotUnique
       # do nothing in case multiple new attendances would be created very fast
+      Invitee.find_by(post_id: post_id, user_id: user_id)
     end
 
     def update_attendance!(status)
