@@ -32,21 +32,11 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  title = I18n.t(
-    "discourse_calendar.discourse_post_event.upcoming_events_list.title"
-  );
-  emptyMessage = I18n.t(
-    "discourse_calendar.discourse_post_event.upcoming_events_list.empty"
-  );
-  allDayLabel = I18n.t(
-    "discourse_calendar.discourse_post_event.upcoming_events_list.all_day"
-  );
-  errorMessage = I18n.t(
-    "discourse_calendar.discourse_post_event.upcoming_events_list.error"
-  );
-  viewAllLabel = I18n.t(
-    "discourse_calendar.discourse_post_event.upcoming_events_list.view_all"
-  );
+  title = I18n.t("discourse_post_event.upcoming_events_list.title");
+  emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
+  allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
+  errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
+  viewAllLabel = I18n.t("discourse_post_event.upcoming_events_list.view_all");
 
   constructor() {
     super(...arguments);
@@ -156,7 +146,7 @@ export default class UpcomingEventsList extends Component {
             </div>
             <DButton
               @action={{this.updateEventsList}}
-              @label="discourse_calendar.discourse_post_event.upcoming_events_list.try_again"
+              @label="discourse_post_event.upcoming_events_list.try_again"
               class="btn-link upcoming-events-list__try-again"
             />
           {{/if}}

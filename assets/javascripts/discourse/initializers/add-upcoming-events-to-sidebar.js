@@ -15,12 +15,8 @@ export default {
           return class UpcomingEventsSectionLink extends baseSectionLink {
             name = "upcoming-events";
             route = "discourse-post-event-upcoming-events";
-            text = I18n.t(
-              "discourse_calendar.discourse_post_event.upcoming_events.title"
-            );
-            title = I18n.t(
-              "discourse_calendar.discourse_post_event.upcoming_events.title"
-            );
+            text = I18n.t("discourse_post_event.upcoming_events.title");
+            title = I18n.t("discourse_post_event.upcoming_events.title");
           };
         });
       });

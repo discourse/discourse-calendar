@@ -23,7 +23,7 @@ export default class DiscoursePostEventInvitee extends Component {
   }
 
   get flairName() {
-    const string = `discourse_calendar.discourse_post_event.models.invitee.status.${this.args.invitee.status}`;
+    const string = `discourse_post_event.models.invitee.status.${this.args.invitee.status}`;
 
     return i18n(string);
   }

@@ -1,7 +1,7 @@
 <DModal
   @title={{i18n
     (concat
-      "discourse_calendar.discourse_post_event.builder_modal."
+      "discourse_post_event.builder_modal."
       (if @model.event.id "update_event_title" "create_event_title")
     )
   }}
@@ -21,43 +21,41 @@
 
         <EventField
           class="name"
-          @label="discourse_calendar.discourse_post_event.builder_modal.name.label"
+          @label="discourse_post_event.builder_modal.name.label"
         >
           <Input
             @value={{@model.event.name}}
             placeholder={{i18n
-              "discourse_calendar.discourse_post_event.builder_modal.name.placeholder"
+              "discourse_post_event.builder_modal.name.placeholder"
             }}
           />
         </EventField>
 
         <EventField
           class="url"
-          @label="discourse_calendar.discourse_post_event.builder_modal.url.label"
+          @label="discourse_post_event.builder_modal.url.label"
         >
           <Input
             @value={{@model.event.url}}
             placeholder={{i18n
-              "discourse_calendar.discourse_post_event.builder_modal.url.placeholder"
+              "discourse_post_event.builder_modal.url.placeholder"
             }}
           />
         </EventField>
 
         <EventField
           class="timezone"
-          @label="discourse_calendar.discourse_post_event.builder_modal.timezone.label"
+          @label="discourse_post_event.builder_modal.timezone.label"
         >
           <TimezoneInput
             @value={{@model.event.timezone}}
             @onChange={{this.setNewTimezone}}
             class="input-xxlarge"
-            @none="discourse_calendar.discourse_post_event.builder_modal.timezone.remove_timezone"
+            @none="discourse_post_event.builder_modal.timezone.remove_timezone"
           />
         </EventField>
 
-        <EventField
-          @label="discourse_calendar.discourse_post_event.builder_modal.status.label"
-        >
+        <EventField @label="discourse_post_event.builder_modal.status.label">
           <label class="radio-label">
             <RadioButton
               @name="status"
@@ -67,13 +65,11 @@
             />
             <span class="message">
               <span class="title">
-                {{i18n
-                  "discourse_calendar.discourse_post_event.models.event.status.public.title"
-                }}
+                {{i18n "discourse_post_event.models.event.status.public.title"}}
               </span>
               <span class="description">
                 {{i18n
-                  "discourse_calendar.discourse_post_event.models.event.status.public.description"
+                  "discourse_post_event.models.event.status.public.description"
                 }}
               </span>
             </span>
@@ -88,12 +84,12 @@
             <span class="message">
               <span class="title">
                 {{i18n
-                  "discourse_calendar.discourse_post_event.models.event.status.private.title"
+                  "discourse_post_event.models.event.status.private.title"
                 }}
               </span>
               <span class="description">
                 {{i18n
-                  "discourse_calendar.discourse_post_event.models.event.status.private.description"
+                  "discourse_post_event.models.event.status.private.description"
                 }}
               </span>
             </span>
@@ -108,12 +104,12 @@
             <span class="message">
               <span class="title">
                 {{i18n
-                  "discourse_calendar.discourse_post_event.models.event.status.standalone.title"
+                  "discourse_post_event.models.event.status.standalone.title"
                 }}
               </span>
               <span class="description">
                 {{i18n
-                  "discourse_calendar.discourse_post_event.models.event.status.standalone.description"
+                  "discourse_post_event.models.event.status.standalone.description"
                 }}
               </span>
             </span>
@@ -122,7 +118,7 @@
 
         <EventField
           @enabled={{eq @model.event.status "private"}}
-          @label="discourse_calendar.discourse_post_event.builder_modal.invitees.label"
+          @label="discourse_post_event.builder_modal.invitees.label"
         >
           <GroupSelector
             @fullWidthWrap={{true}}
@@ -135,7 +131,7 @@
 
         <EventField
           class="reminders"
-          @label="discourse_calendar.discourse_post_event.builder_modal.reminders.label"
+          @label="discourse_post_event.builder_modal.reminders.label"
         >
           <div class="reminders-list">
             {{#each @model.event.reminders as |reminder|}}
@@ -153,7 +149,7 @@
                   min={{0}}
                   @value={{reminder.value}}
                   placeholder={{i18n
-                    "discourse_calendar.discourse_post_event.builder_modal.name.placeholder"
+                    "discourse_post_event.builder_modal.name.placeholder"
                   }}
                 />
 
@@ -187,34 +183,34 @@
             class="add-reminder"
             @disabled={{this.addReminderDisabled}}
             @icon="plus"
-            @label="discourse_calendar.discourse_post_event.builder_modal.add_reminder"
+            @label="discourse_post_event.builder_modal.add_reminder"
             @action={{@model.event.addReminder}}
           />
         </EventField>
 
         <EventField
           class="recurrence"
-          @label="discourse_calendar.discourse_post_event.builder_modal.recurrence.label"
+          @label="discourse_post_event.builder_modal.recurrence.label"
         >
           <ComboBox
             class="available-recurrences"
             @value={{@model.event.recurrence}}
             @content={{this.availableRecurrences}}
             @options={{hash
-              none="discourse_calendar.discourse_post_event.builder_modal.recurrence.none"
+              none="discourse_post_event.builder_modal.recurrence.none"
             }}
           />
         </EventField>
 
         <EventField
           class="minimal-event"
-          @label="discourse_calendar.discourse_post_event.builder_modal.minimal.label"
+          @label="discourse_post_event.builder_modal.minimal.label"
         >
           <label class="checkbox-label">
             <Input @type="checkbox" @checked={{@model.event.minimal}} />
             <span class="message">
               {{i18n
-                "discourse_calendar.discourse_post_event.builder_modal.minimal.checkbox_label"
+                "discourse_post_event.builder_modal.minimal.checkbox_label"
               }}
             </span>
           </label>
@@ -222,11 +218,11 @@
 
         {{#if this.allowedCustomFields.length}}
           <EventField
-            @label="discourse_calendar.discourse_post_event.builder_modal.custom_fields.label"
+            @label="discourse_post_event.builder_modal.custom_fields.label"
           >
             <p class="event-field-description">
               {{i18n
-                "discourse_calendar.discourse_post_event.builder_modal.custom_fields.description"
+                "discourse_post_event.builder_modal.custom_fields.description"
               }}
             </p>
             {{#each this.allowedCustomFields as |allowedCustomField|}}
@@ -239,7 +235,7 @@
                   (get @model.event.custom_fields allowedCustomField)
                 }}
                 placeholder={{i18n
-                  "discourse_calendar.discourse_post_event.builder_modal.custom_fields.placeholder"
+                  "discourse_post_event.builder_modal.custom_fields.placeholder"
                 }}
                 {{on "input" (fn this.setCustomField allowedCustomField)}}
               />
@@ -253,7 +249,7 @@
     {{#if @model.event.id}}
       <DButton
         class="btn-primary"
-        @label="discourse_calendar.discourse_post_event.builder_modal.update"
+        @label="discourse_post_event.builder_modal.update"
         @icon="calendar-day"
         @action={{this.updateEvent}}
       />
@@ -266,7 +262,7 @@
     {{else}}
       <DButton
         class="btn-primary"
-        @label="discourse_calendar.discourse_post_event.builder_modal.create"
+        @label="discourse_post_event.builder_modal.create"
         @icon="calendar-day"
         @action={{this.createEvent}}
       />

@@ -71,18 +71,14 @@ module DiscoursePostEvent
           else
             render json:
                      failed_json.merge(
-                       errors: [
-                         I18n.t("discourse_calendar.discourse_post_event.errors.bulk_invite.error"),
-                       ],
+                       errors: [I18n.t("discourse_post_event.errors.bulk_invite.error")],
                      ),
                    status: 422
           end
         rescue StandardError
           render json:
                    failed_json.merge(
-                     errors: [
-                       I18n.t("discourse_calendar.discourse_post_event.errors.bulk_invite.error"),
-                     ],
+                     errors: [I18n.t("discourse_post_event.errors.bulk_invite.error")],
                    ),
                  status: 422
         end
@@ -108,9 +104,7 @@ module DiscoursePostEvent
       rescue StandardError
         render json:
                  failed_json.merge(
-                   errors: [
-                     I18n.t("discourse_calendar.discourse_post_event.errors.bulk_invite.error"),
-                   ],
+                   errors: [I18n.t("discourse_post_event.errors.bulk_invite.error")],
                  ),
                status: 422
       end

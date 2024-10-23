@@ -26,7 +26,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
               topic_title: "Monthly Hangout #3",
               display_username: "fun-haver",
               message:
-                "discourse_calendar.discourse_post_event.notifications.before_event_reminder",
+                "discourse_post_event.notifications.before_event_reminder",
             },
           },
           {
@@ -44,7 +44,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
               topic_title: "Fancy title and pants",
               display_username: "fancy-pants-wearer",
               message:
-                "discourse_calendar.discourse_post_event.notifications.ongoing_event_reminder",
+                "discourse_post_event.notifications.ongoing_event_reminder",
             },
           },
           {
@@ -62,7 +62,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
               topic_title: "Topic with event and after_event reminder",
               display_username: "attender-no193",
               message:
-                "discourse_calendar.discourse_post_event.notifications.after_event_reminder",
+                "discourse_post_event.notifications.after_event_reminder",
             },
           },
           {
@@ -80,7 +80,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
               topic_title: "Tuesdays are for Among Us",
               display_username: "imposter",
               message:
-                "discourse_calendar.discourse_post_event.notifications.invite_user_notification",
+                "discourse_post_event.notifications.invite_user_notification",
             },
           },
           {
@@ -98,7 +98,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
               topic_title: "Asia Pacific team call",
               display_username: "apacer",
               message:
-                "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification",
+                "discourse_post_event.notifications.invite_user_predefined_attendance_notification",
             },
           },
         ],
@@ -118,7 +118,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
     assert.strictEqual(
       notifications[0].textContent.replaceAll(/\s+/g, " ").trim(),
       `${I18n.t(
-        "discourse_calendar.discourse_post_event.notifications.before_event_reminder"
+        "discourse_post_event.notifications.before_event_reminder"
       )} Monthly Hangout #3`,
       "before event reminder notification has the right content"
     );
@@ -133,7 +133,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
     assert.strictEqual(
       notifications[1].textContent.replaceAll(/\s+/g, " ").trim(),
       `${I18n.t(
-        "discourse_calendar.discourse_post_event.notifications.ongoing_event_reminder"
+        "discourse_post_event.notifications.ongoing_event_reminder"
       )} Fancy title and pants`,
       "ongoing event reminder notification has the right content"
     );
@@ -148,7 +148,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
     assert.strictEqual(
       notifications[2].textContent.replaceAll(/\s+/g, " ").trim(),
       `${I18n.t(
-        "discourse_calendar.discourse_post_event.notifications.after_event_reminder"
+        "discourse_post_event.notifications.after_event_reminder"
       )} Topic with event and after_event reminder`,
       "after event reminder notification has the right content"
     );
@@ -178,7 +178,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
     assert.strictEqual(
       notifications[4].textContent.replaceAll(/\s+/g, " ").trim(),
       `${I18n.t(
-        "discourse_calendar.discourse_post_event.notifications.invite_user_predefined_attendance_notification",
+        "discourse_post_event.notifications.invite_user_predefined_attendance_notification",
         { username: "apacer" }
       )} Asia Pacific team call`,
       "event invitation with predefined attendance notification has the right content"

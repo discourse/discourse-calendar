@@ -10,9 +10,7 @@ export default class DiscoursePostEventCreator extends Component {
 
   <template>
     <span class="creators">
-      <span class="created-by">{{i18n
-          "discourse_calendar.discourse_post_event.event_ui.created_by"
-        }}</span>
+      <span class="created-by">{{i18n "discourse_post_event.created_by"}}</span>
 
       <span class="event-creator">
         <a class="topic-invitee-avatar" data-user-card={{@user.username}}>

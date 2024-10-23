@@ -22,27 +22,19 @@ export default class PostEventBulkInvite extends Component {
   get bulkInviteStatuses() {
     return [
       {
-        label: I18n.t(
-          "discourse_calendar.discourse_post_event.models.invitee.status.unknown"
-        ),
+        label: I18n.t("discourse_post_event.models.invitee.status.unknown"),
         name: "unknown",
       },
       {
-        label: I18n.t(
-          "discourse_calendar.discourse_post_event.models.invitee.status.going"
-        ),
+        label: I18n.t("discourse_post_event.models.invitee.status.going"),
         name: "going",
       },
       {
-        label: I18n.t(
-          "discourse_calendar.discourse_post_event.models.invitee.status.not_going"
-        ),
+        label: I18n.t("discourse_post_event.models.invitee.status.not_going"),
         name: "not_going",
       },
       {
-        label: I18n.t(
-          "discourse_calendar.discourse_post_event.models.invitee.status.interested"
-        ),
+        label: I18n.t("discourse_post_event.models.invitee.status.interested"),
         name: "interested",
       },
     ];
@@ -105,9 +97,7 @@ export default class PostEventBulkInvite extends Component {
   @action
   async uploadDone() {
     await this.dialog.alert(
-      I18n.t(
-        "discourse_calendar.discourse_post_event.bulk_invite_modal.success"
-      )
+      I18n.t("discourse_post_event.bulk_invite_modal.success")
     );
     this.args.closeModal();
   }

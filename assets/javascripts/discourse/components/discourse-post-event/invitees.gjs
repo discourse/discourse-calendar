@@ -40,7 +40,7 @@ export default class DiscoursePostEventInvitees extends Component {
       const count = this.args.event.stats[button] || 0;
 
       const label = i18n(
-        `discourse_calendar.discourse_post_event.models.invitee.status.${localeKey}_count`,
+        `discourse_post_event.models.invitee.status.${localeKey}_count`,
         { count }
       );
 
@@ -66,7 +66,7 @@ export default class DiscoursePostEventInvitees extends Component {
 
             <DButton
               class="show-all btn-small"
-              @label="discourse_calendar.discourse_post_event.event_ui.show_all"
+              @label="discourse_post_event.show_all"
               @action={{this.showAllInvitees}}
             />
           </div>
