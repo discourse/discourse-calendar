@@ -267,7 +267,9 @@ export default class DiscoursePostEventMoreMenu extends Component {
               <DButton
                 @icon="far-calendar-plus"
                 class="btn-transparent"
-                @translatedLabel={{i18n "discourse_post_event.upcoming_events"}}
+                @translatedLabel={{i18n
+                  "discourse_post_event.upcoming_events.title"
+                }}
                 @action={{this.upcomingEvents}}
               />
             </dropdown.item>
