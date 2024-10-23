@@ -127,9 +127,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
     this.menuApi.close();
 
     this.dialog.yesNoConfirm({
-      message: i18n(
-        "discourse_calendar.discourse_post_event.builder_modal.confirm_open"
-      ),
+      message: i18n("discourse_post_event.builder_modal.confirm_open"),
       didConfirm: async () => {
         try {
           const post = await this.store.find("post", this.args.event.id);
@@ -147,9 +145,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           if (newRaw) {
             const props = {
               raw: newRaw,
-              edit_reason: i18n(
-                "discourse_calendar.discourse_post_event.edit_reason_opened"
-              ),
+              edit_reason: i18n("discourse_post_event.edit_reason_opened"),
             };
 
             const cooked = await cook(newRaw);
@@ -192,9 +188,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
     this.menuApi.close();
 
     this.dialog.yesNoConfirm({
-      message: i18n(
-        "discourse_calendar.discourse_post_event.builder_modal.confirm_close"
-      ),
+      message: i18n("discourse_post_event.builder_modal.confirm_close"),
       didConfirm: () => {
         return this.store.find("post", this.args.event.id).then((post) => {
           this.args.event.isClosed = true;
@@ -211,9 +205,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
           if (newRaw) {
             const props = {
               raw: newRaw,
-              edit_reason: i18n(
-                "discourse_calendar.discourse_post_event.edit_reason_closed"
-              ),
+              edit_reason: i18n("discourse_post_event.edit_reason_closed"),
             };
 
             return cook(newRaw).then((cooked) => {
@@ -239,7 +231,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             <dropdown.item class="add-to-calendar">
               <DButton
                 @icon="file"
-                @label="discourse_calendar.discourse_post_event.event_ui.add_to_calendar"
+                @label="discourse_post_event.add_to_calendar"
                 @action={{this.addToCalendar}}
               />
             </dropdown.item>
@@ -251,7 +243,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 @icon="envelope"
                 class="btn-transparent"
                 @translatedLabel={{i18n
-                  "discourse_calendar.discourse_post_event.event_ui.send_pm_to_creator"
+                  "discourse_post_event.send_pm_to_creator"
                   (hash username=@event.creator.username)
                 }}
                 @action={{this.sendPMToCreator}}
@@ -264,9 +256,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
               <DButton
                 @icon="user-plus"
                 class="btn-transparent"
-                @translatedLabel={{i18n
-                  "discourse_calendar.discourse_post_event.event_ui.invite"
-                }}
+                @translatedLabel={{i18n "discourse_post_event.invite"}}
                 @action={{this.inviteUserOrGroup}}
               />
             </dropdown.item>
@@ -277,9 +267,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
               <DButton
                 @icon="far-calendar-plus"
                 class="btn-transparent"
-                @translatedLabel={{i18n
-                  "discourse_post_event.event_ui.upcoming_events"
-                }}
+                @translatedLabel={{i18n "discourse_post_event.upcoming_events"}}
                 @action={{this.upcomingEvents}}
               />
             </dropdown.item>
@@ -290,7 +278,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
               <DButton
                 @icon="user-group"
                 class="btn-transparent"
-                @label="discourse_calendar.discourse_post_event.event_ui.show_participants"
+                @label="discourse_post_event.show_participants"
                 @action={{this.showParticipants}}
               />
             </dropdown.item>
@@ -301,7 +289,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
               <DButton
                 @icon="file-csv"
                 class="btn-transparent"
-                @label="discourse_calendar.discourse_post_event.event_ui.export_event"
+                @label="discourse_post_event.export_event"
                 @action={{this.exportPostEvent}}
               />
             </dropdown.item>
@@ -311,7 +299,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 <DButton
                   @icon="file-upload"
                   class="btn-transparent"
-                  @label="discourse_calendar.discourse_post_event.event_ui.bulk_invite"
+                  @label="discourse_post_event.bulk_invite"
                   @action={{this.bulkInvite}}
                 />
               </dropdown.item>
@@ -322,7 +310,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 <DButton
                   @icon="unlock"
                   class="btn-transparent"
-                  @label="discourse_calendar.discourse_post_event.event_ui.open_event"
+                  @label="discourse_post_event.open_event"
                   @action={{this.openEvent}}
                 />
               </dropdown.item>
@@ -331,7 +319,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 <DButton
                   @icon="pencil-alt"
                   class="btn-transparent"
-                  @label="discourse_calendar.discourse_post_event.event_ui.edit_event"
+                  @label="discourse_post_event.edit_event"
                   @action={{this.editPostEvent}}
                 />
               </dropdown.item>
@@ -340,7 +328,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                 <dropdown.item class="close-event">
                   <DButton
                     @icon="times"
-                    @label="discourse_calendar.discourse_post_event.event_ui.close_event"
+                    @label="discourse_post_event.close_event"
                     @action={{this.closeEvent}}
                     class="btn-transparent btn-danger"
                   />

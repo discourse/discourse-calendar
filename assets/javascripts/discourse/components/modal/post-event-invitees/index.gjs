@@ -39,7 +39,7 @@ export default class PostEventInviteesModal extends Component {
 
   get title() {
     return I18n.t(
-      `discourse_calendar.discourse_post_event.invitees_modal.${
+      `discourse_post_event.invitees_modal.${
         this.args.model.title || "title_invited"
       }`
     );
@@ -103,7 +103,7 @@ export default class PostEventInviteesModal extends Component {
           {{on "input" this.onFilterChanged}}
           type="text"
           placeholder={{i18n
-            "discourse_calendar.discourse_post_event.invitees_modal.filter_placeholder"
+            "discourse_post_event.invitees_modal.filter_placeholder"
           }}
           class="filter"
         />
@@ -121,7 +121,7 @@ export default class PostEventInviteesModal extends Component {
                       @icon="trash-alt"
                       @action={{fn this.removeInvitee invitee}}
                       title={{i18n
-                        "discourse_calendar.discourse_post_event.invitees_modal.remove_invitee"
+                        "discourse_post_event.invitees_modal.remove_invitee"
                       }}
                     />
                   {{/if}}
@@ -138,7 +138,7 @@ export default class PostEventInviteesModal extends Component {
                       @icon="plus"
                       @action={{fn this.addInvitee user}}
                       title={{i18n
-                        "discourse_calendar.discourse_post_event.invitees_modal.add_invitee"
+                        "discourse_post_event.invitees_modal.add_invitee"
                       }}
                     />
                   </li>
@@ -147,9 +147,7 @@ export default class PostEventInviteesModal extends Component {
             {{/if}}
           {{else}}
             <p class="no-users">
-              {{i18n
-                "discourse_calendar.discourse_post_event.models.invitee.no_users"
-              }}
+              {{i18n "discourse_post_event.models.invitee.no_users"}}
             </p>
           {{/if}}
         </ConditionalLoadingSpinner>

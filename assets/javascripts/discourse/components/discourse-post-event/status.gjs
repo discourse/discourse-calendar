@@ -132,7 +132,7 @@ export default class DiscoursePostEventStatus extends Component {
               <DButton
                 class="going-button"
                 @icon="check"
-                @label="discourse_calendar.discourse_post_event.models.invitee.status.going"
+                @label="discourse_post_event.models.invitee.status.going"
                 @action={{fn this.changeWatchingInviteeStatus "going"}}
               />
             </PluginOutlet>
@@ -152,7 +152,7 @@ export default class DiscoursePostEventStatus extends Component {
             <DButton
               class="interested-button"
               @icon="star"
-              @label="discourse_calendar.discourse_post_event.models.invitee.status.interested"
+              @label="discourse_post_event.models.invitee.status.interested"
               @action={{fn this.changeWatchingInviteeStatus "interested"}}
             />
           </PluginOutlet>
@@ -170,7 +170,7 @@ export default class DiscoursePostEventStatus extends Component {
               <DButton
                 class="not-going-button"
                 @icon="times"
-                @label="discourse_calendar.discourse_post_event.models.invitee.status.not_going"
+                @label="discourse_post_event.models.invitee.status.not_going"
                 @action={{fn this.changeWatchingInviteeStatus "not_going"}}
               />
             </PluginOutlet>

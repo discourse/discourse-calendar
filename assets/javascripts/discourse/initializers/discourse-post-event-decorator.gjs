@@ -8,7 +8,7 @@ function _validEventPreview(eventContainer) {
   eventContainer.innerHTML = "";
   eventContainer.classList.add("discourse-post-event-preview");
 
-  const statusLocaleKey = `discourse_calendar.discourse_post_event.models.event.status.${
+  const statusLocaleKey = `discourse_post_event.models.event.status.${
     eventContainer.dataset.status || "public"
   }.title`;
   if (I18n.lookup(statusLocaleKey, { locale: "en" })) {
@@ -56,7 +56,7 @@ function _invalidEventPreview(eventContainer) {
   );
   eventContainer.classList.remove("discourse-post-event");
   eventContainer.innerText = I18n.t(
-    "discourse_calendar.discourse_post_event.preview.more_than_one_event"
+    "discourse_post_event.preview.more_than_one_event"
   );
 }
 
