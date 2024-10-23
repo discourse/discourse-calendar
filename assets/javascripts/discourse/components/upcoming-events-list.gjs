@@ -107,9 +107,6 @@ export default class UpcomingEventsList extends Component {
   }
 
   groupByMonthAndDay(data) {
-    // this solution worked in the UI, but 5 tests fail
-    // note: does not work if no end date is added to event object
-
     return data.reduce((result, item) => {
       const startDate = moment(item.starts_at);
       const endDate = item.ends_at ? moment(item.ends_at) : null;
@@ -120,11 +117,15 @@ export default class UpcomingEventsList extends Component {
           const month = startDate.month() + 1;
           const day = startDate.date();
           const monthKey = `${year}-${month}`;
+          const today = moment();
 
-          result[monthKey] = result[monthKey] || {};
-          result[monthKey][day] = result[monthKey][day] || [];
+          // For current events, only push upcoming days
+          if (startDate.isAfter(today)) {
+            result[monthKey] = result[monthKey] || {};
+            result[monthKey][day] = result[monthKey][day] || [];
 
-          result[monthKey][day].push(item);
+            result[monthKey][day].push(item);
+          }
 
           // Move to the next day
           startDate.add(1, "day");
