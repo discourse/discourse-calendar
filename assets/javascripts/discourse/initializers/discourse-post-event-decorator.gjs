@@ -87,11 +87,18 @@ function initializeDiscoursePostEventDecorator(api) {
           return;
         }
 
-        const div = document.createElement("div");
-        cooked.querySelector(".discourse-post-event").before(div);
+        const postEventNode = cooked.querySelector(".discourse-post-event");
+
+        if (!postEventNode) {
+          return;
+        }
+
+        const wrapper = document.createElement("div");
+        postEventNode.before(wrapper);
+
         const event = DiscoursePostEventEvent.create(post.event);
 
-        helper.renderGlimmer(div, <template>
+        helper.renderGlimmer(wrapper, <template>
           <DiscoursePostEvent @event={{event}} />
         </template>);
       }
