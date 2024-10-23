@@ -27,6 +27,7 @@ class RouterStub extends Service {
 const today = "2100-02-01T08:00:00";
 const tomorrowAllDay = "2100-02-02T00:00:00";
 const nextMonth = "2100-03-02T08:00:00";
+const nextWeek = "2100-02-09T08:00:00";
 
 module("Integration | Component | upcoming-events-list", function (hooks) {
   setupRenderingTest(hooks);
@@ -147,16 +148,18 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       [...queryAll(".upcoming-events-list__event-name")].map(
         (el) => el.innerText
       ),
-      ["Awesome Event", "Another Awesome Event"],
-      "it displays the multiday event on all scheduled dates"
-    );
+      [
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+      ],
 
-    assert.deepEqual(
-      [...queryAll(".upcoming-events-list__event-name")].map(
-        (el) => el.innerText
-      ),
-      ["Awesome Event", "Another Awesome Event"],
-      "it displays the multiday event that has two different months"
+      "it displays the multiday event on all scheduled dates"
     );
   });
 
@@ -402,7 +405,7 @@ function multiDayEventResponseHandler({ queryParams }) {
     {
       id: 67503,
       starts_at: tomorrowAllDay,
-      ends_at: nextMonth,
+      ends_at: nextWeek,
       timezone: "Asia/Calcutta",
       post: {
         id: 67501,
@@ -413,7 +416,7 @@ function multiDayEventResponseHandler({ queryParams }) {
           title: "This is a multiday event",
         },
       },
-      name: "Awesome MultiDay Event",
+      name: "Awesome Multiday Event",
       category_id: 1,
     },
   ];

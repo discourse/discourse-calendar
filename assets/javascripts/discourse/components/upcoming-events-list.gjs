@@ -112,9 +112,9 @@ export default class UpcomingEventsList extends Component {
 
     return data.reduce((result, item) => {
       const startDate = moment(item.starts_at);
-      const endDate = moment(item.ends_at);
+      const endDate = item.ends_at ? moment(item.ends_at) : null;
 
-      if (!startDate.isSame(endDate)) {
+      if (endDate && !startDate.isSame(endDate)) {
         while (startDate.isSameOrBefore(endDate, "day")) {
           const year = startDate.year();
           const month = startDate.month() + 1;
