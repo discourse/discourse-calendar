@@ -60,7 +60,7 @@ discourse_calendar:
     client: true
     hidden: true
   event_participation_buttons:
-    default: "going"
+    default: "going|interested|not going"
     client: true
     type: list
     list_type: simple
