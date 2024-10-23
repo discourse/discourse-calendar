@@ -45,6 +45,7 @@ export default Component.extend({
     this._loadCalendar().then(() => {
       const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
         ...fullCalendarDefaultOptions(),
+        height: "parent",
         eventPositioned: (info) => {
           if (siteSettings.events_max_rows === 0) {
             return;
