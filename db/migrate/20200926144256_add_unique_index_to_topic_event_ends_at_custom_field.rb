@@ -8,4 +8,8 @@ class AddUniqueIndexToTopicEventEndsAtCustomField < ActiveRecord::Migration[6.0]
               unique: true,
               where: "name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT}'"
   end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
+  end
 end

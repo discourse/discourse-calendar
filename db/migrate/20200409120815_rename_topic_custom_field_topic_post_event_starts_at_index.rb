@@ -10,4 +10,8 @@ class RenameTopicCustomFieldTopicPostEventStartsAtIndex < ActiveRecord::Migratio
               unique: true,
               where: "name = '#{DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT}'"
   end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
+  end
 end
