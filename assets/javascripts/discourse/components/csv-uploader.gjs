@@ -40,9 +40,7 @@ export default class CsvUploader extends Component {
 
   get uploadButtonDisabled() {
     // https://github.com/emberjs/ember.js/issues/10976#issuecomment-132417731
-    return this.uppyUpload.uploading || this.uppyUpload.processing
-      ? true
-      : null;
+    return this.uppyUpload.uploading || this.uppyUpload.processing || null;
   }
 
   <template>
