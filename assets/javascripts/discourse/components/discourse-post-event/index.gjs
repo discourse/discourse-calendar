@@ -108,12 +108,6 @@ export default class DiscoursePostEvent extends Component {
             />
           </header>
 
-          {{#if @event.canUpdateAttendance}}
-            <section class="event__section event-actions">
-              <Status @event={{@event}} />
-            </section>
-          {{/if}}
-
           <PluginOutlet
             @name="discourse-post-event-info"
             @outletArgs={{hash
@@ -127,6 +121,11 @@ export default class DiscoursePostEvent extends Component {
             <Url @url={{@event.url}} />
             <Dates @event={{@event}} />
             <Invitees @event={{@event}} />
+            {{#if @event.canUpdateAttendance}}
+              <section class="event__section event-actions">
+                <Status @event={{@event}} />
+              </section>
+            {{/if}}
           </PluginOutlet>
         {{/if}}
       </div>
