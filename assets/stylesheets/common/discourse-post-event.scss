@@ -6,6 +6,10 @@ $interested: #fb985d;
   .event__section {
     padding: 0.5em 1em;
 
+    &.event-actions svg {
+      padding-right: 0.25em;
+    }
+
     &:not(:last-child) {
       border-bottom: 1px solid var(--primary-low);
     }
@@ -70,6 +74,7 @@ $interested: #fb985d;
     align-items: center;
     padding: 0 1em;
     height: 75px;
+    border-bottom: 1px solid var(--primary-low);
 
     .more-dropdown {
       margin-left: auto;
@@ -171,7 +176,7 @@ $interested: #fb985d;
 
   .event-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     height: 60px;
     padding: 0 1em;
@@ -179,13 +184,13 @@ $interested: #fb985d;
     .event-status {
       margin: 0;
 
-      &.status-going .going-button .d-icon {
+      &.status-going .d-icon:not(.d-icon-angle-down) {
         color: var(--success);
       }
-      &.status-interested .interested-button .d-icon {
+      &.status-interested .d-icon:not(.d-icon-angle-down) {
         color: $interested;
       }
-      &.status-not_going .not-going-button .d-icon {
+      &.status-not_going .d-icon:not(.d-icon-angle-down) {
         color: var(--danger);
       }
     }

@@ -389,6 +389,7 @@ en:
         invitee:
           no_users: "No users found"
           status:
+            not_set: "RSVP"
             unknown: "Not interested"
             going: "Going"
             not_going: "Not Going"
