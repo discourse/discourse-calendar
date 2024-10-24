@@ -1,5 +1,4 @@
 import Service from "@ember/service";
-import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { ajax } from "discourse/lib/ajax";
 import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import DiscoursePostEventInvitee from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-invitee";
@@ -63,8 +62,8 @@ export default class DiscoursePostEventApi extends Service {
   async leaveEvent(event, invitee) {
     await this.#deleteRequest(`/events/${event.id}/invitees/${invitee.id}`);
 
-    event.sampleInvitees = new TrackedArray(
-      event.sampleInvitees.filter((i) => i.id !== invitee.id)
+    event.sampleInvitees = event.sampleInvitees.filter(
+      (i) => i.id !== invitee.id
     );
 
     if (event.watchingInvitee?.id === invitee.id) {
@@ -81,9 +80,8 @@ export default class DiscoursePostEventApi extends Service {
 
     if (!data.user_id) {
       event.watchingInvitee = invitee;
+      event.sampleInvitees.push(event.watchingInvitee);
     }
-
-    event.sampleInvitees.push(event.watchingInvitee);
 
     event.stats = result.invitee.meta.event_stats;
     event.shouldDisplayInvitees =
