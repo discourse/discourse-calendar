@@ -27,6 +27,7 @@ class RouterStub extends Service {
 const today = "2100-02-01T08:00:00";
 const tomorrowAllDay = "2100-02-02T00:00:00";
 const nextMonth = "2100-03-02T08:00:00";
+const nextWeek = "2100-02-09T08:00:00";
 
 module("Integration | Component | upcoming-events-list", function (hooks) {
   setupRenderingTest(hooks);
@@ -131,6 +132,34 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert.ok(
       exists(".upcoming-events-list__view-all"),
       "it displays the view-all link"
+    );
+  });
+
+  test("with multi-day events, standard formats", async function (assert) {
+    pretender.get("/discourse-post-event/events", multiDayEventResponseHandler);
+
+    await render(<template><UpcomingEventsList /></template>);
+
+    this.appEvents.trigger("page:changed", { url: "/" });
+
+    await waitFor(".loading-container .spinner", { count: 0 });
+
+    assert.deepEqual(
+      [...queryAll(".upcoming-events-list__event-name")].map(
+        (el) => el.innerText
+      ),
+      [
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+        "Awesome Multiday Event",
+      ],
+
+      "it displays the multiday event on all scheduled dates"
     );
   });
 
@@ -355,6 +384,40 @@ function twoEventsResponseHandler({ queryParams }) {
       },
       name: "Another Awesome Event",
       category_id: 2,
+    },
+  ];
+
+  if (queryParams.limit) {
+    events.splice(queryParams.limit);
+  }
+
+  if (queryParams.before) {
+    events = events.filter((event) => {
+      return moment(event.starts_at).isBefore(queryParams.before);
+    });
+  }
+
+  return response({ events });
+}
+
+function multiDayEventResponseHandler({ queryParams }) {
+  let events = [
+    {
+      id: 67503,
+      starts_at: tomorrowAllDay,
+      ends_at: nextWeek,
+      timezone: "Asia/Calcutta",
+      post: {
+        id: 67501,
+        post_number: 1,
+        url: "/t/this-is-an-event/18451/1",
+        topic: {
+          id: 18449,
+          title: "This is a multiday event",
+        },
+      },
+      name: "Awesome Multiday Event",
+      category_id: 1,
     },
   ];
 

@@ -108,17 +108,41 @@ export default class UpcomingEventsList extends Component {
 
   groupByMonthAndDay(data) {
     return data.reduce((result, item) => {
-      const date = new Date(item.starts_at);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
+      const startDate = moment(item.starts_at);
+      const endDate = item.ends_at ? moment(item.ends_at) : null;
 
-      const monthKey = `${year}-${month}`;
+      if (endDate && !startDate.isSame(endDate)) {
+        while (startDate.isSameOrBefore(endDate, "day")) {
+          const year = startDate.year();
+          const month = startDate.month() + 1;
+          const day = startDate.date();
+          const monthKey = `${year}-${month}`;
+          const today = moment();
 
-      result[monthKey] = result[monthKey] ?? {};
-      result[monthKey][day] = result[monthKey][day] ?? [];
+          // For current events, only push upcoming days
+          if (startDate.isAfter(today)) {
+            result[monthKey] = result[monthKey] || {};
+            result[monthKey][day] = result[monthKey][day] || [];
 
-      result[monthKey][day].push(item);
+            result[monthKey][day].push(item);
+          }
+
+          // Move to the next day
+          startDate.add(1, "day");
+        }
+      } else {
+        const date = new Date(item.starts_at);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+
+        const monthKey = `${year}-${month}`;
+
+        result[monthKey] = result[monthKey] ?? {};
+        result[monthKey][day] = result[monthKey][day] ?? [];
+
+        result[monthKey][day].push(item);
+      }
 
       return result;
     }, {});
