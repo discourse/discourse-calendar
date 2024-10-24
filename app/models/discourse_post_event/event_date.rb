@@ -41,11 +41,6 @@ module DiscoursePostEvent
       end
     end
 
-    after_commit :reset_invitees_status, on: %i[create]
-    def reset_invitees_status
-      self.event.invitees.update_all(status: nil)
-    end
-
     def started?
       starts_at <= Time.current
     end

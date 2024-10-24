@@ -53,12 +53,14 @@ module DiscoursePostEvent
         end
       end
 
-      publish_update!
-      invitees.update_all(status: nil, notified: false)
+      invitees.where.not(status: Invitee.statuses[:going]).update_all(status: nil, notified: false)
+
       if !next_dates[:rescheduled]
         notify_invitees!
         notify_missing_invitees!
       end
+
+      publish_update!
     end
 
     def set_topic_bump
