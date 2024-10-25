@@ -130,16 +130,20 @@ describe Post do
                 expect(event_1.ends_at.to_s).to eq("2020-08-19 16:32:00 UTC")
               end
 
-              it "it removes status from every invitees" do
-                expect(event_1.invitees.pluck(:status)).to match_array(
-                  [
-                    DiscoursePostEvent::Invitee.statuses[:going],
-                    DiscoursePostEvent::Invitee.statuses[:interested],
-                  ],
-                )
+              it "it removes status from non going invitees" do
+                going_invitee =
+                  event_1.invitees.find_by(status: DiscoursePostEvent::Invitee.statuses[:going])
+                interested_invitee =
+                  event_1.invitees.find_by(
+                    status: DiscoursePostEvent::Invitee.statuses[:interested],
+                  )
 
                 event_1.update_with_params!(original_ends_at: Time.now)
-                expect(event_1.invitees.pluck(:status).compact).to eq([])
+
+                expect(going_invitee.reload.status).to eq(
+                  DiscoursePostEvent::Invitee.statuses[:going],
+                )
+                expect(interested_invitee.reload.status).to eq(nil)
               end
 
               # that will be handled by new job, uncomment when finished
