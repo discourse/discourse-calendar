@@ -406,6 +406,6 @@ end
 #  reminders          :string
 #  recurrence         :string
 #  timezone           :string
-#  minimal            :boolean          default(FALSE), not null
+#  minimal            :boolean
 #  closed             :boolean          default(FALSE), not null
 #
