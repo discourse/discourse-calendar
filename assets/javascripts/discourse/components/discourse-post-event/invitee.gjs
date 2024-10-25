@@ -41,12 +41,12 @@ export default class DiscoursePostEventInvitee extends Component {
           @invitee.user
           imageSize=(if this.site.mobileView "tiny" "large")
         }}
-        {{#if this.statusIcon}}
+        {{!-- {{#if this.statusIcon}}
           <AvatarFlair
             @flairName={{this.flairName}}
             @flairUrl={{this.statusIcon}}
           />
-        {{/if}}
+        {{/if}} --}}
       </a>
     </li>
   </template>

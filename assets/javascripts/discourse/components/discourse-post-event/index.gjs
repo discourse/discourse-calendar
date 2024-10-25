@@ -7,6 +7,7 @@ import concatClass from "discourse/helpers/concat-class";
 import replaceEmoji from "discourse/helpers/replace-emoji";
 import routeAction from "discourse/helpers/route-action";
 import icon from "discourse-common/helpers/d-icon";
+import DTooltip from "float-kit/components/d-tooltip";
 import Creator from "./creator";
 import Dates from "./dates";
 import EventStatus from "./event-status";
@@ -67,6 +68,10 @@ export default class DiscoursePostEvent extends Component {
     return this.currentUser && this.args.event.can_act_on_discourse_post_event;
   }
 
+  get eventStatsGoingInterestedCount() {
+    return this.args.event.stats.going + this.args.event.stats.interested;
+  }
+
   <template>
     <div
       class={{concatClass
@@ -120,12 +125,25 @@ export default class DiscoursePostEvent extends Component {
           >
             <Url @url={{@event.url}} />
             <Dates @event={{@event}} />
-            <Invitees @event={{@event}} />
-            {{#if @event.canUpdateAttendance}}
-              <section class="event__section event-actions">
+            <section class="event__section event-actions">
+              <DTooltip
+                @arrow={{false}}
+                @interactive={{true}}
+                @triggers="click"
+                @class="event-invitees-tooltip"
+              >
+                <:trigger>
+                  {{icon "users"}}
+                  <span>{{this.eventStatsGoingInterestedCount}}</span>
+                </:trigger>
+                <:content>
+                  <Invitees @event={{@event}} />
+                </:content>
+              </DTooltip>
+              {{#if @event.canUpdateAttendance}}
                 <Status @event={{@event}} />
-              </section>
-            {{/if}}
+              {{/if}}
+            </section>
           </PluginOutlet>
         {{/if}}
       </div>
