@@ -9,4 +9,8 @@ class DropIncorrectFutureSchemaMigrations < ActiveRecord::Migration[5.2]
       DELETE FROM schema_migration_details WHERE version = '20201303000002';
     SQL
   end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
+  end
 end

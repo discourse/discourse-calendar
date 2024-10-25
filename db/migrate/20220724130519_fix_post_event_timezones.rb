@@ -30,4 +30,8 @@ class FixPostEventTimezones < ActiveRecord::Migration[7.0]
       AND topic_custom_fields.name IN ('TopicEventStartsAt', 'TopicEventEndsAt')
     SQL
   end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
+  end
 end
