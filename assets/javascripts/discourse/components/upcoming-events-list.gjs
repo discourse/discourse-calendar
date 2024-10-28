@@ -17,6 +17,15 @@ export const DEFAULT_TIME_FORMAT = "LT";
 const DEFAULT_UPCOMING_DAYS = 180;
 const DEFAULT_COUNT = 8;
 
+function addToResult(date, item, result) {
+  const day = date.date();
+  const monthKey = date.format("YYYY-MM");
+
+  result[monthKey] = result[monthKey] ?? {};
+  result[monthKey][day] = result[monthKey][day] ?? [];
+  result[monthKey][day].push(item);
+}
+
 export default class UpcomingEventsList extends Component {
   @service appEvents;
   @service siteSettings;
@@ -110,38 +119,19 @@ export default class UpcomingEventsList extends Component {
     return data.reduce((result, item) => {
       const startDate = moment(item.starts_at);
       const endDate = item.ends_at ? moment(item.ends_at) : null;
+      const today = moment();
 
-      if (endDate && !startDate.isSame(endDate)) {
-        while (startDate.isSameOrBefore(endDate, "day")) {
-          const year = startDate.year();
-          const month = startDate.month() + 1;
-          const day = startDate.date();
-          const monthKey = `${year}-${month}`;
-          const today = moment();
+      if (!endDate) {
+        addToResult(startDate, item, result);
+        return result;
+      }
 
-          // For current events, only push upcoming days
-          if (startDate.isAfter(today)) {
-            result[monthKey] = result[monthKey] || {};
-            result[monthKey][day] = result[monthKey][day] || [];
-
-            result[monthKey][day].push(item);
-          }
-
-          // Move to the next day
-          startDate.add(1, "day");
+      while (startDate.isSameOrBefore(endDate, "day")) {
+        if (startDate.isAfter(today)) {
+          addToResult(startDate, item, result);
         }
-      } else {
-        const date = new Date(item.starts_at);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
 
-        const monthKey = `${year}-${month}`;
-
-        result[monthKey] = result[monthKey] ?? {};
-        result[monthKey][day] = result[monthKey][day] ?? [];
-
-        result[monthKey][day].push(item);
+        startDate.add(1, "day");
       }
 
       return result;
