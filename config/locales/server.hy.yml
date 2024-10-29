@@ -9,8 +9,7 @@ hy:
     currently_away:
       labels:
         username: Օգտանուն
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "Այդ ֆայլը վերբեռնելիս տեղի է ունեցել սխալ: Խնդրում ենք փորձել կրկին ավելի ուշ: "
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Այդ ֆայլը վերբեռնելիս տեղի է ունեցել սխալ: Խնդրում ենք փորձել կրկին ավելի ուշ: "

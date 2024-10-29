@@ -313,150 +313,11 @@ es:
         week: "Semana"
         day: "Día"
         list: "Lista"
-      discourse_post_event:
-        notifications:
-          invite_user_predefined_attendance_notification: "%{username} ha establecido automáticamente tu asistencia y te ha invitado a"
-          before_event_reminder: "Un evento está a punto de comenzar"
-          after_event_reminder: "Un evento ha terminado"
-          ongoing_event_reminder: "Un evento está en curso"
-          invite_user_notification: "%{username} %{description}"
-          invite_user_predefined_attendance_notification_html: "%{username} ha establecido automáticamente tu asistencia y te ha invitado a %{description}"
-          before_event_reminder_html: "Un evento está a punto de comenzar %{description}"
-          after_event_reminder_html: "Un evento ha finalizado %{description}"
-          ongoing_event_reminder_html: "Hay un evento en curso %{description}"
-        preview:
-          more_than_one_event: "No puedes tener más de un evento."
-        edit_reason: "Evento actualizado"
-        topic_title:
-          starts_at: "El evento comenzará: %{date}"
-          ended_at: "El evento terminó: %{date}"
-          ends_in_duration: "Termina en %{duration}"
-        models:
-          invitee:
-            status:
-              unknown: "No estoy interesado"
-              going: "Asistiré"
-              not_going: "No asistiré"
-              interested: "Estoy interesado"
-          event:
-            expired: "Caducado"
-            closed: "Cerrado"
-            status:
-              standalone:
-                title: "Independiente"
-                description: "No se puede unir a un evento independiente."
-              public:
-                title: "Público"
-                description: "Cualquier persona puede unirse a un evento público."
-              private:
-                title: "Privado"
-                description: "Solo los usuarios invitados pueden unirse a un evento privado."
-        event_ui:
-          show_all: "Mostrar todos"
-          participants:
-            one: "%{count} usuario participó."
-            other: "%{count} usuarios participaron."
-          invite: "Notificar al usuario"
-          add_to_calendar: "Añadir al calendario"
-          send_pm_to_creator: "Enviar MP a %{username}"
-          leave: "Abandonar evento"
-          edit_event: "Editar evento"
-          export_event: "Exportar evento"
-          created_by: "Creado por"
-          bulk_invite: "Invitaciones en masa"
-          close_event: "Cerrar evento"
-          open_event: "Abrir evento"
-        invitees_modal:
-          title_participated: "Lista de usuarios que participaron"
-          filter_placeholder: "Filtrar usuarios"
-        bulk_invite_modal:
-          confirm: "confirmar"
-          text: "Subir archivo CSV"
-          title: "Invitaciones en masa"
-          success: "Archivo subido correctamente, se te notificará mediante un mensaje cuando se complete el proceso."
-          error: "Lo sentimos, el formato del archivo debe ser CSV."
-          confirmation_message: "Está a punto de notificar a todos en el archivo subido."
-          description_public: "Los eventos públicos solo aceptan nombres de usuario para invitaciones masivas."
-          description_private: "Los eventos privados solo aceptan nombres de grupos para invitaciones masivas."
-          download_sample_csv: "Descarga un archivo CSV de muestra"
-          send_bulk_invites: "Enviar invitaciones"
-          group_selector_placeholder: "Elige un grupo..."
-          user_selector_placeholder: "Elegir usuario..."
-          inline_title: "Invitación masiva en línea"
-          csv_title: "Invitación masiva en CSV"
-        builder_modal:
-          custom_fields:
-            label: "Campos personalizados"
-            placeholder: "Opcional"
-            description: "Los campos personalizados permitidos se definen en la configuración del sitio. Los campos personalizados se utilizan para transmitir datos a otros plugins."
-          create_event_title: "Crear evento"
-          update_event_title: "Editar evento"
-          confirm_delete: "¿Seguro que quieres eliminar este evento?"
-          confirm_close: "¿Seguro que quieres cerrar ese evento?"
-          confirm_open: "¿Seguro que quieres abrir ese evento?"
-          create: "Crear"
-          update: "Guardar"
-          attach: "Crear evento"
-          add_reminder: "Añadir recordatorio"
-          timezone:
-            label: Zona horaria
-            remove_timezone: Sin zona horaria (UTC)
-          reminders:
-            label: "Recordatorios"
-            types:
-              bump_topic: "reflotar tema automáticamente"
-              notification: "notificar a los participantes"
-            units:
-              minutes: "minutos"
-              hours: "horas"
-              days: "días"
-              weeks: "semanas"
-            periods:
-              before: "antes de"
-              after: "después de"
-          recurrence:
-            label: "Periodicidad"
-            none: "Sin repetición"
-            every_day: "Cada día"
-            every_month: "Todos los meses en este día de la semana"
-            every_weekday: "Todos los días de la semana"
-            every_week: "Todas las semanas en este día de la semana"
-            every_two_weeks: "Cada dos semanas en este día de la semana"
-            every_four_weeks: "Cada cuatro semanas en este día de la semana"
-          minimal:
-            label: "Evento mínimo"
-            checkbox_label: "Ocultar los botones Asistiré/No asistiré y el estado de los invitados"
-          url:
-            label: "URL"
-            placeholder: "Opcional"
-          name:
-            label: "Nombre del evento"
-            placeholder: "Opcional, por defecto es el título del tema"
-          invitees:
-            label: "Grupos invitados"
-          status:
-            label: "Estado"
-        invite_user_or_group:
-          title: "Notificar a usuario(s) o grupo(s)"
-          invite: "Enviar"
-        upcoming_events:
-          title: "Próximos eventos"
-          creator: "Creador"
-          status: "Estado"
-          starts_at: "Comienza el"
-        upcoming_events_list:
-          title: "Próximos eventos"
-          empty: "No hay eventos próximos"
-          all_day: "Todo el día"
-          error: "No se pudieron recuperar los eventos"
-          try_again: "Intentar de nuevo"
-          view_all: "Ver todo"
     group_timezones:
       search: "Buscar..."
       group_availability: "Disponibilidad de %{group}"
     discourse_post_event:
       notifications:
-        invite_user_predefined_attendance_notification: "%{username} ha configurado automáticamente tu asistencia y te ha invitado a"
         before_event_reminder: "Un evento está a punto de comenzar"
         after_event_reminder: "Un evento ha terminado"
         ongoing_event_reminder: "Un evento está en curso"
@@ -465,8 +326,6 @@ es:
         before_event_reminder_html: "Un evento está a punto de comenzar %{description}"
         after_event_reminder_html: "Un evento ha finalizado %{description}"
         ongoing_event_reminder_html: "Hay un evento en curso %{description}"
-      preview:
-        more_than_one_event: "No puedes tener más de un evento."
       edit_reason: "Evento actualizado"
       edit_reason_closed: "Evento cerrado"
       edit_reason_opened: "Evento abierto"
@@ -474,43 +333,21 @@ es:
         starts_at: "El evento comenzará: %{date}"
         ended_at: "Evento terminó: %{date}"
         ends_in_duration: "Termina en %{duration}"
-      models:
-        invitee:
-          no_users: "No hay usuarios de este tipo."
-          status:
-            unknown: "No estoy interesado"
-            going: "Asistiré"
-            not_going: "No asistiré"
-            interested: "Estoy interesado"
-        event:
-          expired: "Caducado"
-          status:
-            standalone:
-              title: "Independiente"
-              description: "No se puede unir a un evento independiente."
-            public:
-              title: "Público"
-              description: "Cualquier persona puede unirse a un evento público."
-            private:
-              title: "Privado"
-              description: "Solo los usuarios invitados pueden unirse a un evento privado."
-      event_ui:
-        show_all: "Mostrar todos"
-        participants:
-          one: "%{count} usuario participó."
-          other: "%{count} usuarios participaron."
-        invite: "Notificar al usuario"
-        add_to_calendar: "Añadir al calendario"
-        upcoming_events: "Próximos eventos"
-        send_pm_to_creator: "Enviar MP a %{username}"
-        leave: "Abandonar evento"
-        edit_event: "Editar evento"
-        export_event: "Exportar evento"
-        created_by: "Creado por"
-        bulk_invite: "Invitaciones masivas"
-        close_event: "Cerrar evento"
+      show_all: "Mostrar todos"
+      participants:
+        one: "%{count} usuario participó."
+        other: "%{count} usuarios participaron."
+      invite: "Notificar al usuario"
+      add_to_calendar: "Añadir al calendario"
+      send_pm_to_creator: "Enviar MP a %{username}"
+      leave: "Abandonar evento"
+      edit_event: "Editar evento"
+      export_event: "Exportar evento"
+      created_by: "Creado por"
+      bulk_invite: "Invitaciones en masa"
+      close_event: "Cerrar evento"
+      open_event: "Abrir evento"
       invitees_modal:
-        title_invited: "Lista de usuarios que han respondido"
         title_participated: "Lista de usuarios que participaron"
         filter_placeholder: "Filtrar usuarios"
       bulk_invite_modal:
@@ -528,6 +365,45 @@ es:
         user_selector_placeholder: "Elegir usuario..."
         inline_title: "Invitación masiva en línea"
         csv_title: "Invitación masiva en CSV"
+      upcoming_events:
+        title: "Próximos eventos"
+        creator: "Creador"
+        status: "Estado"
+        starts_at: "Comienza el"
+      upcoming_events_list:
+        title: "Próximos eventos"
+        empty: "No hay eventos próximos"
+        all_day: "Todo el día"
+        error: "No se pudieron recuperar los eventos"
+        try_again: "Intentar de nuevo"
+        view_all: "Ver todo"
+      category:
+        sort_topics_by_event_start_date: "Ordenar temas por fecha de inicio del evento."
+        disable_topic_resorting: "Desactivar reordenación de temas."
+        settings_sections:
+          event_sorting: "Clasificación de eventos"
+      preview:
+        more_than_one_event: "No puedes tener más de un evento."
+      models:
+        invitee:
+          status:
+            unknown: "No estoy interesado"
+            going: "Asistiré"
+            not_going: "No asistiré"
+            interested: "Estoy interesado"
+        event:
+          expired: "Caducado"
+          closed: "Cerrado"
+          status:
+            standalone:
+              title: "Independiente"
+              description: "No se puede unir a un evento independiente."
+            public:
+              title: "Público"
+              description: "Cualquier persona puede unirse a un evento público."
+            private:
+              title: "Privado"
+              description: "Solo los usuarios invitados pueden unirse a un evento privado."
       builder_modal:
         custom_fields:
           label: "Campos personalizados"
@@ -537,6 +413,7 @@ es:
         update_event_title: "Editar evento"
         confirm_delete: "¿Seguro que quieres eliminar este evento?"
         confirm_close: "¿Seguro que quieres cerrar ese evento?"
+        confirm_open: "¿Seguro que quieres abrir ese evento?"
         create: "Crear"
         update: "Guardar"
         attach: "Crear evento"
@@ -582,19 +459,3 @@ es:
       invite_user_or_group:
         title: "Notificar a usuario(s) o grupo(s)"
         invite: "Enviar"
-      upcoming_events:
-        title: "Próximos eventos"
-        creator: "Creador"
-        status: "Estado"
-        starts_at: "Comienza el"
-      upcoming_events_list:
-        title: "Próximos eventos"
-        empty: "No hay eventos próximos"
-        all_day: "Todo el día"
-        error: "No se pudieron recuperar los eventos"
-        try_again: "Intentar de nuevo"
-    category:
-      sort_topics_by_event_start_date: "Ordenar temas por fecha de inicio del evento."
-      disable_topic_resorting: "Desactivar reordenación de temas."
-      settings_sections:
-        event_sorting: "Clasificación de eventos"

@@ -69,34 +69,34 @@ zh_CN:
     event_expired: "活动已过期"
     holiday_status:
       description: "休假"
-    discourse_post_event:
-      notifications:
-        before_event_reminder: "%{title} 即将开始。"
-        after_event_reminder: "%{title} 已结束。"
-        ongoing_event_reminder: "%{title} 正在进行。"
-      errors:
-        bulk_invite:
-          max_invitees: "前 %{max_invittes} 位受邀者已创建。尝试将文件拆分成更小的部分。"
-          error: "上传文件时出错。请稍后再试。"
-        models:
-          event:
-            only_one_event: "一个帖子只能有一个活动。"
-            must_be_in_first_post: "活动只能出现在话题的第一个帖子中。"
-            raw_invitees_length: "活动仅限于 %{count} 个用户/群组。"
-            raw_invitees:
-              only_group: "活动只接受群组名。"
-            ends_at_before_starts_at: "活动的结束日期不能早于开始日期。"
-            start_must_be_present_and_a_valid_date: "活动需要有效的开始日期。"
-            end_must_be_a_valid_date: "结束日期必须是有效日期。"
-            invalid_recurrence: "重复必须是以下值之一：every_month、every_week、every_two_weeks、every_four_weeks、every_day、every_weekday。"
-            invalid_timezone: "无法识别时区。"
-            acting_user_not_allowed_to_create_event: "当前用户不能创建活动。"
-            acting_user_not_allowed_to_act_on_this_event: "当前用户不能在此活动上执行操作。"
-            invalid_allowed_groups: "允许的群组无效。"
-            acting_user_not_allowed_to_invite_these_groups: "当前用户不能邀请这些群组。"
-            custom_field_is_invalid: "不允许自定义字段 `%{field}`。"
-            name:
-              length: "活动名称长度必须介于 %{minimum} 和 %{maximum} 个字符之间。"
+  discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} 即将开始。"
+      after_event_reminder: "%{title} 已结束。"
+      ongoing_event_reminder: "%{title} 正在进行。"
+    errors:
+      bulk_invite:
+        max_invitees: "前 %{max_invittes} 位受邀者已创建。尝试将文件拆分成更小的部分。"
+        error: "上传文件时出错。请稍后再试。"
+      models:
+        event:
+          only_one_event: "一个帖子只能有一个活动。"
+          must_be_in_first_post: "活动只能出现在话题的第一个帖子中。"
+          raw_invitees_length: "活动仅限于 %{count} 个用户/群组。"
+          raw_invitees:
+            only_group: "活动只接受群组名。"
+          ends_at_before_starts_at: "活动的结束日期不能早于开始日期。"
+          start_must_be_present_and_a_valid_date: "活动需要有效的开始日期。"
+          end_must_be_a_valid_date: "结束日期必须是有效日期。"
+          invalid_recurrence: "重复必须是以下值之一：every_month、every_week、every_two_weeks、every_four_weeks、every_day、every_weekday。"
+          invalid_timezone: "无法识别时区。"
+          acting_user_not_allowed_to_create_event: "当前用户不能创建活动。"
+          acting_user_not_allowed_to_act_on_this_event: "当前用户不能在此活动上执行操作。"
+          invalid_allowed_groups: "允许的群组无效。"
+          acting_user_not_allowed_to_invite_these_groups: "当前用户不能邀请这些群组。"
+          custom_field_is_invalid: "不允许自定义字段 `%{field}`。"
+          name:
+            length: "活动名称长度必须介于 %{minimum} 和 %{maximum} 个字符之间。"
   discourse_push_notifications:
     popup:
       event_reminder: "活动提醒"

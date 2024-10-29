@@ -23,60 +23,25 @@ hy:
         month: "Ամիս"
         week: "Շաբաթ"
         day: "Օր"
-      discourse_post_event:
-        notifications:
-          invite_user_notification: "%{username} %{description}"
-        models:
-          event:
-            closed: "Փակված"
-            status:
-              public:
-                title: "Հանրային"
-              private:
-                title: "Մասնավոր"
-        bulk_invite_modal:
-          success: "Ֆայլը հաջողությամբ վերբեռնվել է, Դուք կստանաք ծանուցում հաղորդագրության միջոցով, երբ գործընթացն ավարտվի:"
-          error: "Ներողություն, ֆայլը պետք է լինի CSV ձևաչափով:"
-        builder_modal:
-          custom_fields:
-            placeholder: "Ընտրովի"
-          create: "Ստեղծել"
-          update: "Պահպանել"
-          timezone:
-            label: Ժամային գոտի
-          reminders:
-            units:
-              days: "օր"
-            periods:
-              before: "մինչև"
-              after: "հետո"
-          recurrence:
-            label: "Կրկնություն"
-            none: "Կրկնություն չկա"
-          url:
-            label: "URL"
-            placeholder: "Ընտրովի"
-          status:
-            label: "Ստատուս"
-        invite_user_or_group:
-          invite: "Ուղարկել"
-        upcoming_events:
-          status: "Ստատուս"
     group_timezones:
       search: "Որոնում..."
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+      bulk_invite: "Զանգվածային Հրավեր"
+      bulk_invite_modal:
+        success: "Ֆայլը հաջողությամբ վերբեռնվել է, Դուք կստանաք ծանուցում հաղորդագրության միջոցով, երբ գործընթացն ավարտվի:"
+        error: "Ներողություն, ֆայլը պետք է լինի CSV ձևաչափով:"
+      upcoming_events:
+        status: "Ստատուս"
       models:
         event:
+          closed: "Փակված"
           status:
             public:
               title: "Հանրային"
             private:
               title: "Մասնավոր"
-      bulk_invite_modal:
-        success: "Ֆայլը հաջողությամբ վերբեռնվել է, Դուք կստանաք ծանուցում հաղորդագրության միջոցով, երբ գործընթացն ավարտվի:"
-        error: "Ներողություն, ֆայլը պետք է լինի CSV ձևաչափով:"
       builder_modal:
         custom_fields:
           placeholder: "Ընտրովի"
@@ -100,5 +65,3 @@ hy:
           label: "Ստատուս"
       invite_user_or_group:
         invite: "Ուղարկել"
-      upcoming_events:
-        status: "Ստատուս"

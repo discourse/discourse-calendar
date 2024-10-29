@@ -13,8 +13,7 @@ pt:
     triggerables:
       event_started:
         title: Evento iniciado
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "Ocorreu um erro ao carregar esse ficheiro. Por favor tente mais tarde."
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Ocorreu um erro ao carregar esse ficheiro. Por favor tente mais tarde."

@@ -313,152 +313,11 @@ ru:
         week: "За неделю"
         day: "Дата"
         list: "Список"
-      discourse_post_event:
-        notifications:
-          invite_user_predefined_attendance_notification: "%{username} автоматически определил(-а) ваше присутствие и пригласил(-а) вас на мероприятие:"
-          before_event_reminder: "Мероприятие скоро начнется"
-          after_event_reminder: "Мероприятие закончилось"
-          ongoing_event_reminder: "Мероприятие идет"
-          invite_user_notification: "%{username} %{description}"
-          invite_user_predefined_attendance_notification_html: "%{username} автоматически определил(-а) ваше присутствие и пригласил(-а) вас на мероприятие «%{description}»"
-          before_event_reminder_html: "Мероприятие скоро начнется: %{description}"
-          after_event_reminder_html: "Мероприятие закончилось: %{description}"
-          ongoing_event_reminder_html: "Мероприятие идет: %{description}"
-        preview:
-          more_than_one_event: "У вас не может быть более одного мероприятия."
-        edit_reason: "Мероприятие обновлено"
-        topic_title:
-          starts_at: "Мероприятие начнется %{date}"
-          ended_at: "Мероприятие завершится %{date}"
-          ends_in_duration: "Окончание %{duration}"
-        models:
-          invitee:
-            status:
-              unknown: "Не интересует"
-              going: "Участвую"
-              not_going: "Не участвую"
-              interested: "Интересно"
-          event:
-            expired: "Истекший срок"
-            closed: "Закрытое"
-            status:
-              standalone:
-                title: "Обособленное"
-                description: "К обособленному мероприятию нельзя присоединиться."
-              public:
-                title: "Публичное"
-                description: "К публичному мероприятию может присоединиться любой желающий."
-              private:
-                title: "Закрытое"
-                description: "К закрытому мероприятию могут присоединиться только приглашенные пользователи."
-        event_ui:
-          show_all: "Показать все"
-          participants:
-            one: "Участвовал %{count} пользователь."
-            few: "Участвовало %{count} пользователя."
-            many: "Участвовало %{count} пользователей."
-            other: "Участвовало пользователей: %{count}."
-          invite: "Уведомлять пользователя"
-          add_to_calendar: "Добавить в календарь"
-          send_pm_to_creator: "Отправить ЛС пользователю %{username}"
-          leave: "Покинуть мероприятие"
-          edit_event: "Изменить мероприятие"
-          export_event: "Экспорт мероприятия"
-          created_by: "Создано"
-          bulk_invite: "Массовое приглашение"
-          close_event: "Закрыть мероприятие"
-          open_event: "Открыть мероприятие"
-        invitees_modal:
-          title_participated: "Список участвовавших пользователей"
-          filter_placeholder: "Фильтр пользователей"
-        bulk_invite_modal:
-          confirm: "подтвердить"
-          text: "Загрузить CSV-файл"
-          title: "Массовое приглашение"
-          success: "Файл успешно загружен, вы получите сообщение, когда процесс будет завершён."
-          error: "Файл должен быть в формате CSV."
-          confirmation_message: "Вы собираетесь уведомить всех адресатов, указанных в загруженном файле."
-          description_public: "Публичные мероприятия принимают только имена пользователей для массовых приглашений."
-          description_private: "Закрытые мероприятия принимают только имена групп для массовых приглашений."
-          download_sample_csv: "Загрузить пример CSV-файла"
-          send_bulk_invites: "Отправить приглашения"
-          group_selector_placeholder: "Выберите группу..."
-          user_selector_placeholder: "Выберите пользователя..."
-          inline_title: "Массовое приглашение"
-          csv_title: "Массовое приглашение через CSV-файл"
-        builder_modal:
-          custom_fields:
-            label: "Настраиваемые поля"
-            placeholder: "Опционально"
-            description: "Настраиваемые поля разрешены в настройках сайта. Поля используются для передачи данных в другие плагины."
-          create_event_title: "Создать мероприятие"
-          update_event_title: "Изменить мероприятие"
-          confirm_delete: "Действительно удалить это мероприятие ?"
-          confirm_close: "Действительно закрыть это мероприятие ?"
-          confirm_open: "Действительно открыть это мероприятие ?"
-          create: "Создать"
-          update: "Сохранить"
-          attach: "Создать мероприятие"
-          add_reminder: "Добавить напоминание"
-          timezone:
-            label: Часовой пояс
-            remove_timezone: Без часового пояса (UTC)
-          reminders:
-            label: "Напоминания"
-            types:
-              bump_topic: "автоматическое поднятие темы"
-              notification: "уведомление участников"
-            units:
-              minutes: "мин"
-              hours: "ч"
-              days: "сут."
-              weeks: "нед."
-            periods:
-              before: "до"
-              after: "после"
-          recurrence:
-            label: "Повторение"
-            none: "Без повторения"
-            every_day: "Каждый день"
-            every_month: "Каждый месяц в этот будний день"
-            every_weekday: "Каждый будний день"
-            every_week: "Каждую неделю в этот будний день"
-            every_two_weeks: "Каждые две недели в этот будний день"
-            every_four_weeks: "Каждые четыре недели в этот будний день"
-          minimal:
-            label: "Минимальное мероприятие"
-            checkbox_label: "Скрыть кнопки «Участвую», «Не участвую» и статус приглашенных"
-          url:
-            label: "URL-адрес"
-            placeholder: "Опционально"
-          name:
-            label: "Название мероприятия"
-            placeholder: "Необязательно, по умолчанию используется заголовок темы"
-          invitees:
-            label: "Приглашённые группы"
-          status:
-            label: "Статус"
-        invite_user_or_group:
-          title: "Уведомить пользователей или группы"
-          invite: "Отправить"
-        upcoming_events:
-          title: "Предстоящие мероприятия"
-          creator: "Создатель"
-          status: "Статус"
-          starts_at: "Начинается в"
-        upcoming_events_list:
-          title: "Предстоящие мероприятия"
-          empty: "Нет предстоящих мероприятий"
-          all_day: "Весь день"
-          error: "Не удалось получить мероприятия"
-          try_again: "Попробовать снова"
-          view_all: "Просмотреть все"
     group_timezones:
       search: "Поиск..."
       group_availability: "доступность %{group}"
     discourse_post_event:
       notifications:
-        invite_user_predefined_attendance_notification: "%{username} автоматически определил(а) ваше присутствие и пригласил(а) вас на мероприятие:"
         before_event_reminder: "Мероприятие скоро начнется"
         after_event_reminder: "Мероприятие закончилось"
         ongoing_event_reminder: "Мероприятие идет"
@@ -467,8 +326,6 @@ ru:
         before_event_reminder_html: "Мероприятие скоро начнется: %{description}"
         after_event_reminder_html: "Мероприятие закончилось: %{description}"
         ongoing_event_reminder_html: "Мероприятие идет: %{description}"
-      preview:
-        more_than_one_event: "У вас не может быть более одного мероприятия."
       edit_reason: "Мероприятие обновлено"
       edit_reason_closed: "Мероприятие закрыто"
       edit_reason_opened: "Мероприятие открыто"
@@ -476,45 +333,23 @@ ru:
         starts_at: "Мероприятие начнется %{date}"
         ended_at: "Мероприятие завершится %{date}"
         ends_in_duration: "Окончание %{duration}"
-      models:
-        invitee:
-          no_users: "Пользователи этого типа отсутствуют."
-          status:
-            unknown: "Не интересует"
-            going: "Участвую"
-            not_going: "Не участвую"
-            interested: "Заинтересован"
-        event:
-          expired: "Истекшие"
-          status:
-            standalone:
-              title: "Автономное"
-              description: "К автономному мероприятию нельзя присоединиться."
-            public:
-              title: "Публичное"
-              description: "К публичному мероприятию может присоединиться любой желающий."
-            private:
-              title: "Закрытое"
-              description: "К закрытому мероприятию могут присоединиться только приглашенные пользователи."
-      event_ui:
-        show_all: "Показать все"
-        participants:
-          one: "Участвовал %{count} пользователь."
-          few: "Участвовало %{count} пользователя."
-          many: "Участвовало %{count} пользователей."
-          other: "Участвовало %{count} пользователей."
-        invite: "Уведомлять пользователя"
-        add_to_calendar: "Добавить в календарь"
-        upcoming_events: "Предстоящие мероприятия"
-        send_pm_to_creator: "Отправить ЛС пользователю %{username}"
-        leave: "Покинуть мероприятие"
-        edit_event: "Изменить мероприятие"
-        export_event: "Экспорт мероприятия"
-        created_by: "Создано"
-        bulk_invite: "Массовое приглашение"
-        close_event: "Закрыть мероприятие"
+      show_all: "Показать все"
+      participants:
+        one: "Участвовал %{count} пользователь."
+        few: "Участвовало %{count} пользователей."
+        many: "Участвовало %{count} пользователя."
+        other: "Участвовало пользователей: %{count}."
+      invite: "Уведомлять пользователя"
+      add_to_calendar: "Добавить в календарь"
+      send_pm_to_creator: "Отправить ЛС пользователю %{username}"
+      leave: "Покинуть мероприятие"
+      edit_event: "Изменить мероприятие"
+      export_event: "Экспорт мероприятия"
+      created_by: "Создано"
+      bulk_invite: "Массовое приглашение"
+      close_event: "Закрыть мероприятие"
+      open_event: "Открыть мероприятие"
       invitees_modal:
-        title_invited: "Список пользователей, ответивших на приглашение"
         title_participated: "Список участвовавших пользователей"
         filter_placeholder: "Фильтр пользователей"
       bulk_invite_modal:
@@ -532,6 +367,45 @@ ru:
         user_selector_placeholder: "Выберите пользователя..."
         inline_title: "Массовое приглашение"
         csv_title: "Массовое приглашение через CSV-файл"
+      upcoming_events:
+        title: "Предстоящие мероприятия"
+        creator: "Создатель"
+        status: "Статус"
+        starts_at: "Начинается в"
+      upcoming_events_list:
+        title: "Предстоящие мероприятия"
+        empty: "Нет предстоящих мероприятий"
+        all_day: "Весь день"
+        error: "Не удалось получить мероприятия"
+        try_again: "Попробуйте снова"
+        view_all: "Просмотреть все"
+      category:
+        sort_topics_by_event_start_date: "Сортировать темы по дате начала мероприятия."
+        disable_topic_resorting: "Отключить сортировку тем."
+        settings_sections:
+          event_sorting: "Сортировка мероприятий"
+      preview:
+        more_than_one_event: "У вас не может быть более одного мероприятия."
+      models:
+        invitee:
+          status:
+            unknown: "Не интересует"
+            going: "Участвую"
+            not_going: "Не участвую"
+            interested: "Заинтересован"
+        event:
+          expired: "Истекшие"
+          closed: "Закрытое"
+          status:
+            standalone:
+              title: "Автономное"
+              description: "К автономному мероприятию нельзя присоединиться."
+            public:
+              title: "Публичное"
+              description: "К публичному мероприятию может присоединиться любой желающий."
+            private:
+              title: "Закрытое"
+              description: "К закрытому мероприятию могут присоединиться только приглашенные пользователи."
       builder_modal:
         custom_fields:
           label: "Настраиваемые поля"
@@ -541,6 +415,7 @@ ru:
         update_event_title: "Изменить мероприятие"
         confirm_delete: "Действительно удалить это мероприятие ?"
         confirm_close: "Действительно закрыть это мероприятие ?"
+        confirm_open: "Действительно открыть это мероприятие ?"
         create: "Создать"
         update: "Сохранить"
         attach: "Создать событие"
@@ -586,19 +461,3 @@ ru:
       invite_user_or_group:
         title: "Уведомить пользователей или группы"
         invite: "Отправить"
-      upcoming_events:
-        title: "Предстоящие мероприятия"
-        creator: "Создатель"
-        status: "Статус"
-        starts_at: "Начинается в"
-      upcoming_events_list:
-        title: "Предстоящие мероприятия"
-        empty: "Нет предстоящих мероприятий"
-        all_day: "Весь день"
-        error: "Не удалось получить мероприятия"
-        try_again: "Попробуйте снова"
-    category:
-      sort_topics_by_event_start_date: "Сортировать темы по дате начала мероприятия."
-      disable_topic_resorting: "Отключить сортировку тем."
-      settings_sections:
-        event_sorting: "Сортировка мероприятий"
