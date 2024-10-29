@@ -9,8 +9,7 @@ be:
     currently_away:
       labels:
         username: Імя карыстальніка
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "Была памылка загрузкі гэтага файла. Калі ласка паспрабуйце зноў пазней."
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Была памылка загрузкі гэтага файла. Калі ласка паспрабуйце зноў пазней."

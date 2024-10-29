@@ -313,152 +313,11 @@ cs:
         week: "Týden"
         day: "Den"
         list: "Seznam"
-      discourse_post_event:
-        notifications:
-          invite_user_predefined_attendance_notification: "%{username} automaticky nastavil vaši účast a pozval vás na"
-          before_event_reminder: "Brzy začne událost"
-          after_event_reminder: "Událost skončila"
-          ongoing_event_reminder: "Probíhá událost"
-          invite_user_notification: "%{username} %{description}"
-          invite_user_predefined_attendance_notification_html: "%{username} automaticky nastavil vaši účast a pozval vás na %{description}"
-          before_event_reminder_html: "Brzy začne událost %{description}"
-          after_event_reminder_html: "Skončila událost %{description}"
-          ongoing_event_reminder_html: "Probíhá událost  %{description}"
-        preview:
-          more_than_one_event: "Nemůžete mít více než jednu událost."
-        edit_reason: "Událost aktualizována"
-        topic_title:
-          starts_at: "Událost začne: %{date}"
-          ended_at: "Událost skončila: %{date}"
-          ends_in_duration: "Končí %{duration}"
-        models:
-          invitee:
-            status:
-              unknown: "Nemám zájem"
-              going: "Zúčastním se"
-              not_going: "Nezúčastním se"
-              interested: "Mám zájem"
-          event:
-            expired: "Platnost vypršela"
-            closed: "Zavřené"
-            status:
-              standalone:
-                title: "Samostatná"
-                description: "Samostatné události se nejde účastnit."
-              public:
-                title: "Veřejná"
-                description: "Veřejné události se může účastnit kdokoliv."
-              private:
-                title: "Soukromá"
-                description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
-        event_ui:
-          show_all: "Zobrazit vše"
-          participants:
-            one: "Zúčastnil se %{count} uživatel."
-            few: "Zúčastnili se %{count} uživatelé."
-            many: "Zúčastnilo se %{count} uživatelů."
-            other: "Zúčastnilo se %{count} uživatelů."
-          invite: "Oznámit uživateli"
-          add_to_calendar: "Přidat do kalendáře"
-          send_pm_to_creator: "Odeslat SZ %{username}"
-          leave: "Opustit událost"
-          edit_event: "Upravit událost"
-          export_event: "Exportovat událost"
-          created_by: "Vytvořil/a"
-          bulk_invite: "Hromadné pozvání"
-          close_event: "Zavřít událost"
-          open_event: "Otevřít událost"
-        invitees_modal:
-          title_participated: "Seznam uživatelů, kteří se zúčastnili"
-          filter_placeholder: "Filtrovat uživatele"
-        bulk_invite_modal:
-          confirm: "potvrdit"
-          text: "Nahrát soubor CSV"
-          title: "Hromadné pozvání"
-          success: "Nahrání souboru proběhlo úspěšně. O dokončení celého procesu budete informování pomocí zprávy."
-          error: "Omlouváme se, soubor by měl být ve formátu CSV."
-          confirmation_message: "Chystáte se upozornit každého v nahraném souboru."
-          description_public: "Veřejné události přijímají pro hromadné pozvánky pouze uživatelská jména."
-          description_private: "Soukromé události přijímají pro hromadné pozvánky pouze názvy skupin."
-          download_sample_csv: "Stáhnout ukázkový soubor CSV"
-          send_bulk_invites: "Odeslat pozvánky"
-          group_selector_placeholder: "Vyberte skupinu..."
-          user_selector_placeholder: "Vyberte uživatele..."
-          inline_title: "Hromadná pozvánka"
-          csv_title: "Hromadná pozvánka CSV"
-        builder_modal:
-          custom_fields:
-            label: "Vlastní pole"
-            placeholder: "Volitelné"
-            description: "Povolená vlastní pole jsou definována v nastavení webu. Vlastní pole se používají k přenosu dat do jiných pluginů."
-          create_event_title: "Vytvořit událost"
-          update_event_title: "Upravit událost"
-          confirm_delete: "Určitě chcete tuto událost smazat?"
-          confirm_close: "Opravdu chcete uzavřít tuto událost?"
-          confirm_open: "Opravdu chcete otevřít tuto událost?"
-          create: "Vytvořit"
-          update: "Uložit"
-          attach: "Vytvořit událost"
-          add_reminder: "Přidat připomínku"
-          timezone:
-            label: Časové pásmo
-            remove_timezone: Žádné časové pásmo (UTC)
-          reminders:
-            label: "Připomínky"
-            types:
-              bump_topic: "automaticky pošťouchnout téma"
-              notification: "upozornit účastníky"
-            units:
-              minutes: "minut"
-              hours: "hodin"
-              days: "dnů"
-              weeks: "týdny"
-            periods:
-              before: "před"
-              after: "po"
-          recurrence:
-            label: "Opakování"
-            none: "Bez opakování"
-            every_day: "každý den"
-            every_month: "Každý měsíc v tento den v týdnu"
-            every_weekday: "Každý den v týdnu"
-            every_week: "Každý týden v tento den"
-            every_two_weeks: "Každé dva týdny v tento den"
-            every_four_weeks: "Každé čtyři týdny v tento den"
-          minimal:
-            label: "Mini-událost"
-            checkbox_label: "Skrýt tlačítka Zúčastním/Nuzúčastním a stav pozvaných osob"
-          url:
-            label: "URL"
-            placeholder: "Volitelné"
-          name:
-            label: "Název události"
-            placeholder: "Volitelný, ve výchozím stavu název tématu"
-          invitees:
-            label: "Pozvané skupiny"
-          status:
-            label: "Stav"
-        invite_user_or_group:
-          title: "Oznámit uživatelům nebo skupinám"
-          invite: "Odeslat"
-        upcoming_events:
-          title: "Nadcházející události"
-          creator: "Vytvořil/a"
-          status: "Stav"
-          starts_at: "Začíná v"
-        upcoming_events_list:
-          title: "Nadcházející události"
-          empty: "Žádné nadcházející události"
-          all_day: "Celodenní"
-          error: "Nepodařilo se načíst události"
-          try_again: "Zkusit znovu"
-          view_all: "Zobrazit vše"
     group_timezones:
       search: "Hledat…"
       group_availability: "Dostupnost %{group}"
     discourse_post_event:
       notifications:
-        invite_user_predefined_attendance_notification: "%{username} automaticky nastavil vaši účast a pozval vás na"
         before_event_reminder: "Brzy začne událost"
         after_event_reminder: "Událost skončila"
         ongoing_event_reminder: "Událost probíhá"
@@ -467,8 +326,6 @@ cs:
         before_event_reminder_html: "Brzy začne událost %{description}"
         after_event_reminder_html: "Skončila událost %{description}"
         ongoing_event_reminder_html: "Probíhá událost  %{description}"
-      preview:
-        more_than_one_event: "Nemůžete mít více než jednu událost."
       edit_reason: "Událost aktualizována"
       edit_reason_closed: "Akce uzavřena"
       edit_reason_opened: "Událost otevřena"
@@ -476,45 +333,23 @@ cs:
         starts_at: "Událost začne: %{date}"
         ended_at: "Událost skončila: %{date}"
         ends_in_duration: "Končí %{duration}"
-      models:
-        invitee:
-          no_users: "Neexistují žádní uživatelé tohoto typu."
-          status:
-            unknown: "Nemám zájem"
-            going: "Zúčastním se"
-            not_going: "Nezúčastním se"
-            interested: "Mám zájem"
-        event:
-          expired: "Uplynulá"
-          status:
-            standalone:
-              title: "Samostatná"
-              description: "Samostatné události se nejde účastnit."
-            public:
-              title: "Veřejná"
-              description: "Veřejné události se může účastnit kdokoliv."
-            private:
-              title: "Soukromá"
-              description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
-      event_ui:
-        show_all: "Zobrazit vše"
-        participants:
-          one: "Zúčastnil se %{count} uživatel."
-          few: "Zúčastnili se %{count} uživatelé."
-          many: "Zúčastnilo se %{count} uživatelů."
-          other: "Zúčastnilo se %{count} uživatelů."
-        invite: "Oznámit uživateli"
-        add_to_calendar: "Přidat do kalendáře"
-        upcoming_events: "Nadcházející události"
-        send_pm_to_creator: "Odeslat SZ %{username}"
-        leave: "Opustit událost"
-        edit_event: "Upravit událost"
-        export_event: "Exportovat událost"
-        created_by: "Vytvořil/a"
-        bulk_invite: "Hromadné pozvání"
-        close_event: "Zavřít událost"
+      show_all: "Zobrazit vše"
+      participants:
+        one: "Zúčastnil se %{count} uživatel."
+        few: "Zúčastnili se %{count} uživatelé."
+        many: "Zúčastnilo se %{count} uživatelů."
+        other: "Zúčastnilo se %{count} uživatelů."
+      invite: "Oznámit uživateli"
+      add_to_calendar: "Přidat do kalendáře"
+      send_pm_to_creator: "Odeslat SZ %{username}"
+      leave: "Opustit událost"
+      edit_event: "Upravit událost"
+      export_event: "Exportovat událost"
+      created_by: "Vytvořil/a"
+      bulk_invite: "Hromadné pozvání"
+      close_event: "Zavřít událost"
+      open_event: "Otevřít událost"
       invitees_modal:
-        title_invited: "Seznam pozvaných uživatelů"
         title_participated: "Seznam uživatelů, kteří se zúčastnili"
         filter_placeholder: "Filtrovat uživatele"
       bulk_invite_modal:
@@ -532,6 +367,45 @@ cs:
         user_selector_placeholder: "Vyberte uživatele..."
         inline_title: "Hromadná pozvánka"
         csv_title: "Hromadná pozvánka CSV"
+      upcoming_events:
+        title: "Nadcházející události"
+        creator: "Vytvořil/a"
+        status: "Stav"
+        starts_at: "Začíná v"
+      upcoming_events_list:
+        title: "Nadcházející události"
+        empty: "Žádné nadcházející události"
+        all_day: "Celodenní"
+        error: "Nepodařilo se načíst události"
+        try_again: "Zkusit znovu"
+        view_all: "Zobrazit vše"
+      category:
+        sort_topics_by_event_start_date: "Seřadit témata podle data zahájení události."
+        disable_topic_resorting: "Zakázat aktualizaci řazení tématu."
+        settings_sections:
+          event_sorting: "Řazení událostí"
+      preview:
+        more_than_one_event: "Nemůžete mít více než jednu událost."
+      models:
+        invitee:
+          status:
+            unknown: "Nemám zájem"
+            going: "Zúčastním se"
+            not_going: "Nezúčastním se"
+            interested: "Mám zájem"
+        event:
+          expired: "Uplynulá"
+          closed: "Zavřené"
+          status:
+            standalone:
+              title: "Samostatná"
+              description: "Samostatné události se nejde účastnit."
+            public:
+              title: "Veřejná"
+              description: "Veřejné události se může účastnit kdokoliv."
+            private:
+              title: "Soukromá"
+              description: "Soukromé události se můžou účastnit jen pozvaní uživatelé."
       builder_modal:
         custom_fields:
           label: "Vlastní pole"
@@ -541,6 +415,7 @@ cs:
         update_event_title: "Upravit událost"
         confirm_delete: "Určitě chcete tuto událost smazat?"
         confirm_close: "Opravdu chcete uzavřít tuto událost?"
+        confirm_open: "Opravdu chcete otevřít tuto událost?"
         create: "Vytvořit"
         update: "Uložit"
         attach: "Vytvořit událost"
@@ -586,19 +461,3 @@ cs:
       invite_user_or_group:
         title: "Oznámit uživatelům nebo skupinám"
         invite: "Odeslat"
-      upcoming_events:
-        title: "Nadcházející události"
-        creator: "Vytvořil/a"
-        status: "Stav"
-        starts_at: "Začíná v"
-      upcoming_events_list:
-        title: "Nadcházející události"
-        empty: "Žádné nadcházející události"
-        all_day: "Celodenní"
-        error: "Nepodařilo se načíst události"
-        try_again: "Zkusit znovu"
-    category:
-      sort_topics_by_event_start_date: "Seřadit témata podle data zahájení události."
-      disable_topic_resorting: "Zakázat aktualizaci řazení tématu."
-      settings_sections:
-        event_sorting: "Řazení událostí"

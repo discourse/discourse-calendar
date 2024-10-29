@@ -23,65 +23,27 @@ bg:
         month: "Месец"
         week: "Седмица"
         day: "Ден"
-      discourse_post_event:
-        notifications:
-          invite_user_notification: "%{username} %{description}"
-        models:
-          event:
-            expired: "Изтекъл срок"
-            closed: "Затворена"
-            status:
-              public:
-                title: "Публични"
-              private:
-                title: "Затворени"
-        event_ui:
-          bulk_invite: "Групова покана"
-        bulk_invite_modal:
-          title: "Групова покана"
-          success: "Файлът е качен успешно. Ще бъдете информирани чрез съобщение, когато процесът завърши."
-          error: "За съжаление файлът трябва да е във формат CSV."
-        builder_modal:
-          custom_fields:
-            placeholder: "По избор"
-          create: "Създай"
-          update: "Запази "
-          timezone:
-            label: Часова зона
-          reminders:
-            units:
-              minutes: "минути"
-              hours: "часа"
-              days: "дни "
-            periods:
-              before: "преди"
-              after: "след"
-          url:
-            label: "URL"
-            placeholder: "По избор"
-          status:
-            label: "Статус"
-        upcoming_events:
-          status: "Статус"
     group_timezones:
       search: "Търсене ... "
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+      bulk_invite: "Групова покана"
+      bulk_invite_modal:
+        title: "Групова покана"
+        success: "Файлът е качен успешно. Ще бъдете информирани чрез съобщение, когато процесът завърши."
+        error: "За съжаление файлът трябва да е във формат CSV."
+      upcoming_events:
+        status: "Статус"
       models:
         event:
           expired: "Изтекъл срок"
+          closed: "Затворена"
           status:
             public:
               title: "Публични"
             private:
               title: "Затворени"
-      event_ui:
-        bulk_invite: "Групова покана"
-      bulk_invite_modal:
-        title: "Групова покана"
-        success: "Файлът е качен успешно. Ще бъдете информирани чрез съобщение, когато процесът завърши."
-        error: "За съжаление файлът трябва да е във формат CSV."
       builder_modal:
         custom_fields:
           placeholder: "По избор"
@@ -102,5 +64,3 @@ bg:
           placeholder: "По избор"
         status:
           label: "Статус"
-      upcoming_events:
-        status: "Статус"

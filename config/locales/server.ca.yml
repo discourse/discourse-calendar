@@ -9,8 +9,7 @@ ca:
     currently_away:
       labels:
         username: Nom d'usuari
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "Hi ha hagut un error en carregar aquest fitxer. Proveu-ho de nou més tard."
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Hi ha hagut un error en carregar aquest fitxer. Proveu-ho de nou més tard."

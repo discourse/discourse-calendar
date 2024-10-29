@@ -9,8 +9,7 @@ ug:
     currently_away:
       labels:
         username: ئىشلەتكۈچى ئاتى
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "ھۆججەتنى يۈكلەۋاتقاندا خاتالىق كۆرۈلدى. سەل تۇرۇپ قايتا سىناڭ."
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "ھۆججەتنى يۈكلەۋاتقاندا خاتالىق كۆرۈلدى. سەل تۇرۇپ قايتا سىناڭ."

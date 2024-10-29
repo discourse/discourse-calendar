@@ -9,8 +9,7 @@ el:
     currently_away:
       labels:
         username: Όνομα Χρήστη
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "Παρουσίαστηκε ένα σφάλμα κατά το ανέβασμα του αρχείου σας, Παρακαλώ δοκιμάστε αργότερα."
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Παρουσίαστηκε ένα σφάλμα κατά το ανέβασμα του αρχείου σας, Παρακαλώ δοκιμάστε αργότερα."

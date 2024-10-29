@@ -23,73 +23,28 @@ nb_NO:
         month: "Den siste måneden"
         week: "Den siste uken"
         day: "Dag"
-      discourse_post_event:
-        notifications:
-          invite_user_notification: "%{username} %{description}"
-        models:
-          event:
-            expired: "Utløpt"
-            closed: "Lukket"
-            status:
-              public:
-                title: "Offentlig"
-              private:
-                title: "Privat"
-        event_ui:
-          show_all: "Vis alle"
-          bulk_invite: "Bulk invitasjon"
-        bulk_invite_modal:
-          title: "Bulk invitasjon"
-          success: "Filen er lastet opp, du vil motta en melding når prosessesen er ferdig"
-          error: "Beklager, fila må være i CSV-format."
-        builder_modal:
-          custom_fields:
-            placeholder: "Valgfritt"
-          create: "Opprett"
-          update: "Lagre"
-          timezone:
-            label: Tidssone
-          reminders:
-            units:
-              minutes: "minutter"
-              hours: "timer"
-              days: "dager"
-            periods:
-              before: "før"
-              after: "etter"
-          recurrence:
-            label: "Regelmessighet"
-            none: "Ingen regelmessighet"
-            every_day: "Hver dag"
-          url:
-            label: "URL"
-            placeholder: "Valgfritt"
-          status:
-            label: "Status"
-        invite_user_or_group:
-          invite: "Send"
-        upcoming_events:
-          status: "Status"
     group_timezones:
       search: "Søk…"
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+      show_all: "Vis alle"
+      bulk_invite: "Bulk invitasjon"
+      bulk_invite_modal:
+        title: "Bulk invitasjon"
+        success: "Filen er lastet opp, du vil motta en melding når prosessesen er ferdig"
+        error: "Beklager, fila må være i CSV-format."
+      upcoming_events:
+        status: "Status"
       models:
         event:
           expired: "Utløpt"
+          closed: "Lukket"
           status:
             public:
               title: "Offentlig"
             private:
               title: "Privat"
-      event_ui:
-        show_all: "Vis alle"
-        bulk_invite: "Bulk invitasjon"
-      bulk_invite_modal:
-        title: "Bulk invitasjon"
-        success: "Filen er lastet opp, du vil motta en melding når prosessesen er ferdig"
-        error: "Beklager, fila må være i CSV-format."
       builder_modal:
         custom_fields:
           placeholder: "Valgfritt"
@@ -116,5 +71,3 @@ nb_NO:
           label: "Status"
       invite_user_or_group:
         invite: "Send"
-      upcoming_events:
-        status: "Status"

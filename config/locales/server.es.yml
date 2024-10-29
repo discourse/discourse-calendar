@@ -69,34 +69,34 @@ es:
     event_expired: "Evento caducado"
     holiday_status:
       description: "En día festivo"
-    discourse_post_event:
-      notifications:
-        before_event_reminder: "%{title} está a punto de comenzar."
-        after_event_reminder: "%{title} ha terminado."
-        ongoing_event_reminder: "%{title} está en curso."
-      errors:
-        bulk_invite:
-          max_invitees: "Las primeras %{max_invittes} invitaciones se han enviado. Intenta dividir el archivo en partes más pequeñas."
-          error: "Se produjo un error al subir este archivo. Inténtalo de nuevo más tarde."
-        models:
-          event:
-            only_one_event: "Una publicación solo puede tener un evento."
-            must_be_in_first_post: "Un evento solo puede estar en la primera publicación de un tema."
-            raw_invitees_length: "Un evento está limitado a %{count} usuarios / grupos."
-            raw_invitees:
-              only_group: "Un evento acepta solo nombres de grupos."
-            ends_at_before_starts_at: "Un evento no puede terminar antes de que comience."
-            start_must_be_present_and_a_valid_date: "Un evento requiere una fecha de inicio válida."
-            end_must_be_a_valid_date: "La fecha de finalización debe ser una fecha válida."
-            invalid_recurrence: "La recurrencia debe ser una de las siguientes: cada mes, cada semana, cada dos semanas, cada cuatro semanas, cada día, cada día de la semana."
-            invalid_timezone: "Zona horaria no reconocida."
-            acting_user_not_allowed_to_create_event: "El usuario actual no tiene permiso para crear eventos."
-            acting_user_not_allowed_to_act_on_this_event: "El usuario actual no puede actuar en este evento."
-            invalid_allowed_groups: "Grupos permitidos no válidos."
-            acting_user_not_allowed_to_invite_these_groups: "El usuario actual no puede invitar a estos grupos."
-            custom_field_is_invalid: "El campo personalizado «%{field}» no está permitido."
-            name:
-              length: "La longitud del nombre del evento debe tener entre %{minimum} y %{maximum} caracteres."
+  discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} está a punto de comenzar."
+      after_event_reminder: "%{title} ha terminado."
+      ongoing_event_reminder: "%{title} está en curso."
+    errors:
+      bulk_invite:
+        max_invitees: "Las primeras %{max_invittes} invitaciones se han enviado. Intenta dividir el archivo en partes más pequeñas."
+        error: "Se produjo un error al subir este archivo. Inténtalo de nuevo más tarde."
+      models:
+        event:
+          only_one_event: "Una publicación solo puede tener un evento."
+          must_be_in_first_post: "Un evento solo puede estar en la primera publicación de un tema."
+          raw_invitees_length: "Un evento está limitado a %{count} usuarios / grupos."
+          raw_invitees:
+            only_group: "Un evento acepta solo nombres de grupos."
+          ends_at_before_starts_at: "Un evento no puede terminar antes de que comience."
+          start_must_be_present_and_a_valid_date: "Un evento requiere una fecha de inicio válida."
+          end_must_be_a_valid_date: "La fecha de finalización debe ser una fecha válida."
+          invalid_recurrence: "La recurrencia debe ser una de las siguientes: cada mes, cada semana, cada dos semanas, cada cuatro semanas, cada día, cada día de la semana."
+          invalid_timezone: "Zona horaria no reconocida."
+          acting_user_not_allowed_to_create_event: "El usuario actual no tiene permiso para crear eventos."
+          acting_user_not_allowed_to_act_on_this_event: "El usuario actual no puede actuar en este evento."
+          invalid_allowed_groups: "Grupos permitidos no válidos."
+          acting_user_not_allowed_to_invite_these_groups: "El usuario actual no puede invitar a estos grupos."
+          custom_field_is_invalid: "El campo personalizado «%{field}» no está permitido."
+          name:
+            length: "La longitud del nombre del evento debe tener entre %{minimum} y %{maximum} caracteres."
   discourse_push_notifications:
     popup:
       event_reminder: "Recordatorio de evento"

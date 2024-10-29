@@ -9,8 +9,7 @@ sk:
     currently_away:
       labels:
         username: Používateľské meno
-  discourse_calendar:
-    discourse_post_event:
-      errors:
-        bulk_invite:
-          error: "Počas nahrávanie súboru sa vyskytla chyba. Prosím, vyskúšajte ho nahraď znovu neskôr."
+  discourse_post_event:
+    errors:
+      bulk_invite:
+        error: "Počas nahrávanie súboru sa vyskytla chyba. Prosím, vyskúšajte ho nahraď znovu neskôr."

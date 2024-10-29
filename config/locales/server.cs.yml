@@ -69,34 +69,34 @@ cs:
     event_expired: "Událost uplynula"
     holiday_status:
       description: "Na dovolené"
-    discourse_post_event:
-      notifications:
-        before_event_reminder: "%{title} brzy začne."
-        after_event_reminder: "%{title} skončila."
-        ongoing_event_reminder: "%{title} probíhá."
-      errors:
-        bulk_invite:
-          max_invitees: "Bylo vytvořeno prvních %{max_invittes} pozvánek. Zkuste soubor rozdělit na menší části."
-          error: "Nastala chyba při nahrávání souboru. Prosím opakujte akci později."
-        models:
-          event:
-            only_one_event: "Příspěvek může obsahovat jen jednu událost."
-            must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
-            raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
-            raw_invitees:
-              only_group: "Událost přijímá pouze názvy skupin."
-            ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
-            start_must_be_present_and_a_valid_date: "Událost vyžaduje platné datum začátku."
-            end_must_be_a_valid_date: "Datum konce musí být platné datum."
-            invalid_recurrence: "Opakování musí být jedno z následujících: every_month, every_week, every_two_weeks, every_four_weeks, every_day, every_weekday."
-            invalid_timezone: "Časové pásmo nebylo rozpoznáno."
-            acting_user_not_allowed_to_create_event: "Současný uživatel nemůže vytvářet události."
-            acting_user_not_allowed_to_act_on_this_event: "Současný uživatel nemůže reagovat na tuto událost."
-            invalid_allowed_groups: "Neplatné povolené skupiny."
-            acting_user_not_allowed_to_invite_these_groups: "Aktuální uživatel nemá povoleno zvát tyto skupiny."
-            custom_field_is_invalid: "Vlastní pole `%{field}` není povoleno."
-            name:
-              length: "Název události musí být dlouhý %{minimum} až %{maximum} znaků."
+  discourse_post_event:
+    notifications:
+      before_event_reminder: "%{title} brzy začne."
+      after_event_reminder: "%{title} skončila."
+      ongoing_event_reminder: "%{title} probíhá."
+    errors:
+      bulk_invite:
+        max_invitees: "Bylo vytvořeno prvních %{max_invittes} pozvánek. Zkuste soubor rozdělit na menší části."
+        error: "Nastala chyba při nahrávání souboru. Prosím opakujte akci později."
+      models:
+        event:
+          only_one_event: "Příspěvek může obsahovat jen jednu událost."
+          must_be_in_first_post: "Událost může být jen v prvním příspěvku tématu."
+          raw_invitees_length: "Událost má limit %{count} uživatelů nebo skupin."
+          raw_invitees:
+            only_group: "Událost přijímá pouze názvy skupin."
+          ends_at_before_starts_at: "Událost nemůže končit dříve, než začne."
+          start_must_be_present_and_a_valid_date: "Událost vyžaduje platné datum začátku."
+          end_must_be_a_valid_date: "Datum konce musí být platné datum."
+          invalid_recurrence: "Opakování musí být jedno z následujících: every_month, every_week, every_two_weeks, every_four_weeks, every_day, every_weekday."
+          invalid_timezone: "Časové pásmo nebylo rozpoznáno."
+          acting_user_not_allowed_to_create_event: "Současný uživatel nemůže vytvářet události."
+          acting_user_not_allowed_to_act_on_this_event: "Současný uživatel nemůže reagovat na tuto událost."
+          invalid_allowed_groups: "Neplatné povolené skupiny."
+          acting_user_not_allowed_to_invite_these_groups: "Aktuální uživatel nemá povoleno zvát tyto skupiny."
+          custom_field_is_invalid: "Vlastní pole `%{field}` není povoleno."
+          name:
+            length: "Název události musí být dlouhý %{minimum} až %{maximum} znaků."
   discourse_push_notifications:
     popup:
       event_reminder: "Připomenutí události"

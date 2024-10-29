@@ -23,76 +23,29 @@ ug:
         month: "ئاي"
         week: "ھەپتە"
         day: "كۈن"
-      discourse_post_event:
-        notifications:
-          invite_user_notification: "%{username} %{description}"
-        models:
-          event:
-            expired: "ۋاقتى توشتى"
-            closed: "تاقالدى"
-            status:
-              public:
-                title: "ئاممىۋى"
-              private:
-                title: "شەخسىي"
-        event_ui:
-          show_all: "ھەممىنى كۆرسەت"
-          add_to_calendar: "يىلنامەگە قوش"
-          created_by: "قۇرغۇچى"
-          bulk_invite: "توپ تەكلىپ"
-        bulk_invite_modal:
-          confirm: "جەزملە"
-          title: "توپ تەكلىپ"
-          error: "كەچۈرۈڭ ، ھۆججەت CSV پىچىمىدا بولۇشى كېرەك."
-        builder_modal:
-          custom_fields:
-            placeholder: "تاللاشچان"
-          create: "قۇر"
-          update: "ساقلا"
-          timezone:
-            label: ۋاقىت رايونى
-          reminders:
-            units:
-              minutes: "مىنۇت"
-              hours: "سائەت"
-              days: "كۈن"
-            periods:
-              before: "ئىلگىرى"
-              after: "كېيىن"
-          recurrence:
-            label: "تەكرار"
-            none: "تەكرارلانمايدۇ"
-            every_day: "ھەر كۈنى"
-          url:
-            label: "تور ئادرېسى"
-            placeholder: "تاللاشچان"
-          status:
-            label: "ھالەت"
-        invite_user_or_group:
-          invite: "يوللا"
-        upcoming_events:
-          creator: "قۇرغۇچى"
-          status: "ھالەت"
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+      show_all: "ھەممىنى كۆرسەت"
+      add_to_calendar: "يىلنامەگە قوش"
+      created_by: "قۇرغۇچى"
+      bulk_invite: "توپ تەكلىپ"
+      bulk_invite_modal:
+        confirm: "جەزملە"
+        title: "توپ تەكلىپ"
+        error: "كەچۈرۈڭ ، ھۆججەت CSV پىچىمىدا بولۇشى كېرەك."
+      upcoming_events:
+        creator: "قۇرغۇچى"
+        status: "ھالەت"
       models:
         event:
           expired: "ۋاقتى توشتى"
+          closed: "تاقالدى"
           status:
             public:
               title: "ئاممىۋى"
             private:
               title: "شەخسىي"
-      event_ui:
-        show_all: "ھەممىنى كۆرسەت"
-        add_to_calendar: "يىلنامەگە قوش"
-        created_by: "قۇرغۇچى"
-        bulk_invite: "توپ تەكلىپ"
-      bulk_invite_modal:
-        confirm: "جەزملە"
-        title: "توپ تەكلىپ"
-        error: "كەچۈرۈڭ ، ھۆججەت CSV پىچىمىدا بولۇشى كېرەك."
       builder_modal:
         custom_fields:
           placeholder: "تاللاشچان"
@@ -119,6 +72,3 @@ ug:
           label: "ھالەت"
       invite_user_or_group:
         invite: "يوللا"
-      upcoming_events:
-        creator: "قۇرغۇچى"
-        status: "ھالەت"

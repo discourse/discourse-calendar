@@ -302,179 +302,34 @@ sv:
         month: "Månad"
         week: "Vecka"
         day: "Dag"
-      discourse_post_event:
-        notifications:
-          invite_user_predefined_attendance_notification: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till"
-          invite_user_notification: "%{username} %{description}"
-          invite_user_predefined_attendance_notification_html: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till %{description}"
-          before_event_reminder_html: "Ett evenemang börjar snart %{description}"
-          after_event_reminder_html: "Ett evenemang har avslutats %{description}"
-          ongoing_event_reminder_html: "Ett evenemang pågår %{description}"
-        preview:
-          more_than_one_event: "Du kan inte ha mer än ett evenemang."
-        edit_reason: "Evenemang uppdaterat"
-        topic_title:
-          starts_at: "Evenemanget börjar: %{date}"
-          ended_at: "Evenemanget slutade: %{date}"
-          ends_in_duration: "Slutar %{duration}"
-        models:
-          invitee:
-            status:
-              unknown: "Inte intresserad"
-              going: "Kommer"
-              not_going: "Kommer inte"
-              interested: "Intresserad"
-          event:
-            expired: "Utgången"
-            closed: "Stängd"
-            status:
-              standalone:
-                title: "Fristående"
-                description: "Ett fristående evenemang kan inte anslutas."
-              public:
-                title: "Offentligt"
-                description: "Ett offentligt evenemang kan besökas av vem som helst."
-              private:
-                title: "Privat"
-                description: "Endast inbjudna användare kan besöka ett privat evenemang."
-        event_ui:
-          show_all: "Visa alla"
-          participants:
-            one: "%{count} användare deltog."
-            other: "%{count} användare deltog."
-          invite: "Meddela användare"
-          add_to_calendar: "Lägg till i kalender"
-          send_pm_to_creator: "Skicka PM till %{username}"
-          edit_event: "Redigera evenemang"
-          export_event: "Exportera evenemang"
-          created_by: "Skapat av"
-          bulk_invite: "Massinbjudan"
-          close_event: "Stäng evenemang"
-        invitees_modal:
-          title_participated: "Lista över användare som deltog"
-          filter_placeholder: "Filtrera användare"
-        bulk_invite_modal:
-          confirm: "bekräfta"
-          text: "Ladda upp CSV-fil"
-          title: "Massinbjudan"
-          success: "Filen laddades upp och du underrättas via meddelande när processen är klar"
-          error: "Tyvärr bör filen vara i CSV-format."
-          confirmation_message: "Du är på väg att meddela alla i den uppladdade filen."
-          description_public: "För offentliga evenemang godkänns endast användarnamn för massinbjudningar."
-          description_private: "För privata evenemang godkänns endast gruppnamn för massinbjudningar."
-          download_sample_csv: "Ladda ner ett CSV-exempel"
-          send_bulk_invites: "Skicka inbjudningar"
-          group_selector_placeholder: "Välj en grupp ..."
-          user_selector_placeholder: "Välj användare ..."
-          inline_title: "Inbäddad massinbjudan"
-          csv_title: "CSV-massinbjudan"
-        builder_modal:
-          custom_fields:
-            label: "Anpassade fält"
-            placeholder: "Valfritt"
-            description: "Tillåtna anpassade fält definieras i platsinställningar. Anpassade fält används för att överföra data till andra plugins."
-          create_event_title: "Skapa evenemang"
-          update_event_title: "Redigera evenemang"
-          confirm_delete: "Är du säker på att du vill ta bort detta evenemang?"
-          confirm_close: "Är du säker på att du vill stänga detta evenemang?"
-          create: "Skapa"
-          update: "Spara"
-          attach: "Skapa händelse"
-          add_reminder: "Lägg till påminnelse"
-          timezone:
-            label: Tidszon
-            remove_timezone: Ingen tidszon (UTC)
-          reminders:
-            label: "Påminnelser"
-            units:
-              minutes: "minuter"
-              hours: "timmar"
-              days: "dagar"
-            periods:
-              before: "innan"
-              after: "efter"
-          recurrence:
-            label: "Upprepning"
-            none: "Ingen upprepning"
-            every_day: "Varje dag"
-            every_month: "Varje månad på denna veckodag"
-            every_weekday: "Varje veckodag"
-            every_week: "Varje vecka på denna veckodag"
-            every_two_weeks: "Varannan vecka på denna veckodag"
-          url:
-            label: "URL"
-            placeholder: "Valfritt"
-          name:
-            label: "Evenemangsnamn"
-            placeholder: "Valfritt, som standard används ämnesrubriken"
-          invitees:
-            label: "Inbjudna grupper"
-          status:
-            label: "Status"
-        invite_user_or_group:
-          title: "Meddela användare eller grupp(er)"
-          invite: "Skicka"
-        upcoming_events:
-          title: "Kommande evenemang"
-          creator: "Skapare"
-          status: "Status"
-          starts_at: "Börjar"
-        upcoming_events_list:
-          title: "Kommande evenemang"
     group_timezones:
       search: "Sök..."
       group_availability: "%{group}-tillgänglighet"
     discourse_post_event:
       notifications:
-        invite_user_predefined_attendance_notification: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till"
         invite_user_notification: "%{username} %{description}"
         invite_user_predefined_attendance_notification_html: "%{username} har automatiskt ställt in din närvaro och bjudit in dig till %{description}"
         before_event_reminder_html: "Ett evenemang börjar snart %{description}"
         after_event_reminder_html: "Ett evenemang har avslutats %{description}"
         ongoing_event_reminder_html: "Ett evenemang pågår %{description}"
-      preview:
-        more_than_one_event: "Du kan inte ha mer än ett evenemang."
       edit_reason: "Evenemang uppdaterat"
       topic_title:
         starts_at: "Evenemanget börjar: %{date}"
         ended_at: "Evenemanget slutade: %{date}"
         ends_in_duration: "Slutar %{duration}"
-      models:
-        invitee:
-          no_users: "Det finns inga användare av den här typen."
-          status:
-            unknown: "Inte intresserad"
-            going: "Kommer"
-            not_going: "Kommer inte"
-            interested: "Intresserad"
-        event:
-          expired: "Förfallen"
-          status:
-            standalone:
-              title: "Fristående"
-              description: "Ett fristående evenemang kan inte anslutas."
-            public:
-              title: "Offentligt"
-              description: "Ett offentligt evenemang kan besökas av vem som helst."
-            private:
-              title: "Privat"
-              description: "Endast inbjudna användare kan besöka ett privat evenemang."
-      event_ui:
-        show_all: "Visa alla"
-        participants:
-          one: "%{count} användare deltog."
-          other: "%{count} användare deltog."
-        invite: "Meddela användare"
-        add_to_calendar: "Lägg till i kalendern"
-        upcoming_events: "Kommande evenemang"
-        send_pm_to_creator: "Skicka PM till %{username}"
-        edit_event: "Redigera evenemang"
-        export_event: "Exportera evenemang"
-        created_by: "Skapat av"
-        bulk_invite: "Massinbjudan"
-        close_event: "Stäng evenemang"
+      show_all: "Visa alla"
+      participants:
+        one: "%{count} användare deltog."
+        other: "%{count} användare deltog."
+      invite: "Meddela användare"
+      add_to_calendar: "Lägg till i kalender"
+      send_pm_to_creator: "Skicka PM till %{username}"
+      edit_event: "Redigera evenemang"
+      export_event: "Exportera evenemang"
+      created_by: "Skapat av"
+      bulk_invite: "Massinbjudan"
+      close_event: "Stäng evenemang"
       invitees_modal:
-        title_invited: "Lista över användare som bekräftat att de kommer"
         title_participated: "Lista över användare som deltog"
         filter_placeholder: "Filtrera användare"
       bulk_invite_modal:
@@ -492,6 +347,35 @@ sv:
         user_selector_placeholder: "Välj användare ..."
         inline_title: "Inbäddad massinbjudan"
         csv_title: "CSV-massinbjudan"
+      upcoming_events:
+        title: "Kommande evenemang"
+        creator: "Skapare"
+        status: "Status"
+        starts_at: "Börjar"
+      upcoming_events_list:
+        title: "Kommande evenemang"
+      preview:
+        more_than_one_event: "Du kan inte ha mer än ett evenemang."
+      models:
+        invitee:
+          status:
+            unknown: "Inte intresserad"
+            going: "Kommer"
+            not_going: "Kommer inte"
+            interested: "Intresserad"
+        event:
+          expired: "Förfallen"
+          closed: "Stängd"
+          status:
+            standalone:
+              title: "Fristående"
+              description: "Ett fristående evenemang kan inte anslutas."
+            public:
+              title: "Offentligt"
+              description: "Ett offentligt evenemang kan besökas av vem som helst."
+            private:
+              title: "Privat"
+              description: "Endast inbjudna användare kan besöka ett privat evenemang."
       builder_modal:
         custom_fields:
           label: "Anpassade fält"
@@ -538,10 +422,3 @@ sv:
       invite_user_or_group:
         title: "Meddela användare eller grupp(er)"
         invite: "Skicka"
-      upcoming_events:
-        title: "Kommande evenemang"
-        creator: "Skapare"
-        status: "Status"
-        starts_at: "Börjar"
-      upcoming_events_list:
-        title: "Kommande evenemang"

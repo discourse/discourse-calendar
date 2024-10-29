@@ -24,71 +24,25 @@ ro:
         month: "Lună"
         week: "Săptămână"
         day: "Zi"
-      discourse_post_event:
-        notifications:
-          invite_user_notification: "%{username} %{description}"
-        models:
-          invitee:
-            status:
-              unknown: "Nu sunt interesat"
-              going: "Vin"
-              not_going: "Nu Vin"
-              interested: "Interesat"
-          event:
-            expired: "Expirate"
-            closed: "Închis"
-            status:
-              public:
-                title: "Public"
-              private:
-                title: "Privat"
-        event_ui:
-          invite: "Notifică un utilizator"
-          add_to_calendar: "Adaugă în calendar"
-          send_pm_to_creator: "Trimite PM către %{username}"
-          export_event: "Exportă evenimentul"
-          created_by: "Creat de"
-          bulk_invite: "Invitație în masă"
-        bulk_invite_modal:
-          title: "Invitație în masă"
-          success: "Fișier încărcat cu succes, vei fi înștiințat printr-un mesaj când procesarea este completă."
-          error: "Scuze, fișierul trebuie să fie în format CSV."
-          confirmation_message: "Ești pe cale să anunți pe toată lumea din fișierul încărcat."
-        builder_modal:
-          custom_fields:
-            placeholder: "Opțional"
-          create: "Creează"
-          update: "Salvare"
-          timezone:
-            label: Fus orar
-          reminders:
-            units:
-              minutes: "de minute"
-              hours: "de ore"
-              days: "de zile"
-            periods:
-              before: "înainte"
-              after: "după"
-          recurrence:
-            label: "Recurență"
-            none: "Fără recurență"
-            every_day: "În fiecare zi"
-          url:
-            label: "URL"
-            placeholder: "Opțional"
-          status:
-            label: "Stare"
-        invite_user_or_group:
-          title: "Notifică utilizatorul (utilizatorii) sau grupul (grupurile)"
-          invite: "Trimite"
-        upcoming_events:
-          creator: "Creator"
-          status: "Stare"
     group_timezones:
       search: "Caută..."
     discourse_post_event:
       notifications:
         invite_user_notification: "%{username} %{description}"
+      invite: "Notifică un utilizator"
+      add_to_calendar: "Adaugă în calendar"
+      send_pm_to_creator: "Trimite PM către %{username}"
+      export_event: "Exportă evenimentul"
+      created_by: "Creat de"
+      bulk_invite: "Invitație în masă"
+      bulk_invite_modal:
+        title: "Invitație în masă"
+        success: "Fișier încărcat cu succes, vei fi înștiințat printr-un mesaj când procesarea este completă."
+        error: "Scuze, fișierul trebuie să fie în format CSV."
+        confirmation_message: "Ești pe cale să anunți pe toată lumea din fișierul încărcat."
+      upcoming_events:
+        creator: "Creator"
+        status: "Status"
       models:
         invitee:
           status:
@@ -98,23 +52,12 @@ ro:
             interested: "Interesat"
         event:
           expired: "Expirate"
+          closed: "Închis"
           status:
             public:
               title: "Public"
             private:
               title: "Privat"
-      event_ui:
-        invite: "Notifică un utilizator"
-        add_to_calendar: "Adaugă în calendar"
-        send_pm_to_creator: "Trimite PM către %{username}"
-        export_event: "Exportă evenimentul"
-        created_by: "Creat de"
-        bulk_invite: "Invitație în masă"
-      bulk_invite_modal:
-        title: "Invitație în masă"
-        success: "Fișier încărcat cu succes, vei fi înștiințat printr-un mesaj când procesarea este completă."
-        error: "Scuze, fișierul trebuie să fie în format CSV."
-        confirmation_message: "Ești pe cale să anunți pe toată lumea din fișierul încărcat."
       builder_modal:
         custom_fields:
           placeholder: "Opțional"
@@ -142,6 +85,3 @@ ro:
       invite_user_or_group:
         title: "Notifică utilizatorul (utilizatorii) sau grupul (grupurile)"
         invite: "Trimite"
-      upcoming_events:
-        creator: "Creator"
-        status: "Status"
