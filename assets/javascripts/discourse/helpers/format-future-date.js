@@ -1,8 +1,8 @@
-import { htmlHelper } from "discourse-common/lib/helpers";
+import { htmlSafe } from "@ember/template";
 import guessDateFormat from "../lib/guess-best-date-format";
 
-export default htmlHelper((date) => {
+export default function (date) {
   date = moment.utc(date).tz(moment.tz.guess());
   const format = guessDateFormat(date);
-  return date.format(format);
-});
+  return htmlSafe(date.format(format));
+}
