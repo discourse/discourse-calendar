@@ -3,6 +3,7 @@
 describe "Post event", type: :system do
   fab!(:admin)
   fab!(:user) { Fabricate(:admin, username: "jane") }
+  fab!(:group) { Fabricate(:group, name: "test_group") }
   let(:composer) { PageObjects::Components::Composer.new }
 
   before do
@@ -84,7 +85,7 @@ describe "Post event", type: :system do
 
     page.find(".d-modal input[name=status][value=private]").click
 
-    page.find(".d-modal input.group-selector").fill_in(with: "d")
+    page.find(".d-modal input.group-selector").fill_in(with: "test_")
     page.find(".autocomplete.ac-group").click
 
     page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
@@ -97,7 +98,7 @@ describe "Post event", type: :system do
     page.find(".edit-event").click
 
     expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
-    expect(page.find(".d-modal")).to have_text("data_restricted")
+    expect(page.find(".d-modal")).to have_text("test_group")
     expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
   end
 end
