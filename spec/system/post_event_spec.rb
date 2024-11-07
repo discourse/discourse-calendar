@@ -8,6 +8,7 @@ describe "Post event", type: :system do
   before do
     SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
+    SiteSetting.discourse_post_event_allowed_custom_fields = "custom"
     sign_in(admin)
   end
 
@@ -67,5 +68,36 @@ describe "Post event", type: :system do
     event = topic.posts.first.event
 
     expect(event.invitees.count).to eq(2)
+  end
+
+  it "can update fields and invitees and they are kept when re-opening" do
+    visit "/new-topic"
+    title = "Test event with updates"
+
+    composer.fill_title(title)
+
+    page.find(".toolbar-popup-menu-options .dropdown-select-box-header").click
+
+    page.find(
+      ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
+    ).click
+
+    page.find(".d-modal input[name=status][value=private]").click
+
+    page.find(".d-modal input.group-selector").fill_in(with: "d")
+    page.find(".autocomplete.ac-group").click
+
+    page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
+
+    page.find(".d-modal .btn-primary").click
+
+    composer.submit
+
+    page.find(".discourse-post-event-more-menu-trigger").click
+    page.find(".edit-event").click
+
+    expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
+    expect(page.find(".d-modal")).to have_text("data_restricted")
+    expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
   end
 end
