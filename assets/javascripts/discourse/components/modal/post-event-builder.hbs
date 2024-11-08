@@ -123,7 +123,7 @@
           <GroupSelector
             @fullWidthWrap={{true}}
             @groupFinder={{this.groupFinder}}
-            @groupNames={{@model.event.raw_invitees}}
+            @groupNames={{@model.event.rawInvitees}}
             @onChangeCallback={{this.setRawInvitees}}
             @placeholderKey="topic.invite_private.group_name"
           />
@@ -232,7 +232,7 @@
               <Input
                 class="custom-field-input"
                 @value={{readonly
-                  (get @model.event.custom_fields allowedCustomField)
+                  (get @model.event.customFields allowedCustomField)
                 }}
                 placeholder={{i18n
                   "discourse_post_event.builder_modal.custom_fields.placeholder"

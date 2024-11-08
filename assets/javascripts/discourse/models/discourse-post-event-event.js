@@ -26,6 +26,7 @@ export default class DiscoursePostEventEvent {
   @tracked rawInvitees;
   @tracked url;
   @tracked timezone;
+  @tracked status;
   @tracked post;
   @tracked minimal;
   @tracked canUpdateAttendance;
