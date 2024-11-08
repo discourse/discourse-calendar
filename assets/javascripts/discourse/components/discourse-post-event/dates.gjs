@@ -7,6 +7,7 @@ import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
 import { applyLocalDates } from "discourse/lib/local-dates";
 import { cook } from "discourse/lib/text";
+import icon from "discourse-common/helpers/d-icon";
 import guessDateFormat from "../../lib/guess-best-date-format";
 
 export default class DiscoursePostEventDates extends Component {
@@ -76,9 +77,7 @@ export default class DiscoursePostEventDates extends Component {
   }
 
   <template>
-    <section
-      class="event__section event-dates"
-      {{didInsert this.computeDates}}
-    >{{this.htmlDates}}</section>
+    <section class="event__section event-dates" {{didInsert this.computeDates}}>
+      {{icon "clock"}}{{this.htmlDates}}</section>
   </template>
 }

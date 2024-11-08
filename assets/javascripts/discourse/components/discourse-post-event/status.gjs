@@ -12,10 +12,6 @@ export default class DiscoursePostEventStatus extends Component {
   @service discoursePostEventApi;
   @service siteSettings;
 
-  get watchingInviteeStatus() {
-    return this.args.event.watchingInvitee?.status;
-  }
-
   get eventButtons() {
     return this.siteSettings.event_participation_buttons.split("|");
   }
@@ -34,6 +30,10 @@ export default class DiscoursePostEventStatus extends Component {
 
   get canLeave() {
     return this.args.event.watchingInvitee && this.args.event.isPublic;
+  }
+
+  get watchingInviteeStatus() {
+    return this.args.event.watchingInvitee?.status;
   }
 
   @action
@@ -107,12 +107,12 @@ export default class DiscoursePostEventStatus extends Component {
   }
 
   <template>
-    <div
+    <section
       class={{concatClass
-        "event-status"
+        "event__section event-actions event-status"
         (if
           this.watchingInviteeStatus
-          (concat "status-" this.watchingInviteeStatus)
+          (concat "status-" this.args.watchingInviteeStatus)
         )
       }}
     >
@@ -177,6 +177,6 @@ export default class DiscoursePostEventStatus extends Component {
           {{/unless}}
         {{/if}}
       </PluginOutlet>
-    </div>
+    </section>
   </template>
 }
