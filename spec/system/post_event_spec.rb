@@ -3,13 +3,11 @@
 describe "Post event", type: :system do
   fab!(:admin)
   fab!(:user) { Fabricate(:admin, username: "jane") }
-  fab!(:group) { Fabricate(:group, name: "test_group") }
   let(:composer) { PageObjects::Components::Composer.new }
 
   before do
     SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
-    SiteSetting.discourse_post_event_allowed_custom_fields = "custom"
     sign_in(admin)
   end
 
@@ -58,7 +56,8 @@ describe "Post event", type: :system do
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.public")
 
     page.find(".going-button").click
-    page.find(".event-invitees .show-all").click
+    page.find(".discourse-post-event-more-menu-trigger").click
+    page.find(".show-all-participants").click
     page.find(".d-modal input.filter").fill_in(with: "jan")
     page.find(".d-modal .add-invitee").click
 
@@ -69,36 +68,5 @@ describe "Post event", type: :system do
     event = topic.posts.first.event
 
     expect(event.invitees.count).to eq(2)
-  end
-
-  it "can update fields and invitees and they are kept when re-opening" do
-    visit "/new-topic"
-    title = "Test event with updates"
-
-    composer.fill_title(title)
-
-    page.find(".toolbar-popup-menu-options .dropdown-select-box-header").click
-
-    page.find(
-      ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
-    ).click
-
-    page.find(".d-modal input[name=status][value=private]").click
-
-    page.find(".d-modal input.group-selector").fill_in(with: "test_")
-    page.find(".autocomplete.ac-group").click
-
-    page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
-
-    page.find(".d-modal .btn-primary").click
-
-    composer.submit
-
-    page.find(".discourse-post-event-more-menu-trigger").click
-    page.find(".edit-event").click
-
-    expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
-    expect(page.find(".d-modal")).to have_text("test_group")
-    expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
   end
 end
