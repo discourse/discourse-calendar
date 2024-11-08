@@ -112,7 +112,7 @@ export default class DiscoursePostEventStatus extends Component {
         "event__section event-actions event-status"
         (if
           this.watchingInviteeStatus
-          (concat "status-" this.args.watchingInviteeStatus)
+          (concat "status-" this.watchingInviteeStatus)
         )
       }}
     >
