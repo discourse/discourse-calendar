@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe User do
-  Event ||= DiscoursePostEvent::Event
+  Event = DiscoursePostEvent::Event
 
   before do
     freeze_time DateTime.parse("2020-04-24 14:10")

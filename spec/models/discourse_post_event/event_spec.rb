@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 describe DiscoursePostEvent::Event do
-  Event ||= DiscoursePostEvent::Event
-  Invitee ||= DiscoursePostEvent::Invitee
-  StartsAtField ||= DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT
-  EndsAtField ||= DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT
-
   before do
     freeze_time DateTime.parse("2020-04-24 14:10")
     Jobs.run_immediately!
@@ -24,14 +19,14 @@ describe DiscoursePostEvent::Event do
     let!(:alt_starts_at) { "2020-04-24 14:14:25" }
     let!(:alt_ends_at) { "2020-04-24 19:15:25" }
     let(:event) do
-      Event.create!(
+      DiscoursePostEvent::Event.create!(
         id: first_post.id,
         original_starts_at: Time.now + 1.hours,
         original_ends_at: Time.now + 2.hours,
       )
     end
     let(:late_event) do
-      Event.create!(
+      DiscoursePostEvent::Event.create!(
         id: first_post.id,
         original_starts_at: Time.now - 10.hours,
         original_ends_at: Time.now - 8.hours,
@@ -46,7 +41,7 @@ describe DiscoursePostEvent::Event do
             expect(first_post.topic.custom_fields).to be_blank
 
             expect {
-              Event.create!(
+              DiscoursePostEvent::Event.create!(
                 id: first_post.id,
                 original_starts_at: starts_at,
                 original_ends_at: ends_at,
@@ -54,8 +49,12 @@ describe DiscoursePostEvent::Event do
             }.to change { DiscoursePostEvent::EventDate.count }
             first_post.topic.reload
 
-            expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
-            expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to eq(starts_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to eq(ends_at)
             expect(DiscoursePostEvent::EventDate.last.starts_at).to eq_time(
               DateTime.parse(starts_at),
             )
@@ -68,9 +67,9 @@ describe DiscoursePostEvent::Event do
             expect(second_post.is_first_post?).to be(false)
             expect(second_post.topic.custom_fields).to be_blank
 
-            expect { Event.create!(id: second_post.id, original_starts_at: starts_at) }.to change {
-              DiscoursePostEvent::EventDate.count
-            }
+            expect {
+              DiscoursePostEvent::Event.create!(id: second_post.id, original_starts_at: starts_at)
+            }.to change { DiscoursePostEvent::EventDate.count }
             second_post.topic.reload
 
             expect(second_post.topic.custom_fields).to be_blank
@@ -109,8 +108,12 @@ describe DiscoursePostEvent::Event do
             first_post.topic.reload
 
             expect(first_post.is_first_post?).to be(true)
-            expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
-            expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to eq(starts_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to eq(ends_at)
 
             first_event_date = post_event.event_dates.last
             expect(first_event_date.starts_at).to eq_time(DateTime.parse(starts_at))
@@ -125,8 +128,12 @@ describe DiscoursePostEvent::Event do
 
             second_event_date = post_event.event_dates.last
 
-            expect(first_post.topic.custom_fields[StartsAtField]).to eq(alt_starts_at)
-            expect(first_post.topic.custom_fields[EndsAtField]).to eq(alt_ends_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to eq(alt_starts_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to eq(alt_ends_at)
 
             expect(first_event_date.finished_at).not_to be nil
             expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
@@ -142,12 +149,16 @@ describe DiscoursePostEvent::Event do
 
           it "doesn’t set the topic custom field" do
             expect(second_post.is_first_post?).to be(false)
-            expect(second_post.topic.custom_fields[StartsAtField]).to be_blank
+            expect(
+              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to be_blank
 
             post_event.update_with_params!(original_starts_at: alt_starts_at)
             second_post.topic.reload
 
-            expect(second_post.topic.custom_fields[StartsAtField]).to be_blank
+            expect(
+              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to be_blank
 
             second_event_date = post_event.event_dates.last
             expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
@@ -172,14 +183,22 @@ describe DiscoursePostEvent::Event do
             first_post.topic.reload
 
             expect(first_post.is_first_post?).to be(true)
-            expect(first_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
-            expect(first_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to eq(starts_at)
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to eq(ends_at)
 
             post_event.destroy!
             first_post.topic.reload
 
-            expect(first_post.topic.custom_fields[StartsAtField]).to be_blank
-            expect(first_post.topic.custom_fields[EndsAtField]).to be_blank
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to be_blank
+            expect(
+              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to be_blank
           end
         end
 
@@ -205,15 +224,23 @@ describe DiscoursePostEvent::Event do
             second_post.topic.reload
 
             expect(first_post.is_first_post?).to be(true)
-            expect(second_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
-            expect(second_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
+            expect(
+              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to eq(starts_at)
+            expect(
+              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to eq(ends_at)
             expect(second_post.is_first_post?).to be(false)
 
             second_post_event.destroy!
             second_post.topic.reload
 
-            expect(second_post.topic.custom_fields[StartsAtField]).to eq(starts_at)
-            expect(second_post.topic.custom_fields[EndsAtField]).to eq(ends_at)
+            expect(
+              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+            ).to eq(starts_at)
+            expect(
+              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+            ).to eq(ends_at)
           end
         end
       end
@@ -230,7 +257,7 @@ describe DiscoursePostEvent::Event do
         context "with ends_at < current date" do
           it "is ongoing" do
             post_event =
-              Event.create!(
+              DiscoursePostEvent::Event.create!(
                 original_starts_at: 2.hours.ago,
                 original_ends_at: 1.hours.ago,
                 post: first_post,
@@ -243,7 +270,7 @@ describe DiscoursePostEvent::Event do
         context "with ends_at > current date" do
           it "is not ongoing" do
             post_event =
-              Event.create!(
+              DiscoursePostEvent::Event.create!(
                 original_starts_at: 2.hours.ago,
                 original_ends_at: 3.hours.from_now,
                 post: first_post,
@@ -258,7 +285,7 @@ describe DiscoursePostEvent::Event do
         context "when ends_at > current date" do
           it "is not ongoing" do
             post_event =
-              Event.create!(
+              DiscoursePostEvent::Event.create!(
                 original_starts_at: 1.hour.from_now,
                 original_ends_at: 2.hours.from_now,
                 post: first_post,
@@ -273,7 +300,8 @@ describe DiscoursePostEvent::Event do
     context "without ends_at date" do
       context "when starts_at < current date" do
         it "is ongoing" do
-          post_event = Event.create!(original_starts_at: 2.hours.ago, post: first_post)
+          post_event =
+            DiscoursePostEvent::Event.create!(original_starts_at: 2.hours.ago, post: first_post)
 
           expect(post_event.ongoing?).to be(true)
         end
@@ -281,7 +309,8 @@ describe DiscoursePostEvent::Event do
 
       context "when starts_at == current date" do
         it "is ongoing" do
-          post_event = Event.create!(original_starts_at: Time.now, post: first_post)
+          post_event =
+            DiscoursePostEvent::Event.create!(original_starts_at: Time.now, post: first_post)
 
           expect(post_event.ongoing?).to be(true)
         end
@@ -289,7 +318,11 @@ describe DiscoursePostEvent::Event do
 
       context "when starts_at > current date" do
         it "is not ongoing" do
-          post_event = Event.create!(original_starts_at: 1.hours.from_now, post: first_post)
+          post_event =
+            DiscoursePostEvent::Event.create!(
+              original_starts_at: 1.hours.from_now,
+              post: first_post,
+            )
 
           expect(post_event.ongoing?).to be(false)
         end
@@ -307,7 +340,7 @@ describe DiscoursePostEvent::Event do
         context "when ends_at < current date" do
           it "is expired" do
             post_event =
-              Event.create!(
+              DiscoursePostEvent::Event.create!(
                 original_starts_at: DateTime.parse("2020-04-22 14:05"),
                 original_ends_at: DateTime.parse("2020-04-23 14:05"),
                 post: first_post,
@@ -320,7 +353,7 @@ describe DiscoursePostEvent::Event do
         context "when ends_at > current date" do
           it "is not expired" do
             post_event =
-              Event.create!(
+              DiscoursePostEvent::Event.create!(
                 original_starts_at: DateTime.parse("2020-04-24 14:15"),
                 original_ends_at: DateTime.parse("2020-04-25 11:05"),
                 post: first_post,
@@ -334,7 +367,7 @@ describe DiscoursePostEvent::Event do
       context "when starts_at > current date" do
         it "is not expired" do
           post_event =
-            Event.create!(
+            DiscoursePostEvent::Event.create!(
               original_starts_at: DateTime.parse("2020-04-25 14:05"),
               original_ends_at: DateTime.parse("2020-04-26 14:05"),
               post: first_post,
@@ -349,7 +382,10 @@ describe DiscoursePostEvent::Event do
       context "when starts_at < current date" do
         it "is expired" do
           post_event =
-            Event.create!(original_starts_at: DateTime.parse("2020-04-24 14:05"), post: first_post)
+            DiscoursePostEvent::Event.create!(
+              original_starts_at: DateTime.parse("2020-04-24 14:05"),
+              post: first_post,
+            )
 
           expect(post_event.expired?).to be(false)
         end
@@ -358,7 +394,10 @@ describe DiscoursePostEvent::Event do
       context "when starts_at == current date" do
         it "is expired" do
           post_event =
-            Event.create!(original_starts_at: DateTime.parse("2020-04-24 14:10"), post: first_post)
+            DiscoursePostEvent::Event.create!(
+              original_starts_at: DateTime.parse("2020-04-24 14:10"),
+              post: first_post,
+            )
 
           expect(post_event.expired?).to be(false)
         end
@@ -367,7 +406,10 @@ describe DiscoursePostEvent::Event do
       context "when starts_at > current date" do
         it "is not expired" do
           post_event =
-            Event.create!(original_starts_at: DateTime.parse("2020-04-24 14:15"), post: first_post)
+            DiscoursePostEvent::Event.create!(
+              original_starts_at: DateTime.parse("2020-04-24 14:15"),
+              post: first_post,
+            )
 
           expect(post_event.expired?).to be(false)
         end
@@ -392,7 +434,7 @@ describe DiscoursePostEvent::Event do
         Fabricate(
           :event,
           post: post_1,
-          status: Event.statuses[:private],
+          status: DiscoursePostEvent::Event.statuses[:private],
           raw_invitees: [group_1.name],
         )
       end
@@ -438,12 +480,12 @@ describe DiscoursePostEvent::Event do
       Fabricate(
         :event,
         post: post_1,
-        status: Event.statuses[:private],
+        status: DiscoursePostEvent::Event.statuses[:private],
         raw_invitees: [group_1.name, group_2.name],
       )
     end
 
-    before { Invitee.create_attendance!(user_3.id, post_1.id, :going) }
+    before { DiscoursePostEvent::Invitee.create_attendance!(user_3.id, post_1.id, :going) }
 
     it "doesn’t return already attending user" do
       expect(event_1.missing_users.pluck(:id)).to_not include(user_3.id)
