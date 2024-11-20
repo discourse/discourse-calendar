@@ -89,6 +89,7 @@ export default class PostEventInviteesModal extends Component {
       this.isLoading = false;
     }
   }
+
   <template>
     <DModal
       @title={{this.title}}
