@@ -26,6 +26,21 @@ function addToResult(date, item, result) {
   result[monthKey][day].push(item);
 }
 
+// function title() {
+//   const titleMap = JSON.parse(siteSettings);
+//   const categorySlug = this.args.params?.categorySlug;
+
+//   const obj = titleMap.find((o) => o.category_slug === categorySlug);
+//   const customTitle = customTitleObj
+//     ? customTitleObj.custom_title
+//     : "Upcoming Events";
+//   // technically the default value in the setting, but wouldn't hurt to have it here as well?
+
+//   return I18n.t("discourse_post_event.upcoming_events_list.title", {
+//     upcoming_events_title: customTitle,
+//   });
+// }
+
 export default class UpcomingEventsList extends Component {
   @service appEvents;
   @service siteSettings;
@@ -41,7 +56,18 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  title = I18n.t("discourse_post_event.upcoming_events_list.title");
+  titleMap = JSON.parse(this.siteSettings.map_events_title);
+  categorySlug = this.args.params?.categorySlug;
+
+  obj = titleMap.find((o) => o.category_slug === categorySlug);
+  customTitle = customTitleObj
+    ? customTitleObj.custom_title
+    : "Upcoming Events";
+
+  title = I18n.t("discourse_post_event.upcoming_events_list.title", {
+    upcoming_events_title: customTitle,
+  });
+
   emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
   allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
   errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");

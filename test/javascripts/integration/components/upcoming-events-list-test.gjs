@@ -163,6 +163,42 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     );
   });
 
+  test("it returns the correct custom title based on categorySlug", function (assert) {
+    this.siteSettings.map_events_title = JSON.stringify([
+      {
+        category_slug: "c/announcements",
+        custom_title: "Upcoming Announcements",
+      },
+      { category_slug: "c/events", custom_title: "Upcoming Cool Events" },
+    ]);
+
+    const params = { categorySlug: "c/announcements" };
+    const component = UpcomingEventsList.create({
+      siteSettings,
+      args: { params },
+    });
+
+    assert.equal(
+      component.title(),
+      "Upcoming Announcements",
+      "it sets 'Upcoming Announcements' as the title in 'c/announcements'"
+    );
+
+    component.args.params.categorySlug = "c/events";
+    assert.equal(
+      component.title(),
+      "Upcoming Cool Events",
+      "it sets 'Upcoming Cool Events' as the title in 'c/events'"
+    );
+
+    component.args.params.categorySlug = "c/unknown";
+    assert.equal(
+      component.title(),
+      "Upcoming Events",
+      "it returns the default value for title when otherwise not specified"
+    );
+  });
+
   test("with events, view-all navigation", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 

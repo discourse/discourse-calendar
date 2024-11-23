@@ -120,6 +120,10 @@ discourse_calendar:
     client: true
     default: "[]"
     json_schema: DiscourseCalendar::SiteSettings::MapEventTagColorsJsonSchema
+  map_events_title:
+    client: true
+    default: "[]"
+    json_schema: DiscourseCalendar::SiteSettings::MapEventsTitleJsonSchema
   include_expired_events_on_calendar:
     default: false
     client: true
