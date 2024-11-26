@@ -398,6 +398,26 @@ he:
             going: "אשתתף"
             not_going: "לא אשתתף"
             interested: "מעניין"
+            going_count:
+              one: "%{count} מגיע/ה"
+              two: "%{count} מגיעים/ות"
+              many: "%{count} מגיעים/ות"
+              other: "%{count} מגיעים/ות"
+            not_going_count:
+              one: "%{count} לא מגיע/ה"
+              two: "%{count} לא מגיעים/ות"
+              many: "%{count} לא מגיעים/ות"
+              other: "%{count} לא מגיעים/ות"
+            interested_count:
+              one: "%{count} מתעניין/ת"
+              two: "%{count} מתעניינים/ות"
+              many: "%{count} מתעניינים/ות"
+              other: "%{count} מתעניינים/ות"
+            invited_count:
+              one: "משתמש/ת %{count} הוזמן/ה"
+              two: "%{count} משתמשים/ות הוזמנו"
+              many: "%{count} משתמשים/ות הוזמנו"
+              other: "%{count} משתמשים/ות הוזמנו"
         event:
           expired: "לא בתוקף"
           closed: "סגור"
