@@ -75,17 +75,21 @@ export default class UpcomingEventsList extends Component {
   get title() {
     const titleMap = JSON.parse(this.siteSettings.map_events_title);
     const categorySlug = this.router.currentRoute.attributes?.category?.slug;
-    const customTitleValue = titleMap.find(
+    const customTitleFind = titleMap.find(
       (o) => o.category_slug === categorySlug
     );
 
-    const title = customTitleValue
-      ? customTitleValue.custom_title
-      : null;
+    const title = (typeof customTitleFind === "undefined") ? null : customTitleFind.custom_title;
 
-    return I18n.t("discourse_post_event.upcoming_events_list.title", {
-      upcoming_events_title: title,
-    });
+    if (!title) {
+      return I18n.t("discourse_post_event.upcoming_events_list.title", {
+        upcoming_events_title: "Upcoming Events",
+      });
+    } else {
+      return I18n.t("discourse_post_event.upcoming_events_list.title", {
+        upcoming_events_title: title,
+      });
+    }
   }
 
   get hasEmptyResponse() {
