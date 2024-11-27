@@ -26,10 +26,6 @@ function addToResult(date, item, result) {
   result[monthKey][day].push(item);
 }
 
-function isCustomTitle() {
-
-}
-
 export default class UpcomingEventsList extends Component {
   @service appEvents;
   @service siteSettings;
@@ -45,7 +41,6 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  title = this.title;
   emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
   allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
   errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
@@ -73,22 +68,32 @@ export default class UpcomingEventsList extends Component {
   }
 
   get title() {
-    const titleMap = JSON.parse(this.siteSettings.map_events_title);
     const categorySlug = this.router.currentRoute.attributes?.category?.slug;
-    const customTitleFind = titleMap.find(
-      (o) => o.category_slug === categorySlug
+    const titleSetting = this.siteSettings?.map_events_title;
+
+    if (titleSetting == "") {
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
+    }
+
+    const categories = JSON.parse(titleSetting).map(
+      ({ category_slug }) => category_slug
     );
 
-    const title = (typeof customTitleFind === "undefined") ? null : customTitleFind.custom_title;
+    if (categories.includes(categorySlug)) {
+      const titleMap = JSON.parse(titleSetting);
+      const customTitleLookup = titleMap.find(
+        (o) => o.category_slug === categorySlug
+      );
+      const custom_title =
+        typeof customTitleLookup === "undefined"
+          ? null
+          : customTitleLookup.custom_title;
 
-    if (!title) {
-      return I18n.t("discourse_post_event.upcoming_events_list.title", {
-        upcoming_events_title: "Upcoming Events",
+      return I18n.t("discourse_post_event.upcoming_events_list.custom_title", {
+        upcoming_events_title: custom_title,
       });
     } else {
-      return I18n.t("discourse_post_event.upcoming_events_list.title", {
-        upcoming_events_title: title,
-      });
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
   }
 

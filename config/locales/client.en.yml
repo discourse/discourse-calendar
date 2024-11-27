@@ -372,7 +372,8 @@ en:
         status: "Status"
         starts_at: "Starts at"
       upcoming_events_list:
-        title: "%{upcoming_events_title}"
+        title: "Upcoming events"
+        custom_title: "%{upcoming_events_title}"
         empty: "No upcoming events"
         all_day: "All-day"
         error: "Failed to retrieve events"
