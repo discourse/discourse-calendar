@@ -2,12 +2,13 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { LinkTo } from "@ember/routing";
-import { inject as service } from "@ember/service";
+import { service } from "@ember/service";
 import ConditionalLoadingSpinner from "discourse/components/conditional-loading-spinner";
 import DButton from "discourse/components/d-button";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import { ajax } from "discourse/lib/ajax";
-import I18n from "discourse-i18n";
+import icon from "discourse-common/helpers/d-icon";
+import { i18n } from "discourse-i18n";
 import or from "truth-helpers/helpers/or";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
@@ -41,11 +42,11 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  title = I18n.t("discourse_post_event.upcoming_events_list.title");
-  emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
-  allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
-  errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
-  viewAllLabel = I18n.t("discourse_post_event.upcoming_events_list.view_all");
+  title = i18n("discourse_post_event.upcoming_events_list.title");
+  emptyMessage = i18n("discourse_post_event.upcoming_events_list.empty");
+  allDayLabel = i18n("discourse_post_event.upcoming_events_list.all_day");
+  errorMessage = i18n("discourse_post_event.upcoming_events_list.error");
+  viewAllLabel = i18n("discourse_post_event.upcoming_events_list.view_all");
 
   constructor() {
     super(...arguments);
@@ -115,6 +116,16 @@ export default class UpcomingEventsList extends Component {
       : this.allDayLabel;
   }
 
+  @action
+  startsAtMonth(month, day) {
+    return moment(`${month}-${day}`).format("MMM");
+  }
+
+  @action
+  startsAtDay(month, day) {
+    return moment(`${month}-${day}`).format("D");
+  }
+
   groupByMonthAndDay(data) {
     return data.reduce((result, item) => {
       const startDate = moment(item.starts_at);
@@ -168,35 +179,34 @@ export default class UpcomingEventsList extends Component {
           {{#unless this.isLoading}}
             <PluginOutlet @name="upcoming-events-list-container">
               {{#each-in this.eventsByMonth as |month monthData|}}
-                {{#if this.monthFormat}}
-                  <h4 class="upcoming-events-list__formatted-month">
-                    {{this.formatMonth month}}
-                  </h4>
-                {{/if}}
-
                 {{#each-in monthData as |day events|}}
-                  <div class="upcoming-events-list__day-section">
-                    <div class="upcoming-events-list__formatted-day">
-                      {{this.formatDate month day}}
-                    </div>
-
-                    {{#each events as |event|}}
-                      <a
-                        class="upcoming-events-list__event"
-                        href={{event.post.url}}
-                      >
-                        {{#if this.timeFormat}}
-                          <div class="upcoming-events-list__event-time">
-                            {{this.formatTime event}}
-                          </div>
-                        {{/if}}
-
-                        <div class="upcoming-events-list__event-name">
+                  {{#each events as |event|}}
+                    <a
+                      class="upcoming-events-list__event"
+                      href={{event.post.url}}
+                    >
+                      <div class="upcoming-events-list__event-date">
+                        <div class="month">{{this.startsAtMonth
+                            month
+                            day
+                          }}</div>
+                        <div class="day">{{this.startsAtDay month day}}</div>
+                      </div>
+                      <div class="upcoming-events-list__event-content">
+                        <span
+                          class="upcoming-events-list__event-name"
+                          title="{{or event.name event.post.topic.title}}"
+                        >
                           {{or event.name event.post.topic.title}}
-                        </div>
-                      </a>
-                    {{/each}}
-                  </div>
+                        </span>
+                        {{#if this.timeFormat}}
+                          <span class="upcoming-events-list__event-time">
+                            {{this.formatTime event}}
+                          </span>
+                        {{/if}}
+                      </div>
+                    </a>
+                  {{/each}}
                 {{/each-in}}
               {{/each-in}}
             </PluginOutlet>
