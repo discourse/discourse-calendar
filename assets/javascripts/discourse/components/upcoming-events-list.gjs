@@ -71,7 +71,7 @@ export default class UpcomingEventsList extends Component {
     const categorySlug = this.router.currentRoute.attributes?.category?.slug;
     const titleSetting = this.siteSettings?.map_events_title;
 
-    if (titleSetting == "") {
+    if (titleSetting === "") {
       return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
 
