@@ -1,13 +1,14 @@
 import Component from "@ember/component";
 import { action } from "@ember/object";
+import { classNameBindings, tagName } from "@ember-decorators/component";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
-export default Component.extend({
-  tagName: "tr",
-  classNameBindings: ["isHolidayDisabled:disabled"],
-  loading: false,
-  isHolidayDisabled: false,
+@tagName("tr")
+@classNameBindings("isHolidayDisabled:disabled")
+export default class AdminHolidaysListItem extends Component {
+  loading = false;
+  isHolidayDisabled = false;
 
   @action
   disableHoliday(holiday, region_code) {
@@ -25,7 +26,7 @@ export default Component.extend({
       .then(() => this.set("isHolidayDisabled", true))
       .catch(popupAjaxError)
       .finally(() => this.set("loading", false));
-  },
+  }
 
   @action
   enableHoliday(holiday, region_code) {
@@ -43,5 +44,5 @@ export default Component.extend({
       .then(() => this.set("isHolidayDisabled", false))
       .catch(popupAjaxError)
       .finally(() => this.set("loading", false));
-  },
-});
+  }
+}

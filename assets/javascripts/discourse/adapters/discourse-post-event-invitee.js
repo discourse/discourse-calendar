@@ -1,7 +1,7 @@
 import DiscoursePostEventNestedAdapter from "./discourse-post-event-nested-adapter";
 
-export default DiscoursePostEventNestedAdapter.extend({
+export default class DiscoursePostEventInvitee extends DiscoursePostEventNestedAdapter {
   apiNameFor() {
     return "invitee";
-  },
-});
+  }
+}
