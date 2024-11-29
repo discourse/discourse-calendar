@@ -2,10 +2,14 @@
   &__event {
     column-gap: 0.5em;
     display: flex;
-    margin-top: 0.75em;
+    padding: 0.5em;
+    border-radius: var(--d-border-radius);
   }
   &__event:last-of-type {
     margin-bottom: 0.75em;
+  }
+  &__event:hover {
+    background-color: var(--primary-50);
   }
   &__event-date {
     display: flex;
