@@ -14,6 +14,7 @@ describe "Disabling topic list sorting", type: :system do
     expect(find("th.activity")).to match_selector(".sortable")
 
     category.custom_fields["disable_topic_resorting"] = true
+    category.save!
     page.refresh
     expect(find("th.activity")).to match_selector(".sortable")
 
