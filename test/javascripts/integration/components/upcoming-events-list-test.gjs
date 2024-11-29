@@ -1,5 +1,7 @@
 import { hash } from "@ember/helper";
 import Service from "@ember/service";
+import sinon from "sinon";
+import { getOwner } from "@ember/owner";
 import { click, currentURL, render, waitFor } from "@ember/test-helpers";
 import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
@@ -162,6 +164,40 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       "it displays the multiday event on all scheduled dates"
     );
   });
+
+  test("with events, overridden titles", async function (assert) {
+    const router = getOwner(this).lookup("service:router");
+    sinon.stub(router, "currentURL").value("/program-pillars");
+
+    this.siteSettings.map_events_title =
+      '[{"category_slug": "announcements", "custom_title": "Upcoming Announcements"}]';
+
+    await render(<template><UpcomingEventsList /></template>);
+    this.appEvents.trigger("page:changed", { url: "/c/announcements" });
+
+    assert.strictEqual(
+      // query below returns null
+      query(".upcoming-events-list__heading").innerText,
+      "Upcoming Announcements",
+      "it sets 'Upcoming Announcements' as the title in 'c/announcements'"
+    );
+
+    // this.args.params.categorySlug = "events";
+    // assert.equal(
+    //   component.title(),
+    //   "Upcoming Cool Events",
+    //   "it sets 'Upcoming Cool Events' as the title in 'c/events'"
+    // );
+    // this.args.params.categorySlug = "unknown";
+    // assert.equal(
+    //   component.title(),
+    //   "Upcoming Events",
+    //   "it returns the default value for title when otherwise not specified"
+    // );
+  });
+
+  // in pair got UI working, QUnit test difficult because we need to set a page category and this is just component -- in system spec we ran into the issue with not having/loading the theme component
+  // try QUnit one more time to see if i can get the cat working
 
   test("with events, view-all navigation", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);

@@ -69,7 +69,7 @@ export default class UpcomingEventsList extends Component {
 
   get title() {
     const categorySlug = this.router.currentRoute.attributes?.category?.slug;
-    const titleSetting = this.siteSettings?.map_events_title;
+    const titleSetting = this.siteSettings.map_events_title;
 
     if (titleSetting === "") {
       return I18n.t("discourse_post_event.upcoming_events_list.title");
@@ -84,10 +84,7 @@ export default class UpcomingEventsList extends Component {
       const customTitleLookup = titleMap.find(
         (o) => o.category_slug === categorySlug
       );
-      const custom_title =
-        typeof customTitleLookup === "undefined"
-          ? null
-          : customTitleLookup.custom_title;
+      const custom_title = customTitleLookup?.custom_title;
 
       return I18n.t("discourse_post_event.upcoming_events_list.custom_title", {
         upcoming_events_title: custom_title,
