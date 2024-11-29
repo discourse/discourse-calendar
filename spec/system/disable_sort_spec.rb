@@ -23,6 +23,7 @@ describe "Disabling topic list sorting", type: :system do
     expect(find("th.activity")).to_not match_selector(".sortable")
   end
 
+  # TODO: cvx - remove after the glimmer topic list transition
   context "when glimmer topic list is enabled" do
     fab!(:user)
 
