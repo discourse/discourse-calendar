@@ -1,6 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import discourseComputed from "discourse-common/utils/decorators";
 import { withSilencedDeprecations } from "discourse-common/lib/deprecated";
+import discourseComputed from "discourse-common/utils/decorators";
 
 export default {
   name: "disable-sort",
