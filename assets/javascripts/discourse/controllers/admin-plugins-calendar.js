@@ -3,9 +3,9 @@ import { action } from "@ember/object";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
-export default Controller.extend({
-  selectedRegion: null,
-  loading: false,
+export default class AdminPluginsCalendarController extends Controller {
+  selectedRegion = null;
+  loading = false;
 
   @action
   async getHolidays(region_code) {
@@ -24,5 +24,5 @@ export default Controller.extend({
       })
       .catch(popupAjaxError)
       .finally(() => this.set("loading", false));
-  },
-});
+  }
+}
