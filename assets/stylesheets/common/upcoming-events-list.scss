@@ -2,10 +2,10 @@
   &__event {
     column-gap: 0.5em;
     display: flex;
-    margin-top: 0.5em;
+    margin-top: 0.75em;
   }
   &__event:last-of-type {
-    margin-bottom: 0.5em;
+    margin-bottom: 0.75em;
   }
   &__event-date {
     display: flex;
@@ -23,15 +23,14 @@
   }
   &__event-date .month {
     text-align: center;
-    color: red;
+    color: var(--primary);
     font-size: var(--font-down-3);
-    font-weight: 400;
     text-transform: uppercase;
   }
   &__event-date .day {
     text-align: center;
-    font-weight: 400;
     color: var(--primary);
+    font-weight: bold;
     font-size: var(--font-down-1);
   }
   &__event-content {
@@ -47,9 +46,9 @@
     color: var(--primary);
   }
   &__event-time {
-    font-size: var(--font-down-1);
+    font-size: var(--font-down-2);
     font-weight: 400;
-    color: var(--primary-medium);
+    color: var(--primary-700);
   }
   &__footer {
     margin-top: 1em;
