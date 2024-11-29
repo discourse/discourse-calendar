@@ -1,9 +1,9 @@
 import RestModel from "discourse/models/rest";
 
-export default RestModel.extend({
+export default class DiscoursePostEventReminder extends RestModel {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.__type = "discourse-post-event-reminder";
-  },
-});
+  }
+}

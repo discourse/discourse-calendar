@@ -3,7 +3,7 @@ import { Result } from "discourse/adapters/rest";
 import { ajax } from "discourse/lib/ajax";
 import DiscoursePostEventAdapter from "./discourse-post-event-adapter";
 
-export default DiscoursePostEventAdapter.extend({
+export default class DiscoursePostEventNestedAdapter extends DiscoursePostEventAdapter {
   // TODO: destroy/update/create should be improved in core to allow for nested models
   destroyRecord(store, type, record) {
     return ajax(
@@ -15,7 +15,7 @@ export default DiscoursePostEventAdapter.extend({
         type: "DELETE",
       }
     );
-  },
+  }
 
   update(store, type, id, attrs) {
     const data = {};
@@ -28,7 +28,7 @@ export default DiscoursePostEventAdapter.extend({
     ).then(function (json) {
       return new Result(json[typeField], json);
     });
-  },
+  }
 
   createRecord(store, type, attrs) {
     const data = {};
@@ -40,7 +40,7 @@ export default DiscoursePostEventAdapter.extend({
     ).then(function (json) {
       return new Result(json[typeField], json);
     });
-  },
+  }
 
   pathFor(store, type, findArgs) {
     const post_id = findArgs["post_id"];
@@ -61,5 +61,5 @@ export default DiscoursePostEventAdapter.extend({
     }
 
     return this.appendQueryParams(path, findArgs);
-  },
-});
+  }
+}
