@@ -70,7 +70,10 @@ export default class UpcomingEventsList extends Component {
     this.isLoading = true;
     this.hasError = false;
 
-    const data = {limit: this.count, before: moment().add(this.upcomingDays, "days").toISOString()};
+    const data = {
+      limit: this.count,
+      before: moment().add(this.upcomingDays, "days").toISOString(),
+    };
 
     if (this.categoryId) {
       data.category_id = this.categoryId;
