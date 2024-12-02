@@ -181,7 +181,7 @@ export default class UpcomingEventsList extends Component {
                       <div class="upcoming-events-list__event-content">
                         <span
                           class="upcoming-events-list__event-name"
-                          title="{{or event.name event.post.topic.title}}"
+                          title={{or event.name event.post.topic.title}}
                         >
                           {{or event.name event.post.topic.title}}
                         </span>
