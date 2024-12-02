@@ -86,9 +86,7 @@ export default class UpcomingEventsList extends Component {
       );
       const custom_title = customTitleLookup?.custom_title;
 
-      return I18n.t("discourse_post_event.upcoming_events_list.custom_title", {
-        upcoming_events_title: custom_title,
-      });
+      return custom_title;
     } else {
       return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
