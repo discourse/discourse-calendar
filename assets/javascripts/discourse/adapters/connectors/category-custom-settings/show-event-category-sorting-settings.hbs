@@ -1,7 +1,7 @@
 {{#if
   (or
-    siteSettings.sort_categories_by_event_start_date_enabled
-    siteSettings.disable_resorting_on_categories_enabled
+    this.siteSettings.sort_categories_by_event_start_date_enabled
+    this.siteSettings.disable_resorting_on_categories_enabled
   )
 }}
   <section>
@@ -9,7 +9,7 @@
         "discourse_post_event.category.settings_sections.event_sorting"
       }}</h3>
 
-    {{#if siteSettings.sort_categories_by_event_start_date_enabled}}
+    {{#if this.siteSettings.sort_categories_by_event_start_date_enabled}}
       <section class="field show-subcategory-list-field">
         <label>
           <Input
@@ -23,7 +23,7 @@
       </section>
     {{/if}}
 
-    {{#if siteSettings.disable_resorting_on_categories_enabled}}
+    {{#if this.siteSettings.disable_resorting_on_categories_enabled}}
       <section class="field show-subcategory-list-field">
         <label>
           <Input

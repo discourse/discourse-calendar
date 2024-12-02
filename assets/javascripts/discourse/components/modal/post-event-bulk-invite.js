@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import EmberObject, { action } from "@ember/object";
-import { inject as service } from "@ember/service";
+import { service } from "@ember/service";
 import { isPresent } from "@ember/utils";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { ajax } from "discourse/lib/ajax";
@@ -107,6 +107,7 @@ export default class PostEventBulkInvite extends Component {
     bulkInvite.identifier = selected[0];
     this.setBulkInviteDisabled();
   }
+
   @action
   updateBulkGroupInviteIdentifier(bulkInvite, _, groupNames) {
     bulkInvite.identifier = groupNames[0];
