@@ -72,7 +72,7 @@ describe "Post event", type: :system do
     expect(event.invitees.count).to eq(2)
   end
 
-  it "can update fields and invitees and they are kept when re-opening" do
+  it "persists changes" do
     visit "/new-topic"
     title = "Test event with updates"
 
