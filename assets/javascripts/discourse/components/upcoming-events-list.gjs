@@ -49,19 +49,7 @@ export default class UpcomingEventsList extends Component {
 
   constructor() {
     super(...arguments);
-
     this.appEvents.on("page:changed", this, this.updateEventsList);
-  }
-
-  get shouldRender() {
-    if (!this.categoryId) {
-      return false;
-    }
-
-    const eventSettings =
-      this.siteSettings.events_calendar_categories.split("|");
-
-    return eventSettings.includes(this.categoryId.toString());
   }
 
   get categoryId() {
@@ -76,18 +64,46 @@ export default class UpcomingEventsList extends Component {
     );
   }
 
+  get title() {
+    const categorySlug = this.router.currentRoute.attributes?.category?.slug;
+    const titleSetting = this.siteSettings.map_events_title;
+
+    if (titleSetting === "") {
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
+    }
+
+    const categories = JSON.parse(titleSetting).map(
+      ({ category_slug }) => category_slug
+    );
+
+    if (categories.includes(categorySlug)) {
+      const titleMap = JSON.parse(titleSetting);
+      const customTitleLookup = titleMap.find(
+        (o) => o.category_slug === categorySlug
+      );
+      return customTitleLookup?.custom_title;
+    } else {
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
+    }
+  }
+
   @action
   async updateEventsList() {
     this.isLoading = true;
     this.hasError = false;
 
+    const data = {
+      limit: this.count,
+      before: moment().add(this.upcomingDays, "days").toISOString(),
+    };
+
+    if (this.categoryId) {
+      data.category_id = this.categoryId;
+    }
+
     try {
       const { events } = await ajax("/discourse-post-event/events", {
-        data: {
-          category_id: this.categoryId,
-          limit: this.count,
-          before: moment().add(this.upcomingDays, "days").toISOString(),
-        },
+        data,
       });
 
       this.eventsByMonth = this.groupByMonthAndDay(events);
@@ -149,78 +165,73 @@ export default class UpcomingEventsList extends Component {
   }
 
   <template>
-    {{#if this.shouldRender}}
-      <div class="upcoming-events-list">
-        <h3 class="upcoming-events-list__heading">
-          {{this.title}}
-        </h3>
+    <div class="upcoming-events-list">
+      <h3 class="upcoming-events-list__heading">
+        {{this.title}}
+      </h3>
 
-        <div class="upcoming-events-list__container">
-          <ConditionalLoadingSpinner @condition={{this.isLoading}} />
+      <div class="upcoming-events-list__container">
+        <ConditionalLoadingSpinner @condition={{this.isLoading}} />
 
-          {{#if this.hasEmptyResponse}}
-            <div class="upcoming-events-list__empty-message">
-              {{this.emptyMessage}}
-            </div>
-          {{/if}}
+        {{#if this.hasEmptyResponse}}
+          <div class="upcoming-events-list__empty-message">
+            {{this.emptyMessage}}
+          </div>
+        {{/if}}
 
-          {{#if this.hasError}}
-            <div class="upcoming-events-list__error-message">
-              {{this.errorMessage}}
-            </div>
-            <DButton
-              @action={{this.updateEventsList}}
-              @label="discourse_post_event.upcoming_events_list.try_again"
-              class="btn-link upcoming-events-list__try-again"
-            />
-          {{/if}}
+        {{#if this.hasError}}
+          <div class="upcoming-events-list__error-message">
+            {{this.errorMessage}}
+          </div>
+          <DButton
+            @action={{this.updateEventsList}}
+            @label="discourse_post_event.upcoming_events_list.try_again"
+            class="btn-link upcoming-events-list__try-again"
+          />
+        {{/if}}
 
-          {{#unless this.isLoading}}
-            <PluginOutlet @name="upcoming-events-list-container">
-              {{#each-in this.eventsByMonth as |month monthData|}}
-                {{#each-in monthData as |day events|}}
-                  {{#each events as |event|}}
-                    <a
-                      class="upcoming-events-list__event"
-                      href={{event.post.url}}
-                    >
-                      <div class="upcoming-events-list__event-date">
-                        <div class="month">{{this.startsAtMonth
-                            month
-                            day
-                          }}</div>
-                        <div class="day">{{this.startsAtDay month day}}</div>
-                      </div>
-                      <div class="upcoming-events-list__event-content">
-                        <span
-                          class="upcoming-events-list__event-name"
-                          title="{{or event.name event.post.topic.title}}"
-                        >
-                          {{or event.name event.post.topic.title}}
+        {{#unless this.isLoading}}
+          <PluginOutlet @name="upcoming-events-list-container">
+            {{#each-in this.eventsByMonth as |month monthData|}}
+              {{#each-in monthData as |day events|}}
+                {{#each events as |event|}}
+                  <a
+                    class="upcoming-events-list__event"
+                    href={{event.post.url}}
+                  >
+                    <div class="upcoming-events-list__event-date">
+                      <div class="month">{{this.startsAtMonth month day}}</div>
+                      <div class="day">{{this.startsAtDay month day}}</div>
+                    </div>
+                    <div class="upcoming-events-list__event-content">
+                      <span
+                        class="upcoming-events-list__event-name"
+                        title="{{or event.name event.post.topic.title}}"
+                      >
+                        {{or event.name event.post.topic.title}}
+                      </span>
+                      {{#if this.timeFormat}}
+                        <span class="upcoming-events-list__event-time">
+                          {{this.formatTime event}}
                         </span>
-                        {{#if this.timeFormat}}
-                          <span class="upcoming-events-list__event-time">
-                            {{this.formatTime event}}
-                          </span>
-                        {{/if}}
-                      </div>
-                    </a>
-                  {{/each}}
-                {{/each-in}}
+                      {{/if}}
+                    </div>
+                  </a>
+                {{/each}}
               {{/each-in}}
-            </PluginOutlet>
-          {{/unless}}
-        </div>
-
-        <div class="upcoming-events-list__footer">
-          <LinkTo
-            @route="discourse-post-event-upcoming-events"
-            class="upcoming-events-list__view-all"
-          >
-            {{this.viewAllLabel}}
-          </LinkTo>
-        </div>
+            {{/each-in}}
+          </PluginOutlet>
+        {{/unless}}
       </div>
-    {{/if}}
+
+      <div class="upcoming-events-list__footer">
+        <LinkTo
+          @route="discourse-post-event-upcoming-events"
+          class="upcoming-events-list__view-all"
+        >
+          {{this.viewAllLabel}}
+        </LinkTo>
+      </div>
+    </div>
   </template>
 }
