@@ -136,7 +136,6 @@ $show-interested: inherit;
 
     .name {
       @include ellipsis;
-      max-width: 45vw;
       font-size: var(--font-up-2);
       font-weight: 400;
     }

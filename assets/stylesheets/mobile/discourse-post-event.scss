@@ -26,22 +26,6 @@
     font-size: var(--font-down-1);
   }
 
-  .event-invitees {
-    .show-all span {
-      width: max-content;
-    }
-
-    .event-invitees-avatars .topic-invitee-avatar .avatar-flair {
-      background: none;
-      border-radius: 50%;
-      height: 12px;
-      width: 12px;
-      border: none;
-      right: -2px;
-      bottom: -2px;
-    }
-  }
-
   .creators {
     .created-by {
       display: none;
