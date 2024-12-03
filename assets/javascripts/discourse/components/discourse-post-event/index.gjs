@@ -67,6 +67,10 @@ export default class DiscoursePostEvent extends Component {
     return this.currentUser && this.args.event.can_act_on_discourse_post_event;
   }
 
+  get watchingInviteeStatus() {
+    return this.args.event.watchingInvitee?.status;
+  }
+
   <template>
     <div
       class={{concatClass
@@ -108,12 +112,6 @@ export default class DiscoursePostEvent extends Component {
             />
           </header>
 
-          {{#if @event.canUpdateAttendance}}
-            <section class="event__section event-actions">
-              <Status @event={{@event}} />
-            </section>
-          {{/if}}
-
           <PluginOutlet
             @name="discourse-post-event-info"
             @outletArgs={{hash
@@ -122,11 +120,15 @@ export default class DiscoursePostEvent extends Component {
               Url=(component Url url=@event.url)
               Dates=(component Dates event=@event)
               Invitees=(component Invitees event=@event)
+              Status=(component Status event=@event)
             }}
           >
             <Url @url={{@event.url}} />
             <Dates @event={{@event}} />
             <Invitees @event={{@event}} />
+            {{#if @event.canUpdateAttendance}}
+              <Status @event={{@event}} />
+            {{/if}}
           </PluginOutlet>
         {{/if}}
       </div>

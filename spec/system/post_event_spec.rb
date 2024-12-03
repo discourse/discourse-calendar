@@ -58,7 +58,8 @@ describe "Post event", type: :system do
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.public")
 
     page.find(".going-button").click
-    page.find(".event-invitees .show-all").click
+    page.find(".discourse-post-event-more-menu-trigger").click
+    page.find(".show-all-participants").click
     page.find(".d-modal input.filter").fill_in(with: "jan")
     page.find(".d-modal .add-invitee").click
 
@@ -71,29 +72,19 @@ describe "Post event", type: :system do
     expect(event.invitees.count).to eq(2)
   end
 
-  it "can update fields and invitees and they are kept when re-opening" do
+  it "persists changes" do
     visit "/new-topic"
-    title = "Test event with updates"
-
-    composer.fill_title(title)
-
+    composer.fill_title("Test event with updates")
     page.find(".toolbar-popup-menu-options .dropdown-select-box-header").click
-
     page.find(
       ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
     ).click
-
     page.find(".d-modal input[name=status][value=private]").click
-
     page.find(".d-modal input.group-selector").fill_in(with: "test_")
     page.find(".autocomplete.ac-group").click
-
     page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
-
     page.find(".d-modal .btn-primary").click
-
     composer.submit
-
     page.find(".discourse-post-event-more-menu-trigger").click
     page.find(".edit-event").click
 
