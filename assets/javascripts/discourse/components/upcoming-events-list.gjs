@@ -84,9 +84,7 @@ export default class UpcomingEventsList extends Component {
       const customTitleLookup = titleMap.find(
         (o) => o.category_slug === categorySlug
       );
-      const custom_title = customTitleLookup?.custom_title;
-
-      return custom_title;
+      return customTitleLookup?.custom_title;
     } else {
       return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
