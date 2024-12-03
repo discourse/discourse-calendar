@@ -34,6 +34,7 @@ $show-interested: inherit;
     margin: 5px 0;
     flex-direction: column;
     flex: 1 0 auto;
+    max-width: calc(100% - 2px - 6px);
     box-sizing: border-box;
     border-radius: var(--d-button-border-radius);
 
@@ -138,7 +139,6 @@ $show-interested: inherit;
       max-width: 45vw;
       font-size: var(--font-up-2);
       font-weight: 400;
-      white-space: initial;
     }
     .status-and-creators {
       display: flex;
@@ -154,6 +154,9 @@ $show-interested: inherit;
 
       .created-by {
         margin-right: 0.25em;
+        @media screen and (max-width: 450px) {
+          display: none;
+        }
       }
 
       .username {
