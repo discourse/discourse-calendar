@@ -115,16 +115,6 @@ export default class UpcomingEventsList extends Component {
   }
 
   @action
-  formatMonth(month) {
-    return moment(month, "YYYY-MM").format(this.monthFormat);
-  }
-
-  @action
-  formatDate(month, day) {
-    return moment(`${month}-${day}`, "YYYY-MM-DD").format(this.dateFormat);
-  }
-
-  @action
   formatTime({ starts_at, ends_at }) {
     return isNotFullDayEvent(moment(starts_at), moment(ends_at))
       ? moment(starts_at).format(this.timeFormat)
