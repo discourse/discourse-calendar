@@ -1,19 +1,24 @@
 import { computed } from "@ember/object";
+import { classNames } from "@ember-decorators/component";
 import I18n from "I18n";
 import ComboBoxComponent from "select-kit/components/combo-box";
+import {
+  pluginApiIdentifiers,
+  selectKitOptions,
+} from "select-kit/components/select-kit";
 import { HOLIDAY_REGIONS } from "../lib/regions";
 
-export default ComboBoxComponent.extend({
-  pluginApiIdentifiers: ["timezone-input"],
-  classNames: ["timezone-input", "region-input"],
-  allowNoneRegion: false,
+@selectKitOptions({
+  filterable: true,
+  allowAny: false,
+})
+@pluginApiIdentifiers("timezone-input")
+@classNames("timezone-input", "region-input")
+export default class RegionInput extends ComboBoxComponent {
+  allowNoneRegion = false;
 
-  selectKitOptions: {
-    filterable: true,
-    allowAny: false,
-  },
-
-  content: computed(function () {
+  @computed
+  get content() {
     const localeNames = {};
     let regions = [];
 
@@ -35,5 +40,5 @@ export default ComboBoxComponent.extend({
       })).sort((a, b) => a.name.localeCompare(b.name))
     );
     return regions;
-  }),
-});
+  }
+}

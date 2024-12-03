@@ -2,7 +2,7 @@
 
 module DiscourseCalendar
   class Calendar
-    DATA_PREFIX ||= "data-calendar-"
+    DATA_PREFIX = "data-calendar-"
 
     def self.extract(post)
       cooked = PrettyText.cook(post.raw, topic_id: post.topic_id, user_id: post.user_id)

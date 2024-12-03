@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
+import { tagName } from "@ember-decorators/component";
 import { Promise } from "rsvp";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
@@ -9,28 +10,28 @@ import addRecurrentEvents from "../lib/add-recurrent-events";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
-export default Component.extend({
-  tagName: "",
-  events: null,
+@tagName("")
+export default class UpcomingEventsCalendar extends Component {
+  events = null;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this._calendar = null;
-  },
+  }
 
   willDestroyElement() {
-    this._super(...arguments);
+    super.willDestroyElement(...arguments);
 
     this._calendar && this._calendar.destroy();
     this._calendar = null;
-  },
+  }
 
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
 
     this._renderCalendar();
-  },
+  }
 
   _renderCalendar() {
     const siteSettings = this.site.siteSettings;
@@ -123,7 +124,7 @@ export default Component.extend({
 
       this._calendar.render();
     });
-  },
+  }
 
   _loadCalendar() {
     return new Promise((resolve) => {
@@ -139,5 +140,5 @@ export default Component.extend({
         });
       });
     });
-  },
-});
+  }
+}
