@@ -18,7 +18,7 @@ import UpcomingEventsList, {
 } from "../../discourse/components/upcoming-events-list";
 
 class RouterStub extends Service {
-  currentRoute = { attributes: { category: { id: 1 } } };
+  currentRoute = { attributes: { category: { id: 1, slug: "announcements" } } };
   currentRouteName = "discovery.latest";
   on() {}
   off() {}
@@ -161,6 +161,43 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
       "it displays the multiday event on all scheduled dates"
     );
+  });
+
+  test("Uses custom category name from 'map_events_title'", async function (assert) {
+    pretender.get("/discourse-post-event/events", () => {
+      return response({ events: [] });
+    });
+
+    this.siteSettings.map_events_title =
+      '[{"category_slug": "announcements", "custom_title": "Upcoming Announcements"}]';
+
+    await render(<template><UpcomingEventsList /></template>);
+    this.appEvents.trigger("page:changed", { url: "/c/announcements" });
+
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        "Upcoming Announcements",
+        "sets 'Upcoming Announcements' as the title in 'c/announcements'"
+      );
+  });
+
+  test("Uses default title for upcoming events list", async function (assert) {
+    pretender.get("/discourse-post-event/events", () => {
+      return response({ events: [] });
+    });
+
+    this.siteSettings.map_events_title = "";
+
+    await render(<template><UpcomingEventsList /></template>);
+    this.appEvents.trigger("page:changed", { url: "/c/announcements" });
+
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        "Upcoming events",
+        "it sets default value as the title in 'c/announcements'"
+      );
   });
 
   test("with events, view-all navigation", async function (assert) {

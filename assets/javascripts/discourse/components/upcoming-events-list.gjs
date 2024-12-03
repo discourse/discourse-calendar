@@ -41,7 +41,6 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  title = I18n.t("discourse_post_event.upcoming_events_list.title");
   emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
   allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
   errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
@@ -55,6 +54,29 @@ export default class UpcomingEventsList extends Component {
 
   get categoryId() {
     return this.router.currentRoute.attributes?.category?.id;
+  }
+
+  get title() {
+    const categorySlug = this.router.currentRoute.attributes?.category?.slug;
+    const titleSetting = this.siteSettings.map_events_title;
+
+    if (titleSetting === "") {
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
+    }
+
+    const categories = JSON.parse(titleSetting).map(
+      ({ category_slug }) => category_slug
+    );
+
+    if (categories.includes(categorySlug)) {
+      const titleMap = JSON.parse(titleSetting);
+      const customTitleLookup = titleMap.find(
+        (o) => o.category_slug === categorySlug
+      );
+      return customTitleLookup?.custom_title;
+    } else {
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
+    }
   }
 
   get hasEmptyResponse() {
