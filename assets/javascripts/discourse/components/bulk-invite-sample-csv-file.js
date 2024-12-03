@@ -1,7 +1,7 @@
 import Component from "@ember/component";
 import { action } from "@ember/object";
 
-export default Component.extend({
+export default class BulkInviteSampleCsvFile extends Component {
   @action
   downloadSampleCsv() {
     const sampleData = [
@@ -23,5 +23,5 @@ export default Component.extend({
     btn.rel = "noopener noreferrer";
     btn.download = "bulk-invite-sample.csv";
     btn.click();
-  },
-});
+  }
+}

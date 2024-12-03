@@ -3,8 +3,6 @@
 require "rails_helper"
 
 describe Topic do
-  Event ||= DiscoursePostEvent::Event
-
   before do
     freeze_time
     Jobs.run_immediately!
@@ -24,7 +22,7 @@ describe Topic do
             raw: "The boat market is quite active lately.",
           )
 
-        expect(Event).to_not exist(id: post_with_date.id)
+        expect(DiscoursePostEvent::Event).to_not exist(id: post_with_date.id)
       end
     end
   end
