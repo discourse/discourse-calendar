@@ -174,11 +174,12 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     await render(<template><UpcomingEventsList /></template>);
     this.appEvents.trigger("page:changed", { url: "/c/announcements" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      "Upcoming Announcements",
-      "it sets 'Upcoming Announcements' as the title in 'c/announcements'"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        "Upcoming Announcements",
+        "sets 'Upcoming Announcements' as the title in 'c/announcements'"
+      );
   });
 
   test("Uses default title for upcoming events list", async function (assert) {
