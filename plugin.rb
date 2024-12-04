@@ -32,11 +32,11 @@ register_asset "stylesheets/desktop/discourse-calendar.scss", :desktop
 register_asset "stylesheets/colors.scss", :color_definitions
 register_asset "stylesheets/common/user-preferences.scss"
 register_asset "stylesheets/common/upcoming-events-list.scss"
-register_svg_icon "fas fa-calendar-day"
-register_svg_icon "fas fa-clock"
-register_svg_icon "fas fa-file-csv"
-register_svg_icon "fas fa-star"
-register_svg_icon "fas fa-file-upload"
+register_svg_icon "calendar-day"
+register_svg_icon "clock"
+register_svg_icon "file-csv"
+register_svg_icon "star"
+register_svg_icon "file-arrow-up"
 
 module ::DiscourseCalendar
   PLUGIN_NAME = "discourse-calendar"
