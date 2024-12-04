@@ -334,6 +334,7 @@ pt_BR:
         ended_at: "O evento terminou: %{date}"
         ends_in_duration: "Termina em %{duration}"
       show_all: "Exibir tudo"
+      show_participants: "Mostrar participantes"
       participants:
         one: "%{count} usuário(a) participou."
         other: "%{count} usuários(as) participaram."
@@ -348,8 +349,11 @@ pt_BR:
       close_event: "Encerrar evento"
       open_event: "Evento aberto"
       invitees_modal:
+        title_invited: "Participação no evento"
         title_participated: "Lista de usuários(as) que participaram"
         filter_placeholder: "Filtrar usuários(as)"
+        remove_invitee: "Remover convidado(a) da lista"
+        add_invitee: "Adicionar convidado(a) à lista"
       bulk_invite_modal:
         confirm: "confirmar"
         text: "Carregar arquivo CSV"
@@ -386,11 +390,24 @@ pt_BR:
         more_than_one_event: "Você não pode ter mais de um evento."
       models:
         invitee:
+          no_users: "Nenhum usuário(a) encontrado(a)"
           status:
             unknown: "Não tenho interesse"
             going: "Indo para"
             not_going: "Não vou"
             interested: "Interessado"
+            going_count:
+              one: "%{count} vai"
+              other: "%{count} vão"
+            not_going_count:
+              one: "%{count} não vai"
+              other: "%{count} não vão"
+            interested_count:
+              one: "%{count} tem interesse"
+              other: "%{count} têm interesse"
+            invited_count:
+              one: "%{count} usuário(a) convidado(a)"
+              other: "%{count} usuários(as) convidados(as)"
         event:
           expired: "Expirou"
           closed: "Fechados"

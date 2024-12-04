@@ -334,6 +334,7 @@ ja:
         ended_at: "イベント終了: %{date}"
         ends_in_duration: "終了まで %{duration}"
       show_all: "すべて表示"
+      show_participants: "参加者を表示"
       participants:
         other: "%{count} 人のユーザーが参加しました。"
       invite: "ユーザーに通知"
@@ -347,8 +348,11 @@ ja:
       close_event: "イベントを終了"
       open_event: "イベントを開く"
       invitees_modal:
+        title_invited: "イベントへの参加"
         title_participated: "参加したユーザーのリスト"
         filter_placeholder: "ユーザーをフィルタ"
+        remove_invitee: "招待されたユーザーをリストから削除する"
+        add_invitee: "招待されたユーザーをリストに追加する"
       bulk_invite_modal:
         confirm: "確認"
         text: "CSV ファイルをアップロード"
@@ -385,11 +389,20 @@ ja:
         more_than_one_event: "複数のイベントを指定できません。"
       models:
         invitee:
+          no_users: "ユーザーが見つかりません"
           status:
             unknown: "興味なし"
             going: "出席"
             not_going: "欠席"
             interested: "興味あり"
+            going_count:
+              other: "%{count} 出席"
+            not_going_count:
+              other: "%{count} 欠席"
+            interested_count:
+              other: "%{count} 興味あり"
+            invited_count:
+              other: "%{count} 招待済みユーザー"
         event:
           expired: "期限切れ"
           closed: "終了"

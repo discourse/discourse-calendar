@@ -334,6 +334,7 @@ fi:
         ended_at: "Tapahtuma päättyi: %{date}"
         ends_in_duration: "Päättyy %{duration}"
       show_all: "Näytä kaikki"
+      show_participants: "Näytä osallistujat"
       participants:
         one: "%{count} käyttäjä osallistui."
         other: "%{count} käyttäjää osallistui."
@@ -348,8 +349,11 @@ fi:
       close_event: "Sulje tapahtuma"
       open_event: "Avaa tapahtuma"
       invitees_modal:
+        title_invited: "Tapahtumaan osallistuminen"
         title_participated: "Osallistuneiden käyttäjien luettelo"
         filter_placeholder: "Suodata käyttäjiä"
+        remove_invitee: "Poista kutsuttu luettelosta"
+        add_invitee: "Lisää kutsuttu luetteloon"
       bulk_invite_modal:
         confirm: "vahvista"
         text: "Lataa CSV-tiedosto"
@@ -378,19 +382,32 @@ fi:
         try_again: "Yritä uudelleen"
         view_all: "Näytä kaikki"
       category:
-        sort_topics_by_event_start_date: "Lajittele ketjun tapahtuman alkamispäivän mukaan."
+        sort_topics_by_event_start_date: "Lajittele ketjut tapahtuman alkamispäivän mukaan."
         disable_topic_resorting: "Poista ketjujen lajittelu uudelleen käytöstä."
         settings_sections:
-          event_sorting: "Tapahtuman lajittelu"
+          event_sorting: "Tapahtumien lajittelu"
       preview:
         more_than_one_event: "Sinulla ei voi olla enempää kuin yksi tapahtuma."
       models:
         invitee:
+          no_users: "Käyttäjiä ei löydy"
           status:
             unknown: "Ei kiinnostunut"
             going: "Menossa"
             not_going: "Ei menossa"
             interested: "Kiinnostunut"
+            going_count:
+              one: "%{count} menossa"
+              other: "%{count} menossa"
+            not_going_count:
+              one: "%{count} ei ole menossa"
+              other: "%{count} ei ole menossa"
+            interested_count:
+              one: "%{count} kiinnostunut"
+              other: "%{count} kiinnostunutta"
+            invited_count:
+              one: "%{count} käyttäjä kutsuttu"
+              other: "%{count} käyttäjää kutsuttu"
         event:
           expired: "Vanhentunut"
           closed: "Suljettu"

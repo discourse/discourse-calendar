@@ -59,6 +59,7 @@ zh_CN:
     sort_categories_by_event_start_date_enabled: "启用按活动开始日期对类别话题进行排序。"
     disable_resorting_on_categories_enabled: "允许类别禁用用户对活动类别进行排序的功能。"
     calendar_automatic_holidays_enabled: "根据用户所在区域自动设置假期状态（注意：您可以在插件设置中禁用特定的自动假期）"
+    event_participation_buttons: "用户可以使用的活动参与按钮列表。"
     sidebar_show_upcoming_events: "在边栏中的“更多”下显示近期活动链接。"
     include_expired_events_on_calendar: "在“类别日历”和“近期活动”视图中包括过去/过期的活动。"
   discourse_calendar:
@@ -84,7 +85,7 @@ zh_CN:
           must_be_in_first_post: "活动只能出现在话题的第一个帖子中。"
           raw_invitees_length: "活动仅限于 %{count} 个用户/群组。"
           raw_invitees:
-            only_group: "活动只接受群组名。"
+            only_group: "活动只接受群组名称。"
           ends_at_before_starts_at: "活动的结束日期不能早于开始日期。"
           start_must_be_present_and_a_valid_date: "活动需要有效的开始日期。"
           end_must_be_a_valid_date: "结束日期必须是有效日期。"

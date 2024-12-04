@@ -52,6 +52,7 @@ it:
     sort_categories_by_event_start_date_enabled: "Abilita l'ordinamento degli argomenti di categoria in base alla data di inizio dell'evento."
     disable_resorting_on_categories_enabled: "Consenti alle categorie di disabilitare la possibilità per gli utenti di ordinare in base alla categoria dell'evento."
     calendar_automatic_holidays_enabled: "Imposta automaticamente lo stato di vacanza in base all'area geografica degli utenti (nota: puoi disabilitare specifiche festività automatiche nelle impostazioni del plugin)"
+    event_participation_buttons: "Elenco dei pulsanti di partecipazione agli eventi che gli utenti possono utilizzare."
     sidebar_show_upcoming_events: "Mostra il link ai prossimi eventi nella barra laterale sotto \"Altro\"."
     include_expired_events_on_calendar: "Includi eventi passati/scaduti nel calendario delle categorie e nelle visualizzazioni dei prossimi eventi."
   discourse_calendar:
