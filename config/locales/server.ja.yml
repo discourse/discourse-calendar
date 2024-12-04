@@ -59,6 +59,7 @@ ja:
     sort_categories_by_event_start_date_enabled: "イベント開始日順によるカテゴリトピックの並べ替えを有効にします。"
     disable_resorting_on_categories_enabled: "ユーザーがイベントカテゴリで並べ替える機能をカテゴリで無効にできるようにします。"
     calendar_automatic_holidays_enabled: "ユーザーの地域に基づいて休暇ステータスを自動的に設定します (注意: 特定の自動休暇はプラグインの設定で無効にできます)"
+    event_participation_buttons: "ユーザーが使用できるイベント参加ボタンのリスト。"
     sidebar_show_upcoming_events: "サイドバーの「もっと」の下に今後のイベントのリンクを表示する。"
     include_expired_events_on_calendar: "カテゴリカレンダーと今後のイベントビューに過去/期限切れのイベントを含める。"
   discourse_calendar:

@@ -334,12 +334,13 @@ tr_TR:
         ended_at: "Etkinlik sona erdi: %{date}"
         ends_in_duration: "Sona erme zamanı: %{duration}"
       show_all: "Tümünü göster"
+      show_participants: "Katılımcıları göster"
       participants:
         one: "%{count} kullanıcı katıldı."
         other: "%{count} kullanıcı katıldı."
       invite: "Kullanıcıya bildir"
       add_to_calendar: "Takvime ekle"
-      send_pm_to_creator: "%{username} adlı kullanıcıya özel mesaj gönder"
+      send_pm_to_creator: "%{username} adlı kullanıcıya kişisel mesaj gönder"
       leave: "Etkinlikten ayrıl"
       edit_event: "Etkinliği düzenle"
       export_event: "Etkinliği dışa aktar"
@@ -348,8 +349,11 @@ tr_TR:
       close_event: "Etkinliği kapat"
       open_event: "Etkinliği aç"
       invitees_modal:
+        title_invited: "Etkinlik Katılımı"
         title_participated: "Katılan kullanıcıların listesi"
         filter_placeholder: "Kullanıcıları filtrele"
+        remove_invitee: "Davetliyi listeden kaldır"
+        add_invitee: "Davetliyi listeye ekle"
       bulk_invite_modal:
         confirm: "onayla"
         text: "CSV dosyası yükle"
@@ -386,11 +390,24 @@ tr_TR:
         more_than_one_event: "Birden fazla etkinliğiniz olamaz."
       models:
         invitee:
+          no_users: "Kullanıcı bulunamadı"
           status:
             unknown: "İlgilenmiyorum"
             going: "Gidiyorum"
             not_going: "Gitmiyorum"
             interested: "İlgileniyorum"
+            going_count:
+              one: "%{count} gidiyor"
+              other: "%{count} gidiyor"
+            not_going_count:
+              one: "%{count} gitmiyor"
+              other: "%{count} gitmiyor"
+            interested_count:
+              one: "%{count} ilgileniyor"
+              other: "%{count} ilgileniyor"
+            invited_count:
+              one: "%{count} kullanıcı davet edildi"
+              other: "%{count} kullanıcı davet edildi"
         event:
           expired: "Süresi doldu"
           closed: "Kapalı"

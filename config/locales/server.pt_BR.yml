@@ -59,6 +59,7 @@ pt_BR:
     sort_categories_by_event_start_date_enabled: "Habilite a classificação dos tópicos da categoria por data de início do evento."
     disable_resorting_on_categories_enabled: "Permita que categorias desativem a capacidade dos usuários de classificar na categoria do evento."
     calendar_automatic_holidays_enabled: "Definir automaticamente o status do feriado conforme a região do(a) usuário(a) (observação: você pode desativar feriados automáticos específicos nas configurações do plugin)"
+    event_participation_buttons: "Lista botões de participação no evento que os(as) usuários(as) podem usar."
     sidebar_show_upcoming_events: "Mostre o link dos próximos eventos na barra lateral, em \"Mais\"."
     include_expired_events_on_calendar: "Inclua eventos passados/expirados na categoria Calendário e visualizações dos próximos eventos."
   discourse_calendar:

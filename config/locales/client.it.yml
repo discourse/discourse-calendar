@@ -334,12 +334,13 @@ it:
         ended_at: "Evento terminato: %{date}"
         ends_in_duration: "Termina tra %{duration}"
       show_all: "Mostra tutto"
+      show_participants: "Mostra partecipanti"
       participants:
         one: "%{count} utente ha partecipato."
         other: "%{count} utenti hanno partecipato."
       invite: "Notifica l'utente"
       add_to_calendar: "Aggiungi al calendario"
-      send_pm_to_creator: "Invia messaggio personale a %{username}"
+      send_pm_to_creator: "Invia MP a %{username}"
       leave: "Abbandona l'evento"
       edit_event: "Modifica evento"
       export_event: "Esporta evento"
@@ -348,8 +349,11 @@ it:
       close_event: "Chiudi evento"
       open_event: "Apri evento"
       invitees_modal:
+        title_invited: "Partecipazione all'evento"
         title_participated: "Utenti che hanno partecipato"
         filter_placeholder: "Filtra utenti"
+        remove_invitee: "Rimuovi invitato dall'elenco"
+        add_invitee: "Aggiungi invitato all'elenco"
       bulk_invite_modal:
         confirm: "conferma"
         text: "Carica file CSV"
@@ -379,18 +383,31 @@ it:
         view_all: "Vedi tutto"
       category:
         sort_topics_by_event_start_date: "Ordina gli argomenti per data di inizio dell'evento."
-        disable_topic_resorting: "Disabilita il riordinamento degli argomenti"
+        disable_topic_resorting: "Disabilita il riordinamento degli argomenti."
         settings_sections:
           event_sorting: "Ordinamento eventi"
       preview:
         more_than_one_event: "Non puoi avere più di un evento."
       models:
         invitee:
+          no_users: "Nessun utente trovato"
           status:
             unknown: "Non interessato"
             going: "Parteciperò"
             not_going: "Non parteciperò"
             interested: "Interessato"
+            going_count:
+              one: "%{count} partecipa"
+              other: "%{count} partecipano"
+            not_going_count:
+              one: "%{count} non partecipa"
+              other: "%{count} non partecipano"
+            interested_count:
+              one: "%{count} interessato"
+              other: "%{count} interessati"
+            invited_count:
+              one: "%{count} utente invitato"
+              other: "%{count} utenti invitati"
         event:
           expired: "Scaduto"
           closed: "Chiuso"

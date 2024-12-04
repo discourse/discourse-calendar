@@ -334,12 +334,13 @@ fr:
         ended_at: "Événement terminé : %{date}"
         ends_in_duration: "Se termine %{duration}"
       show_all: "Tout afficher"
+      show_participants: "Afficher les participants"
       participants:
         one: "%{count} utilisateur a participé."
         other: "%{count} utilisateurs ont participé."
       invite: "Notifier l'utilisateur"
       add_to_calendar: "Ajouter au calendrier"
-      send_pm_to_creator: "Envoyer un message direct à %{username}"
+      send_pm_to_creator: "Envoyer un MD à %{username}"
       leave: "Quitter l'événement"
       edit_event: "Modifier l'événement"
       export_event: "Exporter l'événement"
@@ -348,8 +349,11 @@ fr:
       close_event: "Fermer l'événement"
       open_event: "Ouvrir l'événement"
       invitees_modal:
+        title_invited: "Participation à l'événement"
         title_participated: "Liste des utilisateurs ayant participé"
         filter_placeholder: "Filtrer les utilisateurs"
+        remove_invitee: "Supprimer l'invité de la liste"
+        add_invitee: "Ajouter l'invité à la liste"
       bulk_invite_modal:
         confirm: "confirmer"
         text: "Téléverser un fichier CSV"
@@ -386,11 +390,24 @@ fr:
         more_than_one_event: "Vous ne pouvez pas avoir plus d'un événement."
       models:
         invitee:
+          no_users: "Aucun utilisateur trouvé"
           status:
             unknown: "Pas intéressé(e)"
             going: "Participera"
             not_going: "Ne participera pas"
             interested: "Intéressé(e)"
+            going_count:
+              one: "%{count} utilisateur participera"
+              other: "%{count} utilisateurs participeront"
+            not_going_count:
+              one: "%{count} utilisateur ne participera pas"
+              other: "%{count} utilisateurs ne participeront pas"
+            interested_count:
+              one: "%{count} utilisateur est intéressé"
+              other: "%{count} utilisateurs sont intéressés"
+            invited_count:
+              one: "%{count} utilisateur est invité"
+              other: "%{count} utilisateurs sont invités"
         event:
           expired: "Expiré"
           closed: "Fermé"
