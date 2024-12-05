@@ -171,7 +171,7 @@
 
                 <DButton
                   class="remove-reminder"
-                  @icon="times"
+                  @icon="xmark"
                   @action={{fn @model.event.removeReminder reminder}}
                 />
 
@@ -255,7 +255,7 @@
       />
 
       <DButton
-        @icon="trash-alt"
+        @icon="trash-can"
         class="btn-danger"
         @action={{this.destroyPostEvent}}
       />

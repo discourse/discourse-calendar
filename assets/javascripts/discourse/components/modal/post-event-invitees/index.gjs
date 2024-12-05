@@ -119,7 +119,7 @@ export default class PostEventInviteesModal extends Component {
                   {{#if @model.event.canActOnDiscoursePostEvent}}
                     <DButton
                       class="remove-invitee"
-                      @icon="trash-alt"
+                      @icon="trash-can"
                       @action={{fn this.removeInvitee invitee}}
                       title={{i18n
                         "discourse_post_event.invitees_modal.remove_invitee"

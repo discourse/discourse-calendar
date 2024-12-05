@@ -222,7 +222,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
     <DMenu
       @identifier="discourse-post-event-more-menu"
       @triggerClass="more-dropdown"
-      @icon="ellipsis-h"
+      @icon="ellipsis"
       @onRegisterApi={{this.registerMenuApi}}
     >
       <:content>
@@ -299,7 +299,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             {{#if this.canBulkInvite}}
               <dropdown.item class="bulk-invite">
                 <DButton
-                  @icon="file-upload"
+                  @icon="file-arrow-up"
                   class="btn-transparent"
                   @label="discourse_post_event.bulk_invite"
                   @action={{this.bulkInvite}}
@@ -319,7 +319,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             {{else}}
               <dropdown.item class="edit-event">
                 <DButton
-                  @icon="pencil-alt"
+                  @icon="pencil"
                   class="btn-transparent"
                   @label="discourse_post_event.edit_event"
                   @action={{this.editPostEvent}}
@@ -329,7 +329,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
               {{#unless @event.isExpired}}
                 <dropdown.item class="close-event">
                   <DButton
-                    @icon="times"
+                    @icon="xmark"
                     @label="discourse_post_event.close_event"
                     @action={{this.closeEvent}}
                     class="btn-transparent btn-danger"
