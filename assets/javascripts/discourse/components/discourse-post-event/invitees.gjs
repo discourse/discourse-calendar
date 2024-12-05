@@ -10,17 +10,6 @@ export default class DiscoursePostEventInvitees extends Component {
   @service modal;
   @service siteSettings;
 
-  @action
-  showAllInvitees() {
-    this.modal.show(PostEventInvitees, {
-      model: {
-        event: this.args.event,
-        title: this.args.event.title,
-        extraClass: this.args.event.extraClass,
-      },
-    });
-  }
-
   get hasAttendees() {
     return this.args.event.stats["going"] > 0;
   }
