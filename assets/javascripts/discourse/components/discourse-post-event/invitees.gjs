@@ -11,16 +11,16 @@ export default class DiscoursePostEventInvitees extends Component {
   @service siteSettings;
 
   get hasAttendees() {
-    return this.args.event.stats["going"] > 0;
+    return this.args.event.stats.going > 0;
   }
 
   get statsInfo() {
-    return this.args.event.stats["going"];
+    return this.args.event.stats.going;
   }
 
   get inviteesTitle() {
     return i18n("discourse_post_event.models.invitee.status.going_count", {
-      count: this.args.event.stats["going"],
+      count: this.args.event.stats.going,
     });
   }
 
