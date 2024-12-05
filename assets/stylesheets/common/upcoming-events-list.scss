@@ -1,43 +1,68 @@
 .upcoming-events-list {
-  &__formatted-month {
-    font-weight: 600;
+  &__event {
+    column-gap: 0.5em;
+    display: flex;
+    padding: 0.5em;
+    border-radius: var(--d-border-radius);
   }
-
-  &__day-section {
+  &__event:last-of-type {
+    margin-bottom: 0.75em;
+  }
+  &__event:hover {
+    background-color: var(--primary-50);
+  }
+  &__event-date {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.5em;
+    height: 2.5em;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--primary-low);
+    border-radius: var(--d-button-border-radius);
+    flex-direction: column;
+    background-color: var(--secondary);
+  }
+  &__event-date .month {
+    text-align: center;
+    color: var(--primary);
+    font-size: var(--font-down-3);
+    text-transform: uppercase;
+  }
+  &__event-date .day {
+    text-align: center;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: var(--font-down-1);
+  }
+  &__event-content {
     display: flex;
     flex-direction: column;
-    padding-bottom: 0.5rem;
-    gap: 0.5rem;
   }
-
-  &__formatted-day {
-    margin-left: 0.5rem;
-    font-weight: 600;
-    font-size: var(--base-font-size);
-  }
-
-  &__event {
-    display: flex;
-    align-items: center;
-    margin-left: 1rem;
-    gap: 0.25rem;
-    font-size: var(--font-down-1);
-    line-height: var(--line-height-medium);
-  }
-
   &__event-name {
-    width: 70%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--primary);
   }
-
   &__event-time {
-    width: 30%;
-    text-align: center;
+    font-size: var(--font-down-2);
+    font-weight: 400;
+    color: var(--primary-700);
   }
-
   &__footer {
-    border-top: 1px solid var(--primary-low);
-    padding-top: 0.5em;
-    font-size: var(--font-down-1);
+    margin-top: 1em;
+    font-size: var(--font-down-2);
     line-height: var(--line-height-medium);
+    padding-left: 0.5em;
+  }
+  &__footer a {
+    color: var(--primary-high);
+  }
+  &__footer a:hover {
+    color: var(--primary);
   }
 }

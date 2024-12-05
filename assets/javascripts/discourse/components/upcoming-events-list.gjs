@@ -11,8 +11,6 @@ import I18n from "discourse-i18n";
 import or from "truth-helpers/helpers/or";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
-export const DEFAULT_MONTH_FORMAT = "MMMM YYYY";
-export const DEFAULT_DATE_FORMAT = "dddd, MMM D";
 export const DEFAULT_TIME_FORMAT = "LT";
 const DEFAULT_UPCOMING_DAYS = 180;
 const DEFAULT_COUNT = 8;
@@ -35,8 +33,6 @@ export default class UpcomingEventsList extends Component {
   @tracked hasError = false;
   @tracked eventsByMonth = {};
 
-  monthFormat = this.args.params?.monthFormat ?? DEFAULT_MONTH_FORMAT;
-  dateFormat = this.args.params?.dateFormat ?? DEFAULT_DATE_FORMAT;
   timeFormat = this.args.params?.timeFormat ?? DEFAULT_TIME_FORMAT;
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
@@ -48,12 +44,19 @@ export default class UpcomingEventsList extends Component {
 
   constructor() {
     super(...arguments);
-
     this.appEvents.on("page:changed", this, this.updateEventsList);
   }
 
   get categoryId() {
     return this.router.currentRoute.attributes?.category?.id;
+  }
+
+  get hasEmptyResponse() {
+    return (
+      !this.isLoading &&
+      !this.hasError &&
+      Object.keys(this.eventsByMonth).length === 0
+    );
   }
 
   get title() {
@@ -77,14 +80,6 @@ export default class UpcomingEventsList extends Component {
     } else {
       return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
-  }
-
-  get hasEmptyResponse() {
-    return (
-      !this.isLoading &&
-      !this.hasError &&
-      Object.keys(this.eventsByMonth).length === 0
-    );
   }
 
   @action
@@ -115,20 +110,20 @@ export default class UpcomingEventsList extends Component {
   }
 
   @action
-  formatMonth(month) {
-    return moment(month, "YYYY-MM").format(this.monthFormat);
-  }
-
-  @action
-  formatDate(month, day) {
-    return moment(`${month}-${day}`, "YYYY-MM-DD").format(this.dateFormat);
-  }
-
-  @action
   formatTime({ starts_at, ends_at }) {
     return isNotFullDayEvent(moment(starts_at), moment(ends_at))
       ? moment(starts_at).format(this.timeFormat)
       : this.allDayLabel;
+  }
+
+  @action
+  startsAtMonth(month, day) {
+    return moment(`${month}-${day}`).format("MMM");
+  }
+
+  @action
+  startsAtDay(month, day) {
+    return moment(`${month}-${day}`).format("D");
   }
 
   groupByMonthAndDay(data) {
@@ -183,35 +178,31 @@ export default class UpcomingEventsList extends Component {
         {{#unless this.isLoading}}
           <PluginOutlet @name="upcoming-events-list-container">
             {{#each-in this.eventsByMonth as |month monthData|}}
-              {{#if this.monthFormat}}
-                <h4 class="upcoming-events-list__formatted-month">
-                  {{this.formatMonth month}}
-                </h4>
-              {{/if}}
-
               {{#each-in monthData as |day events|}}
-                <div class="upcoming-events-list__day-section">
-                  <div class="upcoming-events-list__formatted-day">
-                    {{this.formatDate month day}}
-                  </div>
-
-                  {{#each events as |event|}}
-                    <a
-                      class="upcoming-events-list__event"
-                      href={{event.post.url}}
-                    >
-                      {{#if this.timeFormat}}
-                        <div class="upcoming-events-list__event-time">
-                          {{this.formatTime event}}
-                        </div>
-                      {{/if}}
-
-                      <div class="upcoming-events-list__event-name">
+                {{#each events as |event|}}
+                  <a
+                    class="upcoming-events-list__event"
+                    href={{event.post.url}}
+                  >
+                    <div class="upcoming-events-list__event-date">
+                      <div class="month">{{this.startsAtMonth month day}}</div>
+                      <div class="day">{{this.startsAtDay month day}}</div>
+                    </div>
+                    <div class="upcoming-events-list__event-content">
+                      <span
+                        class="upcoming-events-list__event-name"
+                        title={{or event.name event.post.topic.title}}
+                      >
                         {{or event.name event.post.topic.title}}
-                      </div>
-                    </a>
-                  {{/each}}
-                </div>
+                      </span>
+                      {{#if this.timeFormat}}
+                        <span class="upcoming-events-list__event-time">
+                          {{this.formatTime event}}
+                        </span>
+                      {{/if}}
+                    </div>
+                  </a>
+                {{/each}}
               {{/each-in}}
             {{/each-in}}
           </PluginOutlet>

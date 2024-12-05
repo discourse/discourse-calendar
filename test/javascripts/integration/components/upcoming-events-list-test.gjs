@@ -12,8 +12,6 @@ import {
 } from "discourse/tests/helpers/qunit-helpers";
 import I18n from "discourse-i18n";
 import UpcomingEventsList, {
-  DEFAULT_DATE_FORMAT,
-  DEFAULT_MONTH_FORMAT,
   DEFAULT_TIME_FORMAT,
 } from "../../discourse/components/upcoming-events-list";
 
@@ -73,7 +71,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     );
   });
 
-  test("with events, standard formats", async function (assert) {
+  test("with events", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
     await render(<template><UpcomingEventsList /></template>);
@@ -89,25 +87,22 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     await waitFor(".loading-container .spinner", { count: 0 });
 
     assert.deepEqual(
-      [...queryAll(".upcoming-events-list__formatted-month")].map(
+      [...queryAll(".upcoming-events-list__event-date .month")].map(
         (el) => el.innerText
       ),
       [
-        moment(tomorrowAllDay).format(DEFAULT_MONTH_FORMAT),
-        moment(nextMonth).format(DEFAULT_MONTH_FORMAT),
+        moment(tomorrowAllDay).format("MMM").toUpperCase(),
+        moment(nextMonth).format("MMM").toUpperCase(),
       ],
-      "it displays the formatted month"
+      "it displays the correct month"
     );
 
     assert.deepEqual(
-      [...queryAll(".upcoming-events-list__formatted-day")].map(
+      [...queryAll(".upcoming-events-list__event-date .day")].map(
         (el) => el.innerText
       ),
-      [
-        moment(tomorrowAllDay).format(DEFAULT_DATE_FORMAT),
-        moment(nextMonth).format(DEFAULT_DATE_FORMAT),
-      ],
-      "it displays the formatted day"
+      [moment(tomorrowAllDay).format("D"), moment(nextMonth).format("D")],
+      "it displays the correct day"
     );
 
     assert.deepEqual(
@@ -224,13 +219,11 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     );
   });
 
-  test("with events, overridden formats", async function (assert) {
+  test("with events, overridden time format", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
     await render(<template>
-      <UpcomingEventsList
-        @params={{hash monthFormat="" dateFormat="L" timeFormat="LLL"}}
-      />
+      <UpcomingEventsList @params={{hash timeFormat="LLL"}} />
     </template>);
 
     this.appEvents.trigger("page:changed", { url: "/" });
@@ -242,14 +235,6 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     );
 
     await waitFor(".loading-container .spinner", { count: 0 });
-
-    assert.deepEqual(
-      [...queryAll(".upcoming-events-list__formatted-day")].map(
-        (el) => el.innerText
-      ),
-      [moment(tomorrowAllDay).format("L"), moment(nextMonth).format("L")],
-      "it displays the formatted day"
-    );
 
     assert.deepEqual(
       [...queryAll(".upcoming-events-list__event-time")].map(
@@ -269,32 +254,6 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       ["Awesome Event", "Another Awesome Event"],
       "it displays the event name"
     );
-  });
-
-  test("with events, omitted formats", async function (assert) {
-    pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
-    await render(<template>
-      <UpcomingEventsList @params={{hash monthFormat="" timeFormat=""}} />
-    </template>);
-
-    this.appEvents.trigger("page:changed", { url: "/" });
-
-    assert
-      .dom(".upcoming-events-list__heading")
-      .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
-      );
-
-    await waitFor(".loading-container .spinner", { count: 0 });
-
-    assert
-      .dom(".upcoming-events-list__formatted-month")
-      .doesNotExist("it omits the formatted month when empty");
-
-    assert
-      .dom(".upcoming-events-list__formatted-time")
-      .doesNotExist("it omits the formatted time when empty");
   });
 
   test("with an error response", async function (assert) {
