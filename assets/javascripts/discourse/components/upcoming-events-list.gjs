@@ -37,10 +37,10 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  emptyMessage = I18n("discourse_post_event.upcoming_events_list.empty");
-  allDayLabel = I18n("discourse_post_event.upcoming_events_list.all_day");
-  errorMessage = I18n("discourse_post_event.upcoming_events_list.error");
-  viewAllLabel = I18n("discourse_post_event.upcoming_events_list.view_all");
+  emptyMessage = I18n.t("discourse_post_event.upcoming_events_list.empty");
+  allDayLabel = I18n.t("discourse_post_event.upcoming_events_list.all_day");
+  errorMessage = I18n.t("discourse_post_event.upcoming_events_list.error");
+  viewAllLabel = I18n.t("discourse_post_event.upcoming_events_list.view_all");
 
   constructor() {
     super(...arguments);
