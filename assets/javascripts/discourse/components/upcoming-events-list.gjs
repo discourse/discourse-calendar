@@ -11,8 +11,6 @@ import { i18n } from "discourse-i18n";
 import or from "truth-helpers/helpers/or";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
-export const DEFAULT_MONTH_FORMAT = "MMMM YYYY";
-export const DEFAULT_DATE_FORMAT = "dddd, MMM D";
 export const DEFAULT_TIME_FORMAT = "LT";
 const DEFAULT_UPCOMING_DAYS = 180;
 const DEFAULT_COUNT = 8;
@@ -35,8 +33,6 @@ export default class UpcomingEventsList extends Component {
   @tracked hasError = false;
   @tracked eventsByMonth = {};
 
-  monthFormat = this.args.params?.monthFormat ?? DEFAULT_MONTH_FORMAT;
-  dateFormat = this.args.params?.dateFormat ?? DEFAULT_DATE_FORMAT;
   timeFormat = this.args.params?.timeFormat ?? DEFAULT_TIME_FORMAT;
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
