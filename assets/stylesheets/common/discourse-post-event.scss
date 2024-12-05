@@ -401,4 +401,20 @@ $show-interested: inherit;
     font-weight: 400;
     grid-column-start: 2;
   }
+  .event-invitees-icon {
+    position: relative;
+    display: flex;
+  }
+  .event-invitees-icon .going {
+    font-size: var(--font-down-3);
+    position: absolute;
+    right: 4px;
+    bottom: -8px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-medium);
+  }
 }
