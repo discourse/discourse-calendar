@@ -334,11 +334,12 @@ zh_CN:
         ended_at: "活动已结束：%{date}"
         ends_in_duration: "%{duration}后结束"
       show_all: "全部显示"
+      show_participants: "显示参与者"
       participants:
         other: "%{count} 位用户参与。"
       invite: "通知用户"
       add_to_calendar: "添加到日历"
-      send_pm_to_creator: "将私信发送给 %{username}"
+      send_pm_to_creator: "向 %{username} 发送私信"
       leave: "离开活动"
       edit_event: "编辑活动"
       export_event: "导出活动"
@@ -347,8 +348,11 @@ zh_CN:
       close_event: "关闭活动"
       open_event: "开放活动"
       invitees_modal:
+        title_invited: "活动参与"
         title_participated: "参与用户列表"
         filter_placeholder: "筛选用户"
+        remove_invitee: "从列表中移除受邀者"
+        add_invitee: "将受邀者添加到列表"
       bulk_invite_modal:
         confirm: "确认"
         text: "上传 CSV 文件"
@@ -385,11 +389,20 @@ zh_CN:
         more_than_one_event: "您不能有多个活动。"
       models:
         invitee:
+          no_users: "找不到用户"
           status:
             unknown: "不感兴趣"
             going: "参加"
             not_going: "不参加"
             interested: "感兴趣"
+            going_count:
+              other: "%{count} 人参加"
+            not_going_count:
+              other: "%{count} 人不参加"
+            interested_count:
+              other: "%{count} 人感兴趣"
+            invited_count:
+              other: "%{count} 位受邀用户"
         event:
           expired: "已过期"
           closed: "已关闭"

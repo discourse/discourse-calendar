@@ -334,10 +334,11 @@ ru:
         ended_at: "Мероприятие завершится %{date}"
         ends_in_duration: "Окончание %{duration}"
       show_all: "Показать все"
+      show_participants: "Показать участников"
       participants:
         one: "Участвовал %{count} пользователь."
-        few: "Участвовало %{count} пользователей."
-        many: "Участвовало %{count} пользователя."
+        few: "Участвовало %{count} пользователя."
+        many: "Участвовало %{count} пользователей."
         other: "Участвовало пользователей: %{count}."
       invite: "Уведомлять пользователя"
       add_to_calendar: "Добавить в календарь"
@@ -350,8 +351,11 @@ ru:
       close_event: "Закрыть мероприятие"
       open_event: "Открыть мероприятие"
       invitees_modal:
+        title_invited: "Участие в мероприятии"
         title_participated: "Список участвовавших пользователей"
         filter_placeholder: "Фильтр пользователей"
+        remove_invitee: "Удалить приглашенного из списка"
+        add_invitee: "Добавить приглашенного в список"
       bulk_invite_modal:
         confirm: "подтвердить"
         text: "Загрузить CSV-файл"
@@ -388,11 +392,32 @@ ru:
         more_than_one_event: "У вас не может быть более одного мероприятия."
       models:
         invitee:
+          no_users: "Пользователи не найдены"
           status:
             unknown: "Не интересует"
             going: "Участвую"
             not_going: "Не участвую"
             interested: "Заинтересован"
+            going_count:
+              one: "%{count} участвует"
+              few: "%{count} участвуют"
+              many: "%{count} участвуют"
+              other: "%{count} участвует"
+            not_going_count:
+              one: "%{count} не участвует"
+              few: "%{count} не участвуют"
+              many: "%{count} не участвуют"
+              other: "%{count} не участвует"
+            interested_count:
+              one: "%{count} интересуется"
+              few: "%{count} интересуются"
+              many: "%{count} интересуются"
+              other: "%{count} интересуется"
+            invited_count:
+              one: "%{count} пользователь приглашен"
+              few: "%{count} пользователя приглашены"
+              many: "%{count} пользователей приглашены"
+              other: "%{count} пользователя приглашены"
         event:
           expired: "Истекшие"
           closed: "Закрытое"

@@ -334,6 +334,7 @@ nl:
         ended_at: "Evenement eindigt: %{datum}"
         ends_in_duration: "Eindigt %{duur}"
       show_all: "Alles weergeven"
+      show_participants: "Deelnemers weergeven"
       participants:
         one: "%{count} gebruiker heeft deelgenomen."
         other: "%{count} gebruikers hebben deelgenomen."
@@ -348,8 +349,11 @@ nl:
       close_event: "Evenement sluiten"
       open_event: "Evenement openen"
       invitees_modal:
+        title_invited: "Evenementdeelname"
         title_participated: "Lijst van deelnemende gebruikers"
         filter_placeholder: "Gebruikers filteren"
+        remove_invitee: "Uitgenodigde verwijderen uit lijst"
+        add_invitee: "Uitgenodigde toevoegen aan lijst"
       bulk_invite_modal:
         confirm: "bevestigen"
         text: "CSV-bestand uploaden"
@@ -378,7 +382,7 @@ nl:
         try_again: "Opnieuw proberen"
         view_all: "Alles weergeven"
       category:
-        sort_topics_by_event_start_date: "Sorteer onderwerpen op begindatum."
+        sort_topics_by_event_start_date: "Sorteer topics op de begindatum van evenementen."
         disable_topic_resorting: "Schakel sorteren van topics uit."
         settings_sections:
           event_sorting: "Evenementen sorteren"
@@ -386,11 +390,24 @@ nl:
         more_than_one_event: "Je kunt niet meer dan één evenement hebben."
       models:
         invitee:
+          no_users: "Geen gebruikers gevonden"
           status:
             unknown: "Niet geïnteresseerd"
             going: "Gaan"
             not_going: "Niet gaan"
             interested: "Geïnteresseerd"
+            going_count:
+              one: "%{count} gaat"
+              other: "%{count} gaan"
+            not_going_count:
+              one: "%{count} gaat niet"
+              other: "%{count} gaan niet"
+            interested_count:
+              one: "%{count} is geïnteresseerd"
+              other: "%{count} zijn geïnteresseerd"
+            invited_count:
+              one: "%{count} gebruiker uitgenodigd"
+              other: "%{count} gebruikers uitgenodigd"
         event:
           expired: "Verlopen"
           closed: "Gesloten"

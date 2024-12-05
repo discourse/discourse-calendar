@@ -59,6 +59,7 @@ tr_TR:
     sort_categories_by_event_start_date_enabled: "Kategori konularının etkinlik başlangıç tarihine göre sıralanmasını etkinleştirin."
     disable_resorting_on_categories_enabled: "Kategorilerin, kullanıcıların etkinlik kategorisine göre sıralama yapma özelliğini devre dışı bırakmasına izin verin."
     calendar_automatic_holidays_enabled: "Kullanıcı bölgesine göre tatil durumunu otomatik olarak ayarla (not: belirli otomatik tatilleri eklenti ayarlarından devre dışı bırakabilirsiniz)"
+    event_participation_buttons: "Kullanıcıların kullanabileceği etkinlik katılım düğmelerinin listesi."
     sidebar_show_upcoming_events: "Kenar çubuğunda 'Daha Fazla' altında yaklaşan etkinlikler bağlantısını gösterin."
     include_expired_events_on_calendar: "Kategori Takvimi ve Yaklaşan Etkinlikler görünümlerine geçmiş/süresi dolmuş etkinlikleri ekleyin."
   discourse_calendar:

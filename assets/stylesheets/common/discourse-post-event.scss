@@ -70,8 +70,7 @@ $show-interested: inherit;
     column-gap: 1em;
     display: flex;
     align-items: flex-start;
-    padding: 0.5em 1em;
-    margin-top: 0.5em;
+    padding: 0.75em;
 
     .more-dropdown {
       margin-left: auto;
@@ -140,8 +139,6 @@ $show-interested: inherit;
       max-width: 45vw;
       font-size: var(--font-up-2);
       font-weight: 400;
-      white-space: initial;
-      margin-bottom: 0.25rem;
     }
     .status-and-creators {
       display: flex;
@@ -157,6 +154,9 @@ $show-interested: inherit;
 
       .created-by {
         margin-right: 0.25em;
+        @media screen and (max-width: 450px) {
+          display: none;
+        }
       }
 
       .username {
@@ -195,13 +195,13 @@ $show-interested: inherit;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5em 1em;
+    padding: 0.75em;
     flex-wrap: wrap;
     border-top: 1px solid var(--primary-low);
 
     &.event-status {
       margin: 0;
-      gap: 0.5em;
+      gap: 0.75em;
       .btn {
         flex: 1;
       }
@@ -231,7 +231,7 @@ $show-interested: inherit;
   }
 
   .event-invitees {
-    height: 1.5em;
+    min-height: 1.75em;
     display: flex;
     align-items: flex-start;
     justify-content: center;

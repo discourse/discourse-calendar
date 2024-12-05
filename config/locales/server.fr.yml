@@ -59,6 +59,7 @@ fr:
     sort_categories_by_event_start_date_enabled: "Activer le tri des rubriques de la catégorie par date de début de l'événement."
     disable_resorting_on_categories_enabled: "Autoriser les catégories pour désactiver la possibilité pour les utilisateurs de trier la catégorie d'événement."
     calendar_automatic_holidays_enabled: "Définir automatiquement le statut des vacances en fonction de la région de l'utilisateur (note : il est possible de désactiver des vacances automatiques spécifiques dans les paramètres de l'extension)"
+    event_participation_buttons: "Liste des boutons de participation aux événements que les utilisateurs peuvent utiliser."
     sidebar_show_upcoming_events: "Afficher le lien des événements à venir dans la barre latérale sous « Plus »."
     include_expired_events_on_calendar: "Inclure les événements passés ou expirés dans le calendrier des catégories et les vues des événements à venir."
   discourse_calendar:
