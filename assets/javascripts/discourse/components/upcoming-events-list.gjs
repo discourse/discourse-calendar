@@ -37,7 +37,6 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  title = i18n("discourse_post_event.upcoming_events_list.title");
   emptyMessage = i18n("discourse_post_event.upcoming_events_list.empty");
   allDayLabel = i18n("discourse_post_event.upcoming_events_list.all_day");
   errorMessage = i18n("discourse_post_event.upcoming_events_list.error");
@@ -65,7 +64,7 @@ export default class UpcomingEventsList extends Component {
     const titleSetting = this.siteSettings.map_events_title;
 
     if (titleSetting === "") {
-      return I18n.t("discourse_post_event.upcoming_events_list.title");
+      return i18n.t("discourse_post_event.upcoming_events_list.title");
     }
 
     const categories = JSON.parse(titleSetting).map(
@@ -79,7 +78,7 @@ export default class UpcomingEventsList extends Component {
       );
       return customTitleLookup?.custom_title;
     } else {
-      return I18n.t("discourse_post_event.upcoming_events_list.title");
+      return i18n.t("discourse_post_event.upcoming_events_list.title");
     }
   }
 
