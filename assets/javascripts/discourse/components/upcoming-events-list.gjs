@@ -7,7 +7,7 @@ import ConditionalLoadingSpinner from "discourse/components/conditional-loading-
 import DButton from "discourse/components/d-button";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import { ajax } from "discourse/lib/ajax";
-import I18n from "discourse-I18n";
+import I18n from "discourse-i18n";
 import or from "truth-helpers/helpers/or";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
