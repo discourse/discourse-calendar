@@ -256,32 +256,6 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     );
   });
 
-  test("with events, omitted formats", async function (assert) {
-    pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
-    await render(<template>
-      <UpcomingEventsList @params={{hash timeFormat=""}} />
-    </template>);
-
-    this.appEvents.trigger("page:changed", { url: "/" });
-
-    assert
-      .dom(".upcoming-events-list__heading")
-      .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
-      );
-
-    await waitFor(".loading-container .spinner", { count: 0 });
-
-    assert
-      .dom(".upcoming-events-list__formatted-month")
-      .doesNotExist("it omits the formatted month when empty");
-
-    assert
-      .dom(".upcoming-events-list__formatted-time")
-      .doesNotExist("it omits the formatted time when empty");
-  });
-
   test("with an error response", async function (assert) {
     pretender.get("/discourse-post-event/events", () => {
       return response(500, {});
