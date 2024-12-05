@@ -7,7 +7,7 @@ import ConditionalLoadingSpinner from "discourse/components/conditional-loading-
 import DButton from "discourse/components/d-button";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import { ajax } from "discourse/lib/ajax";
-import I18n, { i18n } from "discourse-i18n";
+import I18n from "discourse-I18n";
 import or from "truth-helpers/helpers/or";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
@@ -37,10 +37,10 @@ export default class UpcomingEventsList extends Component {
   count = this.args.params?.count ?? DEFAULT_COUNT;
   upcomingDays = this.args.params?.upcomingDays ?? DEFAULT_UPCOMING_DAYS;
 
-  emptyMessage = i18n("discourse_post_event.upcoming_events_list.empty");
-  allDayLabel = i18n("discourse_post_event.upcoming_events_list.all_day");
-  errorMessage = i18n("discourse_post_event.upcoming_events_list.error");
-  viewAllLabel = i18n("discourse_post_event.upcoming_events_list.view_all");
+  emptyMessage = I18n("discourse_post_event.upcoming_events_list.empty");
+  allDayLabel = I18n("discourse_post_event.upcoming_events_list.all_day");
+  errorMessage = I18n("discourse_post_event.upcoming_events_list.error");
+  viewAllLabel = I18n("discourse_post_event.upcoming_events_list.view_all");
 
   constructor() {
     super(...arguments);
