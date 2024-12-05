@@ -64,7 +64,7 @@ export default class UpcomingEventsList extends Component {
     const titleSetting = this.siteSettings.map_events_title;
 
     if (titleSetting === "") {
-      return i18n.t("discourse_post_event.upcoming_events_list.title");
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
 
     const categories = JSON.parse(titleSetting).map(
@@ -78,7 +78,7 @@ export default class UpcomingEventsList extends Component {
       );
       return customTitleLookup?.custom_title;
     } else {
-      return i18n.t("discourse_post_event.upcoming_events_list.title");
+      return I18n.t("discourse_post_event.upcoming_events_list.title");
     }
   }
 
