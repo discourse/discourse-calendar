@@ -169,7 +169,7 @@ export default class DiscoursePostEventStatus extends Component {
             >
               <DButton
                 class="not-going-button"
-                @icon="times"
+                @icon="xmark"
                 @label="discourse_post_event.models.invitee.status.not_going"
                 @action={{fn this.changeWatchingInviteeStatus "not_going"}}
               />
