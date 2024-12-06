@@ -393,7 +393,7 @@ pt_BR:
           no_users: "Nenhum usuário(a) encontrado(a)"
           status:
             unknown: "Não tenho interesse"
-            going: "Indo para"
+            going: "Eu vou!"
             not_going: "Não vou"
             interested: "Interessado"
             going_count:
