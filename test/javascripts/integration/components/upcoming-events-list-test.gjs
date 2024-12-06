@@ -4,12 +4,7 @@ import { click, currentURL, render, waitFor } from "@ember/test-helpers";
 import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import pretender, { response } from "discourse/tests/helpers/create-pretender";
-import {
-  exists,
-  fakeTime,
-  query,
-  queryAll,
-} from "discourse/tests/helpers/qunit-helpers";
+import { fakeTime, queryAll } from "discourse/tests/helpers/qunit-helpers";
 import I18n from "discourse-i18n";
 import UpcomingEventsList, {
   DEFAULT_TIME_FORMAT,
@@ -56,19 +51,21 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
-      "it displays the title"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        "it displays the title"
+      );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__empty-message").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.empty"),
-      "it displays the empty list message"
-    );
+    assert
+      .dom(".upcoming-events-list__empty-message")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.empty"),
+        "it displays the empty list message"
+      );
   });
 
   test("with events", async function (assert) {
@@ -78,11 +75,12 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
-      "it displays the title"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        "it displays the title"
+      );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
@@ -124,10 +122,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       "it displays the event name"
     );
 
-    assert.ok(
-      exists(".upcoming-events-list__view-all"),
-      "it displays the view-all link"
-    );
+    assert
+      .dom(".upcoming-events-list__view-all")
+      .exists("it displays the view-all link");
   });
 
   test("with multi-day events, standard formats", async function (assert) {
@@ -204,11 +201,12 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__view-all").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.view_all"),
-      "it displays the view-all link"
-    );
+    assert
+      .dom(".upcoming-events-list__view-all")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.view_all"),
+        "it displays the view-all link"
+      );
 
     await click(".upcoming-events-list__view-all");
 
@@ -228,11 +226,12 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
-      "it displays the title"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        "it displays the title"
+      );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
@@ -265,25 +264,28 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
-      "it displays the title"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        "it displays the title"
+      );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__error-message").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.error"),
-      "it displays the error message"
-    );
+    assert
+      .dom(".upcoming-events-list__error-message")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.error"),
+        "it displays the error message"
+      );
 
-    assert.strictEqual(
-      query(".upcoming-events-list__try-again").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.try_again"),
-      "it displays the try again button"
-    );
+    assert
+      .dom(".upcoming-events-list__try-again")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.try_again"),
+        "it displays the try again button"
+      );
   });
 
   test("with events, overridden count parameter", async function (assert) {
@@ -295,11 +297,12 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
-    assert.strictEqual(
-      query(".upcoming-events-list__heading").innerText,
-      I18n.t("discourse_post_event.upcoming_events_list.title"),
-      "it displays the title"
-    );
+    assert
+      .dom(".upcoming-events-list__heading")
+      .hasText(
+        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        "it displays the title"
+      );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
