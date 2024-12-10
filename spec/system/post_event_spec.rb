@@ -111,10 +111,11 @@ describe "Post event", type: :system do
       visit(post.topic.url)
 
       post_event_page.open_bulk_invite_modal
-      bulk_invite_modal_page.set_invitee_at_row(invitable_user_1.username, "going", 1)
-      bulk_invite_modal_page.add_invitee
-      bulk_invite_modal_page.set_invitee_at_row(invitable_user_2.username, "not_going", 2)
-      bulk_invite_modal_page.send_invites
+      bulk_invite_modal_page
+        .set_invitee_at_row(invitable_user_1.username, "going", 1)
+        .add_invitee
+        .set_invitee_at_row(invitable_user_2.username, "not_going", 2)
+        .send_invites
 
       expect(bulk_invite_modal_page).to be_closed
     end
