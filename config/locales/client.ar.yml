@@ -334,13 +334,14 @@ ar:
         ended_at: "انتهى الحدث: %{date}"
         ends_in_duration: "ينتهي بعد %{duration}"
       show_all: "عرض الكل"
+      show_participants: "إظهار المشاركين"
       participants:
-        zero: "شارك %{count} مستخدمين."
+        zero: "شارك %{count} مستخدم."
         one: "شارك مستخدم واحد (%{count})."
-        two: "شارك %{count} مستخدمًا."
-        few: "شارك %{count} مستخدمًا."
-        many: "شارك %{count} مستخدمين."
-        other: "شارك %{count} مستخدمين."
+        two: "شارك مستخدمَين (%{count})."
+        few: "شارك %{count} مستخدمين."
+        many: "شارك %{count} مستخدمًا."
+        other: "شارك %{count} مستخدم."
       invite: "إرسال إشعار إلى المستخدم"
       add_to_calendar: "إضافة إلى التقويم"
       send_pm_to_creator: "إرسال رسالة خاصة إلى %{username}"
@@ -352,8 +353,11 @@ ar:
       close_event: "إغلاق الحدث"
       open_event: "فتح الحدث"
       invitees_modal:
+        title_invited: "المشاركة في الحدث"
         title_participated: "قائمة المستخدمين الذين شاركوا"
         filter_placeholder: "تصفية المستخدمين"
+        remove_invitee: "إزالة المدعو من القائمة"
+        add_invitee: "إضافة مدعو إلى القائمة"
       bulk_invite_modal:
         confirm: "تأكيد"
         text: "تحميل ملف CSV"
@@ -383,18 +387,47 @@ ar:
         view_all: "عرض الكل"
       category:
         sort_topics_by_event_start_date: "ترتيب الموضوعات حسب تاريخ بدء الحدث."
-        disable_topic_resorting: "إيقاف الرجوع إلى الموضوع."
+        disable_topic_resorting: "إعادة فرز الموضوع."
         settings_sections:
           event_sorting: "ترتيب الأحداث"
       preview:
         more_than_one_event: "لا يمكن أن يكون لديك أكثر من حدثٍ واحد."
       models:
         invitee:
+          no_users: "لم يتم العثور على المستخدمين"
           status:
             unknown: "غير مهتم"
             going: "ذاهب"
             not_going: "لست ذاهبًا"
             interested: "مهتم"
+            going_count:
+              zero: "%{count} مدعو ذاهب"
+              one: "مدعو واحد (%{count}) ذاهب"
+              two: "مدعوان (%{count}) ذاهبان"
+              few: "%{count} مدعوين ذاهبين"
+              many: "%{count} مدعوًا ذاهبًا"
+              other: "%{count} مدعو ذاهب"
+            not_going_count:
+              zero: "%{count} مدعو غير ذاهب"
+              one: "مدعو واحد (%{count}) غير ذاهب"
+              two: "مدعوان (%{count}) غير ذاهبَين"
+              few: "%{count} مدعوين غير ذاهبين"
+              many: "%{count} مدعوًا غير ذاهب"
+              other: "%{count} مدعو غير ذاهب"
+            interested_count:
+              zero: "%{count} مدعو مهتم"
+              one: "مدعو واحد (%{count}) مهتم"
+              two: "مدعوان (%{count}) مهتمان"
+              few: "%{count} مدعوين مهتمين"
+              many: "%{count} مدعوًا مهتمًا"
+              other: "%{count} مدعو مهتم"
+            invited_count:
+              zero: "%{count} مستخدم تمت دعوته"
+              one: "مستخدم واحد (%{count}) تمت دعوته"
+              two: "مستخدمان (%{count}) تمت دعوتهما"
+              few: "%{count} مستخدمين تمت دعوتهم"
+              many: "%{count} مستخدمًا تمت دعوته"
+              other: "%{count} مستخدم تمت دعوته"
         event:
           expired: "انتهى"
           closed: "مغلق"

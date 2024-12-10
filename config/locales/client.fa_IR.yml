@@ -335,7 +335,7 @@ fa_IR:
         error: "با عرض پوزش، نوع فایل باید CSV باشد."
       upcoming_events:
         title: "رویدادهای آینده"
-        creator: "ایجاد کننده"
+        creator: "سازنده"
         status: "وضعیت"
       upcoming_events_list:
         title: "رویدادهای آینده"

@@ -35,6 +35,7 @@ ar:
   site_settings:
     events_max_rows: "الحد الأقصى للصفوف النصية لكل حدث في التقويم."
     map_events_to_color: "تعيين لون لكل وسم أو فئة."
+    map_events_title: "يستبدل \"الأحداث\" في عنوان الشريط الجانبي \"الأحداث القادمة\" لكل فئة."
     calendar_enabled: "قم بتفعيل المكوِّن الإضافي لتقويم Discourse. سيضيف ذلك دعمًا لعلامة [calendar][/calendar] في أول منشور في الموضوع."
     discourse_post_event_enabled: "يفعِّل ميزات الحدث. ملاحظة: يحتاج أيضًا إلى تفعيل `calendar enabled`."
     displayed_invitees_limit: "يحد من أعداد المدعوين المعروضة في حدث."
@@ -59,6 +60,7 @@ ar:
     sort_categories_by_event_start_date_enabled: "تفعيل ترتيب موضوعات الفئات حسب تاريخ بدء الحدث."
     disable_resorting_on_categories_enabled: "السماح للفئات بإيقاف قدرة المستخدمين على الترتيب حسب فئة الحدث."
     calendar_automatic_holidays_enabled: "يحدِّد حالة العطلة تلقائيًا حسب المنطقة الجغرافية للمستخدمين (ملاحظة: يمكنك إيقاف عطلات تلقائية محدَّدة في إعدادات المكوِّن الإضافي)"
+    event_participation_buttons: "قائمة أزرار المشاركة في الأحداث التي يمكن للمستخدمين استخدامها."
     sidebar_show_upcoming_events: "عرض رابط الأحداث القادمة في الشريط الجانبي ضمن \"المزيد\"."
     include_expired_events_on_calendar: "تضمين الأحداث الماضية/منتهية الصلاحية في طرق عرض تقويم الفئة والأحداث القادمة."
   discourse_calendar:
@@ -86,7 +88,7 @@ ar:
           raw_invitees:
             only_group: "لا يقبل الحدث إلا أسماء المجموعات."
           ends_at_before_starts_at: "لا يمكن أن ينتهي الحدث قبل أن يبدأ."
-          start_must_be_present_and_a_valid_date: "يتطلب الحدث تاريخ بدء صالحًا."
+          start_must_be_present_and_a_valid_date: "يتطلَّب الحدث تاريخ بدء صالحًا."
           end_must_be_a_valid_date: "يجب أن يكون تاريخ الانتهاء تاريخًا صالحًا."
           invalid_recurrence: "يجب أن يكون التكرار واحدًا مما يلي: every_month أو every_week أو every_two_weeks أو every_four_week أو every_day، أو every_weekday."
           invalid_timezone: "لم يتم التعرُّف على المنطقة الزمنية."
