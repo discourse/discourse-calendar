@@ -5,6 +5,8 @@ describe "Post event", type: :system do
   fab!(:user) { Fabricate(:admin, username: "jane") }
   fab!(:group) { Fabricate(:group, name: "test_group") }
   let(:composer) { PageObjects::Components::Composer.new }
+  let(:post_event_page) { PageObjects::Pages::DiscourseCalendar::PostEvent.new }
+  let(:bulk_invite_modal_page) { PageObjects::Pages::DiscourseCalendar::BulkInviteModal.new }
 
   before do
     SiteSetting.calendar_enabled = true
@@ -91,5 +93,31 @@ describe "Post event", type: :system do
     expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
     expect(page.find(".d-modal")).to have_text("test_group")
     expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
+  end
+
+  context "when using bulk inline invite" do
+    let!(:post) do
+      PostCreator.create(
+        admin,
+        title: "My test meetup event",
+        raw: "[event name='cool-event' status='public' start='2222-02-22 00:00' ]\n[/event]",
+      )
+    end
+
+    fab!(:invitable_user_1) { Fabricate(:user) }
+    fab!(:invitable_user_2) { Fabricate(:user) }
+
+    it "can invite users to an event" do
+      visit(post.topic.url)
+
+      post_event_page.open_bulk_invite_modal
+      bulk_invite_modal_page
+        .set_invitee_at_row(invitable_user_1.username, "going", 1)
+        .add_invitee
+        .set_invitee_at_row(invitable_user_2.username, "not_going", 2)
+        .send_invites
+
+      expect(bulk_invite_modal_page).to be_closed
+    end
   end
 end

@@ -104,13 +104,13 @@ export default class PostEventBulkInvite extends Component {
 
   @action
   updateInviteIdentifier(bulkInvite, selected) {
-    bulkInvite.identifier = selected[0];
+    bulkInvite.set("identifier", selected[0]);
     this.setBulkInviteDisabled();
   }
 
   @action
   updateBulkGroupInviteIdentifier(bulkInvite, _, groupNames) {
-    bulkInvite.identifier = groupNames[0];
+    bulkInvite.set("identifier", groupNames[0]);
     this.setBulkInviteDisabled();
   }
 }

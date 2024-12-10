@@ -19,7 +19,7 @@
       <div class="bulk-invite-rows">
         {{#each this.bulkInvites as |bulkInvite|}}
           <div class="bulk-invite-row">
-            {{#if @model.event.is_private}}
+            {{#if @model.event.isPrivate}}
               <GroupSelector
                 class="bulk-invite-identifier"
                 @single={{true}}
@@ -32,7 +32,7 @@
                 }}
               />
             {{/if}}
-            {{#if @model.event.is_public}}
+            {{#if @model.event.isPublic}}
               <EmailGroupUserChooser
                 class="bulk-invite-identifier"
                 @value={{bulkInvite.identifier}}
