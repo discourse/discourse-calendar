@@ -25,21 +25,19 @@ const nextWeek = "2100-02-09T08:00:00";
 module("Integration | Component | upcoming-events-list", function (hooks) {
   setupRenderingTest(hooks);
 
-  let clock;
-
   hooks.beforeEach(function () {
     this.owner.unregister("service:router");
     this.owner.register("service:router", RouterStub);
 
     this.siteSettings.events_calendar_categories = "1";
 
-    this.appEvents = this.container.lookup("service:appEvents");
+    this.appEvents = this.owner.lookup("service:app-events");
 
-    clock = fakeTime(today, null, true);
+    this.clock = fakeTime(today, null, true);
   });
 
-  hooks.afterEach(() => {
-    clock.restore();
+  hooks.afterEach(function () {
+    this.clock.restore();
   });
 
   test("empty state message", async function (assert) {
@@ -55,7 +53,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__heading")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
+        "displays the title"
       );
 
     await waitFor(".loading-container .spinner", { count: 0 });
@@ -64,7 +62,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__empty-message")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.empty"),
-        "it displays the empty list message"
+        "displays the empty list message"
       );
   });
 
@@ -79,7 +77,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__heading")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
+        "displays the title"
       );
 
     await waitFor(".loading-container .spinner", { count: 0 });
@@ -92,7 +90,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         moment(tomorrowAllDay).format("MMM").toUpperCase(),
         moment(nextMonth).format("MMM").toUpperCase(),
       ],
-      "it displays the correct month"
+      "displays the correct month"
     );
 
     assert.deepEqual(
@@ -100,7 +98,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [moment(tomorrowAllDay).format("D"), moment(nextMonth).format("D")],
-      "it displays the correct day"
+      "displays the correct day"
     );
 
     assert.deepEqual(
@@ -111,7 +109,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         I18n.t("discourse_post_event.upcoming_events_list.all_day"),
         moment(nextMonth).format(DEFAULT_TIME_FORMAT),
       ],
-      "it displays the formatted time"
+      "displays the formatted time"
     );
 
     assert.deepEqual(
@@ -119,12 +117,12 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       ["Awesome Event", "Another Awesome Event"],
-      "it displays the event name"
+      "displays the event name"
     );
 
     assert
       .dom(".upcoming-events-list__view-all")
-      .exists("it displays the view-all link");
+      .exists("displays the view-all link");
   });
 
   test("with multi-day events, standard formats", async function (assert) {
@@ -151,7 +149,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         "Awesome Multiday Event",
       ],
 
-      "it displays the multiday event on all scheduled dates"
+      "displays the multiday event on all scheduled dates"
     );
   });
 
@@ -188,7 +186,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__heading")
       .hasText(
         "Upcoming events",
-        "it sets default value as the title in 'c/announcements'"
+        "sets default value as the title in 'c/announcements'"
       );
   });
 
@@ -205,7 +203,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__view-all")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.view_all"),
-        "it displays the view-all link"
+        "displays the view-all link"
       );
 
     await click(".upcoming-events-list__view-all");
@@ -230,7 +228,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__heading")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
+        "displays the title"
       );
 
     await waitFor(".loading-container .spinner", { count: 0 });
@@ -243,7 +241,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         I18n.t("discourse_post_event.upcoming_events_list.all_day"),
         moment(nextMonth).format("LLL"),
       ],
-      "it displays the formatted time"
+      "displays the formatted time"
     );
 
     assert.deepEqual(
@@ -251,7 +249,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       ["Awesome Event", "Another Awesome Event"],
-      "it displays the event name"
+      "displays the event name"
     );
   });
 
@@ -268,7 +266,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__heading")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
+        "displays the title"
       );
 
     await waitFor(".loading-container .spinner", { count: 0 });
@@ -277,14 +275,14 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__error-message")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.error"),
-        "it displays the error message"
+        "displays the error message"
       );
 
     assert
       .dom(".upcoming-events-list__try-again")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.try_again"),
-        "it displays the try again button"
+        "displays the try again button"
       );
   });
 
@@ -301,24 +299,21 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__heading")
       .hasText(
         I18n.t("discourse_post_event.upcoming_events_list.title"),
-        "it displays the title"
+        "displays the title"
       );
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.strictEqual(
-      queryAll(".upcoming-events-list__event").length,
-      1,
-      "it limits the resulting items to the count parameter"
-    );
+    assert
+      .dom(".upcoming-events-list__event")
+      .exists(
+        { count: 1 },
+        "limits the resulting items to the count parameter"
+      );
 
-    assert.deepEqual(
-      [...queryAll(".upcoming-events-list__event-name")].map(
-        (el) => el.innerText
-      ),
-      ["Awesome Event"],
-      "it displays the event name"
-    );
+    assert
+      .dom(".upcoming-events-list__event-name")
+      .hasText("Awesome Event", "displays the event name");
   });
 
   test("with events, overridden upcomingDays parameter", async function (assert) {
@@ -332,19 +327,17 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
 
     await waitFor(".loading-container .spinner", { count: 0 });
 
-    assert.strictEqual(
-      queryAll(".upcoming-events-list__event").length,
-      1,
-      "it limits the results to started_at before the provided parameter"
-    );
+    assert
+      .dom(".upcoming-events-list__event")
+      .exists(
+        { count: 1 },
+        1,
+        "limits the results to started_at before the provided parameter"
+      );
 
-    assert.deepEqual(
-      [...queryAll(".upcoming-events-list__event-name")].map(
-        (el) => el.innerText
-      ),
-      ["Awesome Event"],
-      "it displays the event name"
-    );
+    assert
+      .dom(".upcoming-events-list__event-name")
+      .hasText("Awesome Event", "displays the event name");
   });
 });
 
