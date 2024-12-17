@@ -331,7 +331,6 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
       .dom(".upcoming-events-list__event")
       .exists(
         { count: 1 },
-        1,
         "limits the results to started_at before the provided parameter"
       );
 
