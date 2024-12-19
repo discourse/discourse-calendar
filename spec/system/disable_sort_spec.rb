@@ -28,12 +28,14 @@ describe "Disabling topic list sorting", type: :system do
     fab!(:user)
 
     before do
-      SiteSetting.experimental_glimmer_topic_list_groups = Group::AUTO_GROUPS[:everyone]
+      SiteSetting.glimmer_topic_list_mode = "auto"
       sign_in(user)
     end
 
     it "disables the ability to sort topic list columns" do
       category_page.visit(category)
+      expect(page).to have_css(".topic-list:not(.ember-view)")
+
       expect(find("th.activity")).to match_selector(".sortable")
 
       category.custom_fields["disable_topic_resorting"] = true
