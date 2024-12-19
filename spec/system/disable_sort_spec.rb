@@ -28,7 +28,7 @@ describe "Disabling topic list sorting", type: :system do
     fab!(:user)
 
     before do
-      SiteSetting.glimmer_topic_list_mode = "auto"
+      SiteSetting.glimmer_topic_list_mode = "enabled"
       sign_in(user)
     end
 
