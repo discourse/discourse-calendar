@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
-import { schedule } from "@ember/runloop";
+import { schedule, next } from "@ember/runloop";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
 import { applyLocalDates } from "discourse/lib/local-dates";
@@ -59,13 +59,15 @@ export default class DiscoursePostEventDates extends Component {
       const result = await cook(this.datesBBCode.join("<span> → </span>"));
       this.htmlDates = htmlSafe(result.toString());
 
-      schedule("afterRender", () => {
-        applyLocalDates(
-          element.querySelectorAll(
-            `[data-post-id="${this.args.event.id}"] .discourse-local-date`
-          ),
-          this.siteSettings
-        );
+      next(() => {
+        schedule("afterRender", () => {
+          applyLocalDates(
+            element.querySelectorAll(
+              `[data-post-id="${this.args.event.id}"] .discourse-local-date`
+            ),
+            this.siteSettings
+          );
+        });
       });
     } else {
       let dates = `${this.startsAt.format(this.format)}`;
