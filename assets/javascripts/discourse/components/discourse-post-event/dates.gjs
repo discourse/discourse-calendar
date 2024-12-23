@@ -61,6 +61,10 @@ export default class DiscoursePostEventDates extends Component {
 
       next(() => {
         schedule("afterRender", () => {
+          if (this.isDestroying || this.isDestroyed) {
+            return;
+          }
+
           applyLocalDates(
             element.querySelectorAll(
               `[data-post-id="${this.args.event.id}"] .discourse-local-date`
