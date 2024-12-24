@@ -38,6 +38,10 @@ $show-interested: inherit;
     box-sizing: border-box;
     border-radius: var(--d-button-border-radius);
 
+    section:last-child {
+      padding-bottom: 0.75em;
+    }
+
     .widget-dropdown {
       margin: 0;
 
@@ -394,6 +398,7 @@ $show-interested: inherit;
     display: grid;
     grid-template-columns: 3em 1fr;
     grid-column-gap: 1em;
+    align-items: center;
   }
   p.no-rsvp-description {
     color: var(--primary-medium);
