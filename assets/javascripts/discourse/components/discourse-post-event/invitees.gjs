@@ -41,12 +41,14 @@ export default class DiscoursePostEventInvitees extends Component {
           </div>
         </section>
       {{else}}
-        <section class="event__section event-invitees no-rsvp">
-          <p class="no-rsvp-description">{{i18n
-              "discourse_post_event.models.invitee.status.going_count.other"
-              count="0"
-            }}</p>
-        </section>
+        {{#unless @event.isStandalone}}
+          <section class="event__section event-invitees no-rsvp">
+            <p class="no-rsvp-description">{{i18n
+                "discourse_post_event.models.invitee.status.going_count.other"
+                count="0"
+              }}</p>
+          </section>
+        {{/unless}}
       {{/if}}
     {{/unless}}
   </template>
