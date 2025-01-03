@@ -334,6 +334,7 @@ cs:
         ended_at: "Událost skončila: %{date}"
         ends_in_duration: "Končí %{duration}"
       show_all: "Zobrazit vše"
+      show_participants: "Zobrazit účastníky"
       participants:
         one: "Zúčastnil se %{count} uživatel."
         few: "Zúčastnili se %{count} uživatelé."
@@ -350,8 +351,11 @@ cs:
       close_event: "Zavřít událost"
       open_event: "Otevřít událost"
       invitees_modal:
+        title_invited: "Účast na události"
         title_participated: "Seznam uživatelů, kteří se zúčastnili"
         filter_placeholder: "Filtrovat uživatele"
+        remove_invitee: "Odebrat pozvaného ze seznamu"
+        add_invitee: "Přidat pozvaného do seznamu"
       bulk_invite_modal:
         confirm: "potvrdit"
         text: "Nahrát soubor CSV"
@@ -388,11 +392,32 @@ cs:
         more_than_one_event: "Nemůžete mít více než jednu událost."
       models:
         invitee:
+          no_users: "Nebyli nalezeni žádní uživatelé"
           status:
             unknown: "Nemám zájem"
             going: "Zúčastním se"
             not_going: "Nezúčastním se"
             interested: "Mám zájem"
+            going_count:
+              one: "%{count} se účastní"
+              few: "%{count} se účastní"
+              many: "%{count} se účastní"
+              other: "%{count} se účastní"
+            not_going_count:
+              one: "%{count} se neúčastní"
+              few: "%{count} se neúčastní"
+              many: "%{count} se neúčastní"
+              other: "%{count} se neúčastní"
+            interested_count:
+              one: "%{count} má zájem"
+              few: "%{count} mají zájem"
+              many: "%{count} má zájem"
+              other: "%{count} má zájem"
+            invited_count:
+              one: "%{count} pozván/a"
+              few: "%{count} pozváni"
+              many: "%{count} pozváno"
+              other: "%{count} pozváno"
         event:
           expired: "Uplynulá"
           closed: "Zavřené"
