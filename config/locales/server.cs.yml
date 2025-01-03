@@ -35,6 +35,7 @@ cs:
   site_settings:
     events_max_rows: "Maximální počet řádků textu na událost v kalendáři."
     map_events_to_color: "Každému štítku nebo kategorii přiřadit barvu."
+    map_events_title: "Přepíše „Události“ v názvu postranního panelu „Nadcházející události“ podle kategorie."
     calendar_enabled: "Povolte plugin `discourse-calendar`. Přidá podporu pro značku `[calendar][/calendar]` v prvním příspěvku tématu."
     discourse_post_event_enabled: "Aktivuje funkce událostí. Poznámka: Také je třeba povolit `kalendář povolen`."
     displayed_invitees_limit: "Omezuje, kolik pozvaných se u události zobrazí."
@@ -59,6 +60,7 @@ cs:
     sort_categories_by_event_start_date_enabled: "Povolit řazení témat kategorií podle data zahájení události."
     disable_resorting_on_categories_enabled: "Povolit kategoriím zakázat možnost uživatelů řadit podle kategorie událostí."
     calendar_automatic_holidays_enabled: "Automaticky nastavit stav dovolené na základě regionu uživatele (poznámka: konkrétní automatické svátky můžete zakázat v nastavení pluginu)"
+    event_participation_buttons: "Seznam tlačítek účasti na události, která mohou uživatelé použít."
     sidebar_show_upcoming_events: "Zobrazit odkaz na nadcházející události na postranním panelu pod položkou 'Více'."
     include_expired_events_on_calendar: "Zahrnout minulé/vypršené události do zobrazení Kalendář kategorií a Nadcházející události."
   discourse_calendar:
