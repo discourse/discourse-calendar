@@ -16,31 +16,30 @@ months:
     regions: [sg]
     mday: 1
     observed: to_weekday_if_weekend(date)
-  2:
-  - name: First day of Chinese New Year (Observed)
-    regions: [sg]
-    mday: 10
-    observed: to_weekday_if_weekend(date)
-    year_ranges:
-      limited: [2024]
-  - name: Second day of Chinese New Year
-    regions: [sg]
-    mday: 11
-    observed: to_weekday_if_weekend(date)
-    year_ranges:
-      limited: [2024]
-  3:
-  - name: Good Friday
+  - name: First day of Chinese New Year
     regions: [sg]
     mday: 29
+    observed: to_weekday_if_weekend(date)
     year_ranges:
-      limited: [2024]
-  4:
-  - name: Hari Raya Puasa (Observed)
+      limited: [2025]
+  - name: Second day of Chinese New Year
     regions: [sg]
-    mday: 10
+    mday: 30
+    observed: to_weekday_if_weekend(date)
     year_ranges:
-      limited: [2024]
+      limited: [2025]
+  3:
+  - name: Hari Raya Puasa
+    regions: [sg]
+    mday: 31
+    year_ranges:
+      limited: [2025]
+  4:
+  - name: Good Friday
+    regions: [sg]
+    mday: 18
+    year_ranges:
+      limited: [2025]
   5:
   - name: Labour Day
     regions: [sg]
@@ -48,15 +47,15 @@ months:
     observed: to_weekday_if_weekend(date)
   - name: Vesak Day
     regions: [sg]
-    mday: 22
+    mday: 12
     year_ranges:
-      limited: [2024]
+      limited: [2025]
   6:
   - name: Hari Raya Haji
     regions: [sg]
-    mday: 17
+    mday: 7
     year_ranges:
-      limited: [2024]
+      limited: [2025]
   8:
   - name: National Day
     regions: [sg]
@@ -65,9 +64,9 @@ months:
   10:
   - name: Deepavali (Observed)
     regions: [sg]
-    mday: 31
+    mday: 20
     year_ranges:
-      limited: [2024]
+      limited: [2025]
   12:
   - name: Christmas Day
     regions: [sg]
