@@ -1,10 +1,11 @@
 import { visit } from "@ember/test-helpers";
 import { test } from "qunit";
-import { tomorrow } from "discourse/lib/time-utils";
+import { tomorrow, twoDays } from "discourse/lib/time-utils";
 import {
   acceptance,
   exists,
   query,
+  queryAll,
 } from "discourse/tests/helpers/qunit-helpers";
 
 acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
@@ -38,7 +39,7 @@ acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
         events: [
           {
             id: 67501,
-            starts_at: tomorrow(),
+            starts_at: tomorrow().add(1, "hour"),
             ends_at: null,
             timezone: "Asia/Calcutta",
             post: {
@@ -51,6 +52,12 @@ acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
               },
             },
             name: "Awesome Event",
+            upcoming_dates: [
+              {
+                starts_at: twoDays().format("YYYY-MM-DDT15:14:00.000Z"),
+                ends_at: twoDays().format("YYYY-MM-DDT16:14:00.000Z"),
+              },
+            ],
             category_id: 1,
           },
           {
@@ -99,6 +106,23 @@ acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
       query(".fc-row tr:nth-child(2) .fc-event").style.backgroundColor,
       "rgb(15, 120, 190)",
       "Event item uses the proper color from category 2"
+    );
+  });
+
+  test("upcoming events calendar shows recurrent events", async (assert) => {
+    await visit("/upcoming-events");
+
+    const [, first, second] = queryAll(".fc-event .fc-title");
+    assert.equal(first.textContent, "Awesome Event");
+    assert.equal(second.textContent, "Awesome Event");
+
+    const firstCell = first.closest("td");
+    const secondCell = second.closest("td");
+
+    assert.notEqual(
+      firstCell,
+      secondCell,
+      "events should be in different days"
     );
   });
 });
