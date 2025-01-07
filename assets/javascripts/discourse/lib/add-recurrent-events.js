@@ -10,7 +10,6 @@ export default function addRecurrentEvents(events) {
           category_id: event.categoryId,
           starts_at: upcomingDate.starts_at,
           ends_at: upcomingDate.ends_at,
-          upcoming_dates: [],
         })
       ) || [];
 
