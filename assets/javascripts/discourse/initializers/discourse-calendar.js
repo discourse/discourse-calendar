@@ -47,7 +47,7 @@ function initializeDiscourseCalendar(api) {
     selector = `.topic-list:not(.shared-drafts) .${outletName}-outlet`;
   }
 
-  api.onPageChange((url) => {
+  api.onPageChange(async (url) => {
     const categoryCalendarNode = document.querySelector(
       `${selector}.category-calendar`
     );
@@ -98,28 +98,27 @@ function initializeDiscourseCalendar(api) {
       categoryCalendarNode.innerHTML =
         '<div class="calendar"><div class="spinner medium"></div></div>';
 
-      loadFullCalendar().then(() => {
-        const options = [`postId=${postId}`];
+      await loadFullCalendar();
 
-        const optionals = ["weekends", "tzPicker", "defaultView"];
-        optionals.forEach((optional) => {
-          if (isPresent(categorySetting[optional])) {
-            options.push(
-              `${optional}=${escapeExpression(categorySetting[optional])}`
-            );
-          }
-        });
+      const options = [`postId=${postId}`];
 
-        const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
-        const cookRaw = cook(rawCalendar);
-        const loadPost = ajax(`/posts/${postId}.json`);
-        Promise.all([cookRaw, loadPost]).then((results) => {
-          const cooked = results[0];
-          const post = results[1];
-          categoryCalendarNode.innerHTML = cooked.toString();
-          render($(".calendar"), post);
-        });
+      const optionals = ["weekends", "tzPicker", "defaultView"];
+      optionals.forEach((optional) => {
+        if (isPresent(categorySetting[optional])) {
+          options.push(
+            `${optional}=${escapeExpression(categorySetting[optional])}`
+          );
+        }
       });
+
+      const rawCalendar = `[calendar ${options.join(" ")}]\n[/calendar]`;
+      const cookRaw = cook(rawCalendar);
+      const loadPost = ajax(`/posts/${postId}.json`);
+
+      const [cooked, post] = await Promise.all([cookRaw, loadPost]);
+
+      categoryCalendarNode.innerHTML = cooked.toString();
+      render($(".calendar"), post);
     } else {
       if (!categoryEventNode) {
         return;
@@ -131,97 +130,91 @@ function initializeDiscourseCalendar(api) {
       );
 
       if (foundCategory) {
-        loadFullCalendar().then(() => {
-          let fullCalendar = new window.FullCalendar.Calendar(
-            categoryEventNode,
-            {
-              ...fullCalendarDefaultOptions(),
-              eventPositioned: (info) => {
-                if (siteSettings.events_max_rows === 0) {
-                  return;
-                }
-
-                let fcContent = info.el.querySelector(".fc-content");
-                let computedStyle = window.getComputedStyle(fcContent);
-                let lineHeight = parseInt(computedStyle.lineHeight, 10);
-
-                if (lineHeight === 0) {
-                  lineHeight = 20;
-                }
-                let maxHeight = lineHeight * siteSettings.events_max_rows;
-
-                if (fcContent) {
-                  fcContent.style.maxHeight = `${maxHeight}px`;
-                }
-
-                let fcTitle = info.el.querySelector(".fc-title");
-                if (fcTitle) {
-                  fcTitle.style.overflow = "hidden";
-                  fcTitle.style.whiteSpace = "pre-wrap";
-                }
-                fullCalendar.updateSize();
-              },
+        await loadFullCalendar();
+        let fullCalendar = new window.FullCalendar.Calendar(categoryEventNode, {
+          ...fullCalendarDefaultOptions(),
+          eventPositioned: (info) => {
+            if (siteSettings.events_max_rows === 0) {
+              return;
             }
-          );
-          const params = {
-            category_id: browsedCategory.id,
-            include_subcategories: true,
-          };
-          if (siteSettings.include_expired_events_on_calendar) {
-            params.include_expired = true;
+
+            let fcContent = info.el.querySelector(".fc-content");
+            let computedStyle = window.getComputedStyle(fcContent);
+            let lineHeight = parseInt(computedStyle.lineHeight, 10);
+
+            if (lineHeight === 0) {
+              lineHeight = 20;
+            }
+            let maxHeight = lineHeight * siteSettings.events_max_rows;
+
+            if (fcContent) {
+              fcContent.style.maxHeight = `${maxHeight}px`;
+            }
+
+            let fcTitle = info.el.querySelector(".fc-title");
+            if (fcTitle) {
+              fcTitle.style.overflow = "hidden";
+              fcTitle.style.whiteSpace = "pre-wrap";
+            }
+            fullCalendar.updateSize();
+          },
+        });
+        const params = {
+          category_id: browsedCategory.id,
+          include_subcategories: true,
+        };
+        if (siteSettings.include_expired_events_on_calendar) {
+          params.include_expired = true;
+        }
+
+        const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
+
+        const discoursePostEventApiService = api.container.lookup(
+          "service:discourse-post-event-api"
+        );
+
+        const events = await discoursePostEventApiService.events(params);
+        addRecurrentEvents(events).forEach((event) => {
+          const { startsAt, endsAt, post, categoryId } = event;
+
+          let backgroundColor;
+
+          if (post.topic.tags) {
+            const tagColorEntry = tagsColorsMap.find(
+              (entry) =>
+                entry.type === "tag" && post.topic.tags.includes(entry.slug)
+            );
+            backgroundColor = tagColorEntry ? tagColorEntry.color : null;
           }
-          const loadEvents = ajax(`/discourse-post-event/events`, {
-            data: params,
-          });
 
-          const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
+          if (!backgroundColor) {
+            const categoryColorFromMap = tagsColorsMap.find(
+              (entry) =>
+                entry.type === "category" &&
+                entry.slug === post.topic.category_slug
+            )?.color;
+            backgroundColor =
+              categoryColorFromMap ||
+              `#${Category.findById(categoryId)?.color}`;
+          }
 
-          Promise.all([loadEvents]).then((results) => {
-            const [{ events }] = results;
+          let classNames;
+          if (moment(endsAt || startsAt).isBefore(moment())) {
+            classNames = "fc-past-event";
+          }
 
-            addRecurrentEvents(events).forEach((event) => {
-              const { starts_at, ends_at, post, category_id } = event;
-
-              let backgroundColor;
-
-              if (post.topic.tags) {
-                const tagColorEntry = tagsColorsMap.find(
-                  (entry) =>
-                    entry.type === "tag" && post.topic.tags.includes(entry.slug)
-                );
-                backgroundColor = tagColorEntry ? tagColorEntry.color : null;
-              }
-
-              if (!backgroundColor) {
-                const categoryColorFromMap = tagsColorsMap.find(
-                  (entry) =>
-                    entry.type === "category" &&
-                    entry.slug === post.topic.category_slug
-                )?.color;
-                backgroundColor =
-                  categoryColorFromMap ||
-                  `#${Category.findById(category_id)?.color}`;
-              }
-
-              let classNames;
-              if (moment(ends_at || starts_at).isBefore(moment())) {
-                classNames = "fc-past-event";
-              }
-
-              fullCalendar.addEvent({
-                title: formatEventName(event),
-                start: starts_at,
-                end: ends_at || starts_at,
-                allDay: !isNotFullDayEvent(moment(starts_at), moment(ends_at)),
-                url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
-                backgroundColor,
-                classNames,
-              });
-            });
-
-            fullCalendar.render();
+          fullCalendar.addEvent({
+            title: formatEventName(event),
+            start: startsAt,
+            end: endsAt || startsAt,
+            allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),
+            url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+            backgroundColor,
+            classNames,
           });
         });
+
+        fullCalendar.render();
       }
     }
   });
