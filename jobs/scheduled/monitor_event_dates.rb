@@ -31,7 +31,11 @@ module Jobs
       reminders.each do |reminder|
         next if reminder[:type] != "bumpTopic"
 
-        ::Jobs.enqueue(:discourse_post_event_bump_topic, event_id: event_date.event.id)
+        ::Jobs.enqueue(
+          :discourse_post_event_bump_topic,
+          event_id: event_date.event.id,
+          reminder: reminder[:description],
+        )
         event_date.update!(reminder_counter: event_date.reminder_counter + 1)
       end
     end
