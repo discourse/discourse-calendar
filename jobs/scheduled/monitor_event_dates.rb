@@ -5,19 +5,33 @@ module Jobs
 
     def execute(args)
       DiscoursePostEvent::EventDate.pending.find_each do |event_date|
-        send_reminder(event_date)
+        reminders = due_reminders(event_date)
+
+        send_reminder(event_date, reminders)
+        bump_topic(event_date, reminders)
         trigger_events(event_date)
         finish(event_date)
       end
     end
 
-    def send_reminder(event_date)
-      due_reminders(event_date).each do |reminder|
+    def send_reminder(event_date, reminders)
+      reminders.each do |reminder|
+        next if reminder[:type] != "notification"
+
         ::Jobs.enqueue(
           :discourse_post_event_send_reminder,
           event_id: event_date.event.id,
           reminder: reminder[:description],
         )
+        event_date.update!(reminder_counter: event_date.reminder_counter + 1)
+      end
+    end
+
+    def bump_topic(event_date, reminders)
+      reminders.each do |reminder|
+        next if reminder[:type] != "bumpTopic"
+
+        ::Jobs.enqueue(:discourse_post_event_bump_topic, event_id: event_date.event.id)
         event_date.update!(reminder_counter: event_date.reminder_counter + 1)
       end
     end
@@ -47,7 +61,6 @@ module Jobs
 
       return if event_date.event.recurrence.blank?
       event_date.event.set_next_date
-      event_date.event.set_topic_bump
     end
 
     def due_reminders(event_date)
@@ -58,12 +71,15 @@ module Jobs
         .split(",")
         .map do |reminder|
           unit, value, type = reminder.split(".").reverse
+          next if !validate_reminder_unit(unit)
 
-          next if type === "bumpTopic" || !validate_reminder_unit(unit)
-          reminder = "notification.#{value}.#{unit}" if type.blank?
+          if type.blank?
+            reminder = "notification.#{value}.#{unit}"
+            type = "notification"
+          end
 
           date = event_date.starts_at - value.to_i.public_send(unit)
-          { description: reminder, date: date }
+          { description: reminder, type: type, date: date }
         end
         .compact
         .select { |reminder| reminder[:date] <= Time.current }

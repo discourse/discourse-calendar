@@ -5,13 +5,14 @@ module Jobs
     sidekiq_options retry: false
 
     def execute(args)
-      return unless topic = Topic.find_by(id: args[:topic_id].to_i)
-      return if args[:date].blank?
+      raise Discourse::InvalidParameters.new(:event_id) if args[:event_id].blank?
 
-      event_user = User.find_by(id: topic.user_id)
-      timer = TopicTimer.find_by(topic_id: args[:topic_id].to_i)
+      event = DiscoursePostEvent::Event.includes(post: %i[topic user]).find_by(id: args[:event_id])
+      return unless event&.post&.topic && event.post.user
 
-      topic.set_or_create_timer(TopicTimer.types[:bump], args[:date], by_user: event_user)
+      if Guardian.new(event.post.user).can_create_post_on_topic?(event.post.topic)
+        event.post.topic.add_small_action(Discourse.system_user, "autobumped", nil, bump: true)
+      end
     end
   end
 end
