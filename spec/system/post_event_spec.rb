@@ -74,6 +74,19 @@ describe "Post event", type: :system do
     expect(event.invitees.count).to eq(2)
   end
 
+  it "does not show participants button when event is standalone" do
+    post =
+      PostCreator.create(
+        admin,
+        title: "My test meetup event",
+        raw: "[event name='cool-event' status='standalone' start='2222-02-22 00:00' ]\n[/event]",
+      )
+
+    visit(post.topic.url)
+    page.find(".discourse-post-event-more-menu-trigger").click
+    expect(page.find(".show-all-participants")).to eq(false)
+  end
+
   it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
