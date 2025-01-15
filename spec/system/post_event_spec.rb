@@ -84,7 +84,7 @@ describe "Post event", type: :system do
 
     visit(post.topic.url)
     page.find(".discourse-post-event-more-menu-trigger").click
-    expect(page.find(".show-all-participants")).to eq(false)
+    expect(page).to have_no_css(".show-all-participants")
   end
 
   it "persists changes" do
