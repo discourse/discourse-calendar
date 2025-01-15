@@ -34,6 +34,10 @@ export default class DiscoursePostEventMoreMenu extends Component {
     return this.currentUser && this.args.event.canActOnDiscoursePostEvent;
   }
 
+  get shouldShowParticipants() {
+    return this.canActOnEvent && !this.args.isStandaloneEvent;
+  }
+
   get canInvite() {
     return (
       !this.expiredOrClosed && this.canActOnEvent && this.args.event.isPublic
@@ -275,7 +279,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             </dropdown.item>
           {{/if}}
 
-          {{#if this.canActOnEvent}}
+          {{#if this.shouldShowParticipants}}
             <dropdown.item class="show-all-participants">
               <DButton
                 @icon="user-group"
@@ -286,7 +290,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
             </dropdown.item>
 
             <dropdown.divider />
-
+          {{/if}}
+          {{#if this.canActOnEvent}}
             <dropdown.item class="export-event">
               <DButton
                 @icon="file-csv"

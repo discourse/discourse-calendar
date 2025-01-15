@@ -108,6 +108,7 @@ export default class DiscoursePostEvent extends Component {
 
             <MoreMenu
               @event={{@event}}
+              @isStandaloneEvent={{this.isStandaloneEvent}}
               @composePrivateMessage={{routeAction "composePrivateMessage"}}
             />
           </header>
