@@ -28,7 +28,7 @@ export default createWidget("discourse-group-timezones-reset", {
       attrs=(hash
         disabled=this.transformed.isDisabled
         action="onResetOffset"
-        icon="undo"
+        icon="arrow-rotate-left"
       )
     }}
   `,
