@@ -14,11 +14,11 @@ export default class DiscoursePostEventInvitee extends Component {
   get statusIcon() {
     switch (this.args.invitee.status) {
       case "going":
-        return "fa-check";
+        return "check";
       case "interested":
-        return "fa-star";
+        return "star";
       case "not_going":
-        return "fa-times";
+        return "xmark";
     }
   }
 
