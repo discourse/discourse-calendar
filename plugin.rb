@@ -16,6 +16,7 @@ enabled_site_setting :calendar_enabled
 
 register_asset "stylesheets/vendor/fullcalendar.min.css"
 register_asset "stylesheets/common/discourse-calendar.scss"
+register_asset "stylesheets/common/discourse-calendar-button.scss"
 register_asset "stylesheets/common/discourse-calendar-holidays.scss"
 register_asset "stylesheets/common/upcoming-events-calendar.scss"
 register_asset "stylesheets/common/discourse-post-event.scss"
