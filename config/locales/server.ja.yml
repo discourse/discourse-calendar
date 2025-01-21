@@ -35,6 +35,7 @@ ja:
   site_settings:
     events_max_rows: "カレンダー内のイベントごとの最大テキスト行数。"
     map_events_to_color: "各タグまたはカテゴリに色を割り当てる。"
+    map_events_title: "カテゴリごとに '今後のイベント' の 'イベント' を上書きします。"
     calendar_enabled: "discourse-calendar プラグインを有効にします。これにより、トピックの最初の投稿に [calendar][/calendar] タグのサポートが追加されます。"
     discourse_post_event_enabled: "イベント機能を有効にします。注意: `calendar enabled` も有効である必要があります。"
     displayed_invitees_limit: "イベントに表示される招待者数を制限します。"

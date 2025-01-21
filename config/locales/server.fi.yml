@@ -35,6 +35,7 @@ fi:
   site_settings:
     events_max_rows: "Tekstirivien enimmäismäärä tapahtumaa kohden kalenterissa."
     map_events_to_color: "Määritä jokaiselle tunnisteelle tai alueelle väri."
+    map_events_title: "Korvaa \"Tapahtumat\" \"Tulevat tapahtumat\" -sivupalkin otsikossa aluekohtaisesti."
     calendar_enabled: "Ota discourse-calendar-lisäosa käyttöön. Tämä lisää tuen [calendar][/calendar]-tunnisteelle ketjun ensimmäisessä viestissä."
     discourse_post_event_enabled: "Ottaa tapahtumaominaisuudet käyttöön. Huomautus: edellyttää myös, että \"calendar enabled\" on käytössä."
     displayed_invitees_limit: "Rajoittaa tapahtumassa näytettävien kutsuttujen määrää."
