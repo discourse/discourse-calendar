@@ -35,6 +35,7 @@ tr_TR:
   site_settings:
     events_max_rows: "Takvimdeki etkinlik başına maksimum metin satırı."
     map_events_to_color: "Her etikete veya kategoriye bir renk atayın."
+    map_events_title: "Her kategori için \"Yaklaşan Etkinlikler\" kenar çubuğu başlığındaki \"Etkinlikler\"in üzerine yazar."
     calendar_enabled: "discourse-calendar eklentisini etkinleştirin. Bu, bir konunun ilk gönderisine [calendar][/calendar] etiketi için destek ekleyecektir."
     discourse_post_event_enabled: "Etkinlik özelliklerini etkinleştirir. Not: `takvim etkin` özelliğinin de etkinleştirilmesi gerekir."
     displayed_invitees_limit: "Bir etkinlikte gösterilen davetlilerin sayısını sınırlar."
