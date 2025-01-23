@@ -22,7 +22,7 @@ module DiscoursePostEvent
         Invitee.create!(status: Invitee.statuses[status.to_sym], post_id: post_id, user_id: user_id)
       invitee.event.publish_update!
       invitee.update_topic_tracking!
-      DiscourseEvent.trigger(:discourse_post_event_invitee_status_changed, invitee)
+      DiscourseEvent.trigger(:discourse_calendar_post_event_invitee_status_changed, invitee)
       invitee
     rescue ActiveRecord::RecordNotUnique
       # do nothing in case multiple new attendances would be created very fast
@@ -35,7 +35,7 @@ module DiscoursePostEvent
       self.update(status: new_status)
       self.event.publish_update!
       self.update_topic_tracking! if status_changed
-      DiscourseEvent.trigger(:discourse_post_event_invitee_status_changed, self)
+      DiscourseEvent.trigger(:discourse_calendar_post_event_invitee_status_changed, self)
       self
     end
 
