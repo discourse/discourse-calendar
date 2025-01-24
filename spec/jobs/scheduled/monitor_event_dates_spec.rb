@@ -4,6 +4,7 @@ describe DiscourseCalendar::MonitorEventDates do
   fab!(:post_1) { Fabricate(:post) }
   fab!(:post_2) { Fabricate(:post) }
   fab!(:post_3) { Fabricate(:post) }
+  fab!(:post_4) { Fabricate(:post) }
   fab!(:past_event) do
     Fabricate(
       :event,
@@ -22,10 +23,18 @@ describe DiscourseCalendar::MonitorEventDates do
       original_ends_at: 14.days.after + 1.hour,
     )
   end
+  fab!(:event_with_multiple_bump_topic_reminders) do
+    Fabricate(
+      :event,
+      post: post_3,
+      original_starts_at: 7.days.after,
+      reminders: "bumpTopic.20.minutes,bumpTopic.10.minutes",
+    )
+  end
   let(:future_date) { future_event.event_dates.first }
 
   fab!(:past_event_no_end_time) do
-    Fabricate(:event, post: post_3, original_starts_at: 7.days.after)
+    Fabricate(:event, post: post_4, original_starts_at: 7.days.after)
   end
   let(:past_date_no_end_time) { past_event_no_end_time.event_dates.first }
 
@@ -74,6 +83,49 @@ describe DiscourseCalendar::MonitorEventDates do
       expect_not_enqueued_with(job: :discourse_post_event_send_reminder) do
         described_class.new.execute({})
       end
+    end
+  end
+
+  describe "#bump_topic" do
+    it "schedules bump topic jobs at the correct times" do
+      freeze_time(7.days.after - 21.minutes)
+      expect_not_enqueued_with(job: :discourse_post_event_bump_topic) do
+        described_class.new.execute({})
+      end
+
+      freeze_time(7.days.after - 19.minutes)
+      expect_enqueued_with(
+        job: :discourse_post_event_bump_topic,
+        args: {
+          event_id: past_event.id,
+          reminder: "bumpTopic.10.minutes",
+        },
+      ) { described_class.new.execute({}) }
+
+      freeze_time(7.days.after - 9.minutes)
+      expect_not_enqueued_with(job: :discourse_post_event_bump_topic) do
+        described_class.new.execute({})
+      end
+    end
+
+    it "handles multiple bump topic reminders" do
+      freeze_time(7.days.after - 19.minutes)
+      expect_enqueued_with(
+        job: :discourse_post_event_bump_topic,
+        args: {
+          event_id: event_with_multiple_bump_topic_reminders.id,
+          reminder: "bumpTopic.20.minutes",
+        },
+      ) { described_class.new.execute({}) }
+
+      freeze_time(7.days.after - 9.minutes)
+      expect_enqueued_with(
+        job: :discourse_post_event_bump_topic,
+        args: {
+          event_id: event_with_multiple_bump_topic_reminders.id,
+          reminder: "bumpTopic.10.minutes",
+        },
+      ) { described_class.new.execute({}) }
     end
   end
 
