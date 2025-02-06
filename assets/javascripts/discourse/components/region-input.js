@@ -1,6 +1,6 @@
 import { computed } from "@ember/object";
 import { classNames } from "@ember-decorators/component";
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 import ComboBoxComponent from "select-kit/components/combo-box";
 import {
   pluginApiIdentifiers,
@@ -28,14 +28,14 @@ export default class RegionInput extends ComboBoxComponent {
 
     if (this.allowNoneRegion === true) {
       regions.push({
-        name: I18n.t("discourse_calendar.region.none"),
+        name: i18n("discourse_calendar.region.none"),
         id: null,
       });
     }
 
     regions = regions.concat(
       HOLIDAY_REGIONS.map((region) => ({
-        name: I18n.t(`discourse_calendar.region.names.${region}`),
+        name: i18n(`discourse_calendar.region.names.${region}`),
         id: region,
       })).sort((a, b) => a.name.localeCompare(b.name))
     );

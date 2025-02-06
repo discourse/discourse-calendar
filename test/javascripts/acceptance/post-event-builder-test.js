@@ -3,7 +3,7 @@ import { test } from "qunit";
 import sinon from "sinon";
 import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import selectKit from "discourse/tests/helpers/select-kit-helper";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 
 acceptance("Post event - composer", function (needs) {
   needs.user({ admin: true, can_create_discourse_post_event: true });
@@ -23,7 +23,7 @@ acceptance("Post event - composer", function (needs) {
     await categoryChooser.selectRowByValue(2);
     await click(".toolbar-popup-menu-options .dropdown-select-box-header");
     await click(
-      `.toolbar-popup-menu-options *[data-name='${I18n.t(
+      `.toolbar-popup-menu-options *[data-name='${i18n(
         "discourse_post_event.builder_modal.attach"
       )}']`
     );
@@ -93,7 +93,7 @@ acceptance("Post event - composer", function (needs) {
 
       await click(".toolbar-popup-menu-options .dropdown-select-box-header");
       await click(
-        `.toolbar-popup-menu-options *[data-name='${I18n.t(
+        `.toolbar-popup-menu-options *[data-name='${i18n(
           "discourse_post_event.builder_modal.attach"
         )}']`
       );

@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import avatar from "discourse/helpers/avatar";
 import { formatUsername } from "discourse/lib/utilities";
-import i18n from "discourse-common/helpers/i18n";
+import { i18n } from "discourse-i18n";
 
 export default class DiscoursePostEventCreator extends Component {
   get username() {

@@ -1,7 +1,7 @@
 import { click, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import { acceptance, queryAll } from "discourse/tests/helpers/qunit-helpers";
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 
 acceptance("Discourse Calendar - Notifications", function (needs) {
   needs.user({ redesigned_user_menu_enabled: true });
@@ -117,7 +117,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
 
     assert.strictEqual(
       notifications[0].textContent.replaceAll(/\s+/g, " ").trim(),
-      `${I18n.t(
+      `${i18n(
         "discourse_post_event.notifications.before_event_reminder"
       )} Monthly Hangout #3`,
       "before event reminder notification has the right content"
@@ -132,7 +132,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
 
     assert.strictEqual(
       notifications[1].textContent.replaceAll(/\s+/g, " ").trim(),
-      `${I18n.t(
+      `${i18n(
         "discourse_post_event.notifications.ongoing_event_reminder"
       )} Fancy title and pants`,
       "ongoing event reminder notification has the right content"
@@ -147,7 +147,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
 
     assert.strictEqual(
       notifications[2].textContent.replaceAll(/\s+/g, " ").trim(),
-      `${I18n.t(
+      `${i18n(
         "discourse_post_event.notifications.after_event_reminder"
       )} Topic with event and after_event reminder`,
       "after event reminder notification has the right content"
@@ -177,7 +177,7 @@ acceptance("Discourse Calendar - Notifications", function (needs) {
 
     assert.strictEqual(
       notifications[4].textContent.replaceAll(/\s+/g, " ").trim(),
-      `${I18n.t(
+      `${i18n(
         "discourse_post_event.notifications.invite_user_predefined_attendance_notification",
         { username: "apacer" }
       )} Asia Pacific team call`,

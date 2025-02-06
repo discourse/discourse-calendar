@@ -3,9 +3,9 @@ import { getOwner } from "@ember/owner";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import { service } from "@ember/service";
 import { or } from "truth-helpers";
+import icon from "discourse/helpers/d-icon";
 import UppyUpload from "discourse/lib/uppy/uppy-upload";
-import icon from "discourse-common/helpers/d-icon";
-import i18n from "discourse-common/helpers/i18n";
+import { i18n } from "discourse-i18n";
 
 export default class CsvUploader extends Component {
   @service dialog;

@@ -5,7 +5,7 @@ import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import pretender, { response } from "discourse/tests/helpers/create-pretender";
 import { fakeTime, queryAll } from "discourse/tests/helpers/qunit-helpers";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 import UpcomingEventsList, {
   DEFAULT_TIME_FORMAT,
 } from "../../discourse/components/upcoming-events-list";
@@ -52,7 +52,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__heading")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        i18n("discourse_post_event.upcoming_events_list.title"),
         "displays the title"
       );
 
@@ -61,7 +61,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__empty-message")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.empty"),
+        i18n("discourse_post_event.upcoming_events_list.empty"),
         "displays the empty list message"
       );
   });
@@ -76,7 +76,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__heading")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        i18n("discourse_post_event.upcoming_events_list.title"),
         "displays the title"
       );
 
@@ -106,7 +106,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [
-        I18n.t("discourse_post_event.upcoming_events_list.all_day"),
+        i18n("discourse_post_event.upcoming_events_list.all_day"),
         moment(nextMonth).format(DEFAULT_TIME_FORMAT),
       ],
       "displays the formatted time"
@@ -202,7 +202,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__view-all")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.view_all"),
+        i18n("discourse_post_event.upcoming_events_list.view_all"),
         "displays the view-all link"
       );
 
@@ -227,7 +227,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__heading")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        i18n("discourse_post_event.upcoming_events_list.title"),
         "displays the title"
       );
 
@@ -238,7 +238,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
         (el) => el.innerText
       ),
       [
-        I18n.t("discourse_post_event.upcoming_events_list.all_day"),
+        i18n("discourse_post_event.upcoming_events_list.all_day"),
         moment(nextMonth).format("LLL"),
       ],
       "displays the formatted time"
@@ -265,7 +265,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__heading")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        i18n("discourse_post_event.upcoming_events_list.title"),
         "displays the title"
       );
 
@@ -274,14 +274,14 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__error-message")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.error"),
+        i18n("discourse_post_event.upcoming_events_list.error"),
         "displays the error message"
       );
 
     assert
       .dom(".upcoming-events-list__try-again")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.try_again"),
+        i18n("discourse_post_event.upcoming_events_list.try_again"),
         "displays the try again button"
       );
   });
@@ -298,7 +298,7 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
     assert
       .dom(".upcoming-events-list__heading")
       .hasText(
-        I18n.t("discourse_post_event.upcoming_events_list.title"),
+        i18n("discourse_post_event.upcoming_events_list.title"),
         "displays the title"
       );
 

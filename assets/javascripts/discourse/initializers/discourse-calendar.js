@@ -3,15 +3,15 @@ import $ from "jquery";
 import { escape } from "pretty-text/sanitizer";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
+import getURL from "discourse/lib/get-url";
+import { iconHTML } from "discourse/lib/icon-library";
 import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { cook } from "discourse/lib/text";
 import DiscourseURL from "discourse/lib/url";
 import { escapeExpression } from "discourse/lib/utilities";
 import Category from "discourse/models/category";
-import getURL from "discourse-common/lib/get-url";
-import { iconHTML } from "discourse-common/lib/icon-library";
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 import { formatEventName } from "../helpers/format-event-name";
 import addRecurrentEvents from "../lib/add-recurrent-events";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
@@ -247,7 +247,7 @@ function initializeDiscourseCalendar(api) {
         return class extends NotificationTypeBase {
           get linkTitle() {
             if (this.notification.data.title) {
-              return I18n.t(this.notification.data.title);
+              return i18n(this.notification.data.title);
             } else {
               return super.linkTitle;
             }
@@ -258,7 +258,7 @@ function initializeDiscourseCalendar(api) {
           }
 
           get label() {
-            return I18n.t(this.notification.data.message);
+            return i18n(this.notification.data.message);
           }
 
           get description() {
@@ -280,7 +280,7 @@ function initializeDiscourseCalendar(api) {
               this.notification.data.message ===
               "discourse_post_event.notifications.invite_user_predefined_attendance_notification"
             ) {
-              return I18n.t(this.notification.data.message, {
+              return i18n(this.notification.data.message, {
                 username: this.username,
               });
             }
@@ -881,7 +881,7 @@ function initializeDiscourseCalendar(api) {
     );
     const timezoneButton = document.createElement("button");
 
-    timezoneButton.title = I18n.t(
+    timezoneButton.title = i18n(
       "discourse_calendar.toggle_timezone_offset_title"
     );
     timezoneButton.classList.add(
@@ -984,7 +984,7 @@ function initializeDiscourseCalendar(api) {
     startDate = _formatDateForGoogleApi(startDate, event.eventRange.def.allDay);
 
     const link = document.createElement("a");
-    const title = I18n.t("discourse_calendar.add_to_calendar");
+    const title = i18n("discourse_calendar.add_to_calendar");
     link.title = title;
     link.appendChild(document.createTextNode(title));
     link.href = `

@@ -5,7 +5,7 @@ import { eq } from "truth-helpers";
 import AvatarFlair from "discourse/components/avatar-flair";
 import avatar from "discourse/helpers/avatar";
 import concatClass from "discourse/helpers/concat-class";
-import i18n from "discourse-common/helpers/i18n";
+import { i18n } from "discourse-i18n";
 
 export default class DiscoursePostEventInvitee extends Component {
   @service site;

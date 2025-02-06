@@ -1,5 +1,5 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 
 export default {
   name: "add-upcoming-events-to-sidebar",
@@ -15,8 +15,8 @@ export default {
           return class UpcomingEventsSectionLink extends baseSectionLink {
             name = "upcoming-events";
             route = "discourse-post-event-upcoming-events";
-            text = I18n.t("discourse_post_event.upcoming_events.title");
-            title = I18n.t("discourse_post_event.upcoming_events.title");
+            text = i18n("discourse_post_event.upcoming_events.title");
+            title = i18n("discourse_post_event.upcoming_events.title");
           };
         });
       });

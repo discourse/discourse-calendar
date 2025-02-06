@@ -1,5 +1,5 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import I18n from "I18n";
+import I18n, { i18n } from "discourse-i18n";
 import DiscoursePostEvent from "discourse/plugins/discourse-calendar/discourse/components/discourse-post-event";
 import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import guessDateFormat from "../lib/guess-best-date-format";
@@ -14,7 +14,7 @@ function _validEventPreview(eventContainer) {
   if (I18n.lookup(statusLocaleKey, { locale: "en" })) {
     const statusContainer = document.createElement("div");
     statusContainer.classList.add("event-preview-status");
-    statusContainer.innerText = I18n.t(statusLocaleKey);
+    statusContainer.innerText = i18n(statusLocaleKey);
     eventContainer.appendChild(statusContainer);
   }
 
@@ -55,7 +55,7 @@ function _invalidEventPreview(eventContainer) {
     "alert-error"
   );
   eventContainer.classList.remove("discourse-post-event");
-  eventContainer.innerText = I18n.t(
+  eventContainer.innerText = i18n(
     "discourse_post_event.preview.more_than_one_event"
   );
 }

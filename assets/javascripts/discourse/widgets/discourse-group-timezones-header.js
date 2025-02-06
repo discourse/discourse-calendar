@@ -1,13 +1,13 @@
 import hbs from "discourse/widgets/hbs-compiler";
 import { createWidget } from "discourse/widgets/widget";
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 
 export default createWidget("discourse-group-timezones-header", {
   tagName: "div.group-timezones-header",
 
   transform(attrs) {
     return {
-      title: I18n.t("group_timezones.group_availability", {
+      title: i18n("group_timezones.group_availability", {
         group: attrs.group,
       }),
     };
