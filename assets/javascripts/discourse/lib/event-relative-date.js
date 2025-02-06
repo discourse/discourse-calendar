@@ -1,4 +1,4 @@
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 import guessDateFormat from "./guess-best-date-format";
 
 function _computeCurrentEvent(container, endsAt) {
@@ -8,7 +8,7 @@ function _computeCurrentEvent(container, endsAt) {
 
   const text = document.createElement("span");
   text.classList.add("text");
-  text.innerText = I18n.t("discourse_post_event.topic_title.ends_in_duration", {
+  text.innerText = i18n("discourse_post_event.topic_title.ends_in_duration", {
     duration: endsAt.from(moment()),
   });
   container.appendChild(text);

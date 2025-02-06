@@ -5,9 +5,9 @@ import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import { next } from "@ember/runloop";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
+import icon from "discourse/helpers/d-icon";
 import { applyLocalDates } from "discourse/lib/local-dates";
 import { cook } from "discourse/lib/text";
-import icon from "discourse-common/helpers/d-icon";
 import guessDateFormat from "../../lib/guess-best-date-format";
 
 export default class DiscoursePostEventDates extends Component {

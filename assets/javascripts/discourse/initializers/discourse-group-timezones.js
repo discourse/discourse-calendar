@@ -1,7 +1,7 @@
 import $ from "jquery";
+import { getRegister } from "discourse/lib/get-owner";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import WidgetGlue from "discourse/widgets/glue";
-import { getRegister } from "discourse-common/lib/get-owner";
 
 export default {
   name: "discourse-group-timezones",

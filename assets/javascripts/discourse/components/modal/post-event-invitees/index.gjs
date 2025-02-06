@@ -9,9 +9,8 @@ import ConditionalLoadingSpinner from "discourse/components/conditional-loading-
 import DButton from "discourse/components/d-button";
 import DModal from "discourse/components/d-modal";
 import concatClass from "discourse/helpers/concat-class";
-import i18n from "discourse-common/helpers/i18n";
-import { debounce } from "discourse-common/utils/decorators";
-import I18n from "discourse-i18n";
+import { debounce } from "discourse/lib/decorators";
+import { i18n } from "discourse-i18n";
 import ToggleInvitees from "../../toggle-invitees";
 import User from "./user";
 
@@ -38,7 +37,7 @@ export default class PostEventInviteesModal extends Component {
   }
 
   get title() {
-    return I18n.t(
+    return i18n(
       `discourse_post_event.invitees_modal.${
         this.args.model.title || "title_invited"
       }`

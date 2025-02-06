@@ -5,7 +5,7 @@ import { service } from "@ember/service";
 import { extractError } from "discourse/lib/ajax-error";
 import { cook } from "discourse/lib/text";
 import Group from "discourse/models/group";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
 
 export default class PostEventBuilder extends Component {
@@ -33,13 +33,13 @@ export default class PostEventBuilder extends Component {
     return [
       {
         value: "notification",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.reminders.types.notification"
         ),
       },
       {
         value: "bumpTopic",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.reminders.types.bump_topic"
         ),
       },
@@ -50,25 +50,21 @@ export default class PostEventBuilder extends Component {
     return [
       {
         value: "minutes",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.reminders.units.minutes"
         ),
       },
       {
         value: "hours",
-        name: I18n.t(
-          "discourse_post_event.builder_modal.reminders.units.hours"
-        ),
+        name: i18n("discourse_post_event.builder_modal.reminders.units.hours"),
       },
       {
         value: "days",
-        name: I18n.t("discourse_post_event.builder_modal.reminders.units.days"),
+        name: i18n("discourse_post_event.builder_modal.reminders.units.days"),
       },
       {
         value: "weeks",
-        name: I18n.t(
-          "discourse_post_event.builder_modal.reminders.units.weeks"
-        ),
+        name: i18n("discourse_post_event.builder_modal.reminders.units.weeks"),
       },
     ];
   }
@@ -77,13 +73,13 @@ export default class PostEventBuilder extends Component {
     return [
       {
         value: "before",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.reminders.periods.before"
         ),
       },
       {
         value: "after",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.reminders.periods.after"
         ),
       },
@@ -94,35 +90,31 @@ export default class PostEventBuilder extends Component {
     return [
       {
         id: "every_day",
-        name: I18n.t("discourse_post_event.builder_modal.recurrence.every_day"),
+        name: i18n("discourse_post_event.builder_modal.recurrence.every_day"),
       },
       {
         id: "every_month",
-        name: I18n.t(
-          "discourse_post_event.builder_modal.recurrence.every_month"
-        ),
+        name: i18n("discourse_post_event.builder_modal.recurrence.every_month"),
       },
       {
         id: "every_weekday",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.recurrence.every_weekday"
         ),
       },
       {
         id: "every_week",
-        name: I18n.t(
-          "discourse_post_event.builder_modal.recurrence.every_week"
-        ),
+        name: i18n("discourse_post_event.builder_modal.recurrence.every_week"),
       },
       {
         id: "every_two_weeks",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.recurrence.every_two_weeks"
         ),
       },
       {
         id: "every_four_weeks",
-        name: I18n.t(
+        name: i18n(
           "discourse_post_event.builder_modal.recurrence.every_four_weeks"
         ),
       },
@@ -256,7 +248,7 @@ export default class PostEventBuilder extends Component {
       if (newRaw) {
         const props = {
           raw: newRaw,
-          edit_reason: I18n.t("discourse_post_event.edit_reason"),
+          edit_reason: i18n("discourse_post_event.edit_reason"),
         };
 
         const cooked = await cook(newRaw);

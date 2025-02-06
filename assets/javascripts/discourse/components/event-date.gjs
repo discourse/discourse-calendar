@@ -1,6 +1,6 @@
 import Component from "@glimmer/component";
 import { service } from "@ember/service";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 import guessDateFormat from "../lib/guess-best-date-format";
 
 export default class EventDate extends Component {
@@ -93,7 +93,7 @@ export default class EventDate extends Component {
   }
 
   get timeRemainingContent() {
-    return I18n.t("discourse_post_event.topic_title.ends_in_duration", {
+    return i18n("discourse_post_event.topic_title.ends_in_duration", {
       duration: this.eventEndedAt.from(moment()),
     });
   }

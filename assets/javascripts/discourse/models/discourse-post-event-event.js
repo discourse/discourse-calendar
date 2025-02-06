@@ -1,8 +1,8 @@
 import { tracked } from "@glimmer/tracking";
 import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
+import { bind } from "discourse/lib/decorators";
 import User from "discourse/models/user";
-import { bind } from "discourse-common/utils/decorators";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
 import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
 

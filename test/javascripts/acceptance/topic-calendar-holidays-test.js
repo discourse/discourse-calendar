@@ -1,7 +1,7 @@
 import { visit } from "@ember/test-helpers";
 import { test } from "qunit";
+import { cloneJSON } from "discourse/lib/object";
 import { acceptance, fakeTime } from "discourse/tests/helpers/qunit-helpers";
-import { cloneJSON } from "discourse-common/lib/object";
 import eventTopicFixture from "../helpers/event-topic-fixture";
 
 acceptance("Discourse Calendar - Topic Calendar Holidays", function (needs) {

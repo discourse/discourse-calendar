@@ -7,7 +7,7 @@ import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
 import Group from "discourse/models/group";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 
 export default class PostEventBulkInvite extends Component {
   @service dialog;
@@ -22,19 +22,19 @@ export default class PostEventBulkInvite extends Component {
   get bulkInviteStatuses() {
     return [
       {
-        label: I18n.t("discourse_post_event.models.invitee.status.unknown"),
+        label: i18n("discourse_post_event.models.invitee.status.unknown"),
         name: "unknown",
       },
       {
-        label: I18n.t("discourse_post_event.models.invitee.status.going"),
+        label: i18n("discourse_post_event.models.invitee.status.going"),
         name: "going",
       },
       {
-        label: I18n.t("discourse_post_event.models.invitee.status.not_going"),
+        label: i18n("discourse_post_event.models.invitee.status.not_going"),
         name: "not_going",
       },
       {
-        label: I18n.t("discourse_post_event.models.invitee.status.interested"),
+        label: i18n("discourse_post_event.models.invitee.status.interested"),
         name: "interested",
       },
     ];
@@ -97,7 +97,7 @@ export default class PostEventBulkInvite extends Component {
   @action
   async uploadDone() {
     await this.dialog.alert(
-      I18n.t("discourse_post_event.bulk_invite_modal.success")
+      i18n("discourse_post_event.bulk_invite_modal.success")
     );
     this.args.closeModal();
   }

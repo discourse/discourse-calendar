@@ -1,4 +1,4 @@
-import I18n from "I18n";
+import I18n, { i18n } from "discourse-i18n";
 
 export function getCurrentBcp47Locale() {
   return I18n.currentLocale().replace("_", "-").toLowerCase();
@@ -6,10 +6,10 @@ export function getCurrentBcp47Locale() {
 
 export function getCalendarButtonsText() {
   return {
-    today: I18n.t("discourse_calendar.toolbar_button.today"),
-    month: I18n.t("discourse_calendar.toolbar_button.month"),
-    week: I18n.t("discourse_calendar.toolbar_button.week"),
-    day: I18n.t("discourse_calendar.toolbar_button.day"),
-    list: I18n.t("discourse_calendar.toolbar_button.list"),
+    today: i18n("discourse_calendar.toolbar_button.today"),
+    month: i18n("discourse_calendar.toolbar_button.month"),
+    week: i18n("discourse_calendar.toolbar_button.week"),
+    day: i18n("discourse_calendar.toolbar_button.day"),
+    list: i18n("discourse_calendar.toolbar_button.list"),
   };
 }
