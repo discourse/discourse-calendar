@@ -9,7 +9,6 @@ module("Integration | Component | MoreMenu", function (hooks) {
   setupRenderingTest(hooks);
 
   test("value transformer works", async function (assert) {
-
     withPluginApi("1.34.0", (api) => {
       api.registerValueTransformer(
         "discourse-calendar-should-show-participants",
