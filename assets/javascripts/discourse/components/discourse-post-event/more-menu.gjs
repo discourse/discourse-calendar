@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { hash } from "@ember/helper";
 import EmberObject, { action } from "@ember/object";
 import { service } from "@ember/service";
+import { or } from "truth-helpers";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
 import { popupAjaxError } from "discourse/lib/ajax-error";
@@ -35,7 +36,24 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   get shouldShowParticipants() {
-    return this.canActOnEvent && !this.args.isStandaloneEvent;
+    const shouldShowBasedOnSettings = () => {
+      switch (this.siteSettings.who_can_see_invitees) {
+        case "only_who_can_act": // default
+          return false;
+        case "all_logged_in_users":
+          return !!this.currentUser;
+        case "event_creator_and_who_can_act":
+          return (
+            this.currentUser &&
+            this.currentUser.id === this.args.event.creator.id
+          );
+      }
+    };
+
+    return (
+      (this.canActOnEvent && !this.args.isStandaloneEvent) ||
+      shouldShowBasedOnSettings()
+    );
   }
 
   get canInvite() {

@@ -33,6 +33,10 @@ en:
       date: "Date"
       add_to_calendar: "Add to Google Calendar"
       toggle_timezone_offset_title: "Toggle timezone offset"
+      who_can_see_invitees:
+        only_who_can_act: "Only users who can edit the event"
+        all_logged_in_users: "All logged in users"
+        event_creator_and_who_can_act: "Event creator and users who can edit the event"
       region:
         title: "Region"
         none: "None"

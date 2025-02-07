@@ -127,3 +127,7 @@ discourse_calendar:
   include_expired_events_on_calendar:
     default: false
     client: true
+  who_can_see_invitees:
+    client: true
+    default: "only_who_can_act"
+    enum: "WhoCanSeeInviteesSiteSetting"
