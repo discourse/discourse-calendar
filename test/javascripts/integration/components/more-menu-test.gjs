@@ -2,7 +2,7 @@ import { hash } from "@ember/helper";
 import { getOwner } from "@ember/owner";
 import { click, render } from "@ember/test-helpers";
 import { module, test } from "qunit";
-import { apiInitializer } from "discourse/lib/api";
+import { withPluginApi } from "discourse/lib/plugin-api";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import MoreMenu from "../../discourse/components/discourse-post-event/more-menu";
 
@@ -25,7 +25,7 @@ module("Integration | Component | MoreMenu", function (hooks) {
   });
 
   test("value transformer works", async function (assert) {
-    apiInitializer("1.34.0", (api) => {
+    withPluginApi("1.34.0", (api) => {
       api.registerValueTransformer(
         "discourse-calendar-should-show-participants",
         () => {
