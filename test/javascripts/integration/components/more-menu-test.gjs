@@ -1,6 +1,6 @@
 import { hash } from "@ember/helper";
 import { getOwner } from "@ember/owner";
-import { click,render } from "@ember/test-helpers";
+import { click, render } from "@ember/test-helpers";
 import { module, test } from "qunit";
 import { apiInitializer } from "discourse/lib/api";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
@@ -37,8 +37,6 @@ module("Integration | Component | MoreMenu", function (hooks) {
       <MoreMenu @event={{hash isExpired=false creator=this.user}} />
     </template>);
     await click(".discourse-post-event-more-menu-trigger");
-    assert
-      .dom(".show-all-participants")
-      .exists();
+    assert.dom(".show-all-participants").exists();
   });
 });
