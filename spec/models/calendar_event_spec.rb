@@ -156,5 +156,26 @@ describe CalendarEvent do
 
       expect(CalendarEvent.find_by(post_id: post.id)).to_not be_present
     end
+
+    it "works for events belonging to deleted users" do
+      SiteSetting.enable_user_status = true
+
+      topic = Fabricate(:topic)
+      user = Fabricate(:user)
+
+      # Holiday events are not associated with a user post
+      event =
+        CalendarEvent.create!(
+          topic_id: topic.id,
+          user_id: user.id,
+          start_date: Time.zone.now - 1.day,
+          end_date: Time.zone.now + 1.day,
+        )
+
+      UserDestroyer.new(Discourse.system_user).destroy(user)
+
+      expect { event.destroy! }.not_to raise_error
+      expect { event.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end

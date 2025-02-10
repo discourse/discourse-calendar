@@ -15,7 +15,7 @@ module DiscourseCalendar
     end
 
     def self.clear!(user)
-      user.clear_status! if user.user_status && is_holiday_status?(user.user_status)
+      user.clear_status! if user&.user_status && is_holiday_status?(user.user_status)
     end
 
     private
