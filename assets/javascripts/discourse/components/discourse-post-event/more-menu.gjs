@@ -52,6 +52,13 @@ export default class DiscoursePostEventMoreMenu extends Component {
     return !this.expiredOrClosed && !this.args.event.isStandalone;
   }
 
+  get canSendPmToCreator() {
+    return (
+      this.currentUser &&
+      this.currentUser.username !== this.args.event.creator.username
+    );
+  }
+
   @action
   addToCalendar() {
     this.menuApi.close();
@@ -241,7 +248,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
             </dropdown.item>
           {{/unless}}
 
-          {{#if this.currentUser}}
+          {{#if this.canSendPmToCreator}}
             <dropdown.item class="send-pm-to-creator">
               <DButton
                 @icon="envelope"
