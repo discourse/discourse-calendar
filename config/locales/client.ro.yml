@@ -41,8 +41,17 @@ ro:
         error: "Scuze, fișierul trebuie să fie în format CSV."
         confirmation_message: "Ești pe cale să anunți pe toată lumea din fișierul încărcat."
       upcoming_events:
+        title: "Evenimente viitoare"
         creator: "Creator"
-        status: "Status"
+        status: "Stare"
+        starts_at: "Începe la"
+      upcoming_events_list:
+        title: "Evenimente viitoare"
+        empty: "Fără evenimente viitoare"
+        all_day: "Toată ziua"
+        error: "Eroare la preluarea evenimentelor"
+        try_again: "Încearcă din nou"
+        view_all: "Vezi tot"
       models:
         invitee:
           status:
