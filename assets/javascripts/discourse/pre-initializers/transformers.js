@@ -5,7 +5,7 @@ export default {
   initialize() {
     withPluginApi("1.33.0", (api) => {
       api.addValueTransformerName(
-        "discourse-calendar-should-show-participants"
+        "discourse-calendar-event-more-menu-should-show-participants"
       );
     });
   },
