@@ -11,7 +11,7 @@ module("Integration | Component | MoreMenu", function (hooks) {
   test("value transformer works", async function (assert) {
     withPluginApi("1.34.0", (api) => {
       api.registerValueTransformer(
-        "discourse-calendar-should-show-participants",
+        "discourse-calendar-event-more-menu-should-show-participants",
         () => {
           return true; // by default it should not show to unauthenticated users
         }
