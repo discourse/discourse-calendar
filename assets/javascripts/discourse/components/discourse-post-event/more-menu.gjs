@@ -9,6 +9,7 @@ import { downloadCalendar } from "discourse/lib/download-calendar";
 import { exportEntity } from "discourse/lib/export-csv";
 import { getAbsoluteURL } from "discourse/lib/get-url";
 import { cook } from "discourse/lib/text";
+import { applyValueTransformer } from "discourse/lib/transformer";
 import { i18n } from "discourse-i18n";
 import DMenu from "float-kit/components/d-menu";
 import { buildParams, replaceRaw } from "../../lib/raw-event-helper";
@@ -35,7 +36,13 @@ export default class DiscoursePostEventMoreMenu extends Component {
   }
 
   get shouldShowParticipants() {
-    return this.canActOnEvent && !this.args.isStandaloneEvent;
+    return applyValueTransformer(
+      "discourse-calendar-event-more-menu-should-show-participants",
+      this.canActOnEvent && !this.args.isStandaloneEvent,
+      {
+        event: this.args.event,
+      }
+    );
   }
 
   get canInvite() {
