@@ -37,7 +37,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
 
   get shouldShowParticipants() {
     return applyValueTransformer(
-      "discourse-calendar-should-show-participants",
+      "discourse-calendar-event-more-menu-should-show-participants",
       this.canActOnEvent && !this.args.isStandaloneEvent,
       {
         event: this.args.event,
