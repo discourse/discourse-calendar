@@ -12,6 +12,13 @@
   <:body>
     <ConditionalLoadingSection @isLoading={{this.isSaving}}>
       <form>
+        <PluginOutlet
+          @name="post-event-builder-form"
+          @outletArgs={{hash
+            event=@model.event
+          }}
+          @connectorTagName="div"
+        >
         <DateTimeInputRange
           @from={{this.startsAt}}
           @to={{this.endsAt}}
@@ -242,6 +249,7 @@
             {{/each}}
           </EventField>
         {{/if}}
+        </PluginOutlet>
       </form>
     </ConditionalLoadingSection>
   </:body>
