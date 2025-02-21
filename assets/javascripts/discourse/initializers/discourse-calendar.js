@@ -133,6 +133,7 @@ function initializeDiscourseCalendar(api) {
         await loadFullCalendar();
         let fullCalendar = new window.FullCalendar.Calendar(categoryEventNode, {
           ...fullCalendarDefaultOptions(),
+          firstDay: 1,
           eventPositioned: (info) => {
             if (siteSettings.events_max_rows === 0) {
               return;

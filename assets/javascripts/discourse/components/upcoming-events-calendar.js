@@ -46,6 +46,7 @@ export default class UpcomingEventsCalendar extends Component {
     this._loadCalendar().then(() => {
       const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
         ...fullCalendarDefaultOptions(),
+        firstDay: 1,
         height: "auto",
         eventPositioned: (info) => {
           if (siteSettings.events_max_rows === 0) {
