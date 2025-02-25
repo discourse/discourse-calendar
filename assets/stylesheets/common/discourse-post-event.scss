@@ -36,7 +36,7 @@ $show-interested: inherit;
     flex: 1 0 auto;
     max-width: calc(100% - 2px - 6px);
     box-sizing: border-box;
-    border-radius: var(--d-button-border-radius);
+    border-radius: var(--d-border-radius);
 
     section:last-child {
       padding-bottom: 0.75em;
