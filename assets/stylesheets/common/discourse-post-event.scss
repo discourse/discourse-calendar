@@ -27,7 +27,7 @@ $show-interested: inherit;
   }
 
   .discourse-post-event-widget {
-    box-shadow: 0px 0px 0px 3px var(--primary-100);
+    box-shadow: 0 0 0 3px var(--primary-100);
     border: 1px solid var(--primary-300);
     display: flex;
     background: var(--secondary);
@@ -53,6 +53,7 @@ $show-interested: inherit;
         &:not(.separator) {
           padding: 0.5em;
         }
+
         .d-icon + span {
           margin-left: 0.5em;
         }
@@ -89,6 +90,7 @@ $show-interested: inherit;
           .d-icon {
             margin: 0;
           }
+
           .label {
             display: none;
           }
@@ -114,7 +116,7 @@ $show-interested: inherit;
     margin: 0;
     padding: 0;
     border: 1px solid var(--primary-low);
-    border-radius: var(--d-button-border-radius);
+    border-radius: var(--d-border-radius);
     flex-direction: column;
 
     .month {
@@ -144,6 +146,7 @@ $show-interested: inherit;
       font-size: var(--font-up-2);
       font-weight: 400;
     }
+
     .status-and-creators {
       display: flex;
       align-items: center;
@@ -158,6 +161,7 @@ $show-interested: inherit;
 
       .created-by {
         margin-right: 0.25em;
+
         @media screen and (max-width: 450px) {
           display: none;
         }
@@ -206,6 +210,7 @@ $show-interested: inherit;
     &.event-status {
       margin: 0;
       gap: 0.75em;
+
       .btn {
         flex: 1;
       }
@@ -213,15 +218,19 @@ $show-interested: inherit;
       .interested-button {
         display: $show-interested;
       }
+
       &.status-going .going-button .d-icon {
         color: var(--success);
       }
+
       &.status-interested .interested-button .d-icon {
         color: $interested;
       }
+
       &.status-not_going .not-going-button .d-icon {
         color: var(--danger);
       }
+
       .not-going-button span {
         white-space: nowrap;
       }
@@ -256,11 +265,13 @@ $show-interested: inherit;
       .event-invitees-status {
         font-weight: 700;
         display: flex;
+
         span:not(:last-child)::after {
           content: "-";
           font-weight: 400;
           margin: 0 0.3em;
         }
+
         .event-status-invited {
           font-weight: 600;
           color: var(--primary-medium);
@@ -357,6 +368,7 @@ $show-interested: inherit;
   .event-url {
     .url {
       max-width: 80%;
+
       @include ellipsis;
     }
   }
@@ -394,22 +406,26 @@ $show-interested: inherit;
     border-bottom: none;
     margin: 0;
   }
+
   .event__section.no-rsvp {
     display: grid;
     grid-template-columns: 3em 1fr;
     grid-column-gap: 1em;
     align-items: center;
   }
+
   p.no-rsvp-description {
     color: var(--primary-medium);
     font-size: var(--font-down-1);
     font-weight: 400;
     grid-column-start: 2;
   }
+
   .event-invitees-icon {
     position: relative;
     display: flex;
   }
+
   .event-invitees-icon .going {
     font-size: var(--font-down-3);
     position: absolute;
