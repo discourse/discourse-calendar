@@ -157,7 +157,7 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
 
     assert.deepEqual(
       [...queryAll(".fc-day-header span")].map((el) => el.innerText),
-      ["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."],
+      ["seg.", "ter.", "qua.", "qui.", "sex.", "sáb.", "dom."],
       "Week days are translated in the calendar header"
     );
 
