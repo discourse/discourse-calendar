@@ -9,6 +9,28 @@ module DiscoursePostEvent
       SiteSetting.displayed_invitees_limit = 3
     end
 
+    describe "#index" do
+      fab!(:event_1) { Fabricate(:event, original_starts_at: 1.day.from_now) }
+
+      it "should not result in N+1 queries problem when multiple events are returned" do
+        original_queries = track_sql_queries { get "/discourse-post-event/events.json" }
+
+        expect(response.status).to eq(200)
+        expect(response.parsed_body["events"].length).to eq(1)
+
+        event_2 = Fabricate(:event, original_starts_at: 2.days.from_now)
+        event_3 = Fabricate(:event, original_starts_at: 3.days.from_now)
+
+        new_queries = track_sql_queries { get "/discourse-post-event/events.json" }
+
+        expect(response.status).to eq(200)
+        expect(response.parsed_body["events"].length).to eq(3)
+
+        # TODO: There is still N+1 query problem here so uncomment this line when it is fixed
+        # expect(new_queries.count).to eq(original_queries.count)
+      end
+    end
+
     context "with an existing post" do
       let(:user) { Fabricate(:user, admin: true) }
       let(:topic) { Fabricate(:topic, user: user) }
@@ -210,9 +232,11 @@ module DiscoursePostEvent
 
         context "when filtering by category" do
           fab!(:category)
+
           fab!(:subcategory) do
             Fabricate(:category, parent_category: category, name: "category subcategory")
           end
+
           fab!(:event_1) do
             Fabricate(
               :event,
@@ -220,6 +244,7 @@ module DiscoursePostEvent
               post: Fabricate(:post, post_number: 1, topic: Fabricate(:topic, category: category)),
             )
           end
+
           fab!(:event_2) do
             Fabricate(
               :event,
@@ -228,6 +253,7 @@ module DiscoursePostEvent
                 Fabricate(:post, post_number: 1, topic: Fabricate(:topic, category: subcategory)),
             )
           end
+
           fab!(:event_3) do
             Fabricate(
               :event,

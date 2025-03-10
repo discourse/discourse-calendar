@@ -3,7 +3,10 @@
 module DiscoursePostEvent
   class EventsController < DiscoursePostEventController
     def index
-      @events = DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params)
+      @events =
+        DiscoursePostEvent::EventFinder.search(current_user, filtered_events_params).includes(
+          post: :topic,
+        )
 
       # The detailed serializer is currently not used anywhere in the frontend, but available via API
       serializer = params[:include_details] == "true" ? EventSerializer : EventSummarySerializer
