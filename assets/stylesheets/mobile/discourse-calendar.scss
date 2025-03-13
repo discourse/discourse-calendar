@@ -23,6 +23,7 @@
     .fc-day-header.fc-widget-header {
       text-align: center;
       padding: 0.25em;
+
       span {
         font-size: var(--font-down-1);
         text-align: center;
@@ -33,9 +34,11 @@
 
   .calendar {
     padding: 0;
+
     .fc-list-item-add-to-calendar {
       display: block;
     }
+
     &.fc-unthemed .fc-header-toolbar {
       padding: 0.5em 0;
     }
