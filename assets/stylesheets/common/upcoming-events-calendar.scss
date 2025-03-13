@@ -51,6 +51,7 @@
       color: var(--primary);
       text-shadow: none;
       border: none;
+
       padding: 6px 12px;
 
       &:hover {
@@ -62,12 +63,12 @@
         background: var(--tertiary);
         color: var(--secondary);
       }
+
       margin: 0.3em 0 0.3em 0.5em;
     }
 
     .fc-button-group {
       margin: 0.3em 0 0.3em 0.5em;
-
       // margin-right: 0;
       .fc-button {
         margin: 0;
@@ -106,6 +107,7 @@
     }
 
     &.grouped-event {
+      background-color: none;
       background: var(--secondary);
       border: 1px solid var(--primary-low-mid);
       color: var(--primary);

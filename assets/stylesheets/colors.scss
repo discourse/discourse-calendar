@@ -1,14 +1,14 @@
 :root {
   --calendar-normal: #{dark-light-choose(
-      color.adjust($tertiary, $lightness: 55%),
-      color.adjust($tertiary, $lightness: -25%)
+      lighten($tertiary, 55%),
+      darken($tertiary, 25%)
     )};
   --calendar-close-to-working-hours: #{dark-light-choose(
-      color.adjust(color.adjust($tertiary, $lightness: 45%), $saturation: -15%),
-      color.adjust($tertiary, $lightness: -15%)
+      desaturate(lighten($tertiary, 45%), 15%),
+      darken($tertiary, 15%)
     )};
   --calendar-in-working-hours: #{dark-light-choose(
-      color.adjust(color.adjust($tertiary, $lightness: 40%), $saturation: -20%),
-      color.adjust($tertiary, $lightness: -10%)
+      desaturate(lighten($tertiary, 40%), 20%),
+      darken($tertiary, 10%)
     )};
 }
