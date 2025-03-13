@@ -371,7 +371,32 @@ $show-interested: inherit;
       @include ellipsis;
     }
   }
+}
 
+.event-dates {
+  // hardcoded as cooking date is async and will change height after initial rendering otherwise
+  // not ideal but a decent low tech solution
+  height: 24px;
+
+  .participants {
+    margin-left: 0.5em;
+    color: var(--primary-medium);
+  }
+
+  .discourse-local-date {
+    .d-icon {
+      display: none;
+    }
+  }
+
+  .separator {
+    color: var(--primary-high);
+    margin: 0 0.5em;
+    text-align: center;
+  }
+}
+
+.discourse-post-event {
   .cooked-date,
   .participants,
   .event-url .url {
@@ -411,28 +436,5 @@ $show-interested: inherit;
     align-items: center;
     justify-content: center;
     color: var(--primary-medium);
-  }
-}
-
-.event-dates {
-  // hardcoded as cooking date is async and will change height after initial rendering otherwise
-  // not ideal but a decent low tech solution
-  height: 24px;
-
-  .participants {
-    margin-left: 0.5em;
-    color: var(--primary-medium);
-  }
-
-  .discourse-local-date {
-    .d-icon {
-      display: none;
-    }
-  }
-
-  .separator {
-    color: var(--primary-high);
-    margin: 0 0.5em;
-    text-align: center;
   }
 }
