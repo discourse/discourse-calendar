@@ -15,12 +15,12 @@ export default class Region extends Component {
 
   @action
   onChange(value) {
-    this.args.model.set("custom_fields.holidays-region", value);
+    this.args.outletArgs.model.set("custom_fields.holidays-region", value);
   }
 
   @action
   useCurrentRegion() {
-    this.args.model.set(
+    this.args.outletArgs.model.set(
       "custom_fields.holidays-region",
       TIME_ZONE_TO_REGION[moment.tz.guess()] || "us"
     );
@@ -34,7 +34,7 @@ export default class Region extends Component {
 
       <div class="controls">
         <RegionInput
-          @value={{@model.custom_fields.holidays-region}}
+          @value={{@outletArgs.model.custom_fields.holidays-region}}
           @allowNoneRegion={{true}}
           @onChange={{this.onChange}}
         />
