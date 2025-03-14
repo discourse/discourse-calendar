@@ -4,6 +4,13 @@
   .topic-link {
     display: inline;
   }
+
+  .event-date {
+    font-size: var(--font-down-4);
+    color: var(--primary-medium);
+    font-weight: normal;
+    padding: 0.25em;
+  }
 }
 
 .main-link {
@@ -34,14 +41,5 @@
       background: var(--success);
       margin-right: 0.25em;
     }
-  }
-}
-
-.header-title {
-  .event-date {
-    font-size: var(--font-down-4);
-    color: var(--primary-medium);
-    font-weight: normal;
-    padding: 0.25em;
   }
 }

@@ -30,7 +30,6 @@
         }
       }
     }
-
     overflow: hidden;
 
     .fc-scroller {
@@ -152,6 +151,7 @@
       margin-left: 0;
     }
   }
+
   .fc-list-item-add-to-calendar {
     color: var(--tertiary);
     font-size: var(--font-down-1);
@@ -178,7 +178,9 @@ a.holiday {
   min-height: 60px;
 
   .discourse-calendar-timezone-picker {
+    font-size: 16px;
     margin-bottom: 0;
+    max-width: 50vw;
   }
 
   h2.discourse-calendar-title {
@@ -189,11 +191,6 @@ a.holiday {
     font-weight: 700;
     text-transform: capitalize;
   }
-}
-
-.discourse-calendar-header .discourse-calendar-timezone-picker {
-  max-width: 50vw;
-  font-size: 16px;
 }
 
 .group-timezones {
@@ -257,6 +254,7 @@ a.holiday {
   position: relative;
   margin: 0.25em 0;
   margin-right: 0.5em;
+
   &::before {
     display: block;
     content: "";
@@ -275,8 +273,7 @@ a.holiday {
   display: flex;
   width: 120px;
   padding: 0.25em;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: none;
   cursor: pointer;
   font: inherit;
   outline: none;
@@ -379,6 +376,7 @@ a.holiday {
           opacity: 0.7;
           position: relative;
         }
+
         &.on-holiday::after {
           content: "📅";
           position: absolute;
@@ -412,7 +410,7 @@ a.holiday {
   box-shadow: var(--shadow-dropdown);
   border-radius: 4px;
   padding: 0.5em;
-  max-width: unquote("min(75vw, 400px)");
+  max-width: min(75vw, 400px);
 
   [data-popper-arrow],
   [data-popper-arrow]::before {

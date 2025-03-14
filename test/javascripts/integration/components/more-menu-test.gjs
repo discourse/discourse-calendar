@@ -41,15 +41,17 @@ module("Integration | Component | MoreMenu", function (hooks) {
       id: 322,
     });
 
-    await render(<template>
-      <MoreMenu
-        @event={{hash
-          isExpired=false
-          creator=creator
-          canActOnDiscoursePostEvent=false
-        }}
-      />
-    </template>);
+    await render(
+      <template>
+        <MoreMenu
+          @event={{hash
+            isExpired=false
+            creator=creator
+            canActOnDiscoursePostEvent=false
+          }}
+        />
+      </template>
+    );
 
     await click(".discourse-post-event-more-menu-trigger");
     assert.dom(".show-all-participants").exists();
