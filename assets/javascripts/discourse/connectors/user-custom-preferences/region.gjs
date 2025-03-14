@@ -1,13 +1,17 @@
+import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import { i18n } from "discourse-i18n";
 import RegionInput from "../../components/region-input";
 import { TIME_ZONE_TO_REGION } from "../../lib/regions";
 
-export default class Region {
+export default class Region extends Component {
   static shouldRender(args, component) {
     return component.siteSettings.calendar_enabled;
   }
+
+  @service siteSettings;
 
   @action
   onChange(value) {
