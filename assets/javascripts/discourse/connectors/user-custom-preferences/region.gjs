@@ -27,7 +27,7 @@ export default class Region extends Component {
   }
 
   <template>
-    <div class="control-group">
+    <div class="control-group region">
       <label class="control-label">
         {{i18n "discourse_calendar.region.title"}}
       </label>
