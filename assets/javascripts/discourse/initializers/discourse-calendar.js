@@ -992,8 +992,8 @@ function initializeDiscourseCalendar(api) {
       http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
         eventTitle
       )}&dates=${startDate}/${endDate}&details=${encodeURIComponent(
-      event.eventRange.def.extendedProps.description
-    )}`;
+        event.eventRange.def.extendedProps.description
+      )}`;
     link.target = "_blank";
     link.classList.add("fc-list-item-add-to-calendar");
     event.el.querySelector(".fc-list-item-title").appendChild(link);

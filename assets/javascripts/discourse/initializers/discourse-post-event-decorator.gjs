@@ -98,9 +98,10 @@ function initializeDiscoursePostEventDecorator(api) {
 
         const event = DiscoursePostEventEvent.create(post.event);
 
-        helper.renderGlimmer(wrapper, <template>
-          <DiscoursePostEvent @event={{event}} />
-        </template>);
+        helper.renderGlimmer(
+          wrapper,
+          <template><DiscoursePostEvent @event={{event}} /></template>
+        );
       }
     },
     {

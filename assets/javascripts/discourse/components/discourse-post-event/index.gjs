@@ -15,7 +15,9 @@ import MoreMenu from "./more-menu";
 import Status from "./status";
 import Url from "./url";
 
-const StatusSeparator = <template><span class="separator">·</span></template>;
+const StatusSeparator = <template>
+  <span class="separator">·</span>
+</template>;
 
 const InfoSection = <template>
   <section class="event__section" ...attributes>

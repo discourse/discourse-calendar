@@ -219,9 +219,11 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
   test("with events, overridden time format", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
-    await render(<template>
-      <UpcomingEventsList @params={{hash timeFormat="LLL"}} />
-    </template>);
+    await render(
+      <template>
+        <UpcomingEventsList @params={{hash timeFormat="LLL"}} />
+      </template>
+    );
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
@@ -290,9 +292,9 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
   test("with events, overridden count parameter", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
-    await render(<template>
-      <UpcomingEventsList @params={{hash count=1}} />
-    </template>);
+    await render(
+      <template><UpcomingEventsList @params={{hash count=1}} /></template>
+    );
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
@@ -320,9 +322,11 @@ module("Integration | Component | upcoming-events-list", function (hooks) {
   test("with events, overridden upcomingDays parameter", async function (assert) {
     pretender.get("/discourse-post-event/events", twoEventsResponseHandler);
 
-    await render(<template>
-      <UpcomingEventsList @params={{hash upcomingDays=1}} />
-    </template>);
+    await render(
+      <template>
+        <UpcomingEventsList @params={{hash upcomingDays=1}} />
+      </template>
+    );
 
     this.appEvents.trigger("page:changed", { url: "/" });
 
