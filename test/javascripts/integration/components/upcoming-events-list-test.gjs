@@ -13,6 +13,7 @@ import UpcomingEventsList, {
 class RouterStub extends Service {
   currentRoute = { attributes: { category: { id: 1, slug: "announcements" } } };
   currentRouteName = "discovery.latest";
+
   on() {}
   off() {}
 }
