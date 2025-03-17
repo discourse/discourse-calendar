@@ -335,7 +335,7 @@ after_initialize do
     return if self.is_first_post?
 
     # Skip if not a calendar topic
-    return if !self&.topic&.first_post&.custom_fields&.[](DiscourseCalendar::CALENDAR_CUSTOM_FIELD)
+    return if !self.topic&.first_post&.custom_fields&.[](DiscourseCalendar::CALENDAR_CUSTOM_FIELD)
 
     validator = DiscourseCalendar::EventValidator.new(self)
     validator.validate_event

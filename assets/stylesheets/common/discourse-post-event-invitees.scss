@@ -2,27 +2,33 @@
   .modal-body {
     padding: 0;
   }
+
   .modal-inner-container {
     min-width: 350px;
   }
+
   .loading-container {
     height: 40vh;
     overflow-y: scroll;
+
     .no-users {
       text-align: center;
       font-size: var(--font-up-1);
     }
   }
+
   .invitees-type-filter {
     margin-bottom: 9px;
     display: flex;
+
     .btn {
       width: calc(100% / 3);
       margin: 0;
-      border-radius: 0px;
-      padding: 0.75em 0em;
+      border-radius: 0;
+      padding: 0.75em 0;
     }
   }
+
   .filter {
     width: calc(100% - 2em);
     margin-bottom: 1em;
@@ -52,6 +58,7 @@
         display: flex;
         align-items: center;
         white-space: nowrap;
+
         .username {
           margin-left: 0.5em;
           text-overflow: ellipsis;
