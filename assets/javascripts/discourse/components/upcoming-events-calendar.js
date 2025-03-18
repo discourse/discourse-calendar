@@ -16,7 +16,6 @@ export default class UpcomingEventsCalendar extends Component {
 
   init() {
     super.init(...arguments);
-
     this._calendar = null;
   }
 
@@ -33,7 +32,7 @@ export default class UpcomingEventsCalendar extends Component {
     this._renderCalendar();
   }
 
-  _renderCalendar() {
+  async _renderCalendar() {
     const siteSettings = this.site.siteSettings;
 
     const calendarNode = document.getElementById("upcoming-events-calendar");
@@ -43,88 +42,88 @@ export default class UpcomingEventsCalendar extends Component {
 
     calendarNode.innerHTML = "";
 
-    this._loadCalendar().then(() => {
-      const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
-        ...fullCalendarDefaultOptions(),
-        firstDay: 1,
-        height: "auto",
-        eventPositioned: (info) => {
-          if (siteSettings.events_max_rows === 0) {
-            return;
-          }
+    await this._loadCalendar();
 
-          let fcContent = info.el.querySelector(".fc-content");
-          let computedStyle = window.getComputedStyle(fcContent);
-          let lineHeight = parseInt(computedStyle.lineHeight, 10);
-
-          if (lineHeight === 0) {
-            lineHeight = 20;
-          }
-          let maxHeight = lineHeight * siteSettings.events_max_rows;
-
-          if (fcContent) {
-            fcContent.style.maxHeight = `${maxHeight}px`;
-          }
-
-          let fcTitle = info.el.querySelector(".fc-title");
-          if (fcTitle) {
-            fcTitle.style.overflow = "hidden";
-            fcTitle.style.whiteSpace = "pre-wrap";
-          }
-          fullCalendar.updateSize();
-        },
-      });
-      this._calendar = fullCalendar;
-
-      const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
-
-      const originalEventAndRecurrents = addRecurrentEvents(this.events);
-
-      (originalEventAndRecurrents || []).forEach((event) => {
-        const { startsAt, endsAt, post, categoryId } = event;
-
-        let backgroundColor;
-
-        if (post.topic.tags) {
-          const tagColorEntry = tagsColorsMap.find(
-            (entry) =>
-              entry.type === "tag" && post.topic.tags.includes(entry.slug)
-          );
-          backgroundColor = tagColorEntry?.color;
+    const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
+      ...fullCalendarDefaultOptions(),
+      firstDay: 1,
+      height: "auto",
+      eventPositioned: (info) => {
+        if (siteSettings.events_max_rows === 0) {
+          return;
         }
 
-        if (!backgroundColor) {
-          const categoryColorEntry = tagsColorsMap.find(
-            (entry) =>
-              entry.type === "category" &&
-              entry.slug === post.topic.category_slug
-          );
-          backgroundColor = categoryColorEntry?.color;
+        let fcContent = info.el.querySelector(".fc-content");
+        let computedStyle = window.getComputedStyle(fcContent);
+        let lineHeight = parseInt(computedStyle.lineHeight, 10);
+
+        if (lineHeight === 0) {
+          lineHeight = 20;
+        }
+        let maxHeight = lineHeight * siteSettings.events_max_rows;
+
+        if (fcContent) {
+          fcContent.style.maxHeight = `${maxHeight}px`;
         }
 
-        const categoryColor = Category.findById(categoryId)?.color;
-        if (!backgroundColor && categoryColor) {
-          backgroundColor = `#${categoryColor}`;
+        let fcTitle = info.el.querySelector(".fc-title");
+        if (fcTitle) {
+          fcTitle.style.overflow = "hidden";
+          fcTitle.style.whiteSpace = "pre-wrap";
         }
-
-        let classNames;
-        if (moment(endsAt || startsAt).isBefore(moment())) {
-          classNames = "fc-past-event";
-        }
-
-        this._calendar.addEvent({
-          title: formatEventName(event),
-          start: startsAt,
-          end: endsAt || startsAt,
-          allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),
-          url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
-          backgroundColor,
-          classNames,
-        });
-      });
-
-      this._calendar.render();
+        fullCalendar.updateSize();
+      },
     });
+    this._calendar = fullCalendar;
+
+    const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
+
+    const resolvedEvents = await this.events;
+    const originalEventAndRecurrents = await addRecurrentEvents(resolvedEvents);
+
+    (originalEventAndRecurrents || []).forEach((event) => {
+      const { startsAt, endsAt, post, categoryId } = event;
+
+      let backgroundColor;
+
+      if (post.topic.tags) {
+        const tagColorEntry = tagsColorsMap.find(
+          (entry) =>
+            entry.type === "tag" && post.topic.tags.includes(entry.slug)
+        );
+        backgroundColor = tagColorEntry?.color;
+      }
+
+      if (!backgroundColor) {
+        const categoryColorEntry = tagsColorsMap.find(
+          (entry) =>
+            entry.type === "category" && entry.slug === post.topic.category_slug
+        );
+        backgroundColor = categoryColorEntry?.color;
+      }
+
+      const categoryColor = Category.findById(categoryId)?.color;
+      if (!backgroundColor && categoryColor) {
+        backgroundColor = `#${categoryColor}`;
+      }
+
+      let classNames;
+      if (moment(endsAt || startsAt).isBefore(moment())) {
+        classNames = "fc-past-event";
+      }
+
+      this._calendar.addEvent({
+        title: formatEventName(event),
+        start: startsAt,
+        end: endsAt || startsAt,
+        allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),
+        url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
+        backgroundColor,
+        classNames,
+      });
+    });
+
+    this._calendar.render();
   }
 
   _loadCalendar() {
