@@ -5,6 +5,7 @@ import DiscourseRoute from "discourse/routes/discourse";
 
 export default class PostEventUpcomingEventsIndexRoute extends DiscourseRoute {
   @service discoursePostEventApi;
+  @service discoursePostEventService;
 
   @action
   activate() {
@@ -14,10 +15,6 @@ export default class PostEventUpcomingEventsIndexRoute extends DiscourseRoute {
   }
 
   async model(params) {
-    if (this.siteSettings.include_expired_events_on_calendar) {
-      params.include_expired = true;
-    }
-
-    return await this.discoursePostEventApi.events(params);
+    return await this.discoursePostEventService.fetchEvents(params);
   }
 }
