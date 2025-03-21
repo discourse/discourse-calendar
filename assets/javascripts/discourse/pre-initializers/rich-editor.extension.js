@@ -20,7 +20,6 @@ const extension = {
     event: {
       attrs: EVENT_ATTRIBUTES,
       group: "block",
-      content: "block+",
       defining: true,
       isolating: true,
       draggable: true,
