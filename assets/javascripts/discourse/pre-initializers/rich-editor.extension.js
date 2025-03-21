@@ -76,12 +76,12 @@ const extension = {
   parse: {
     wrap_bbcode(state, token) {
       if (token.tag === "div") {
-        if (token.nesting === -1) {
+        if (token.nesting === -1 && state.top().type.name === "event") {
           state.closeNode();
           return true;
         }
 
-        if (token.nesting === 1) {
+        if (token.nesting === 1 && token.attrGet("class") === "discourse-post-event") {
           const attrs = {};
 
           if (token.attrs) {
