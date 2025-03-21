@@ -81,7 +81,10 @@ const extension = {
           return true;
         }
 
-        if (token.nesting === 1 && token.attrGet("class") === "discourse-post-event") {
+        if (
+          token.nesting === 1 &&
+          token.attrGet("class") === "discourse-post-event"
+        ) {
           const attrs = {};
 
           if (token.attrs) {
