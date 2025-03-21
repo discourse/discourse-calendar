@@ -65,7 +65,7 @@ const extension = {
           node.attrs.end && moment.tz(node.attrs.end, node.attrs.timezone);
         const format = guessDateFormat(startsAt, endsAt);
         const formattedStartsAt = startsAt
-          .tz(isTesting ? "UTC" : moment.tz.guess())
+          .tz(isTesting() ? "UTC" : moment.tz.guess())
           .format(format);
         const datesElement = ["div", { class: "event-preview-dates" }];
         datesElement.push(["span", { class: "start" }, formattedStartsAt]);
