@@ -1,3 +1,4 @@
+import { isTesting } from "discourse/lib/environment";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n, { i18n } from "discourse-i18n";
 import guessDateFormat from "discourse/plugins/discourse-calendar/discourse/lib/guess-best-date-format";
@@ -63,7 +64,9 @@ const extension = {
         const endsAt =
           node.attrs.end && moment.tz(node.attrs.end, node.attrs.timezone);
         const format = guessDateFormat(startsAt, endsAt);
-        const formattedStartsAt = startsAt.tz(moment.tz.guess()).format(format);
+        const formattedStartsAt = startsAt
+          .tz(isTesting ? "UTC" : moment.tz.guess())
+          .format(format);
         const datesElement = ["div", { class: "event-preview-dates" }];
         datesElement.push(["span", { class: "start" }, formattedStartsAt]);
         domSpec.push(datesElement);
