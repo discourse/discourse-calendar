@@ -124,10 +124,9 @@ const extension = {
         }
       });
 
-      bbcode += "]\n";
+      bbcode += "]\n[/event]";
 
       state.write(bbcode);
-      state.write("[/event]");
     },
   },
 };
