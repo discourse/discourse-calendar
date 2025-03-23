@@ -12,7 +12,7 @@
 }
 
 .calendar.fc {
-  height: 660px; // Must be fixed to prevent height change on load
+  height: 645px; // Must be fixed to prevent height change on load
   border: 0;
 
   &.fc-unthemed {
@@ -33,7 +33,7 @@
     overflow: hidden;
 
     .fc-scroller {
-      height: 575px !important;
+      height: 560px !important;
       padding-bottom: 5px;
     }
 
