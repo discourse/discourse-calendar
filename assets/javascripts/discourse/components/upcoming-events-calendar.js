@@ -79,7 +79,7 @@ export default class UpcomingEventsCalendar extends Component {
     const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
     const resolvedEvents = await this.events;
-    const originalEventAndRecurrents = await addRecurrentEvents(resolvedEvents);
+    const originalEventAndRecurrents = addRecurrentEvents(resolvedEvents);
 
     (originalEventAndRecurrents || []).forEach((event) => {
       const { startsAt, endsAt, post, categoryId } = event;

@@ -175,7 +175,7 @@ function initializeDiscourseCalendar(api) {
         );
 
         const events = await discoursePostEventApiService.events(params);
-        const recurrentEvents = await addRecurrentEvents(events);
+        const recurrentEvents = addRecurrentEvents(events);
         recurrentEvents.forEach((event) => {
           const { startsAt, endsAt, post, categoryId } = event;
 

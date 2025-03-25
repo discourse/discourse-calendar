@@ -1,14 +1,8 @@
+/* eslint-disable no-console */
 import DiscoursePostEventEvent from "../models/discourse-post-event-event";
 
-export default async function addRecurrentEvents(eventsPromise) {
+export default function addRecurrentEvents(events) {
   try {
-    const events = await eventsPromise;
-
-    if (!Array.isArray(events)) {
-      console.error("Expected an array but received:", events);
-      return [];
-    }
-
     return events.flatMap((event) => {
       const upcomingEvents =
         event.upcomingDates?.map((upcomingDate) =>
