@@ -17,8 +17,12 @@ class GhDefinitionTests < Test::Unit::TestCase  # :nodoc:
 
     assert_equal "Independence Day", (Holidays.on(Date.civil(2022, 3, 7), [:gh], [:observed])[0] || {})[:name]
 
+    assert_equal "Eid-ul-Fitr (Day 1)", (Holidays.on(Date.civil(2025, 3, 31), [:gh], [:observed])[0] || {})[:name]
+
     assert_equal "Eid-ul-Fitr", (Holidays.on(Date.civil(2023, 4, 24), [:gh], [:observed])[0] || {})[:name]
 assert_equal "Eid-ul-Fitr", (Holidays.on(Date.civil(2024, 4, 11), [:gh], [:observed])[0] || {})[:name]
+
+    assert_equal "Eid-ul-Fitr (Day 2)", (Holidays.on(Date.civil(2025, 4, 1), [:gh], [:observed])[0] || {})[:name]
 
     assert_equal "May Day (Workers' Day)", (Holidays.on(Date.civil(2022, 5, 1), [:gh])[0] || {})[:name]
 
