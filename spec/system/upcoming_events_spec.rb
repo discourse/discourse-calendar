@@ -4,7 +4,7 @@ describe "Upcoming Events", type: :system do
   fab!(:admin)
   fab!(:user)
   fab!(:category)
-  let(:post_event_page) { PageObjects::Pages::DiscourseCalendar::PostEvent.new }
+  fab!(:event)
   let(:composer) { PageObjects::Components::Composer.new }
   let(:topic_page) { PageObjects::Pages::Topic.new }
 
@@ -18,14 +18,10 @@ describe "Upcoming Events", type: :system do
     before { sign_in(admin) }
 
     it "shows the upcoming events" do
-      post_event_page.create_normal_event_topic(composer, topic_page)
-
       visit("/upcoming-events")
-
       expect(page).to have_css("#upcoming-events-calendar")
 
       calendar = find("#upcoming-events-calendar")
-
       expect(calendar).to have_css(".fc-event-container")
     end
   end

@@ -14,19 +14,6 @@ module PageObjects
           find(".dropdown-menu__item.bulk-invite").click
           self
         end
-
-        def create_normal_event_topic(composer, topic_page)
-          visit("/latest")
-          topic_page.open_new_topic
-
-          composer.fill_title("Creating a normal event topic")
-          tomorrow = (Time.zone.now + 1.day).strftime("%Y-%m-%d")
-          composer.fill_content <<~MD
-            [event start="#{tomorrow} 13:37" status="public"]
-            [/event]
-          MD
-          composer.create
-        end
       end
     end
   end
