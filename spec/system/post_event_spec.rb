@@ -67,11 +67,13 @@ describe "Post event", type: :system do
 
     topic_page = PageObjects::Pages::Topic.new
 
-    topic = Topic.find(topic_page.current_topic_id)
+    try_until_success do
+      topic = Topic.find(topic_page.current_topic_id)
 
-    event = topic.posts.first.event
+      event = topic.posts.first.event
 
-    expect(event.invitees.count).to eq(2)
+      expect(event.invitees.count).to eq(2)
+    end
   end
 
   it "does not show participants button when event is standalone" do
