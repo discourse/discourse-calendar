@@ -1,10 +1,11 @@
+import { isTesting } from "discourse/lib/environment";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n, { i18n } from "discourse-i18n";
 import DiscoursePostEvent from "discourse/plugins/discourse-calendar/discourse/components/discourse-post-event";
 import DiscoursePostEventEvent from "discourse/plugins/discourse-calendar/discourse/models/discourse-post-event-event";
 import guessDateFormat from "../lib/guess-best-date-format";
 
-function _validEventPreview(eventContainer) {
+export function buildEventPreview(eventContainer) {
   eventContainer.innerHTML = "";
   eventContainer.classList.add("discourse-post-event-preview");
 
@@ -34,13 +35,14 @@ function _validEventPreview(eventContainer) {
     );
 
   const format = guessDateFormat(startsAt, endsAt);
+  const guessedTz = isTesting() ? "UTC" : moment.tz.guess();
 
   let datesString = `<span class='start'>${startsAt
-    .tz(moment.tz.guess())
+    .tz(guessedTz)
     .format(format)}</span>`;
   if (endsAt) {
     datesString += ` → <span class='end'>${endsAt
-      .tz(moment.tz.guess())
+      .tz(guessedTz)
       .format(format)}</span>`;
   }
   datesContainer.innerHTML = datesString;
@@ -67,7 +69,7 @@ function _decorateEventPreview(api, cooked) {
     if (index > 0) {
       _invalidEventPreview(eventContainer);
     } else {
-      _validEventPreview(eventContainer);
+      buildEventPreview(eventContainer);
     }
   });
 }
