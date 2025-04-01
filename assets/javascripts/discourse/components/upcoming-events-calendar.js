@@ -120,6 +120,9 @@ export default class UpcomingEventsCalendar extends Component {
           url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
           backgroundColor,
           classNames,
+          extendedProps: {
+            categoryId: categoryId
+          }
         });
       });
 
