@@ -1,3 +1,4 @@
+import { tracked } from "@glimmer/tracking";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
 import { tagName } from "@ember-decorators/component";
@@ -13,10 +14,12 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
   events = null;
+  @tracked selectedCategories = [];
 
   init() {
     super.init(...arguments);
     this._calendar = null;
+    this.selectedCategories = [7];
   }
 
   willDestroyElement() {
@@ -73,6 +76,12 @@ export default class UpcomingEventsCalendar extends Component {
         }
         fullCalendar.updateSize();
       },
+      eventRender: (info) => {
+        if (!this.selectedCategories.length) {
+          return true
+        }
+        return this.selectedCategories.includes(info.event.extendedProps.categoryId)
+      }
     });
     this._calendar = fullCalendar;
 
@@ -127,6 +136,11 @@ export default class UpcomingEventsCalendar extends Component {
     });
 
     this._calendar.render();
+  }
+
+  changeSelectedCategories = (value) => {
+    this.selectedCategories = value;
+    this._calendar.rerenderEvents()
   }
 
   _loadCalendar() {
