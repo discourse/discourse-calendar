@@ -22,7 +22,9 @@ export default class UpcomingEventsCalendar extends Component {
   init() {
     super.init(...arguments);
     this._calendar = null;
-    this.selectedCategories = this.siteSettings.default_upcoming_events_calendar_categories.split("|").map((c) => parseInt(c));
+    if (this.siteSettings.display_upcoming_events_calendar_categories_selector) {
+      this.selectedCategories = this.siteSettings.default_upcoming_events_calendar_categories.split("|").map((c) => parseInt(c));
+    }
   }
 
   willDestroyElement() {
@@ -80,6 +82,9 @@ export default class UpcomingEventsCalendar extends Component {
         fullCalendar.updateSize();
       },
       eventRender: (info) => {
+        if (!siteSettings.display_upcoming_events_calendar_categories_selector) {
+          return true
+        }
         if (!this.selectedCategories.length) {
           return true
         }
