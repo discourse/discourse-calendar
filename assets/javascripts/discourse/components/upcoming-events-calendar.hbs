@@ -1,12 +1,13 @@
-
 <div>
-    {{#if this.siteSettings.display_upcoming_events_calendar_categories_selector}}
-        <h3>{{ i18n "js.discourse_calendar.upcoming_events_categories_selector" }}</h3>
-        <CalendarCategoriesSelector
-            @events={{ this.events }}
-            @value={{ this.selectedCategories }}
-            @onChange={{ this.changeSelectedCategories}}
-        />
-    {{/if}}
+  {{#if this.siteSettings.display_upcoming_events_calendar_categories_selector}}
+    <h3>{{i18n
+        "js.discourse_calendar.upcoming_events_categories_selector"
+      }}</h3>
+    <CalendarCategoriesSelector
+      @events={{this.events}}
+      @value={{this.selectedCategories}}
+      @onChange={{this.changeSelectedCategories}}
+    />
+  {{/if}}
 </div>
 <div id="upcoming-events-calendar"></div>

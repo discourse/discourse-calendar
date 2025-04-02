@@ -1,6 +1,7 @@
 import { tracked } from "@glimmer/tracking";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
+import { service } from "@ember/service";
 import { tagName } from "@ember-decorators/component";
 import { Promise } from "rsvp";
 import getURL from "discourse/lib/get-url";
@@ -10,20 +11,29 @@ import { formatEventName } from "../helpers/format-event-name";
 import addRecurrentEvents from "../lib/add-recurrent-events";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
-import { service } from "@ember/service";
 
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
   @service siteSettings;
 
-  events = null;
   @tracked selectedCategories = [];
+  events = null;
+
+  changeSelectedCategories = (value) => {
+    this.selectedCategories = value;
+    this._calendar.rerenderEvents();
+  };
 
   init() {
     super.init(...arguments);
     this._calendar = null;
-    if (this.siteSettings.display_upcoming_events_calendar_categories_selector) {
-      this.selectedCategories = this.siteSettings.default_upcoming_events_calendar_categories.split("|").map((c) => parseInt(c));
+    if (
+      this.siteSettings.display_upcoming_events_calendar_categories_selector
+    ) {
+      this.selectedCategories =
+        this.siteSettings.default_upcoming_events_calendar_categories
+          .split("|")
+          .map((c) => parseInt(c, 10));
     }
   }
 
@@ -82,14 +92,18 @@ export default class UpcomingEventsCalendar extends Component {
         fullCalendar.updateSize();
       },
       eventRender: (info) => {
-        if (!siteSettings.display_upcoming_events_calendar_categories_selector) {
-          return true
+        if (
+          !siteSettings.display_upcoming_events_calendar_categories_selector
+        ) {
+          return true;
         }
         if (!this.selectedCategories.length) {
-          return true
+          return true;
         }
-        return this.selectedCategories.includes(info.event.extendedProps.categoryId)
-      }
+        return this.selectedCategories.includes(
+          info.event.extendedProps.categoryId
+        );
+      },
     });
     this._calendar = fullCalendar;
 
@@ -138,17 +152,12 @@ export default class UpcomingEventsCalendar extends Component {
         backgroundColor,
         classNames,
         extendedProps: {
-          categoryId: categoryId
-        }
+          categoryId,
+        },
       });
     });
 
     this._calendar.render();
-  }
-
-  changeSelectedCategories = (value) => {
-    this.selectedCategories = value;
-    this._calendar.rerenderEvents()
   }
 
   _loadCalendar() {
