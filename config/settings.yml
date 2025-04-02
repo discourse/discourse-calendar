@@ -127,3 +127,7 @@ discourse_calendar:
   include_expired_events_on_calendar:
     default: false
     client: true
+  default_upcoming_events_calendar_categories:
+    type: category_list
+    client: true
+    default: ""

@@ -10,16 +10,19 @@ import { formatEventName } from "../helpers/format-event-name";
 import addRecurrentEvents from "../lib/add-recurrent-events";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
+import { service } from "@ember/service";
 
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
+  @service siteSettings;
+
   events = null;
   @tracked selectedCategories = [];
 
   init() {
     super.init(...arguments);
     this._calendar = null;
-    this.selectedCategories = [7];
+    this.selectedCategories = this.siteSettings.default_upcoming_events_calendar_categories.split("|").map((c) => parseInt(c));
   }
 
   willDestroyElement() {
