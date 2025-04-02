@@ -307,6 +307,7 @@ en:
         week: "Week"
         day: "Day"
         list: "List"
+      upcoming_events_categories_selector: "Displayed categories"
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"
