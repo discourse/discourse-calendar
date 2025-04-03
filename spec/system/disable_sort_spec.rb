@@ -22,30 +22,4 @@ describe "Disabling topic list sorting", type: :system do
     page.refresh
     expect(find("th.activity")).to_not match_selector(".sortable")
   end
-
-  # TODO: cvx - remove after the glimmer topic list transition
-  context "when glimmer topic list is enabled" do
-    fab!(:user)
-
-    before do
-      SiteSetting.glimmer_topic_list_mode = "enabled"
-      sign_in(user)
-    end
-
-    it "disables the ability to sort topic list columns" do
-      category_page.visit(category)
-      expect(page).to have_css(".topic-list:not(.ember-view)")
-
-      expect(find("th.activity")).to match_selector(".sortable")
-
-      category.custom_fields["disable_topic_resorting"] = true
-      category.save!
-      page.refresh
-      expect(find("th.activity")).to match_selector(".sortable")
-
-      SiteSetting.disable_resorting_on_categories_enabled = true
-      page.refresh
-      expect(find("th.activity")).to_not match_selector(".sortable")
-    end
-  end
 end
