@@ -177,7 +177,8 @@ a.holiday {
   background: var(--primary-very-low);
   min-height: 60px;
 
-  .discourse-calendar-timezone-picker {
+  .discourse-calendar-timezone-picker,
+  .discourse-calendar-group-picker {
     font-size: 16px;
     margin-bottom: 0;
     max-width: 50vw;
