@@ -118,7 +118,7 @@ function initializeDiscourseCalendar(api) {
       const [cooked, post] = await Promise.all([cookRaw, loadPost]);
 
       categoryCalendarNode.innerHTML = cooked.toString();
-      render($(".calendar"), post);
+      render($(".calendar"), post, site);
     } else {
       if (!categoryEventNode) {
         return;
@@ -297,13 +297,15 @@ function initializeDiscourseCalendar(api) {
     );
   }
 
-  function render($calendar, post) {
+  function render($calendar, post, site) {
     $calendar = $calendar.empty();
 
     const timezone = _getTimeZone($calendar, api.getCurrentUser());
     const calendar = _buildCalendar($calendar, timezone);
     const isStatic = $calendar.attr("data-calendar-type") === "static";
     const fullDay = $calendar.attr("data-calendar-full-day") === "true";
+    const showGroupSelector =
+      $calendar.attr("data-calendar-show-group-selector") !== "false";
 
     if (isStatic) {
       calendar.render();
@@ -321,6 +323,10 @@ function initializeDiscourseCalendar(api) {
     };
 
     _setupTimezonePicker(calendar, timezone, resetDynamicEvents);
+
+    if (showGroupSelector) {
+      _setupGroupSelector(calendar, post, resetDynamicEvents, site);
+    }
 
     if (siteSettings.enable_timezone_offset_for_calendar_events) {
       _setupTimezoneOffsetButton(resetDynamicEvents);
@@ -877,6 +883,25 @@ function initializeDiscourseCalendar(api) {
     }
   }
 
+  function _setupGroupSelector(calendar, post, resetDynamicEvents) {
+    const groupSelector = document.querySelector(
+      ".discourse-calendar-group-picker"
+    );
+
+    if (!groupSelector) {
+      return;
+    }
+
+    groupSelector.appendChild(new Option("All Groups", "all"));
+    site.groups.forEach((group) => {
+      groupSelector.appendChild(new Option(group.name, group.id));
+    });
+
+    groupSelector.addEventListener("change", function (event) {
+      resetDynamicEvents();
+    });
+  }
+
   function _setupTimezoneOffsetButton(resetDynamicEvents) {
     const timezoneWrapper = document.querySelector(
       ".discourse-calendar-timezone-wrap"
@@ -993,8 +1018,8 @@ function initializeDiscourseCalendar(api) {
       http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
         eventTitle
       )}&dates=${startDate}/${endDate}&details=${encodeURIComponent(
-        event.eventRange.def.extendedProps.description
-      )}`;
+      event.eventRange.def.extendedProps.description
+    )}`;
     link.target = "_blank";
     link.classList.add("fc-list-item-add-to-calendar");
     event.el.querySelector(".fc-list-item-title").appendChild(link);
