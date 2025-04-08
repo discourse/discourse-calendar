@@ -307,7 +307,8 @@ en:
         week: "Week"
         day: "Day"
         list: "List"
-      upcoming_events_categories_selector: "Displayed categories"
+      upcoming_events_categories_selector_title: "Displayed categories"
+      upcoming_events_categories_selector_help: "Select the categories you want affiliated events to display in."
     group_timezones:
       search: "Search..."
       group_availability: "%{group} availability"
