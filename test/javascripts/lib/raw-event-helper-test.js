@@ -12,7 +12,7 @@ module("Unit | Lib | raw-event-helper", function () {
     assert.strictEqual(
       replaceRaw(params, raw),
       'Some text [event param1="newValue1" param2="value2"] more text',
-      "it updates existing parameters and adds new ones"
+      "updates existing parameters and adds new ones"
     );
 
     assert.false(
@@ -23,13 +23,13 @@ module("Unit | Lib | raw-event-helper", function () {
     assert.strictEqual(
       replaceRaw({ foo: 'bar"quoted' }, '[event original="value"]'),
       '[event foo="barquoted"]',
-      "it properly escapes quotes in parameter values"
+      "escapes double quotes in parameter values"
     );
 
     assert.strictEqual(
       replaceRaw({}, '[event param1="value1"]'),
       "[event ]",
-      "it handles empty params object"
+      "handles empty params object"
     );
   });
 });
