@@ -83,10 +83,11 @@ export function replaceRaw(params, raw) {
 
   if (eventMatches && eventMatches[1]) {
     const markdownParams = [];
+
     Object.keys(params).forEach((param) => {
       const value = params[param];
       if (value && value.length) {
-        markdownParams.push(`${param}="${params[param]}"`);
+        markdownParams.push(`${param}="${value.replace(/"/g, "")}"`);
       }
     });
 
