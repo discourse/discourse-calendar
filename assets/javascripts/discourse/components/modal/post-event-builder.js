@@ -224,9 +224,18 @@ export default class PostEventBuilder extends Component {
       markdownParams.push(`${key}="${value}"`);
     });
 
-    this.args.model.toolbarEvent.addText(
-      `[event ${markdownParams.join(" ")}]\n[/event]`
-    );
+    let eventText = `[event ${markdownParams.join(" ")}]\n[/event]`;
+    const selectedText = this.args.model.toolbarEvent.selected;
+    if (selectedText.pre && selectedText.pre.slice(-1) !== "\n") {
+      eventText = `\n${eventText}`;
+    }
+    if (
+      (selectedText.post && selectedText.post.slice(1) !== "\n") ||
+      !selectedText.post
+    ) {
+      eventText = `${eventText}\n`;
+    }
+    this.args.model.toolbarEvent.addText(eventText);
     this.args.closeModal();
   }
 
