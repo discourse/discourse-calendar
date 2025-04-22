@@ -45,6 +45,12 @@ months:
     regions: [sg]
     mday: 1
     observed: to_weekday_if_weekend(date)
+  - name: Polling Day
+    regions: [sg]
+    mday: 3
+    year_ranges:
+      limited: [2025]
+    observed: to_weekday_if_weekend(date)
   - name: Vesak Day
     regions: [sg]
     mday: 12
