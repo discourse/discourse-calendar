@@ -18,6 +18,7 @@ module Holidays
       3 => [{:mday => 31, :year_ranges => { :limited => [2025] },:name => "Hari Raya Puasa", :regions => [:sg]}],
       4 => [{:mday => 18, :year_ranges => { :limited => [2025] },:name => "Good Friday", :regions => [:sg]}],
       5 => [{:mday => 1, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Labour Day", :regions => [:sg]},
+            {:mday => 3, :year_ranges => { :limited => [2025] },:observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "Polling Day", :regions => [:sg]},
             {:mday => 12, :year_ranges => { :limited => [2025] },:name => "Vesak Day", :regions => [:sg]}],
       6 => [{:mday => 7, :year_ranges => { :limited => [2025] },:name => "Hari Raya Haji", :regions => [:sg]}],
       8 => [{:mday => 9, :observed => "to_weekday_if_weekend(date)", :observed_arguments => [:date], :name => "National Day", :regions => [:sg]}],
