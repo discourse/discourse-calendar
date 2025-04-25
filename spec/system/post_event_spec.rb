@@ -110,7 +110,7 @@ describe "Post event", type: :system do
       ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
     ).click
     page.find(".d-modal input[name=status][value=private]").click
-    page.find(".d-modal input.group-selector").fill_in(with: "test_")
+    page.find(".d-modal input.group-selector").send_keys("test_")
     page.find(".autocomplete.ac-group").click
     page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
     page.find(".d-modal .btn-primary").click
