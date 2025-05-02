@@ -7,7 +7,11 @@ require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 class IdDefinitionTests < Test::Unit::TestCase  # :nodoc:
 
   def test_id
-    assert_equal "Good Friday", (Holidays.on(Date.civil(2022, 4, 15), [:id])[0] || {})[:name]
+    assert_equal "Chinese New Year", (Holidays.on(Date.civil(2025, 1, 29), [:id])[0] || {})[:name]
+
+    assert_equal "Good Friday", (Holidays.on(Date.civil(2025, 4, 18), [:id])[0] || {})[:name]
+
+    assert_equal "Ascension Day of Jesus Christ", (Holidays.on(Date.civil(2025, 5, 29), [:id])[0] || {})[:name]
 
   end
 end
