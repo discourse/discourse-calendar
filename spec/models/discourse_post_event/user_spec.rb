@@ -46,6 +46,17 @@ describe User do
           end
         end
 
+        context "when allowed group is 'everyone'" do
+          let(:topic_1) { Fabricate(:topic, user: user_1) }
+          let(:post_1) { Fabricate(:post, topic: topic_1, user: user_1) }
+          let(:post_event_1) { Fabricate(:event, post: post_1) }
+
+          it "can act on the event" do
+            SiteSetting.discourse_post_event_allowed_on_groups = Group::AUTO_GROUPS[:everyone]
+            expect(user_1.can_act_on_discourse_post_event?(post_event_1)).to eq(true)
+          end
+        end
+
         context "when user didn’t create the event" do
           let(:user_2) { Fabricate(:user) }
           let(:topic_1) { Fabricate(:topic, user: user_2) }

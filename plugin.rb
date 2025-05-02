@@ -158,7 +158,11 @@ after_initialize do
       begin
         return true if staff?
         allowed_groups = SiteSetting.discourse_post_event_allowed_on_groups.to_s.split("|").compact
-        allowed_groups.present? && groups.where(id: allowed_groups).exists?
+        allowed_groups.present? &&
+          (
+            allowed_groups.include?(Group::AUTO_GROUPS[:everyone].to_s) ||
+              groups.where(id: allowed_groups).exists?
+          )
       rescue StandardError
         false
       end
