@@ -19,6 +19,10 @@ const calendarRule = {
     }
     state.push("span_close", "span", -1);
 
+    if (info.attrs.showGroupSelector) {
+      _renderGroupSelector(state);
+    }
+
     state.push("div_calendar_header", "div", -1);
 
     let mainCalendarDivToken = state.push("div_calendar", "div", 1);
@@ -43,6 +47,13 @@ const calendarRule = {
       mainCalendarDivToken.attrs.push([
         "data-calendar-show-add-to-calendar",
         info.attrs.showAddToCalendar === "true",
+      ]);
+    }
+
+    if (info.attrs.showGroupSelector) {
+      mainCalendarDivToken.attrs.push([
+        "data-calendar-show-group-selector",
+        info.attrs.showGroupSelector,
       ]);
     }
 
@@ -91,17 +102,26 @@ function _renderTimezonePicker(state) {
   state.push("select_close", "select", -1);
 }
 
+function _renderGroupSelector(state) {
+  const groupSelectToken = state.push("select_open", "select", 1);
+  groupSelectToken.attrs = [["class", "discourse-calendar-group-picker"]];
+
+  state.push("select_close", "select", -1);
+}
+
 export function setup(helper) {
   helper.allowList([
     "div.calendar",
     "div.discourse-calendar-header",
     "div.discourse-calendar-wrap",
     "select.discourse-calendar-timezone-picker",
+    "select.discourse-calendar-group-picker",
     "span.discourse-calendar-timezone-wrap",
     "h2.discourse-calendar-title",
     "div[data-calendar-type]",
     "div[data-calendar-default-view]",
     "div[data-calendar-default-timezone]",
+    "div[data-calendar-show-group-selector",
     "div[data-weekends]",
     "div[data-hidden-days]",
     "div.group-timezones",
