@@ -340,13 +340,17 @@ module Holidays
         [355, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1].freeze
       ].freeze
 
+      # Placeholder: Indonesian lunar data (currently copied from Vietnamese)
+      INDONESIAN_LUNAR_YEAR_INFO = VIETNAMESE_LUNAR_YEAR_INFO.freeze
+
       MAX_YEAR_NUMBER = 150
 
       # Given the region, CALENDAR_YEAR_INFO_MAP looks up the date 
       # table and uses it in the calculation
       CALENDAR_YEAR_INFO_MAP = {
         kr: KOREAN_LUNAR_YEAR_INFO,
-        vi: VIETNAMESE_LUNAR_YEAR_INFO
+        vi: VIETNAMESE_LUNAR_YEAR_INFO,
+        id: INDONESIAN_LUNAR_YEAR_INFO
       }.freeze
 
       # Provides number of days per lunar month type.  Lunar months 

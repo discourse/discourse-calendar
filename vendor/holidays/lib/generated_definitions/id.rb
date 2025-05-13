@@ -13,31 +13,33 @@ module Holidays
     def self.holidays_by_month
       {
                 0 => [{:function => "easter(year)", :function_arguments => [:year], :function_modifier => -2, :name => "Good Friday", :regions => [:id]}],
-      1 => [{:mday => 1, :name => "New Year’s Day", :regions => [:id]}],
-      2 => [{:mday => 1, :year_ranges => { :limited => [2022] },:name => "Chinese New Year", :regions => [:id]},
-            {:mday => 28, :name => "Prophet's Ascension", :regions => [:id]}],
-      3 => [{:mday => 3, :name => "Bali Hindu New Year", :regions => [:id]}],
-      4 => [{:mday => 29, :name => "Lebaran Holiday", :regions => [:id]}],
-      5 => [{:mday => 1, :name => "Labour Day", :regions => [:id]},
-            {:mday => 2, :year_ranges => { :limited => [2022] },:name => "Eid Al-Fitr", :regions => [:id]},
-            {:mday => 3, :year_ranges => { :limited => [2022] },:name => "Lebaran Holiday", :regions => [:id]},
-            {:mday => 4, :year_ranges => { :limited => [2022] },:name => "Lebaran Holiday", :regions => [:id]},
-            {:mday => 5, :year_ranges => { :limited => [2022] },:name => "Lebaran Holiday", :regions => [:id]},
-            {:mday => 6, :year_ranges => { :limited => [2022] },:name => "Lebaran Holiday", :regions => [:id]},
-            {:mday => 16, :year_ranges => { :limited => [2022] },:name => "Waisak Day", :regions => [:id]},
-            {:mday => 26, :year_ranges => { :limited => [2022] },:name => "Ascension Day of Christ", :regions => [:id]}],
-      6 => [{:mday => 1, :name => "Pancasila Day", :regions => [:id]}],
-      7 => [{:mday => 9, :year_ranges => { :limited => [2022] },:name => "Eid Al-Adha", :regions => [:id]},
-            {:mday => 30, :year_ranges => { :limited => [2022] },:name => "Islamic New Year", :regions => [:id]}],
+      1 => [{:mday => 1, :name => "New Year’s Day", :regions => [:id]},
+            {:mday => 27, :year_ranges => { :limited => [2025] },:name => "Prophet's Ascension", :regions => [:id]},
+            {:function => "cn_new_lunar_day(year)", :function_arguments => [:year], :name => "Chinese New Year", :regions => [:id]}],
+      3 => [{:mday => 31, :year_ranges => { :limited => [2025] },:name => "Eid Al-Fitr", :regions => [:id]}],
+      4 => [{:mday => 1, :year_ranges => { :limited => [2025] },:name => "Eid Al-Fitr", :regions => [:id]}],
+      5 => [{:mday => 1, :name => "International Labour Day", :regions => [:id]},
+            {:mday => 12, :year_ranges => { :limited => [2025] },:name => "Vesak Day", :regions => [:id]},
+            {:function => "easter(year)", :function_arguments => [:year], :function_modifier => 39, :name => "Ascension Day of Jesus Christ", :regions => [:id]}],
+      6 => [{:mday => 6, :year_ranges => { :limited => [2025] },:name => "Eid Al-Adha", :regions => [:id]},
+            {:mday => 27, :year_ranges => { :limited => [2025] },:name => "Islamic New Year", :regions => [:id]}],
       8 => [{:mday => 17, :name => "Independence Day", :regions => [:id]}],
-      10 => [{:mday => 8, :name => "Prophet's Birthday", :regions => [:id]}],
+      9 => [{:mday => 5, :year_ranges => { :limited => [2025] },:name => "Prophet's Birthday", :regions => [:id]}],
       12 => [{:mday => 25, :name => "Christmas Day", :regions => [:id]}]
       }
     end
 
     def self.custom_methods
       {
-          
+          "cn_new_lunar_day(year)" => Proc.new { |year|
+month_day = case year
+  when 1930, 1949, 1987, 2025, 2063, 2082, 2101, 2112, 2131, 2150, 2207, 2245, 2253, 2283, 2321
+    [1, 29]
+  end
+Date.civil(year, month_day[0], month_day[1])
+},
+
+
       }
     end
   end
