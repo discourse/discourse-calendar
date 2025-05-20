@@ -223,6 +223,25 @@
             </label>
           </EventField>
 
+          {{#if siteSettings.chat_enabled}}
+            <EventField
+              class="allow-chat"
+              @label="discourse_post_event.builder_modal.allow_chat.label"
+            >
+              <label class="checkbox-label">
+                <Input
+                  @type="checkbox"
+                  @checked={{@model.event.chat_enabled}}
+                />
+                <span class="message">
+                  {{i18n
+                    "discourse_post_event.builder_modal.allow_chat.checkbox_label"
+                  }}
+                </span>
+              </label>
+            </EventField>
+          {{/if}}
+
           {{#if this.allowedCustomFields.length}}
             <EventField
               @label="discourse_post_event.builder_modal.custom_fields.label"

@@ -3,18 +3,39 @@
 module DiscoursePostEvent
   class Event < ActiveRecord::Base
     PUBLIC_GROUP = "trust_level_0"
-
+    MIN_NAME_LENGTH = 5
+    MAX_NAME_LENGTH = 255
     self.table_name = "discourse_post_event_events"
-
     self.ignored_columns = %w[starts_at ends_at]
 
     has_many :event_dates, dependent: :destroy
+    # this is a cross plugin dependency, only called if chat is enabled
+    belongs_to :chat_channel, class_name: "Chat::Channel"
+    has_many :invitees, foreign_key: :post_id, dependent: :delete_all
+    belongs_to :post, foreign_key: :id
+
+    scope :visible, -> { where(deleted_at: nil) }
+
+    after_commit :destroy_topic_custom_field, on: %i[destroy]
+    after_commit :create_or_update_event_date, on: %i[create update]
+    before_save :chat_channel_sync
+
+    validate :raw_invitees_are_groups
+    validates :original_starts_at, presence: true
+    validates :name,
+              length: {
+                in: MIN_NAME_LENGTH..MAX_NAME_LENGTH,
+              },
+              unless: ->(event) { event.name.blank? }
+
+    validate :raw_invitees_length
+    validate :ends_before_start
+    validate :allowed_custom_fields
 
     def self.attributes_protected_by_default
       super - %w[id]
     end
 
-    after_commit :destroy_topic_custom_field, on: %i[destroy]
     def destroy_topic_custom_field
       if self.post && self.post.is_first_post?
         TopicCustomField.where(
@@ -29,7 +50,6 @@ module DiscoursePostEvent
       end
     end
 
-    after_commit :create_or_update_event_date, on: %i[create update]
     def create_or_update_event_date
       starts_at_changed = saved_change_to_original_starts_at
       ends_at_changed = saved_change_to_original_ends_at
@@ -84,11 +104,6 @@ module DiscoursePostEvent
       ActiveSupport::Duration::PARTS.any? { |part| part.to_s == input }
     end
 
-    has_many :invitees, foreign_key: :post_id, dependent: :delete_all
-    belongs_to :post, foreign_key: :id
-
-    scope :visible, -> { where(deleted_at: nil) }
-
     def expired?
       (ends_at || starts_at.end_of_day) <= Time.now
     end
@@ -103,8 +118,6 @@ module DiscoursePostEvent
         event_dates.order(:updated_at, :id).last&.ends_at
     end
 
-    validates :original_starts_at, presence: true
-
     def on_going_event_invitees
       return [] if !self.ends_at && self.starts_at < Time.now
 
@@ -117,15 +130,6 @@ module DiscoursePostEvent
       invitees.where(status: DiscoursePostEvent::Invitee.statuses[:going])
     end
 
-    MIN_NAME_LENGTH = 5
-    MAX_NAME_LENGTH = 255
-    validates :name,
-              length: {
-                in: MIN_NAME_LENGTH..MAX_NAME_LENGTH,
-              },
-              unless: ->(event) { event.name.blank? }
-
-    validate :raw_invitees_length
     def raw_invitees_length
       if self.raw_invitees && self.raw_invitees.length > 10
         errors.add(
@@ -135,7 +139,6 @@ module DiscoursePostEvent
       end
     end
 
-    validate :raw_invitees_are_groups
     def raw_invitees_are_groups
       if self.raw_invitees && User.select(:id).where(username: self.raw_invitees).limit(1).count > 0
         errors.add(
@@ -145,7 +148,6 @@ module DiscoursePostEvent
       end
     end
 
-    validate :ends_before_start
     def ends_before_start
       if self.original_starts_at && self.original_ends_at &&
            self.original_starts_at >= self.original_ends_at
@@ -156,7 +158,6 @@ module DiscoursePostEvent
       end
     end
 
-    validate :allowed_custom_fields
     def allowed_custom_fields
       allowed_custom_fields = SiteSetting.discourse_post_event_allowed_custom_fields.split("|")
       self.custom_fields.each do |key, value|
@@ -174,7 +175,6 @@ module DiscoursePostEvent
       attrs.map! do |attr|
         { post_id: self.id, created_at: timestamp, updated_at: timestamp }.merge(attr)
       end
-
       self.invitees.insert_all!(attrs)
     end
 
@@ -309,6 +309,7 @@ module DiscoursePostEvent
           raw_invitees: event_params[:"allowed-groups"]&.split(","),
           minimal: event_params[:minimal],
           closed: event_params[:closed] || false,
+          chat_enabled: event_params[:chat]&.downcase == "true",
         }
 
         params[:custom_fields] = {}
@@ -364,6 +365,12 @@ module DiscoursePostEvent
       self.publish_update!
     end
 
+    def chat_channel_sync
+      if self.chat_enabled && self.chat_channel_id.blank?
+        DiscoursePostEvent::ChatChannelSync.sync(self)
+      end
+    end
+
     def calculate_next_date(start_date: nil)
       localized_start = start_date || original_starts_at.in_time_zone(timezone)
 
@@ -408,4 +415,6 @@ end
 #  timezone           :string
 #  minimal            :boolean
 #  closed             :boolean          default(FALSE), not null
+#  chat_enabled       :boolean          default(FALSE), not null
+#  chat_channel_id    :bigint
 #

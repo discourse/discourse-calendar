@@ -14,6 +14,7 @@ module DiscoursePostEvent
       :timezone,
       :minimal,
       :closed,
+      :chat,
     ]
 
     def self.extract_events(post)
