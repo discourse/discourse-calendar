@@ -26,7 +26,10 @@ module DiscoursePostEvent
         DB.query_single(
           missing_members_sql,
           post_id: event.post.id,
-          statuses: [DiscoursePostEvent::Invitee.statuses[:going]],
+          statuses: [
+            DiscoursePostEvent::Invitee.statuses[:going],
+            DiscoursePostEvent::Invitee.statuses[:interested],
+          ],
           chat_channel_id: event.chat_channel_id,
         )
 
