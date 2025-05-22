@@ -29,6 +29,7 @@ export default class DiscoursePostEventEvent {
   @tracked status;
   @tracked post;
   @tracked minimal;
+  @tracked chatEnabled;
   @tracked canUpdateAttendance;
   @tracked canActOnDiscoursePostEvent;
   @tracked shouldDisplayInvitees;
@@ -63,6 +64,7 @@ export default class DiscoursePostEventEvent {
     this.isExpired = args.is_expired;
     this.isStandalone = args.is_standalone;
     this.minimal = args.minimal;
+    this.chatEnabled = args.chat_enabled;
     this.recurrenceRule = args.recurrence_rule;
     this.recurrence = args.recurrence;
     this.canUpdateAttendance = args.can_update_attendance;
@@ -138,6 +140,7 @@ export default class DiscoursePostEventEvent {
     this.isExpired = event.isExpired;
     this.isStandalone = event.isStandalone;
     this.minimal = event.minimal;
+    this.chatEnabled = event.chatEnabled;
     this.recurrenceRule = event.recurrenceRule;
     this.recurrence = event.recurrence;
     this.canUpdateAttendance = event.canUpdateAttendance;

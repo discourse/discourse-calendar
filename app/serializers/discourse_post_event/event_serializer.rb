@@ -30,6 +30,8 @@ module DiscoursePostEvent
     attributes :timezone
     attributes :url
     attributes :watching_invitee
+    attributes :chat_enabled
+    attributes :chat_channel_id
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)

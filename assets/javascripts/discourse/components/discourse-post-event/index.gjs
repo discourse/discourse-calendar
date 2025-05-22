@@ -7,6 +7,7 @@ import concatClass from "discourse/helpers/concat-class";
 import icon from "discourse/helpers/d-icon";
 import replaceEmoji from "discourse/helpers/replace-emoji";
 import routeAction from "discourse/helpers/route-action";
+import ChatChannel from "./chat-channel";
 import Creator from "./creator";
 import Dates from "./dates";
 import EventStatus from "./event-status";
@@ -124,10 +125,12 @@ export default class DiscoursePostEvent extends Component {
               Dates=(component Dates event=@event)
               Invitees=(component Invitees event=@event)
               Status=(component Status event=@event)
+              ChatChannel=(component ChatChannel event=@event)
             }}
           >
             <Url @url={{@event.url}} />
             <Dates @event={{@event}} />
+            <ChatChannel @event={{@event}} />
             <Invitees @event={{@event}} />
             {{#if @event.canUpdateAttendance}}
               <Status @event={{@event}} />
