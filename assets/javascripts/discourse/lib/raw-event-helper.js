@@ -33,8 +33,8 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
     params.minimal = "true";
   }
 
-  if (event.chat_enabled) {
-    params.chat = "true";
+  if (event.chatEnabled) {
+    params.chat_enabled = "true";
   }
 
   if (endsAt) {

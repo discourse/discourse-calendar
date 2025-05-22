@@ -224,15 +224,13 @@
           </EventField>
 
           {{#if siteSettings.chat_enabled}}
+            {{log @model.event}}
             <EventField
               class="allow-chat"
               @label="discourse_post_event.builder_modal.allow_chat.label"
             >
               <label class="checkbox-label">
-                <Input
-                  @type="checkbox"
-                  @checked={{@model.event.chat_enabled}}
-                />
+                <Input @type="checkbox" @checked={{@model.event.chatEnabled}} />
                 <span class="message">
                   {{i18n
                     "discourse_post_event.builder_modal.allow_chat.checkbox_label"

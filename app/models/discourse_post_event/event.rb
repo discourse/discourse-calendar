@@ -309,7 +309,7 @@ module DiscoursePostEvent
           raw_invitees: event_params[:"allowed-groups"]&.split(","),
           minimal: event_params[:minimal],
           closed: event_params[:closed] || false,
-          chat_enabled: event_params[:chat]&.downcase == "true",
+          chat_enabled: event_params[:chat_enabled]&.downcase == "true",
         }
 
         params[:custom_fields] = {}
