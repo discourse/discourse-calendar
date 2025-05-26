@@ -141,4 +141,8 @@ export default class UpcomingEventsCalendar extends Component {
       });
     });
   }
+
+  <template>
+    <div id="upcoming-events-calendar"></div>
+  </template>
 }

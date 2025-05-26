@@ -1,10 +1,11 @@
 import Component from "@glimmer/component";
-import { concat, fn, hash } from "@ember/helper";
+import { concat, fn } from "@ember/helper";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
+import lazyHash from "discourse/helpers/lazy-hash";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
 export default class DiscoursePostEventStatus extends Component {
@@ -118,13 +119,13 @@ export default class DiscoursePostEventStatus extends Component {
     >
       <PluginOutlet
         @name="discourse-post-event-status-buttons"
-        @outletArgs={{hash event=@event}}
+        @outletArgs={{lazyHash event=@event}}
       >
         {{#if this.showGoingButton}}
           {{#unless @event.minimal}}
             <PluginOutlet
               @name="discourse-post-event-status-going-button"
-              @outletArgs={{hash
+              @outletArgs={{lazyHash
                 event=@event
                 markAsGoing=(fn this.changeWatchingInviteeStatus "going")
               }}
@@ -142,7 +143,7 @@ export default class DiscoursePostEventStatus extends Component {
         {{#if this.showInterestedButton}}
           <PluginOutlet
             @name="discourse-post-event-status-interested-button"
-            @outletArgs={{hash
+            @outletArgs={{lazyHash
               event=@event
               markAsInterested=(fn
                 this.changeWatchingInviteeStatus "interested"
@@ -162,7 +163,7 @@ export default class DiscoursePostEventStatus extends Component {
           {{#unless @event.minimal}}
             <PluginOutlet
               @name="discourse-post-event-status-not-going-button"
-              @outletArgs={{hash
+              @outletArgs={{lazyHash
                 event=@event
                 markAsNotGoing=(fn this.changeWatchingInviteeStatus "not_going")
               }}
