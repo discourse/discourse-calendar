@@ -12,6 +12,7 @@ const EVENT_ATTRIBUTES = {
   status: { default: "public" },
   timezone: { default: "UTC" },
   allowedGroups: { default: null },
+  recurrenceUntil: { default: null },
 };
 
 /** @type {RichEditorExtension} */

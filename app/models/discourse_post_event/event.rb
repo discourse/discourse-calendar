@@ -296,6 +296,8 @@ module DiscoursePostEvent
         tz = ActiveSupport::TimeZone[event_params[:timezone] || "UTC"]
         parsed_starts_at = tz.parse(event_params[:start])
         parsed_ends_at = event_params[:end] ? tz.parse(event_params[:end]) : nil
+        parsed_recurrence_until =
+          event_params[:"recurrence-until"] ? tz.parse(event_params[:"recurrence-until"]) : nil
 
         params = {
           name: event_params[:name],
@@ -303,6 +305,7 @@ module DiscoursePostEvent
           original_ends_at: parsed_ends_at,
           url: event_params[:url],
           recurrence: event_params[:recurrence],
+          recurrence_until: parsed_recurrence_until,
           timezone: event_params[:timezone],
           status: Event.statuses[event_params[:status]&.to_sym] || event.status,
           reminders: event_params[:reminders],
@@ -364,18 +367,17 @@ module DiscoursePostEvent
       self.publish_update!
     end
 
-    def calculate_next_date(start_date: nil)
-      localized_start = start_date || original_starts_at.in_time_zone(timezone)
-
+    def calculate_next_date
       if self.recurrence.blank? || original_starts_at > Time.current
         return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
 
       next_starts_at =
         RRuleGenerator.generate(
-          localized_start,
-          tzid: self.timezone,
-          recurrence_type: self.recurrence,
+          starts_at: original_starts_at,
+          timezone:,
+          recurrence:,
+          recurrence_until:,
         ).first
 
       if original_ends_at
@@ -399,6 +401,7 @@ end
 #  original_starts_at :datetime         not null
 #  original_ends_at   :datetime
 #  deleted_at         :datetime
+#  recurrence_until   :datetime
 #  raw_invitees       :string           is an Array
 #  name               :string
 #  url                :string(1000)

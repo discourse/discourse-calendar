@@ -25,6 +25,13 @@ export default class PostEventBuilder extends Component {
     this.event.endsAt &&
     moment(this.event.endsAt).tz(this.event.timezone || "UTC");
 
+  get recurrenceUntil() {
+    return (
+      this.event.recurrenceUntil &&
+      moment(this.event.recurrenceUntil).tz(this.event.timezone || "UTC")
+    );
+  }
+
   get event() {
     return this.args.model.event;
   }

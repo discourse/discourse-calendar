@@ -35,6 +35,7 @@ export default class DiscoursePostEventEvent {
   @tracked isClosed;
   @tracked isExpired;
   @tracked isStandalone;
+  @tracked recurrenceUntil;
   @tracked recurrence;
   @tracked recurrenceRule;
   @tracked customFields;
@@ -65,6 +66,7 @@ export default class DiscoursePostEventEvent {
     this.minimal = args.minimal;
     this.recurrenceRule = args.recurrence_rule;
     this.recurrence = args.recurrence;
+    this.recurrenceUntil = args.recurrence_until;
     this.canUpdateAttendance = args.can_update_attendance;
     this.canActOnDiscoursePostEvent = args.can_act_on_discourse_post_event;
     this.shouldDisplayInvitees = args.should_display_invitees;
@@ -140,6 +142,7 @@ export default class DiscoursePostEventEvent {
     this.minimal = event.minimal;
     this.recurrenceRule = event.recurrenceRule;
     this.recurrence = event.recurrence;
+    this.recurrenceUntil = event.recurrenceUntil;
     this.canUpdateAttendance = event.canUpdateAttendance;
     this.canActOnDiscoursePostEvent = event.canActOnDiscoursePostEvent;
     this.shouldDisplayInvitees = event.shouldDisplayInvitees;

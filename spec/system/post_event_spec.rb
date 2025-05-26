@@ -105,14 +105,25 @@ describe "Post event", type: :system do
   it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
-    page.find(".toolbar-popup-menu-options .dropdown-select-box-header").click
-    page.find(
-      ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
-    ).click
+
+    dropdown = PageObjects::Components::SelectKit.new(".toolbar-popup-menu-options")
+    dropdown.expand
+    dropdown.select_row_by_name(I18n.t("js.discourse_post_event.builder_modal.attach"))
     page.find(".d-modal input[name=status][value=private]").click
     page.find(".d-modal input.group-selector").send_keys("test_")
+
     page.find(".autocomplete.ac-group").click
     page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
+    dropdown = PageObjects::Components::SelectKit.new(".available-recurrences")
+    dropdown.expand
+    dropdown.select_row_by_value("every_day")
+    page.find(".d-modal .recurrence-until .date-picker").send_keys("30/12/2099")
+
+    dropdown =
+      PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
+    dropdown.expand
+    dropdown.select_row_by_name("02:00")
+
     page.find(".d-modal .btn-primary").click
     composer.submit
     page.find(".discourse-post-event-more-menu-trigger").click
@@ -121,6 +132,12 @@ describe "Post event", type: :system do
     expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
     expect(page.find(".d-modal")).to have_text("test_group")
     expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
+    expect(page).to have_selector(".d-modal .recurrence-until .date-picker") do |input|
+      input.value == "2099-12-30"
+    end
+    dropdown =
+      PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
+    expect(dropdown).to have_selected_name("02:00")
   end
 
   context "when using bulk inline invite" do

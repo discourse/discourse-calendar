@@ -29,6 +29,13 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
     params.recurrence = event.recurrence;
   }
 
+  if (event.recurrenceUntil) {
+    params.recurrenceUntil = moment(event.recurrenceUntil)
+      .tz(eventTz)
+      .format("YYYY-MM-DD HH:mm");
+    moment(startsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
+  }
+
   if (event.minimal) {
     params.minimal = "true";
   }

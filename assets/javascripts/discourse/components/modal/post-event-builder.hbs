@@ -209,6 +209,19 @@
             />
           </EventField>
 
+          {{#if @model.event.recurrence}}
+            <EventField
+              @label="discourse_post_event.builder_modal.recurrence_until.label"
+              class="recurrence-until"
+            >
+              <DateTimeInput
+                @date={{this.recurrenceUntil}}
+                @onChange={{fn (mut @model.event.recurrenceUntil)}}
+                @timezone={{@model.event.timezone}}
+              />
+            </EventField>
+          {{/if}}
+
           <EventField
             class="minimal-event"
             @label="discourse_post_event.builder_modal.minimal.label"

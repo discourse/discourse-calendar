@@ -10,25 +10,25 @@ describe RRuleGenerator do
       let(:time) { Time.utc(2020, 8, 10, 16, 32) }
 
       it "generates the rule" do
-        rrule = RRuleGenerator.generate(time, recurrence_type: "every_week").first
+        rrule = RRuleGenerator.generate(starts_at: time, recurrence: "every_week").first
         expect(rrule.to_s).to eq("2020-08-17 16:32:00 UTC")
       end
     end
   end
 
-  context "when tzid given" do
+  context "when timezone given" do
     it "it correctly computes the next date using the timezone" do
-      tzid = "Europe/Paris"
+      timezone = "Europe/Paris"
       time = Time.utc(2020, 1, 25, 15, 36)
 
       freeze_time DateTime.parse("2020-02-25 15:36")
 
-      rrule = RRuleGenerator.generate(time, tzid: tzid, recurrence_type: "every_week").first
+      rrule = RRuleGenerator.generate(starts_at: time, timezone:, recurrence: "every_week").first
       expect(rrule.to_s).to eq("2020-02-29 15:36:00 +0100")
 
       freeze_time DateTime.parse("2020-09-25 15:36")
 
-      rrule = RRuleGenerator.generate(time, tzid: tzid).first
+      rrule = RRuleGenerator.generate(starts_at: time, timezone:).first
       expect(rrule.to_s).to eq("2020-09-26 15:36:00 +0200")
     end
   end
@@ -36,7 +36,7 @@ describe RRuleGenerator do
   describe "every day" do
     context "when a rule and time are given" do
       it "generates the rule" do
-        rrule = RRuleGenerator.generate(time, recurrence_type: "every_day").first
+        rrule = RRuleGenerator.generate(starts_at: time, recurrence: "every_day").first
         expect(rrule.to_s).to eq("2020-08-13 16:32:00 UTC")
       end
 
@@ -44,7 +44,7 @@ describe RRuleGenerator do
         let(:time) { Time.utc(2020, 8, 10, 16, 32) }
 
         it "returns the next valid after given time and in the future" do
-          rrule = RRuleGenerator.generate(time, recurrence_type: "every_day").first
+          rrule = RRuleGenerator.generate(starts_at: time, recurrence: "every_day").first
           expect(rrule.to_s).to eq("2020-08-12 16:32:00 UTC")
         end
       end
