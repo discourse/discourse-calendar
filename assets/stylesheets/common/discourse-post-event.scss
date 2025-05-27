@@ -161,7 +161,7 @@ $show-interested: inherit;
       .created-by {
         margin-right: 0.25em;
 
-        @media screen and (width <= 450px) {
+        @media screen and (max-width: 450px) {
           display: none;
         }
       }

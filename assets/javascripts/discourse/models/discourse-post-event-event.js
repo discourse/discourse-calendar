@@ -66,7 +66,7 @@ export default class DiscoursePostEventEvent {
     this.minimal = args.minimal;
     this.chatEnabled = args.chat_enabled;
     this.chatChannelId = args.chat_channel_id;
-    this.chatChannelSlug = args.chat_channel_slug;
+    this.chatChannelUrl = args.chat_channel_url;
     this.chatChannelName = args.chat_channel_name;
     this.chatChannelColor = args.chat_channel_color;
     this.recurrenceRule = args.recurrence_rule;
@@ -146,7 +146,7 @@ export default class DiscoursePostEventEvent {
     this.minimal = event.minimal;
     this.chatEnabled = event.chatEnabled;
     this.chatChannelId = event.chatChannelId;
-    this.chatChannelSlug = event.chatChannelSlug;
+    this.chatChannelUrl = event.chatChannelUrl;
     this.chatChannelName = event.chatChannelName;
     this.chatChannelColor = event.chatChannelColor;
     this.recurrenceRule = event.recurrenceRule;

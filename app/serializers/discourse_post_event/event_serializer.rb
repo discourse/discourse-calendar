@@ -33,7 +33,7 @@ module DiscoursePostEvent
     attributes :chat_enabled,
                :chat_channel_id,
                :chat_channel_name,
-               :chat_channel_slug,
+               :chat_channel_url,
                :chat_channel_color
 
     def has_channel?
@@ -52,12 +52,12 @@ module DiscoursePostEvent
       object.chat_channel.name
     end
 
-    def include_chat_channel_slug?
+    def include_chat_channel_url?
       has_channel?
     end
 
-    def chat_channel_slug
-      object.chat_channel.slug
+    def chat_channel_url
+      object.chat_channel.url
     end
 
     def include_chat_channel_color?
