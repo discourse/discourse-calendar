@@ -10,9 +10,8 @@ describe DiscoursePostEvent::ChatChannelSync do
   it "is able to create a chat channel and sync members" do
     event = Fabricate(:event, chat_enabled: true, post: admin_post)
 
-    expect(event.chat_channel_id).not_to be_nil
+    expect(event.chat_channel_id).to be_present
     expect(event.chat_channel.name).to eq(event.name)
-
     expect(event.chat_channel.user_chat_channel_memberships.count).to eq(1)
     expect(event.chat_channel.user_chat_channel_memberships.first.user_id).to eq(admin.id)
 
