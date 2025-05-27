@@ -3,6 +3,7 @@ import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { bind } from "discourse/lib/decorators";
 import User from "discourse/models/user";
+import ChatChannel from "discourse/plugins/chat/discourse/models/chat-channel";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
 import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
 
@@ -39,6 +40,7 @@ export default class DiscoursePostEventEvent {
   @tracked recurrence;
   @tracked recurrenceRule;
   @tracked customFields;
+  @tracked channel;
 
   @tracked _watchingInvitee;
   @tracked _sampleInvitees;
@@ -65,10 +67,6 @@ export default class DiscoursePostEventEvent {
     this.isStandalone = args.is_standalone;
     this.minimal = args.minimal;
     this.chatEnabled = args.chat_enabled;
-    this.chatChannelId = args.chat_channel_id;
-    this.chatChannelUrl = args.chat_channel_url;
-    this.chatChannelName = args.chat_channel_name;
-    this.chatChannelColor = args.chat_channel_color;
     this.recurrenceRule = args.recurrence_rule;
     this.recurrence = args.recurrence;
     this.canUpdateAttendance = args.can_update_attendance;
@@ -78,6 +76,17 @@ export default class DiscoursePostEventEvent {
     this.stats = args.stats;
     this.reminders = args.reminders;
     this.customFields = EmberObject.create(args.custom_fields || {});
+
+    try {
+      const channelModel =
+        require("discourse/plugins/chat/discourse/models/chat-channel").default;
+      if (channelModel) {
+        this.channel = ChatChannel.create(args.channel);
+      }
+      // eslint-disable-next-line no-unused-vars
+    } catch (e) {
+      // chat not enabled
+    }
   }
 
   get watchingInvitee() {
@@ -145,10 +154,6 @@ export default class DiscoursePostEventEvent {
     this.isStandalone = event.isStandalone;
     this.minimal = event.minimal;
     this.chatEnabled = event.chatEnabled;
-    this.chatChannelId = event.chatChannelId;
-    this.chatChannelUrl = event.chatChannelUrl;
-    this.chatChannelName = event.chatChannelName;
-    this.chatChannelColor = event.chatChannelColor;
     this.recurrenceRule = event.recurrenceRule;
     this.recurrence = event.recurrence;
     this.canUpdateAttendance = event.canUpdateAttendance;

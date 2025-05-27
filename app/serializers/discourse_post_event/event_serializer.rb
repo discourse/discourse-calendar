@@ -30,42 +30,18 @@ module DiscoursePostEvent
     attributes :timezone
     attributes :url
     attributes :watching_invitee
-    attributes :chat_enabled,
-               :chat_channel_id,
-               :chat_channel_name,
-               :chat_channel_url,
-               :chat_channel_color
+    attributes :channel
+
+    def channel
+      ::Chat::ChannelSerializer.new(object.chat_channel, root: false, scope:)
+    end
+
+    def include_channel?
+      defined?(::Chat::ChannelSerializer) && object.chat_channel.present?
+    end
 
     def has_channel?
       object.chat_enabled && object.chat_channel_id && object.chat_channel.present?
-    end
-
-    def include_chat_channel_id?
-      has_channel?
-    end
-
-    def include_chat_channel_name?
-      has_channel?
-    end
-
-    def chat_channel_name
-      object.chat_channel.name
-    end
-
-    def include_chat_channel_url?
-      has_channel?
-    end
-
-    def chat_channel_url
-      object.chat_channel.url
-    end
-
-    def include_chat_channel_color?
-      has_channel?
-    end
-
-    def chat_channel_color
-      object.chat_channel&.category&.color
     end
 
     def can_act_on_discourse_post_event
