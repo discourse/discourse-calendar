@@ -130,7 +130,7 @@ describe Post do
                 expect(event_1.ends_at.to_s).to eq("2020-08-19 16:32:00 UTC")
               end
 
-              it "it removes status from non going invitees" do
+              it "removes status from non going invitees" do
                 going_invitee =
                   event_1.invitees.find_by(status: DiscoursePostEvent::Invitee.statuses[:going])
                 interested_invitee =
@@ -171,7 +171,7 @@ describe Post do
           end
 
           context "when updating status to private" do
-            it "it changes the status and force invitees" do
+            it "changes the status and force invitees" do
               expect(event_1.raw_invitees).to eq(["trust_level_0"])
               expect(event_1.status).to eq(DiscoursePostEvent::Event.statuses[:public])
 
@@ -501,7 +501,7 @@ describe Post do
     end
 
     context "when updating status to public" do
-      it "it changes the status and force invitees" do
+      it "changes the status and force invitees" do
         expect(event_1.raw_invitees).to eq([group_1.name])
         expect(event_1.status).to eq(DiscoursePostEvent::Event.statuses[:private])
 

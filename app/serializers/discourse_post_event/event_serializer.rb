@@ -131,9 +131,8 @@ module DiscoursePostEvent
     def recurrence_rule
       RRuleConfigurator.rule(
         recurrence: object.recurrence,
-        starts_at: object.starts_at,
-        recurrence_until: object.recurrence_until,
-        timezone: object.timezone,
+        starts_at: object.starts_at.in_time_zone(object.timezone),
+        recurrence_until: object.recurrence_until&.in_time_zone(object.timezone),
       )
     end
   end

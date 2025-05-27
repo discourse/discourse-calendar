@@ -10,8 +10,7 @@ class RRuleGenerator
     recurrence: "every_week",
     recurrence_until: nil
   )
-    rrule =
-      generate_hash(RRuleConfigurator.rule(timezone:, recurrence_until:, recurrence:, starts_at:))
+    rrule = generate_hash(RRuleConfigurator.rule(recurrence_until:, recurrence:, starts_at:))
     rrule = set_mandatory_options(rrule, starts_at)
 
     ::RRule::Rule

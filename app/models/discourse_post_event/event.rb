@@ -374,7 +374,7 @@ module DiscoursePostEvent
 
       next_starts_at =
         RRuleGenerator.generate(
-          starts_at: original_starts_at,
+          starts_at: original_starts_at.in_time_zone(timezone),
           timezone:,
           recurrence:,
           recurrence_until:,

@@ -17,18 +17,18 @@ describe RRuleGenerator do
   end
 
   context "when timezone given" do
-    it "it correctly computes the next date using the timezone" do
+    it "correctly computes the next date using the timezone" do
       timezone = "Europe/Paris"
-      time = Time.utc(2020, 1, 25, 15, 36)
+      time = Time.utc(2020, 1, 25, 15, 36).in_time_zone(timezone)
 
       freeze_time DateTime.parse("2020-02-25 15:36")
 
-      rrule = RRuleGenerator.generate(starts_at: time, timezone:, recurrence: "every_week").first
+      rrule = RRuleGenerator.generate(starts_at: time, recurrence: "every_week").first
       expect(rrule.to_s).to eq("2020-02-29 15:36:00 +0100")
 
       freeze_time DateTime.parse("2020-09-25 15:36")
 
-      rrule = RRuleGenerator.generate(starts_at: time, timezone:).first
+      rrule = RRuleGenerator.generate(starts_at: time).first
       expect(rrule.to_s).to eq("2020-09-26 15:36:00 +0200")
     end
   end

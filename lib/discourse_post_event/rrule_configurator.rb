@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class RRuleConfigurator
-  def self.rule(recurrence:, starts_at:, timezone:, recurrence_until: nil)
-    starts_at ||= starts_at.in_time_zone(timezone)
-    recurrence_until ||= recurrence_until&.in_time_zone(timezone)
-
+  def self.rule(recurrence:, starts_at:, recurrence_until: nil)
     rule =
       case recurrence
       when "every_day"
