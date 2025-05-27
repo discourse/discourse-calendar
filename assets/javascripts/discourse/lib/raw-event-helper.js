@@ -34,7 +34,7 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
   }
 
   if (event.chatEnabled) {
-    params.chat_enabled = "true";
+    params.chatEnabled = "true";
   }
 
   if (endsAt) {
