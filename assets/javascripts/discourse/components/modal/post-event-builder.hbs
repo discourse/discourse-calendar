@@ -17,12 +17,14 @@
           @outletArgs={{hash event=@model.event}}
           @connectorTagName="div"
         >
-          <DateTimeInputRange
-            @from={{this.startsAt}}
-            @to={{this.endsAt}}
-            @timezone={{@model.event.timezone}}
-            @onChange={{this.onChangeDates}}
-          />
+          <EventField>
+            <DateTimeInputRange
+              @from={{this.startsAt}}
+              @to={{this.endsAt}}
+              @timezone={{@model.event.timezone}}
+              @onChange={{this.onChangeDates}}
+            />
+          </EventField>
 
           <EventField
             class="name"
