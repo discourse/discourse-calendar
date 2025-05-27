@@ -105,33 +105,32 @@ describe "Post event", type: :system do
   it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
-
     dropdown = PageObjects::Components::SelectKit.new(".toolbar-popup-menu-options")
     dropdown.expand
     dropdown.select_row_by_name(I18n.t("js.discourse_post_event.builder_modal.attach"))
-    page.find(".d-modal input[name=status][value=private]").click
-    page.find(".d-modal input.group-selector").send_keys("test_")
-
-    page.find(".autocomplete.ac-group").click
-    page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
+    find(".d-modal input[name=status][value=private]").click
+    find(".d-modal input.group-selector").send_keys("test_")
+    find(".autocomplete.ac-group").click
+    find(".d-modal .custom-field-input").fill_in(with: "custom value")
     dropdown = PageObjects::Components::SelectKit.new(".available-recurrences")
     dropdown.expand
     dropdown.select_row_by_value("every_day")
-    page.find(".d-modal .recurrence-until .date-picker").send_keys("30/12/2099")
-
+    find(".d-modal .recurrence-until .date-picker").send_keys("30/12/2099")
     dropdown =
       PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
     dropdown.expand
     dropdown.select_row_by_name("02:00")
+    find(".d-modal .btn-primary").click
 
-    page.find(".d-modal .btn-primary").click
+    expect(page).to have_no_css(".d-modal")
+
     composer.submit
-    page.find(".discourse-post-event-more-menu-trigger").click
-    page.find(".edit-event").click
+    find(".discourse-post-event-more-menu-trigger").click
+    find(".edit-event").click
 
-    expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
-    expect(page.find(".d-modal")).to have_text("test_group")
-    expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
+    expect(find(".d-modal input[name=status][value=private]").checked?).to eq(true)
+    expect(find(".d-modal")).to have_text("test_group")
+    expect(find(".d-modal .custom-field-input").value).to eq("custom value")
     expect(page).to have_selector(".d-modal .recurrence-until .date-picker") do |input|
       input.value == "2099-12-30"
     end
