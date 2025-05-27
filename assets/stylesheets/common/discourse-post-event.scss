@@ -399,12 +399,13 @@ $show-interested: inherit;
   .event-invitees-icon {
     position: relative;
     display: flex;
+    margin: 0 auto;
   }
 
   .event-invitees-icon .going {
     font-size: var(--font-down-3);
     position: absolute;
-    right: 4px;
+    right: -2px;
     bottom: -8px;
     background: var(--secondary);
     border-radius: 50%;
