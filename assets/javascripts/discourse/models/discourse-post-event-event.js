@@ -3,6 +3,7 @@ import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { bind } from "discourse/lib/decorators";
 import User from "discourse/models/user";
+import ChatChannel from "discourse/plugins/chat/discourse/models/chat-channel";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
 import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
 
@@ -75,16 +76,8 @@ export default class DiscoursePostEventEvent {
     this.stats = args.stats;
     this.reminders = args.reminders;
     this.customFields = EmberObject.create(args.custom_fields || {});
-
-    try {
-      const channelModel =
-        require("discourse/plugins/chat/discourse/models/chat-channel").default;
-      if (channelModel) {
-        this.channel = channelModel.create(args.channel);
-      }
-      // eslint-disable-next-line no-unused-vars
-    } catch (e) {
-      // chat not enabled
+    if (args.channel) {
+      this.channel = ChatChannel.create(args.channel);
     }
   }
 
