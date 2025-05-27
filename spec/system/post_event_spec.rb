@@ -105,22 +105,25 @@ describe "Post event", type: :system do
   it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
-    page.find(".toolbar-popup-menu-options .dropdown-select-box-header").click
-    page.find(
+    find(".toolbar-popup-menu-options .dropdown-select-box-header").click
+    find(
       ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
     ).click
-    page.find(".d-modal input[name=status][value=private]").click
-    page.find(".d-modal input.group-selector").send_keys("test_")
-    page.find(".autocomplete.ac-group").click
-    page.find(".d-modal .custom-field-input").fill_in(with: "custom value")
-    page.find(".d-modal .btn-primary").click
-    composer.submit
-    page.find(".discourse-post-event-more-menu-trigger").click
-    page.find(".edit-event").click
+    find(".d-modal input[name=status][value=private]").click
+    find(".d-modal input.group-selector").send_keys("test_")
+    find(".autocomplete.ac-group").click
+    find(".d-modal .custom-field-input").fill_in(with: "custom value")
+    find(".d-modal .btn-primary").click
 
-    expect(page.find(".d-modal input[name=status][value=private]").checked?).to eq(true)
-    expect(page.find(".d-modal")).to have_text("test_group")
-    expect(page.find(".d-modal .custom-field-input").value).to eq("custom value")
+    expect(page).to have_no_css(".d-modal")
+
+    composer.submit
+    find(".discourse-post-event-more-menu-trigger").click
+    find(".edit-event").click
+
+    expect(find(".d-modal input[name=status][value=private]").checked?).to eq(true)
+    expect(find(".d-modal")).to have_text("test_group")
+    expect(find(".d-modal .custom-field-input").value).to eq("custom value")
   end
 
   context "when using bulk inline invite" do
