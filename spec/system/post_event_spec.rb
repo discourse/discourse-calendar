@@ -115,7 +115,7 @@ describe "Post event", type: :system do
     dropdown = PageObjects::Components::SelectKit.new(".available-recurrences")
     dropdown.expand
     dropdown.select_row_by_value("every_day")
-    find(".d-modal .recurrence-until .date-picker").send_keys("30/12/2099")
+    find(".d-modal .recurrence-until .date-picker").send_keys("30/12/#{1.year.from_now.year}")
     dropdown =
       PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
     dropdown.expand
@@ -132,7 +132,7 @@ describe "Post event", type: :system do
     expect(find(".d-modal")).to have_text("test_group")
     expect(find(".d-modal .custom-field-input").value).to eq("custom value")
     expect(page).to have_selector(".d-modal .recurrence-until .date-picker") do |input|
-      input.value == "2099-12-30"
+      input.value == "#{1.year.from_now.year}-12-30"
     end
     dropdown =
       PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
