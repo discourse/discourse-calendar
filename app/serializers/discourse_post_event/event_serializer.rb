@@ -30,8 +30,43 @@ module DiscoursePostEvent
     attributes :timezone
     attributes :url
     attributes :watching_invitee
-    attributes :chat_enabled
-    attributes :chat_channel_id
+    attributes :chat_enabled,
+               :chat_channel_id,
+               :chat_channel_name,
+               :chat_channel_slug,
+               :chat_channel_color
+
+    def has_channel?
+      object.chat_enabled && object.chat_channel_id && object.chat_channel.present?
+    end
+
+    def include_chat_channel_id?
+      has_channel?
+    end
+
+    def include_chat_channel_name?
+      has_channel?
+    end
+
+    def chat_channel_name
+      object.chat_channel.name
+    end
+
+    def include_chat_channel_slug?
+      has_channel?
+    end
+
+    def chat_channel_slug
+      object.chat_channel.slug
+    end
+
+    def include_chat_channel_color?
+      has_channel?
+    end
+
+    def chat_channel_color
+      object.chat_channel&.category&.color
+    end
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)

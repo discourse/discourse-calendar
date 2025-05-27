@@ -2,20 +2,20 @@ import Component from "@glimmer/component";
 import icon from "discourse/helpers/d-icon";
 
 export default class DiscoursePostEventChatChannel extends Component {
-  get chatChannel() {
-    return this.args.event.chatChannel;
+  get chatChannelUrl() {
+    return `/chat/c/${this.args.event.chatChannelSlug}/${this.args.event.chatChannelId}`;
   }
 
-  get chatChannelName() {
-    return this.chatChannel.name;
-  }
-
-  get chatChannelId() {
-    return this.chatChannel.id;
+  get chatChannelColorCss() {
+    return `color: #${this.args.event.chatChannelColor};`;
   }
 
   <template>
     <section class="event__section event-chat-channel">
-      {{icon "comments"}}TODO</section>
+      {{icon "comments"}}<a href={{this.chatChannelUrl}}><span
+          style={{this.chatChannelColorCss}}
+        >{{icon "comment"}}</span><span
+          class="event__chat-channel-name"
+        >{{@event.chatChannelName}}</span></a></section>
   </template>
 }

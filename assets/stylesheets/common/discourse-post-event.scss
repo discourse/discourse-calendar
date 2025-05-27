@@ -161,7 +161,7 @@ $show-interested: inherit;
       .created-by {
         margin-right: 0.25em;
 
-        @media screen and (max-width: 450px) {
+        @media screen and (width <= 450px) {
           display: none;
         }
       }
@@ -350,6 +350,7 @@ $show-interested: inherit;
 
   .event-url,
   .event-dates,
+  .event-chat-channel,
   .event-invitees-avatars-container {
     display: grid;
     grid-template-columns: 3em 1fr;
@@ -357,11 +358,16 @@ $show-interested: inherit;
     align-items: center;
     height: min-content;
 
-    .d-icon {
+    > .d-icon {
       color: var(--primary-high);
       margin: 0 auto;
       padding: 0;
     }
+  }
+
+  .event__chat-channel-name {
+    color: var(--primary);
+    margin-left: 0.25em;
   }
 
   .event-url {
