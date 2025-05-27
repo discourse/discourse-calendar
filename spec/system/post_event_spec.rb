@@ -121,10 +121,10 @@ describe "Post event", type: :system do
     dropdown.expand
     dropdown.select_row_by_name("02:00")
     find(".d-modal .btn-primary").click
-
-    expect(page).to have_no_css(".d-modal")
-
     composer.submit
+
+    expect(page).to have_css(".discourse-post-event.is-loaded")
+
     find(".discourse-post-event-more-menu-trigger").click
     find(".edit-event").click
 
