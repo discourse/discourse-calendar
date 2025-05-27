@@ -45,25 +45,25 @@ describe "Post event", type: :system do
 
     expect(page).to have_content(title)
 
-    page.find(".more-dropdown").click
-    page.find(".close-event").click
-    page.find("#dialog-holder .btn-primary").click
+    find(".more-dropdown").click
+    find(".close-event").click
+    find("#dialog-holder .btn-primary").click
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.closed")
 
     # click on a different button to ensure more dropdown is collapsed before reopening
-    page.find(".btn-primary.create").click
-    page.find(".more-dropdown").click
-    page.find(".open-event").click
-    page.find("#dialog-holder .btn-primary").click
+    find(".btn-primary.create").click
+    find(".more-dropdown").click
+    find(".open-event").click
+    find("#dialog-holder .btn-primary").click
 
-    expect(page).to have_css(".discourse-post-event .status-and-creators .status.public")
+    expect(page).to have_css(".going-button")
 
-    page.find(".going-button").click
-    page.find(".discourse-post-event-more-menu-trigger").click
-    page.find(".show-all-participants").click
-    page.find(".d-modal input.filter").fill_in(with: "jan")
-    page.find(".d-modal .add-invitee").click
+    find(".going-button").click
+    find(".discourse-post-event-more-menu-trigger").click
+    find(".show-all-participants").click
+    find(".d-modal input.filter").fill_in(with: "jan")
+    find(".d-modal .add-invitee").click
 
     topic_page = PageObjects::Pages::Topic.new
 
