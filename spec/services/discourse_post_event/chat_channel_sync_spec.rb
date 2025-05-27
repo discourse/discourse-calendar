@@ -16,10 +16,16 @@ describe DiscoursePostEvent::ChatChannelSync do
     expect(event.chat_channel.user_chat_channel_memberships.count).to eq(1)
     expect(event.chat_channel.user_chat_channel_memberships.first.user_id).to eq(admin.id)
 
-    event = event.reload
     event.create_invitees([user_id: user.id, status: DiscoursePostEvent::Invitee.statuses[:going]])
     event.save!
 
     expect(event.chat_channel.user_chat_channel_memberships.count).to eq(2)
+  end
+
+  it "will simply do nothing if user has no permission to create channel" do
+    post = Fabricate(:post, user: user)
+    event = Fabricate(:event, chat_enabled: true, post: post)
+
+    expect(event.chat_channel_id).to be_nil
   end
 end

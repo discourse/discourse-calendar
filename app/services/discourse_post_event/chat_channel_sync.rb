@@ -4,9 +4,10 @@ module DiscoursePostEvent
   class ChatChannelSync
     def self.sync(event, guardian: nil)
       return if !event.chat_enabled?
-
-      ensure_chat_channel!(event, guardian:) if !event.chat_channel_id
-      sync_chat_channel_members!(event)
+      if !event.chat_channel_id && guardian&.can_create_chat_channel?
+        ensure_chat_channel!(event, guardian:)
+      end
+      sync_chat_channel_members!(event) if event.chat_channel_id
     end
 
     def self.sync_chat_channel_members!(event)
