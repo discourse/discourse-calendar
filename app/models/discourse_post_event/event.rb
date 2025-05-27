@@ -175,7 +175,12 @@ module DiscoursePostEvent
       attrs.map! do |attr|
         { post_id: self.id, created_at: timestamp, updated_at: timestamp }.merge(attr)
       end
-      self.invitees.insert_all!(attrs)
+      result = self.invitees.insert_all!(attrs)
+
+      # batch event does not call calleback
+      ChatChannelSync.sync(self) if chat_enabled?
+
+      result
     end
 
     def notify_invitees!(predefined_attendance: false)
@@ -366,8 +371,11 @@ module DiscoursePostEvent
     end
 
     def chat_channel_sync
-      if self.chat_enabled && self.chat_channel_id.blank?
-        DiscoursePostEvent::ChatChannelSync.sync(self)
+      if self.chat_enabled && self.chat_channel_id.blank? && post.last_editor_id.present?
+        DiscoursePostEvent::ChatChannelSync.sync(
+          self,
+          guardian: Guardian.new(User.find_by(id: post.last_editor_id)),
+        )
       end
     end
 

@@ -2,10 +2,10 @@
 #
 module DiscoursePostEvent
   class ChatChannelSync
-    def self.sync(event)
+    def self.sync(event, guardian: nil)
       return if !event.chat_enabled?
 
-      ensure_chat_channel!(event) if !event.chat_channel_id
+      ensure_chat_channel!(event, guardian:) if !event.chat_channel_id
       sync_chat_channel_members!(event)
     end
 
@@ -46,10 +46,9 @@ module DiscoursePostEvent
       end
     end
 
-    def self.ensure_chat_channel!(event)
+    def self.ensure_chat_channel!(event, guardian:)
       name = event.name
 
-      guardian = Guardian.new(Discourse.system_user)
       channel = nil
       Chat::CreateCategoryChannel.call(
         guardian:,
@@ -62,9 +61,7 @@ module DiscoursePostEvent
         on_failure { raise StandardError, result.inspect_steps }
       end
 
-      # system user does not belong in the channel - this is awkward, we should be allowed to avoid
-      channel.user_chat_channel_memberships.where(user_id: Discourse.system_user.id).destroy_all
-
+      # event creator will be a member of the channel
       event.chat_channel_id = channel.id
     end
   end
