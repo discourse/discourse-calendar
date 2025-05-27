@@ -223,8 +223,7 @@
             </label>
           </EventField>
 
-          {{#if siteSettings.chat_enabled}}
-            {{log @model.event}}
+          {{#if this.siteSettings.chat_enabled}}
             <EventField
               class="allow-chat"
               @label="discourse_post_event.builder_modal.allow_chat.label"
