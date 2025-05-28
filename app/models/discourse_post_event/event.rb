@@ -373,7 +373,6 @@ module DiscoursePostEvent
       self.publish_update!
     end
 
-
     def chat_channel_sync
       if self.chat_enabled && self.chat_channel_id.blank? && post.last_editor_id.present?
         DiscoursePostEvent::ChatChannelSync.sync(
@@ -384,8 +383,6 @@ module DiscoursePostEvent
     end
 
     def calculate_next_date
-      localized_start = start_date || original_starts_at.in_time_zone(timezone)
-
       if self.recurrence.blank? || original_starts_at > Time.current
         return { starts_at: original_starts_at, ends_at: original_ends_at, rescheduled: false }
       end
