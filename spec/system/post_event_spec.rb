@@ -102,7 +102,7 @@ describe "Post event", type: :system do
     expect(page).to have_no_css(".send-pm-to-creator")
   end
 
-  it "persists changes", trace: true, video: true do
+  it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
     dropdown = PageObjects::Components::SelectKit.new(".toolbar-popup-menu-options")
@@ -115,7 +115,7 @@ describe "Post event", type: :system do
     dropdown = PageObjects::Components::SelectKit.new(".available-recurrences")
     dropdown.expand
     dropdown.select_row_by_value("every_day")
-    find(".d-modal .recurrence-until .date-picker").send_keys("30/12/#{1.year.from_now.year}")
+    find(".d-modal .recurrence-until .date-picker").fill_in(with: "#{1.year.from_now.year}-12-30")
     dropdown =
       PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
     dropdown.expand
