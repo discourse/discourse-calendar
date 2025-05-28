@@ -13,6 +13,8 @@ const EVENT_ATTRIBUTES = {
   timezone: { default: "UTC" },
   allowedGroups: { default: null },
   recurrenceUntil: { default: null },
+  chatEnabled: { default: null },
+  chatChannelId: { default: null },
 };
 
 /** @type {RichEditorExtension} */

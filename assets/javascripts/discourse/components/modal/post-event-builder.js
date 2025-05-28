@@ -12,6 +12,7 @@ export default class PostEventBuilder extends Component {
   @service dialog;
   @service siteSettings;
   @service store;
+  @service currentUser;
 
   @tracked flash = null;
   @tracked isSaving = false;
@@ -136,6 +137,14 @@ export default class PostEventBuilder extends Component {
 
   get addReminderDisabled() {
     return this.event.reminders?.length >= 5;
+  }
+
+  get showChat() {
+    // As of June 2025, chat channel creation is only available to admins and moderators
+    return (
+      this.siteSettings.chat_enabled &&
+      (this.currentUser.admin || this.currentUser.moderator)
+    );
   }
 
   @action

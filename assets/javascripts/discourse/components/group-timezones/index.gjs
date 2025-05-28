@@ -1,38 +1,27 @@
-import hbs from "discourse/widgets/hbs-compiler";
-import { createWidget } from "discourse/widgets/widget";
-import roundTime from "../lib/round-time";
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { fn } from "@ember/helper";
+import { on } from "@ember/modifier";
+import { action } from "@ember/object";
+import { service } from "@ember/service";
+import { eq } from "truth-helpers";
+import { i18n } from "discourse-i18n";
+import roundTime from "../../lib/round-time";
+import NewDay from "./new-day";
+import TimeTraveller from "./time-traveller";
+import Timezone from "./timezone";
 
-export default createWidget("discourse-group-timezones", {
-  tagName: "div.group-timezones",
+export default class GroupTimezones extends Component {
+  @service siteSettings;
 
-  buildKey: (attrs) => `group-timezones-${attrs.id}`,
+  @tracked filter = "";
+  @tracked localTimeOffset = 0;
 
-  buildClasses(attrs) {
-    return attrs.size;
-  },
-
-  buildAttributes(attrs) {
-    return {
-      id: attrs.id,
-    };
-  },
-
-  defaultState() {
-    return {
-      localTimeOffset: 0,
-    };
-  },
-
-  onChangeCurrentUserTimeOffset(offset) {
-    this.state.localTimeOffset = offset;
-  },
-
-  transform(attrs, state) {
-    const members = attrs.members || [];
+  get groupedTimezones() {
     let groupedTimezones = [];
 
-    members.filterBy("timezone").forEach((member) => {
-      if (this._shouldAddMemberToGroup(this.state.filter, member)) {
+    this.args.members.filterBy("timezone").forEach((member) => {
+      if (this.#shouldAddMemberToGroup(this.filter, member)) {
         const timezone = member.timezone;
         const identifier = parseInt(moment.tz(timezone).format("YYYYMDHm"), 10);
         let groupedTimezone = groupedTimezones.findBy("identifier", identifier);
@@ -40,18 +29,18 @@ export default createWidget("discourse-group-timezones", {
         if (groupedTimezone) {
           groupedTimezone.members.push(member);
         } else {
-          const now = this._roundMoment(moment.tz(timezone));
-          const workingDays = this._workingDays();
+          const now = this.#roundMoment(moment.tz(timezone));
+          const workingDays = this.#workingDays();
           const offset = moment.tz(moment.utc(), timezone).utcOffset();
 
           groupedTimezone = {
             identifier,
             offset,
             type: "discourse-group-timezone",
-            nowWithOffset: now.add(state.localTimeOffset, "minutes"),
-            closeToWorkingHours: this._closeToWorkingHours(now, workingDays),
-            inWorkingHours: this._inWorkingHours(now, workingDays),
-            utcOffset: this._utcOffset(offset),
+            nowWithOffset: now.add(this.localTimeOffset, "minutes"),
+            closeToWorkingHours: this.#closeToWorkingHours(now, workingDays),
+            inWorkingHours: this.#inWorkingHours(now, workingDays),
+            utcOffset: this.#utcOffset(offset),
             members: [member],
           };
           groupedTimezones.push(groupedTimezone);
@@ -84,36 +73,10 @@ export default createWidget("discourse-group-timezones", {
       });
     }
 
-    return { groupedTimezones };
-  },
+    return groupedTimezones;
+  }
 
-  onChangeFilter(filter) {
-    this.state.filter = filter && filter.length ? filter : null;
-  },
-
-  template: hbs`
-    {{attach
-      widget="discourse-group-timezones-header"
-      attrs=(hash
-        id=attrs.id
-        group=attrs.group
-        localTimeOffset=state.localTimeOffset
-      )
-    }}
-    <div class="group-timezones-body">
-      {{#each transformed.groupedTimezones as |groupedTimezone|}}
-        {{attach
-          widget=groupedTimezone.type
-          attrs=(hash
-            usersOnHoliday=attrs.usersOnHoliday
-            groupedTimezone=groupedTimezone
-          )
-        }}
-      {{/each}}
-    </div>
-  `,
-
-  _shouldAddMemberToGroup(filter, member) {
+  #shouldAddMemberToGroup(filter, member) {
     if (filter) {
       filter = filter.toLowerCase();
       if (
@@ -127,17 +90,17 @@ export default createWidget("discourse-group-timezones", {
     }
 
     return false;
-  },
+  }
 
-  _roundMoment(date) {
-    if (this.state.localTimeOffset) {
+  #roundMoment(date) {
+    if (this.localTimeOffset) {
       date = roundTime(date);
     }
 
     return date;
-  },
+  }
 
-  _closeToWorkingHours(moment, workingDays) {
+  #closeToWorkingHours(moment, workingDays) {
     const hours = moment.hours();
     const startHour = this.siteSettings.working_day_start_hour;
     const endHour = this.siteSettings.working_day_end_hour;
@@ -148,18 +111,18 @@ export default createWidget("discourse-group-timezones", {
         (hours <= Math.min(endHour + extension, 23) && hours >= endHour)) &&
       workingDays.includes(moment.isoWeekday())
     );
-  },
+  }
 
-  _inWorkingHours(moment, workingDays) {
+  #inWorkingHours(moment, workingDays) {
     const hours = moment.hours();
     return (
       hours > this.siteSettings.working_day_start_hour &&
       hours < this.siteSettings.working_day_end_hour &&
       workingDays.includes(moment.isoWeekday())
     );
-  },
+  }
 
-  _utcOffset(offset) {
+  #utcOffset(offset) {
     const sign = Math.sign(offset) === 1 ? "+" : "-";
     offset = Math.abs(offset);
     let hours = Math.floor(offset / 60).toString();
@@ -170,9 +133,9 @@ export default createWidget("discourse-group-timezones", {
       /:00$/,
       ""
     )}`.replace(/-0/, "&nbsp;");
-  },
+  }
 
-  _workingDays() {
+  #workingDays() {
     const enMoment = moment().locale("en");
     const getIsoWeekday = (day) =>
       enMoment.localeData()._weekdays.indexOf(day) || 7;
@@ -180,5 +143,40 @@ export default createWidget("discourse-group-timezones", {
       .split("|")
       .filter(Boolean)
       .map((x) => getIsoWeekday(x));
-  },
-});
+  }
+
+  @action
+  handleFilterChange(event) {
+    this.filter = event.target.value;
+  }
+
+  <template>
+    <div class="group-timezones-header">
+      <TimeTraveller
+        @localTimeOffset={{this.localTimeOffset}}
+        @setOffset={{fn (mut this.localTimeOffset)}}
+      />
+      <span class="title">
+        {{i18n "group_timezones.group_availability" group=@group}}
+      </span>
+      <input
+        type="text"
+        placeholder={{i18n "group_timezones.search"}}
+        class="group-timezones-filter"
+        {{on "input" this.handleFilterChange}}
+      />
+    </div>
+    <div class="group-timezones-body">
+      {{#each this.groupedTimezones key="identifier" as |groupedTimezone|}}
+        {{#if (eq groupedTimezone.type "discourse-group-timezone-new-day")}}
+          <NewDay
+            @beforeDate={{groupedTimezone.beforeDate}}
+            @afterDate={{groupedTimezone.afterDate}}
+          />
+        {{else}}
+          <Timezone @groupedTimezone={{groupedTimezone}} />
+        {{/if}}
+      {{/each}}
+    </div>
+  </template>
+}

@@ -462,6 +462,9 @@ en:
         minimal:
           label: "Minimal event"
           checkbox_label: "Hide Going/Not going buttons and invitees status"
+        allow_chat:
+          label: "Chat integration"
+          checkbox_label: "Create and manage event specific chat channel"
         url:
           label: "URL"
           placeholder: "Optional"

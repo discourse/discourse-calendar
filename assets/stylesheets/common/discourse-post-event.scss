@@ -350,6 +350,7 @@ $show-interested: inherit;
 
   .event-url,
   .event-dates,
+  .event-chat-channel,
   .event-invitees-avatars-container {
     display: grid;
     grid-template-columns: 3em 1fr;
@@ -357,7 +358,7 @@ $show-interested: inherit;
     align-items: center;
     height: min-content;
 
-    .d-icon {
+    > .d-icon {
       color: var(--primary-high);
       margin: 0 auto;
       padding: 0;
@@ -398,12 +399,13 @@ $show-interested: inherit;
   .event-invitees-icon {
     position: relative;
     display: flex;
+    margin: 0 auto;
   }
 
   .event-invitees-icon .going {
     font-size: var(--font-down-3);
     position: absolute;
-    right: 4px;
+    right: -2px;
     bottom: -8px;
     background: var(--secondary);
     border-radius: 50%;

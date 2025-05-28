@@ -40,6 +40,10 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
     params.minimal = "true";
   }
 
+  if (event.chatEnabled) {
+    params.chatEnabled = "true";
+  }
+
   if (endsAt) {
     params.end = moment(endsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
   }
