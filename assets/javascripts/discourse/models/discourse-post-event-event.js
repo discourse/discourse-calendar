@@ -3,6 +3,7 @@ import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { bind } from "discourse/lib/decorators";
 import User from "discourse/models/user";
+import ChatChannel from "discourse/plugins/chat/discourse/models/chat-channel";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
 import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
 
@@ -29,6 +30,7 @@ export default class DiscoursePostEventEvent {
   @tracked status;
   @tracked post;
   @tracked minimal;
+  @tracked chatEnabled;
   @tracked canUpdateAttendance;
   @tracked canActOnDiscoursePostEvent;
   @tracked shouldDisplayInvitees;
@@ -38,6 +40,7 @@ export default class DiscoursePostEventEvent {
   @tracked recurrence;
   @tracked recurrenceRule;
   @tracked customFields;
+  @tracked channel;
 
   @tracked _watchingInvitee;
   @tracked _sampleInvitees;
@@ -63,6 +66,7 @@ export default class DiscoursePostEventEvent {
     this.isExpired = args.is_expired;
     this.isStandalone = args.is_standalone;
     this.minimal = args.minimal;
+    this.chatEnabled = args.chat_enabled;
     this.recurrenceRule = args.recurrence_rule;
     this.recurrence = args.recurrence;
     this.canUpdateAttendance = args.can_update_attendance;
@@ -72,6 +76,9 @@ export default class DiscoursePostEventEvent {
     this.stats = args.stats;
     this.reminders = args.reminders;
     this.customFields = EmberObject.create(args.custom_fields || {});
+    if (args.channel) {
+      this.channel = ChatChannel.create(args.channel);
+    }
   }
 
   get watchingInvitee() {
@@ -138,6 +145,7 @@ export default class DiscoursePostEventEvent {
     this.isExpired = event.isExpired;
     this.isStandalone = event.isStandalone;
     this.minimal = event.minimal;
+    this.chatEnabled = event.chatEnabled;
     this.recurrenceRule = event.recurrenceRule;
     this.recurrence = event.recurrence;
     this.canUpdateAttendance = event.canUpdateAttendance;

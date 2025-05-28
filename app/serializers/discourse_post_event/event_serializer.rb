@@ -30,6 +30,16 @@ module DiscoursePostEvent
     attributes :timezone
     attributes :url
     attributes :watching_invitee
+    attributes :chat_enabled
+    attributes :channel
+
+    def channel
+      ::Chat::ChannelSerializer.new(object.chat_channel, root: false, scope:)
+    end
+
+    def include_channel?
+      object.chat_enabled && defined?(::Chat::ChannelSerializer) && object.chat_channel.present?
+    end
 
     def can_act_on_discourse_post_event
       scope.can_act_on_discourse_post_event?(object)

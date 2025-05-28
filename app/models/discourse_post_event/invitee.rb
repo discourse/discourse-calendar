@@ -10,8 +10,9 @@ module DiscoursePostEvent
     belongs_to :user
 
     default_scope { joins(:user).includes(:user).where("users.id IS NOT NULL") }
-
     scope :with_status, ->(status) { where(status: Invitee.statuses[status]) }
+
+    after_commit :sync_chat_channel_members
 
     def self.statuses
       @statuses ||= Enum.new(going: 0, interested: 1, not_going: 2)
@@ -43,6 +44,11 @@ module DiscoursePostEvent
       User.real.where(
         id: GroupUser.where(group_id: Group.where(name: groups).select(:id)).select(:user_id),
       )
+    end
+
+    def sync_chat_channel_members
+      return if !self.event.chat_enabled?
+      ChatChannelSync.sync(self.event)
     end
 
     def update_topic_tracking!
