@@ -2,10 +2,14 @@ import { tracked } from "@glimmer/tracking";
 import EmberObject from "@ember/object";
 import { TrackedArray } from "@ember-compat/tracked-built-ins";
 import { bind } from "discourse/lib/decorators";
+import { optionalRequire } from "discourse/lib/utilities";
 import User from "discourse/models/user";
-import ChatChannel from "discourse/plugins/chat/discourse/models/chat-channel";
 import DiscoursePostEventEventStats from "./discourse-post-event-event-stats";
 import DiscoursePostEventInvitee from "./discourse-post-event-invitee";
+
+const ChatChannel = optionalRequire(
+  "discourse/plugins/chat/discourse/models/chat-channel"
+);
 
 const DEFAULT_REMINDER = {
   type: "notification",
@@ -76,7 +80,7 @@ export default class DiscoursePostEventEvent {
     this.stats = args.stats;
     this.reminders = args.reminders;
     this.customFields = EmberObject.create(args.custom_fields || {});
-    if (args.channel) {
+    if (args.channel && ChatChannel) {
       this.channel = ChatChannel.create(args.channel);
     }
   }
