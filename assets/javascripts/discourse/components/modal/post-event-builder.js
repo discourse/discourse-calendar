@@ -133,6 +133,7 @@ export default class PostEventBuilder extends Component {
   }
 
   get showChat() {
+    // As of June 2025, chat channel creation is only available to admins and moderators
     return (
       this.siteSettings.chat_enabled &&
       (this.currentUser.admin || this.currentUser.moderator)
