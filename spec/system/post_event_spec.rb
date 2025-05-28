@@ -102,7 +102,7 @@ describe "Post event", type: :system do
     expect(page).to have_no_css(".send-pm-to-creator")
   end
 
-  it "persists changes" do
+  it "persists changes", trace: true, video: true do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
     dropdown = PageObjects::Components::SelectKit.new(".toolbar-popup-menu-options")
