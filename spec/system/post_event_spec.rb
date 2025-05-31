@@ -116,10 +116,6 @@ describe "Post event", type: :system do
     dropdown.expand
     dropdown.select_row_by_value("every_day")
     find(".d-modal .recurrence-until .date-picker").fill_in(with: "#{1.year.from_now.year}-12-30")
-    dropdown =
-      PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
-    dropdown.expand
-    dropdown.select_row_by_name("02:00")
     find(".d-modal .btn-primary").click
     composer.submit
 
@@ -134,9 +130,6 @@ describe "Post event", type: :system do
     expect(page).to have_selector(".d-modal .recurrence-until .date-picker") do |input|
       input.value == "#{1.year.from_now.year}-12-30"
     end
-    dropdown =
-      PageObjects::Components::SelectKit.new(".d-modal .recurrence-until .d-time-input .select-kit")
-    expect(dropdown).to have_selected_name("02:00")
   end
 
   context "when using bulk inline invite" do

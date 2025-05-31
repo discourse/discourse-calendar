@@ -216,7 +216,7 @@
               @label="discourse_post_event.builder_modal.recurrence_until.label"
               class="recurrence-until"
             >
-              <DateTimeInput
+              <DateInput
                 @date={{this.recurrenceUntil}}
                 @onChange={{fn (mut @model.event.recurrenceUntil)}}
                 @timezone={{@model.event.timezone}}
