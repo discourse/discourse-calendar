@@ -12,6 +12,7 @@ const EVENT_ATTRIBUTES = {
   status: { default: "public" },
   timezone: { default: "UTC" },
   allowedGroups: { default: null },
+  recurrence: { default: null },
   recurrenceUntil: { default: null },
   chatEnabled: { default: null },
   chatChannelId: { default: null },
