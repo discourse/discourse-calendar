@@ -46,13 +46,13 @@ module DiscoursePostEvent
 
     def upcoming_dates
       difference = object.original_ends_at ? object.original_ends_at - object.original_starts_at : 0
-
       RRuleGenerator
         .generate(
-          object.starts_at.in_time_zone(object.timezone),
-          tzid: object.timezone,
+          starts_at: object.original_starts_at,
+          timezone: object.timezone,
           max_years: 1,
-          recurrence_type: object.recurrence,
+          recurrence: object.recurrence,
+          recurrence_until: object.recurrence_until,
         )
         .map { |date| { starts_at: date, ends_at: date + difference.seconds } }
     end

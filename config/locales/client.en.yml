@@ -448,6 +448,8 @@ en:
           periods:
             before: "before"
             after: "after"
+        recurrence_until:
+          label: "Until"
         recurrence:
           label: "Recurrence"
           none: "No recurrence"

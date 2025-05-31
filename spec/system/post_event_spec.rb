@@ -45,25 +45,25 @@ describe "Post event", type: :system do
 
     expect(page).to have_content(title)
 
-    page.find(".more-dropdown").click
-    page.find(".close-event").click
-    page.find("#dialog-holder .btn-primary").click
+    find(".more-dropdown").click
+    find(".close-event").click
+    find("#dialog-holder .btn-primary").click
 
     expect(page).to have_css(".discourse-post-event .status-and-creators .status.closed")
 
     # click on a different button to ensure more dropdown is collapsed before reopening
-    page.find(".btn-primary.create").click
-    page.find(".more-dropdown").click
-    page.find(".open-event").click
-    page.find("#dialog-holder .btn-primary").click
+    find(".btn-primary.create").click
+    find(".more-dropdown").click
+    find(".open-event").click
+    find("#dialog-holder .btn-primary").click
 
-    expect(page).to have_css(".discourse-post-event .status-and-creators .status.public")
+    expect(page).to have_css(".going-button")
 
-    page.find(".going-button").click
-    page.find(".discourse-post-event-more-menu-trigger").click
-    page.find(".show-all-participants").click
-    page.find(".d-modal input.filter").fill_in(with: "jan")
-    page.find(".d-modal .add-invitee").click
+    find(".going-button").click
+    find(".discourse-post-event-more-menu-trigger").click
+    find(".show-all-participants").click
+    find(".d-modal input.filter").fill_in(with: "jan")
+    find(".d-modal .add-invitee").click
 
     topic_page = PageObjects::Pages::Topic.new
 
@@ -105,25 +105,31 @@ describe "Post event", type: :system do
   it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
-    find(".toolbar-popup-menu-options .dropdown-select-box-header").click
-    find(
-      ".toolbar-popup-menu-options [data-name='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']",
-    ).click
+    dropdown = PageObjects::Components::SelectKit.new(".toolbar-popup-menu-options")
+    dropdown.expand
+    dropdown.select_row_by_name(I18n.t("js.discourse_post_event.builder_modal.attach"))
     find(".d-modal input[name=status][value=private]").click
     find(".d-modal input.group-selector").send_keys("test_")
     find(".autocomplete.ac-group").click
     find(".d-modal .custom-field-input").fill_in(with: "custom value")
+    dropdown = PageObjects::Components::SelectKit.new(".available-recurrences")
+    dropdown.expand
+    dropdown.select_row_by_value("every_day")
+    find(".d-modal .recurrence-until .date-picker").fill_in(with: "#{1.year.from_now.year}-12-30")
     find(".d-modal .btn-primary").click
-
-    expect(page).to have_no_css(".d-modal")
-
     composer.submit
+
+    expect(page).to have_css(".discourse-post-event.is-loaded")
+
     find(".discourse-post-event-more-menu-trigger").click
     find(".edit-event").click
 
     expect(find(".d-modal input[name=status][value=private]").checked?).to eq(true)
     expect(find(".d-modal")).to have_text("test_group")
     expect(find(".d-modal .custom-field-input").value).to eq("custom value")
+    expect(page).to have_selector(".d-modal .recurrence-until .date-picker") do |input|
+      input.value == "#{1.year.from_now.year}-12-30"
+    end
   end
 
   context "when using bulk inline invite" do

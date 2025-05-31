@@ -21,6 +21,7 @@ module DiscoursePostEvent
     attributes :raw_invitees
     attributes :recurrence
     attributes :recurrence_rule
+    attributes :recurrence_until
     attributes :reminders
     attributes :sample_invitees
     attributes :should_display_invitees
@@ -138,8 +139,11 @@ module DiscoursePostEvent
     end
 
     def recurrence_rule
-      localized_start ||= self.starts_at.in_time_zone(self.timezone)
-      RRuleConfigurator.rule(object.recurrence, localized_start)
+      RRuleConfigurator.rule(
+        recurrence: object.recurrence,
+        starts_at: object.starts_at.in_time_zone(object.timezone),
+        recurrence_until: object.recurrence_until&.in_time_zone(object.timezone),
+      )
     end
   end
 end

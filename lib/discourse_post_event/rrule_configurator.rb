@@ -1,38 +1,42 @@
 # frozen_string_literal: true
 
 class RRuleConfigurator
-  def self.rule(recurrence_type, localized_start)
-    case recurrence_type
-    when "every_day"
-      "FREQ=DAILY"
-    when "every_month"
-      start_date = localized_start.beginning_of_month.to_date
-      end_date = localized_start.end_of_month.to_date
-      weekday = localized_start.strftime("%A")
+  def self.rule(recurrence:, starts_at:, recurrence_until: nil)
+    rule =
+      case recurrence
+      when "every_day"
+        "FREQ=DAILY"
+      when "every_month"
+        start_date = starts_at.beginning_of_month.to_date
+        end_date = starts_at.end_of_month.to_date
+        weekday = starts_at.strftime("%A")
 
-      count = 0
-      (start_date..end_date).each do |date|
-        count += 1 if date.strftime("%A") == weekday
-        break if date.day == localized_start.day
+        count = 0
+        (start_date..end_date).each do |date|
+          count += 1 if date.strftime("%A") == weekday
+          break if date.day == starts_at.day
+        end
+
+        "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
+      when "every_weekday"
+        "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR"
+      when "every_two_weeks"
+        "FREQ=WEEKLY;INTERVAL=2;"
+      when "every_four_weeks"
+        "FREQ=WEEKLY;INTERVAL=4;"
+      else
+        byday = starts_at.strftime("%A").upcase[0, 2]
+        "FREQ=WEEKLY;BYDAY=#{byday}"
       end
 
-      "FREQ=MONTHLY;BYDAY=#{count}#{weekday.upcase[0, 2]}"
-    when "every_weekday"
-      "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR"
-    when "every_two_weeks"
-      "FREQ=WEEKLY;INTERVAL=2;"
-    when "every_four_weeks"
-      "FREQ=WEEKLY;INTERVAL=4;"
-    else
-      byday = localized_start.strftime("%A").upcase[0, 2]
-      "FREQ=WEEKLY;BYDAY=#{byday}"
-    end
+    rule += ";UNTIL=#{recurrence_until.strftime("%Y%m%dT%H%M%SZ")}" if recurrence_until
+    rule
   end
 
-  def self.how_many_recurring_events(recurrence_type, max_years)
+  def self.how_many_recurring_events(recurrence:, max_years: nil)
     return 1 if !max_years
     per_year =
-      case recurrence_type
+      case recurrence
       when "every_month"
         12
       when "every_four_weeks"
