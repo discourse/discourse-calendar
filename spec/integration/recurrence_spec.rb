@@ -15,7 +15,7 @@ describe "discourse_post_event_recurrence" do
   end
 
   before do
-    freeze_time(starts_at)
+    freeze_time(starts_at + 1.minute)
 
     SiteSetting.calendar_enabled = true
     SiteSetting.discourse_post_event_enabled = true
@@ -98,7 +98,7 @@ describe "discourse_post_event_recurrence" do
     end
 
     it "sets the next day" do
-      freeze_time(post_event_1.original_starts_at)
+      freeze_time(post_event_1.original_starts_at + 1.minute)
       post_event_1.set_next_date
 
       expect(post_event_1.starts_at).to eq_time(Time.zone.parse("2020-09-14 19:00"))

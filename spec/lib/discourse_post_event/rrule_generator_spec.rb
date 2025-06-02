@@ -36,7 +36,7 @@ describe RRuleGenerator do
   describe "every day" do
     context "when a rule and time are given" do
       it "generates the rule" do
-        rrule = RRuleGenerator.generate(starts_at: time, recurrence: "every_day").first
+        rrule = RRuleGenerator.generate(starts_at: time, recurrence: "every_day", max_years: 1)[1]
         expect(rrule.to_s).to eq("2020-08-13 16:32:00 UTC")
       end
 

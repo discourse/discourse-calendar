@@ -19,23 +19,25 @@ describe "Upcoming Events", type: :system do
 
     it "shows the upcoming events" do
       visit("/upcoming-events")
-      expect(page).to have_css("#upcoming-events-calendar")
 
-      calendar = find("#upcoming-events-calendar")
-      expect(calendar).to have_css(".fc-event-container")
+      expect(page).to have_css(
+        "#upcoming-events-calendar .fc-event-container",
+        text: event.post.topic.title,
+      )
     end
   end
 
   context "when event is recurring" do
-    let(:fixed_time) { Time.utc(2018, 6, 5, 9, 30) }
+    let(:fixed_time) { Time.utc(2025, 6, 2, 19, 00) }
 
     before do
       freeze_time(fixed_time)
 
       event.update!(
-        original_starts_at: fixed_time + 1.hour,
-        recurrence: "every_day",
-        recurrence_until: 3.days.from_now,
+        original_starts_at: Time.utc(2025, 3, 18, 13, 00),
+        timezone: "Australia/Brisbane",
+        recurrence: "every_week",
+        recurrence_until: 21.days.from_now,
       )
     end
 
@@ -44,6 +46,18 @@ describe "Upcoming Events", type: :system do
       visit("/upcoming-events")
 
       expect(page).to have_css(".fc-day-grid-event", count: 3)
+      expect(page).to have_css(
+        ".fc-week:nth-child(2) .fc-content-skeleton:nth-child(2)",
+        text: event.post.topic.title,
+      )
+      expect(page).to have_css(
+        ".fc-week:nth-child(3) .fc-content-skeleton:nth-child(2)",
+        text: event.post.topic.title,
+      )
+      expect(page).to have_css(
+        ".fc-week:nth-child(4) .fc-content-skeleton:nth-child(2)",
+        text: event.post.topic.title,
+      )
     end
   end
 end
