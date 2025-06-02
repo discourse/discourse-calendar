@@ -312,7 +312,7 @@ module DiscoursePostEvent
           recurrence: event_params[:recurrence],
           recurrence_until: parsed_recurrence_until,
           timezone: event_params[:timezone],
-          show_local_time: event_params[:"show-local-time"],
+          show_local_time: event_params[:"show-local-time"] == "true",
           status: Event.statuses[event_params[:status]&.to_sym] || event.status,
           reminders: event_params[:reminders],
           raw_invitees: event_params[:"allowed-groups"]&.split(","),
