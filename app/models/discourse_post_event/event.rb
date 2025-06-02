@@ -312,6 +312,7 @@ module DiscoursePostEvent
           recurrence: event_params[:recurrence],
           recurrence_until: parsed_recurrence_until,
           timezone: event_params[:timezone],
+          show_local_time: event_params[:"show-local-time"] == "true",
           status: Event.statuses[event_params[:status]&.to_sym] || event.status,
           reminders: event_params[:reminders],
           raw_invitees: event_params[:"allowed-groups"]&.split(","),
@@ -416,7 +417,6 @@ end
 #  original_starts_at :datetime         not null
 #  original_ends_at   :datetime
 #  deleted_at         :datetime
-#  recurrence_until   :datetime
 #  raw_invitees       :string           is an Array
 #  name               :string
 #  url                :string(1000)
@@ -428,4 +428,6 @@ end
 #  closed             :boolean          default(FALSE), not null
 #  chat_enabled       :boolean          default(FALSE), not null
 #  chat_channel_id    :bigint
+#  recurrence_until   :datetime
+#  show_local_time    :boolean          default(FALSE), not null
 #

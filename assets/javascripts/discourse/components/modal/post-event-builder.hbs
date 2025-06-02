@@ -62,6 +62,21 @@
             />
           </EventField>
 
+          <EventField
+            class="show-local-time"
+            @label="discourse_post_event.builder_modal.show_local_time.label"
+          >
+            <label class="checkbox-label">
+              <Input @type="checkbox" @checked={{@model.event.showLocalTime}} />
+              <span class="message">
+                {{i18n
+                  "discourse_post_event.builder_modal.show_local_time.description"
+                  timezone=@model.event.timezone
+                }}
+              </span>
+            </label>
+          </EventField>
+
           <EventField @label="discourse_post_event.builder_modal.status.label">
             <label class="radio-label">
               <RadioButton

@@ -279,7 +279,6 @@ export default class PostEventBuilder extends Component {
         this.event,
         this.siteSettings
       );
-
       const newRaw = replaceRaw(eventParams, raw);
       if (newRaw) {
         const props = {

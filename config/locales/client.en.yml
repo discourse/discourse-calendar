@@ -432,6 +432,9 @@ en:
         update: "Save"
         attach: "Create event"
         add_reminder: "Add reminder"
+        show_local_time:
+          label: "Show local time"
+          description: "Dates and times will be displayed using: %{timezone}. Use this for events at a location, so times reflect the timezone where the event takes place."
         timezone:
           label: Timezone
           remove_timezone: No timezone (UTC)

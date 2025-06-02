@@ -33,7 +33,10 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
     params.recurrenceUntil = moment(event.recurrenceUntil)
       .tz(eventTz)
       .format("YYYY-MM-DD HH:mm");
-    moment(startsAt).tz(eventTz).format("YYYY-MM-DD HH:mm");
+  }
+
+  if (event.showLocalTime) {
+    params.showLocalTime = "true";
   }
 
   if (event.minimal) {
