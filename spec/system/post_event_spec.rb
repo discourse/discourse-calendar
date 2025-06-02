@@ -34,7 +34,7 @@ describe "Post event", type: :system do
       PostCreator.create(
         admin,
         title: "My test meetup event",
-        raw: "[event showLocalTime='true' start='2222-02-22 14:22']\n[/event]",
+        raw: "[event timezone='Japan' showLocalTime='true' start='2222-02-22 14:22']\n[/event]",
       )
 
     visit(post.topic.url)

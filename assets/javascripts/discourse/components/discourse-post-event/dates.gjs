@@ -61,7 +61,6 @@ export default class DiscoursePostEventDates extends Component {
       .map(([key, value]) => `${key}=${value}`)
       .join(" ");
 
-    console.log(content);
     return `[${content}]`;
   }
 

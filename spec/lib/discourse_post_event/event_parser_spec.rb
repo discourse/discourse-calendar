@@ -43,7 +43,7 @@ describe DiscoursePostEvent::EventParser do
   it "parses showLocalTime" do
     events =
       parser.extract_events(build_post(user, '[event start="foo" showLocalTime="true"]\n[/event]'))
-    expect(events[0][:"show-local-time"]).to eq(true)
+    expect(events[0][:"show-local-time"]).to eq("true")
   end
 
   it "parses recurrenceUntil" do

@@ -36,7 +36,9 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
   }
 
   if (event.showLocalTime) {
-    params.showLocalTime = event.showLocalTime;
+    params.showLocalTime = "true";
+  } else {
+    params.showLocalTime = "false";
   }
 
   if (event.minimal) {
