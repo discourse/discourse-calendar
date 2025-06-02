@@ -11,6 +11,7 @@ const EVENT_ATTRIBUTES = {
   closed: { default: null },
   status: { default: "public" },
   timezone: { default: "UTC" },
+  localTimezone: { default: null },
   allowedGroups: { default: null },
   recurrence: { default: null },
   recurrenceUntil: { default: null },

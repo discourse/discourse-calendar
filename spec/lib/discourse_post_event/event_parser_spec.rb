@@ -40,6 +40,20 @@ describe DiscoursePostEvent::EventParser do
     expect(events[0][:end]).to eq("bar")
   end
 
+  it "parses localTimezone" do
+    events =
+      parser.extract_events(build_post(user, '[event start="foo" localTimezone="Japan"]\n[/event]'))
+    expect(events[0][:"local-timezone"]).to eq("Japan")
+  end
+
+  it "parses recurrenceUntil" do
+    events =
+      parser.extract_events(
+        build_post(user, '[event start="foo" recurrenceUntil="2025-06-21 23:59"]\n[/event]'),
+      )
+    expect(events[0][:"recurrence-until"]).to eq("2025-06-21 23:59")
+  end
+
   it "works with escaped string" do
     events =
       parser.extract_events(

@@ -9,6 +9,11 @@ const EventField = <template>
           <span class="label">{{i18n @label}}</span>
         </div>
       {{/if}}
+      {{#if @description}}
+        <div class="event-field-description">
+          <span class="description">{{i18n @description}}</span>
+        </div>
+      {{/if}}
 
       <div class="event-field-control">
         {{yield}}

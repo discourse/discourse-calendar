@@ -29,6 +29,19 @@ describe "Post event", type: :system do
     expect(page).to have_css(".event-info .name", text: "<script>alert(1);</script>")
   end
 
+  it "shows local timezone" do
+    post =
+      PostCreator.create(
+        admin,
+        title: "My test meetup event",
+        raw: "[event localTimezone='Japan' start='2222-02-22 14:22']\n[/event]",
+      )
+
+    visit(post.topic.url)
+
+    expect(page).to have_css(".discourse-local-date", text: "Japan")
+  end
+
   it "can create, close, and open an event" do
     visit "/new-topic"
     title = "My upcoming l33t event"

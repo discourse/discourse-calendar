@@ -312,6 +312,7 @@ module DiscoursePostEvent
           recurrence: event_params[:recurrence],
           recurrence_until: parsed_recurrence_until,
           timezone: event_params[:timezone],
+          local_timezone: event_params[:"local-timezone"],
           status: Event.statuses[event_params[:status]&.to_sym] || event.status,
           reminders: event_params[:reminders],
           raw_invitees: event_params[:"allowed-groups"]&.split(","),
@@ -424,6 +425,7 @@ end
 #  reminders          :string
 #  recurrence         :string
 #  timezone           :string
+#  local_timezone     :string
 #  minimal            :boolean
 #  closed             :boolean          default(FALSE), not null
 #  chat_enabled       :boolean          default(FALSE), not null

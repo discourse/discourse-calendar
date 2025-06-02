@@ -62,6 +62,19 @@
             />
           </EventField>
 
+          <EventField
+            class="local-timezone"
+            @label="discourse_post_event.builder_modal.local_timezone.label"
+            @description="discourse_post_event.builder_modal.local_timezone.description"
+          >
+            <TimezoneInput
+              @value={{@model.event.localTimezone}}
+              @onChange={{fn (mut @model.event.localTimezone)}}
+              class="input-xxlarge"
+              @none="discourse_post_event.builder_modal.timezone.remove_timezone"
+            />
+          </EventField>
+
           <EventField @label="discourse_post_event.builder_modal.status.label">
             <label class="radio-label">
               <RadioButton
