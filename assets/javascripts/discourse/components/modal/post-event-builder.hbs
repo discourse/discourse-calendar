@@ -205,6 +205,7 @@
               class="available-recurrences"
               @value={{@model.event.recurrence}}
               @content={{this.availableRecurrences}}
+              @onChange={{this.setRecurrence}}
               @options={{hash
                 none="discourse_post_event.builder_modal.recurrence.none"
               }}
@@ -218,7 +219,7 @@
             >
               <DateInput
                 @date={{this.recurrenceUntil}}
-                @onChange={{fn (mut @model.event.recurrenceUntil)}}
+                @onChange={{this.setRecurrenceUntil}}
                 @timezone={{@model.event.timezone}}
               />
             </EventField>

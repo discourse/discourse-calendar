@@ -172,6 +172,26 @@ export default class PostEventBuilder extends Component {
   }
 
   @action
+  setRecurrence(newRecurrence) {
+    if (!newRecurrence) {
+      this.event.recurrence = null;
+      this.event.recurrenceUntil = null;
+      return;
+    }
+
+    this.event.recurrence = newRecurrence;
+  }
+
+  @action
+  setRecurrenceUntil(until) {
+    if (!until) {
+      this.event.recurrenceUntil = null;
+    } else {
+      this.event.recurrenceUntil = moment(until).endOf("day").toDate();
+    }
+  }
+
+  @action
   setRawInvitees(_, newInvitees) {
     this.event.rawInvitees = newInvitees;
   }
