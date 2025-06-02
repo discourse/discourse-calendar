@@ -40,10 +40,10 @@ describe DiscoursePostEvent::EventParser do
     expect(events[0][:end]).to eq("bar")
   end
 
-  it "parses localTimezone" do
+  it "parses showLocalTime" do
     events =
-      parser.extract_events(build_post(user, '[event start="foo" localTimezone="Japan"]\n[/event]'))
-    expect(events[0][:"local-timezone"]).to eq("Japan")
+      parser.extract_events(build_post(user, '[event start="foo" showLocalTime="true"]\n[/event]'))
+    expect(events[0][:"show-local-time"]).to eq(true)
   end
 
   it "parses recurrenceUntil" do

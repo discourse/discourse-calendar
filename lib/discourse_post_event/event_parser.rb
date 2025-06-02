@@ -13,7 +13,7 @@ module DiscoursePostEvent
       :recurrence,
       :"recurrence-until",
       :timezone,
-      :"local-timezone",
+      :"show-local-time",
       :minimal,
       :closed,
       :"chat-enabled",

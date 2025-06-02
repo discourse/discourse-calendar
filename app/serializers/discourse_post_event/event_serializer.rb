@@ -29,7 +29,7 @@ module DiscoursePostEvent
     attributes :stats
     attributes :status
     attributes :timezone
-    attributes :local_timezone
+    attributes :show_local_time
     attributes :url
     attributes :watching_invitee
     attributes :chat_enabled

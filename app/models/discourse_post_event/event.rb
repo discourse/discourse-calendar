@@ -312,7 +312,7 @@ module DiscoursePostEvent
           recurrence: event_params[:recurrence],
           recurrence_until: parsed_recurrence_until,
           timezone: event_params[:timezone],
-          local_timezone: event_params[:"local-timezone"],
+          show_local_time: event_params[:"show-local-time"],
           status: Event.statuses[event_params[:status]&.to_sym] || event.status,
           reminders: event_params[:reminders],
           raw_invitees: event_params[:"allowed-groups"]&.split(","),
@@ -429,5 +429,5 @@ end
 #  chat_enabled       :boolean          default(FALSE), not null
 #  chat_channel_id    :bigint
 #  recurrence_until   :datetime
-#  local_timezone     :string(255)
+#  show_local_time    :boolean          default(FALSE), not null
 #

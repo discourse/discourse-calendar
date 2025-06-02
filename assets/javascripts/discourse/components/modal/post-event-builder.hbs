@@ -63,16 +63,18 @@
           </EventField>
 
           <EventField
-            class="local-timezone"
-            @label="discourse_post_event.builder_modal.local_timezone.label"
-            @description="discourse_post_event.builder_modal.local_timezone.description"
+            class="show-local-time"
+            @label="discourse_post_event.builder_modal.show_local_time.label"
           >
-            <TimezoneInput
-              @value={{@model.event.localTimezone}}
-              @onChange={{fn (mut @model.event.localTimezone)}}
-              class="input-xxlarge"
-              @none="discourse_post_event.builder_modal.timezone.remove_timezone"
-            />
+            <label class="checkbox-label">
+              <Input @type="checkbox" @checked={{@model.event.showLocalTime}} />
+              <span class="message">
+                {{i18n
+                  "discourse_post_event.builder_modal.show_local_time.description"
+                  timezone=@model.event.timezone
+                }}
+              </span>
+            </label>
           </EventField>
 
           <EventField @label="discourse_post_event.builder_modal.status.label">

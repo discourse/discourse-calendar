@@ -35,8 +35,8 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
       .format("YYYY-MM-DD HH:mm");
   }
 
-  if (event.localTimezone) {
-    params.localTimezone = event.localTimezone;
+  if (event.showLocalTime) {
+    params.showLocalTime = event.showLocalTime;
   }
 
   if (event.minimal) {

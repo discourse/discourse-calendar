@@ -53,14 +53,15 @@ export default class DiscoursePostEventDates extends Component {
       timezone: this.timezone,
     };
 
-    if (this.args.event.localTimezone) {
-      bbcode.displayedTimezone = this.args.event.localTimezone;
+    if (this.args.event.showLocalTime) {
+      bbcode.displayedTimezone = this.args.event.timezone;
     }
 
     const content = Object.entries(bbcode)
       .map(([key, value]) => `${key}=${value}`)
       .join(" ");
 
+    console.log(content);
     return `[${content}]`;
   }
 
