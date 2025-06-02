@@ -417,7 +417,6 @@ end
 #  original_starts_at :datetime         not null
 #  original_ends_at   :datetime
 #  deleted_at         :datetime
-#  recurrence_until   :datetime
 #  raw_invitees       :string           is an Array
 #  name               :string
 #  url                :string(1000)
@@ -425,9 +424,10 @@ end
 #  reminders          :string
 #  recurrence         :string
 #  timezone           :string
-#  local_timezone     :string
 #  minimal            :boolean
 #  closed             :boolean          default(FALSE), not null
 #  chat_enabled       :boolean          default(FALSE), not null
 #  chat_channel_id    :bigint
+#  recurrence_until   :datetime
+#  local_timezone     :string(255)
 #
