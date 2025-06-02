@@ -14,7 +14,7 @@ class RRuleGenerator
     rrule = set_mandatory_options(rrule, starts_at)
 
     ::RRule::Rule
-      .new(stringify(rrule), dtstart: starts_at, exdate: [starts_at], tzid: timezone)
+      .new(stringify(rrule), dtstart: starts_at + 1.minute, tzid: timezone)
       .between(Time.current, Time.current + 14.months)
       .first(RRuleConfigurator.how_many_recurring_events(recurrence:, max_years:))
   end
