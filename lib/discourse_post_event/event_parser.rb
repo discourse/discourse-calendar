@@ -11,6 +11,7 @@ module DiscoursePostEvent
       :name,
       :reminders,
       :recurrence,
+      :"recurrence-until",
       :timezone,
       :minimal,
       :closed,

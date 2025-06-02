@@ -3,16 +3,20 @@
 require "rrule"
 
 class RRuleGenerator
-  def self.generate(starts_at, tzid: nil, max_years: nil, recurrence_type: "every_week")
-    tzid ||= "UTC"
-
-    rrule = generate_hash(RRuleConfigurator.rule(recurrence_type, starts_at))
+  def self.generate(
+    starts_at:,
+    timezone: "UTC",
+    max_years: nil,
+    recurrence: "every_week",
+    recurrence_until: nil
+  )
+    rrule = generate_hash(RRuleConfigurator.rule(recurrence_until:, recurrence:, starts_at:))
     rrule = set_mandatory_options(rrule, starts_at)
 
     ::RRule::Rule
-      .new(stringify(rrule), dtstart: starts_at, exdate: [starts_at], tzid: tzid)
+      .new(stringify(rrule), dtstart: starts_at + 1.minute, tzid: timezone)
       .between(Time.current, Time.current + 14.months)
-      .first(RRuleConfigurator.how_many_recurring_events(recurrence_type, max_years))
+      .first(RRuleConfigurator.how_many_recurring_events(recurrence:, max_years:))
   end
 
   private

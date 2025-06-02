@@ -26,6 +26,13 @@ export default class PostEventBuilder extends Component {
     this.event.endsAt &&
     moment(this.event.endsAt).tz(this.event.timezone || "UTC");
 
+  get recurrenceUntil() {
+    return (
+      this.event.recurrenceUntil &&
+      moment(this.event.recurrenceUntil).tz(this.event.timezone || "UTC")
+    );
+  }
+
   get event() {
     return this.args.model.event;
   }
@@ -162,6 +169,26 @@ export default class PostEventBuilder extends Component {
   onChangeStatus(newStatus) {
     this.event.rawInvitees = [];
     this.event.status = newStatus;
+  }
+
+  @action
+  setRecurrence(newRecurrence) {
+    if (!newRecurrence) {
+      this.event.recurrence = null;
+      this.event.recurrenceUntil = null;
+      return;
+    }
+
+    this.event.recurrence = newRecurrence;
+  }
+
+  @action
+  setRecurrenceUntil(until) {
+    if (!until) {
+      this.event.recurrenceUntil = null;
+    } else {
+      this.event.recurrenceUntil = moment(until).endOf("day").toDate();
+    }
   }
 
   @action
