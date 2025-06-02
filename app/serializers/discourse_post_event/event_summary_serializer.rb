@@ -46,9 +46,10 @@ module DiscoursePostEvent
 
     def upcoming_dates
       difference = object.original_ends_at ? object.original_ends_at - object.original_starts_at : 0
+
       RRuleGenerator
         .generate(
-          starts_at: object.original_starts_at,
+          starts_at: object.original_starts_at.in_time_zone(object.timezone),
           timezone: object.timezone,
           max_years: 1,
           recurrence: object.recurrence,

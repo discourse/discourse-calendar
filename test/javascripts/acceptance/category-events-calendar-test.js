@@ -54,6 +54,16 @@ acceptance("Discourse Calendar - Category Events Calendar", function (needs) {
               {
                 starts_at: moment()
                   .tz("Asia/Calcutta")
+                  .add(1, "days")
+                  .format("YYYY-MM-DDT15:14:00.000Z"),
+                ends_at: moment()
+                  .tz("Asia/Calcutta")
+                  .add(1, "days")
+                  .format("YYYY-MM-DDT16:14:00.000Z"),
+              },
+              {
+                starts_at: moment()
+                  .tz("Asia/Calcutta")
                   .add(2, "days")
                   .format("YYYY-MM-DDT15:14:00.000Z"),
                 ends_at: moment()

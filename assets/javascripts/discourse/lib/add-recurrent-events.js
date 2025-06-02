@@ -4,6 +4,10 @@ import DiscoursePostEventEvent from "../models/discourse-post-event-event";
 export default function addRecurrentEvents(events) {
   try {
     return events.flatMap((event) => {
+      if (!event.upcomingDates?.length) {
+        return [event];
+      }
+
       const upcomingEvents =
         event.upcomingDates?.map((upcomingDate) =>
           DiscoursePostEventEvent.create({
@@ -15,7 +19,7 @@ export default function addRecurrentEvents(events) {
           })
         ) || [];
 
-      return [event, ...upcomingEvents];
+      return upcomingEvents;
     });
   } catch (error) {
     console.error("Failed to retrieve events:", error);
