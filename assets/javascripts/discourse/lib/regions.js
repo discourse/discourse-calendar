@@ -264,12 +264,14 @@ export const HOLIDAY_REGIONS = [
   "th",
   "ng",
   "ke",
+  "zw",
 ];
 
 export const TIME_ZONE_TO_REGION = {
   "Africa/Accra": "gh",
   "Africa/Casablanca": "ma",
   "Africa/Ceuta": "es",
+  "Africa/Harare": "zw"
   "Africa/Johannesburg": "za",
   "Africa/Lagos": "ng",
   "Africa/Nairobi": "ke",
