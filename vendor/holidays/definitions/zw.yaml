@@ -1,0 +1,204 @@
+# Zimbabwe holiday definitions for the Ruby Holiday gem.
+#
+# Updated: 2025-06-03
+# Sources:
+# - https://en.wikipedia.org/wiki/Public_holidays_in_Zimbabwe
+# - https://www.timeanddate.com/holidays/zimbabwe/2025
+---
+months:
+  0:
+  - name: Good Friday
+    regions: [zw]
+    function: easter(year)
+    function_modifier: -2
+  - name: Easter Monday
+    regions: [zw]
+    function: easter(year)
+    function_modifier: 1
+  1:
+  - name: New Year's Day
+    regions: [zw]
+    mday: 1
+    observed: to_monday_if_sunday(date)
+  2:
+  - name: Robert Gabriel Mugabe National Youth Day
+    regions: [zw]
+    mday: 21
+    observed: to_monday_if_sunday(date)
+  4:
+  - name: Independence Day
+    regions: [zw]
+    mday: 18
+    observed: to_monday_if_sunday(date)
+  5:
+  - name: Workers' Day
+    regions: [zw]
+    mday: 1
+    observed: to_monday_if_sunday(date)
+  - name: Africa Day
+    regions: [zw]
+    mday: 25
+    observed: to_monday_if_sunday(date)
+  8:
+  - name: Heroes' Day
+    regions: [zw]
+    mday: 8
+    observed: to_monday_if_weekend(date)
+  - name: Defence Forces Day
+    regions: [zw]
+    mday: 9
+    observed: to_monday_if_weekend(date)
+  12:
+  - name: Unity Day
+    regions: [zw]
+    mday: 22
+    observed: to_monday_if_sunday(date)
+  - name: Christmas Day
+    regions: [zw]
+    mday: 25
+    observed: to_monday_if_sunday(date)
+  - name: Boxing Day
+    regions: [zw]
+    mday: 26
+    observed: to_weekday_if_boxing_weekend(date)
+
+# Add tests for each holiday
+tests:
+  # New Year's Day tests
+  - given:
+      date: '2023-01-01'
+      regions: ["zw"]
+    expect:
+      name: "New Year's Day"
+  - given:
+      date: '2023-01-02'  # January 1, 2023 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "New Year's Day"
+      
+  # Good Friday tests
+  - given:
+      date: '2023-04-07'  # Good Friday in 2023
+      regions: ["zw"]
+    expect:
+      name: "Good Friday"
+  - given:
+      date: '2024-03-29'  # Good Friday in 2024
+      regions: ["zw"]
+    expect:
+      name: "Good Friday"
+      
+  # Easter Monday tests
+  - given:
+      date: '2023-04-10'  # Easter Monday in 2023
+      regions: ["zw"]
+    expect:
+      name: "Easter Monday"
+  - given:
+      date: '2024-04-01'  # Easter Monday in 2024
+      regions: ["zw"]
+    expect:
+      name: "Easter Monday"
+      
+  # Independence Day tests
+  - given:
+      date: '2023-04-18'
+      regions: ["zw"]
+    expect:
+      name: "Independence Day"
+  - given:
+      date: '2022-04-18'
+      regions: ["zw"]
+    expect:
+      name: "Independence Day"
+  - given:
+      date: '2027-04-19'  # April 18, 2027 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Independence Day"
+      
+  # Workers' Day tests
+  - given:
+      date: '2023-05-01'
+      regions: ["zw"]
+    expect:
+      name: "Workers' Day"
+  - given:
+      date: '2022-05-02'  # May 1, 2022 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Workers' Day"
+      
+  # Africa Day tests
+  - given:
+      date: '2023-05-25'
+      regions: ["zw"]
+    expect:
+      name: "Africa Day"
+  - given:
+      date: '2025-05-26'  # May 25, 2025 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Africa Day"
+      
+  # Heroes' Day tests
+  - given:
+      date: '2023-08-08'
+      regions: ["zw"]
+    expect:
+      name: "Heroes' Day"
+  - given:
+      date: '2026-08-10'  # August 8, 2026 is a Saturday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Heroes' Day"
+      
+  # Defence Forces Day tests
+  - given:
+      date: '2023-08-09'
+      regions: ["zw"]
+    expect:
+      name: "Defence Forces Day"
+  - given:
+      date: '2026-08-10'  # August 9, 2026 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Defence Forces Day"
+      
+  # Christmas Day tests
+  - given:
+      date: '2023-12-25'
+      regions: ["zw"]
+    expect:
+      name: "Christmas Day"
+  - given:
+      date: '2022-12-26'  # December 25, 2022 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Christmas Day"
+      
+  # Boxing Day tests
+  - given:
+      date: '2023-12-26'
+      regions: ["zw"]
+    expect:
+      name: "Boxing Day"
+  - given:
+      date: '2021-12-28'  # December 26, 2021 is a Sunday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Boxing Day"
+  - given:
+      date: '2026-12-28'  # December 26, 2026 is a Saturday
+      regions: ["zw"]
+      options: ["observed"]
+    expect:
+      name: "Boxing Day"
