@@ -452,7 +452,7 @@ en:
             before: "before"
             after: "after"
         recurrence_until:
-          label: "Until"
+          label: "Until (included)"
         recurrence:
           label: "Recurrence"
           none: "No recurrence"
