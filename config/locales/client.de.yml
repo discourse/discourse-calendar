@@ -435,6 +435,9 @@ de:
         update: "Speichern"
         attach: "Ereignis erstellen"
         add_reminder: "Erinnerung hinzufügen"
+        show_local_time:
+          label: "Ortszeit anzeigen"
+          description: "%{timezone} wird für die Anzeige von Daten und Zeiten verwendet. Verwende dies für Veranstaltungen an einem Ort, damit die Zeiten die Zeitzone widerspiegeln, in der die Veranstaltung stattfindet."
         timezone:
           label: Zeitzone
           remove_timezone: Keine Zeitzone (UTC)
@@ -463,6 +466,9 @@ de:
         minimal:
           label: "Minimales Event"
           checkbox_label: "Schaltflächen „Dabei“/„Nicht dabei“ und Status der eingeladenen Personen ausblenden"
+        allow_chat:
+          label: "Chat-Integration"
+          checkbox_label: "Erstelle und verwalte ereignisspezifische Chat-Kanäle"
         url:
           label: "URL"
           placeholder: "Optional"
