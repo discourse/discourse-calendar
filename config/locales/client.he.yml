@@ -445,6 +445,9 @@ he:
         update: "שמירה"
         attach: "יצירת אירוע"
         add_reminder: "הוספת תזכורת"
+        show_local_time:
+          label: "הצגת זמן מקומי"
+          description: "תאריכים ושעות יוצגו באמצעות: %{timezone}. יש להשתמש באפשרות הזאת עבור אירועים במיקום מסוים, כך שהזמנים ישקפו את אזור הזמן שבו האירוע מתרחש."
         timezone:
           label: אזור זמן
           remove_timezone: אין אזור זמן (UTC)
@@ -473,6 +476,9 @@ he:
         minimal:
           label: "אירוע מזערי"
           checkbox_label: "הסתרת כפתורי הצטרפות/העדרות ומצב מוזמנים"
+        allow_chat:
+          label: "שילוב צ׳אט"
+          checkbox_label: "יצירה וניהול של ערוץ צ׳אט ייעודי לאירוע"
         url:
           label: "כתובת"
           placeholder: "רשות"
