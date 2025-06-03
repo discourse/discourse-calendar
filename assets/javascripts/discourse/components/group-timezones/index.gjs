@@ -11,6 +11,8 @@ import NewDay from "./new-day";
 import TimeTraveller from "./time-traveller";
 import Timezone from "./timezone";
 
+const nbsp = "\xa0";
+
 export default class GroupTimezones extends Component {
   @service siteSettings;
 
@@ -132,7 +134,7 @@ export default class GroupTimezones extends Component {
     return `${sign}${hours.replace(/^0(\d)/, "$1")}${minutes.replace(
       /:00$/,
       ""
-    )}`.replace(/-0/, "&nbsp;");
+    )}`.replace(/-0/, nbsp);
   }
 
   #workingDays() {
