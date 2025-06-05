@@ -1,8 +1,8 @@
 import { render } from "@ember/test-helpers";
-import { hbs } from "ember-cli-htmlbars";
 import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import selectKit from "discourse/tests/helpers/select-kit-helper";
+import RegionInput from "discourse/plugins/discourse-calendar/discourse/components/region-input";
 
 module("Integration | Component | region-input", function (hooks) {
   setupRenderingTest(hooks);
@@ -12,7 +12,9 @@ module("Integration | Component | region-input", function (hooks) {
       { name: "English", value: "en" },
     ]);
 
-    await render(hbs`<RegionInput @allowNoneRegion={{true}} />`);
+    await render(
+      <template><RegionInput @allowNoneRegion={{true}} /></template>
+    );
     await selectKit().expand();
 
     assert
@@ -28,7 +30,9 @@ module("Integration | Component | region-input", function (hooks) {
       { name: "English", value: "en" },
     ]);
 
-    await render(hbs`<RegionInput @allowNoneRegion={{false}} />`);
+    await render(
+      <template><RegionInput @allowNoneRegion={{false}} /></template>
+    );
     await selectKit().expand();
 
     assert

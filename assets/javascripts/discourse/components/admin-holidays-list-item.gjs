@@ -1,6 +1,7 @@
 import Component from "@ember/component";
 import { action } from "@ember/object";
 import { classNameBindings, tagName } from "@ember-decorators/component";
+import DButton from "discourse/components/d-button";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
@@ -45,4 +46,22 @@ export default class AdminHolidaysListItem extends Component {
       .catch(popupAjaxError)
       .finally(() => this.set("loading", false));
   }
+
+  <template>
+    <td>{{this.holiday.date}}</td>
+    <td>{{this.holiday.name}}</td>
+    <td>
+      {{#if this.isHolidayDisabled}}
+        <DButton
+          @action={{action "enableHoliday" this.holiday this.region_code}}
+          @label="discourse_calendar.enable_holiday"
+        />
+      {{else}}
+        <DButton
+          @action={{action "disableHoliday" this.holiday this.region_code}}
+          @label="discourse_calendar.disable_holiday"
+        />
+      {{/if}}
+    </td>
+  </template>
 }

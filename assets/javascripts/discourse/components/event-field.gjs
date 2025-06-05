@@ -1,5 +1,5 @@
+import { notEq } from "truth-helpers";
 import { i18n } from "discourse-i18n";
-import notEq from "truth-helpers/helpers/not-eq";
 
 const EventField = <template>
   {{#if (notEq @enabled false)}}
