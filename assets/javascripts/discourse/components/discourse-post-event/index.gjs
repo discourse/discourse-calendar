@@ -1,10 +1,10 @@
 import Component from "@glimmer/component";
-import { hash } from "@ember/helper";
 import { service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import PluginOutlet from "discourse/components/plugin-outlet";
 import concatClass from "discourse/helpers/concat-class";
 import icon from "discourse/helpers/d-icon";
+import lazyHash from "discourse/helpers/lazy-hash";
 import replaceEmoji from "discourse/helpers/replace-emoji";
 import routeAction from "discourse/helpers/route-action";
 import ChatChannel from "./chat-channel";
@@ -95,7 +95,7 @@ export default class DiscoursePostEvent extends Component {
               <div class="status-and-creators">
                 <PluginOutlet
                   @name="discourse-post-event-status-and-creators"
-                  @outletArgs={{hash
+                  @outletArgs={{lazyHash
                     event=@event
                     Separator=StatusSeparator
                     Status=(component EventStatus event=@event)
@@ -118,7 +118,7 @@ export default class DiscoursePostEvent extends Component {
 
           <PluginOutlet
             @name="discourse-post-event-info"
-            @outletArgs={{hash
+            @outletArgs={{lazyHash
               event=@event
               Section=(component InfoSection event=@event)
               Url=(component Url url=@event.url)
