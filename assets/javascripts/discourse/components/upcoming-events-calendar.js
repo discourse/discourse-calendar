@@ -1,5 +1,7 @@
+import { tracked } from "@glimmer/tracking";
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
+import { service } from "@ember/service";
 import { tagName } from "@ember-decorators/component";
 import { Promise } from "rsvp";
 import getURL from "discourse/lib/get-url";
@@ -12,11 +14,27 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
+  @service siteSettings;
+
+  @tracked selectedCategories = [];
   events = null;
+
+  changeSelectedCategories = (value) => {
+    this.selectedCategories = value;
+    this._calendar.rerenderEvents();
+  };
 
   init() {
     super.init(...arguments);
     this._calendar = null;
+    if (
+      this.siteSettings.display_upcoming_events_calendar_categories_selector
+    ) {
+      this.selectedCategories =
+        this.siteSettings.default_upcoming_events_calendar_categories
+          .split("|")
+          .map((c) => parseInt(c, 10));
+    }
   }
 
   willDestroyElement() {
@@ -73,6 +91,19 @@ export default class UpcomingEventsCalendar extends Component {
         }
         fullCalendar.updateSize();
       },
+      eventRender: (info) => {
+        if (
+          !siteSettings.display_upcoming_events_calendar_categories_selector
+        ) {
+          return true;
+        }
+        if (!this.selectedCategories.length) {
+          return true;
+        }
+        return this.selectedCategories.includes(
+          info.event.extendedProps.categoryId
+        );
+      },
     });
     this._calendar = fullCalendar;
 
@@ -120,6 +151,9 @@ export default class UpcomingEventsCalendar extends Component {
         url: getURL(`/t/-/${post.topic.id}/${post.post_number}`),
         backgroundColor,
         classNames,
+        extendedProps: {
+          categoryId,
+        },
       });
     });
 
