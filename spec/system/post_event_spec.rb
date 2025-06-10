@@ -15,6 +15,40 @@ describe "Post event", type: :system do
     sign_in(admin)
   end
 
+  context "when showing local time", timezone: "Australia/Brisbane" do
+    it "correctly shows month/day" do
+      page.driver.with_playwright_page do |pw_page|
+        pw_page.clock.install(time: Time.new(2025, 6, 5, 22, 0, 0))
+      end
+
+      post =
+        PostCreator.create(
+          admin,
+          title: "My test meetup event",
+          raw:
+            "[event showLocalTime='true' start='2025-09-07 17:30' start='2025-09-07 18:30' timezone='Europe/Paris']\n[/event]",
+        )
+
+      visit(post.topic.url)
+
+      expect(page).to have_css(".event-date .month", text: "SEP")
+      expect(page).to have_css(".event-date .day", text: "7")
+    end
+
+    it "shows correct date" do
+      post =
+        PostCreator.create(
+          admin,
+          title: "My test meetup event",
+          raw: "[event timezone='Japan' showLocalTime='true' start='2222-02-22 14:22']\n[/event]",
+        )
+
+      visit(post.topic.url)
+
+      expect(page).to have_css(".discourse-local-date", text: "Japan")
+    end
+  end
+
   it "safely renders event name" do
     post =
       PostCreator.create(
@@ -27,19 +61,6 @@ describe "Post event", type: :system do
 
     expect(page).to have_css(".event-info .name img.emoji[title='cat']")
     expect(page).to have_css(".event-info .name", text: "<script>alert(1);</script>")
-  end
-
-  it "shows local timezone" do
-    post =
-      PostCreator.create(
-        admin,
-        title: "My test meetup event",
-        raw: "[event timezone='Japan' showLocalTime='true' start='2222-02-22 14:22']\n[/event]",
-      )
-
-    visit(post.topic.url)
-
-    expect(page).to have_css(".discourse-local-date", text: "Japan")
   end
 
   it "can create, close, and open an event" do

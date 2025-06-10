@@ -46,12 +46,20 @@ export default class DiscoursePostEvent extends Component {
     return () => this.messageBus.unsubscribe(path);
   });
 
+  get localStartsAtTime() {
+    let time = moment(this.args.event.startsAt);
+    if (this.args.event.showLocalTime && this.args.event.timezone) {
+      time = time.tz(this.args.event.timezone);
+    }
+    return time;
+  }
+
   get startsAtMonth() {
-    return moment(this.args.event.startsAt).format("MMM");
+    return this.localStartsAtTime.format("MMM");
   }
 
   get startsAtDay() {
-    return moment(this.args.event.startsAt).format("D");
+    return this.localStartsAtTime.format("D");
   }
 
   get eventName() {
