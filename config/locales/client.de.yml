@@ -307,6 +307,7 @@ de:
           ve: "Venezuela"
           vi: "Jungferninseln (USA)"
           za: "Südafrika"
+          zw: "Simbabwe"
       toolbar_button:
         today: "Heute"
         month: "Monat"
@@ -454,6 +455,8 @@ de:
           periods:
             before: "vor"
             after: "nach"
+        recurrence_until:
+          label: "Bis (einschließlich)"
         recurrence:
           label: "Wiederholung"
           none: "Keine Wiederholung"
