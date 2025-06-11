@@ -12,7 +12,7 @@ export default class CalendarCategoriesSelector extends MultiSelectComponent {
 
   @computed("events.[]")
   get content() {
-    return Category.findByIds(this.events.map((e) => e.categoryId))
+    return Category.list()
       .map((c) => {
         let name = c.name;
         if (c.parent_category_id) {
