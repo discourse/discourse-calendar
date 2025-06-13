@@ -36,21 +36,41 @@ export default class DiscoursePostEventDates extends Component {
   get datesBBCode() {
     const dates = [];
 
-    dates.push(this.buildDateBBCode(this.startsAt));
+    let startsAtFormat = this.format;
+    if (this.args.event.recurrence) {
+      startsAtFormat = "'ddd, MMM DD";
+      if (this.startsAt.year() !== moment().year()) {
+        startsAtFormat += ", YYYY";
+      }
+      startsAtFormat += ", h:mmA'";
+    }
+    dates.push(this.buildDateBBCode(this.startsAt, startsAtFormat));
 
     if (this.endsAt) {
-      dates.push(this.buildDateBBCode(this.endsAt));
+      let endsAtFormat = this.format;
+      if (this.args.event.recurrence) {
+        endsAtFormat = "'";
+        if (this.startsAt.dayOfYear() !== this.endsAt.dayOfYear()) {
+          endsAtFormat += "ddd, MMM DD, ";
+        }
+        if (this.endsAt.year() !== moment().year()) {
+          endsAtFormat += "YYYY, ";
+        }
+        endsAtFormat += "h:mmA'";
+      }
+      dates.push(this.buildDateBBCode(this.endsAt, endsAtFormat));
     }
 
     return dates;
   }
 
-  buildDateBBCode(date) {
+  buildDateBBCode(date, format) {
     const bbcode = {
       date: date.format("YYYY-MM-DD"),
       time: date.format("HH:mm"),
-      format: this.format,
+      format,
       timezone: this.timezone,
+      hideTimezone: this.args.event.showLocalTime,
     };
 
     if (this.args.event.showLocalTime) {
