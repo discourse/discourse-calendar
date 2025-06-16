@@ -2,10 +2,12 @@
 
 describe "Post event", type: :system do
   fab!(:admin)
-  fab!(:user) { Fabricate(:admin, username: "jane") }
-  fab!(:group) { Fabricate(:group, name: "test_group") }
+  fab!(:user) { Fabricate(:admin) }
+  fab!(:group) { Fabricate(:group) }
+
   let(:composer) { PageObjects::Components::Composer.new }
   let(:post_event_page) { PageObjects::Pages::DiscourseCalendar::PostEvent.new }
+  let(:post_event_form_page) { PageObjects::Pages::DiscourseCalendar::PostEventForm.new }
   let(:bulk_invite_modal_page) { PageObjects::Pages::DiscourseCalendar::BulkInviteModal.new }
 
   before do
@@ -13,6 +15,29 @@ describe "Post event", type: :system do
     SiteSetting.discourse_post_event_enabled = true
     SiteSetting.discourse_post_event_allowed_custom_fields = "custom"
     sign_in(admin)
+  end
+
+  context "with location" do
+    it "can save a location" do
+      post =
+        PostCreator.create(
+          admin,
+          title: "My test meetup event",
+          raw: "[event start='2222-02-22 14:22']\n[/event]",
+        )
+
+      visit(post.topic.url)
+      post_event_page.edit
+      post_event_form_page.fill_location(
+        "123<script>1</script> Main St, Brisbane, Australia http://example.com",
+      )
+      post_event_form_page.submit
+
+      expect(post_event_page).to have_location(
+        "123 Main St, Brisbane, Australia http://example.com",
+      )
+      expect(page).to have_css(".event-location a[href='http://example.com']")
+    end
   end
 
   context "when showing local time", timezone: "Australia/Brisbane" do
@@ -155,11 +180,10 @@ describe "Post event", type: :system do
 
     expect(page).to have_css(".discourse-post-event.is-loaded")
 
-    find(".discourse-post-event-more-menu-trigger").click
-    find(".edit-event").click
+    post_event_page.edit
 
     expect(find(".d-modal input[name=status][value=private]").checked?).to eq(true)
-    expect(find(".d-modal")).to have_text("test_group")
+    expect(find(".d-modal")).to have_text(group.name)
     expect(find(".d-modal .custom-field-input").value).to eq("custom value")
     expect(page).to have_selector(".d-modal .recurrence-until .date-picker") do |input|
       input.value == "#{1.year.from_now.year}-12-30"

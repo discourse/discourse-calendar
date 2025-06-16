@@ -110,6 +110,10 @@ export default class PostEventBuilder extends Component {
     ];
   }
 
+  get shouldRenderUrl() {
+    return this.args.model.event.url !== undefined;
+  }
+
   get availableRecurrences() {
     return [
       {
@@ -364,16 +368,30 @@ export default class PostEventBuilder extends Component {
               </EventField>
 
               <EventField
-                @label="discourse_post_event.builder_modal.url.label"
-                class="url"
+                @label="discourse_post_event.builder_modal.location.label"
+                class="location"
               >
                 <Input
-                  @value={{@model.event.url}}
+                  @value={{@model.event.location}}
                   placeholder={{i18n
-                    "discourse_post_event.builder_modal.url.placeholder"
+                    "discourse_post_event.builder_modal.location.placeholder"
                   }}
                 />
               </EventField>
+
+              {{#if this.shouldRenderUrl}}
+                <EventField
+                  @label="discourse_post_event.builder_modal.url.label"
+                  class="url"
+                >
+                  <Input
+                    @value={{@model.event.url}}
+                    placeholder={{i18n
+                      "discourse_post_event.builder_modal.url.placeholder"
+                    }}
+                  />
+                </EventField>
+              {{/if}}
 
               <EventField
                 class="timezone"
@@ -383,7 +401,6 @@ export default class PostEventBuilder extends Component {
                   @value={{@model.event.timezone}}
                   @onChange={{this.setNewTimezone}}
                   @none="discourse_post_event.builder_modal.timezone.remove_timezone"
-                  class="input-xxlarge"
                 />
               </EventField>
 

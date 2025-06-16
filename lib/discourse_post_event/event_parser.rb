@@ -8,6 +8,7 @@ module DiscoursePostEvent
       :status,
       :"allowed-groups",
       :url,
+      :location,
       :name,
       :reminders,
       :recurrence,

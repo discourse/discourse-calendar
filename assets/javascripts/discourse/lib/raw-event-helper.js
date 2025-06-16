@@ -17,6 +17,10 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
     params.name = event.name;
   }
 
+  if (event.location) {
+    params.location = event.location;
+  }
+
   if (event.url) {
     params.url = event.url;
   }

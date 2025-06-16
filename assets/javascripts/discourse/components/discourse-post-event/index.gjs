@@ -12,13 +12,12 @@ import Creator from "./creator";
 import Dates from "./dates";
 import EventStatus from "./event-status";
 import Invitees from "./invitees";
+import Location from "./location";
 import MoreMenu from "./more-menu";
 import Status from "./status";
 import Url from "./url";
 
-const StatusSeparator = <template>
-  <span class="separator">·</span>
-</template>;
+const StatusSeparator = <template><span class="separator">·</span></template>;
 
 const InfoSection = <template>
   <section class="event__section" ...attributes>
@@ -136,6 +135,7 @@ export default class DiscoursePostEvent extends Component {
               ChatChannel=(component ChatChannel event=@event)
             }}
           >
+            <Location @location={{@event.location}} />
             <Url @url={{@event.url}} />
             <Dates @event={{@event}} />
             <ChatChannel @event={{@event}} />

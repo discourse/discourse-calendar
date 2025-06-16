@@ -14,6 +14,15 @@ module PageObjects
           find(".dropdown-menu__item.bulk-invite").click
           self
         end
+
+        def has_location?(location)
+          has_css?(".event-location", text: location)
+        end
+
+        def edit
+          open_more_menu
+          find(".edit-event").click
+        end
       end
     end
   end

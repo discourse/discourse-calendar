@@ -474,6 +474,9 @@ en:
         url:
           label: "URL"
           placeholder: "Optional"
+        location:
+          label: "Location"
+          placeholder: "Add a location, link or something"
         name:
           label: "Event name"
           placeholder: "Optional, defaults to topic title"
