@@ -34,6 +34,7 @@ export default class UpcomingEventsCalendar extends Component {
 
   async _renderCalendar() {
     const siteSettings = this.site.siteSettings;
+    const isMobileView = this.site.mobileView;
 
     const calendarNode = document.getElementById("upcoming-events-calendar");
     if (!calendarNode) {
@@ -48,12 +49,36 @@ export default class UpcomingEventsCalendar extends Component {
       ...fullCalendarDefaultOptions(),
       firstDay: 1,
       height: "auto",
+      defaultView: isMobileView ? "listNextYear" : "month",
+      views: {
+        listNextYear: {
+          type: "list",
+          duration: { days: 365 },
+          buttonText: "list",
+          listDayFormat: {
+            month: "long",
+            year: "numeric",
+            day: "numeric",
+            weekday: "long",
+          },
+        },
+      },
+      header: {
+        left: "prev,next today",
+        center: "title",
+        right: "month,basicWeek,listNextYear",
+      },
       eventPositioned: (info) => {
         if (siteSettings.events_max_rows === 0) {
           return;
         }
 
         let fcContent = info.el.querySelector(".fc-content");
+
+        if (!fcContent) {
+          return;
+        }
+
         let computedStyle = window.getComputedStyle(fcContent);
         let lineHeight = parseInt(computedStyle.lineHeight, 10);
 
