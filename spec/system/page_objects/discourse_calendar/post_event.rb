@@ -4,8 +4,14 @@ module PageObjects
   module Pages
     module DiscourseCalendar
       class PostEvent < PageObjects::Pages::Base
+        TRIGGER_MENU_SELECTOR = ".discourse-post-event-more-menu-trigger"
         def open_more_menu
-          find(".discourse-post-event-more-menu-trigger").click
+          find(TRIGGER_MENU_SELECTOR).click
+          self
+        end
+
+        def going
+          find(".going-button").click
           self
         end
 
@@ -17,6 +23,24 @@ module PageObjects
 
         def has_location?(location)
           has_css?(".event-location", text: location)
+        end
+
+        def close
+          open_more_menu
+          find(".close-event").click
+          find("#dialog-holder .btn-primary").click
+          has_css?(".discourse-post-event .status-and-creators .status.closed")
+          has_no_css?("#{TRIGGER_MENU_SELECTOR}.--saving")
+          self
+        end
+
+        def open
+          open_more_menu
+          find(".open-event").click
+          find("#dialog-holder .btn-primary").click
+          has_css?(".discourse-post-event .status-and-creators .status:not(.closed)")
+          has_no_css?("#{TRIGGER_MENU_SELECTOR}.--saving")
+          self
         end
 
         def edit

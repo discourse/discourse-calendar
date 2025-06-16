@@ -92,43 +92,25 @@ describe "Post event", type: :system do
     visit "/new-topic"
     title = "My upcoming l33t event"
     tomorrow = (Time.zone.now + 1.day).strftime("%Y-%m-%d")
-
     composer.fill_title(title)
-
     composer.fill_content <<~MD
       [event start="#{tomorrow} 13:37" status="public"]
       [/event]
     MD
-
     composer.submit
 
     expect(page).to have_content(title)
 
-    find(".more-dropdown").click
-    find(".close-event").click
-    find("#dialog-holder .btn-primary").click
-
-    expect(page).to have_css(".discourse-post-event .status-and-creators .status.closed")
-
-    # click on a different button to ensure more dropdown is collapsed before reopening
-    find(".btn-primary.create").click
-    find(".more-dropdown").click
-    find(".open-event").click
-    find("#dialog-holder .btn-primary").click
-
-    expect(page).to have_css(".going-button")
-
-    find(".going-button").click
-    find(".discourse-post-event-more-menu-trigger").click
+    post_event_page.close
+    post_event_page.open
+    post_event_page.going.open_more_menu
     find(".show-all-participants").click
-    find(".d-modal input.filter").fill_in(with: "jan")
+    find(".d-modal input.filter").fill_in(with: user.username)
     find(".d-modal .add-invitee").click
 
     topic_page = PageObjects::Pages::Topic.new
-
     try_until_success do
       topic = Topic.find(topic_page.current_topic_id)
-
       event = topic.posts.first.event
 
       expect(event.invitees.count).to eq(2)
@@ -142,9 +124,9 @@ describe "Post event", type: :system do
         title: "My test meetup event",
         raw: "[event name='cool-event' status='standalone' start='2222-02-22 00:00' ]\n[/event]",
       )
-
     visit(post.topic.url)
-    page.find(".discourse-post-event-more-menu-trigger").click
+    post_event_page.open_more_menu
+
     expect(page).to have_no_css(".show-all-participants")
   end
 
@@ -157,7 +139,8 @@ describe "Post event", type: :system do
       )
 
     visit(post.topic.url)
-    page.find(".discourse-post-event-more-menu-trigger").click
+    post_event_page.going.open_more_menu
+
     expect(page).to have_no_css(".send-pm-to-creator")
   end
 
@@ -168,7 +151,7 @@ describe "Post event", type: :system do
     dropdown.expand
     dropdown.select_row_by_name(I18n.t("js.discourse_post_event.builder_modal.attach"))
     find(".d-modal input[name=status][value=private]").click
-    find(".d-modal input.group-selector").send_keys("test_")
+    find(".d-modal input.group-selector").send_keys(group.name)
     find(".autocomplete.ac-group").click
     find(".d-modal .custom-field-input").fill_in(with: "custom value")
     dropdown = PageObjects::Components::SelectKit.new(".available-recurrences")
