@@ -3,7 +3,7 @@
 describe "Post event", type: :system do
   fab!(:admin)
   fab!(:user) { Fabricate(:admin) }
-  fab!(:group) { Fabricate(:group) }
+  fab!(:group)
 
   let(:composer) { PageObjects::Components::Composer.new }
   let(:post_event_page) { PageObjects::Pages::DiscourseCalendar::PostEvent.new }
