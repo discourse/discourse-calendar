@@ -372,6 +372,8 @@ en:
         creator: "Creator"
         status: "Status"
         starts_at: "Starts at"
+        all_events: "All events"
+        my_events: "My events"
       upcoming_events_list:
         title: "Upcoming events"
         empty: "No upcoming events"
