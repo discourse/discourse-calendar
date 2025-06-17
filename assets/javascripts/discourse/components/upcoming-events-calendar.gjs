@@ -4,6 +4,7 @@ import { fn } from "@ember/helper";
 import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
+import { LinkTo } from "@ember/routing";
 import { schedule } from "@ember/runloop";
 import { service } from "@ember/service";
 import { tagName } from "@ember-decorators/component";
@@ -13,6 +14,7 @@ import DButton from "discourse/components/d-button";
 import getURL from "discourse/lib/get-url";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
+import { i18n } from "discourse-i18n";
 import { formatEventName } from "../helpers/format-event-name";
 import addRecurrentEvents from "../lib/add-recurrent-events";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
@@ -179,18 +181,20 @@ export default class UpcomingEventsCalendar extends Component {
   <template>
     <ul class="events-filter nav nav-pills">
       <li>
-        <DButton
-          @label="discourse_post_event.upcoming_events.all_events"
-          @action={{fn this.changeFilter "all"}}
-          class="btn-small {{if (eq this.filter 'all') 'active' ''}}"
-        />
+        <LinkTo
+          @route="discourse-post-event-upcoming-events.index"
+          class="btn-small"
+        >
+          {{i18n "discourse_post_event.upcoming_events.all_events"}}
+        </LinkTo>
       </li>
       <li>
-        <DButton
-          @label="discourse_post_event.upcoming_events.my_events"
-          @action={{fn this.changeFilter "mine"}}
-          class="btn-small {{if (eq this.filter 'mine') 'active' ''}}"
-        />
+        <LinkTo
+          @route="discourse-post-event-upcoming-events.mine"
+          class="btn-small"
+        >
+          {{i18n "discourse_post_event.upcoming_events.my_events"}}
+        </LinkTo>
       </li>
     </ul>
     <div
