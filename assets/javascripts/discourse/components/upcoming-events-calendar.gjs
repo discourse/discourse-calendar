@@ -1,7 +1,15 @@
-import Component from "@ember/component";
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { fn } from "@ember/helper";
+import { action } from "@ember/object";
+import didInsert from "@ember/render-modifiers/modifiers/did-insert";
+import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { schedule } from "@ember/runloop";
+import { service } from "@ember/service";
 import { tagName } from "@ember-decorators/component";
 import { Promise } from "rsvp";
+import { eq } from "truth-helpers";
+import DButton from "discourse/components/d-button";
 import getURL from "discourse/lib/get-url";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
@@ -12,23 +20,19 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
-  events = null;
+  @service site;
 
-  init() {
-    super.init(...arguments);
-    this._calendar = null;
-  }
+  @tracked filter = "all";
+  _calendar = null;
 
-  willDestroyElement() {
-    super.willDestroyElement(...arguments);
-
+  @action
+  teardown() {
     this._calendar && this._calendar.destroy();
     this._calendar = null;
   }
 
-  didInsertElement() {
-    super.didInsertElement(...arguments);
-
+  @action
+  setup() {
     this._renderCalendar();
   }
 
@@ -103,7 +107,7 @@ export default class UpcomingEventsCalendar extends Component {
 
     const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-    const resolvedEvents = await this.events;
+    const resolvedEvents = await this.args.events;
     const originalEventAndRecurrents = addRecurrentEvents(resolvedEvents);
 
     (originalEventAndRecurrents || []).forEach((event) => {
@@ -167,7 +171,32 @@ export default class UpcomingEventsCalendar extends Component {
     });
   }
 
+  @action
+  changeFilter(newFilter) {
+    this.filter = newFilter;
+  }
+
   <template>
-    <div id="upcoming-events-calendar"></div>
+    <ul class="events-filter nav nav-pills">
+      <li>
+        <DButton
+          @label="discourse_post_event.upcoming_events.all_events"
+          @action={{fn this.changeFilter "all"}}
+          class="btn-small {{if (eq this.filter 'all') 'active' ''}}"
+        />
+      </li>
+      <li>
+        <DButton
+          @label="discourse_post_event.upcoming_events.my_events"
+          @action={{fn this.changeFilter "mine"}}
+          class="btn-small {{if (eq this.filter 'mine') 'active' ''}}"
+        />
+      </li>
+    </ul>
+    <div
+      id="upcoming-events-calendar"
+      {{didInsert this.setup}}
+      {{willDestroy this.teardown}}
+    ></div>
   </template>
 }
