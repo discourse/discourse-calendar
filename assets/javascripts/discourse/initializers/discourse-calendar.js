@@ -1,11 +1,14 @@
 import { isPresent } from "@ember/utils";
+import { Calendar } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import listPlugin from "@fullcalendar/list";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import $ from "jquery";
 import { escape } from "pretty-text/sanitizer";
 import { Promise } from "rsvp";
 import { ajax } from "discourse/lib/ajax";
 import getURL from "discourse/lib/get-url";
 import { iconHTML } from "discourse/lib/icon-library";
-import loadScript from "discourse/lib/load-script";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { cook } from "discourse/lib/text";
 import DiscourseURL from "discourse/lib/url";
@@ -18,12 +21,6 @@ import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 import { buildPopover, destroyPopover } from "../lib/popover";
-
-function loadFullCalendar() {
-  return loadScript(
-    "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-  );
-}
 
 function initializeDiscourseCalendar(api) {
   const siteSettings = api.container.lookup("service:site-settings");
@@ -98,8 +95,6 @@ function initializeDiscourseCalendar(api) {
       categoryCalendarNode.innerHTML =
         '<div class="calendar"><div class="spinner medium"></div></div>';
 
-      await loadFullCalendar();
-
       const options = [`postId=${postId}`];
 
       const optionals = ["weekends", "tzPicker", "defaultView"];
@@ -130,9 +125,10 @@ function initializeDiscourseCalendar(api) {
       );
 
       if (foundCategory) {
-        await loadFullCalendar();
-        let fullCalendar = new window.FullCalendar.Calendar(categoryEventNode, {
+        let fullCalendar = new Calendar(categoryEventNode, {
           ...fullCalendarDefaultOptions(),
+          plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+          initialView: "dayGridMonth",
           firstDay: 1,
           eventPositioned: (info) => {
             if (siteSettings.events_max_rows === 0) {

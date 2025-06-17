@@ -14,15 +14,13 @@ require_relative "lib/calendar_settings_validator.rb"
 
 enabled_site_setting :calendar_enabled
 
-register_asset "stylesheets/vendor/fullcalendar.min.css"
+register_asset "stylesheets/common/full-calendar-ext.scss"
 register_asset "stylesheets/common/discourse-calendar.scss"
 register_asset "stylesheets/common/discourse-calendar-holidays.scss"
-register_asset "stylesheets/common/upcoming-events-calendar.scss"
 register_asset "stylesheets/common/discourse-post-event.scss"
 register_asset "stylesheets/common/discourse-post-event-preview.scss"
 register_asset "stylesheets/common/post-event-builder.scss"
 register_asset "stylesheets/common/discourse-post-event-invitees.scss"
-register_asset "stylesheets/common/discourse-post-event-upcoming-events.scss"
 register_asset "stylesheets/common/discourse-post-event-core-ext.scss"
 register_asset "stylesheets/mobile/discourse-post-event-core-ext.scss", :mobile
 register_asset "stylesheets/common/discourse-post-event-bulk-invite-modal.scss"
