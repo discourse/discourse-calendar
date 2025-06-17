@@ -307,6 +307,7 @@ cs:
           ve: "Venezuela"
           vi: "Panenské ostrovy (U.S.)"
           za: "Jižní Afrika"
+          zw: "Zimbabwe"
       toolbar_button:
         today: "Dnes"
         month: "Měsíc"
@@ -445,6 +446,9 @@ cs:
         update: "Uložit"
         attach: "Vytvořit událost"
         add_reminder: "Přidat připomínku"
+        show_local_time:
+          label: "Zobrazit místní čas"
+          description: "Data a časy se zobrazí pomocí: %{timezone}. Použijte to pro události na daném místě, aby časy odpovídaly časovému pásmu, kde se událost koná."
         timezone:
           label: Časové pásmo
           remove_timezone: Žádné časové pásmo (UTC)
@@ -461,6 +465,8 @@ cs:
           periods:
             before: "před"
             after: "po"
+        recurrence_until:
+          label: "Do (včetně)"
         recurrence:
           label: "Opakování"
           none: "Bez opakování"
@@ -473,6 +479,9 @@ cs:
         minimal:
           label: "Mini-událost"
           checkbox_label: "Skrýt tlačítka Zúčastním/Nuzúčastním a stav pozvaných osob"
+        allow_chat:
+          label: "Integrace chatu"
+          checkbox_label: "Vytvoří a spravuje speciální kanál chatu pro tuto událost"
         url:
           label: "URL"
           placeholder: "Volitelné"
