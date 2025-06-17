@@ -1,6 +1,10 @@
 import Component from "@ember/component";
 import { schedule } from "@ember/runloop";
 import { tagName } from "@ember-decorators/component";
+import { Calendar } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import listPlugin from "@fullcalendar/list";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import { Promise } from "rsvp";
 import getURL from "discourse/lib/get-url";
 import loadScript from "discourse/lib/load-script";
@@ -42,36 +46,30 @@ export default class UpcomingEventsCalendar extends Component {
 
     calendarNode.innerHTML = "";
 
-    await this._loadCalendar();
-
-    const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
+    const fullCalendar = new Calendar(calendarNode, {
       ...fullCalendarDefaultOptions(),
+      plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
       firstDay: 1,
       height: "auto",
-      eventPositioned: (info) => {
-        if (siteSettings.events_max_rows === 0) {
-          return;
-        }
-
-        let fcContent = info.el.querySelector(".fc-content");
-        let computedStyle = window.getComputedStyle(fcContent);
-        let lineHeight = parseInt(computedStyle.lineHeight, 10);
-
-        if (lineHeight === 0) {
-          lineHeight = 20;
-        }
-        let maxHeight = lineHeight * siteSettings.events_max_rows;
-
-        if (fcContent) {
-          fcContent.style.maxHeight = `${maxHeight}px`;
-        }
-
-        let fcTitle = info.el.querySelector(".fc-title");
-        if (fcTitle) {
-          fcTitle.style.overflow = "hidden";
-          fcTitle.style.whiteSpace = "pre-wrap";
-        }
-        fullCalendar.updateSize();
+      initialView: "dayGridMonth",
+      eventDisplay: "auto",
+      views: {
+        listNextYear: {
+          type: "list",
+          duration: { days: 365 },
+          buttonText: "list",
+          listDayFormat: {
+            month: "long",
+            year: "numeric",
+            day: "numeric",
+            weekday: "long",
+          },
+        },
+      },
+      headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridDay,listNextYear",
       },
     });
     this._calendar = fullCalendar;
@@ -124,22 +122,6 @@ export default class UpcomingEventsCalendar extends Component {
     });
 
     this._calendar.render();
-  }
-
-  _loadCalendar() {
-    return new Promise((resolve) => {
-      loadScript(
-        "/plugins/discourse-calendar/javascripts/fullcalendar-with-moment-timezone.min.js"
-      ).then(() => {
-        schedule("afterRender", () => {
-          if (this.isDestroying || this.isDestroyed) {
-            return;
-          }
-
-          resolve();
-        });
-      });
-    });
   }
 
   <template>
