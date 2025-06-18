@@ -131,6 +131,7 @@ export default class DiscoursePostEvent extends Component {
               event=@event
               Section=(component InfoSection event=@event)
               Url=(component Url url=@event.url)
+              Location=(component Location location=@event.location)
               Dates=(component Dates event=@event)
               Invitees=(component Invitees event=@event)
               Status=(component Status event=@event)
