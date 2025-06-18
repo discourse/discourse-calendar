@@ -37,6 +37,20 @@ describe "Post event", type: :system do
         "123 Main St, Brisbane, Australia http://example.com",
       )
       expect(page).to have_css(".event-location a[href='http://example.com']")
+
+      # ensure encoding is ok
+      post_event_page.edit
+      post_event_form_page.fill_location("]]]]")
+      post_event_form_page.submit
+
+      expect(post_event_page).to have_location("]]]]")
+
+      post_event_page.edit
+      # we eat double quotes by design for now, can work around with angle quotes
+      post_event_form_page.fill_location(']"]')
+      post_event_form_page.submit
+
+      expect(post_event_page).to have_location("]]")
     end
   end
 

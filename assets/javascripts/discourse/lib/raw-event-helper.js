@@ -96,7 +96,7 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
 }
 
 export function replaceRaw(params, raw) {
-  const eventRegex = new RegExp(`\\[event\\s(.*?)\\]`, "m");
+  const eventRegex = /\[event (.*?)\](.*?)\[\/event\]/s;
   const eventMatches = raw.match(eventRegex);
 
   if (eventMatches && eventMatches[1]) {
@@ -109,7 +109,10 @@ export function replaceRaw(params, raw) {
       }
     });
 
-    return raw.replace(eventRegex, `[event ${markdownParams.join(" ")}]`);
+    return raw.replace(
+      eventRegex,
+      `[event ${markdownParams.join(" ")}]\n[/event]`
+    );
   }
 
   return false;
