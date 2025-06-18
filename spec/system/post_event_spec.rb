@@ -18,7 +18,7 @@ describe "Post event", type: :system do
   end
 
   context "with location" do
-    it "can save a location", trace: true do
+    it "can save a location" do
       post =
         PostCreator.create(
           admin,
@@ -33,9 +33,11 @@ describe "Post event", type: :system do
       )
       post_event_form_page.submit
 
-      expect(post_event_page).to have_location(
-        "123<script>1</script> Main St, Brisbane, Australia http://example.com",
-      )
+      try_until_success do
+        expect(post_event_page).to have_location(
+          "123<script>1</script> Main St, Brisbane, Australia http://example.com",
+        )
+      end
       expect(page).to have_css(".event-location a[href='http://example.com']")
 
       # ensure encoding is ok
@@ -43,14 +45,14 @@ describe "Post event", type: :system do
       post_event_form_page.fill_location("]]]]")
       post_event_form_page.submit
 
-      expect(post_event_page).to have_location("]]]]")
+      try_until_success { expect(post_event_page).to have_location("]]]]") }
 
       post_event_page.edit
       # we eat double quotes by design for now, can work around with angle quotes
       post_event_form_page.fill_location(']"]')
       post_event_form_page.submit
 
-      expect(post_event_page).to have_location("]]")
+      try_until_success { expect(post_event_page).to have_location("]]") }
     end
   end
 
