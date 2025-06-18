@@ -33,6 +33,10 @@ export default class DiscoursePostEventDates extends Component {
     return guessDateFormat(this.startsAt, this.endsAt);
   }
 
+  get isSameDay() {
+    return moment(this.startsAt).isSame(this.endsAt, "day");
+  }
+
   get datesBBCode() {
     const dates = [];
 
@@ -48,6 +52,11 @@ export default class DiscoursePostEventDates extends Component {
 
     if (this.endsAt) {
       let endsAtFormat = this.format;
+
+      if (this.isSameDay) {
+        endsAtFormat = "LT";
+      }
+
       if (this.args.event.recurrence) {
         endsAtFormat = "'";
         if (this.startsAt.dayOfYear() !== this.endsAt.dayOfYear()) {
