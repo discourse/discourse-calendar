@@ -1,6 +1,5 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { fn } from "@ember/helper";
 import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
@@ -9,8 +8,6 @@ import { schedule } from "@ember/runloop";
 import { service } from "@ember/service";
 import { tagName } from "@ember-decorators/component";
 import { Promise } from "rsvp";
-import { eq } from "truth-helpers";
-import DButton from "discourse/components/d-button";
 import getURL from "discourse/lib/get-url";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
@@ -23,6 +20,7 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
   @service site;
+  @service router;
 
   @tracked filter = "all";
   _calendar = null;
@@ -51,11 +49,14 @@ export default class UpcomingEventsCalendar extends Component {
 
     await this._loadCalendar();
 
+    const view =
+      this.args.controller.view || (isMobileView ? "listNextYear" : "month");
+
     const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
       ...fullCalendarDefaultOptions(),
       firstDay: 1,
       height: "auto",
-      defaultView: isMobileView ? "listNextYear" : "month",
+      defaultView: view,
       views: {
         listNextYear: {
           type: "list",
@@ -73,6 +74,10 @@ export default class UpcomingEventsCalendar extends Component {
         left: "prev,next today",
         center: "title",
         right: "month,basicWeek,listNextYear",
+      },
+      datesRender: (info) => {
+        // this is renamed in FullCalendar v5 / v6 to datesSet
+        this.router.transitionTo({ queryParams: { view: info.view.type } });
       },
       eventPositioned: (info) => {
         if (siteSettings.events_max_rows === 0) {
@@ -109,7 +114,7 @@ export default class UpcomingEventsCalendar extends Component {
 
     const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-    const resolvedEvents = await this.args.events;
+    const resolvedEvents = await this.args.controller.model;
     const originalEventAndRecurrents = addRecurrentEvents(resolvedEvents);
 
     (originalEventAndRecurrents || []).forEach((event) => {
