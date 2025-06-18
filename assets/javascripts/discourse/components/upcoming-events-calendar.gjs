@@ -19,6 +19,7 @@ import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
 @tagName("")
 export default class UpcomingEventsCalendar extends Component {
+  @service currentUser;
   @service site;
   @service router;
 
@@ -184,24 +185,26 @@ export default class UpcomingEventsCalendar extends Component {
   }
 
   <template>
-    <ul class="events-filter nav nav-pills">
-      <li>
-        <LinkTo
-          @route="discourse-post-event-upcoming-events.index"
-          class="btn-small"
-        >
-          {{i18n "discourse_post_event.upcoming_events.all_events"}}
-        </LinkTo>
-      </li>
-      <li>
-        <LinkTo
-          @route="discourse-post-event-upcoming-events.mine"
-          class="btn-small"
-        >
-          {{i18n "discourse_post_event.upcoming_events.my_events"}}
-        </LinkTo>
-      </li>
-    </ul>
+    {{#if this.currentUser}}
+      <ul class="events-filter nav nav-pills">
+        <li>
+          <LinkTo
+            @route="discourse-post-event-upcoming-events.index"
+            class="btn-small"
+          >
+            {{i18n "discourse_post_event.upcoming_events.all_events"}}
+          </LinkTo>
+        </li>
+        <li>
+          <LinkTo
+            @route="discourse-post-event-upcoming-events.mine"
+            class="btn-small"
+          >
+            {{i18n "discourse_post_event.upcoming_events.my_events"}}
+          </LinkTo>
+        </li>
+      </ul>
+    {{/if}}
     <div
       id="upcoming-events-calendar"
       {{didInsert this.setup}}
