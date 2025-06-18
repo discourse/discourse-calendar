@@ -4,7 +4,6 @@ import DiscourseURL from "discourse/lib/url";
 import DiscourseRoute from "discourse/routes/discourse";
 
 export default class PostEventUpcomingEventsIndexRoute extends DiscourseRoute {
-  @service discoursePostEventApi;
   @service discoursePostEventService;
 
   @action
