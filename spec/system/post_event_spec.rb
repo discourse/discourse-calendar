@@ -34,7 +34,7 @@ describe "Post event", type: :system do
       post_event_form_page.submit
 
       expect(post_event_page).to have_location(
-        "123 Main St, Brisbane, Australia http://example.com",
+        "123<script>1</script> Main St, Brisbane, Australia http://example.com",
       )
       expect(page).to have_css(".event-location a[href='http://example.com']")
 
