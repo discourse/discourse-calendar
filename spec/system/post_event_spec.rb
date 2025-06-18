@@ -18,7 +18,7 @@ describe "Post event", type: :system do
   end
 
   context "with location" do
-    it "can save a location" do
+    it "can save a location", trace: true do
       post =
         PostCreator.create(
           admin,
