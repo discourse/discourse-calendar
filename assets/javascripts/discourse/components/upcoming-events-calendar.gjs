@@ -78,7 +78,10 @@ export default class UpcomingEventsCalendar extends Component {
       },
       datesRender: (info) => {
         // this is renamed in FullCalendar v5 / v6 to datesSet
-        this.router.transitionTo({ queryParams: { view: info.view.type } });
+        // in unit tests we skip
+        if (this.router) {
+          this.router.transitionTo({ queryParams: { view: info.view.type } });
+        }
       },
       eventPositioned: (info) => {
         if (siteSettings.events_max_rows === 0) {
