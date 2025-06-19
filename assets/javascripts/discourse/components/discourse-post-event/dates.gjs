@@ -30,11 +30,15 @@ export default class DiscoursePostEventDates extends Component {
   }
 
   get format() {
-    return guessDateFormat(this.startsAt, this.endsAt);
+    return "llll";
   }
 
   get isSameDay() {
     return moment(this.startsAt).isSame(this.endsAt, "day");
+  }
+
+  get isSameYear() {
+    return moment(this.startsAt).isSame(this.endsAt, "year") && !this.isSameDay;
   }
 
   get datesBBCode() {
@@ -55,6 +59,10 @@ export default class DiscoursePostEventDates extends Component {
 
       if (this.isSameDay) {
         endsAtFormat = "LT";
+      } else if (this.isSameYear) {
+        endsAtFormat = "'ddd, MMM D, LT'";
+      } else {
+        endsAtFormat = "'llll'";
       }
 
       if (this.args.event.recurrence) {
@@ -116,6 +124,7 @@ export default class DiscoursePostEventDates extends Component {
       if (this.endsAt) {
         dates += ` → ${moment(this.endsAt).format(this.format)}`;
       }
+      debugger;
       this.htmlDates = htmlSafe(dates);
     }
   }

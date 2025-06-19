@@ -1,8 +1,7 @@
-import { hash } from "@ember/helper";
+import { tracked } from "@glimmer/tracking";
 import { getOwner } from "@ember/owner";
-import { click, render } from "@ember/test-helpers";
+import { render } from "@ember/test-helpers";
 import { module, test } from "qunit";
-// import { withPluginApi } from "discourse/lib/plugin-api";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
 import Dates from "../../discourse/components/discourse-post-event/dates";
 
@@ -22,44 +21,82 @@ module("Integration | Component | Dates", function (hooks) {
     getOwner(this).register("service:current-user", this.user, {
       instantiate: false,
     });
+
+    this.basicEvent = class {
+      @tracked endsAt;
+      @tracked startsAt = new Date("2023-10-01T10:00:00Z");
+
+      id = "123";
+      recurrence = false;
+      showLocalTime = false;
+      timezone = "Asia/Singapore";
+      isExpired = false;
+    };
   });
 
-  test("formats dates", async function (assert) {
-    // withPluginApi("1.34.0", (api) => {
-    //   api.registerValueTransformer(
-    //     "discourse-calendar-event-more-menu-should-show-participants",
-    //     () => {
-    //       return true; // by default it should show to canActOnDiscoursePostEvent users
-    //     }
-    //   );
-    // });
+  test("formats same day range dates and times", async function (assert) {
+    const eventWithinDayRange = new (class extends this.basicEvent {
+      @tracked endsAt = new Date("2023-10-01T11:00:00Z");
+    })();
 
-    // const store = getOwner(this).lookup("service:store");
-    // const creator = store.createRecord("user", {
-    //   username: "gabriel",
-    //   name: "gabriel",
-    //   id: 322,
-    // });
+    await render(<template><Dates @event={{eventWithinDayRange}} /></template>);
 
-    const startsAt = new Date("2023-10-01T10:00:00Z");
-    const endsAt = new Date("2023-10-01T11:00:00Z");
+    assert
+      .dom(".event-dates")
+      .hasText(
+        "Sun, Oct 1, 2023 10:00 AM → 11:00 AM",
+        "`endAt` should be formatted with localized time only"
+      );
+  });
+
+  test("formats same week range dates and times", async function (assert) {
+    const eventWithinWeekRange = new (class extends this.basicEvent {
+      @tracked endsAt = new Date("2023-10-03T00:00:00Z");
+    })();
 
     await render(
-      <template>
-        <Dates
-          @event={{hash
-            id="123"
-            recurrence=false
-            showLocalTime=false
-            timezone="Asia/Singapore"
-            isExpired=false
-            endsAt=endsAt
-            startsAt=startsAt
-          }}
-        />
-      </template>
+      <template><Dates @event={{eventWithinWeekRange}} /></template>
     );
 
-    assert.dom(".event-dates").hasText("October 1, 2023 10:00 AM → 11:00 AM");
+    assert
+      .dom(".event-dates")
+      .hasText(
+        "Sun, Oct 1, 2023 10:00 AM → Tue, Oct 3, 12:00 AM",
+        "`endAt` should be formatted with localized weekday, date and time"
+      );
+  });
+
+  test("formats different month range dates and times", async function (assert) {
+    const eventWithinWeekRange = new (class extends this.basicEvent {
+      @tracked endsAt = new Date("2024-11-01T10:00:00Z");
+    })();
+
+    await render(
+      <template><Dates @event={{eventWithinWeekRange}} /></template>
+    );
+
+    assert
+      .dom(".event-dates")
+      .hasText(
+        "Sun, Oct 1, 2023 10:00 AM → Fri, Nov 1, 2024 10:00 AM",
+        "`endAt` should be formatted with localized weekday, date and time"
+      );
+  });
+
+  test("formats different year range dates and times", async function (assert) {
+    const eventWithinWeekRange = new (class extends this.basicEvent {
+      @tracked endsAt = new Date("2024-10-01T10:00:00Z");
+    })();
+
+    await render(
+      <template><Dates @event={{eventWithinWeekRange}} /></template>
+    );
+
+    assert
+      .dom(".event-dates")
+      .hasText(
+        "Sun, Oct 1, 2023 10:00 AM → Tue, Oct 1, 2024 10:00 AM",
+        "`endAt` should be formatted with localized weekday, date and time"
+      );
   });
 });
