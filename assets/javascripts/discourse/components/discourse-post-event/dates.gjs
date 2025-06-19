@@ -29,53 +29,66 @@ export default class DiscoursePostEventDates extends Component {
     return this.args.event.timezone || "UTC";
   }
 
-  get format() {
+  get startsAtFormat() {
+    let startsAtFormat = "llll";
+    if (this.isSameYear(this.startsAt)) {
+      startsAtFormat = "'ddd, MMM D";
+      if (this.startsAt.hour() || this.startsAt.minute()) {
+        startsAtFormat += ", LT'";
+      }
+    }
+    return startsAtFormat;
+  }
+
+  get endsAtFormat() {
+    if (this.isSingleDayEvent) {
+      return "LT";
+    }
+    if (this.isSameYear(this.endsAt) && this.isSameYear(this.endsAt, this.startsAt)) {
+      let endsAtFormat = "'ddd, MMM D";
+      if (this.endsAt.hour() || this.endsAt.minute()) {
+        endsAtFormat += ", LT'";
+      }
+      return endsAtFormat;
+    }
     return "llll";
   }
 
-  get isSameDay() {
-    return moment(this.startsAt).isSame(this.endsAt, "day");
+  get isSingleDayEvent() {
+    return this.startsAt.isSame(this.endsAt, "day");
   }
 
-  get isSameYear() {
-    return moment(this.startsAt).isSame(this.endsAt, "year") && !this.isSameDay;
+  isSameYear(date1, date2) {
+    if (!date2) {
+      console.log(moment().toString());
+    }
+    return date1.isSame(date2 || moment(), "year");
   }
 
   get datesBBCode() {
     const dates = [];
 
-    let startsAtFormat = this.format;
     if (this.args.event.recurrence) {
-      startsAtFormat = "'ddd, MMM DD";
-      if (this.startsAt.year() !== moment().year()) {
-        startsAtFormat += ", YYYY";
-      }
-      startsAtFormat += ", h:mmA'";
+      // startsAtFormat = "'ddd, MMM DD";
+      // if (this.startsAt.year() !== moment().year()) {
+      //   startsAtFormat += ", YYYY";
+      // }
+      // startsAtFormat += ", h:mmA'";
     }
-    dates.push(this.buildDateBBCode(this.startsAt, startsAtFormat));
+    dates.push(this.buildDateBBCode(this.startsAt, this.startsAtFormat));
 
     if (this.endsAt) {
-      let endsAtFormat = this.format;
-
-      if (this.isSameDay) {
-        endsAtFormat = "LT";
-      } else if (this.isSameYear) {
-        endsAtFormat = "'ddd, MMM D, LT'";
-      } else {
-        endsAtFormat = "'llll'";
-      }
-
       if (this.args.event.recurrence) {
-        endsAtFormat = "'";
-        if (this.startsAt.dayOfYear() !== this.endsAt.dayOfYear()) {
-          endsAtFormat += "ddd, MMM DD, ";
-        }
-        if (this.endsAt.year() !== moment().year()) {
-          endsAtFormat += "YYYY, ";
-        }
-        endsAtFormat += "h:mmA'";
+        // endsAtFormat = "'";
+        // if (this.startsAt.dayOfYear() !== this.endsAt.dayOfYear()) {
+        //   endsAtFormat += "ddd, MMM DD, ";
+        // }
+        // if (this.endsAt.year() !== moment().year()) {
+        //   endsAtFormat += "YYYY, ";
+        // }
+        // endsAtFormat += "h:mmA'";
       }
-      dates.push(this.buildDateBBCode(this.endsAt, endsAtFormat));
+      dates.push(this.buildDateBBCode(this.endsAt, this.endsAtFormat));
     }
 
     return dates;
@@ -120,11 +133,10 @@ export default class DiscoursePostEventDates extends Component {
         );
       });
     } else {
-      let dates = `${this.startsAt.format(this.format)}`;
+      let dates = `${this.startsAt.format(this.startsAtFormat)}`;
       if (this.endsAt) {
-        dates += ` → ${moment(this.endsAt).format(this.format)}`;
+        dates += ` → ${moment(this.endsAt).format(this.endsAtFormat)}`;
       }
-      debugger;
       this.htmlDates = htmlSafe(dates);
     }
   }
