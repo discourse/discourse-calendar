@@ -1,6 +1,6 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { Input } from "@ember/component";
+import { Input, Textarea } from "@ember/component";
 import { concat, fn, get } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
@@ -392,6 +392,18 @@ export default class PostEventBuilder extends Component {
                   />
                 </EventField>
               {{/if}}
+
+              <EventField
+                @label="discourse_post_event.builder_modal.description.label"
+                class="description"
+              >
+                <Textarea
+                  @value={{@model.event.description}}
+                  placeholder={{i18n
+                    "discourse_post_event.builder_modal.description.placeholder"
+                  }}
+                />
+              </EventField>
 
               <EventField
                 class="timezone"

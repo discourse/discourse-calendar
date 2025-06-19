@@ -1,6 +1,10 @@
 $interested: #fb985d;
 $show-interested: inherit;
 
+.cooked > .discourse-post-event {
+  display: none;
+}
+
 .discourse-post-event {
   display: flex;
   justify-content: center;
@@ -349,6 +353,7 @@ $show-interested: inherit;
   }
 
   .event-location,
+  .event-description,
   .event-url,
   .event-dates,
   .event-chat-channel,

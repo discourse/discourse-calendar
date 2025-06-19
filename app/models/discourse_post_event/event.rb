@@ -309,6 +309,7 @@ module DiscoursePostEvent
           original_starts_at: parsed_starts_at,
           original_ends_at: parsed_ends_at,
           url: event_params[:url],
+          description: event_params[:description],
           location: event_params[:location],
           recurrence: event_params[:recurrence],
           recurrence_until: parsed_recurrence_until,
@@ -421,6 +422,7 @@ end
 #  raw_invitees       :string           is an Array
 #  name               :string
 #  url                :string(1000)
+#  description        :string(1000)
 #  location           :string(1000)
 #  custom_fields      :jsonb            not null
 #  reminders          :string

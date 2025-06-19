@@ -10,6 +10,7 @@ import routeAction from "discourse/helpers/route-action";
 import ChatChannel from "./chat-channel";
 import Creator from "./creator";
 import Dates from "./dates";
+import Description from "./description";
 import EventStatus from "./event-status";
 import Invitees from "./invitees";
 import Location from "./location";
@@ -131,6 +132,7 @@ export default class DiscoursePostEvent extends Component {
               event=@event
               Section=(component InfoSection event=@event)
               Url=(component Url url=@event.url)
+              Description=(component Description description=@event.description)
               Location=(component Location location=@event.location)
               Dates=(component Dates event=@event)
               Invitees=(component Invitees event=@event)
@@ -140,6 +142,7 @@ export default class DiscoursePostEvent extends Component {
           >
             <Dates @event={{@event}} />
             <Location @location={{@event.location}} />
+            <Description @description={{@event.description}} />
             <Url @url={{@event.url}} />
             <ChatChannel @event={{@event}} />
             <Invitees @event={{@event}} />

@@ -31,6 +31,7 @@ module DiscoursePostEvent
     attributes :timezone
     attributes :show_local_time
     attributes :url
+    attributes :description
     attributes :location
     attributes :watching_invitee
     attributes :chat_enabled
