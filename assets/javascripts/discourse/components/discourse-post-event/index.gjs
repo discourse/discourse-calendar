@@ -142,10 +142,10 @@ export default class DiscoursePostEvent extends Component {
           >
             <Dates @event={{@event}} />
             <Location @location={{@event.location}} />
-            <Description @description={{@event.description}} />
             <Url @url={{@event.url}} />
             <ChatChannel @event={{@event}} />
             <Invitees @event={{@event}} />
+            <Description @description={{@event.description}} />
             {{#if @event.canUpdateAttendance}}
               <Status @event={{@event}} />
             {{/if}}

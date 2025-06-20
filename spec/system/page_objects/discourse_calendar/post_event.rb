@@ -21,8 +21,12 @@ module PageObjects
           self
         end
 
-        def has_location?(location)
-          has_css?(".event-location", text: location)
+        def has_location?(text)
+          has_css?(".event-location", text:)
+        end
+
+        def has_description?(text)
+          has_css?(".event-description", text:)
         end
 
         def close

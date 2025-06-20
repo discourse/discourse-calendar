@@ -10,7 +10,7 @@ $show-interested: inherit;
   justify-content: center;
 
   .event__section {
-    padding: 0.5em 1em;
+    padding: 0.5em 0.75rem;
 
     &:first-child {
       border-top: 1px solid var(--primary-low);
@@ -180,8 +180,6 @@ $show-interested: inherit;
         align-items: center;
 
         .event-creator {
-          margin-left: 0.25em;
-
           .topic-invitee-avatar {
             display: flex;
             align-items: center;
@@ -352,8 +350,11 @@ $show-interested: inherit;
     margin: 0;
   }
 
+  .event-description {
+    display: flex;
+  }
+
   .event-location,
-  .event-description,
   .event-url,
   .event-dates,
   .event-chat-channel,
@@ -406,6 +407,7 @@ $show-interested: inherit;
     position: relative;
     display: flex;
     margin: 0 auto;
+    color: var(--primary-high);
   }
 
   .event-invitees-icon .going {

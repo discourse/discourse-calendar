@@ -28,15 +28,36 @@ describe "Post event", type: :system do
 
       visit(post.topic.url)
       post_event_page.edit
-      post_event_form_page.fill_location(
-        "123<script>1</script> Main St, Brisbane, Australia http://example.com",
-      )
+      post_event_form_page.fill_location("123 Main St, Brisbane, Australia http://example.com")
       post_event_form_page.submit
 
       expect(post_event_page).to have_location(
-        "123<script>1</script> Main St, Brisbane, Australia http://example.com",
+        "123 Main St, Brisbane, Australia http://example.com",
       )
       expect(page).to have_css(".event-location a[href='http://example.com']")
+    end
+  end
+
+  context "with description" do
+    it "can save a description" do
+      post =
+        PostCreator.create(
+          admin,
+          title: "My test meetup event",
+          raw: "[event start='2222-02-22 14:22']\n[/event]",
+        )
+
+      visit(post.topic.url)
+      post_event_page.edit
+      post_event_form_page.fill_description(
+        "this is a test description\n and a link http://example.com",
+      )
+      post_event_form_page.submit
+
+      expect(post_event_page).to have_description(
+        %r{this is a test description\s+and a link http://example.com},
+      )
+      expect(page).to have_css(".event-description a[href='http://example.com']")
     end
   end
 

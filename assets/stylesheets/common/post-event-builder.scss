@@ -111,6 +111,13 @@
     margin-bottom: 2em;
     flex-direction: column;
 
+    &.description {
+      textarea {
+        border-radius: var(--d-input-border-radius);
+        margin: 0;
+      }
+    }
+
     &.name,
     &.url {
       input {

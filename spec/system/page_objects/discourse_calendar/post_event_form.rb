@@ -11,6 +11,11 @@ module PageObjects
           self
         end
 
+        def fill_description(with)
+          form.find(".event-field.description textarea").fill_in(with:)
+          self
+        end
+
         def form
           modal.find("form")
         end
