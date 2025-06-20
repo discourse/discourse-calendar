@@ -35,6 +35,10 @@
     width: 550px;
   }
 
+  .conditional-loading-section {
+    background: transparent;
+  }
+
   .modal-body {
     min-height: 200px;
 
@@ -106,6 +110,13 @@
     display: flex;
     margin-bottom: 2em;
     flex-direction: column;
+
+    &.description {
+      textarea {
+        border-radius: var(--d-input-border-radius);
+        margin: 0;
+      }
+    }
 
     &.name,
     &.url {

@@ -13,6 +13,7 @@ DiscoursePostEvent::Engine.routes.draw do
   get "/discourse-post-event/events/:post_id/invitees" => "invitees#index"
   delete "/discourse-post-event/events/:post_id/invitees/:id" => "invitees#destroy"
   get "/upcoming-events" => "upcoming_events#index"
+  get "/upcoming-events/mine" => "upcoming_events#index"
 end
 
 Discourse::Application.routes.draw do

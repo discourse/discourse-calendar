@@ -33,6 +33,33 @@ module DiscoursePostEvent
 
       events = events.where(id: Array(params[:post_id])) if params[:post_id]
 
+      if params[:attending_user].present?
+        attending_user = User.find_by(username_lower: params[:attending_user].downcase)
+        if attending_user
+          events =
+            events.joins(:invitees).where(
+              discourse_post_event_invitees: {
+                user_id: attending_user.id,
+                status: DiscoursePostEvent::Invitee.statuses[:going],
+              },
+            )
+
+          if !guardian.is_admin?
+            events =
+              events.where(
+                "discourse_post_event_events.status != ? OR discourse_post_event_events.status = ? AND EXISTS (
+                SELECT 1 FROM discourse_post_event_invitees dpoei
+                WHERE dpoei.post_id = discourse_post_event_events.id
+                AND dpoei.user_id = ?
+              )",
+                DiscoursePostEvent::Event.statuses[:private],
+                DiscoursePostEvent::Event.statuses[:private],
+                user&.id,
+              )
+          end
+        end
+      end
+
       if params[:before].present?
         events = events.where("dcped.starts_at < ?", params[:before].to_datetime)
       end

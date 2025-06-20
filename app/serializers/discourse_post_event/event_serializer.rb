@@ -31,6 +31,8 @@ module DiscoursePostEvent
     attributes :timezone
     attributes :show_local_time
     attributes :url
+    attributes :description
+    attributes :location
     attributes :watching_invitee
     attributes :chat_enabled
     attributes :channel
@@ -133,6 +135,10 @@ module DiscoursePostEvent
 
     def category_id
       object.post.topic.category_id
+    end
+
+    def include_url?
+      object.url.present?
     end
 
     def include_recurrence_rule?

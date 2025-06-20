@@ -8,6 +8,7 @@ module DiscoursePostEvent
       :status,
       :"allowed-groups",
       :url,
+      :location,
       :name,
       :reminders,
       :recurrence,
@@ -59,6 +60,7 @@ module DiscoursePostEvent
               end
             end
           end
+          event[:description] = doc.text.strip if event
           event
         end
         .compact

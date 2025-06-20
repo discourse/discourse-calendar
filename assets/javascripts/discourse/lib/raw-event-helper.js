@@ -17,6 +17,14 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
     params.name = event.name;
   }
 
+  if (event.location) {
+    params.location = event.location;
+  }
+
+  if (event.description) {
+    params.description = event.description;
+  }
+
   if (event.url) {
     params.url = event.url;
   }
@@ -92,11 +100,15 @@ export function buildParams(startsAt, endsAt, event, siteSettings) {
 }
 
 export function replaceRaw(params, raw) {
-  const eventRegex = new RegExp(`\\[event\\s(.*?)\\]`, "m");
+  const eventRegex = /\[event (.*?)\](.*?)\[\/event\]/s;
   const eventMatches = raw.match(eventRegex);
 
   if (eventMatches && eventMatches[1]) {
     const markdownParams = [];
+
+    let description = params.description;
+    description = description ? `${description}\n` : "";
+    delete params.description;
 
     Object.keys(params).forEach((param) => {
       const value = params[param];
@@ -105,7 +117,10 @@ export function replaceRaw(params, raw) {
       }
     });
 
-    return raw.replace(eventRegex, `[event ${markdownParams.join(" ")}]`);
+    return raw.replace(
+      eventRegex,
+      `[event ${markdownParams.join(" ")}]\n${description}[/event]`
+    );
   }
 
   return false;

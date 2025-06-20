@@ -372,6 +372,8 @@ en:
         creator: "Creator"
         status: "Status"
         starts_at: "Starts at"
+        all_events: "All events"
+        my_events: "My events"
       upcoming_events_list:
         title: "Upcoming events"
         empty: "No upcoming events"
@@ -472,6 +474,12 @@ en:
         url:
           label: "URL"
           placeholder: "Optional"
+        location:
+          label: "Location"
+          placeholder: "Add a location, link or something."
+        description:
+          label: "Description"
+          placeholder: "Tell people a little bit more about your event. New lines and links are supported."
         name:
           label: "Event name"
           placeholder: "Optional, defaults to topic title"

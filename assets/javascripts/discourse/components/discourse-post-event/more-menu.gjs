@@ -1,9 +1,11 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
 import { hash } from "@ember/helper";
 import EmberObject, { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
+import concatClass from "discourse/helpers/concat-class";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { downloadCalendar } from "discourse/lib/download-calendar";
 import { exportEntity } from "discourse/lib/export-csv";
@@ -26,6 +28,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
   @service router;
   @service siteSettings;
   @service store;
+
+  @tracked isSavingEvent = false;
 
   get expiredOrClosed() {
     return this.args.event.isExpired || this.args.event.isClosed;
@@ -147,6 +151,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
     this.dialog.yesNoConfirm({
       message: i18n("discourse_post_event.builder_modal.confirm_open"),
       didConfirm: async () => {
+        this.isSavingEvent = true;
+
         try {
           const post = await this.store.find("post", this.args.event.id);
           this.args.event.isClosed = false;
@@ -172,6 +178,8 @@ export default class DiscoursePostEventMoreMenu extends Component {
           }
         } catch (e) {
           popupAjaxError(e);
+        } finally {
+          this.isSavingEvent = false;
         }
       },
     });
@@ -208,6 +216,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
     this.dialog.yesNoConfirm({
       message: i18n("discourse_post_event.builder_modal.confirm_close"),
       didConfirm: () => {
+        this.isSavingEvent = true;
         return this.store.find("post", this.args.event.id).then((post) => {
           this.args.event.isClosed = true;
 
@@ -226,10 +235,14 @@ export default class DiscoursePostEventMoreMenu extends Component {
               edit_reason: i18n("discourse_post_event.edit_reason_closed"),
             };
 
-            return cook(newRaw).then((cooked) => {
-              props.cooked = cooked.string;
-              return post.save(props);
-            });
+            return cook(newRaw)
+              .then((cooked) => {
+                props.cooked = cooked.string;
+                return post.save(props);
+              })
+              .finally(() => {
+                this.isSavingEvent = false;
+              });
           }
         });
       },
@@ -239,7 +252,10 @@ export default class DiscoursePostEventMoreMenu extends Component {
   <template>
     <DMenu
       @identifier="discourse-post-event-more-menu"
-      @triggerClass="more-dropdown"
+      @triggerClass={{concatClass
+        "more-dropdown"
+        (if this.isSavingEvent "--saving")
+      }}
       @icon="ellipsis"
       @onRegisterApi={{this.registerMenuApi}}
     >
@@ -333,6 +349,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                   class="btn-transparent"
                   @label="discourse_post_event.open_event"
                   @action={{this.openEvent}}
+                  @disabled={{this.isSavingEvent}}
                 />
               </dropdown.item>
             {{else}}
@@ -351,6 +368,7 @@ export default class DiscoursePostEventMoreMenu extends Component {
                     @icon="xmark"
                     @label="discourse_post_event.close_event"
                     @action={{this.closeEvent}}
+                    @disabled={{this.isSavingEvent}}
                     class="btn-transparent btn-danger"
                   />
                 </dropdown.item>

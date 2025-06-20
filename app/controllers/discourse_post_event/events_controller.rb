@@ -123,6 +123,7 @@ module DiscoursePostEvent
         :include_expired,
         :limit,
         :before,
+        :attending_user,
       )
     end
   end
