@@ -65,10 +65,22 @@ export default class DiscoursePostEventDates extends Component {
   get datesBBCode() {
     const dates = [];
 
-    dates.push(this.buildDateBBCode(this.startsAt, this.startsAtFormat));
+    dates.push(
+      this.buildDateBBCode({
+        date: this.startsAt,
+        format: this.startsAtFormat,
+        range: !!this.endsAt && "from",
+      })
+    );
 
     if (this.endsAt) {
-      dates.push(this.buildDateBBCode(this.endsAt, this.endsAtFormat));
+      dates.push(
+        this.buildDateBBCode({
+          date: this.endsAt,
+          format: this.endsAtFormat,
+          range: "to",
+        })
+      );
     }
 
     return dates;
@@ -82,7 +94,7 @@ export default class DiscoursePostEventDates extends Component {
     return date.hour() || date.minute();
   }
 
-  buildDateBBCode(date, format) {
+  buildDateBBCode({ date, format, range }) {
     const bbcode = {
       date: date.format("YYYY-MM-DD"),
       time: date.format("HH:mm"),
@@ -93,6 +105,10 @@ export default class DiscoursePostEventDates extends Component {
 
     if (this.args.event.showLocalTime) {
       bbcode.displayedTimezone = this.args.event.timezone;
+    }
+
+    if (range) {
+      bbcode.range = range;
     }
 
     const content = Object.entries(bbcode)

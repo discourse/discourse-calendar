@@ -181,7 +181,7 @@ module("Integration | Component | Dates", function (hooks) {
       assert
         .dom(".event-dates")
         .hasText(
-          "Today 2:00 PM → 4:00 PM",
+          "Today 2:00 PM → 4:00 PM (UTC)",
           "`endsAt` should show from today time to time only"
         );
     });
