@@ -8,7 +8,6 @@ import { htmlSafe } from "@ember/template";
 import icon from "discourse/helpers/d-icon";
 import { applyLocalDates } from "discourse/lib/local-dates";
 import { cook } from "discourse/lib/text";
-import guessDateFormat from "../../lib/guess-best-date-format";
 
 export default class DiscoursePostEventDates extends Component {
   @service siteSettings;
@@ -29,32 +28,92 @@ export default class DiscoursePostEventDates extends Component {
     return this.args.event.timezone || "UTC";
   }
 
-  get format() {
-    return guessDateFormat(this.startsAt, this.endsAt);
+  get startsAtFormat() {
+    const formatParts = ["ddd, MMM D"];
+
+    if (!this.isSameYear(this.startsAt)) {
+      formatParts.push("YYYY");
+    }
+
+    const dateString = formatParts.join(", ");
+    const timeString =
+      this.hasTime(this.startsAt) || this.isSingleDayEvent ? " LT" : "";
+
+    return `'${dateString}${timeString}'`;
+  }
+
+  get endsAtFormat() {
+    if (this.isSingleDayEvent) {
+      return "LT";
+    }
+
+    const formatParts = ["ddd, MMM D"];
+
+    const showYear =
+      !this.isSameYear(this.endsAt) ||
+      !this.isSameYear(this.endsAt, this.startsAt);
+
+    if (showYear) {
+      formatParts.push("YYYY");
+    }
+
+    const dateString = formatParts.join(", ");
+    const timeString = this.hasTime(this.endsAt) ? " LT" : "";
+
+    return `'${dateString}${timeString}'`;
+  }
+
+  get isSingleDayEvent() {
+    return this.startsAt.isSame(this.endsAt, "day");
   }
 
   get datesBBCode() {
     const dates = [];
 
-    dates.push(this.buildDateBBCode(this.startsAt));
+    dates.push(
+      this.buildDateBBCode({
+        date: this.startsAt,
+        format: this.startsAtFormat,
+        range: !!this.endsAt && "from",
+      })
+    );
 
     if (this.endsAt) {
-      dates.push(this.buildDateBBCode(this.endsAt));
+      dates.push(
+        this.buildDateBBCode({
+          date: this.endsAt,
+          format: this.endsAtFormat,
+          range: "to",
+        })
+      );
     }
 
     return dates;
   }
 
-  buildDateBBCode(date) {
+  isSameYear(date1, date2) {
+    return date1.isSame(date2 || moment(), "year");
+  }
+
+  hasTime(date) {
+    return date.hour() || date.minute();
+  }
+
+  buildDateBBCode({ date, format, range }) {
     const bbcode = {
       date: date.format("YYYY-MM-DD"),
       time: date.format("HH:mm"),
-      format: this.format,
+      format,
       timezone: this.timezone,
+      hideTimezone: this.args.event.showLocalTime,
     };
 
     if (this.args.event.showLocalTime) {
       bbcode.displayedTimezone = this.args.event.timezone;
+    }
+
+    if (range) {
+      bbcode.range = range;
     }
 
     const content = Object.entries(bbcode)
@@ -83,9 +142,9 @@ export default class DiscoursePostEventDates extends Component {
         );
       });
     } else {
-      let dates = `${this.startsAt.format(this.format)}`;
+      let dates = `${this.startsAt.format(this.startsAtFormat)}`;
       if (this.endsAt) {
-        dates += ` → ${moment(this.endsAt).format(this.format)}`;
+        dates += ` → ${moment(this.endsAt).format(this.endsAtFormat)}`;
       }
       this.htmlDates = htmlSafe(dates);
     }
