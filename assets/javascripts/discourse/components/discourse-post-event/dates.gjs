@@ -29,33 +29,38 @@ export default class DiscoursePostEventDates extends Component {
   }
 
   get startsAtFormat() {
-    let startsAtFormat = "'ddd, MMM D'";
+    const formatParts = ["ddd, MMM D"];
+
     if (!this.isSameYear(this.startsAt)) {
-      startsAtFormat = startsAtFormat.replace(/'$/, ", YYYY'");
+      formatParts.push("YYYY");
     }
-    if (this.hasTime(this.startsAt) || this.isSingleDayEvent) {
-      startsAtFormat = startsAtFormat.replace(/'$/, " LT'");
-    }
-    return startsAtFormat;
+
+    const dateString = formatParts.join(", ");
+    const timeString =
+      this.hasTime(this.startsAt) || this.isSingleDayEvent ? " LT" : "";
+
+    return `'${dateString}${timeString}'`;
   }
 
   get endsAtFormat() {
-    let endsAtFormat = "'ddd, MMM D'";
     if (this.isSingleDayEvent) {
       return "LT";
     }
-    if (
-      !(
-        this.isSameYear(this.endsAt) &&
-        this.isSameYear(this.endsAt, this.startsAt)
-      )
-    ) {
-      endsAtFormat = endsAtFormat.replace(/'$/, ", YYYY'");
+
+    const formatParts = ["ddd, MMM D"];
+
+    const showYear =
+      !this.isSameYear(this.endsAt) ||
+      !this.isSameYear(this.endsAt, this.startsAt);
+
+    if (showYear) {
+      formatParts.push("YYYY");
     }
-    if (this.hasTime(this.endsAt)) {
-      endsAtFormat = endsAtFormat.replace(/'$/, " LT'");
-    }
-    return endsAtFormat;
+
+    const dateString = formatParts.join(", ");
+    const timeString = this.hasTime(this.endsAt) ? " LT" : "";
+
+    return `'${dateString}${timeString}'`;
   }
 
   get isSingleDayEvent() {
