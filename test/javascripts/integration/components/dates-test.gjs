@@ -29,6 +29,7 @@ module("Integration | Component | Dates", function (hooks) {
 
   const starts = {
     startsAt: "2025-10-06T00:00:00Z",
+    timezone: "UTC",
   };
   const events = {
     currentYear: {
@@ -39,66 +40,88 @@ module("Integration | Component | Dates", function (hooks) {
       },
       endsSameWeek: {
         ...starts,
-        endsAt: "2025-10-10",
+        endsAt: "2025-10-10T00:00:00Z",
       },
       endsSameMonth: {
         ...starts,
-        endsAt: "2025-10-20",
+        endsAt: "2025-10-20T00:00:00Z",
       },
       endsDiffMonth: {
         ...starts,
-        endsAt: "2025-11-06",
+        endsAt: "2025-11-06T00:00:00Z",
       },
       endsDiffYear: {
         ...starts,
-        endsAt: "2026-01-06",
+        endsAt: "2026-01-06T00:00:00Z",
       },
     },
   };
 
   module("dates without time", function () {
-    test("formats same day range dates and times", async function (assert) {
-      const testState = new (class {
-        // @tracked endsAt = new Date("2025-10-01T11:00:00Z");
-        @tracked event = events.currentYear.starts;
-      })();
-
-      await render(<template><Dates @event={{testState.event}} /></template>);
+    test("formats start date", async function (assert) {
+      await render(
+        <template><Dates @event={{events.currentYear.starts}} /></template>
+      );
 
       assert
         .dom(".event-dates")
         .hasText(
           "Mon, Oct 6",
-          "`startAt` should not render the current year, and not show any time"
+          "`startsAt` should not show current year and time"
         );
+    });
 
-      testState.event = events.currentYear.endsSameWeek;
-      await settled();
+    test("formats same day range", async function (assert) {
+      await render(
+        <template><Dates @event={{events.currentYear.endsSameDay}} /></template>
+      );
+
+      assert
+        .dom(".event-dates")
+        .hasText(
+          "Mon, Oct 6 12:00 AM → 1:00 AM",
+          "`endsAt` should show time only"
+        );
+    });
+
+    test("formats same week range", async function (assert) {
+      await render(
+        <template><Dates @event={{events.currentYear.endsSameWeek}} /></template>
+      );
+
       assert
         .dom(".event-dates")
         .hasText(
           "Mon, Oct 6 → Fri, Oct 10",
-          "`startAt`, `endAt` should not render the current year, and not show any time"
+          "`endAt` should be formatted with weekday, month and date"
         );
     });
-  });
 
-  test("formats same week range dates and times", async function (assert) {
-    const eventWithinWeekRange = new (class extends this.basicEvent {
-      @tracked endsAt = "2025-10-03T00:00:00Z";
-      // @tracked endsAt = new Date("2025-10-03T00:00:00Z");
-    })();
-
-    await render(
-      <template><Dates @event={{eventWithinWeekRange}} /></template>
-    );
-
-    assert
-      .dom(".event-dates")
-      .hasText(
-        "Wed, Oct 1 10:00 AM → Fri, Oct 3",
-        "`endAt` should be formatted with localized weekday, date and time"
+    test("formats same month range", async function (assert) {
+      await render(
+        <template><Dates @event={{events.currentYear.endsSameMonth}} /></template>
       );
+
+      assert
+        .dom(".event-dates")
+        .hasText(
+          "Mon, Oct 6 → Mon, Oct 20",
+          "`endAt` should be formatted with weekday, month and date"
+        );
+    });
+
+    test("formats different months range", async function (assert) {
+      await render(
+        <template><Dates @event={{events.currentYear.endsDiffMonth}} /></template>
+      );
+
+      assert
+        .dom(".event-dates")
+        .hasText(
+          "Mon, Oct 6 → Thu, Nov 6",
+          "`endAt` should be formatted with weekday, month and date"
+        );
+    });
   });
 
   test("formats different month range dates and times", async function (assert) {

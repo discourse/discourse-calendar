@@ -33,7 +33,7 @@ export default class DiscoursePostEventDates extends Component {
     if (!this.isSameYear(this.startsAt)) {
       startsAtFormat = startsAtFormat.replace(/'$/, ", YYYY'");
     }
-    if (this.hasTime(this.startsAt)) {
+    if (this.hasTime(this.startsAt) || this.isSingleDayEvent) {
       startsAtFormat = startsAtFormat.replace(/'$/, " LT'");
     }
     return startsAtFormat;
@@ -62,14 +62,6 @@ export default class DiscoursePostEventDates extends Component {
     return this.startsAt.isSame(this.endsAt, "day");
   }
 
-  isSameYear(date1, date2) {
-    return date1.isSame(date2 || moment(), "year");
-  }
-
-  hasTime(date) {
-    return date.hour() || date.minute();
-  }
-
   get datesBBCode() {
     const dates = [];
 
@@ -80,6 +72,14 @@ export default class DiscoursePostEventDates extends Component {
     }
 
     return dates;
+  }
+
+  isSameYear(date1, date2) {
+    return date1.isSame(date2 || moment(), "year");
+  }
+
+  hasTime(date) {
+    return date.hour() || date.minute();
   }
 
   buildDateBBCode(date, format) {
