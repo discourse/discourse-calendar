@@ -4,6 +4,7 @@ export default function () {
     { path: "/upcoming-events" },
     function () {
       this.route("index", { path: "/" });
+      this.route("mine");
     }
   );
 }

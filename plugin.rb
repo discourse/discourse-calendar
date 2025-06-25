@@ -37,6 +37,7 @@ register_svg_icon "clock"
 register_svg_icon "file-csv"
 register_svg_icon "star"
 register_svg_icon "file-arrow-up"
+register_svg_icon "location-pin"
 
 module ::DiscourseCalendar
   PLUGIN_NAME = "discourse-calendar"

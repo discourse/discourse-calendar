@@ -3,7 +3,7 @@ import { replaceRaw } from "discourse/plugins/discourse-calendar/discourse/lib/r
 
 module("Unit | Lib | raw-event-helper", function () {
   test("replaceRaw", function (assert) {
-    const raw = 'Some text [event param1="value1"] more text';
+    const raw = 'Some text \n[event param1="va]lue1"]\n[/event]\n more text';
     const params = {
       param1: "newValue1",
       param2: "value2",
@@ -11,7 +11,7 @@ module("Unit | Lib | raw-event-helper", function () {
 
     assert.strictEqual(
       replaceRaw(params, raw),
-      'Some text [event param1="newValue1" param2="value2"] more text',
+      'Some text \n[event param1="newValue1" param2="value2"]\n[/event]\n more text',
       "updates existing parameters and adds new ones"
     );
 
@@ -21,14 +21,14 @@ module("Unit | Lib | raw-event-helper", function () {
     );
 
     assert.strictEqual(
-      replaceRaw({ foo: 'bar"quoted' }, '[event original="value"]'),
-      '[event foo="barquoted"]',
+      replaceRaw({ foo: 'bar"quoted' }, '[event original="value"]\n[/event]'),
+      '[event foo="barquoted"]\n[/event]',
       "escapes double quotes in parameter values"
     );
 
     assert.strictEqual(
-      replaceRaw({}, '[event param1="value1"]'),
-      "[event ]",
+      replaceRaw({}, '[event param1="value1"]\n[/event]'),
+      "[event ]\n[/event]",
       "handles empty params object"
     );
   });

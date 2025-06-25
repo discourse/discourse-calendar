@@ -13,6 +13,62 @@ describe DiscoursePostEvent::EventFinder do
     Group.refresh_automatic_groups!
   end
 
+  describe "by attending user" do
+    fab!(:attending_user) { Fabricate(:user) }
+    fab!(:public_event) { Fabricate(:event, status: DiscoursePostEvent::Event.statuses[:public]) }
+    fab!(:private_event) { Fabricate(:event, status: DiscoursePostEvent::Event.statuses[:private]) }
+    fab!(:another_event) { Fabricate(:event, status: DiscoursePostEvent::Event.statuses[:public]) }
+
+    fab!(:attending_public_event) do
+      DiscoursePostEvent::Invitee.create!(
+        user: attending_user,
+        event: public_event,
+        status: DiscoursePostEvent::Invitee.statuses[:going],
+      )
+    end
+
+    fab!(:attending_private_event) do
+      DiscoursePostEvent::Invitee.create!(
+        user: attending_user,
+        event: private_event,
+        status: DiscoursePostEvent::Invitee.statuses[:going],
+      )
+    end
+
+    fab!(:not_attending_event) do
+      DiscoursePostEvent::Invitee.create!(
+        user: attending_user,
+        event: another_event,
+        status: DiscoursePostEvent::Invitee.statuses[:not_going],
+      )
+    end
+
+    it "returns only events the user is attending" do
+      expect(
+        finder.search(current_user, { attending_user: attending_user.username }),
+      ).to match_array([public_event])
+    end
+
+    it "includes private events for admin users" do
+      current_user.update!(admin: true)
+      expect(
+        finder.search(current_user, { attending_user: attending_user.username }),
+      ).to match_array([public_event, private_event])
+    end
+
+    it "includes private events if the searching user is also invited" do
+      DiscoursePostEvent::Invitee.create!(
+        user: current_user,
+        event: private_event,
+        status: DiscoursePostEvent::Invitee.statuses[:going],
+      )
+
+      expect(
+        finder.search(current_user, { attending_user: attending_user.username }),
+      ).to match_array([public_event, private_event])
+    end
+  end
+
   context "when the event is associated to a visible post" do
     let(:post1) do
       PostCreator.create!(

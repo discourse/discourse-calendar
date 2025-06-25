@@ -29,7 +29,9 @@ export default class DiscoursePostEventEvent {
   @tracked startsAt;
   @tracked endsAt;
   @tracked rawInvitees;
+  @tracked location;
   @tracked url;
+  @tracked description;
   @tracked timezone;
   @tracked showLocalTime;
   @tracked status;
@@ -63,7 +65,9 @@ export default class DiscoursePostEventEvent {
     this.endsAt = args.ends_at;
     this.rawInvitees = args.raw_invitees;
     this.sampleInvitees = args.sample_invitees || [];
+    this.location = args.location;
     this.url = args.url;
+    this.description = args.description;
     this.timezone = args.timezone;
     this.showLocalTime = args.show_local_time;
     this.status = args.status;
@@ -145,9 +149,11 @@ export default class DiscoursePostEventEvent {
     this.name = event.name;
     this.startsAt = event.startsAt;
     this.endsAt = event.endsAt;
+    this.location = event.location;
     this.url = event.url;
     this.timezone = event.timezone;
     this.showLocalTime = event.showLocalTime;
+    this.description = event.description;
     this.status = event.status;
     this.creator = event.creator;
     this.isClosed = event.isClosed;

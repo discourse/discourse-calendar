@@ -1,39 +1,37 @@
-import Component from "@ember/component";
+import Component from "@glimmer/component";
+import { action } from "@ember/object";
+import didInsert from "@ember/render-modifiers/modifiers/did-insert";
+import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
+import { LinkTo } from "@ember/routing";
 import { schedule } from "@ember/runloop";
-import { tagName } from "@ember-decorators/component";
+import { service } from "@ember/service";
 import { Promise } from "rsvp";
 import getURL from "discourse/lib/get-url";
 import loadScript from "discourse/lib/load-script";
 import Category from "discourse/models/category";
+import { i18n } from "discourse-i18n";
 import { formatEventName } from "../helpers/format-event-name";
 import addRecurrentEvents from "../lib/add-recurrent-events";
 import fullCalendarDefaultOptions from "../lib/full-calendar-default-options";
 import { isNotFullDayEvent } from "../lib/guess-best-date-format";
 
-@tagName("")
 export default class UpcomingEventsCalendar extends Component {
-  events = null;
+  @service currentUser;
+  @service site;
+  @service router;
 
-  init() {
-    super.init(...arguments);
+  _calendar = null;
+
+  @action
+  teardown() {
+    this._calendar?.destroy?.();
     this._calendar = null;
   }
 
-  willDestroyElement() {
-    super.willDestroyElement(...arguments);
-
-    this._calendar && this._calendar.destroy();
-    this._calendar = null;
-  }
-
-  didInsertElement() {
-    super.didInsertElement(...arguments);
-
-    this._renderCalendar();
-  }
-
-  async _renderCalendar() {
+  @action
+  async renderCalendar() {
     const siteSettings = this.site.siteSettings;
+    const isMobileView = this.site.mobileView;
 
     const calendarNode = document.getElementById("upcoming-events-calendar");
     if (!calendarNode) {
@@ -44,16 +42,50 @@ export default class UpcomingEventsCalendar extends Component {
 
     await this._loadCalendar();
 
+    const view =
+      this.args.controller.view || (isMobileView ? "listNextYear" : "month");
+
     const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
       ...fullCalendarDefaultOptions(),
       firstDay: 1,
       height: "auto",
+      defaultView: view,
+      views: {
+        listNextYear: {
+          type: "list",
+          duration: { days: 365 },
+          buttonText: "list",
+          listDayFormat: {
+            month: "long",
+            year: "numeric",
+            day: "numeric",
+            weekday: "long",
+          },
+        },
+      },
+      header: {
+        left: "prev,next today",
+        center: "title",
+        right: "month,basicWeek,listNextYear",
+      },
+      datesRender: (info) => {
+        // this is renamed in FullCalendar v5 / v6 to datesSet
+        // in unit tests we skip
+        if (this.router?.transitionTo) {
+          this.router.transitionTo({ queryParams: { view: info.view.type } });
+        }
+      },
       eventPositioned: (info) => {
         if (siteSettings.events_max_rows === 0) {
           return;
         }
 
         let fcContent = info.el.querySelector(".fc-content");
+
+        if (!fcContent) {
+          return;
+        }
+
         let computedStyle = window.getComputedStyle(fcContent);
         let lineHeight = parseInt(computedStyle.lineHeight, 10);
 
@@ -78,7 +110,7 @@ export default class UpcomingEventsCalendar extends Component {
 
     const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-    const resolvedEvents = await this.events;
+    const resolvedEvents = await this.args.controller.model;
     const originalEventAndRecurrents = addRecurrentEvents(resolvedEvents);
 
     (originalEventAndRecurrents || []).forEach((event) => {
@@ -143,6 +175,31 @@ export default class UpcomingEventsCalendar extends Component {
   }
 
   <template>
-    <div id="upcoming-events-calendar"></div>
+    {{#if this.currentUser}}
+      <ul class="events-filter nav nav-pills">
+        <li>
+          <LinkTo
+            @route="discourse-post-event-upcoming-events.index"
+            class="btn-small"
+          >
+            {{i18n "discourse_post_event.upcoming_events.all_events"}}
+          </LinkTo>
+        </li>
+        <li>
+          <LinkTo
+            @route="discourse-post-event-upcoming-events.mine"
+            class="btn-small"
+          >
+            {{i18n "discourse_post_event.upcoming_events.my_events"}}
+          </LinkTo>
+        </li>
+      </ul>
+    {{/if}}
+
+    <div
+      id="upcoming-events-calendar"
+      {{didInsert this.renderCalendar}}
+      {{willDestroy this.teardown}}
+    ></div>
   </template>
 }
