@@ -16,7 +16,7 @@ const DEFAULT_UPCOMING_DAYS = 180;
 const DEFAULT_COUNT = 8;
 
 function addToResult(date, item, result) {
-  const day = date.date();
+  const day = date.format("DD");
   const monthKey = date.format("YYYY-MM");
 
   result[monthKey] = result[monthKey] ?? {};
