@@ -22,6 +22,10 @@ export default class UpcomingEventsCalendar extends Component {
 
   _calendar = null;
 
+  get displayFilters() {
+    return this.currentUser && this.args.controller;
+  }
+
   @action
   teardown() {
     this._calendar?.destroy?.();
@@ -43,7 +47,7 @@ export default class UpcomingEventsCalendar extends Component {
     await this._loadCalendar();
 
     const view =
-      this.args.controller.view || (isMobileView ? "listNextYear" : "month");
+      this.args.controller?.view || (isMobileView ? "listNextYear" : "month");
 
     const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
       ...fullCalendarDefaultOptions(),
@@ -110,7 +114,9 @@ export default class UpcomingEventsCalendar extends Component {
 
     const tagsColorsMap = JSON.parse(siteSettings.map_events_to_color);
 
-    const resolvedEvents = await this.args.controller.model;
+    const resolvedEvents = this.args.events
+      ? await this.args.events
+      : await this.args.controller.model;
     const originalEventAndRecurrents = addRecurrentEvents(resolvedEvents);
 
     (originalEventAndRecurrents || []).forEach((event) => {
@@ -175,7 +181,7 @@ export default class UpcomingEventsCalendar extends Component {
   }
 
   <template>
-    {{#if this.currentUser}}
+    {{#if this.displayFilters}}
       <ul class="events-filter nav nav-pills">
         <li>
           <LinkTo
