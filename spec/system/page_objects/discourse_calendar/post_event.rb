@@ -30,6 +30,7 @@ module PageObjects
         end
 
         def close
+          has_css?(".discourse-post-event .status-and-creators .status:not(.closed)")
           open_more_menu
           find(".close-event").click
           find("#dialog-holder .btn-primary").click
@@ -39,6 +40,7 @@ module PageObjects
         end
 
         def open
+          has_css?(".discourse-post-event .status-and-creators .status.closed")
           open_more_menu
           find(".open-event").click
           find("#dialog-holder .btn-primary").click
