@@ -29,17 +29,10 @@ export default class DiscoursePostEventDates extends Component {
   }
 
   get startsAtFormat() {
-    const formatParts = ["ddd, MMM D"];
-
-    if (!this.isSameYear(this.startsAt)) {
-      formatParts.push("YYYY");
-    }
-
-    const dateString = formatParts.join(", ");
-    const timeString =
-      this.hasTime(this.startsAt) || this.isSingleDayEvent ? " LT" : "";
-
-    return `\u0022${dateString}${timeString}\u0022`;
+    return this._buildFormat(this.startsAt, {
+      includeYear: !this.isSameYear(this.startsAt),
+      includeTime: this.hasTime(this.startsAt) || this.isSingleDayEvent,
+    });
   }
 
   get endsAtFormat() {
@@ -47,20 +40,24 @@ export default class DiscoursePostEventDates extends Component {
       return "LT";
     }
 
+    return this._buildFormat(this.endsAt, {
+      includeYear:
+        !this.isSameYear(this.endsAt) ||
+        !this.isSameYear(this.endsAt, this.startsAt),
+      includeTime: this.hasTime(this.endsAt),
+    });
+  }
+
+  _buildFormat(date, { includeYear, includeTime }) {
     const formatParts = ["ddd, MMM D"];
-
-    const showYear =
-      !this.isSameYear(this.endsAt) ||
-      !this.isSameYear(this.endsAt, this.startsAt);
-
-    if (showYear) {
+    if (includeYear) {
       formatParts.push("YYYY");
     }
 
     const dateString = formatParts.join(", ");
-    const timeString = this.hasTime(this.endsAt) ? " LT" : "";
+    const timeString = includeTime ? " LT" : "";
 
-    return `'${dateString}${timeString}'`;
+    return `\u0022${dateString}${timeString}\u0022`;
   }
 
   get isSingleDayEvent() {
