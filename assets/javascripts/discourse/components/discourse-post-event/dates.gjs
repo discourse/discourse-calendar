@@ -39,7 +39,7 @@ export default class DiscoursePostEventDates extends Component {
     const timeString =
       this.hasTime(this.startsAt) || this.isSingleDayEvent ? " LT" : "";
 
-    return `\u0027${dateString}${timeString}\u0027`;
+    return `\u0022${dateString}${timeString}\u0022`;
   }
 
   get endsAtFormat() {
