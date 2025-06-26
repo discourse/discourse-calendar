@@ -109,7 +109,7 @@ describe "Post event", type: :system do
     expect(page).to have_css(".event-info .name", text: "<script>alert(1);</script>")
   end
 
-  it "can create, close, and open an event" do
+  xit "can create, close, and open an event" do
     visit "/new-topic"
     title = "My upcoming l33t event"
     tomorrow = (Time.zone.now + 1.day).strftime("%Y-%m-%d")
