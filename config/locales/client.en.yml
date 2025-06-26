@@ -33,6 +33,7 @@ en:
       date: "Date"
       add_to_calendar: "Add to Google Calendar"
       toggle_timezone_offset_title: "Toggle timezone offset"
+      local_time: "Local time"
       region:
         title: "Region"
         none: "None"

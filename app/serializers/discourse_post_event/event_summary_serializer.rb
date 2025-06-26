@@ -5,6 +5,7 @@ module DiscoursePostEvent
     attributes :id
     attributes :starts_at
     attributes :ends_at
+    attributes :show_local_time
     attributes :timezone
     attributes :post
     attributes :name
