@@ -17,7 +17,7 @@ export default {
             route = "discourse-post-event-upcoming-events";
             text = i18n("discourse_post_event.upcoming_events.title");
             title = i18n("discourse_post_event.upcoming_events.title");
-            icon = "calendar-days";
+            defaultPrefixValue = "calendar-day";
           };
         });
       });
