@@ -21,11 +21,9 @@ acceptance("Post event - composer", function (needs) {
     const categoryChooser = selectKit(".category-chooser");
     await categoryChooser.expand();
     await categoryChooser.selectRowByValue(2);
-    await click(".toolbar-popup-menu-options .dropdown-select-box-header");
+    await click(".toolbar-menu__options-trigger");
     await click(
-      `.toolbar-popup-menu-options *[data-name='${i18n(
-        "discourse_post_event.builder_modal.attach"
-      )}']`
+      `button[title='${i18n("discourse_post_event.builder_modal.attach")}']`
     );
 
     const modal = ".post-event-builder-modal";
@@ -91,11 +89,9 @@ acceptance("Post event - composer", function (needs) {
       await categoryChooser.expand();
       await categoryChooser.selectRowByValue(2);
 
-      await click(".toolbar-popup-menu-options .dropdown-select-box-header");
+      await click(".toolbar-menu__options-trigger");
       await click(
-        `.toolbar-popup-menu-options *[data-name='${i18n(
-          "discourse_post_event.builder_modal.attach"
-        )}']`
+        `button[title='${i18n("discourse_post_event.builder_modal.attach")}']`
       );
 
       const modal = ".post-event-builder-modal";

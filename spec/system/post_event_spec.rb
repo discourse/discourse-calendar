@@ -175,9 +175,8 @@ describe "Post event", type: :system do
   it "persists changes" do
     visit "/new-topic"
     composer.fill_title("Test event with updates")
-    dropdown = PageObjects::Components::SelectKit.new(".toolbar-popup-menu-options")
-    dropdown.expand
-    dropdown.select_row_by_name(I18n.t("js.discourse_post_event.builder_modal.attach"))
+    find(".toolbar-menu__options-trigger").click
+    find("button[title='#{I18n.t("js.discourse_post_event.builder_modal.attach")}']").click
     find(".d-modal input[name=status][value=private]").click
     find(".d-modal input.group-selector").send_keys(group.name)
     find(".autocomplete.ac-group").click
