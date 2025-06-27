@@ -48,6 +48,8 @@ function initializeDiscourseCalendar(api) {
   }
 
   api.onPageChange(async (url) => {
+    destroyPopover();
+
     const categoryCalendarNode = document.querySelector(
       `${selector}.category-calendar`
     );
