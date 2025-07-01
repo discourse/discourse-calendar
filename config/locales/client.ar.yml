@@ -486,6 +486,10 @@ ar:
         url:
           label: "عنوان URL"
           placeholder: "اختياري"
+        location:
+          label: "الموقع الجغرافي"
+        description:
+          label: "الوصف"
         name:
           label: "اسم الحدث"
           placeholder: "اختياري، الإعدادات الافتراضية لعنوان الموضوع"

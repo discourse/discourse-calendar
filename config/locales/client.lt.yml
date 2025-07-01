@@ -71,6 +71,10 @@ lt:
         url:
           label: "Nuoroda"
           placeholder: "Pasirinktinai"
+        location:
+          label: "Vieta"
+        description:
+          label: "Aprašymas"
         status:
           label: "Statusas"
       invite_user_or_group:

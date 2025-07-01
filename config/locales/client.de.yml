@@ -375,6 +375,8 @@ de:
         creator: "Ersteller"
         status: "Status"
         starts_at: "Beginnt um"
+        all_events: "Alle Ereignisse"
+        my_events: "Meine Ereignisse"
       upcoming_events_list:
         title: "Anstehende Ereignisse"
         empty: "Keine anstehenden Ereignisse"
@@ -475,6 +477,12 @@ de:
         url:
           label: "URL"
           placeholder: "Optional"
+        location:
+          label: "Ort"
+          placeholder: "Füge einen Ort, einen Link oder etwas anderes hinzu."
+        description:
+          label: "Beschreibung"
+          placeholder: "Erzähle den Leuten ein bisschen mehr über deine Veranstaltung. Neue Zeilen und Links werden unterstützt."
         name:
           label: "Name des Ereignisses"
           placeholder: "Optional, standardmäßig Titel des Themas"

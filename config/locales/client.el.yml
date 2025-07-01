@@ -206,6 +206,10 @@ el:
         url:
           label: "URL"
           placeholder: "Προεραιτικό"
+        location:
+          label: "Τοποθεσία"
+        description:
+          label: "Περιγραφή"
         status:
           label: "Κατάσταση"
       invite_user_or_group:

@@ -67,6 +67,10 @@ nb_NO:
         url:
           label: "URL"
           placeholder: "Valgfritt"
+        location:
+          label: "Sted"
+        description:
+          label: "Beskrivelse"
         status:
           label: "Status"
       invite_user_or_group:

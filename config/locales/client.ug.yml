@@ -68,6 +68,10 @@ ug:
         url:
           label: "تور ئادرېسى"
           placeholder: "تاللاشچان"
+        location:
+          label: "ئورنى"
+        description:
+          label: "چۈشەندۈرۈش"
         status:
           label: "ھالەت"
       invite_user_or_group:

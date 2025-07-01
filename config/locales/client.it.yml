@@ -466,6 +466,10 @@ it:
         url:
           label: "URL"
           placeholder: "Facoltativo"
+        location:
+          label: "Località"
+        description:
+          label: "Descrizione"
         name:
           label: "Nome dell'evento"
           placeholder: "Facoltativo, valore predefinito titolo dell'argomento"

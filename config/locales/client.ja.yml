@@ -461,6 +461,10 @@ ja:
         url:
           label: "URL"
           placeholder: "オプション"
+        location:
+          label: "場所"
+        description:
+          label: "説明"
         name:
           label: "イベント名"
           placeholder: "オプション、デフォルトはトピックタイトル"

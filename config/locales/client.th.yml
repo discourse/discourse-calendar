@@ -60,6 +60,10 @@ th:
         url:
           label: "URL"
           placeholder: "ทางเลือก"
+        location:
+          label: "ที่อยู่"
+        description:
+          label: "รายละเอียด"
         status:
           label: "สถานะ"
       invite_user_or_group:

@@ -33,3 +33,7 @@ sq:
             days: "ditë"
         url:
           label: "URL"
+        location:
+          label: "Vendndodhja"
+        description:
+          label: "Përshkrimi"

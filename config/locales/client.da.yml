@@ -395,6 +395,10 @@ da:
         url:
           label: "URL"
           placeholder: "Valgfri"
+        location:
+          label: "Sted"
+        description:
+          label: "Beskrivelse"
         name:
           label: "Navn på begivenhed"
           placeholder: "Valgfri, standard er emnetitel"

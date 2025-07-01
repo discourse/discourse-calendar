@@ -70,6 +70,10 @@ hr:
         url:
           label: "URL"
           placeholder: "Neobvezno"
+        location:
+          label: "Lokacija"
+        description:
+          label: "Opis"
         status:
           label: "Statust"
       invite_user_or_group:

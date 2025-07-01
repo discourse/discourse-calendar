@@ -62,6 +62,10 @@ et:
         url:
           label: "URL"
           placeholder: "Valikuline"
+        location:
+          label: "Asukoht"
+        description:
+          label: "Kirjeldus"
         status:
           label: "Staatus"
       invite_user_or_group:

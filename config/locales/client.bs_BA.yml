@@ -63,6 +63,10 @@ bs_BA:
         url:
           label: "URL"
           placeholder: "Opciono"
+        location:
+          label: "Lokacija"
+        description:
+          label: "Opis"
         status:
           label: "Status"
       invite_user_or_group:

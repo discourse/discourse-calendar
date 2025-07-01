@@ -42,6 +42,10 @@ be:
             after: "пасля"
         url:
           label: "URL спасылка"
+        location:
+          label: "размяшчэнне"
+        description:
+          label: "Апісанне"
         status:
           label: "Статус"
       invite_user_or_group:

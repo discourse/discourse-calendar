@@ -466,6 +466,10 @@ fr:
         url:
           label: "URL"
           placeholder: "Facultatif"
+        location:
+          label: "Localisation"
+        description:
+          label: "Description"
         name:
           label: "Nom de l'événement"
           placeholder: "Facultatif, par défaut le titre du sujet"

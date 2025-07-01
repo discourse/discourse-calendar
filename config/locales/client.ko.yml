@@ -152,6 +152,10 @@ ko:
         url:
           label: "URL"
           placeholder: "선택 사항"
+        location:
+          label: "위치"
+        description:
+          label: "내용"
         name:
           label: "이벤트 이름"
         status:
