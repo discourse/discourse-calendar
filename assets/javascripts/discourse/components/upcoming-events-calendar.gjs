@@ -51,6 +51,7 @@ export default class UpcomingEventsCalendar extends Component {
 
     const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
       ...fullCalendarDefaultOptions(),
+      timeZone: this.currentUser?.user_option?.timezone || "local",
       firstDay: 1,
       height: "auto",
       defaultView: view,
@@ -151,7 +152,7 @@ export default class UpcomingEventsCalendar extends Component {
       }
 
       this._calendar.addEvent({
-        title: formatEventName(event),
+        title: formatEventName(event, this.currentUser?.user_option?.timezone),
         start: startsAt,
         end: endsAt || startsAt,
         allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),

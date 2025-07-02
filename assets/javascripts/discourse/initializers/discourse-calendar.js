@@ -208,7 +208,10 @@ function initializeDiscourseCalendar(api) {
           }
 
           fullCalendar.addEvent({
-            title: formatEventName(event),
+            title: formatEventName(
+              event,
+              api.getCurrentUser()?.user_option?.timezone
+            ),
             start: startsAt,
             end: endsAt || startsAt,
             allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),
