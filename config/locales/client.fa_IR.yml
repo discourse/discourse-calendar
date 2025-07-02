@@ -432,6 +432,10 @@ fa_IR:
         url:
           label: "نشانی اینترنتی"
           placeholder: "اختیاری"
+        location:
+          label: "موقعیت"
+        description:
+          label: "توضیح"
         name:
           label: "نام رویداد"
           placeholder: "اختیاری، پیش‌فرض عنوان موضوع است"

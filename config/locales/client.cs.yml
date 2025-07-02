@@ -485,6 +485,10 @@ cs:
         url:
           label: "URL"
           placeholder: "Volitelné"
+        location:
+          label: "Poloha"
+        description:
+          label: "Popis"
         name:
           label: "Název události"
           placeholder: "Volitelný, ve výchozím stavu název tématu"

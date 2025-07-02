@@ -461,6 +461,10 @@ zh_CN:
         url:
           label: "URL"
           placeholder: "可选"
+        location:
+          label: "地点"
+        description:
+          label: "描述"
         name:
           label: "活动名称"
           placeholder: "可选，默认为话题标题"

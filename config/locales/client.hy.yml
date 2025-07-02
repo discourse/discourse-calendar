@@ -61,6 +61,10 @@ hy:
         url:
           label: "URL"
           placeholder: "Ընտրովի"
+        location:
+          label: "Տեղակայություն"
+        description:
+          label: "Նկարագրությունը"
         status:
           label: "Ստատուս"
       invite_user_or_group:

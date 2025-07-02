@@ -70,6 +70,10 @@ ur:
         url:
           label: "URL"
           placeholder: "اختیاری"
+        location:
+          label: "محل وقوع"
+        description:
+          label: "تفصیل"
         status:
           label: "سٹیٹس"
       invite_user_or_group:

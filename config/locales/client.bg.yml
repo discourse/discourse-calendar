@@ -62,5 +62,9 @@ bg:
         url:
           label: "URL"
           placeholder: "По избор"
+        location:
+          label: "Локация"
+        description:
+          label: "Описание"
         status:
           label: "Статус"

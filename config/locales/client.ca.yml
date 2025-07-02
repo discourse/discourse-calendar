@@ -64,6 +64,10 @@ ca:
         url:
           label: "URL"
           placeholder: "Opcional"
+        location:
+          label: "Ubicació"
+        description:
+          label: "Descripció"
         status:
           label: "Estat"
       invite_user_or_group:

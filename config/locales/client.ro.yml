@@ -89,6 +89,10 @@ ro:
         url:
           label: "URL"
           placeholder: "Opțional"
+        location:
+          label: "Locație"
+        description:
+          label: "Descriere"
         status:
           label: "Status"
       invite_user_or_group:

@@ -466,6 +466,10 @@ tr_TR:
         url:
           label: "URL"
           placeholder: "İsteğe bağlı"
+        location:
+          label: "Konum"
+        description:
+          label: "Açıklama"
         name:
           label: "Etkinlik adı"
           placeholder: "İsteğe bağlı, varsayılan olarak konu başlığı"

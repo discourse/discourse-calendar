@@ -443,6 +443,10 @@ pl_PL:
         url:
           label: "URL"
           placeholder: "Opcjonalnie"
+        location:
+          label: "Lokalizacja"
+        description:
+          label: "Opis"
         name:
           label: "Nazwa wydarzenia"
           placeholder: "Opcjonalne, domyślnie jest to tytuł tematu"

@@ -31,3 +31,7 @@ sr:
             before: "pre"
         url:
           label: "URL"
+        location:
+          label: "Lokacija"
+        description:
+          label: "Opis"

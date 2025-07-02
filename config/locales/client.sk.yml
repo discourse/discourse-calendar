@@ -71,6 +71,10 @@ sk:
         url:
           label: "URL"
           placeholder: "Nepovinné"
+        location:
+          label: "Poloha"
+        description:
+          label: "Popis"
         status:
           label: "Stav"
       invite_user_or_group:

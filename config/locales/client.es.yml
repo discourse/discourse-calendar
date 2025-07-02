@@ -466,6 +466,10 @@ es:
         url:
           label: "URL"
           placeholder: "Opcional"
+        location:
+          label: "Ubicación"
+        description:
+          label: "Descripción"
         name:
           label: "Nombre del evento"
           placeholder: "Opcional, por defecto es el título del tema"

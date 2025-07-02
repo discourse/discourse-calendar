@@ -70,6 +70,10 @@ vi:
         url:
           label: "URL"
           placeholder: "Tùy chọn"
+        location:
+          label: "Vị trí"
+        description:
+          label: "Mô tả"
         status:
           label: "Trạng thái"
       invite_user_or_group:

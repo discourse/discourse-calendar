@@ -394,6 +394,10 @@ sl:
         url:
           label: "URL"
           placeholder: "Neobvezno"
+        location:
+          label: "Lokacija"
+        description:
+          label: "Opis"
         name:
           label: "Ime dogodka"
           placeholder: "Neobvezno, privzeto enako imenu dogodka"
