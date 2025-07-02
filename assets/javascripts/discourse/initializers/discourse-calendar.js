@@ -27,8 +27,8 @@ function loadFullCalendar() {
 
 function initializeDiscourseCalendar(api) {
   const siteSettings = api.container.lookup("service:site-settings");
-
-  if (siteSettings.login_required && !api.getCurrentUser()) {
+  const currentUser = api.getCurrentUser();
+  if (siteSettings.login_required && !currentUser) {
     return;
   }
 
@@ -206,7 +206,7 @@ function initializeDiscourseCalendar(api) {
           }
 
           fullCalendar.addEvent({
-            title: formatEventName(event),
+            title: formatEventName(event, currentUser.timezone),
             start: startsAt,
             end: endsAt || startsAt,
             allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),

@@ -36,6 +36,15 @@ describe "Upcoming Events", type: :system do
     before do
       freeze_time(fixed_time)
 
+      admin.user_option.update!(timezone: "America/New_York")
+
+      PostCreator.create!(
+        admin,
+        title: "Event with local time and same timezone than user",
+        raw:
+          "[event showLocalTime=true timezone=\"America/New_York\" start=\"2025-09-12 08:05\"]\n[/event]",
+      )
+
       PostCreator.create!(
         admin,
         title: "Event with local time",
@@ -59,9 +68,16 @@ describe "Upcoming Events", type: :system do
       expect(first_item.find(".fc-list-item-title")).to have_text(
         "Event with local time (Local time: 8:05am)",
       )
+
       second_item = find(".fc-list-item:nth-child(4)")
       expect(second_item.find(".fc-list-item-time")).to have_text("3:00am")
       expect(second_item.find(".fc-list-item-title")).to have_text("Event without local time")
+
+      third_item = find(".fc-list-item:nth-child(5)")
+      expect(third_item.find(".fc-list-item-time")).to have_text("10:05pm")
+      expect(third_item.find(".fc-list-item-title")).to have_text(
+        "Event with local time and same timezone than user",
+      )
     end
   end
 
