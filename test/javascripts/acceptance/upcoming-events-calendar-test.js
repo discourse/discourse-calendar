@@ -4,7 +4,6 @@ import { tomorrow, twoDays } from "discourse/lib/time-utils";
 import {
   acceptance,
   exists,
-  query,
   queryAll,
 } from "discourse/tests/helpers/qunit-helpers";
 
