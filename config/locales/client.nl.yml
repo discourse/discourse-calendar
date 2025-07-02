@@ -466,6 +466,10 @@ nl:
         url:
           label: "URL"
           placeholder: "Optioneel"
+        location:
+          label: "Locatie"
+        description:
+          label: "Beschrijving"
         name:
           label: "Evenementnaam"
           placeholder: "Optioneel, standaard ingesteld op topictitel"

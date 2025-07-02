@@ -65,6 +65,10 @@ zh_TW:
         url:
           label: "網址"
           placeholder: "選擇性"
+        location:
+          label: "位置"
+        description:
+          label: "簡述"
         status:
           label: "狀態"
       invite_user_or_group:

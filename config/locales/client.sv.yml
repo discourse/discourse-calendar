@@ -412,6 +412,10 @@ sv:
         url:
           label: "URL"
           placeholder: "Valfritt"
+        location:
+          label: "Plats"
+        description:
+          label: "Beskrivning"
         name:
           label: "Evenemangsnamn"
           placeholder: "Valfritt, som standard används ämnesrubriken"

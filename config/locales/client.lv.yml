@@ -61,6 +61,10 @@ lv:
         url:
           label: "URL"
           placeholder: "Pēc izvēles"
+        location:
+          label: "Atrašanās vieta"
+        description:
+          label: "Apraksts"
         status:
           label: "Statuss"
       invite_user_or_group:

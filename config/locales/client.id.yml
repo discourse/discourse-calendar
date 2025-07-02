@@ -94,5 +94,9 @@ id:
           every_day: "Setiap hari"
         url:
           placeholder: "Opsional"
+        location:
+          label: "Lokasi"
+        description:
+          label: "Deskripsi"
         status:
           label: "Status"

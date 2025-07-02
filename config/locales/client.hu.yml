@@ -402,6 +402,10 @@ hu:
         url:
           label: "URL"
           placeholder: "Nem kötelező"
+        location:
+          label: "Hely"
+        description:
+          label: "Leírás"
         name:
           label: "Esemény neve"
           placeholder: "Nem kötelező, alapértelmezés szerint a téma címe"

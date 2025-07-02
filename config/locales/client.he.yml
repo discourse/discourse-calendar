@@ -482,6 +482,10 @@ he:
         url:
           label: "כתובת"
           placeholder: "רשות"
+        location:
+          label: "מיקום"
+        description:
+          label: "תיאור"
         name:
           label: "שם האירוע"
           placeholder: "רשות, ברירת המחדל היא כותרת הנושא"

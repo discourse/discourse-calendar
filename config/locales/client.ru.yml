@@ -476,6 +476,10 @@ ru:
         url:
           label: "URL"
           placeholder: "Необязательно"
+        location:
+          label: "Расположение"
+        description:
+          label: "Описание"
         name:
           label: "Название события"
           placeholder: "Необязательно, по умолчанию используется заголовок темы"

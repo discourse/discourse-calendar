@@ -69,6 +69,10 @@ gl:
         url:
           label: "URL"
           placeholder: "Opcional"
+        location:
+          label: "Localización"
+        description:
+          label: "Descrición"
         status:
           label: "Estado"
       invite_user_or_group:

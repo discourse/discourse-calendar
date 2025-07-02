@@ -466,6 +466,10 @@ pt_BR:
         url:
           label: "URL"
           placeholder: "Opcional"
+        location:
+          label: "Localização"
+        description:
+          label: "Descrição"
         name:
           label: "Nome do evento"
           placeholder: "Opcional, o padrão é o título do tópico"

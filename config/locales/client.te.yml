@@ -63,6 +63,10 @@ te:
         url:
           label: "యూఆర్ యల్"
           placeholder: "ఐచ్ఛికం"
+        location:
+          label: "ప్రాంతం"
+        description:
+          label: "వివరణ"
         status:
           label: "స్థితి"
       invite_user_or_group:

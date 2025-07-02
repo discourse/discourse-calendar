@@ -466,6 +466,10 @@ fi:
         url:
           label: "URL"
           placeholder: "Valinnainen"
+        location:
+          label: "Paikka"
+        description:
+          label: "Kuvaus"
         name:
           label: "Tapahtuman nimi"
           placeholder: "Valinnainen, oletuksena ketjun otsikko"

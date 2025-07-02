@@ -5,3 +5,8 @@
 # https://translate.discourse.org/
 
 en_GB:
+  js:
+    discourse_post_event:
+      builder_modal:
+        description:
+          label: "Description"
