@@ -100,8 +100,6 @@ acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
   test("upcoming events category colors", async (assert) => {
     await visit("/upcoming-events");
 
-    await pauseTest();
-
     assert.strictEqual(
       queryAll(".fc-event")[0].style.backgroundColor,
       "rgb(190, 10, 10)",
