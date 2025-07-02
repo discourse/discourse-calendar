@@ -4,7 +4,6 @@ import { tomorrow, twoDays } from "discourse/lib/time-utils";
 import {
   acceptance,
   exists,
-  query,
   queryAll,
 } from "discourse/tests/helpers/qunit-helpers";
 
@@ -101,13 +100,13 @@ acceptance("Discourse Calendar - Upcoming Events Calendar", function (needs) {
     await visit("/upcoming-events");
 
     assert.strictEqual(
-      query(".fc-row tr:first-child .fc-event").style.backgroundColor,
+      queryAll(".fc-event")[0].style.backgroundColor,
       "rgb(190, 10, 10)",
       "Event item uses the proper color from category 1"
     );
 
     assert.strictEqual(
-      query(".fc-row tr:nth-child(2) .fc-event").style.backgroundColor,
+      queryAll(".fc-event")[1].style.backgroundColor,
       "rgb(15, 120, 190)",
       "Event item uses the proper color from category 2"
     );
