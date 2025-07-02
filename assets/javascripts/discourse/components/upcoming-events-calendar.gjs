@@ -151,7 +151,7 @@ export default class UpcomingEventsCalendar extends Component {
       }
 
       this._calendar.addEvent({
-        title: formatEventName(event, this.currentUser?.timezone),
+        title: formatEventName(event, this.currentUser?.user_option?.timezone),
         start: startsAt,
         end: endsAt || startsAt,
         allDay: !isNotFullDayEvent(moment(startsAt), moment(endsAt)),
