@@ -40,13 +40,6 @@ describe "Upcoming Events", type: :system do
 
       PostCreator.create!(
         admin,
-        title: "Event with local time and same timezone than user",
-        raw:
-          "[event showLocalTime=true timezone=\"America/New_York\" start=\"2025-09-12 08:05\"]\n[/event]",
-      )
-
-      PostCreator.create!(
-        admin,
         title: "Event with local time",
         raw: "[event showLocalTime=true timezone=CET start=\"2025-09-11 08:05\"]\n[/event]",
       )
@@ -56,6 +49,13 @@ describe "Upcoming Events", type: :system do
         title: "Event without local time",
         raw: "[event timezone=CET start=\"2025-09-11 19:00\"]\n[/event]",
       )
+
+      PostCreator.create!(
+        admin,
+        title: "Event with local time and same timezone than user",
+        raw:
+          "[event showLocalTime=true timezone=\"America/New_York\" start=\"2025-09-12 08:05\"]\n[/event]",
+      )
     end
 
     it "shows the local time in the title", timezone: "Australia/Brisbane" do
@@ -64,17 +64,17 @@ describe "Upcoming Events", type: :system do
       upcoming_events.open_year_list
 
       first_item = find(".fc-list-item:nth-child(2)")
-      expect(first_item.find(".fc-list-item-time")).to have_text("4:05pm")
+      expect(first_item.find(".fc-list-item-time")).to have_text("2:05am")
       expect(first_item.find(".fc-list-item-title")).to have_text(
         "Event with local time (Local time: 8:05am)",
       )
 
-      second_item = find(".fc-list-item:nth-child(4)")
-      expect(second_item.find(".fc-list-item-time")).to have_text("3:00am")
+      second_item = find(".fc-list-item:nth-child(3)")
+      expect(second_item.find(".fc-list-item-time")).to have_text("1:00pm")
       expect(second_item.find(".fc-list-item-title")).to have_text("Event without local time")
 
       third_item = find(".fc-list-item:nth-child(5)")
-      expect(third_item.find(".fc-list-item-time")).to have_text("10:05pm")
+      expect(third_item.find(".fc-list-item-time")).to have_text("8:05am")
       expect(third_item.find(".fc-list-item-title")).to have_text(
         "Event with local time and same timezone than user",
       )

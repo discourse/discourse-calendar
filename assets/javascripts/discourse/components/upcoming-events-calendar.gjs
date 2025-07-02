@@ -51,6 +51,7 @@ export default class UpcomingEventsCalendar extends Component {
 
     const fullCalendar = new window.FullCalendar.Calendar(calendarNode, {
       ...fullCalendarDefaultOptions(),
+      timeZone: this.currentUser?.user_option?.timezone || "local",
       firstDay: 1,
       height: "auto",
       defaultView: view,
