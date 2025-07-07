@@ -14,10 +14,10 @@ describe DiscoursePostEvent::Event do
     let(:topic) { Fabricate(:topic, user: user) }
     let!(:first_post) { Fabricate(:post, topic: topic) }
     let(:second_post) { Fabricate(:post, topic: topic) }
-    let!(:starts_at) { "2020-04-24 14:15:00" }
-    let!(:ends_at) { "2020-04-24 16:15:00" }
-    let!(:alt_starts_at) { "2020-04-24 14:14:25" }
-    let!(:alt_ends_at) { "2020-04-24 19:15:25" }
+    let!(:starts_at) { Time.zone.parse("2020-04-24 14:15:00") }
+    let!(:ends_at) { Time.zone.parse("2020-04-24 16:15:00") }
+    let!(:alt_starts_at) { Time.zone.parse("2020-04-24 14:14:25") }
+    let!(:alt_ends_at) { Time.zone.parse("2020-04-24 19:15:25") }
     let(:event) do
       DiscoursePostEvent::Event.create!(
         id: first_post.id,
@@ -31,6 +31,14 @@ describe DiscoursePostEvent::Event do
         original_starts_at: Time.now - 10.hours,
         original_ends_at: Time.now - 8.hours,
       )
+    end
+    let(:first_post_starts_at) do
+      Time.zone.parse(
+        first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+      )
+    end
+    let(:first_post_ends_at) do
+      Time.zone.parse(first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT])
     end
 
     describe "#after_commit[:create, :update]" do
@@ -49,16 +57,10 @@ describe DiscoursePostEvent::Event do
             }.to change { DiscoursePostEvent::EventDate.count }
             first_post.topic.reload
 
-            expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
-            ).to eq(starts_at)
-            expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
-            ).to eq(ends_at)
-            expect(DiscoursePostEvent::EventDate.last.starts_at).to eq_time(
-              DateTime.parse(starts_at),
-            )
-            expect(DiscoursePostEvent::EventDate.last.ends_at).to eq_time(DateTime.parse(ends_at))
+            expect(first_post_starts_at).to eq_time(starts_at)
+            expect(first_post_ends_at).to eq_time(ends_at)
+            expect(DiscoursePostEvent::EventDate.last.starts_at).to eq_time(starts_at)
+            expect(DiscoursePostEvent::EventDate.last.ends_at).to eq_time(ends_at)
           end
         end
 
@@ -108,15 +110,11 @@ describe DiscoursePostEvent::Event do
             first_post.topic.reload
 
             expect(first_post.is_first_post?).to be(true)
-            expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
-            ).to eq(starts_at)
-            expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
-            ).to eq(ends_at)
+            expect(first_post_starts_at).to eq_time(starts_at)
+            expect(first_post_ends_at).to eq_time(ends_at)
 
             first_event_date = post_event.event_dates.last
-            expect(first_event_date.starts_at).to eq_time(DateTime.parse(starts_at))
+            expect(first_event_date.starts_at).to eq_time(starts_at)
             expect(first_event_date.finished_at).to be nil
 
             post_event.update_with_params!(
@@ -129,18 +127,22 @@ describe DiscoursePostEvent::Event do
             second_event_date = post_event.event_dates.last
 
             expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+              Time.zone.parse(
+                first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+              ),
             ).to eq(alt_starts_at)
             expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+              Time.zone.parse(
+                first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+              ),
             ).to eq(alt_ends_at)
 
             expect(first_event_date.finished_at).not_to be nil
-            expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
+            expect(second_event_date.starts_at).to eq_time(alt_starts_at)
 
             second_event_date.update_columns(finished_at: Time.current)
-            expect(post_event.starts_at).to eq_time(DateTime.parse(alt_starts_at))
-            expect(post_event.ends_at).to eq_time(DateTime.parse(alt_ends_at))
+            expect(post_event.starts_at).to eq_time(alt_starts_at)
+            expect(post_event.ends_at).to eq_time(alt_ends_at)
           end
         end
 
@@ -161,7 +163,7 @@ describe DiscoursePostEvent::Event do
             ).to be_blank
 
             second_event_date = post_event.event_dates.last
-            expect(second_event_date.starts_at).to eq_time(DateTime.parse(alt_starts_at))
+            expect(second_event_date.starts_at).to eq_time(alt_starts_at)
           end
         end
       end
@@ -183,12 +185,8 @@ describe DiscoursePostEvent::Event do
             first_post.topic.reload
 
             expect(first_post.is_first_post?).to be(true)
-            expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
-            ).to eq(starts_at)
-            expect(
-              first_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
-            ).to eq(ends_at)
+            expect(first_post_starts_at).to eq_time(starts_at)
+            expect(first_post_ends_at).to eq_time(ends_at)
 
             post_event.destroy!
             first_post.topic.reload
@@ -225,10 +223,14 @@ describe DiscoursePostEvent::Event do
 
             expect(first_post.is_first_post?).to be(true)
             expect(
-              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+              Time.zone.parse(
+                second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+              ),
             ).to eq(starts_at)
             expect(
-              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+              Time.zone.parse(
+                second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+              ),
             ).to eq(ends_at)
             expect(second_post.is_first_post?).to be(false)
 
@@ -236,10 +238,14 @@ describe DiscoursePostEvent::Event do
             second_post.topic.reload
 
             expect(
-              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+              Time.zone.parse(
+                second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_STARTS_AT],
+              ),
             ).to eq(starts_at)
             expect(
-              second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+              Time.zone.parse(
+                second_post.topic.custom_fields[DiscoursePostEvent::TOPIC_POST_EVENT_ENDS_AT],
+              ),
             ).to eq(ends_at)
           end
         end
