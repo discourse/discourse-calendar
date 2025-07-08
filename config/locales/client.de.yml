@@ -39,6 +39,7 @@ de:
       date: "Datum"
       add_to_calendar: "Zu Google Kalender hinzufügen"
       toggle_timezone_offset_title: "Zeitzonenoffset umschalten"
+      local_time: "Ortszeit"
       region:
         title: "Region"
         none: "Keine"
