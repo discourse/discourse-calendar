@@ -19,8 +19,8 @@ module Holidays
       4 => [{:mday => 18, :observed => "to_monday_if_sunday(date)", :observed_arguments => [:date], :name => "Independence Day", :regions => [:zw]}],
       5 => [{:mday => 1, :observed => "to_monday_if_sunday(date)", :observed_arguments => [:date], :name => "Workers' Day", :regions => [:zw]},
             {:mday => 25, :observed => "to_monday_if_sunday(date)", :observed_arguments => [:date], :name => "Africa Day", :regions => [:zw]}],
-      8 => [{:mday => 8, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Heroes' Day", :regions => [:zw]},
-            {:mday => 9, :observed => "to_monday_if_weekend(date)", :observed_arguments => [:date], :name => "Defence Forces Day", :regions => [:zw]}],
+      8 => [{:wday => 1, :week => 2, :name => "Heroes' Day", :regions => [:zw]},
+            {:wday => 2, :week => 2, :name => "Defence Forces Day", :regions => [:zw]}],
       12 => [{:mday => 22, :observed => "to_monday_if_sunday(date)", :observed_arguments => [:date], :name => "Unity Day", :regions => [:zw]},
             {:mday => 25, :observed => "to_monday_if_sunday(date)", :observed_arguments => [:date], :name => "Christmas Day", :regions => [:zw]},
             {:mday => 26, :observed => "to_weekday_if_boxing_weekend(date)", :observed_arguments => [:date], :name => "Boxing Day", :regions => [:zw]}]
