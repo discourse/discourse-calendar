@@ -1,13 +1,10 @@
-import { escape } from "pretty-text/sanitizer";
-import { iconHTML } from "discourse/lib/icon-library";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import DiscourseURL from "discourse/lib/url";
 import { i18n } from "discourse-i18n";
 import PostCalendar from "../components/post-calendar";
 
 function initializeDiscourseCalendar(api) {
-  let _topicController;
   const site = api.container.lookup("service:site");
+  const postCalendar = api.container.lookup("service:post-calendar");
   const isMobileView = site && site.mobileView;
 
   api.decorateCookedElement(
@@ -78,20 +75,9 @@ function initializeDiscourseCalendar(api) {
     return events;
   }
 
-  api.registerCustomPostMessageCallback(
-    "calendar_change",
-    (topicController) => {
-      console.log("CALENDAR CHANGE");
-      // const stream = topicController.get("model.postStream");
-      // const post = stream.findLoadedPost(stream.get("firstPostId"));
-      // const $op = $(".topic-post article#post_1");
-      // const $calendar = $op.find(".calendar").first();
-
-      // if (post && $calendar.length > 0) {
-      //   ajax(`/posts/${post.id}.json`).then(() => render($calendar, post));
-      // }
-    }
-  );
+  api.registerCustomPostMessageCallback("calendar_change", () => {
+    postCalendar.refresh();
+  });
 
   if (api.registerNotificationTypeRenderer) {
     api.registerNotificationTypeRenderer(

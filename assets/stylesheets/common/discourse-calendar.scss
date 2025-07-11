@@ -10,33 +10,6 @@ a.holiday {
   min-width: 15em;
 }
 
-.discourse-calendar-header {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 0.5em;
-  border-bottom: 1px solid var(--primary-low);
-  background: var(--primary-very-low);
-  min-height: 60px;
-
-  .discourse-calendar-timezone-picker {
-    font-size: 16px;
-    margin-bottom: 0;
-    max-width: 50vw;
-  }
-
-  h2.discourse-calendar-title {
-    margin: 0 !important;
-  }
-
-  .title {
-    font-weight: 700;
-    text-transform: capitalize;
-  }
-}
-
 .group-timezones {
   display: grid;
   width: 100%;

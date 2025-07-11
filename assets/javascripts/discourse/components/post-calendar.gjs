@@ -1,7 +1,13 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
+import didInsert from "@ember/render-modifiers/modifiers/did-insert";
+import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 import { escapeExpression } from "discourse/lib/utilities";
+import Topic from "discourse/models/topic";
 import { colorToHex, contrastColor, stringToColor } from "../lib/colors";
 import FullCalendar from "./full-calendar";
 
@@ -9,6 +15,33 @@ export default class PostCalendar extends Component {
   @service currentUser;
   @service siteSettings;
   @service capabilities;
+  @service postCalendar;
+  @service store;
+
+  @tracked post = this.args.post;
+
+  @action
+  registerPostCalendar() {
+    this.postCalendar.registerComponent(this);
+  }
+
+  @action
+  teardownPostCalendar() {
+    this.postCalendar.teardownComponent();
+  }
+
+  @action
+  async refresh() {
+    try {
+      const post = await this.store.find("post", this.post.id);
+      const topic_json = await Topic.find(post.topic_id, {});
+      const topic = Topic.create(topic_json);
+      post.set("topic", topic);
+      this.post = post;
+    } catch (error) {
+      popupAjaxError(error);
+    }
+  }
 
   get isStatic() {
     return this.args.options.calendarType === "static";
@@ -47,7 +80,7 @@ export default class PostCalendar extends Component {
     const events = [];
     const groupedEvents = [];
 
-    (this.args.post.calendar_details || []).forEach((detail) => {
+    (this.post.calendar_details || []).forEach((detail) => {
       switch (detail.type) {
         case "grouped":
           if (this.isFullDay && detail.timezone) {
@@ -301,9 +334,29 @@ export default class PostCalendar extends Component {
     });
   }
 
+  get leftHeaderToolbar() {
+    return this.capabilities.viewport.sm
+      ? "prev,next today"
+      : "prev,next title";
+  }
+
+  get centerHeaderToolbar() {
+    return this.capabilities.viewport.sm ? "title" : "";
+  }
+
   <template>
-    <div class="post-calendar">
-      <FullCalendar @events={{this.events}} @height={{@height}} />
+    <div
+      {{didInsert this.registerPostCalendar}}
+      {{willDestroy this.teardownPostCalendar}}
+      class="post-calendar"
+    >
+      <FullCalendar
+        @leftHeaderToolbar={{this.leftHeaderToolbar}}
+        @centerHeaderToolbar={{this.centerHeaderToolbar}}
+        @rightHeaderToolbar="timeGridDay,timeGridWeek,dayGridMonth,listYear"
+        @events={{this.events}}
+        @height={{@height}}
+      />
     </div>
   </template>
 }

@@ -137,7 +137,7 @@ export default class FullCalendar extends Component {
   <template>
     <div
       {{didInsert this.setupCalendar}}
-      {{didUpdate this.updateCalendar @events this.capabilities.viewport.sm}}
+      {{didUpdate this.updateCalendar @events this.capabilities.viewport.md}}
       ...attributes
     >
       {{! The calendar will be rendered inside this div by the library }}

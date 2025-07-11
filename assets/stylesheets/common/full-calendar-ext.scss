@@ -40,27 +40,22 @@
   }
 }
 
-.fc-toolbar-title {
-  font-size: var(--font-up-1) !important;
+.fc-header-toolbar {
+  .fc-button,
+  .fc-toolbar-title {
+    font-size: var(--font-down-1) !important;
+  }
 }
 
 #upcoming-events-calendar {
   height: 100%;
 }
 
-@include viewport.until(sm) {
+@include viewport.until(md) {
   .fc-header-toolbar {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-
-    .fc-button {
-      font-size: var(--font-down-1) !important;
-    }
-  }
-
-  .fc-toolbar-title {
-    font-size: var(--font-down-1) !important;
   }
 
   .fc-toolbar-chunk {
@@ -68,5 +63,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .post-calendar {
+    .fc-toolbar-chunk:nth-child(3) {
+      .fc-button-group {
+        flex-grow: 1;
+      }
+    }
   }
 }

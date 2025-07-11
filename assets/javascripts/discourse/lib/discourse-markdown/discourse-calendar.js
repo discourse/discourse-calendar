@@ -71,7 +71,6 @@ const groupTimezoneRule = {
 export function setup(helper) {
   helper.allowList([
     "div.calendar",
-    "div.discourse-calendar-header",
     "div.discourse-calendar-wrap",
     "select.discourse-calendar-timezone-picker",
     "span.discourse-calendar-timezone-wrap",
