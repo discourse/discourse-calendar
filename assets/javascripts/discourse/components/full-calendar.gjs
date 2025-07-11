@@ -24,6 +24,7 @@ export default class FullCalendar extends Component {
 
   willDestroy() {
     this.calendar?.destroy?.();
+    this.menu.getByIdentifier("post-event-menu")?.destroy?.();
     super.willDestroy(...arguments);
   }
 
@@ -57,10 +58,6 @@ export default class FullCalendar extends Component {
         if (info.event.extendedProps?.tooltip) {
           info.event.extendedProps?.tooltip.destroy();
         }
-
-        if (info.event.extendedProps?.menu) {
-          info.event.extendedProps?.menu.destroy();
-        }
       },
       eventDidMount: (info) => {
         if (info.event.extendedProps?.htmlContent) {
@@ -81,6 +78,7 @@ export default class FullCalendar extends Component {
             },
           },
           {
+            identifier: "post-event-menu",
             component: PostEventMenu,
             modalForMobile: true,
             data: {
